@@ -1,0 +1,23 @@
+{
+  "name": "@green-ecolution/backend-client",
+  "version": "1.0.0",
+  "description": "Client for the Green Ecolution backend",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "module": "dist/index",
+  "main:src": "src/index",
+  "license": "MIT",
+  "scripts": {
+    "generate": "sh openapi-generator.sh",
+    "swagger": "swagger-client generate -i http://localhost:8080/v3/api-docs -l typescript -o src/generated",
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "@openapitools/openapi-generator-cli": "^2.7.0",
+    "@types/node": "^18.15.11",
+    "swagger-client": "^3.28.2",
+    "ts-node": "^10.9.1",
+    "tsc": "^2.0.4",
+    "typescript": "^5.1.3"
+  }
+}
