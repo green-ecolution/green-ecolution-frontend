@@ -1,12 +1,19 @@
-import MapHeader from "@/components/MapHeader";
-import Map from "@/components/Map";
+import { Outlet } from "@tanstack/react-router";
+import SideHeader from "@/components/Sidebar";
+import { useIsSidePanelOpen } from "@/store/sidePanelStore";
 
 function App() {
+  const isOpen = useIsSidePanelOpen();
+
   return (
-    <div className="w-screen h-screen">
-      <MapHeader />
-      <Map />
-    </div>
+    <>
+      <div className="flex h-screen">
+        <SideHeader open={isOpen} className="w-[300px]" />
+        <div className="flex flex-col flex-1">
+          <Outlet />
+        </div>
+      </div>
+    </>
   );
 }
 
