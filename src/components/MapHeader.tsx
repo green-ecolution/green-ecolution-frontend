@@ -1,12 +1,15 @@
 import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { useToggleSidePanel } from "@/store/sidePanelStore";
 
 export interface HeaderProps { }
 
 const MapHeader = ({ }: HeaderProps) => {
+  const toggleMenu = useToggleSidePanel();
+
   const handleToggleMenu = () => {
-    console.log("Toggle menu");
+    toggleMenu();
   };
 
   return (
