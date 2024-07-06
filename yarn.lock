@@ -460,6 +460,23 @@
   resolved "https://registry.yarnpkg.com/@pkgjs/parseargs/-/parseargs-0.11.0.tgz#a77ea742fab25775145434eb1d2328cf5013ac33"
   integrity sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==
 
+"@radix-ui/react-compose-refs@1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@radix-ui/react-compose-refs/-/react-compose-refs-1.1.0.tgz#656432461fc8283d7b591dcf0d79152fae9ecc74"
+  integrity sha512-b4inOtiaOnYf9KWyO3jAeeCG6FeyfY6ldiEPanbUjWd+xIk5wZeHa8yVwmrJ2vderhu/BQvzCrJI0lHd+wIiqw==
+
+"@radix-ui/react-slot@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@radix-ui/react-slot/-/react-slot-1.1.0.tgz#7c5e48c36ef5496d97b08f1357bb26ed7c714b84"
+  integrity sha512-FUCf5XMfmW4dtYl69pdS4DbxKy8nj4M7SafBgPllysxmdachynNflAdp/gCsnYWNDnge6tI9onzMp5ARYc1KNw==
+  dependencies:
+    "@radix-ui/react-compose-refs" "1.1.0"
+
+"@react-leaflet/core@^2.1.0":
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/@react-leaflet/core/-/core-2.1.0.tgz#383acd31259d7c9ae8fb1b02d5e18fe613c2a13d"
+  integrity sha512-Qk7Pfu8BSarKGqILj4x7bCSZ1pjuAPZ+qmRwH5S7mDS91VSbVVsJSrW4qA+GPrro8t69gFYVMWb1Zc4yFmPiVg==
+
 "@rollup/rollup-android-arm-eabi@4.18.0":
   version "4.18.0"
   resolved "https://registry.yarnpkg.com/@rollup/rollup-android-arm-eabi/-/rollup-android-arm-eabi-4.18.0.tgz#bbd0e616b2078cd2d68afc9824d1fadb2f2ffd27"
@@ -577,6 +594,18 @@
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/@types/estree/-/estree-1.0.5.tgz#a6ce3e556e00fd9895dd872dd172ad0d4bd687f4"
   integrity sha512-/kYRxGDLWzHOB7q+wtSUQlFrtcdUccpfy+X+9iMBpHK8QLLhx2wIPYuS5DYtR9Wa/YlZAbIovy7qVdB1Aq6Lyw==
+
+"@types/geojson@*":
+  version "7946.0.14"
+  resolved "https://registry.yarnpkg.com/@types/geojson/-/geojson-7946.0.14.tgz#319b63ad6df705ee2a65a73ef042c8271e696613"
+  integrity sha512-WCfD5Ht3ZesJUsONdhvm84dmzWOiOzOAqOncN0++w0lBw1o8OuDNJF2McvvCef/yBqb/HYRahp1BYtODFQ8bRg==
+
+"@types/leaflet@^1.9.12":
+  version "1.9.12"
+  resolved "https://registry.yarnpkg.com/@types/leaflet/-/leaflet-1.9.12.tgz#a6626a0b3fba36fd34723d6e95b22e8024781ad6"
+  integrity sha512-BK7XS+NyRI291HIo0HCfE18Lp8oA30H1gpi1tf0mF3TgiCEzanQjOqNZ4x126SXzzi2oNSZhZ5axJp1k0iM6jg==
+  dependencies:
+    "@types/geojson" "*"
 
 "@types/node@^20.14.10":
   version "20.14.10"
@@ -1476,6 +1505,11 @@ keyv@^4.5.3:
   dependencies:
     json-buffer "3.0.1"
 
+leaflet@^1.9.4:
+  version "1.9.4"
+  resolved "https://registry.yarnpkg.com/leaflet/-/leaflet-1.9.4.tgz#23fae724e282fa25745aff82ca4d394748db7d8d"
+  integrity sha512-nxS1ynzJOmOlHp+iL3FyWqK89GtNL8U8rvlMOsQdTTssxZwCXh8N2NB3GDQOL+YR3XnWyZAxwQixURb+FA74PA==
+
 levn@^0.4.1:
   version "0.4.1"
   resolved "https://registry.yarnpkg.com/levn/-/levn-0.4.1.tgz#ae4562c007473b932a6200d403268dd2fffc6ade"
@@ -1789,6 +1823,13 @@ react-dom@^18.3.1:
   dependencies:
     loose-envify "^1.1.0"
     scheduler "^0.23.2"
+
+react-leaflet@^4.2.1:
+  version "4.2.1"
+  resolved "https://registry.yarnpkg.com/react-leaflet/-/react-leaflet-4.2.1.tgz#c300e9eccaf15cb40757552e181200aa10b94780"
+  integrity sha512-p9chkvhcKrWn/H/1FFeVSqLdReGwn2qmiobOQGO3BifX+/vV/39qhY8dGqbdcPh1e6jxh/QHriLXr7a4eLFK4Q==
+  dependencies:
+    "@react-leaflet/core" "^2.1.0"
 
 react-refresh@^0.14.2:
   version "0.14.2"
