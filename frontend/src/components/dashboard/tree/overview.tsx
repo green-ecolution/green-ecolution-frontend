@@ -5,7 +5,7 @@ import {
   ChartTooltipContent,
   type ChartConfig,
 } from "@/components/ui/chart";
-import { PredictedHealth, SensorPrediction } from "@/api/backendApi";
+import { PredictedHealth, SensorPrediction, Tree } from "@/api/backendApi";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -22,6 +22,7 @@ import {
   Clock,
   Droplet,
   Frown,
+  Info,
   Smile,
   Sun,
   TreePine,
@@ -48,6 +49,7 @@ export type SensorData = {
 };
 
 export interface TreeOverviewDashboardProps {
+  tree: Tree;
   sensorData: SensorData[];
   sensorPrediction: SensorPrediction;
 }
@@ -55,6 +57,7 @@ export interface TreeOverviewDashboardProps {
 const TreeOverviewDashboard = ({
   sensorData,
   sensorPrediction,
+  tree,
 }: TreeOverviewDashboardProps) => {
   const lastSensorData = useMemo(
     () => ({
@@ -95,7 +98,7 @@ const TreeOverviewDashboard = ({
   return (
     <>
       {/*  Tree Dashboard Cards */}
-      <div className="grid gap-4 md:grid-cols-4 grid-cols-2">
+      <div className="grid gap-4 md:grid-cols-5 grid-cols-2">
         <TreeDashboardInfoCard
           title="Empfehlung"
           icon={<Activity className="size-5" />}
@@ -138,6 +141,21 @@ const TreeOverviewDashboard = ({
               : lastSensorData?.batteryDiff > 0
                 ? `+${lastSensorData?.batteryDiff} Volt zu der letzten Messung`
                 : `${lastSensorData?.batteryDiff} Volt zu der letzten Messung`
+          }
+        />
+
+        <TreeDashboardInfoCard
+          title="Standjahre"
+          icon={<Info className="size-5" />}
+          contentValue={`~${tree.age} Jahre`}
+          contentDescription={
+            <>
+              Die Baumgruppe ist ca. {tree.age} Jahre alt <br />
+              <span className="text-muted-foreground">
+                {" "}
+                (gepflanzt am {format(addDays(new Date(), -(2 * 365)), "LLL dd, y")})
+              </span>
+            </>
           }
         />
       </div>

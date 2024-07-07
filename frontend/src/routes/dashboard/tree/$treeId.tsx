@@ -1,15 +1,10 @@
 import { treeApi } from "@/api/backendApi";
-import { PlaceholderIcon } from "@/components/MapHeader";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { useTree } from "@/context/TreeDataContext";
 import { useQuery } from "@tanstack/react-query";
-import { createFileRoute } from "@tanstack/react-router";
-import {
-  Blocks,
-  Map,
-  Pencil,
-} from "lucide-react";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { Bell, Blocks, Map, MoreVertical, Pencil, Settings } from "lucide-react";
 import React from "react";
 import { useEffect, useMemo } from "react";
 import { toast } from "sonner";
@@ -17,6 +12,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import TreeOverviewDashboard from "@/components/dashboard/tree/overview";
 import TreeSensorDashboard from "@/components/dashboard/tree/sensorView";
 import { SidePanelButton } from "@/components/Sidebar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 export const Route = createFileRoute("/dashboard/tree/$treeId")({
   component: TreeDashboard,
@@ -79,24 +75,31 @@ function TreeDashboard() {
             <Button variant="ghost" size="icon">
               <Blocks className="w-5 h-5" />
             </Button>
-            <Button>
-              <span className="flex items-center gap-2">
-                <Map className="w-5 h-5" />
-                <span>In Karte anzeigen</span>
-              </span>
-            </Button>
+            <Link to={`/`}>
+              <Button>
+                <span className="flex items-center gap-2">
+                  <Map className="w-5 h-5" />
+                  <span>In Karte anzeigen</span>
+                </span>
+              </Button>
+            </Link>
           </div>
         </div>
 
         <Tabs className="py-2" defaultValue="overview">
           <TabsList>
             <TabsTrigger value="overview">Übersicht</TabsTrigger>
-            <TabsTrigger value="waypoint">Einsatzplanung</TabsTrigger>
-            <TabsTrigger value="info">Informationen</TabsTrigger>
+            <TabsTrigger disabled value="waypoint">
+              Einsatzplanung
+            </TabsTrigger>
+            <TabsTrigger disabled value="info">
+              Informationen
+            </TabsTrigger>
             <TabsTrigger value="sensor">Sensor Daten</TabsTrigger>
           </TabsList>
           <TabsContent value="overview">
             <TreeOverviewDashboard
+              tree={tree!!}
               sensorPrediction={data.sensorPrediction}
               sensorData={sensorData}
             />
@@ -110,7 +113,7 @@ function TreeDashboard() {
   );
 }
 
-export interface TreeDashboardLayoutProps extends React.PropsWithChildren { }
+export interface TreeDashboardLayoutProps extends React.PropsWithChildren {}
 
 // TODO: as layout component in tanstack router
 const TreeDashboardLayout = ({ children }: TreeDashboardLayoutProps) => {
@@ -122,10 +125,21 @@ const TreeDashboardLayout = ({ children }: TreeDashboardLayoutProps) => {
           <h1 className="font-bold text-xl">Dashboard</h1>
         </div>
 
-        <div className="flex gap-2">
-          <PlaceholderIcon />
-          <PlaceholderIcon />
-          <PlaceholderIcon />
+        <div className="flex gap-2 items-center">
+          <Button variant="ghost" size="icon">
+            <Bell className="size-5" />
+          </Button>
+          <button>
+            <Avatar>
+              <AvatarFallback>CH</AvatarFallback>
+            </Avatar>
+          </button>
+          <Button variant="ghost" size="icon">
+            <Settings className="size-5" />
+          </Button>
+          <Button variant="ghost" size="icon">
+            <MoreVertical className="size-5" />
+          </Button>
         </div>
       </div>
 
