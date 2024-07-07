@@ -38,12 +38,12 @@ const SideHeader = ({ open, className }: SideHeaderProps) => {
     {
       title: "HX-Lab Tree",
       icon: <TreeDeciduous className="w-5 h-5" />,
-      to: "/trees",
+      to: "/dashboard/tree/6686f54fd32cf640e8ae6eb1",
     },
     {
-      title: "Demo Dashboard",
+      title: "Dashboard",
       icon: <LayoutDashboard className="w-5 h-5" />,
-      to: "/demo-dashboard",
+      to: "/dashboard",
     },
     {
       title: "Team",

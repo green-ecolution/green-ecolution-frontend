@@ -1,5 +1,6 @@
-import { MapContainer, TileLayer } from "react-leaflet";
+import { MapContainer, TileLayer, Marker } from "react-leaflet";
 import L from "leaflet";
+import { useTrees } from "@/context/TreeDataContext";
 
 export interface MapProps {
   width?: string;
@@ -27,6 +28,16 @@ export const TreeIcon = (color: string) =>
   });
 
 const Map = ({ width = "100%", height = "100vh" }: MapProps) => {
+  const trees = useTrees();
+
+  const treeMarkers = trees.map((tree) => (
+    <Marker
+      key={tree.id}
+      position={[tree.location.latitude, tree.location.longitude]}
+      icon={TreeIcon("green")}
+    ></Marker>
+  ));
+
   return (
     <MapContainer
       className="z-0"
@@ -39,7 +50,7 @@ const Map = ({ width = "100%", height = "100vh" }: MapProps) => {
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      {/* treeMarkers */}
+      {treeMarkers}
     </MapContainer>
   );
 };

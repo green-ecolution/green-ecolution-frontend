@@ -12,11 +12,29 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as IndexImport } from './routes/index'
+import { Route as DashboardIndexImport } from './routes/dashboard/index'
+import { Route as DashboardTreeIndexImport } from './routes/dashboard/tree/index'
+import { Route as DashboardTreeTreeIdImport } from './routes/dashboard/tree/$treeId'
 
 // Create/Update Routes
 
 const IndexRoute = IndexImport.update({
   path: '/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const DashboardIndexRoute = DashboardIndexImport.update({
+  path: '/dashboard/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const DashboardTreeIndexRoute = DashboardTreeIndexImport.update({
+  path: '/dashboard/tree/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const DashboardTreeTreeIdRoute = DashboardTreeTreeIdImport.update({
+  path: '/dashboard/tree/$treeId',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -31,12 +49,38 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
+    '/dashboard/': {
+      id: '/dashboard/'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/dashboard/tree/$treeId': {
+      id: '/dashboard/tree/$treeId'
+      path: '/dashboard/tree/$treeId'
+      fullPath: '/dashboard/tree/$treeId'
+      preLoaderRoute: typeof DashboardTreeTreeIdImport
+      parentRoute: typeof rootRoute
+    }
+    '/dashboard/tree/': {
+      id: '/dashboard/tree/'
+      path: '/dashboard/tree'
+      fullPath: '/dashboard/tree'
+      preLoaderRoute: typeof DashboardTreeIndexImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
 // Create and export the route tree
 
-export const routeTree = rootRoute.addChildren({ IndexRoute })
+export const routeTree = rootRoute.addChildren({
+  IndexRoute,
+  DashboardIndexRoute,
+  DashboardTreeTreeIdRoute,
+  DashboardTreeIndexRoute,
+})
 
 /* prettier-ignore-end */
 
@@ -46,11 +90,23 @@ export const routeTree = rootRoute.addChildren({ IndexRoute })
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
-        "/"
+        "/",
+        "/dashboard/",
+        "/dashboard/tree/$treeId",
+        "/dashboard/tree/"
       ]
     },
     "/": {
       "filePath": "index.tsx"
+    },
+    "/dashboard/": {
+      "filePath": "dashboard/index.tsx"
+    },
+    "/dashboard/tree/$treeId": {
+      "filePath": "dashboard/tree/$treeId.tsx"
+    },
+    "/dashboard/tree/": {
+      "filePath": "dashboard/tree/index.tsx"
     }
   }
 }

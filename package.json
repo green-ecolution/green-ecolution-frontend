@@ -14,6 +14,7 @@
     "generate": "yarn generate:backend-client",
     "generate:backend-client": "yarn workspace @green-ecolution/backend-client generate",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "yarn workspace @green-ecolution/frontend preview"
+    "preview": "yarn workspace @green-ecolution/frontend preview",
+    "rebuild": "yarn build:backend-client && rm -rf frontend/node_modules && yarn install"
   }
 }
