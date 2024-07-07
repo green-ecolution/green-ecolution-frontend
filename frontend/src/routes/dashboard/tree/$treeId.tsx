@@ -1,44 +1,21 @@
-import {
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-  type ChartConfig,
-} from "@/components/ui/chart";
-import { PredictedHealth, treeApi } from "@/api/backendApi";
+import { treeApi } from "@/api/backendApi";
 import { PlaceholderIcon } from "@/components/MapHeader";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { useTree } from "@/context/TreeDataContext";
 import useSidePanelStore from "@/store/sidePanelStore";
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import {
-  Activity,
-  Battery,
   Blocks,
-  CheckCheck,
-  Clock,
-  Droplet,
-  Frown,
   Map,
   PanelLeftOpen,
   PanelRightOpen,
   Pencil,
-  Sun,
-  TrendingUp,
-  Wrench,
 } from "lucide-react";
 import React from "react";
 import { useEffect, useMemo } from "react";
 import { toast } from "sonner";
-import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import TreeOverviewDashboard from "@/components/dashboard/tree/overview";
 import TreeSensorDashboard from "@/components/dashboard/tree/sensorView";
@@ -53,6 +30,7 @@ function TreeDashboard() {
 
   const { data, isError, error, isLoading } = useQuery({
     queryKey: ["tree_prediction", treeId],
+    refetchInterval: 10000,
     queryFn: () =>
       treeApi.getTreePredictionById({ treeID: treeId, sensorData: true }),
   });

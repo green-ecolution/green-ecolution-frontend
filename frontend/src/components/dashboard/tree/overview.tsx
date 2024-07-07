@@ -1,3 +1,4 @@
+import { addDays, format } from "date-fns";
 import {
   ChartContainer,
   ChartTooltip,
@@ -16,18 +17,28 @@ import {
 import {
   Activity,
   Battery,
+  CalendarIcon,
   CheckCheck,
   Clock,
   Droplet,
   Frown,
   Smile,
   Sun,
+  TreePine,
   TrendingUp,
   Wrench,
 } from "lucide-react";
 import React from "react";
 import { useMemo } from "react";
 import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
+import { DateRange } from "react-day-picker";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
+import { Calendar } from "@/components/ui/calendar";
 
 export type SensorData = {
   timestamp: Date;
@@ -112,7 +123,7 @@ const TreeOverviewDashboard = ({
 
         <TreeDashboardInfoCard
           title="Stammfeuchtigkeit"
-          icon={<Sun className="size-5" />}
+          icon={<TreePine className="size-5" />}
           contentValue={`${lastSensorData?.data.trunkHumidity} kΩ`}
           contentDescription={"+0.5 kΩ zu der letzten Messung"}
         />
@@ -140,7 +151,12 @@ const TreeOverviewDashboard = ({
               <TrendingUp className="size-5 text-muted-foreground" />
             </div>
             <CardDescription>
-              Verlauf der Feuchtigkeit und Batterie des Baumsensors
+              <div className="flex items-center justify-between">
+                <span>
+                  Verlauf der Feuchtigkeit und Batterie des Baumsensors
+                </span>
+                <DatePickerWithRange />
+              </div>
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -301,7 +317,12 @@ const TreeDashboardChart = ({ sensorData }: TreeDashboardChartProps) => {
     <ChartContainer config={chartConfig}>
       <AreaChart accessibilityLayer data={sensorData}>
         <CartesianGrid vertical={false} />
-        <XAxis dataKey="timestamp" />
+        <XAxis
+          dataKey="timestamp"
+          tickMargin={8}
+          tickCount={10}
+          tickFormatter={(value) => format(new Date(value), "HH:mm")}
+        />
         <ChartTooltip
           cursor={false}
           content={<ChartTooltipContent indicator="dot" />}
@@ -328,5 +349,55 @@ const TreeDashboardChart = ({ sensorData }: TreeDashboardChartProps) => {
     </ChartContainer>
   );
 };
+
+export function DatePickerWithRange({
+  className,
+}: React.HTMLAttributes<HTMLDivElement>) {
+  const [date, setDate] = React.useState<DateRange | undefined>({
+    from: new Date(2024, 7, 5),
+    to: new Date(2024, 7, 7),
+  });
+
+  return (
+    <div className={cn("grid gap-2", className)}>
+      <Popover>
+        <PopoverTrigger asChild>
+          <Button
+            id="date"
+            variant={"outline"}
+            className={cn(
+              "w-[240px] justify-start text-left font-normal",
+              !date && "text-muted-foreground",
+            )}
+          >
+            <CalendarIcon className="mr-2 h-4 w-4" />
+            {date?.from ? (
+              date.to ? (
+                <>
+                  {format(date.from, "LLL dd, y")} -{" "}
+                  {format(date.to, "LLL dd, y")}
+                </>
+              ) : (
+                format(date.from, "LLL dd, y")
+              )
+            ) : (
+              <span>Pick a date</span>
+            )}
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="w-auto p-0" align="start">
+          <Calendar
+            initialFocus
+            mode="range"
+            defaultMonth={date?.from}
+            selected={date}
+            onSelect={setDate}
+            numberOfMonths={2}
+          />
+        </PopoverContent>
+      </Popover>
+    </div>
+  );
+}
 
 export default TreeOverviewDashboard;
