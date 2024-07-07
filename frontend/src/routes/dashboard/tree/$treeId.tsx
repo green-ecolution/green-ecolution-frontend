@@ -3,14 +3,11 @@ import { PlaceholderIcon } from "@/components/MapHeader";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { useTree } from "@/context/TreeDataContext";
-import useSidePanelStore from "@/store/sidePanelStore";
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import {
   Blocks,
   Map,
-  PanelLeftOpen,
-  PanelRightOpen,
   Pencil,
 } from "lucide-react";
 import React from "react";
@@ -19,6 +16,7 @@ import { toast } from "sonner";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import TreeOverviewDashboard from "@/components/dashboard/tree/overview";
 import TreeSensorDashboard from "@/components/dashboard/tree/sensorView";
+import { SidePanelButton } from "@/components/Sidebar";
 
 export const Route = createFileRoute("/dashboard/tree/$treeId")({
   component: TreeDashboard,
@@ -116,32 +114,11 @@ export interface TreeDashboardLayoutProps extends React.PropsWithChildren { }
 
 // TODO: as layout component in tanstack router
 const TreeDashboardLayout = ({ children }: TreeDashboardLayoutProps) => {
-  const { isPanelOpen, toggleSidePanel } = useSidePanelStore((state) => {
-    return {
-      isPanelOpen: state.isOpen,
-      toggleSidePanel: state.toggle,
-    };
-  });
-
-  const handleToggleSidePanel = () => {
-    toggleSidePanel();
-  };
-
   return (
     <div>
       <div className="h-[48px] flex items-center justify-between mx-2">
         <div className="flex items-center gap-2">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => handleToggleSidePanel()}
-          >
-            {isPanelOpen ? (
-              <PanelRightOpen className="w-5 h-5" />
-            ) : (
-              <PanelLeftOpen className="w-5 h-5" />
-            )}
-          </Button>
+          <SidePanelButton />
           <h1 className="font-bold text-xl">Dashboard</h1>
         </div>
 

@@ -11,20 +11,38 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as CalendarImport } from './routes/calendar'
 import { Route as IndexImport } from './routes/index'
+import { Route as WaypointsIndexImport } from './routes/waypoints/index'
 import { Route as DashboardIndexImport } from './routes/dashboard/index'
+import { Route as WaypointsNewImport } from './routes/waypoints/new'
 import { Route as DashboardTreeIndexImport } from './routes/dashboard/tree/index'
 import { Route as DashboardTreeTreeIdImport } from './routes/dashboard/tree/$treeId'
 
 // Create/Update Routes
+
+const CalendarRoute = CalendarImport.update({
+  path: '/calendar',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const IndexRoute = IndexImport.update({
   path: '/',
   getParentRoute: () => rootRoute,
 } as any)
 
+const WaypointsIndexRoute = WaypointsIndexImport.update({
+  path: '/waypoints/',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const DashboardIndexRoute = DashboardIndexImport.update({
   path: '/dashboard/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const WaypointsNewRoute = WaypointsNewImport.update({
+  path: '/waypoints/new',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -49,11 +67,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
+    '/calendar': {
+      id: '/calendar'
+      path: '/calendar'
+      fullPath: '/calendar'
+      preLoaderRoute: typeof CalendarImport
+      parentRoute: typeof rootRoute
+    }
+    '/waypoints/new': {
+      id: '/waypoints/new'
+      path: '/waypoints/new'
+      fullPath: '/waypoints/new'
+      preLoaderRoute: typeof WaypointsNewImport
+      parentRoute: typeof rootRoute
+    }
     '/dashboard/': {
       id: '/dashboard/'
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof DashboardIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/waypoints/': {
+      id: '/waypoints/'
+      path: '/waypoints'
+      fullPath: '/waypoints'
+      preLoaderRoute: typeof WaypointsIndexImport
       parentRoute: typeof rootRoute
     }
     '/dashboard/tree/$treeId': {
@@ -77,7 +116,10 @@ declare module '@tanstack/react-router' {
 
 export const routeTree = rootRoute.addChildren({
   IndexRoute,
+  CalendarRoute,
+  WaypointsNewRoute,
   DashboardIndexRoute,
+  WaypointsIndexRoute,
   DashboardTreeTreeIdRoute,
   DashboardTreeIndexRoute,
 })
@@ -91,7 +133,10 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/calendar",
+        "/waypoints/new",
         "/dashboard/",
+        "/waypoints/",
         "/dashboard/tree/$treeId",
         "/dashboard/tree/"
       ]
@@ -99,8 +144,17 @@ export const routeTree = rootRoute.addChildren({
     "/": {
       "filePath": "index.tsx"
     },
+    "/calendar": {
+      "filePath": "calendar.tsx"
+    },
+    "/waypoints/new": {
+      "filePath": "waypoints/new.tsx"
+    },
     "/dashboard/": {
       "filePath": "dashboard/index.tsx"
+    },
+    "/waypoints/": {
+      "filePath": "waypoints/index.tsx"
     },
     "/dashboard/tree/$treeId": {
       "filePath": "dashboard/tree/$treeId.tsx"

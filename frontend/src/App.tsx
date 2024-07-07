@@ -7,16 +7,15 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import React, { Suspense } from "react";
 import { TreeDataContextProvider } from "./context/TreeDataContext";
 import { Toaster } from "@/components/ui/sonner";
+import { FakeTreeDataContextProvider } from "./context/FakeTreeDataContext";
+import { TooltipProvider } from "./components/ui/tooltip";
 
 const TanStackRouterDevtools =
   process.env.NODE_ENV === "production"
-    ? () => null // Render nothing in production
+    ? () => null
     : React.lazy(() =>
-      // Lazy load in development
       import("@tanstack/router-devtools").then((res) => ({
         default: res.TanStackRouterDevtools,
-        // For Embedded Mode
-        // default: res.TanStackRouterDevtoolsPanel
       })),
     );
 
@@ -27,21 +26,25 @@ function App() {
     <>
       <Toaster />
       <QueryClientProvider client={queryClient}>
-        <TreeDataContextProvider>
-          <ReactQueryDevtools initialIsOpen={false} position="bottom" />
-          <Suspense>
-            <TanStackRouterDevtools
-              initialIsOpen={false}
-              position="bottom-right"
-            />
-          </Suspense>
-          <div className="flex h-screen">
-            <SideHeader open={isOpen} className="w-[300px]" />
-            <div className="flex flex-col flex-1">
-              <Outlet />
-            </div>
-          </div>
-        </TreeDataContextProvider>
+        <TooltipProvider>
+          <TreeDataContextProvider>
+            <FakeTreeDataContextProvider>
+              <ReactQueryDevtools initialIsOpen={false} position="bottom" />
+              <Suspense>
+                <TanStackRouterDevtools
+                  initialIsOpen={false}
+                  position="bottom-right"
+                />
+              </Suspense>
+              <div className="flex h-screen">
+                <SideHeader open={isOpen} className="w-[300px]" />
+                <div className="flex flex-col flex-1">
+                  <Outlet />
+                </div>
+              </div>
+            </FakeTreeDataContextProvider>
+          </TreeDataContextProvider>
+        </TooltipProvider>
       </QueryClientProvider>
     </>
   );

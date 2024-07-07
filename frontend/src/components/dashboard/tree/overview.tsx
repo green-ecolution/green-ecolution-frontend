@@ -183,7 +183,7 @@ const TreeOverviewDashboard = ({
   );
 };
 
-const TreePredictionIcon = ({ health }: { health: PredictedHealth }) => {
+export const TreePredictionIcon = ({ health }: { health: PredictedHealth }) => {
   if (health === "good") {
     return <div className="bg-green-500 size-6 rounded-full"></div>;
   } else if (health === "moderate") {

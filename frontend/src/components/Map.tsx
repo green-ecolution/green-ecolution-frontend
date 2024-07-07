@@ -1,6 +1,9 @@
 import { MapContainer, TileLayer, Marker } from "react-leaflet";
 import L from "leaflet";
 import { useTrees } from "@/context/TreeDataContext";
+import { FakeTree, useFakeTrees } from "@/context/FakeTreeDataContext";
+import { useDisplayFakeTrees, useOpenTooltip, useSetTooltipContent } from "@/store/mapStore";
+import { Tree } from "@green-ecolution/backend-client";
 
 export interface MapProps {
   width?: string;
@@ -28,14 +31,42 @@ export const TreeIcon = (color: string) =>
   });
 
 const Map = ({ width = "100%", height = "100vh" }: MapProps) => {
+  const displayFakeTrees = useDisplayFakeTrees();
+  const setTooltipContent = useSetTooltipContent();
+  const openTooltip = useOpenTooltip();
   const trees = useTrees();
+  const fakeTrees = useFakeTrees();
+
+
+  const handleTreeMarkerClick = (tree: Tree) => {
+    setTooltipContent(tree);
+    openTooltip();
+  }
 
   const treeMarkers = trees.map((tree) => (
     <Marker
       key={tree.id}
       position={[tree.location.latitude, tree.location.longitude]}
       icon={TreeIcon("green")}
+      eventHandlers={{
+        click: () => handleTreeMarkerClick(tree),
+      }}
     ></Marker>
+  ));
+
+  const fakeTreeMarkers = fakeTrees.map((tree) => (
+    <Marker
+      key={tree.id}
+      position={[tree.lat, tree.lng]}
+      icon={TreeIcon(
+        tree.status === "healthy"
+          ? "green"
+          : tree.status === "neutral"
+            ? "yellow"
+            : "red",
+      )}
+    >
+    </Marker>
   ));
 
   return (
@@ -51,6 +82,7 @@ const Map = ({ width = "100%", height = "100vh" }: MapProps) => {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       {treeMarkers}
+      {displayFakeTrees && fakeTreeMarkers}
     </MapContainer>
   );
 };

@@ -1,8 +1,11 @@
+import useSidePanelStore from "@/store/sidePanelStore";
 import {
   Book,
   Calendar,
   LayoutDashboard,
   MapPin,
+  PanelLeftOpen,
+  PanelRightOpen,
   Settings,
   TreeDeciduous,
   Truck,
@@ -12,6 +15,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Link } from "@tanstack/react-router";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 
 export interface SideHeaderProps {
   className?: string;
@@ -96,6 +100,29 @@ const SideHeader = ({ open, className }: SideHeaderProps) => {
         </div>
       </div>
     </div>
+  );
+};
+
+export const SidePanelButton = () => {
+  const { isPanelOpen, toggleSidePanel } = useSidePanelStore((state) => {
+    return {
+      isPanelOpen: state.isOpen,
+      toggleSidePanel: state.toggle,
+    };
+  });
+
+  const handleToggleSidePanel = () => {
+    toggleSidePanel();
+  };
+
+  return (
+    <Button variant="ghost" size="icon" onClick={() => handleToggleSidePanel()}>
+      {isPanelOpen ? (
+        <PanelRightOpen className="w-5 h-5" />
+      ) : (
+        <PanelLeftOpen className="w-5 h-5" />
+      )}
+    </Button>
   );
 };
 
