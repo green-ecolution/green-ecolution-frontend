@@ -92,7 +92,10 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/TreeSensorData"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/TreeSensorData"
+                            }
                         }
                     },
                     "400": {
@@ -827,7 +830,8 @@
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/MqttPayload"
-                    }
+                    },
+                    "x-nullable": true
                 },
                 "tree": {
                     "$ref": "#/definitions/Tree"
@@ -846,7 +850,8 @@
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/MqttPayload"
-                    }
+                    },
+                    "x-nullable": true
                 },
                 "sensor_prediction": {
                     "$ref": "#/definitions/SensorPrediction"
