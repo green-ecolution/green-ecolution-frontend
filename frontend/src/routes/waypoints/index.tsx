@@ -117,7 +117,7 @@ function Waypoints() {
             </div>
           </div>
         </ResizablePanel>
-        <ResizableHandle />
+        <ResizableHandle withHandle/>
         <ResizablePanel>
           {selectedWaypoint ? (
             <WaypointDetails waypoint={selectedWaypoint} />

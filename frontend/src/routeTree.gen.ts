@@ -11,6 +11,9 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as VehiclesImport } from './routes/vehicles'
+import { Route as TeamImport } from './routes/team'
+import { Route as SettingsImport } from './routes/settings'
 import { Route as CalendarImport } from './routes/calendar'
 import { Route as IndexImport } from './routes/index'
 import { Route as WaypointsIndexImport } from './routes/waypoints/index'
@@ -20,6 +23,21 @@ import { Route as DashboardTreeIndexImport } from './routes/dashboard/tree/index
 import { Route as DashboardTreeTreeIdImport } from './routes/dashboard/tree/$treeId'
 
 // Create/Update Routes
+
+const VehiclesRoute = VehiclesImport.update({
+  path: '/vehicles',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const TeamRoute = TeamImport.update({
+  path: '/team',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const SettingsRoute = SettingsImport.update({
+  path: '/settings',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const CalendarRoute = CalendarImport.update({
   path: '/calendar',
@@ -74,6 +92,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CalendarImport
       parentRoute: typeof rootRoute
     }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsImport
+      parentRoute: typeof rootRoute
+    }
+    '/team': {
+      id: '/team'
+      path: '/team'
+      fullPath: '/team'
+      preLoaderRoute: typeof TeamImport
+      parentRoute: typeof rootRoute
+    }
+    '/vehicles': {
+      id: '/vehicles'
+      path: '/vehicles'
+      fullPath: '/vehicles'
+      preLoaderRoute: typeof VehiclesImport
+      parentRoute: typeof rootRoute
+    }
     '/waypoints/new': {
       id: '/waypoints/new'
       path: '/waypoints/new'
@@ -117,6 +156,9 @@ declare module '@tanstack/react-router' {
 export const routeTree = rootRoute.addChildren({
   IndexRoute,
   CalendarRoute,
+  SettingsRoute,
+  TeamRoute,
+  VehiclesRoute,
   WaypointsNewRoute,
   DashboardIndexRoute,
   WaypointsIndexRoute,
@@ -134,6 +176,9 @@ export const routeTree = rootRoute.addChildren({
       "children": [
         "/",
         "/calendar",
+        "/settings",
+        "/team",
+        "/vehicles",
         "/waypoints/new",
         "/dashboard/",
         "/waypoints/",
@@ -146,6 +191,15 @@ export const routeTree = rootRoute.addChildren({
     },
     "/calendar": {
       "filePath": "calendar.tsx"
+    },
+    "/settings": {
+      "filePath": "settings.tsx"
+    },
+    "/team": {
+      "filePath": "team.tsx"
+    },
+    "/vehicles": {
+      "filePath": "vehicles.tsx"
     },
     "/waypoints/new": {
       "filePath": "waypoints/new.tsx"

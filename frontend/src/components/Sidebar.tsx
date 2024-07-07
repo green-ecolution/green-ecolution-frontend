@@ -60,11 +60,6 @@ const SideHeader = ({ open, className }: SideHeaderProps) => {
       to: "/calendar",
     },
     {
-      title: "Dokumete",
-      icon: <Book className="w-5 h-5" />,
-      to: "/documents",
-    },
-    {
       title: "Fahrzeuge",
       icon: <Truck className="w-5 h-5" />,
       to: "/vehicles",

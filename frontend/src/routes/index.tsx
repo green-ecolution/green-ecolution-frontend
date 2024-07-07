@@ -1,5 +1,4 @@
 import { treeApi } from "@/api/backendApi";
-import { TreePredictionIcon } from "@/components/dashboard/tree/overview";
 import Map from "@/components/Map";
 import MapHeader from "@/components/MapHeader";
 import MapTooltip from "@/components/MapTooltip";
@@ -17,7 +16,7 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
-  const { tooltipOpen, tooltipContent, openTooltip, closeTooltip } =
+  const { tooltipOpen, tooltipContent, closeTooltip } =
     useMapStore((state) => ({
       tooltipContent: state.tooltipContent,
       tooltipOpen: state.tooltipOpen,
