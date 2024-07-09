@@ -4,7 +4,14 @@ import { Separator } from "@/components/ui/separator";
 import { useTree } from "@/context/TreeDataContext";
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Bell, Blocks, Map, MoreVertical, Pencil, Settings } from "lucide-react";
+import {
+  Bell,
+  Blocks,
+  Map,
+  MoreVertical,
+  Pencil,
+  Settings,
+} from "lucide-react";
 import React from "react";
 import { useEffect, useMemo } from "react";
 import { toast } from "sonner";
@@ -13,6 +20,7 @@ import TreeOverviewDashboard from "@/components/dashboard/tree/overview";
 import TreeSensorDashboard from "@/components/dashboard/tree/sensorView";
 import { SidePanelButton } from "@/components/Sidebar";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { format } from "date-fns";
 
 export const Route = createFileRoute("/dashboard/tree/$treeId")({
   component: TreeDashboard,
@@ -22,7 +30,7 @@ function TreeDashboard() {
   const { treeId } = Route.useParams();
   const tree = useTree(treeId);
 
-  const { data, isError, error, isLoading } = useQuery({
+  const { data, isError, error, isLoading, dataUpdatedAt } = useQuery({
     queryKey: ["tree_prediction", treeId],
     refetchInterval: 10000,
     queryFn: () =>
@@ -51,6 +59,19 @@ function TreeDashboard() {
       })) ?? []
     );
   }, [data]);
+
+  const lastSensorData = useMemo(
+    () => ({
+      data: sensorData[sensorData.length - 1],
+      humidityDiff:
+        sensorData[sensorData.length - 1]?.humidity -
+        sensorData[sensorData.length - 2]?.humidity || 0,
+      batteryDiff:
+        sensorData[sensorData.length - 1]?.battery -
+        sensorData[sensorData.length - 2]?.battery || 0,
+    }),
+    [sensorData],
+  );
 
   if (!data || isLoading) {
     return <div>Loading...</div>;
@@ -87,16 +108,35 @@ function TreeDashboard() {
         </div>
 
         <Tabs className="py-2" defaultValue="overview">
-          <TabsList>
-            <TabsTrigger value="overview">Übersicht</TabsTrigger>
-            <TabsTrigger disabled value="waypoint">
-              Einsatzplanung
-            </TabsTrigger>
-            <TabsTrigger disabled value="info">
-              Informationen
-            </TabsTrigger>
-            <TabsTrigger value="sensor">Sensor Daten</TabsTrigger>
-          </TabsList>
+          <div className="flex justify-between items-center w-full">
+            <TabsList>
+              <TabsTrigger value="overview">Übersicht</TabsTrigger>
+              <TabsTrigger disabled value="waypoint">
+                Einsatzplanung
+              </TabsTrigger>
+              <TabsTrigger disabled value="info">
+                Informationen
+              </TabsTrigger>
+              <TabsTrigger value="sensor">Sensor Daten</TabsTrigger>
+            </TabsList>
+
+            <div className="flex flex-col">
+              <span className="text-muted-foreground">
+                Letzter Abfrage:{" "}
+                {format(
+                  dataUpdatedAt,
+                  "dd.MM.yyyy HH:mm:ss",
+                )}
+              </span>
+              <span className="text-muted-foreground">
+                Letzter Sensor Update:{" "}
+                {format(
+                  lastSensorData.data.timestamp,
+                  "dd.MM.yyyy HH:mm:ss",
+                )}
+              </span>
+            </div>
+          </div>
           <TabsContent value="overview">
             <TreeOverviewDashboard
               tree={tree!!}
@@ -113,7 +153,7 @@ function TreeDashboard() {
   );
 }
 
-export interface TreeDashboardLayoutProps extends React.PropsWithChildren {}
+export interface TreeDashboardLayoutProps extends React.PropsWithChildren { }
 
 // TODO: as layout component in tanstack router
 const TreeDashboardLayout = ({ children }: TreeDashboardLayoutProps) => {

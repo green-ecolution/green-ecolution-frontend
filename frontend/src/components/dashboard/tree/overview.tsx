@@ -147,10 +147,10 @@ const TreeOverviewDashboard = ({
         <TreeDashboardInfoCard
           title="Standjahre"
           icon={<Info className="size-5" />}
-          contentValue={`~${tree.age} Jahre`}
+          contentValue={`~${tree?.age} Jahre`}
           contentDescription={
             <>
-              Die Baumgruppe ist ca. {tree.age} Jahre alt <br />
+              Die Baumgruppe ist ca. {tree?.age} Jahre alt <br />
               <span className="text-muted-foreground">
                 {" "}
                 (gepflanzt am {format(addDays(new Date(), -(2 * 365)), "LLL dd, y")})
