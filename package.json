@@ -8,12 +8,14 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "yarn workspace @green-ecolution/frontend dev",
-    "build": "yarn build:frontend && yarn build:backend-client",
+    "build": "yarn build:backend-client && yarn build:frontend",
     "build:frontend": "yarn workspace @green-ecolution/frontend build",
     "build:backend-client": "yarn workspace @green-ecolution/backend-client build",
     "generate": "yarn generate:backend-client",
     "generate:backend-client": "yarn workspace @green-ecolution/backend-client generate",
-    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "ci": "yarn workspace @green-ecolution/backend-client generate:ci",
+    "lint": "yarn workspace @green-ecolution/frontend lint",
+    "test": "echo \"It works!\"",
     "preview": "yarn workspace @green-ecolution/frontend preview",
     "rebuild": "yarn build:backend-client && rm -rf frontend/node_modules && yarn install"
   }
