@@ -1,5 +1,7 @@
 #! /bin/bash
 
+
+API_DOCS_SOURCE=$1
 SERVER="http://localhost:3000"
 API_DOCS_PATH="swagger/doc.json"
 API_DOCS_FILE="./api-docs.json"
@@ -46,7 +48,19 @@ function exit_on_error() {
 }
 
 function main() {
-  fetch_api_docs
+  if [ -z "$API_DOCS_SOURCE" ]; then
+    echo "❌ Please provide the API docs source"
+    exit 1
+  elif [ "$API_DOCS_SOURCE" == "local" ]; then
+    echo "📚 Using local API docs"
+  elif [ "$API_DOCS_SOURCE" == "remote" ]; then
+    echo "🌍 Using remote API docs from $SERVER"
+    fetch_api_docs
+  else
+    echo "❌ Invalid API docs source"
+    exit 1
+  fi
+
   clean_up
   generate_client
   revise_generation
