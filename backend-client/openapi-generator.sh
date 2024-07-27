@@ -2,7 +2,7 @@
 
 
 API_DOCS_SOURCE=$1
-SERVER="http://localhost:3000"
+SERVER="http://localhost:3000/api"
 API_DOCS_PATH="swagger/doc.json"
 API_DOCS_FILE="./api-docs.json"
 
