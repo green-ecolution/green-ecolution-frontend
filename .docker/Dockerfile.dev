@@ -29,7 +29,7 @@ COPY --from=openapi-builder /app/src ./backend-client/src
 RUN yarn build:backend-client
 
 COPY ./frontend ./frontend
-RUN yarn build:frontend
+RUN yarn build:frontend:dev
 
 #############################################
 # Nginx
