@@ -58,11 +58,8 @@ function MapView() {
       >
         <MapTooltipContent tree={tooltipContent} />
       </MapTooltip>
-      <Map
-        center={center}
-        zoom={zoom}
-      >
-        <MapConroller/>
+      <Map center={center} zoom={zoom}>
+        <MapConroller />
         <TreeMarker trees={trees} />
       </Map>
     </div>
@@ -72,18 +69,12 @@ function MapView() {
 const MapConroller = () => {
   const navigate = useNavigate({ from: Route.fullPath });
   const map = useMapEvents({
-    zoom: () => {
-      const zoom = map.getZoom();
-      useMapStore.setState({ zoom });
-      setTimeout(() => {
-        navigate({ search: (prev) => ({ ...prev, zoom }) });
-      }, 100);
-    },
     moveend: () => {
       const center = map.getCenter();
+      const zoom = map.getZoom();
       useMapStore.setState({ center: [center.lat, center.lng] });
       navigate({
-        search: (prev) => ({ ...prev, lat: center.lat, lng: center.lng }),
+        search: (prev) => ({ ...prev, lat: center.lat, lng: center.lng, zoom }),
       });
     },
   });
@@ -109,7 +100,7 @@ const TreeMarker = ({ trees }: { trees: Tree[] }) => {
   );
 
   return <>{treeMarkers}</>;
-}
+};
 
 const MapTooltipContent = ({ tree }: { tree: Tree }) => {
   const { data, isError, error, isLoading } = useQuery({
