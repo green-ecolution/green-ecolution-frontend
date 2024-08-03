@@ -16,7 +16,6 @@ import {
   Popup,
   TileLayer,
 } from "react-leaflet";
-import { TreeIcon } from "../../components/Map";
 import { LatLngExpression, Map } from "leaflet";
 import {
   Card,
@@ -32,6 +31,7 @@ import {
 } from "../../components/ui/tooltip";
 import { FakeTree, useFakeTrees } from "@/context/FakeTreeDataContext";
 import { SidePanelButton } from "@/components/Sidebar";
+import { TreeIcon } from "@/components/MapMarker";
 
 export const Route = createFileRoute("/waypoints/")({
   component: Waypoints,
