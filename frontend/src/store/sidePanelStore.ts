@@ -23,4 +23,3 @@ export const useIsSidePanelOpen = () => useSidePanelStore((state) => state.isOpe
 export const useToggleSidePanel = () => useSidePanelStore((state) => state.toggle);
 
 export default useSidePanelStore;
-

@@ -5,7 +5,7 @@ import MapMarker, { TreeIcon } from "@/components/MapMarker";
 import MapTooltip from "@/components/MapTooltip";
 import { useTrees } from "@/context/TreeDataContext";
 import { cn } from "@/lib/utils";
-import useMapStore from "@/store/mapStore";
+import useMapStore from "@/store/map/store";
 import { Tree } from "@green-ecolution/backend-client";
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
@@ -28,19 +28,20 @@ export const Route = createFileRoute("/map/")({
   validateSearch: mapSearchParamsSchema,
   loaderDeps: ({ search: { lat, lng, zoom } }) => ({ lat, lng, zoom }),
   loader: ({ deps: { lat, lng, zoom } }) => {
-    useMapStore.setState({ center: [lat, lng], zoom });
+    useMapStore.setState((state) => ({
+      map: { ...state.map, center: [lat, lng], zoom },
+    }));
   },
 });
 
 function MapView() {
   const { tooltipOpen, tooltipContent, closeTooltip, center, zoom } =
     useMapStore((state) => ({
-      tooltipContent: state.tooltipContent,
-      tooltipOpen: state.tooltipOpen,
-      openTooltip: state.openTooltip,
-      closeTooltip: state.closeTooltip,
-      center: state.center,
-      zoom: state.zoom,
+      tooltipContent: state.tooltip.content,
+      tooltipOpen: state.tooltip.isOpen,
+      closeTooltip: state.tooltip.close,
+      center: state.map.center,
+      zoom: state.map.zoom,
     }));
 
   const trees = useTrees();
@@ -68,11 +69,16 @@ function MapView() {
 
 const MapConroller = () => {
   const navigate = useNavigate({ from: Route.fullPath });
+  const { setCenter, setZoom } = useMapStore((state) => ({
+    setCenter: state.map.setCenter,
+    setZoom: state.map.setZoom,
+  }));
   const map = useMapEvents({
     moveend: () => {
       const center = map.getCenter();
       const zoom = map.getZoom();
-      useMapStore.setState({ center: [center.lat, center.lng] });
+      setCenter([center.lat, center.lng]);
+      setZoom(zoom);
       navigate({
         search: (prev) => ({ ...prev, lat: center.lat, lng: center.lng, zoom }),
       });
@@ -83,6 +89,9 @@ const MapConroller = () => {
 };
 
 const TreeMarker = ({ trees }: { trees: Tree[] }) => {
+  const { openTooltip } = useMapStore((state) => ({
+    openTooltip: state.tooltip.open
+  }));
   const treeMarkers = useMemo(
     () =>
       trees.map((tree) => (
@@ -91,8 +100,7 @@ const TreeMarker = ({ trees }: { trees: Tree[] }) => {
           position={[tree.location.latitude, tree.location.longitude]}
           icon={TreeIcon("green")}
           onClick={() => {
-            useMapStore.setState({ tooltipContent: tree });
-            useMapStore.setState({ tooltipOpen: true });
+            openTooltip(tree);
           }}
         />
       )),
@@ -173,10 +181,10 @@ const MapTooltipContent = ({ tree }: { tree: Tree }) => {
       data: sensorData[sensorData.length - 1],
       humidityDiff:
         sensorData[sensorData.length - 1]?.humidity -
-          sensorData[sensorData.length - 2]?.humidity || 0,
+        sensorData[sensorData.length - 2]?.humidity || 0,
       batteryDiff:
         sensorData[sensorData.length - 1]?.battery -
-          sensorData[sensorData.length - 2]?.battery || 0,
+        sensorData[sensorData.length - 2]?.battery || 0,
     }),
     [sensorData],
   );
