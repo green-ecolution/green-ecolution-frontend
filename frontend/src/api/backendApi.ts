@@ -6,7 +6,7 @@ import {
 } from "@green-ecolution/backend-client";
 
 const configParams: ConfigurationParameters = {
-  basePath: import.meta.env.VITE_BACKEND_BASEURL ?? "/api",
+  basePath: import.meta.env.VITE_BACKEND_BASEURL ?? "/api-local",
 };
 
 const config = new Configuration(configParams);
