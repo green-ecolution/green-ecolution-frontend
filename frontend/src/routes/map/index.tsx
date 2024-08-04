@@ -16,11 +16,15 @@ import { toast } from "sonner";
 import { z } from "zod";
 
 const mapSearchParamsSchema = z.object({
-  // TODO: Global default values
-  lat: z.number().catch(54.792277136221905),
-  lng: z.number().catch(9.43580607453268),
-  zoom: z.number().catch(13),
   selected: z.string().optional(),
+  lat: z.number().catch(useMapStore.getState().map.center[0]),
+  lng: z.number().catch(useMapStore.getState().map.center[1]),
+  zoom: z
+    .number()
+    .int()
+    .max(useMapStore.getState().map.maxZoom)
+    .min(useMapStore.getState().map.minZoom)
+    .catch(useMapStore.getState().map.minZoom),
 });
 
 export const Route = createFileRoute("/map/")({
@@ -35,13 +39,11 @@ export const Route = createFileRoute("/map/")({
 });
 
 function MapView() {
-  const { tooltipOpen, tooltipContent, closeTooltip, center, zoom } =
+  const { tooltipOpen, tooltipContent, closeTooltip } =
     useMapStore((state) => ({
       tooltipContent: state.tooltip.content,
       tooltipOpen: state.tooltip.isOpen,
       closeTooltip: state.tooltip.close,
-      center: state.map.center,
-      zoom: state.map.zoom,
     }));
 
   const trees = useTrees();
@@ -59,7 +61,7 @@ function MapView() {
       >
         <MapTooltipContent tree={tooltipContent} />
       </MapTooltip>
-      <Map center={center} zoom={zoom}>
+      <Map>
         <MapConroller />
         <TreeMarker trees={trees} />
       </Map>
@@ -90,7 +92,7 @@ const MapConroller = () => {
 
 const TreeMarker = ({ trees }: { trees: Tree[] }) => {
   const { openTooltip } = useMapStore((state) => ({
-    openTooltip: state.tooltip.open
+    openTooltip: state.tooltip.open,
   }));
   const treeMarkers = useMemo(
     () =>
@@ -181,10 +183,10 @@ const MapTooltipContent = ({ tree }: { tree: Tree }) => {
       data: sensorData[sensorData.length - 1],
       humidityDiff:
         sensorData[sensorData.length - 1]?.humidity -
-        sensorData[sensorData.length - 2]?.humidity || 0,
+          sensorData[sensorData.length - 2]?.humidity || 0,
       batteryDiff:
         sensorData[sensorData.length - 1]?.battery -
-        sensorData[sensorData.length - 2]?.battery || 0,
+          sensorData[sensorData.length - 2]?.battery || 0,
     }),
     [sensorData],
   );
