@@ -1,5 +1,4 @@
-import { StateCreator } from "zustand";
-import { Store } from "./store";
+import { MapStateCreator } from "./store";
 
 export interface MapControllSlice {
   center: [number, number];
@@ -8,16 +7,17 @@ export interface MapControllSlice {
   setZoom: (zoom: number) => void;
 }
 
-const createMapControllSlice: StateCreator<
-  Store,
-  [["zustand/devtools", never]],
-  [],
-  MapControllSlice
-> = (set) => ({
+const createMapControllSlice: MapStateCreator<MapControllSlice> = (set) => ({
   center: [54.792277136221905, 9.43580607453268],
   zoom: 13,
-  setCenter: (center) => set((state) => ({ map: { ...state.map, center } })),
-  setZoom: (zoom) => set((state) => ({ map: { ...state.map, zoom } })),
+  setCenter: (center) =>
+    set((state) => {
+      state.map.center = center;
+    }),
+  setZoom: (zoom) =>
+    set((state) => {
+      state.map.zoom = zoom;
+    }),
 });
 
 export default createMapControllSlice;
