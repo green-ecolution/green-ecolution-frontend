@@ -1,11 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { MapContainer, Marker, Polyline, TileLayer } from "react-leaflet";
-import { TreeIcon } from "../../components/Map";
 import {
   Map,
-  Marker as LMarker,
   LeafletMouseEvent,
-  LatLng,
   LatLngExpression,
 } from "leaflet";
 import MapHeader from "../../components/MapHeader";
@@ -22,6 +19,7 @@ import { Button } from "../../components/ui/button";
 import { Eye, Trash } from "lucide-react";
 import { ScrollArea } from "../../components/ui/scroll-area";
 import { FakeTree, useFakeTrees } from "@/context/FakeTreeDataContext";
+import { TreeIcon } from "@/components/MapMarker";
 
 export const Route = createFileRoute("/waypoints/new")({
   component: NewWaypoint,

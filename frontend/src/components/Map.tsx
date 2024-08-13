@@ -1,88 +1,38 @@
-import { MapContainer, TileLayer, Marker } from "react-leaflet";
-import L from "leaflet";
-import { useTrees } from "@/context/TreeDataContext";
-import { FakeTree, useFakeTrees } from "@/context/FakeTreeDataContext";
-import { useDisplayFakeTrees, useOpenTooltip, useSetTooltipContent } from "@/store/mapStore";
-import { Tree } from "@green-ecolution/backend-client";
+import { MapContainer, TileLayer } from "react-leaflet";
+import React from "react";
+import useMapStore from "@/store/map/store";
 
-export interface MapProps {
+export interface MapProps extends React.PropsWithChildren {
   width?: string;
   height?: string;
 }
 
-const markerHtmlStyles = (color: string) => `
-  background-color: ${color};
-  width: 2rem;
-  height: 2rem;
-  display: block;
-  left: -1rem;
-  top: -1rem;
-  position: relative;
-  border-radius: 3rem 3rem 0;
-  transform: rotate(45deg);
-  border: 1px solid #FFFFFF
-`;
-
-export const TreeIcon = (color: string) =>
-  L.divIcon({
-    iconAnchor: [0, 24],
-    popupAnchor: [0, -36],
-    html: `<span style="${markerHtmlStyles(color)}" />`,
-  });
-
-const Map = ({ width = "100%", height = "100vh" }: MapProps) => {
-  const displayFakeTrees = useDisplayFakeTrees();
-  const setTooltipContent = useSetTooltipContent();
-  const openTooltip = useOpenTooltip();
-  const trees = useTrees();
-  const fakeTrees = useFakeTrees();
-
-
-  const handleTreeMarkerClick = (tree: Tree) => {
-    setTooltipContent(tree);
-    openTooltip();
-  }
-
-  const treeMarkers = trees.map((tree) => (
-    <Marker
-      key={tree.id}
-      position={[tree.location.latitude, tree.location.longitude]}
-      icon={TreeIcon("green")}
-      eventHandlers={{
-        click: () => handleTreeMarkerClick(tree),
-      }}
-    ></Marker>
-  ));
-
-  const fakeTreeMarkers = fakeTrees.map((tree) => (
-    <Marker
-      key={tree.id}
-      position={[tree.lat, tree.lng]}
-      icon={TreeIcon(
-        tree.status === "healthy"
-          ? "green"
-          : tree.status === "neutral"
-            ? "yellow"
-            : "red",
-      )}
-    >
-    </Marker>
-  ));
-
+const Map = ({
+  width = "100%",
+  height = "100vh",
+  children,
+}: MapProps) => {
+  const {zoom, center, maxZoom, minZoom} = useMapStore((state) => ({ 
+    zoom: state.map.zoom,
+    center: state.map.center,
+    maxZoom: state.map.maxZoom,
+    minZoom: state.map.minZoom
+  }));
   return (
     <MapContainer
       className="z-0"
       zoomControl={false}
       style={{ width, height }}
-      center={[54.792277136221905, 9.43580607453268]}
-      zoom={13}
+      center={center}
+      zoom={zoom}
+      maxZoom={maxZoom}
+      minZoom={minZoom}
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      {treeMarkers}
-      {displayFakeTrees && fakeTreeMarkers}
+      {children}
     </MapContainer>
   );
 };

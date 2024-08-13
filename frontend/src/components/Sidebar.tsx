@@ -1,6 +1,4 @@
-import useSidePanelStore from "@/store/sidePanelStore";
 import {
-  Book,
   Calendar,
   LayoutDashboard,
   MapPin,
@@ -16,6 +14,7 @@ import { Separator } from "@/components/ui/separator";
 import { Link } from "@tanstack/react-router";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import useSidePanelStore from "@/store/sidePanelStore";
 
 export interface SideHeaderProps {
   className?: string;

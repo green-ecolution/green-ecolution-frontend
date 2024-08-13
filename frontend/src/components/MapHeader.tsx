@@ -11,7 +11,6 @@ import {
 } from "lucide-react";
 import {
   DropdownMenu,
-  DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
@@ -19,10 +18,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-import {
-  useDisplayFakeTrees,
-  useToggleDisplayFakeTrees,
-} from "@/store/mapStore";
 import { Link } from "@tanstack/react-router";
 
 export interface HeaderProps { }
@@ -55,8 +50,6 @@ const MapHeader = ({ }: HeaderProps) => {
 };
 
 export const MapMoreActions = () => {
-  const displaFakeTrees = useDisplayFakeTrees();
-  const toggleDisplayFakeTrees = useToggleDisplayFakeTrees();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -76,14 +69,6 @@ export const MapMoreActions = () => {
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuGroup>
-          <DropdownMenuCheckboxItem
-            checked={displaFakeTrees}
-            onCheckedChange={toggleDisplayFakeTrees}
-          >
-            Demo-Bäume anzeigen
-          </DropdownMenuCheckboxItem>
-        </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>
   );
