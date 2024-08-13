@@ -8,8 +8,10 @@
   "main:src": "src/index",
   "license": "MIT",
   "scripts": {
-    "generate": "./openapi-generator.sh remote",
+    "generate": "./openapi-generator.sh remote https://app.dev.green-ecolution.de/api",
     "generate:ci": "./openapi-generator.sh local",
+    "generate:local": "./openapi-generator.sh remote http://localhost:8080/api",
+    "generate:dev": "./openapi-generator.sh remote https://app.dev.green-ecolution.de/api",
     "build": "tsc"
   },
   "devDependencies": {
