@@ -11,10 +11,6 @@ const config = {
 	],
   prefix: "",
   theme: {
-    container: {
-      center: true,
-      padding: '1rem',
-    },
     fontFamily: {
       'lato': ['Lato', 'sans-serif'],
       'nunito-sans': ['Nunito Sans', 'sans-serif'],
