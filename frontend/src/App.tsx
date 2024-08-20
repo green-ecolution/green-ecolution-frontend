@@ -9,6 +9,7 @@ import { TreeDataContextProvider } from "./context/TreeDataContext";
 import { Toaster } from "@/components/ui/sonner";
 import { FakeTreeDataContextProvider } from "./context/FakeTreeDataContext";
 import { TooltipProvider } from "./components/ui/tooltip";
+import Footer from "./components/layout/Footer";
 
 const TanStackRouterDevtools =
   process.env.NODE_ENV === "production"
@@ -36,7 +37,7 @@ function App() {
                   position="bottom-right"
                 />
               </Suspense>
-              <div className="flex h-screen">
+              <div className="flex min-h-screen">
                 <SideHeader open={isOpen} className="w-[300px]" />
                 <div className="flex flex-col flex-1">
                   <Outlet />
@@ -46,6 +47,7 @@ function App() {
           </TreeDataContextProvider>
         </TooltipProvider>
       </QueryClientProvider>
+      <Footer />
     </>
   );
 }

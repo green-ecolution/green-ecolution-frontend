@@ -13,10 +13,7 @@ const config = {
   theme: {
     container: {
       center: true,
-      padding: "2rem",
-      screens: {
-        "2xl": "1400px",
-      },
+      padding: '1rem',
     },
     fontFamily: {
       'lato': ['Lato', 'sans-serif'],
@@ -38,7 +35,8 @@ const config = {
     colors: {
       current: 'currentColor',
       transparent: 'transparent',
-      white: '#FCFCFC',
+      light: '#FCFCFC',
+      white: '#FFFFFF',
       dark: {
         50: '#F3F3F3',
         100: '#E8E8E8',
