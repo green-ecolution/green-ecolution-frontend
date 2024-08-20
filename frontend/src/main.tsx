@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import "./globals.css";
+import "./css/site.css";
 import "leaflet/dist/leaflet.css";
 
 import { createRouter, RouterProvider } from "@tanstack/react-router";
