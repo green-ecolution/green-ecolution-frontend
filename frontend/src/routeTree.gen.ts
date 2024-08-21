@@ -12,6 +12,7 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as VehiclesImport } from './routes/vehicles'
+import { Route as TreeclusterImport } from './routes/treecluster'
 import { Route as TeamImport } from './routes/team'
 import { Route as SettingsImport } from './routes/settings'
 import { Route as CalendarImport } from './routes/calendar'
@@ -27,6 +28,11 @@ import { Route as DashboardTreeTreeIdImport } from './routes/dashboard/tree/$tre
 
 const VehiclesRoute = VehiclesImport.update({
   path: '/vehicles',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const TreeclusterRoute = TreeclusterImport.update({
+  path: '/treecluster',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -112,6 +118,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TeamImport
       parentRoute: typeof rootRoute
     }
+    '/treecluster': {
+      id: '/treecluster'
+      path: '/treecluster'
+      fullPath: '/treecluster'
+      preLoaderRoute: typeof TreeclusterImport
+      parentRoute: typeof rootRoute
+    }
     '/vehicles': {
       id: '/vehicles'
       path: '/vehicles'
@@ -171,6 +184,7 @@ export const routeTree = rootRoute.addChildren({
   CalendarRoute,
   SettingsRoute,
   TeamRoute,
+  TreeclusterRoute,
   VehiclesRoute,
   WaypointsNewRoute,
   DashboardIndexRoute,
@@ -192,6 +206,7 @@ export const routeTree = rootRoute.addChildren({
         "/calendar",
         "/settings",
         "/team",
+        "/treecluster",
         "/vehicles",
         "/waypoints/new",
         "/dashboard/",
@@ -212,6 +227,9 @@ export const routeTree = rootRoute.addChildren({
     },
     "/team": {
       "filePath": "team.tsx"
+    },
+    "/treecluster": {
+      "filePath": "treecluster.tsx"
     },
     "/vehicles": {
       "filePath": "vehicles.tsx"

@@ -29,7 +29,7 @@ const Navigation: React.FC<NavigationProps> = ({ isOpen, openSidebar, closeSideb
     {
       label: 'Baumgruppen',
       icon: <FolderClosed className="w-5 h-5" />,
-      to: "/",
+      to: "/treecluster",
     },
     {
       label: 'Beete',

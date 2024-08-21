@@ -34,7 +34,7 @@ function App() {
                   position="bottom-right"
                 />
               </Suspense>
-              <main className="min-h-screen">
+              <main className="min-h-screen lg:pl-20">
                 <Header />
                 <Outlet />
               </main>
