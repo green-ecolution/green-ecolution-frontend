@@ -1,5 +1,4 @@
 import { Card } from "@/components/ui/card";
-import { SidePanelButton } from "./Sidebar";
 import { Button } from "./ui/button";
 import {
   Filter,
@@ -26,9 +25,6 @@ const MapHeader = ({ }: HeaderProps) => {
   return (
     <Card className="z-50 absolute top-4 left-4 h-12 w-[350px] bg-white rounded shadow-lg">
       <div className="flex justify-between items-center h-full mx-2">
-        <div className="flex items-center gap-1">
-          <SidePanelButton />
-        </div>
         <div className="flex items-center gap-1">
           <Button variant="ghost" size="icon">
             <Search className="size-5" />

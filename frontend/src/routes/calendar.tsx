@@ -9,7 +9,6 @@ import {
   ReactPortal,
 } from "react";
 import { Separator } from "../components/ui/separator";
-import { SidePanelButton } from "@/components/Sidebar";
 import { Button } from "@/components/ui/button";
 import { ChevronsLeft, ChevronsRight, Plus } from "lucide-react";
 
@@ -43,7 +42,6 @@ function DemoApp() {
     <div>
       <div className="h-[48px] flex items-center justify-between mx-2">
         <div className="flex items-center gap-1">
-          <SidePanelButton />
           <h1 className="font-bold text-xl">Kalendar</h1>
         </div>
 

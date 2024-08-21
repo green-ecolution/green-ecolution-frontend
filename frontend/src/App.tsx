@@ -1,6 +1,4 @@
 import { Outlet } from "@tanstack/react-router";
-import SideHeader from "@/components/Sidebar";
-import { useIsSidePanelOpen } from "@/store/sidePanelStore";
 import { QueryClientProvider } from "@tanstack/react-query";
 import queryClient from "./api/queryClient";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
@@ -22,8 +20,6 @@ const TanStackRouterDevtools =
     );
 
 function App() {
-  const isOpen = useIsSidePanelOpen();
-
   return (
     <>
       <Toaster />
@@ -40,8 +36,7 @@ function App() {
               </Suspense>
               <main className="min-h-screen">
                 <Header />
-                <SideHeader open={isOpen} className="w-[300px]" />
-                Test
+                <Outlet />
               </main>
               <Footer />
             </FakeTreeDataContextProvider>

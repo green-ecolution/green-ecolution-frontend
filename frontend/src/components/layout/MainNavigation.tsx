@@ -33,17 +33,17 @@ const MainNavigation: React.FC<MainNavigationProps> = ({ isOpen, openSidebar, cl
     {
       label: 'Einsätze',
       icon: <ArrowLeftRight className="w-5 h-5" />,
-      to: "/",
+      to: "/waypoints",
     },
     {
       label: 'Fahrzeuge',
       icon: <Car className="w-5 h-5" />,
-      to: "/",
+      to: "/vehicles",
     },
     {
       label: 'Mitarbeitenden',
       icon: <Users className="w-5 h-5" />,
-      to: "/",
+      to: "/team",
     },
   ];
 
@@ -61,7 +61,7 @@ const MainNavigation: React.FC<MainNavigationProps> = ({ isOpen, openSidebar, cl
     {
       label: 'Einstellungen',
       icon: <Settings className="w-5 h-5" />,
-      to: "/",
+      to: "/settings",
     },
     {
       label: 'Ausloggen',
@@ -93,7 +93,8 @@ const MainNavigation: React.FC<MainNavigationProps> = ({ isOpen, openSidebar, cl
           </figure>
           <button
             aria-label="Hauptnavigation schließen" 
-            className={`absolute right-2 w-8 h-8 flex items-center justify-center transition-colors ease-in-out duration-300 bg-dark-600 rounded-full lg:hidden ${isOpen ? 'lg:flex' : 'lg:hidden'}`}
+            className={`mr-2 w-8 h-8 flex items-center justify-center transition-colors ease-in-out duration-300 bg-dark-600 rounded-full lg:hidden 
+              ${isOpen ? 'lg:flex' : 'lg:hidden'}`}
             onClick={closeSidebar}>
             <X className="w-5 h-5 text-white" />
           </button>

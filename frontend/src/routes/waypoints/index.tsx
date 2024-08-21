@@ -30,7 +30,6 @@ import {
   TooltipTrigger,
 } from "../../components/ui/tooltip";
 import { FakeTree, useFakeTrees } from "@/context/FakeTreeDataContext";
-import { SidePanelButton } from "@/components/Sidebar";
 import { TreeIcon } from "@/components/MapMarker";
 
 export const Route = createFileRoute("/waypoints/")({
@@ -90,7 +89,6 @@ function Waypoints() {
         <ResizablePanel minSize={40}>
           <div className="h-[48px] flex items-center justify-between mx-2">
             <div className="flex items-center gap-1">
-              <SidePanelButton />
             <h1 className="font-bold text-xl">Einsatzplanung</h1>
             </div>
 

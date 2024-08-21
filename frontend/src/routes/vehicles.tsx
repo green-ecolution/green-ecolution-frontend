@@ -16,7 +16,6 @@ import {
   PopoverTrigger,
 } from "../components/ui/popover";
 import { Checkbox } from "../components/ui/checkbox";
-import { SidePanelButton } from "@/components/Sidebar";
 
 export const Route = createFileRoute("/vehicles")({
   component: Vehicles,
@@ -58,7 +57,6 @@ function Vehicles() {
     <div>
       <div className="h-[48px] flex items-center justify-between mx-2">
         <div className="flex items-center">
-          <SidePanelButton />
           <h1 className="font-bold text-xl">Fahrzeuge</h1>
         </div>
 
