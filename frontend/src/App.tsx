@@ -34,8 +34,8 @@ function App() {
                   position="bottom-right"
                 />
               </Suspense>
-              <main className="min-h-screen lg:pl-20">
-                <Header />
+              <Header />
+              <main className="flex-1 lg:pl-20">
                 <Outlet />
               </main>
               <Footer />

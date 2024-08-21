@@ -8,7 +8,7 @@ function Treecluster() {
   return (
     <div className="custom-container mt-6">
       <article className="2xl:w-4/5">
-        <h1 className="font-lato font-bold text-xl mb-4 md:text-2xl lg:text-3xl">
+        <h1 className="font-lato font-bold text-3xl mb-4 lg:text-4xl xl:text-5xl">
           Auflistung aller verfügbaren Baumgruppen
         </h1>
         <p>

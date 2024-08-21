@@ -1,7 +1,8 @@
-import { ArrowLeftRight, Car, FolderClosed, HardDrive, LogOut, Map, PieChart, Settings, Users, X } from 'lucide-react';
+import { ArrowLeftRight, Car, FolderClosed, HardDrive, LogOut, Map, PieChart, Settings, Users} from 'lucide-react';
 import * as React from 'react';
-import NavLink from '../general/NavLink';
-import NavHeadline from '../general/NavHeadline';
+import NavLink from '../navigation/NavLink';
+import NavHeadline from '../navigation/NavHeadline';
+import NavHeader from '../navigation/NavHeader';
 
 interface NavigationProps {
   isOpen: boolean;
@@ -90,25 +91,9 @@ const Navigation: React.FC<NavigationProps> = ({ isOpen, openSidebar, closeSideb
         ${isOpen ? 'visible block left-0 lg:w-[17rem] lg:rounded-r-xl' : 'invisible -left-full lg:visible lg:w-[5rem] lg:left-0'}`}
     >
       <div className="relative px-4 py-5 h-full overflow-y-auto no-scrollbar">
-        <div className="relative mb-10 flex items-center justify-between">
-          <figure>
-            <img 
-              className="h-4 lg:hidden" 
-              src="/images/logo/logo-large-white.svg" 
-              alt="Logo von Green Ecolution" />
-            <img 
-              className="hidden w-7 mx-2.5 lg:block" 
-              src="/images/logo/logo-icon-white.svg" 
-              alt="Logo von Green Ecolution" />
-          </figure>
-          <button
-            aria-label="Hauptnavigation schließen" 
-            className={`mr-2 w-8 h-8 flex items-center justify-center transition-colors ease-in-out duration-300 bg-dark-600 rounded-full lg:hidden 
-              ${isOpen ? 'lg:flex' : 'lg:hidden'}`}
-            onClick={closeSidebar}>
-            <X className="w-5 h-5 text-white" />
-          </button>
-        </div>
+        <NavHeader 
+          isOpen={isOpen} 
+          closeSidebar={closeSidebar} />
         
         <NavHeadline label="Grünflächen" navIsOpen={isOpen} />
         <ul className="mb-10">
