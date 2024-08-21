@@ -15,6 +15,7 @@ import { Route as VehiclesImport } from './routes/vehicles'
 import { Route as TreeclusterImport } from './routes/treecluster'
 import { Route as TeamImport } from './routes/team'
 import { Route as SettingsImport } from './routes/settings'
+import { Route as SensorsImport } from './routes/sensors'
 import { Route as IndexImport } from './routes/index'
 import { Route as WaypointsIndexImport } from './routes/waypoints/index'
 import { Route as MapIndexImport } from './routes/map/index'
@@ -42,6 +43,11 @@ const TeamRoute = TeamImport.update({
 
 const SettingsRoute = SettingsImport.update({
   path: '/settings',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const SensorsRoute = SensorsImport.update({
+  path: '/sensors',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -89,6 +95,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/sensors': {
+      id: '/sensors'
+      path: '/sensors'
+      fullPath: '/sensors'
+      preLoaderRoute: typeof SensorsImport
       parentRoute: typeof rootRoute
     }
     '/settings': {
@@ -168,6 +181,7 @@ declare module '@tanstack/react-router' {
 
 export const routeTree = rootRoute.addChildren({
   IndexRoute,
+  SensorsRoute,
   SettingsRoute,
   TeamRoute,
   TreeclusterRoute,
@@ -189,6 +203,7 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/sensors",
         "/settings",
         "/team",
         "/treecluster",
@@ -203,6 +218,9 @@ export const routeTree = rootRoute.addChildren({
     },
     "/": {
       "filePath": "index.tsx"
+    },
+    "/sensors": {
+      "filePath": "sensors.tsx"
     },
     "/settings": {
       "filePath": "settings.tsx"

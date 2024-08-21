@@ -61,12 +61,12 @@ const Navigation: React.FC<NavigationProps> = ({ isOpen, openSidebar, closeSideb
     {
       label: 'Sensoren',
       icon: <HardDrive className="w-5 h-5" />,
-      to: "/",
+      to: "/sensors",
     },
     {
       label: 'Auswertungen',
       icon: <PieChart className="w-5 h-5" />,
-      to: "/",
+      to: "/evaluations",
     },
     {
       label: 'Einstellungen',
@@ -76,7 +76,7 @@ const Navigation: React.FC<NavigationProps> = ({ isOpen, openSidebar, closeSideb
     {
       label: 'Ausloggen',
       icon: <LogOut className="w-5 h-5" />,
-      to: "/",
+      to: "/logout",
     },
   ];
 
