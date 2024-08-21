@@ -1,12 +1,17 @@
 import { AlignJustifyIcon } from 'lucide-react';
 import * as React from 'react';
-import MainNavigation from './MainNavigation';
+import Navigation from './Navigation';
 
 function Header() {
   const [open, setOpen] = React.useState(false);
 
   function toggleSidebar(state: boolean) {
     setOpen(state);
+
+    if (window.matchMedia('(min-width: 1024px)')) return;
+    state
+    ? document.body.classList.add('overflow-y-hidden')
+    : document.body.classList.remove('overflow-y-hidden');
   }
 
   return (
@@ -23,10 +28,10 @@ function Header() {
         >
           <AlignJustifyIcon className="text-light w-5 h-5" />
         </button>
-        Dashboard
+        <strong className="hidden lg:block">Breadcrumb</strong>
       </div>
 
-      <MainNavigation 
+      <Navigation 
         isOpen={open} 
         openSidebar={() => toggleSidebar(true)} 
         closeSidebar={() => toggleSidebar(false)} />

@@ -3,13 +3,22 @@ import * as React from 'react';
 import NavLink from '../general/NavLink';
 import NavHeadline from '../general/NavHeadline';
 
-interface MainNavigationProps {
+interface NavigationProps {
   isOpen: boolean;
   openSidebar: () => void;
   closeSidebar: () => void;
 }
 
-const MainNavigation: React.FC<MainNavigationProps> = ({ isOpen, openSidebar, closeSidebar }) => {
+const Navigation: React.FC<NavigationProps> = ({ isOpen, openSidebar, closeSidebar }) => {
+    const isLargeScreen = () => window.matchMedia('(min-width: 1024px)').matches;
+
+    const handleMouseOver = () => {
+      if (isLargeScreen()) openSidebar();
+    };
+  
+    const handleMouseOut = () => {
+      if (isLargeScreen()) closeSidebar();
+    };
 
   const vegetationLinks = [
     {
@@ -74,8 +83,9 @@ const MainNavigation: React.FC<MainNavigationProps> = ({ isOpen, openSidebar, cl
     <nav
       id="main-navigation"
       aria-label="Hauptnavigation"
-      onMouseOut={closeSidebar}
-      onMouseOver={openSidebar}
+      onMouseOut={handleMouseOut}
+      onMouseOver={handleMouseOver}
+      onFocusCapture={handleMouseOver}
       className={`fixed inset-0 z-50 bg-dark w-screen overflow-hidden h-screen transition-all ease-in-out duration-300
         ${isOpen ? 'visible block left-0 lg:w-[17rem] lg:rounded-r-xl' : 'invisible -left-full lg:visible lg:w-[5rem] lg:left-0'}`}
     >
@@ -140,4 +150,4 @@ const MainNavigation: React.FC<MainNavigationProps> = ({ isOpen, openSidebar, cl
   );
 }
 
-export default MainNavigation;
+export default Navigation;
