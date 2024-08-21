@@ -6,7 +6,7 @@ export const Route = createFileRoute('/dashboard/')({
 
 function Dashboard() {
   return (
-    <div className="custom-container mt-6">
+    <div className="container mt-6">
       <article className="2xl:w-4/5">
         <h1 className="font-lato font-bold text3xl mb-4 lg:text-4xl xl:text-5xl">
           Willkommen zurück, Vorname Nachname

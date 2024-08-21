@@ -16,7 +16,7 @@ function Header() {
 
   return (
     <header className="bg-white lg:pl-20">
-      <div className="custom-container text-sm border-b border-dark-50 py-4 flex justify-between items-center">
+      <div className="container text-sm border-b border-dark-50 py-4 flex justify-between items-center">
         <button
           id="main-navigation-toggle"
           aria-expanded={open}

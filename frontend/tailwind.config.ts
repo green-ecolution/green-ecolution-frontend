@@ -11,6 +11,19 @@ const config = {
 	],
   prefix: "",
   theme: {
+    container: {
+      center: true,
+      padding: {
+        DEFAULT: '1rem',
+        lg: '2rem',
+      },
+      screens: {
+        'lg': '1024px',
+        'xl': '1280px',
+        '2xl': '1536px',
+      },
+    },
+
     fontFamily: {
       'lato': ['Lato', 'sans-serif'],
       'nunito-sans': ['Nunito Sans', 'sans-serif'],

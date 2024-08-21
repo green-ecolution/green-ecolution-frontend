@@ -54,7 +54,7 @@ const vehicles = [
 
 function Vehicles() {
   return (
-    <div className="custom-container mt-6">
+    <div className="container mt-6">
       <article className="mb-20 2xl:w-4/5">
         <h1 className="font-lato font-bold text-3xl mb-4 lg:text-4xl xl:text-5xl">
           Auflistung aller Mitarbeitenden
