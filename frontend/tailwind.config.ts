@@ -149,6 +149,9 @@ const config = {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
+      boxShadow: {
+        'card': 'box-shadow: 0px 5px 10px 0px rgba(23, 23, 23, 5%)',
+      },
     },
   },
   plugins: [require("tailwindcss-animate")],
