@@ -1,23 +1,22 @@
-import { SidePanelButton } from '@/components/Sidebar'
-import { Separator } from '@/components/ui/separator'
 import { createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/dashboard/')({
   component: Dashboard,
 })
 
-
 function Dashboard() {
   return (
-    <div>
-      <div className="h-[48px] flex items-center justify-between mx-2">
-        <div className="flex items-center">
-          <SidePanelButton />
-          <h1 className="font-bold text-xl">Dashboard</h1>
-        </div>
-      </div>
-
-      <Separator />
+    <div className="container mt-6">
+      <article className="2xl:w-4/5">
+        <h1 className="font-lato font-bold text3xl mb-4 lg:text-4xl xl:text-5xl">
+          Willkommen zurück, Vorname Nachname
+        </h1>
+        <p>
+          Labore id duis minim nisi duis incididunt. Aliqua qui dolor laborum anim aliquip sit nulla eiusmod laboris excepteur sit non laboris do.
+          Occaecat exercitation dolor irure fugiat ullamco elit cupidatat commodo fugiat consectetur. 
+          Nisi id officia ullamco tempor anim quis duis proident culpa laborum.
+        </p>
+      </article>
     </div>
   )
 }

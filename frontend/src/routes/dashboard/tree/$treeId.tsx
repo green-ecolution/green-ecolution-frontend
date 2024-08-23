@@ -18,7 +18,6 @@ import { toast } from "sonner";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import TreeOverviewDashboard from "@/components/dashboard/tree/overview";
 import TreeSensorDashboard from "@/components/dashboard/tree/sensorView";
-import { SidePanelButton } from "@/components/Sidebar";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { format } from "date-fns";
 
@@ -161,7 +160,6 @@ const TreeDashboardLayout = ({ children }: TreeDashboardLayoutProps) => {
     <div>
       <div className="h-[48px] flex items-center justify-between mx-2">
         <div className="flex items-center gap-2">
-          <SidePanelButton />
           <h1 className="font-bold text-xl">Dashboard</h1>
         </div>
 

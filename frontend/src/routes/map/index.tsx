@@ -1,6 +1,5 @@
 import { treeApi } from "@/api/backendApi";
 import Map from "@/components/Map";
-import MapHeader from "@/components/MapHeader";
 import MapMarker, { TreeIcon } from "@/components/MapMarker";
 import MapTooltip from "@/components/MapTooltip";
 import { useTrees } from "@/context/TreeDataContext";
@@ -52,7 +51,6 @@ function MapView() {
 
   return (
     <div className="relative">
-      <MapHeader />
       <MapTooltip
         open={tooltipOpen}
         onClose={() => closeTooltip()}
