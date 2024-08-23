@@ -1,5 +1,5 @@
-import { createFileRoute, Link } from '@tanstack/react-router'
-import { MoveRight } from 'lucide-react';
+import DashboardCard from '@/components/general/cards/DashboardCard';
+import { createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/')({
   component: Dashboard,
@@ -66,19 +66,12 @@ function Dashboard() {
       <ul className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
         {cards.map((card, key) => (
           <li key={key}>
-            <Link 
-              to={card.url}
-              aria-label={card.linkLabel}
-              className={`shadow-card p-6 rounded-xl group flex flex-col gap-4 transition-all ease-in-out duration-300 border 
-                ${key % 2 !== 0 ? 'border-green-dark bg-green-dark-50 hover:bg-green-dark-100' : 'border-green-light bg-green-light-50 hover:bg-green-light-100'} `}
-            >
-              <h3 className="font-lato text-lg text-dark font-semibold">{card.headline}</h3>
-              <p>{card.description}</p>
-              <p className="font-lato font-semibold text-green-dark flex items-center gap-x-2">
-                <span>{card.linkLabel}</span>
-                <MoveRight className="transition-all ease-in-out duration-300 group-hover:translate-x-2"/>
-              </p>
-            </Link>
+            <DashboardCard 
+              headline={card.headline}
+              description={card.description}
+              linkLabel={card.linkLabel}
+              url={card.url}
+              isDark={key % 2 !== 0} />
           </li>
         ))}
       </ul>

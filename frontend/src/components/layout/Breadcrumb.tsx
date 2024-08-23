@@ -1,29 +1,9 @@
-import { useRouterState, Link } from '@tanstack/react-router';
+import { Link } from '@tanstack/react-router';
 import { ChevronRight } from 'lucide-react';
+import { useBreadcrumbs } from '@/hooks/useBreadcrumb';
 
 function Breadcrumb() {
-  const pathNameMap: { [key: string]: string } = {
-    '/': 'Dashboard',
-    '/sensors': 'Sensoren',
-    '/settings': 'Einstellungen',
-    '/team': 'Mitarbeitende',
-    '/treecluster': 'Baumgruppen',
-    '/vehicles': 'Fahrzeuge',
-    '/waypoints/': 'Einsatzpläne',
-    '/waypoints/new': 'Neuer Einsatzplan',
-    '/map/': 'Kataster',
-  };
-
-  const matches = useRouterState({ select: (s) => s.matches });
-  const breadcrumbs = matches
-    .filter(({ pathname }) => pathname !== '/')
-    .map(({ pathname }) => {
-      const title = pathNameMap[pathname] || 'Kein Titel vorhanden';
-      return {
-        title,
-        path: pathname,
-      };
-    });
+  const breadcrumbs = useBreadcrumbs();
 
   const rootBreadcrumb = {
     title: 'Dashboard',
