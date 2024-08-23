@@ -39,7 +39,7 @@ function Dashboard() {
       linkLabel: 'Zur Einsatzplanung',
     },
     {
-      url: '/settings',
+      url: '/profile',
       description: 'Hier können persönliche Informationen hinterlegt und angepasst werden.',
       headline: 'Eigenes Profil',
       linkLabel: 'Zum Profil',
