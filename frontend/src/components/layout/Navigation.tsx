@@ -1,4 +1,4 @@
-import { ArrowLeftRight, Car, FolderClosed, HardDrive, LogOut, Map, PieChart, Settings, Users } from 'lucide-react';
+import { ArrowLeftRight, Bug, Car, FolderClosed, HardDrive, Info, LogOut, Map, PieChart, Settings, Users } from 'lucide-react';
 import * as React from 'react';
 import NavLink from '../navigation/NavLink';
 import NavHeadline from '../navigation/NavHeadline';
@@ -83,6 +83,11 @@ const Navigation: React.FC<NavigationProps> = ({ isOpen, openSidebar, closeSideb
           label: 'Einstellungen',
           icon: <Settings className="w-5 h-5" />,
           to: "/settings",
+        },
+        {
+          label: 'Debug',
+          icon: <Bug className="w-5 h-5" />,
+          to: "/debug",
         },
         {
           label: 'Ausloggen',
