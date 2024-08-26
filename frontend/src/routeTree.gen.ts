@@ -16,10 +16,15 @@ import { Route as TreeclusterImport } from './routes/treecluster'
 import { Route as TeamImport } from './routes/team'
 import { Route as SettingsImport } from './routes/settings'
 import { Route as SensorsImport } from './routes/sensors'
+import { Route as DebugImport } from './routes/debug'
+import { Route as ProtectedImport } from './routes/_protected'
 import { Route as IndexImport } from './routes/index'
 import { Route as WaypointsIndexImport } from './routes/waypoints/index'
 import { Route as MapIndexImport } from './routes/map/index'
 import { Route as WaypointsNewImport } from './routes/waypoints/new'
+import { Route as AuthCallbackImport } from './routes/auth/callback'
+import { Route as ProtectedInfoImport } from './routes/_protected/info'
+import { Route as DashboardTreeTreeIdImport } from './routes/dashboard/tree/$treeId'
 
 // Create/Update Routes
 
@@ -48,6 +53,16 @@ const SensorsRoute = SensorsImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const DebugRoute = DebugImport.update({
+  path: '/debug',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ProtectedRoute = ProtectedImport.update({
+  id: '/_protected',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const IndexRoute = IndexImport.update({
   path: '/',
   getParentRoute: () => rootRoute,
@@ -68,6 +83,21 @@ const WaypointsNewRoute = WaypointsNewImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const AuthCallbackRoute = AuthCallbackImport.update({
+  path: '/auth/callback',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ProtectedInfoRoute = ProtectedInfoImport.update({
+  path: '/info',
+  getParentRoute: () => ProtectedRoute,
+} as any)
+
+const DashboardTreeTreeIdRoute = DashboardTreeTreeIdImport.update({
+  path: '/dashboard/tree/$treeId',
+  getParentRoute: () => rootRoute,
+} as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -77,6 +107,20 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/_protected': {
+      id: '/_protected'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof ProtectedImport
+      parentRoute: typeof rootRoute
+    }
+    '/debug': {
+      id: '/debug'
+      path: '/debug'
+      fullPath: '/debug'
+      preLoaderRoute: typeof DebugImport
       parentRoute: typeof rootRoute
     }
     '/sensors': {
@@ -114,6 +158,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof VehiclesImport
       parentRoute: typeof rootRoute
     }
+    '/_protected/info': {
+      id: '/_protected/info'
+      path: '/info'
+      fullPath: '/info'
+      preLoaderRoute: typeof ProtectedInfoImport
+      parentRoute: typeof ProtectedImport
+    }
+    '/auth/callback': {
+      id: '/auth/callback'
+      path: '/auth/callback'
+      fullPath: '/auth/callback'
+      preLoaderRoute: typeof AuthCallbackImport
+      parentRoute: typeof rootRoute
+    }
     '/waypoints/new': {
       id: '/waypoints/new'
       path: '/waypoints/new'
@@ -135,6 +193,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WaypointsIndexImport
       parentRoute: typeof rootRoute
     }
+    '/dashboard/tree/$treeId': {
+      id: '/dashboard/tree/$treeId'
+      path: '/dashboard/tree/$treeId'
+      fullPath: '/dashboard/tree/$treeId'
+      preLoaderRoute: typeof DashboardTreeTreeIdImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -142,14 +207,18 @@ declare module '@tanstack/react-router' {
 
 export const routeTree = rootRoute.addChildren({
   IndexRoute,
+  ProtectedRoute: ProtectedRoute.addChildren({ ProtectedInfoRoute }),
+  DebugRoute,
   SensorsRoute,
   SettingsRoute,
   TeamRoute,
   TreeclusterRoute,
   VehiclesRoute,
+  AuthCallbackRoute,
   WaypointsNewRoute,
   MapIndexRoute,
   WaypointsIndexRoute,
+  DashboardTreeTreeIdRoute,
 })
 
 /* prettier-ignore-end */
@@ -161,18 +230,31 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/_protected",
+        "/debug",
         "/sensors",
         "/settings",
         "/team",
         "/treecluster",
         "/vehicles",
+        "/auth/callback",
         "/waypoints/new",
         "/map/",
-        "/waypoints/"
+        "/waypoints/",
+        "/dashboard/tree/$treeId"
       ]
     },
     "/": {
       "filePath": "index.tsx"
+    },
+    "/_protected": {
+      "filePath": "_protected.tsx",
+      "children": [
+        "/_protected/info"
+      ]
+    },
+    "/debug": {
+      "filePath": "debug.tsx"
     },
     "/sensors": {
       "filePath": "sensors.tsx"
@@ -189,6 +271,13 @@ export const routeTree = rootRoute.addChildren({
     "/vehicles": {
       "filePath": "vehicles.tsx"
     },
+    "/_protected/info": {
+      "filePath": "_protected/info.tsx",
+      "parent": "/_protected"
+    },
+    "/auth/callback": {
+      "filePath": "auth/callback.tsx"
+    },
     "/waypoints/new": {
       "filePath": "waypoints/new.tsx"
     },
@@ -197,6 +286,9 @@ export const routeTree = rootRoute.addChildren({
     },
     "/waypoints/": {
       "filePath": "waypoints/index.tsx"
+    },
+    "/dashboard/tree/$treeId": {
+      "filePath": "dashboard/tree/$treeId.tsx"
     }
   }
 }

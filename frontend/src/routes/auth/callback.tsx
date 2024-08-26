@@ -13,13 +13,13 @@ const authSearchParamsSchema = z.object({
   redirect: z.string(),
 });
 
-export const Route = createFileRoute("/auth/callback/keycloak")({
+export const Route = createFileRoute("/auth/callback")({
   validateSearch: authSearchParamsSchema,
   loaderDeps: ({ search: { code } }) => ({ code }),
   beforeLoad: async ({ search: { code, redirect } }) => {
     const token = await loginApi
       .v1TokenPost({
-        redirectUrl: `${window.location.origin}/auth/callback/keycloak?redirect=${redirect}`,
+        redirectUrl: `${window.location.origin}/auth/callback?redirect=${redirect}`,
         body: {
           code,
         },

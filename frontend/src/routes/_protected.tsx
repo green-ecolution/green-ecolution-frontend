@@ -8,7 +8,7 @@ export const Route = createFileRoute('/_protected')({
     const currentPath = window.location.pathname
     if (!isAuthenticated) {
       const loginUrl = await loginApi.v1LoginGet({
-        redirectUrl: `${window.location.origin}/auth/callback/keycloak?redirect=${currentPath}`
+        redirectUrl: `${window.location.origin}/auth/callback?redirect=${currentPath}`
       }).then((res) => res.loginUrl)
 
       window.location.href = loginUrl
