@@ -2,7 +2,7 @@ export enum WateringStatus {
   unknown = 'Keine Angaben',
   bad = 'Sehr trocken',
   moderate = 'Leicht trocken',
-  good = 'In Ordnug',
+  good = 'In Ordnung',
 }
 
 export const WateringStatusColor = {
