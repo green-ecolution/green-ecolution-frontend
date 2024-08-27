@@ -12,24 +12,20 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as VehiclesImport } from './routes/vehicles'
-import { Route as TreeclusterImport } from './routes/treecluster'
 import { Route as TeamImport } from './routes/team'
 import { Route as SettingsImport } from './routes/settings'
 import { Route as SensorsImport } from './routes/sensors'
 import { Route as IndexImport } from './routes/index'
 import { Route as WaypointsIndexImport } from './routes/waypoints/index'
+import { Route as TreeclusterIndexImport } from './routes/treecluster/index'
 import { Route as MapIndexImport } from './routes/map/index'
 import { Route as WaypointsNewImport } from './routes/waypoints/new'
+import { Route as TreeclusterTreeclusterIdImport } from './routes/treecluster/$treeclusterId'
 
 // Create/Update Routes
 
 const VehiclesRoute = VehiclesImport.update({
   path: '/vehicles',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const TreeclusterRoute = TreeclusterImport.update({
-  path: '/treecluster',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -58,6 +54,11 @@ const WaypointsIndexRoute = WaypointsIndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const TreeclusterIndexRoute = TreeclusterIndexImport.update({
+  path: '/treecluster/',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const MapIndexRoute = MapIndexImport.update({
   path: '/map/',
   getParentRoute: () => rootRoute,
@@ -65,6 +66,11 @@ const MapIndexRoute = MapIndexImport.update({
 
 const WaypointsNewRoute = WaypointsNewImport.update({
   path: '/waypoints/new',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const TreeclusterTreeclusterIdRoute = TreeclusterTreeclusterIdImport.update({
+  path: '/treecluster/$treeclusterId',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -100,18 +106,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TeamImport
       parentRoute: typeof rootRoute
     }
-    '/treecluster': {
-      id: '/treecluster'
-      path: '/treecluster'
-      fullPath: '/treecluster'
-      preLoaderRoute: typeof TreeclusterImport
-      parentRoute: typeof rootRoute
-    }
     '/vehicles': {
       id: '/vehicles'
       path: '/vehicles'
       fullPath: '/vehicles'
       preLoaderRoute: typeof VehiclesImport
+      parentRoute: typeof rootRoute
+    }
+    '/treecluster/$treeclusterId': {
+      id: '/treecluster/$treeclusterId'
+      path: '/treecluster/$treeclusterId'
+      fullPath: '/treecluster/$treeclusterId'
+      preLoaderRoute: typeof TreeclusterTreeclusterIdImport
       parentRoute: typeof rootRoute
     }
     '/waypoints/new': {
@@ -126,6 +132,13 @@ declare module '@tanstack/react-router' {
       path: '/map'
       fullPath: '/map'
       preLoaderRoute: typeof MapIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/treecluster/': {
+      id: '/treecluster/'
+      path: '/treecluster'
+      fullPath: '/treecluster'
+      preLoaderRoute: typeof TreeclusterIndexImport
       parentRoute: typeof rootRoute
     }
     '/waypoints/': {
@@ -145,10 +158,11 @@ export const routeTree = rootRoute.addChildren({
   SensorsRoute,
   SettingsRoute,
   TeamRoute,
-  TreeclusterRoute,
   VehiclesRoute,
+  TreeclusterTreeclusterIdRoute,
   WaypointsNewRoute,
   MapIndexRoute,
+  TreeclusterIndexRoute,
   WaypointsIndexRoute,
 })
 
@@ -164,10 +178,11 @@ export const routeTree = rootRoute.addChildren({
         "/sensors",
         "/settings",
         "/team",
-        "/treecluster",
         "/vehicles",
+        "/treecluster/$treeclusterId",
         "/waypoints/new",
         "/map/",
+        "/treecluster/",
         "/waypoints/"
       ]
     },
@@ -183,17 +198,20 @@ export const routeTree = rootRoute.addChildren({
     "/team": {
       "filePath": "team.tsx"
     },
-    "/treecluster": {
-      "filePath": "treecluster.tsx"
-    },
     "/vehicles": {
       "filePath": "vehicles.tsx"
+    },
+    "/treecluster/$treeclusterId": {
+      "filePath": "treecluster/$treeclusterId.tsx"
     },
     "/waypoints/new": {
       "filePath": "waypoints/new.tsx"
     },
     "/map/": {
       "filePath": "map/index.tsx"
+    },
+    "/treecluster/": {
+      "filePath": "treecluster/index.tsx"
     },
     "/waypoints/": {
       "filePath": "waypoints/index.tsx"

@@ -15,7 +15,7 @@ const DashboardCard: React.FC<DashboardCard> = ({ headline, description, linkLab
       <Link 
       to={url}
       aria-label={linkLabel}
-      className={`shadow-card p-6 rounded-xl group flex flex-col gap-4 transition-all ease-in-out duration-300 border 
+      className={`shadow-cards p-6 rounded-xl group flex flex-col gap-4 transition-all ease-in-out duration-300 border 
         ${isDark ? 'border-green-dark bg-green-dark-50 hover:bg-green-dark-100' : 'border-green-light bg-green-light-50 hover:bg-green-light-100'} `}
     >
       <h3 className="font-lato text-lg text-dark font-semibold">{headline}</h3>

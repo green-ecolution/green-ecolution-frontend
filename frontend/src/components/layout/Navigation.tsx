@@ -3,6 +3,7 @@ import * as React from 'react';
 import NavLink from '../navigation/NavLink';
 import NavHeadline from '../navigation/NavHeadline';
 import NavHeader from '../navigation/NavHeader';
+import Flower from '../icons/Flower';
 
 interface NavigationProps {
   isOpen: boolean;
@@ -41,7 +42,7 @@ const Navigation: React.FC<NavigationProps> = ({ isOpen, openSidebar, closeSideb
         },
         {
           label: 'Beete',
-          icon: <FolderClosed className="w-5 h-5" />,
+          icon: <Flower className="w-5 h-5" />,
           to: "/",
         },
       ],
