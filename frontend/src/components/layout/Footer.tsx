@@ -15,7 +15,7 @@ function Footer() {
   ];
 
   return (
-    <footer className="bg-white lg:pl-20">
+    <footer className="bg-white lg:pl-20 mt-16">
       <div className="container text-sm border-t border-dark-50 py-4 lg:flex lg:justify-between lg:items-center">
         <p className="text-dark-400 mb-5 lg:mb-0">
           Diese Webseite wurde im Rahmen eines Forschungsprojektes der Hochschule Flensburg erstellt.

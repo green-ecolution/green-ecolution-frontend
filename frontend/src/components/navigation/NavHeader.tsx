@@ -1,3 +1,4 @@
+import { Link } from '@tanstack/react-router';
 import { X } from 'lucide-react';
 import React from 'react';
 
@@ -9,8 +10,8 @@ interface NavHeader {
 const NavHeader: React.FC<NavHeader> = ({ isOpen, closeSidebar }) => {
     return (
       <div className="relative mb-10 flex items-center justify-between">
-        <a 
-          href="/dashboard" 
+        <Link 
+          to="/"
           className="block transition-all ease-in-out duration-300 hover:opacity-75" 
           aria-label="Zurück zum persönlichen Dashboard"
         >
@@ -22,7 +23,7 @@ const NavHeader: React.FC<NavHeader> = ({ isOpen, closeSidebar }) => {
             className="hidden w-7 mx-2.5 lg:block" 
             src="/images/logo/logo-icon-white.svg" 
             alt="Logo von Green Ecolution" />
-        </a>
+        </Link>
         <button
           aria-label="Hauptnavigation schließen" 
           className={`mr-2 w-8 h-8 flex items-center justify-center transition-colors ease-in-out duration-300 bg-dark-600 rounded-full lg:hidden 

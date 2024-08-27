@@ -19,10 +19,7 @@ import { Route as SensorsImport } from './routes/sensors'
 import { Route as IndexImport } from './routes/index'
 import { Route as WaypointsIndexImport } from './routes/waypoints/index'
 import { Route as MapIndexImport } from './routes/map/index'
-import { Route as DashboardIndexImport } from './routes/dashboard/index'
 import { Route as WaypointsNewImport } from './routes/waypoints/new'
-import { Route as DashboardTreeIndexImport } from './routes/dashboard/tree/index'
-import { Route as DashboardTreeTreeIdImport } from './routes/dashboard/tree/$treeId'
 
 // Create/Update Routes
 
@@ -66,23 +63,8 @@ const MapIndexRoute = MapIndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const DashboardIndexRoute = DashboardIndexImport.update({
-  path: '/dashboard/',
-  getParentRoute: () => rootRoute,
-} as any)
-
 const WaypointsNewRoute = WaypointsNewImport.update({
   path: '/waypoints/new',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const DashboardTreeIndexRoute = DashboardTreeIndexImport.update({
-  path: '/dashboard/tree/',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const DashboardTreeTreeIdRoute = DashboardTreeTreeIdImport.update({
-  path: '/dashboard/tree/$treeId',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -139,13 +121,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WaypointsNewImport
       parentRoute: typeof rootRoute
     }
-    '/dashboard/': {
-      id: '/dashboard/'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof DashboardIndexImport
-      parentRoute: typeof rootRoute
-    }
     '/map/': {
       id: '/map/'
       path: '/map'
@@ -158,20 +133,6 @@ declare module '@tanstack/react-router' {
       path: '/waypoints'
       fullPath: '/waypoints'
       preLoaderRoute: typeof WaypointsIndexImport
-      parentRoute: typeof rootRoute
-    }
-    '/dashboard/tree/$treeId': {
-      id: '/dashboard/tree/$treeId'
-      path: '/dashboard/tree/$treeId'
-      fullPath: '/dashboard/tree/$treeId'
-      preLoaderRoute: typeof DashboardTreeTreeIdImport
-      parentRoute: typeof rootRoute
-    }
-    '/dashboard/tree/': {
-      id: '/dashboard/tree/'
-      path: '/dashboard/tree'
-      fullPath: '/dashboard/tree'
-      preLoaderRoute: typeof DashboardTreeIndexImport
       parentRoute: typeof rootRoute
     }
   }
@@ -187,11 +148,8 @@ export const routeTree = rootRoute.addChildren({
   TreeclusterRoute,
   VehiclesRoute,
   WaypointsNewRoute,
-  DashboardIndexRoute,
   MapIndexRoute,
   WaypointsIndexRoute,
-  DashboardTreeTreeIdRoute,
-  DashboardTreeIndexRoute,
 })
 
 /* prettier-ignore-end */
@@ -209,11 +167,8 @@ export const routeTree = rootRoute.addChildren({
         "/treecluster",
         "/vehicles",
         "/waypoints/new",
-        "/dashboard/",
         "/map/",
-        "/waypoints/",
-        "/dashboard/tree/$treeId",
-        "/dashboard/tree/"
+        "/waypoints/"
       ]
     },
     "/": {
@@ -237,20 +192,11 @@ export const routeTree = rootRoute.addChildren({
     "/waypoints/new": {
       "filePath": "waypoints/new.tsx"
     },
-    "/dashboard/": {
-      "filePath": "dashboard/index.tsx"
-    },
     "/map/": {
       "filePath": "map/index.tsx"
     },
     "/waypoints/": {
       "filePath": "waypoints/index.tsx"
-    },
-    "/dashboard/tree/$treeId": {
-      "filePath": "dashboard/tree/$treeId.tsx"
-    },
-    "/dashboard/tree/": {
-      "filePath": "dashboard/tree/index.tsx"
     }
   }
 }

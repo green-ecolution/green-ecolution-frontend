@@ -1,6 +1,7 @@
 import { AlignJustifyIcon } from 'lucide-react';
-import * as React from 'react';
+import React from "react";
 import Navigation from './Navigation';
+import Breadcrumb from './Breadcrumb';
 
 function Header() {
   const [open, setOpen] = React.useState(false);
@@ -28,7 +29,7 @@ function Header() {
         >
           <AlignJustifyIcon className="text-light w-5 h-5" />
         </button>
-        <strong className="hidden lg:block">Breadcrumb</strong>
+        <Breadcrumb />
       </div>
 
       <Navigation 
