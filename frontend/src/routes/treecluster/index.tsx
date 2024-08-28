@@ -1,7 +1,7 @@
+import { useState } from 'react';
 import TreeclusterCard from "@/components/general/cards/TreeclusterCard";
 import Dialog from "@/components/general/filter/Dialog";
-import { Region } from "@/types/Region";
-import { WateringStatus } from "@/types/WateringStatus";
+import { treeclusterDemoData } from "@/data/treecluster";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/treecluster/")({
@@ -9,82 +9,15 @@ export const Route = createFileRoute("/treecluster/")({
 });
 
 function Treecluster() {
+  const initialTreecluster = treeclusterDemoData();
+  const [filteredTreecluster, setFilteredTreecluster] = useState(initialTreecluster);
 
-  const treecluster = [
-    {
-      id: 0,
-      headline: 'Westliche Höhe/Exe',
-      number: '12345678XY',
-      address: 'Friesische Straße 31 - 40',
-      region: Region.friesischerBerg,
-      treeCount: 34,
-      sensorCount: 4,
-      status: WateringStatus.bad,
-    },
-    {
-      id: 1,
-      headline: 'Westliche Höhe/Exe',
-      number: '12345678XY',
-      address: 'Friesische Straße 31 - 40',
-      region: Region.friesischerBerg,
-      treeCount: 34,
-      sensorCount: 4,
-      status: WateringStatus.bad,
-    },
-    {
-      id: 3,
-      headline: 'Westliche Höhe/Exe',
-      number: '12345678XY',
-      address: 'Friesische Straße 31 - 40',
-      region: Region.friesischerBerg,
-      treeCount: 34,
-      sensorCount: 4,
-      status: WateringStatus.moderate,
-    },
-    {
-      id: 4,
-      headline: 'Westliche Höhe/Exe',
-      number: '12345678XY',
-      address: 'Friesische Straße 31 - 40',
-      region: Region.friesischerBerg,
-      treeCount: 34,
-      sensorCount: 4,
-      status: WateringStatus.good,
-    },
-    {
-      id: 4,
-      headline: 'Westliche Höhe/Exe',
-      number: '12345678XY',
-      address: 'Friesische Straße 31 - 40',
-      region: Region.friesischerBerg,
-      treeCount: 34,
-      sensorCount: 4,
-      status: WateringStatus.good,
-    },
-    {
-      id: 5,
-      headline: 'Westliche Höhe/Exe',
-      number: '12345678XY',
-      address: 'Friesische Straße 31 - 40',
-      region: Region.friesischerBerg,
-      treeCount: 34,
-      sensorCount: 4,
-      status: WateringStatus.good,
-    },
-    {
-      id: 5,
-      headline: 'Westliche Höhe/Exe',
-      number: '12345678XY',
-      address: 'Friesische Straße 31 - 40',
-      region: Region.friesischerBerg,
-      treeCount: 34,
-      sensorCount: 4,
-      status: WateringStatus.good,
-    },
-  ];
-
-  const handleFilter = (status: string [], regions: string[]) => {
-    console.log(status, regions);
+  const handleFilter = (status: string[], regions: string[]) => {
+    const filteredData = initialTreecluster.filter(cluster =>
+      (status.length === 0 || status.includes(cluster.status)) &&
+      (regions.length === 0 || regions.includes(cluster.region))
+    );
+    setFilteredTreecluster(filteredData);
   };
 
   return (
@@ -95,7 +28,7 @@ function Treecluster() {
         </h1>
         <p>
           Eine Baumgruppe besteht aus bis zu 40 Bäumen, die die gleichen Standortbedingungen vorweisen. 
-          Mindestes fünf Bäume in einer Baumgruppe ist mit Sensoren ausgestattet. 
+          Mindestens fünf Bäume in einer Baumgruppe sind mit Sensoren ausgestattet. 
           Diese gelieferten Werte werden gemittelt, sodass eine Handlungsempfehlung für die Baumgruppe gegeben werden kann.
         </p>
       </article>
@@ -115,17 +48,17 @@ function Treecluster() {
         </header>
 
         <ul>
-          {treecluster.map((singleCluster, key) => (
+          {filteredTreecluster.map((treecluster, key) => (
             <li key={key} className="mb-5 last:mb-0">
               <TreeclusterCard
-                id={singleCluster.id} 
-                headline={singleCluster.headline}
-                number={singleCluster.number}
-                address={singleCluster.address}
-                region={singleCluster.region}
-                treeCount={singleCluster.treeCount}
-                sensorCount={singleCluster.sensorCount}
-                status={singleCluster.status}
+                id={treecluster.id} 
+                headline={treecluster.headline}
+                number={treecluster.number}
+                address={treecluster.address}
+                region={treecluster.region}
+                treeCount={treecluster.treeCount}
+                sensorCount={treecluster.sensorCount}
+                status={treecluster.status}
               />
             </li>
           ))}
@@ -134,3 +67,5 @@ function Treecluster() {
     </div>
   );
 }
+
+export default Treecluster;

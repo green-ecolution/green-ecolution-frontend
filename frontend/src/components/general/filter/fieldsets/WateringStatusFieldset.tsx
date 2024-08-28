@@ -2,11 +2,11 @@ import { useState, useEffect } from 'react';
 import FilterCheckbox from "../FilterCheckbox";
 import { WateringStatus, WateringStatusColor } from "@/types/WateringStatus";
 
-interface StatusFieldsetProps {
+interface WateringStatusFieldsetProps {
   onStatusChange: (status: string[]) => void;
 }
 
-function StatusFieldset({ onStatusChange }: StatusFieldsetProps) {
+function WateringStatusFieldset({ onStatusChange }: WateringStatusFieldsetProps) {
   const [filteredStatus, setFilteredStatus] = useState<string[]>([]);
 
   const handleCheckboxClick = (name: string) => {
@@ -36,7 +36,7 @@ function StatusFieldset({ onStatusChange }: StatusFieldsetProps) {
             <FilterCheckbox
               key={statusKey}
               label={statusValue}
-              onClick={() => handleCheckboxClick(statusKey)}
+              onClick={() => handleCheckboxClick(statusValue)}
               name={statusKey}
             >
               <div className={`bg-${WateringStatusColor[statusValue].color} w-4 h-4 rounded-full`} />
@@ -47,4 +47,4 @@ function StatusFieldset({ onStatusChange }: StatusFieldsetProps) {
   );
 }
 
-export default StatusFieldset;
+export default WateringStatusFieldset;

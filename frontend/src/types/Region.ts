@@ -1,6 +1,6 @@
 export enum Region {
   engelsby = 'Engelsby',
-  friesischerBerg = 'Frisischer Berg',
+  friesischerBerg = 'Friesischer Berg',
   fruerlund = 'Fruerlund',
   innenstadt = 'Innenstadt',
   juergensby = 'Jürgensby',

@@ -31,7 +31,7 @@ function RegionsFieldset({ onRegionsChange }: RegionsFieldsetProps) {
         <FilterCheckbox 
           key={regionKey}
           label={regionsValue}
-          onClick={() => handleCheckboxClick(regionKey)}
+          onClick={() => handleCheckboxClick(regionsValue)}
           name={regionKey} />
       ))}
     </fieldset>

@@ -3,8 +3,8 @@ import FilterButton from '../buttons/FilterButton';
 import PrimaryButton from '../buttons/PrimaryButton';
 import SecondaryButton from '../buttons/SecondaryButton';
 import useOutsideClick from '@/hooks/useOutsideClick';
-import StatusFieldset from './fieldsets/StatusFieldset';
 import RegionsFieldset from './fieldsets/RegionsFieldset';
+import WateringStatusFieldset from './fieldsets/WateringStatusFieldset';
 
 interface DialogProps {
   headline: string;
@@ -44,7 +44,7 @@ const Dialog: React.FC<DialogProps> = ({ headline, onApplyFilter }) => {
       `}>
         <h2 className="text-xl font-semibold mb-5">{headline}</h2>
 
-        <StatusFieldset onStatusChange={handleStatusChange} />
+        <WateringStatusFieldset onStatusChange={handleStatusChange} />
         <RegionsFieldset onRegionsChange={handleRegionsChange} />
 
         <div className="flex flex-wrap gap-5">
