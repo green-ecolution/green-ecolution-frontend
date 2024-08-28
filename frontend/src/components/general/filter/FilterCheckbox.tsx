@@ -4,13 +4,15 @@ interface FilterCheckboxProps {
   name: string;
   label: string;
   children?: React.ReactNode;
+  onClick: (name: string) => void;
 }
 
-const FilterCheckbox: React.FC<FilterCheckboxProps> = ({ name, label, children }) => {
+const FilterCheckbox: React.FC<FilterCheckboxProps> = ({ name, label, children, onClick }) => {
   const [isChecked, setIsChecked] = useState(false);
 
   const handleCheckboxChange = () => {
     setIsChecked(!isChecked);
+    onClick(name);
   };
 
   return (

@@ -1,7 +1,5 @@
 import TreeclusterCard from "@/components/general/cards/TreeclusterCard";
 import Dialog from "@/components/general/filter/Dialog";
-import RegionsFieldset from "@/components/general/filter/fieldsets/RegionsFieldset";
-import StatusFieldset from "@/components/general/filter/fieldsets/StatusFieldset";
 import { Region } from "@/types/Region";
 import { WateringStatus } from "@/types/WateringStatus";
 import { createFileRoute } from "@tanstack/react-router";
@@ -85,6 +83,10 @@ function Treecluster() {
     },
   ];
 
+  const handleFilter = (status: string [], regions: string[]) => {
+    console.log(status, regions);
+  };
+
   return (
     <div className="container mt-6">
       <article className="2xl:w-4/5">
@@ -100,10 +102,9 @@ function Treecluster() {
 
       <section className="mt-16">
         <div className="mb-8 flex items-center justify-end lg:mb-12">
-          <Dialog headline="Filterung der Baumgruppen">
-            <StatusFieldset />
-            <RegionsFieldset />
-          </Dialog>
+          <Dialog 
+            headline="Filterung der Baumgruppen" 
+            onApplyFilter={handleFilter}/>
         </div>
 
         <header className="hidden border-b pb-2 text-sm text-dark-800 px-8 border-b-dark-200 mb-5 lg:grid lg:grid-cols-[1fr,1.5fr,2fr,1fr] lg:gap-5 xl:px-10">
