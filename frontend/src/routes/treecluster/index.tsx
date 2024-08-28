@@ -1,10 +1,9 @@
-import FilterButton from "@/components/general/buttons/FilterButton";
-import PrimaryButton from "@/components/general/buttons/PrimaryButton";
-import SecondaryButton from "@/components/general/buttons/SecondaryButton";
 import TreeclusterCard from "@/components/general/cards/TreeclusterCard";
-import FilterCheckbox from "@/components/general/filter/FilterCheckbox";
+import Dialog from "@/components/general/filter/Dialog";
+import RegionsFieldset from "@/components/general/filter/fieldsets/RegionsFieldset";
+import StatusFieldset from "@/components/general/filter/fieldsets/StatusFieldset";
 import { Region } from "@/types/Region";
-import { WateringStatus, WateringStatusColor } from "@/types/WateringStatus";
+import { WateringStatus } from "@/types/WateringStatus";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/treecluster/")({
@@ -101,7 +100,10 @@ function Treecluster() {
 
       <section className="mt-16">
         <div className="mb-8 flex items-center justify-end lg:mb-12">
-          <FilterButton ariaLabel="Baumgruppen filtern" />
+          <Dialog headline="Filterung der Baumgruppen">
+            <StatusFieldset />
+            <RegionsFieldset />
+          </Dialog>
         </div>
 
         <header className="hidden border-b pb-2 text-sm text-dark-800 px-8 border-b-dark-200 mb-5 lg:grid lg:grid-cols-[1fr,1.5fr,2fr,1fr] lg:gap-5 xl:px-10">
@@ -127,42 +129,6 @@ function Treecluster() {
             </li>
           ))}
         </ul>
-      </section>
-
-      <section role="dialog" aria-modal="true" className="fixed inset-x-4 shadow-xl bg-white top-1/2 -translate-y-1/2 p-5 rounded-xl mx-auto max-w-[30rem]">
-          <h2 className="text-xl font-semibold mb-5">Filterung der Baumgruppen</h2>
-
-          <fieldset className="mb-5">
-            <legend className="font-lato font-semibold text-dark-600 mb-2">
-              Status der Bewässerung
-            </legend>
-            {Object.entries(WateringStatus).filter(([key]) => key !== 'unknown').map(([statusKey, statusValue]) => (
-              <FilterCheckbox 
-                key={statusKey}
-                label={statusValue}
-                name={`watering-${statusKey}`}
-              >
-                <div className={`bg-${WateringStatusColor[statusValue].color} w-4 h-4 rounded-full`} />
-              </FilterCheckbox>
-            ))}
-          </fieldset>
-
-          <fieldset className="mb-5">
-            <legend className="font-lato font-semibold text-dark-600 mb-2">
-              Regionen in Flensburg
-            </legend>
-              {Object.entries(Region).map(([statusKey, statusValue]) => (
-                <FilterCheckbox 
-                  key={statusKey}
-                  label={statusValue}
-                  name={`watering-${statusKey}`} />
-            ))}
-          </fieldset>
-
-          <div className="flex flex-wrap gap-5">
-            <PrimaryButton label="Anwenden" type="submit" />
-            <SecondaryButton label="Abbrechen" />
-          </div>
       </section>
     </div>
   );
