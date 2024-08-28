@@ -5,6 +5,7 @@ import SecondaryButton from '../buttons/SecondaryButton';
 import useOutsideClick from '@/hooks/useOutsideClick';
 import RegionsFieldset from './fieldsets/RegionsFieldset';
 import WateringStatusFieldset from './fieldsets/WateringStatusFieldset';
+import { X } from 'lucide-react';
 
 interface DialogProps {
   headline: string;
@@ -26,6 +27,11 @@ const Dialog: React.FC<DialogProps> = ({ headline, onApplyFilter }) => {
     setIsOpen(false);
   };
 
+  const handleReset = () => {
+    onApplyFilter(filteredStatus, filteredRegions); 
+    setIsOpen(false);
+  };
+
   return (
     <div>
       <div className={`bg-dark-900/90 fixed inset-0 z-50 ${isOpen ? 'block' : 'hidden'}`}></div>
@@ -42,14 +48,22 @@ const Dialog: React.FC<DialogProps> = ({ headline, onApplyFilter }) => {
         className={`fixed z-[60] inset-x-4 shadow-xl bg-white top-1/2 -translate-y-1/2 p-5 rounded-xl mx-auto max-w-[30rem]
           ${isOpen ? 'block' : 'hidden'}
       `}>
-        <h2 className="text-xl font-semibold mb-5">{headline}</h2>
+        <div className="flex items-center justify-between gap-x-5 mb-5">
+          <h2 className="text-xl font-semibold">{headline}</h2>
+          <button
+            aria-label="Modal schließen"
+            className="text-dark-400 hover:text-dark-600 stroke-1" 
+            onClick={handleFilterView}>
+              <X />
+          </button>
+        </div>
 
         <WateringStatusFieldset onStatusChange={handleStatusChange} />
         <RegionsFieldset onRegionsChange={handleRegionsChange} />
 
         <div className="flex flex-wrap gap-5">
           <PrimaryButton label="Anwenden" type="button" onClick={applyFilters} />
-          <SecondaryButton label="Abbrechen" onClick={handleFilterView} />
+          <SecondaryButton label="Zurücksetzen" onClick={handleReset}/>
         </div>
       </section>
     </div>
