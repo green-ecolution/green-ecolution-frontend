@@ -29,7 +29,11 @@ const Dialog: React.FC<DialogProps> = ({ headline, onApplyFilter }) => {
   return (
     <div>
       <div className={`bg-dark-900/90 fixed inset-0 z-50 ${isOpen ? 'block' : 'hidden'}`}></div>
-      <FilterButton ariaLabel={headline} onClick={handleFilterView} />
+      
+      <FilterButton 
+        activeCount={filteredStatus.length + filteredRegions.length} 
+        ariaLabel={headline} 
+        onClick={handleFilterView} />
 
       <section
         ref={dialogRef}

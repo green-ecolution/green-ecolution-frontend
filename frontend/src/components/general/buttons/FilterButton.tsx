@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 
 interface FilterButtonProps {
   ariaLabel: string;
+  activeCount: number;
   onClick: () => void;
 }
 
-const FilterButton: React.FC<FilterButtonProps> = ({ ariaLabel, onClick }) => {
+const FilterButton: React.FC<FilterButtonProps> = ({ ariaLabel, activeCount, onClick }) => {
   const [isActive, setIsActive] = useState(false);
 
   const handleClick = () => {
@@ -21,7 +22,7 @@ const FilterButton: React.FC<FilterButtonProps> = ({ ariaLabel, onClick }) => {
       onClick={handleClick}
     >
       Filter
-      <span className="block bg-green-dark/20 w-6 h-6 rounded-full">0</span>
+      <span className="block bg-green-dark/20 w-6 h-6 rounded-full">{activeCount}</span>
     </button>
   );
 };
