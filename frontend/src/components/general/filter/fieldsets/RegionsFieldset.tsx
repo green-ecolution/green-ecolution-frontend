@@ -31,6 +31,7 @@ const RegionsFieldset = forwardRef<RegionsRef>((_, ref) => {
           label={regionValue}
           onClick={() => handleCheckboxClick(regionValue, regionKey)}
           name={regionKey}
+          isChecked={options.map(option => option.key).includes(regionKey)}
         />
       ))}
     </fieldset>

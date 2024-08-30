@@ -5,7 +5,7 @@ import useFilterOption from '@/hooks/useFilterOption';
 
 export type WateringStatusRef = {
   resetOptions: () => void;
-  getActiveOptions: () => {name: string, key: string}[];
+  getActiveOptions: () => { name: string; key: string }[];
 };
 
 const WateringStatusFieldset = forwardRef<WateringStatusRef>((_, ref) => {
@@ -34,6 +34,7 @@ const WateringStatusFieldset = forwardRef<WateringStatusRef>((_, ref) => {
             label={statusValue}
             onClick={() => handleCheckboxClick(statusValue, statusKey)}
             name={statusKey}
+            isChecked={options.map(option => option.key).includes(statusKey)}
           >
             <div className={`bg-${WateringStatusColor[statusValue].color} w-4 h-4 rounded-full`} />
           </FilterCheckbox>
