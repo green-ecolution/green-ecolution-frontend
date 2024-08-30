@@ -29,7 +29,7 @@ const TreeclusterCard: React.FC<TreeclusterCard> = ({ treecluster }) => {
       >
         <p className={`relative font-medium pl-7 before:absolute before:w-4 before:h-4 before:rounded-full before:left-0 before:top-[0.22rem] 
           before:bg-${statusColor}`}>
-          {status}
+          {treecluster.status}
         </p>
 
         <div>
