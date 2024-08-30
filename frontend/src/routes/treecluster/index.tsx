@@ -8,15 +8,24 @@ export const Route = createFileRoute("/treecluster/")({
   component: Treecluster,
 });
 
+interface FilterObject {
+  name: string;
+  key: string;
+}
+
 function Treecluster() {
   const initialTreecluster = treeclusterDemoData();
   const [filteredTreecluster, setFilteredTreecluster] = useState(initialTreecluster);
 
-  const handleFilter = (status: string[], regions: string[]) => {
+  const handleFilter = (status: FilterObject[], regions: FilterObject[]) => {
+    const statusNames = status.map(item => item.name);
+    const regionNames = regions.map(item => item.name);
+
     const filteredData = initialTreecluster.filter(cluster =>
-      (status.length === 0 || status.includes(cluster.status)) &&
-      (regions.length === 0 || regions.includes(cluster.region))
+      (statusNames.length === 0 || statusNames.includes(cluster.status)) &&
+      (regionNames.length === 0 || regionNames.includes(cluster.region))
     );
+
     setFilteredTreecluster(filteredData);
   };
 
@@ -51,15 +60,7 @@ function Treecluster() {
           {filteredTreecluster.map((treecluster, key) => (
             <li key={key} className="mb-5 last:mb-0">
               <TreeclusterCard
-                id={treecluster.id} 
-                headline={treecluster.headline}
-                number={treecluster.number}
-                address={treecluster.address}
-                region={treecluster.region}
-                treeCount={treecluster.treeCount}
-                sensorCount={treecluster.sensorCount}
-                status={treecluster.status}
-              />
+                treecluster={treecluster} />
             </li>
           ))}
         </ul>

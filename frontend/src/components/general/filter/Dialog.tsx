@@ -7,28 +7,28 @@ import RegionsFieldset from './fieldsets/RegionsFieldset';
 import WateringStatusFieldset from './fieldsets/WateringStatusFieldset';
 import { X } from 'lucide-react';
 
+interface FilterObject {
+  name: string;
+  key: string;
+}
+
 interface DialogProps {
   headline: string;
-  onApplyFilter: (status: string[], regions: string[]) => void;
+  onApplyFilter: (status: FilterObject[], regions: FilterObject[]) => void;
 }
 
 const Dialog: React.FC<DialogProps> = ({ headline, onApplyFilter }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [filteredStatus, setFilteredStatus] = useState<string[]>([]);
-  const [filteredRegions, setFilteredRegions] = useState<string[]>([]);
+  const [filteredStatus, setFilteredStatus] = useState<FilterObject[]>([]);
+  const [filteredRegions, setFilteredRegions] = useState<FilterObject[]>([]);
 
   const handleFilterView = () => setIsOpen(!isOpen);
   const dialogRef = useOutsideClick(() => setIsOpen(false));
-  const handleStatusChange = (status: string[]) => setFilteredStatus(status);
-  const handleRegionsChange = (regions: string[]) => setFilteredRegions(regions);
+  const handleStatusChange = (status: FilterObject[]) => setFilteredStatus(status);
+  const handleRegionsChange = (regions: FilterObject[]) => setFilteredRegions(regions);
 
   const applyFilters = () => {
-    onApplyFilter(filteredStatus, filteredRegions); 
-    setIsOpen(false);
-  };
-
-  const handleReset = () => {
-    onApplyFilter(filteredStatus, filteredRegions); 
+    onApplyFilter(filteredStatus, filteredRegions);
     setIsOpen(false);
   };
 
@@ -63,7 +63,7 @@ const Dialog: React.FC<DialogProps> = ({ headline, onApplyFilter }) => {
 
         <div className="flex flex-wrap gap-5">
           <PrimaryButton label="Anwenden" type="button" onClick={applyFilters} />
-          <SecondaryButton label="Zurücksetzen" onClick={handleReset}/>
+          <SecondaryButton label="Zurücksetzen" />
         </div>
       </section>
     </div>

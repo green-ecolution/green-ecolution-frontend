@@ -1,27 +1,19 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import FilterCheckbox from "../FilterCheckbox";
 import { WateringStatus, WateringStatusColor } from "@/types/WateringStatus";
+import useFilterCheckbox from '@/hooks/useFilterCheckbox';
+
 
 interface WateringStatusFieldsetProps {
-  onStatusChange: (status: string[]) => void;
+  onStatusChange: (status: {name: string, key:string}[]) => void;
 }
 
 function WateringStatusFieldset({ onStatusChange }: WateringStatusFieldsetProps) {
-  const [filteredStatus, setFilteredStatus] = useState<string[]>([]);
-
-  const handleCheckboxClick = (name: string) => {
-    setFilteredStatus((prevStatus) => {
-      if (prevStatus.includes(name)) {
-        return prevStatus.filter((status) => status !== name);
-      } else {
-        return [...prevStatus, name];
-      }
-    });
-  };
+  const { options, handleCheckboxClick } = useFilterCheckbox();
 
   useEffect(() => {
-    onStatusChange(filteredStatus);
-  }, [filteredStatus, onStatusChange]);
+    onStatusChange(options);
+  }, [options, onStatusChange]);
 
   return (
     <fieldset className="mb-5">
@@ -36,7 +28,7 @@ function WateringStatusFieldset({ onStatusChange }: WateringStatusFieldsetProps)
             <FilterCheckbox
               key={statusKey}
               label={statusValue}
-              onClick={() => handleCheckboxClick(statusValue)}
+              onClick={() => handleCheckboxClick(statusValue, statusKey)}
               name={statusKey}
             >
               <div className={`bg-${WateringStatusColor[statusValue].color} w-4 h-4 rounded-full`} />

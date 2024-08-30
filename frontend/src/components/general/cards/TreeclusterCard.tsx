@@ -6,23 +6,25 @@ import { MapPin } from 'lucide-react';
 import React from 'react';
 
 interface TreeclusterCard {
-  id: number;
-  headline: string; 
-  number: string;
-  address: string;
-  region: Region;
-  treeCount: number;
-  sensorCount: number;
-  status: WateringStatus;
+  treecluster: {
+    id: number;
+    headline: string; 
+    number: string;
+    address: string;
+    region: Region;
+    treeCount: number;
+    sensorCount: number;
+    status: WateringStatus;
+  }
 }
 
-const TreeclusterCard: React.FC<TreeclusterCard> = ({ id, headline, number, address, region, treeCount, sensorCount, status }) => {
+const TreeclusterCard: React.FC<TreeclusterCard> = ({ treecluster }) => {
 
-    const statusColor = WateringStatusColor[status].color;
+    const statusColor = WateringStatusColor[treecluster.status].color;
 
     return (
       <Link 
-        to={`/treecluster/${id}`}
+        to={`/treecluster/${treecluster.id}`}
         className="bg-white border border-dark-50 p-6 rounded-xl shadow-cards flex flex-col gap-y-4 transition-all ease-in-out duration-300 hover:bg-green-dark-50 hover:border-green-dark lg:grid lg:grid-cols-[1fr,1.5fr,2fr,1fr] lg:items-center lg:gap-5 lg:py-10 xl:px-10"
       >
         <p className={`relative font-medium pl-7 before:absolute before:w-4 before:h-4 before:rounded-full before:left-0 before:top-[0.22rem] 
@@ -31,24 +33,24 @@ const TreeclusterCard: React.FC<TreeclusterCard> = ({ id, headline, number, addr
         </p>
 
         <div>
-          <h2 className="font-bold text-lg mb-0.5">{headline}</h2>
-          <p className="text-dark-700 text-sm">ID-Nummer: {number}</p>
+          <h2 className="font-bold text-lg mb-0.5">{treecluster.headline}</h2>
+          <p className="text-dark-700 text-sm">ID-Nummer: {treecluster.number}</p>
         </div>
         
         <div className="text-dark-800 flex gap-x-2">
           <MapPin className="w-5 h-5" />
           <p>
-            <span>{address}, </span><br/>
-            <span className="text-dark-600 lg:block lg:text-sm">{region}</span>
+            <span>{treecluster.address}, </span><br/>
+            <span className="text-dark-600 lg:block lg:text-sm">{treecluster.region}</span>
           </p>
         </div>
 
         <div className="text-dark-800 flex gap-x-2">
           <Tree className="w-5 h-5 mt-0.5" />
           <p>
-            {treeCount} Bäume
+            {treecluster.treeCount} Bäume
             <span className="text-dark-600 lg:hidden"> | </span>
-            <span className="text-dark-600 lg:block lg:text-sm">{sensorCount} mit Sensoren</span>
+            <span className="text-dark-600 lg:block lg:text-sm">{treecluster.sensorCount} mit Sensoren</span>
           </p>
         </div>
       </Link>
