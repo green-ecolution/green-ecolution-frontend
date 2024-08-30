@@ -1,36 +1,31 @@
-import { useEffect } from 'react';
+import { useCallback } from 'react';
 
-type Params = {
-    [key: string]: string | undefined;
+interface FilterObject {
+  name: string;
+  key: string;
+}
+
+interface ParamConfig {
+  [paramName: string]: FilterObject[];
+}
+
+const useUrlParams = () => {
+  const updateUrlParams = useCallback((paramConfigs: ParamConfig) => {
+    const params = new URLSearchParams();
+
+    Object.entries(paramConfigs).forEach(([paramName, options]) => {
+      const values = options.map(option => option.key).join(',');
+      if (values) params.set(paramName, values);
+    });
+
+    window.history.pushState({}, '', `${window.location.pathname}?${params.toString()}`);
+  }, []);
+
+  const clearUrlParams = useCallback(() => {
+    window.history.pushState({}, '', window.location.pathname);
+  }, []);
+
+  return { updateUrlParams, clearUrlParams };
 };
 
-function setParamsInUrl(params: Params, setPage = true) {
-    const searchURL = new URL(window.location.href);
-
-    if (!params) {
-        clearUrlParams();
-        return;
-    }
-
-    if (setPage) {
-        searchURL.searchParams.set('page', '1');
-    }
-
-    for (const [key, value] of Object.entries(params)) {
-        value ? searchURL.searchParams.set(key, value) : searchURL.searchParams.delete(key);
-    }
-
-    window.history.replaceState({}, '', searchURL.toString());
-}
-
-function clearUrlParams() {
-    const currentUrl = new URL(window.location.href);
-    currentUrl.search = '';
-    window.history.replaceState({}, '', currentUrl.toString());
-}
-
-export function useUrlParams(params: Params, setPage = true) {
-    useEffect(() => {
-      setParamsInUrl(params, setPage);
-    }, [params, setPage]);
-}
+export default useUrlParams;
