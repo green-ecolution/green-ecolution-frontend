@@ -1,18 +1,24 @@
-import { Region } from "@/types/Region";
-import FilterCheckbox from "../FilterCheckbox";
-import { useEffect } from "react";
-import useFilterCheckbox from "@/hooks/useFilterCheckbox";
+import { useImperativeHandle, forwardRef } from 'react';
+import FilterCheckbox from '../FilterCheckbox';
+import { Region } from '@/types/Region';
+import useFilterOption from '@/hooks/useFilterOption';
 
-interface RegionsFieldsetProps {
-  onRegionsChange: (status: {name: string, key:string}[]) => void;
-}
+export type RegionsRef = {
+  resetOptions: () => void;
+  getActiveOptions: () => { name: string; key: string }[];
+};
 
-function RegionsFieldset({ onRegionsChange }: RegionsFieldsetProps) {
-  const { options, handleCheckboxClick } = useFilterCheckbox();
+const RegionsFieldset = forwardRef<RegionsRef>((_, ref) => {
+  const { options, handleCheckboxClick, reset } = useFilterOption();
 
-  useEffect(() => {
-    onRegionsChange(options);
-  }, [options, onRegionsChange]);
+  useImperativeHandle(ref, () => ({
+    resetOptions() {
+      reset();
+    },
+    getActiveOptions() {
+      return options || [];
+    }
+  }));
 
   return (
     <fieldset className="mb-5">
@@ -20,14 +26,15 @@ function RegionsFieldset({ onRegionsChange }: RegionsFieldsetProps) {
         Regionen in Flensburg
       </legend>
       {Object.entries(Region).map(([regionKey, regionValue]) => (
-        <FilterCheckbox 
+        <FilterCheckbox
           key={regionKey}
           label={regionValue}
           onClick={() => handleCheckboxClick(regionValue, regionKey)}
-          name={regionKey} />
+          name={regionKey}
+        />
       ))}
     </fieldset>
   );
-}
+});
 
 export default RegionsFieldset;

@@ -1,19 +1,24 @@
-import { useEffect } from 'react';
-import FilterCheckbox from "../FilterCheckbox";
-import { WateringStatus, WateringStatusColor } from "@/types/WateringStatus";
-import useFilterCheckbox from '@/hooks/useFilterCheckbox';
+import { useImperativeHandle, forwardRef } from 'react';
+import FilterCheckbox from '../FilterCheckbox';
+import { WateringStatus, WateringStatusColor } from '@/types/WateringStatus';
+import useFilterOption from '@/hooks/useFilterOption';
 
+export type WateringStatusRef = {
+  resetOptions: () => void;
+  getActiveOptions: () => {name: string, key: string}[];
+};
 
-interface WateringStatusFieldsetProps {
-  onStatusChange: (status: {name: string, key:string}[]) => void;
-}
+const WateringStatusFieldset = forwardRef<WateringStatusRef>((_, ref) => {
+  const { options, handleCheckboxClick, reset } = useFilterOption();
 
-function WateringStatusFieldset({ onStatusChange }: WateringStatusFieldsetProps) {
-  const { options, handleCheckboxClick } = useFilterCheckbox();
-
-  useEffect(() => {
-    onStatusChange(options);
-  }, [options, onStatusChange]);
+  useImperativeHandle(ref, () => ({
+    resetOptions() {
+      reset();
+    },
+    getActiveOptions() {
+      return options || [];
+    }
+  }));
 
   return (
     <fieldset className="mb-5">
@@ -23,20 +28,18 @@ function WateringStatusFieldset({ onStatusChange }: WateringStatusFieldsetProps)
 
       {Object.entries(WateringStatus)
         .filter(([key]) => key !== 'unknown')
-        .map(([statusKey, statusValue]) => {
-          return (
-            <FilterCheckbox
-              key={statusKey}
-              label={statusValue}
-              onClick={() => handleCheckboxClick(statusValue, statusKey)}
-              name={statusKey}
-            >
-              <div className={`bg-${WateringStatusColor[statusValue].color} w-4 h-4 rounded-full`} />
-            </FilterCheckbox>
-          );
-        })}
+        .map(([statusKey, statusValue]) => (
+          <FilterCheckbox
+            key={statusKey}
+            label={statusValue}
+            onClick={() => handleCheckboxClick(statusValue, statusKey)}
+            name={statusKey}
+          >
+            <div className={`bg-${WateringStatusColor[statusValue].color} w-4 h-4 rounded-full`} />
+          </FilterCheckbox>
+        ))}
     </fieldset>
   );
-}
+});
 
 export default WateringStatusFieldset;

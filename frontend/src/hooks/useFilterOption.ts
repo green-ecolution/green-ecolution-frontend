@@ -5,8 +5,9 @@ interface FilterObject {
   key: string;
 }
 
-function useFilterCheckbox() {
+function useFilterOption() {
   const [options, setOptions] = useState<FilterObject[]>([]);
+  const reset = () => setOptions([]);
 
   const handleCheckboxClick = (name: string, key: string) => {
     setOptions((prevOptions) => {
@@ -23,7 +24,8 @@ function useFilterCheckbox() {
   return {
     options,
     handleCheckboxClick,
+    reset,
   };
 }
 
-export default useFilterCheckbox;
+export default useFilterOption;

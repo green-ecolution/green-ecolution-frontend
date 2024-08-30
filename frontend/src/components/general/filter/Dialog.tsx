@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import FilterButton from '../buttons/FilterButton';
 import PrimaryButton from '../buttons/PrimaryButton';
 import SecondaryButton from '../buttons/SecondaryButton';
 import useOutsideClick from '@/hooks/useOutsideClick';
-import RegionsFieldset from './fieldsets/RegionsFieldset';
-import WateringStatusFieldset from './fieldsets/WateringStatusFieldset';
+import RegionsFieldset, { RegionsRef } from './fieldsets/RegionsFieldset';
+import WateringStatusFieldset, { WateringStatusRef } from './fieldsets/WateringStatusFieldset';
 import { X } from 'lucide-react';
 
 interface FilterObject {
@@ -18,26 +18,33 @@ interface DialogProps {
 }
 
 const Dialog: React.FC<DialogProps> = ({ headline, onApplyFilter }) => {
+  const wateringStatusRef = useRef<WateringStatusRef>(null);
+  const regionsRef = useRef<RegionsRef>(null);
+
   const [isOpen, setIsOpen] = useState(false);
-  const [filteredStatus, setFilteredStatus] = useState<FilterObject[]>([]);
-  const [filteredRegions, setFilteredRegions] = useState<FilterObject[]>([]);
 
   const handleFilterView = () => setIsOpen(!isOpen);
   const dialogRef = useOutsideClick(() => setIsOpen(false));
-  const handleStatusChange = (status: FilterObject[]) => setFilteredStatus(status);
-  const handleRegionsChange = (regions: FilterObject[]) => setFilteredRegions(regions);
 
   const applyFilters = () => {
-    onApplyFilter(filteredStatus, filteredRegions);
+    const statusOptions = wateringStatusRef.current?.getActiveOptions() || [];
+    const regionsOptions = regionsRef.current?.getActiveOptions() || [];
+
+    onApplyFilter(statusOptions, regionsOptions);
+
     setIsOpen(false);
   };
+
+  const resetFilters = () => {
+		wateringStatusRef.current?.resetOptions();
+	};
 
   return (
     <div>
       <div className={`bg-dark-900/90 fixed inset-0 z-50 ${isOpen ? 'block' : 'hidden'}`}></div>
       
       <FilterButton 
-        activeCount={filteredStatus.length + filteredRegions.length} 
+        activeCount={0} 
         ariaLabel={headline} 
         onClick={handleFilterView} />
 
@@ -58,12 +65,12 @@ const Dialog: React.FC<DialogProps> = ({ headline, onApplyFilter }) => {
           </button>
         </div>
 
-        <WateringStatusFieldset onStatusChange={handleStatusChange} />
-        <RegionsFieldset onRegionsChange={handleRegionsChange} />
+        <WateringStatusFieldset ref={wateringStatusRef} />
+        <RegionsFieldset ref={regionsRef} />
 
         <div className="flex flex-wrap gap-5">
           <PrimaryButton label="Anwenden" type="button" onClick={applyFilters} />
-          <SecondaryButton label="Zurücksetzen" />
+          <SecondaryButton label="Zurücksetzen" onClick={resetFilters} />
         </div>
       </section>
     </div>
