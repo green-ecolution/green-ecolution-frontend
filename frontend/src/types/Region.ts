@@ -12,3 +12,11 @@ export enum Region {
   tarup = 'Tarup',
   weiche = 'Weiche',
 }
+
+// Get enum by key
+export const mapKeysToOptions = (keys: string[]): { name: string; key: string }[] => {
+  return keys.map(key => ({
+    key,
+    name: Region[key as keyof typeof Region]
+  }));
+};

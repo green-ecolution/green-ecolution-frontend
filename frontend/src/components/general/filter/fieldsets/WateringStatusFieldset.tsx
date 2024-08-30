@@ -1,21 +1,25 @@
 import { useImperativeHandle, forwardRef } from 'react';
 import FilterCheckbox from '../FilterCheckbox';
-import { WateringStatus, WateringStatusColor } from '@/types/WateringStatus';
+import { mapKeysToOptions, WateringStatus, WateringStatusColor } from '@/types/WateringStatus';
 import useFilterOption from '@/hooks/useFilterOption';
 
 export type WateringStatusRef = {
   resetOptions: () => void;
-  getActiveOptions: () => { name: string; key: string }[];
+  setOptions: (keys: string[]) => void;
+  getOptions: () => { name: string; key: string }[];
 };
 
 const WateringStatusFieldset = forwardRef<WateringStatusRef>((_, ref) => {
-  const { options, handleCheckboxClick, reset } = useFilterOption();
+  const { options, handleCheckboxClick, reset, setOptions } = useFilterOption();
 
   useImperativeHandle(ref, () => ({
     resetOptions() {
       reset();
     },
-    getActiveOptions() {
+    setOptions(keys) {
+      setOptions(mapKeysToOptions(keys));
+    },
+    getOptions() {
       return options || [];
     }
   }));

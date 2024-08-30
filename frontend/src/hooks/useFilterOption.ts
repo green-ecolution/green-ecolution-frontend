@@ -25,6 +25,7 @@ function useFilterOption() {
     options,
     handleCheckboxClick,
     reset,
+    setOptions,
   };
 }
 

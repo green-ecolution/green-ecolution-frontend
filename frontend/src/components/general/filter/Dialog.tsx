@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import FilterButton from '../buttons/FilterButton';
 import PrimaryButton from '../buttons/PrimaryButton';
 import SecondaryButton from '../buttons/SecondaryButton';
@@ -26,11 +26,21 @@ const Dialog: React.FC<DialogProps> = ({ headline, onApplyFilter }) => {
   const handleFilterView = () => setIsOpen(!isOpen);
 
   const dialogRef = useOutsideClick(() => setIsOpen(false));
-  const { updateUrlParams, clearUrlParams } = useUrlParams();
+  const { updateUrlParams, clearUrlParams, getUrlParams } = useUrlParams();
+
+  useEffect(() => {
+    const urlParams = getUrlParams();
+    const statusParams = urlParams.status || [];
+    const regionsParams = urlParams.regions || [];
+
+    if (wateringStatusRef.current) wateringStatusRef.current.setOptions(statusParams);
+    if (regionsRef.current) regionsRef.current.setOptions(regionsParams);
+
+  }, [getUrlParams]);
 
   const applyFilters = () => {
-    const statusOptions = wateringStatusRef.current?.getActiveOptions() || [];
-    const regionsOptions = regionsRef.current?.getActiveOptions() || [];
+    const statusOptions = wateringStatusRef.current?.getOptions() || [];
+    const regionsOptions = regionsRef.current?.getOptions() || [];
 
     onApplyFilter(statusOptions, regionsOptions);
 
