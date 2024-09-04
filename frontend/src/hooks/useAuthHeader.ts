@@ -4,5 +4,5 @@ export const useAuthHeader = () => {
   const token = useStore((state) => state.auth.token);
 
   // TODO: Add logic to refresh token if expired
-  return token ? `Bearer ${token}` : "";
+  return token ? `Bearer ${token.accessToken}` : "";
 };
