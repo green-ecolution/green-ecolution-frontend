@@ -1,11 +1,13 @@
 import DashboardCard from '@/components/general/cards/DashboardCard';
 import { createFileRoute } from '@tanstack/react-router'
+import useStore from '@/store/store';
 
 export const Route = createFileRoute('/_protected/')({
   component: Dashboard,
 })
 
 function Dashboard() {
+  const user = useStore((state) => state.user);
 
   const cards = [
     {
@@ -50,7 +52,7 @@ function Dashboard() {
     <div className="container mt-6">
       <article className="mb-10 2xl:w-4/5">
         <h1 className="font-lato font-bold text-3xl mb-4 lg:text-4xl xl:text-5xl">
-          Willkommen zurück, Vorname Nachname!
+          Willkommen zurück, {`${user.firstName} ${user.lastName}`}!
         </h1>
         <p>
           Labore id duis minim nisi duis incididunt. Aliqua qui dolor laborum anim aliquip sit nulla eiusmod laboris excepteur sit non laboris do.
