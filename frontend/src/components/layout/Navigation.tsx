@@ -30,6 +30,11 @@ const Navigation: React.FC<NavigationProps> = ({
 }) => {
   const isLargeScreen = () => window.matchMedia("(min-width: 1024px)").matches;
   const isLoggedIn = useStore((state) => state.auth.isAuthenticated);
+  const mapPosition = useStore((state) => ({
+    lat: state.map.center[0],
+    lng: state.map.center[1],
+    zoom: state.map.zoom,
+  }));
 
   const handleMouseOver = () => {
     if (isLargeScreen()) openSidebar();
@@ -50,7 +55,7 @@ const Navigation: React.FC<NavigationProps> = ({
         {
           label: "Baumkataster",
           icon: <Map className="w-5 h-5" />,
-          to: "/map",
+          to: `/map?lat=${mapPosition.lat}&lng=${mapPosition.lng}&zoom=${mapPosition.zoom}`,
         },
         {
           label: "Baumgruppen",
