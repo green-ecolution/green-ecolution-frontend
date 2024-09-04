@@ -41,10 +41,8 @@ export const Route = createFileRoute("/auth/callback")({
       state.auth.isAuthenticated = true;
       state.auth.token = token;
     });
-    console.log(token);
 
     const jwtInfo = decodeJWT<KeycloakJWT>(token.accessToken);
-    
     if (jwtInfo) {
       useStore.setState((state) => {
         state.user.email = jwtInfo.email;

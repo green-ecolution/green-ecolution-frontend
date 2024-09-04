@@ -1,10 +1,6 @@
 import Map from "@/components/Map";
-import MapMarker, { TreeIcon } from "@/components/MapMarker";
-import { useTrees } from "@/context/TreeDataContext";
 import useMapStore from "@/store/store";
-import { Tree } from "@green-ecolution/backend-client";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useMemo } from "react";
 import { useMapEvents } from "react-leaflet/hooks";
 import { z } from "zod";
 
@@ -32,13 +28,10 @@ export const Route = createFileRoute("/_protected/map/")({
 });
 
 function MapView() {
-  const trees = useTrees();
-
   return (
     <div className="relative">
       <Map>
         <MapConroller />
-        <TreeMarker trees={trees} />
       </Map>
     </div>
   );
@@ -63,24 +56,5 @@ const MapConroller = () => {
   });
 
   return null;
-};
-
-const TreeMarker = ({ trees }: { trees: Tree[] }) => {
-  const treeMarkers = useMemo(
-    () =>
-      trees.map((tree) => (
-        <MapMarker
-          key={tree.id}
-          position={[tree.location.latitude, tree.location.longitude]}
-          icon={TreeIcon("green")}
-          onClick={() => {
-            // navigate to tree detail page
-          }}
-        />
-      )),
-    [trees],
-  );
-
-  return <>{treeMarkers}</>;
 };
 
