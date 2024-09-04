@@ -1,5 +1,5 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useAuthStore, useMapStore } from "@/store/store";
+import { useAuthStore, useMapStore, useUserStore } from "@/store/store";
 import { createFileRoute } from "@tanstack/react-router";
 import ReactJson from "react-json-view";
 
@@ -33,10 +33,12 @@ function Debug() {
 const Store = () => {
   const authStore = useAuthStore();
   const mapStore = useMapStore();
+  const userStore = useUserStore();
 
   return (
     <div>
       <ReactJson src={authStore} collapsed name="authStore" />
+      <ReactJson src={userStore} collapsed name="userStore" />
       <ReactJson src={mapStore} collapsed name="mapStore" />
     </div>
   );
