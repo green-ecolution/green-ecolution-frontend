@@ -3,8 +3,8 @@ import {
   ConfigurationParameters,
   HTTPHeaders,
   InfoApi,
-  LoginApi,
   TreesApi,
+  UserApi,
 } from "@green-ecolution/backend-client";
 
 const headers: HTTPHeaders = {
@@ -21,6 +21,6 @@ const config = new Configuration(configParams);
 
 export const treeApi = new TreesApi(config);
 export const infoApi = new InfoApi(config);
-export const loginApi = new LoginApi(config);
+export const userApi = new UserApi(config);
 
 export * from "@green-ecolution/backend-client";

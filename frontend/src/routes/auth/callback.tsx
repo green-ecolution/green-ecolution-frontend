@@ -1,4 +1,4 @@
-import { loginApi } from "@/api/backendApi";
+import { userApi } from "@/api/backendApi";
 import { KeycloakJWT } from "@/lib/types/keycloak";
 import { decodeJWT } from "@/lib/utils";
 import useStore from "@/store/store";
@@ -19,8 +19,8 @@ export const Route = createFileRoute("/auth/callback")({
   validateSearch: authSearchParamsSchema,
   loaderDeps: ({ search: { code } }) => ({ code }),
   beforeLoad: async ({ search: { code, redirect } }) => {
-    const token = await loginApi
-      .v1TokenPost({
+    const token = await userApi
+      .v1UserTokenPost({
         redirectUrl: `${window.location.origin}/auth/callback?redirect=${encodeURIComponent(redirect)}`,
         body: {
           code,
@@ -41,6 +41,7 @@ export const Route = createFileRoute("/auth/callback")({
       state.auth.isAuthenticated = true;
       state.auth.token = token;
     });
+    console.log(token);
 
     const jwtInfo = decodeJWT<KeycloakJWT>(token.accessToken);
     

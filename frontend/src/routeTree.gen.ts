@@ -11,6 +11,8 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as LogoutImport } from './routes/logout'
+import { Route as LoginImport } from './routes/login'
 import { Route as ProtectedImport } from './routes/_protected'
 import { Route as ProtectedIndexImport } from './routes/_protected/index'
 import { Route as AuthCallbackImport } from './routes/auth/callback'
@@ -27,6 +29,16 @@ import { Route as ProtectedWaypointsNewImport } from './routes/_protected/waypoi
 import { Route as ProtectedDashboardTreeTreeIdImport } from './routes/_protected/dashboard/tree/$treeId'
 
 // Create/Update Routes
+
+const LogoutRoute = LogoutImport.update({
+  path: '/logout',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const LoginRoute = LoginImport.update({
+  path: '/login',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const ProtectedRoute = ProtectedImport.update({
   id: '/_protected',
@@ -108,6 +120,20 @@ declare module '@tanstack/react-router' {
       path: ''
       fullPath: ''
       preLoaderRoute: typeof ProtectedImport
+      parentRoute: typeof rootRoute
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginImport
+      parentRoute: typeof rootRoute
+    }
+    '/logout': {
+      id: '/logout'
+      path: '/logout'
+      fullPath: '/logout'
+      preLoaderRoute: typeof LogoutImport
       parentRoute: typeof rootRoute
     }
     '/_protected/debug': {
@@ -221,6 +247,8 @@ export const routeTree = rootRoute.addChildren({
     ProtectedWaypointsIndexRoute,
     ProtectedDashboardTreeTreeIdRoute,
   }),
+  LoginRoute,
+  LogoutRoute,
   AuthCallbackRoute,
 })
 
@@ -233,6 +261,8 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "__root.tsx",
       "children": [
         "/_protected",
+        "/login",
+        "/logout",
         "/auth/callback"
       ]
     },
@@ -252,6 +282,12 @@ export const routeTree = rootRoute.addChildren({
         "/_protected/waypoints/",
         "/_protected/dashboard/tree/$treeId"
       ]
+    },
+    "/login": {
+      "filePath": "login.tsx"
+    },
+    "/logout": {
+      "filePath": "logout.tsx"
     },
     "/_protected/debug": {
       "filePath": "_protected/debug.tsx",
