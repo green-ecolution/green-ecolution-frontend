@@ -20,22 +20,21 @@ import TreeOverviewDashboard from "@/components/dashboard/tree/overview";
 import TreeSensorDashboard from "@/components/dashboard/tree/sensorView";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { format } from "date-fns";
-import useAuthStore from "@/store/auth/authStore";
-
-export const Route = createFileRoute("/dashboard/tree/$treeId")({
+import { useAuthHeader } from "@/hooks/useAuthHeader";
+export const Route = createFileRoute("/_protected/dashboard/tree/$treeId")({
   component: TreeDashboard,
 });
 
 function TreeDashboard() {
   const { treeId } = Route.useParams();
   const tree = useTree(treeId);
-  const {apiHeader} = useAuthStore(state => ({apiHeader: state.apiHeader}));
+  const authorization = useAuthHeader();
 
   const { data, isError, error, isLoading, dataUpdatedAt } = useQuery({
     queryKey: ["tree_prediction", treeId],
     refetchInterval: 10000,
     queryFn: () =>
-      treeApi.getTreePredictionById({ treeID: treeId, sensorData: true, authorization: apiHeader}),
+      treeApi.getTreePredictionById({ treeID: treeId, sensorData: true, authorization}),
   });
 
   useEffect(() => {

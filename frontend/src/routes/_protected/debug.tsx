@@ -1,12 +1,12 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import useAuthStore from "@/store/auth/authStore";
-import useMapStore from "@/store/map/store";
+import { useAuthStore, useMapStore } from "@/store/store";
 import { createFileRoute } from "@tanstack/react-router";
 import ReactJson from "react-json-view";
 
-export const Route = createFileRoute("/debug")({
+export const Route = createFileRoute("/_protected/debug")({
   component: Debug,
 });
+
 
 function Debug() {
   return (

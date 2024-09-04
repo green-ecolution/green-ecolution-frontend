@@ -1,14 +1,14 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Button } from "../../components/ui/button";
+import { Button } from "../../../components/ui/button";
 import { Check, Droplet, Maximize2, PlusCircleIcon, Trees } from "lucide-react";
-import { Separator } from "../../components/ui/separator";
-import { cn } from "../../lib/utils";
+import { Separator } from "../../../components/ui/separator";
+import { cn } from "../../../lib/utils";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
   ResizableHandle,
   ResizablePanel,
   ResizablePanelGroup,
-} from "../../components/ui/resizable";
+} from "../../../components/ui/resizable";
 import {
   MapContainer,
   Marker,
@@ -23,16 +23,16 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "../../components/ui/card";
+} from "../../../components/ui/card";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "../../components/ui/tooltip";
+} from "../../../components/ui/tooltip";
 import { FakeTree, useFakeTrees } from "@/context/FakeTreeDataContext";
 import { TreeIcon } from "@/components/MapMarker";
 
-export const Route = createFileRoute("/waypoints/")({
+export const Route = createFileRoute("/_protected/waypoints/")({
   component: Waypoints,
 });
 

@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 
-export const Route = createFileRoute('/sensors')({
+export const Route = createFileRoute('/_protected/sensors')({
   component: Sensors,
 })
 

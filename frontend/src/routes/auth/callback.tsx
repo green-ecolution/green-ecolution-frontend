@@ -1,5 +1,7 @@
 import { loginApi } from "@/api/backendApi";
-import useAuthStore from "@/store/auth/authStore";
+import { KeycloakJWT } from "@/lib/types/keycloak";
+import { decodeJWT } from "@/lib/utils";
+import useStore from "@/store/store";
 import {
   createFileRoute,
   redirect as routerRedirect,
@@ -19,7 +21,7 @@ export const Route = createFileRoute("/auth/callback")({
   beforeLoad: async ({ search: { code, redirect } }) => {
     const token = await loginApi
       .v1TokenPost({
-        redirectUrl: `${window.location.origin}/auth/callback?redirect=${redirect}`,
+        redirectUrl: `${window.location.origin}/auth/callback?redirect=${encodeURIComponent(redirect)}`,
         body: {
           code,
         },
@@ -34,14 +36,22 @@ export const Route = createFileRoute("/auth/callback")({
       throw new Error("Error while fetching token");
     }
 
-    console.log("token", token);
 
-    useAuthStore.setState((state) => ({
-      ...state,
-      isAuthenticated: true,
-      token: token,
-      apiHeader: `${token.tokenType} ${token.accessToken}`,
-    }));
+    useStore.setState((state) => {
+      state.auth.isAuthenticated = true;
+      state.auth.token = token;
+    });
+
+    const jwtInfo = decodeJWT<KeycloakJWT>(token.accessToken);
+    
+    if (jwtInfo) {
+      useStore.setState((state) => {
+        state.user.email = jwtInfo.email;
+        state.user.username = jwtInfo.preferred_username;
+        state.user.firstName = jwtInfo.given_name;
+        state.user.lastName = jwtInfo.family_name;
+      });
+    }
 
     throw routerRedirect({
       to: redirect,

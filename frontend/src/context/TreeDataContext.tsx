@@ -1,5 +1,5 @@
 import { treeApi } from "@/api/backendApi";
-import useAuthStore from "@/store/auth/authStore";
+import { useAuthHeader } from "@/hooks/useAuthHeader";
 import { Tree } from "@green-ecolution/backend-client";
 import { useQuery } from "@tanstack/react-query";
 import { createContext, useContext, useEffect } from "react";
@@ -16,7 +16,7 @@ export interface TreeDataContextProviderProps extends React.PropsWithChildren {}
 export const TreeDataContextProvider = ({
   children,
 }: TreeDataContextProviderProps) => {
-  const {apiHeader} = useAuthStore(state => ({apiHeader: state.apiHeader}));
+  const apiHeader = useAuthHeader();
   const { data, isError, error } = useQuery({
     queryKey: ["trees"],
     queryFn: () =>

@@ -5,7 +5,7 @@ import {
   LeafletMouseEvent,
   LatLngExpression,
 } from "leaflet";
-import MapHeader from "../../components/MapHeader";
+import MapHeader from "../../../components/MapHeader";
 import {
   Card,
   CardContent,
@@ -13,15 +13,15 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "../../components/ui/card";
+} from "../../../components/ui/card";
 import { ForwardedRef, forwardRef, useMemo, useRef, useState } from "react";
-import { Button } from "../../components/ui/button";
+import { Button } from "../../../components/ui/button";
 import { Eye, Trash } from "lucide-react";
-import { ScrollArea } from "../../components/ui/scroll-area";
+import { ScrollArea } from "../../../components/ui/scroll-area";
 import { FakeTree, useFakeTrees } from "@/context/FakeTreeDataContext";
 import { TreeIcon } from "@/components/MapMarker";
 
-export const Route = createFileRoute("/waypoints/new")({
+export const Route = createFileRoute("/_protected/waypoints/new")({
   component: NewWaypoint,
 });
 

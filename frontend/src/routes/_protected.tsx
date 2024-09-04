@@ -1,14 +1,14 @@
 import { loginApi } from '@/api/backendApi'
-import useAuthStore from '@/store/auth/authStore'
+import useAuthStore from '@/store/store'
 import { createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/_protected')({
   beforeLoad: async () => {
-    const isAuthenticated = useAuthStore.getState().isAuthenticated
-    const currentPath = window.location.pathname
+    const isAuthenticated = useAuthStore.getState().auth.isAuthenticated
+    const currentPath = (location.pathname+location.search)
     if (!isAuthenticated) {
       const loginUrl = await loginApi.v1LoginGet({
-        redirectUrl: `${window.location.origin}/auth/callback?redirect=${currentPath}`
+        redirectUrl: `${window.location.origin}/auth/callback?redirect=${encodeURIComponent(currentPath)}`
       }).then((res) => res.loginUrl)
 
       window.location.href = loginUrl
