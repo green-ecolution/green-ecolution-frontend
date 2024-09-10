@@ -1,6 +1,6 @@
 import { useImperativeHandle, forwardRef, useEffect } from 'react';
 import FilterCheckbox from '../FilterCheckbox';
-import { mapKeysToOptions, Region } from '@/types/Region';
+import { mapRegionToOptions, Region } from '@/types/Region';
 import useFilterOption from '@/hooks/useFilterOption';
 import useUrlParams from '@/hooks/useUrlParams';
 
@@ -16,8 +16,7 @@ const RegionsFieldset = forwardRef<RegionsRef>((_, ref) => {
   useEffect(() => {
     const urlParams = getUrlParams();
     const keys = urlParams.regions || [];
-
-    setOptions(mapKeysToOptions(keys));
+    setOptions(mapRegionToOptions(keys));
 
   }, [getUrlParams, setOptions]);
 

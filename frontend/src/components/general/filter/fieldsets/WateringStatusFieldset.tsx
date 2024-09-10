@@ -1,6 +1,6 @@
 import { useImperativeHandle, forwardRef, useEffect } from 'react';
 import FilterCheckbox from '../FilterCheckbox';
-import { mapKeysToOptions, WateringStatus, WateringStatusColor } from '@/types/WateringStatus';
+import { mapStatusToOptions, WateringStatus, WateringStatusColor } from '@/types/WateringStatus';
 import useFilterOption from '@/hooks/useFilterOption';
 import useUrlParams from '@/hooks/useUrlParams';
 
@@ -16,8 +16,7 @@ const WateringStatusFieldset = forwardRef<WateringStatusRef>((_, ref) => {
   useEffect(() => {
     const urlParams = getUrlParams();
     const keys = urlParams.status || [];
-
-    setOptions(mapKeysToOptions(keys));
+    setOptions(mapStatusToOptions(keys));
 
   }, [getUrlParams, setOptions]);
 

@@ -14,7 +14,7 @@ export enum Region {
 }
 
 // Get enum by key
-export const mapKeysToOptions = (keys: string[]): { name: string; key: string }[] => {
+export const mapRegionToOptions = (keys: string[]): { name: string; key: string }[] => {
   return keys.map(key => ({
     key,
     name: Region[key as keyof typeof Region]

@@ -14,7 +14,7 @@ export const WateringStatusColor = {
 };
 
 // Get enum by key
-export const mapKeysToOptions = (keys: string[]): { name: string; key: string }[] => {
+export const mapStatusToOptions = (keys: string[]): { name: string; key: string }[] => {
   return keys.map(key => ({
     key,
     name: WateringStatus[key as keyof typeof WateringStatus]

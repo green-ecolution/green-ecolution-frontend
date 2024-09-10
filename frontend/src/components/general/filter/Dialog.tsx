@@ -8,14 +8,9 @@ import WateringStatusFieldset, { WateringStatusRef } from './fieldsets/WateringS
 import { X } from 'lucide-react';
 import useUrlParams from '@/hooks/useUrlParams';
 
-interface FilterObject {
-  name: string;
-  key: string;
-}
-
 interface DialogProps {
   headline: string;
-  onApplyFilter: (status: FilterObject[], regions: FilterObject[]) => void;
+  onApplyFilter: () => void;
 }
 
 const Dialog: React.FC<DialogProps> = ({ headline, onApplyFilter }) => {
@@ -36,9 +31,9 @@ const Dialog: React.FC<DialogProps> = ({ headline, onApplyFilter }) => {
 
   const applyFilters = () => {
     const { status, regions } = getSelectedOptions();
-    setActiveCount(status.length + regions.length);
-    onApplyFilter(status, regions);
     updateUrlParams({ status, regions });
+    setActiveCount(status.length + regions.length);
+    onApplyFilter();
     setIsOpen(false);
   };
 
@@ -46,8 +41,8 @@ const Dialog: React.FC<DialogProps> = ({ headline, onApplyFilter }) => {
     wateringStatusRef.current?.resetOptions();
     regionsRef.current?.resetOptions();
     setActiveCount(0);
-    onApplyFilter([], []);
     clearUrlParams();
+    onApplyFilter();
     setIsOpen(false);
   };
 

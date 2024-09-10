@@ -3,21 +3,24 @@ import TreeclusterCard from "@/components/general/cards/TreeclusterCard";
 import Dialog from "@/components/general/filter/Dialog";
 import { treeclusterDemoData } from "@/data/treecluster";
 import { createFileRoute } from "@tanstack/react-router";
+import useUrlParams from '@/hooks/useUrlParams';
+import { mapStatusToOptions } from '@/types/WateringStatus';
+import { mapRegionToOptions } from '@/types/Region';
 
 export const Route = createFileRoute("/treecluster/")({
   component: Treecluster,
 });
 
-interface FilterObject {
-  name: string;
-  key: string;
-}
-
 function Treecluster() {
   const initialTreecluster = treeclusterDemoData();
   const [filteredTreecluster, setFilteredTreecluster] = useState(initialTreecluster);
+  const { getUrlParams } = useUrlParams();
 
-  const handleFilter = (status: FilterObject[], regions: FilterObject[]) => {
+  const handleFilter = () => {
+    const urlParams = getUrlParams();
+    const status = mapStatusToOptions(urlParams.status || []);
+    const regions = mapRegionToOptions(urlParams.regions || []);
+
     const statusNames = status.map(item => item.name);
     const regionNames = regions.map(item => item.name);
 
