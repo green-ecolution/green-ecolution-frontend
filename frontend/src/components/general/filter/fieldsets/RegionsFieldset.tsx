@@ -1,23 +1,29 @@
-import { useImperativeHandle, forwardRef } from 'react';
+import { useImperativeHandle, forwardRef, useEffect } from 'react';
 import FilterCheckbox from '../FilterCheckbox';
 import { mapKeysToOptions, Region } from '@/types/Region';
 import useFilterOption from '@/hooks/useFilterOption';
+import useUrlParams from '@/hooks/useUrlParams';
 
 export type RegionsRef = {
   resetOptions: () => void;
-  setOptions: (keys: string[]) => void;
   getOptions: () => { name: string; key: string }[];
 };
 
 const RegionsFieldset = forwardRef<RegionsRef>((_, ref) => {
   const { options, handleCheckboxClick, reset, setOptions } = useFilterOption();
+  const { getUrlParams } = useUrlParams();
+
+  useEffect(() => {
+    const urlParams = getUrlParams();
+    const keys = urlParams.regions || [];
+
+    setOptions(mapKeysToOptions(keys));
+
+  }, [getUrlParams, setOptions]);
 
   useImperativeHandle(ref, () => ({
     resetOptions() {
       reset();
-    },
-    setOptions(keys) {
-      setOptions(mapKeysToOptions(keys));
     },
     getOptions() {
       return options || [];
