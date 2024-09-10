@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import TreeclusterCard from "@/components/general/cards/TreeclusterCard";
 import Dialog from "@/components/general/filter/Dialog";
 import { treeclusterDemoData } from "@/data/treecluster";
@@ -32,6 +32,11 @@ function Treecluster() {
     setFilteredTreecluster(filteredData);
   };
 
+  useEffect(() => {
+    handleFilter();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [getUrlParams]);
+
   return (
     <div className="container mt-6">
       <article className="2xl:w-4/5">
@@ -60,12 +65,20 @@ function Treecluster() {
         </header>
 
         <ul>
-          {filteredTreecluster.map((treecluster, key) => (
-            <li key={key} className="mb-5 last:mb-0">
-              <TreeclusterCard
-                treecluster={treecluster} />
+          {filteredTreecluster.length === 0 ? (
+            <li className="text-center text-dark-600 mt-10">
+              <p>
+                Keine Ergebnisse mit den eingestellten Filteroptionen gefunden.
+              </p>
             </li>
-          ))}
+          ) : (
+            filteredTreecluster.map((treecluster, key) => (
+              <li key={key} className="mb-5 last:mb-0">
+                <TreeclusterCard
+                  treecluster={treecluster} />
+              </li>
+            ))
+          )}
         </ul>
       </section>
     </div>

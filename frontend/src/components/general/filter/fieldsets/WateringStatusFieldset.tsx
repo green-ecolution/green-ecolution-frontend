@@ -6,12 +6,12 @@ import useUrlParams from '@/hooks/useUrlParams';
 
 export type WateringStatusRef = {
   resetOptions: () => void;
-  getOptions: () => { name: string; key: string }[];
+  submitOptions: () => void;
 };
 
 const WateringStatusFieldset = forwardRef<WateringStatusRef>((_, ref) => {
   const { options, handleCheckboxClick, reset, setOptions } = useFilterOption();
-  const { getUrlParams } = useUrlParams();
+  const { getUrlParams, updateUrlParams, clearUrlParams } = useUrlParams();
 
   useEffect(() => {
     const urlParams = getUrlParams();
@@ -22,11 +22,12 @@ const WateringStatusFieldset = forwardRef<WateringStatusRef>((_, ref) => {
 
   useImperativeHandle(ref, () => ({
     resetOptions() {
+      clearUrlParams();
       reset();
     },
-    getOptions() {
-      return options || [];
-    }
+    submitOptions() {
+      updateUrlParams('status', options || []);
+    },
   }));
 
   return (

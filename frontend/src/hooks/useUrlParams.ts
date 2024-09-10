@@ -1,4 +1,3 @@
-
 import { useCallback } from 'react';
 
 interface FilterObject {
@@ -7,16 +6,16 @@ interface FilterObject {
 }
 
 const useUrlParams = () => {
-  const updateUrlParams = useCallback((params: Record<string, FilterObject[]>) => {
-    const urlParams = new URLSearchParams();
-    
-    for (const [key, options] of Object.entries(params)) {
-      const values = options.map(option => option.key).join(',');
-      if (values) {
-        urlParams.set(key, values);
-      }
-    }
+  const updateUrlParams = useCallback((key: string, options: FilterObject[]) => {
+    const urlParams = new URLSearchParams(window.location.search);
 
+    if (options.length > 0) {
+      const values = options.map(option => option.key).join(',');
+      urlParams.set(key, values);
+    } else {
+      urlParams.delete(key);
+    }
+    
     window.history.pushState({}, '', `${window.location.pathname}?${urlParams.toString()}`);
   }, []);
 

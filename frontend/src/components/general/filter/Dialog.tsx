@@ -6,7 +6,6 @@ import useOutsideClick from '@/hooks/useOutsideClick';
 import RegionsFieldset, { RegionsRef } from './fieldsets/RegionsFieldset';
 import WateringStatusFieldset, { WateringStatusRef } from './fieldsets/WateringStatusFieldset';
 import { X } from 'lucide-react';
-import useUrlParams from '@/hooks/useUrlParams';
 
 interface DialogProps {
   headline: string;
@@ -22,17 +21,11 @@ const Dialog: React.FC<DialogProps> = ({ headline, onApplyFilter }) => {
   const handleFilterView = () => setIsOpen(!isOpen);
 
   const dialogRef = useOutsideClick(() => setIsOpen(false));
-  const { updateUrlParams, clearUrlParams } = useUrlParams();
-
-  const getSelectedOptions = () => ({
-    status: wateringStatusRef.current?.getOptions() || [],
-    regions: regionsRef.current?.getOptions() || [],
-  });
 
   const applyFilters = () => {
-    const { status, regions } = getSelectedOptions();
-    updateUrlParams({ status, regions });
-    setActiveCount(status.length + regions.length);
+    //setActiveCount(status.length + regions.length);
+    wateringStatusRef.current?.submitOptions();
+    regionsRef.current?.submitOptions();
     onApplyFilter();
     setIsOpen(false);
   };
@@ -41,7 +34,6 @@ const Dialog: React.FC<DialogProps> = ({ headline, onApplyFilter }) => {
     wateringStatusRef.current?.resetOptions();
     regionsRef.current?.resetOptions();
     setActiveCount(0);
-    clearUrlParams();
     onApplyFilter();
     setIsOpen(false);
   };
