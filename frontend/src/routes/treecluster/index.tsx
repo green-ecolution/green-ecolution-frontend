@@ -44,7 +44,7 @@ function Treecluster() {
 
       <section className="mt-16">
         <div className="mb-8 flex items-center justify-end lg:mb-12">
-          <Dialog 
+          <Dialog
             headline="Filterung der Baumgruppen" 
             onApplyFilter={handleFilter}/>
         </div>

@@ -23,6 +23,7 @@ const Dialog: React.FC<DialogProps> = ({ headline, onApplyFilter }) => {
   const regionsRef = useRef<RegionsRef>(null);
 
   const [isOpen, setIsOpen] = useState(false);
+  const [activeCount, setActiveCount] = useState(0);
   const handleFilterView = () => setIsOpen(!isOpen);
 
   const dialogRef = useOutsideClick(() => setIsOpen(false));
@@ -38,23 +39,23 @@ const Dialog: React.FC<DialogProps> = ({ headline, onApplyFilter }) => {
 
   }, [getUrlParams]);
 
+  const getSelectedOptions = () => ({
+    status: wateringStatusRef.current?.getOptions() || [],
+    regions: regionsRef.current?.getOptions() || [],
+  });
+
   const applyFilters = () => {
-    const statusOptions = wateringStatusRef.current?.getOptions() || [];
-    const regionsOptions = regionsRef.current?.getOptions() || [];
-
-    onApplyFilter(statusOptions, regionsOptions);
-
-    updateUrlParams({
-      status: statusOptions,
-      regions: regionsOptions,
-    });
-
+    const { status, regions } = getSelectedOptions();
+    setActiveCount(status.length + regions.length);
+    onApplyFilter(status, regions);
+    updateUrlParams({ status, regions });
     setIsOpen(false);
   };
 
   const resetFilters = () => {
     wateringStatusRef.current?.resetOptions();
     regionsRef.current?.resetOptions();
+    setActiveCount(0);
     onApplyFilter([], []);
     clearUrlParams();
     setIsOpen(false);
@@ -65,7 +66,7 @@ const Dialog: React.FC<DialogProps> = ({ headline, onApplyFilter }) => {
       <div className={`bg-dark-900/90 fixed inset-0 z-50 ${isOpen ? 'block' : 'hidden'}`}></div>
       
       <FilterButton 
-        activeCount={0} 
+        activeCount={activeCount} 
         ariaLabel={headline} 
         onClick={handleFilterView} />
 

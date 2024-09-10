@@ -21,9 +21,17 @@ const FilterCheckbox: React.FC<FilterCheckboxProps> = ({ name, label, children, 
     setActive(isChecked);
   }, [isChecked]);
 
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLLabelElement>) => {
+    if (event.key === 'Enter') {
+      handleCheckboxChange();
+      event.preventDefault();
+    }
+  };
+
   return (
     <label 
-      className={`cursor-pointer mr-2 mb-2 inline-flex items-center gap-x-2 border w-max pr-5 pl-3 py-2 rounded-full border-green-light 
+      onKeyDown={handleKeyDown}
+      className={`cursor-pointer mr-2 mb-2 inline-flex items-center gap-x-2 border w-max pr-5 pl-3 py-2 rounded-full border-green-light transition-all ease-in-out duration-300 hover:bg-green-light-200 hover:border-transparent focus-within:bg-green-light-200 focus-within:border-transparent
         ${active ? 'bg-green-light-200' : ''}`}
     >
       <input 
