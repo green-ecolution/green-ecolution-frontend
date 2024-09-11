@@ -1,6 +1,6 @@
 import { MapContainer, TileLayer } from "react-leaflet";
 import React from "react";
-import useMapStore from "@/store/map/store";
+import useMapStore from "@/store/store";
 
 export interface MapProps extends React.PropsWithChildren {
   width?: string;
