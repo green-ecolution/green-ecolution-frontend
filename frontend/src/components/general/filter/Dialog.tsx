@@ -19,15 +19,15 @@ interface DialogProps {
 
 const Dialog: React.FC<DialogProps> = ({ initStatusTags, initRegionTags, headline, fullUrlPath, applyFilter }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const handleFilterView = () => setIsOpen(!isOpen);
-  const dialogRef = useOutsideClick(() => setIsOpen(false));
-
   const [statusTags, setStatusTags] = useState<string[]>(initStatusTags);
   const [regionTags, setRegionTags] = useState<string[]>(initRegionTags);
 
+  const handleFilterView = () => setIsOpen(!isOpen);
+  const dialogRef = useOutsideClick(() => setIsOpen(false));
+
   const navigate = useNavigate({ from: fullUrlPath });
 
-  const filterHandler = (type: 'status' | 'region') => (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFilterChange = (type: 'status' | 'region') => (event: React.ChangeEvent<HTMLInputElement>) => {
     const { checked, value } = event.target;
 
     switch (type) {
@@ -40,21 +40,19 @@ const Dialog: React.FC<DialogProps> = ({ initStatusTags, initRegionTags, headlin
     }
   };
 
-  const onResetFilters = () => {
+  const resetFilters = () => {
     setStatusTags([]);
     setRegionTags([]);
     applyFilter([], []);
     handleFilterView();
-    navigate({
-      search: () => ({}),
-    });
+    navigate({ search: () => ({}) });
   };
 
-  const onApplyFilters = () => {
+  const applyFilters = () => {
     applyFilter(statusTags, regionTags);
     handleFilterView();
 
-    navigate({
+    navigate({ 
       search: () => ({
         status: statusTags.length > 0 ? statusTags.join(',') : undefined,
         region: regionTags.length > 0 ? regionTags.join(',') : undefined,
@@ -66,33 +64,31 @@ const Dialog: React.FC<DialogProps> = ({ initStatusTags, initRegionTags, headlin
     <div>
       <div className={`bg-dark-900/90 fixed inset-0 z-50 ${isOpen ? 'block' : 'hidden'}`}></div>
 
-      <FilterButton 
+      <FilterButton
         activeCount={statusTags.length + regionTags.length}
-        ariaLabel={headline} 
-        onClick={handleFilterView} />
+        ariaLabel={headline}
+        onClick={handleFilterView}
+      />
 
       <section
         ref={dialogRef}
         role="dialog"
         aria-modal="true"
-        className={`fixed z-[60] inset-x-4 shadow-xl bg-white top-1/2 -translate-y-1/2 p-5 rounded-xl mx-auto max-w-[30rem]
-          ${isOpen ? 'block' : 'hidden'}
-      `}>
+        className={`fixed z-[60] inset-x-4 shadow-xl bg-white top-1/2 -translate-y-1/2 p-5 rounded-xl mx-auto max-w-[30rem] ${isOpen ? 'block' : 'hidden'}`}
+      >
         <div className="flex items-center justify-between gap-x-5 mb-5">
           <h2 className="text-xl font-semibold">{headline}</h2>
           <button
             aria-label="Close Dialog"
-            className="text-dark-400 hover:text-dark-600 stroke-1" 
-            onClick={handleFilterView}>
-              <X />
+            className="text-dark-400 hover:text-dark-600 stroke-1"
+            onClick={handleFilterView}
+          >
+            <X />
           </button>
         </div>
 
         <fieldset>
-          <legend className="font-lato font-semibold text-dark-600 mb-2">
-            Zustand der Bewässerung:
-          </legend>
-
+          <legend className="font-lato font-semibold text-dark-600 mb-2">Zustand der Bewässerung:</legend>
           {Object.entries(WateringStatus)
             .filter(([key]) => key !== 'unknown')
             .map(([statusKey, statusValue]) => (
@@ -101,18 +97,15 @@ const Dialog: React.FC<DialogProps> = ({ initStatusTags, initRegionTags, headlin
                 label={statusValue}
                 name={statusKey}
                 checked={statusTags.includes(statusValue)}
-                onChange={filterHandler('status')}
+                onChange={handleFilterChange('status')}
               >
                 <div className={`bg-${WateringStatusColor[statusValue].color} w-4 h-4 rounded-full`} />
               </Option>
-          ))}
+            ))}
         </fieldset>
 
         <fieldset className="mt-6">
-          <legend className="font-lato font-semibold text-dark-600 mb-2">
-            Stadtteil in Flensburg:
-          </legend>
-          
+          <legend className="font-lato font-semibold text-dark-600 mb-2">Stadtteil in Flensburg:</legend>
           {Object.entries(Region)
             .filter(([key]) => key !== 'unknown')
             .map(([regionKey, regionValue]) => (
@@ -121,21 +114,14 @@ const Dialog: React.FC<DialogProps> = ({ initStatusTags, initRegionTags, headlin
                 label={regionValue}
                 name={regionKey}
                 checked={regionTags.includes(regionValue)}
-                onChange={filterHandler('region')}
+                onChange={handleFilterChange('region')}
               />
-          ))}
+            ))}
         </fieldset>
 
         <div className="flex flex-wrap gap-5 mt-6">
-          <PrimaryButton 
-            label="Anwenden" 
-            type="button"
-            onClick={onApplyFilters}
-          />
-          <SecondaryButton 
-            label="Zurücksetzen"
-            onClick={onResetFilters}
-          />
+          <PrimaryButton label="Anwenden" type="button" onClick={applyFilters} />
+          <SecondaryButton label="Zurücksetzen" onClick={resetFilters} />
         </div>
       </section>
     </div>
