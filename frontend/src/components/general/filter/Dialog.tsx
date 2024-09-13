@@ -10,37 +10,39 @@ import { Region } from '@/types/Region';
 import { useNavigate } from '@tanstack/react-router';
 
 interface DialogProps {
+  initStatusTags: string[];
+  initRegionTags: string[];
   headline: string;
   fullUrlPath: string;
-  applyFilter: (statusTags: string[], regionsTags: string[]) => void;
+  applyFilter: (statusTags: string[], regionTags: string[]) => void;
 }
 
-const Dialog: React.FC<DialogProps> = ({ headline, fullUrlPath, applyFilter }) => {
+const Dialog: React.FC<DialogProps> = ({ initStatusTags, initRegionTags, headline, fullUrlPath, applyFilter }) => {
   const [isOpen, setIsOpen] = useState(false);
   const handleFilterView = () => setIsOpen(!isOpen);
   const dialogRef = useOutsideClick(() => setIsOpen(false));
 
-  const [statusTags, setStatusTags] = useState<string[]>([]);
-  const [regionsTags, setRegionsTags] = useState<string[]>([]);
+  const [statusTags, setStatusTags] = useState<string[]>(initStatusTags);
+  const [regionTags, setRegionTags] = useState<string[]>(initRegionTags);
 
-  const navigate = useNavigate({ from: fullUrlPath })
+  const navigate = useNavigate({ from: fullUrlPath });
 
-  const filterHandler = (type: 'status' | 'regions') => (event: React.ChangeEvent<HTMLInputElement>) => {
+  const filterHandler = (type: 'status' | 'region') => (event: React.ChangeEvent<HTMLInputElement>) => {
     const { checked, value } = event.target;
 
-    switch(type) {
+    switch (type) {
       case 'status':
-        setStatusTags(prevTags => checked ? [...prevTags, value] : prevTags.filter(tag => tag !== value));
+        setStatusTags((prevTags) => (checked ? [...prevTags, value] : prevTags.filter((tag) => tag !== value)));
         break;
-      case 'regions':
-        setRegionsTags(prevTags => checked ? [...prevTags, value] : prevTags.filter(tag => tag !== value));
+      case 'region':
+        setRegionTags((prevTags) => (checked ? [...prevTags, value] : prevTags.filter((tag) => tag !== value)));
         break;
     }
   };
 
   const onResetFilters = () => {
     setStatusTags([]);
-    setRegionsTags([]);
+    setRegionTags([]);
     applyFilter([], []);
     handleFilterView();
     navigate({
@@ -49,14 +51,13 @@ const Dialog: React.FC<DialogProps> = ({ headline, fullUrlPath, applyFilter }) =
   };
 
   const onApplyFilters = () => {
-    applyFilter(statusTags, regionsTags);
+    applyFilter(statusTags, regionTags);
     handleFilterView();
 
     navigate({
-      search: (prev) => ({
-        ...prev,
+      search: () => ({
         status: statusTags.length > 0 ? statusTags.join(',') : undefined,
-        region: regionsTags.length > 0 ? regionsTags.join(',') : undefined,
+        region: regionTags.length > 0 ? regionTags.join(',') : undefined,
       }),
     });
   };
@@ -66,7 +67,7 @@ const Dialog: React.FC<DialogProps> = ({ headline, fullUrlPath, applyFilter }) =
       <div className={`bg-dark-900/90 fixed inset-0 z-50 ${isOpen ? 'block' : 'hidden'}`}></div>
 
       <FilterButton 
-        activeCount={statusTags.length + regionsTags.length}
+        activeCount={statusTags.length + regionTags.length}
         ariaLabel={headline} 
         onClick={handleFilterView} />
 
@@ -119,8 +120,8 @@ const Dialog: React.FC<DialogProps> = ({ headline, fullUrlPath, applyFilter }) =
                 key={regionKey}
                 label={regionValue}
                 name={regionKey}
-                checked={regionsTags.includes(regionValue)}
-                onChange={filterHandler('regions')}
+                checked={regionTags.includes(regionValue)}
+                onChange={filterHandler('region')}
               />
           ))}
         </fieldset>
@@ -129,11 +130,11 @@ const Dialog: React.FC<DialogProps> = ({ headline, fullUrlPath, applyFilter }) =
           <PrimaryButton 
             label="Anwenden" 
             type="button"
-            onClick={() => onApplyFilters()}
+            onClick={onApplyFilters}
           />
           <SecondaryButton 
             label="Zurücksetzen"
-            onClick={() => onResetFilters()}
+            onClick={onResetFilters}
           />
         </div>
       </section>

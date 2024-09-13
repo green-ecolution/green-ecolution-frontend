@@ -28,17 +28,17 @@ function Treecluster() {
   const clusters = treeclusterDemoData();
   const search = useSearch({ from: '/_protected/treecluster/' });
 
-  const [statusFilter, setStatusFilter] = useState<string[]>(search.status ? search.status.split(',') : []);
-  const [regionFilter, setRegionFilter] = useState<string[]>(search.region ? search.region.split(',') : []);
+  const [statusTags, setStatusTags] = useState<string[]>(search.status ? search.status.split(',') : []);
+  const [regionTags, setRegionTags] = useState<string[]>(search.region ? search.region.split(',') : []);
 
   useEffect(() => {
-    if (search.status) setStatusFilter(search.status.split(','));
-    if (search.region) setRegionFilter(search.region.split(','));
+    if (search.status) setStatusTags(search.status.split(','));
+    if (search.region) setRegionTags(search.region.split(','));
   }, [search.status, search.region]);
 
   const filteredClusters = clusters.filter(cluster =>
-    (statusFilter.length === 0 || statusFilter.includes(cluster.status)) &&
-    (regionFilter.length === 0 || regionFilter.includes(cluster.region))
+    (statusTags.length === 0 || statusTags.includes(cluster.status)) &&
+    (regionTags.length === 0 || regionTags.includes(cluster.region))
   );
 
   return (
@@ -57,16 +57,13 @@ function Treecluster() {
       <section className="mt-16">
         <div className="flex justify-end mb-4">
           <Dialog
+            initStatusTags={statusTags}
+            initRegionTags={regionTags}
             headline="Bewässerungsgruppen filtern"
             fullUrlPath={Route.fullPath}
             applyFilter={(statusTags, regionTags) => {
-              setStatusFilter(statusTags);
-              setRegionFilter(regionTags);
-
-              // const searchParams = new URLSearchParams();
-              // if (statusTags.length) searchParams.set('status', statusTags.join(','));
-              // if (regionTags.length) searchParams.set('region', regionTags.join(','));
-              // window.history.replaceState(null, '', '?' + searchParams.toString());
+              setStatusTags(statusTags);
+              setRegionTags(regionTags);
             }}
           />
         </div>
