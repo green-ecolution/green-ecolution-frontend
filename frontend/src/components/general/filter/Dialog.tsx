@@ -7,19 +7,23 @@ import useOutsideClick from '@/hooks/useOutsideClick';
 import { WateringStatus, WateringStatusColor } from '@/types/WateringStatus';
 import Option from './Option';
 import { Region } from '@/types/Region';
+import { useNavigate } from '@tanstack/react-router';
 
 interface DialogProps {
   headline: string;
+  fullUrlPath: string;
   applyFilter: (statusTags: string[], regionsTags: string[]) => void;
 }
 
-const Dialog: React.FC<DialogProps> = ({ headline, applyFilter }) => {
+const Dialog: React.FC<DialogProps> = ({ headline, fullUrlPath, applyFilter }) => {
   const [isOpen, setIsOpen] = useState(false);
   const handleFilterView = () => setIsOpen(!isOpen);
   const dialogRef = useOutsideClick(() => setIsOpen(false));
 
   const [statusTags, setStatusTags] = useState<string[]>([]);
   const [regionsTags, setRegionsTags] = useState<string[]>([]);
+
+  const navigate = useNavigate({ from: fullUrlPath })
 
   const filterHandler = (type: 'status' | 'regions') => (event: React.ChangeEvent<HTMLInputElement>) => {
     const { checked, value } = event.target;
@@ -34,11 +38,27 @@ const Dialog: React.FC<DialogProps> = ({ headline, applyFilter }) => {
     }
   };
 
-  const resetFilters = () => {
+  const onResetFilters = () => {
     setStatusTags([]);
     setRegionsTags([]);
     applyFilter([], []);
     handleFilterView();
+    navigate({
+      search: () => ({}),
+    });
+  };
+
+  const onApplyFilters = () => {
+    applyFilter(statusTags, regionsTags);
+    handleFilterView();
+
+    navigate({
+      search: (prev) => ({
+        ...prev,
+        status: statusTags.length > 0 ? statusTags.join(',') : undefined,
+        region: regionsTags.length > 0 ? regionsTags.join(',') : undefined,
+      }),
+    });
   };
 
   return (
@@ -108,12 +128,12 @@ const Dialog: React.FC<DialogProps> = ({ headline, applyFilter }) => {
         <div className="flex flex-wrap gap-5 mt-6">
           <PrimaryButton 
             label="Anwenden" 
-            type="button" 
-            onClick={() => {applyFilter(statusTags, regionsTags); handleFilterView()}}
+            type="button"
+            onClick={() => onApplyFilters()}
           />
           <SecondaryButton 
             label="Zurücksetzen"
-            onClick={() => resetFilters()}
+            onClick={() => onResetFilters()}
           />
         </div>
       </section>

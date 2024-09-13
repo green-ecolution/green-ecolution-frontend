@@ -1,17 +1,40 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import TreeclusterCard from "@/components/general/cards/TreeclusterCard";
 import Dialog from "@/components/general/filter/Dialog";
 import { treeclusterDemoData } from "@/data/treecluser";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useSearch } from '@tanstack/react-router';
+import { z } from 'zod';
 
-export const Route = createFileRoute("/_protected/treecluster/")({
+const treeclusterFilterSchema = z.object({
+  status: z.string().optional(),
+  region: z.string().optional(),
+});
+
+export const Route = createFileRoute('/_protected/treecluster/')({
   component: Treecluster,
+  validateSearch: treeclusterFilterSchema,
+
+  loaderDeps: ({ search: { status, region } }) => ({
+    status: status ? status.split(',') : [],
+    region: region ? region.split(',') : [],
+  }),
+
+  loader: ({ deps: { status, region } }) => {
+    return { status, region };
+  },
 });
 
 function Treecluster() {
   const clusters = treeclusterDemoData();
-  const [statusFilter, setStatusFilter] = useState<string[]>([]);
-  const [regionFilter, setRegionFilter] = useState<string[]>([]);
+  const search = useSearch({ from: '/_protected/treecluster/' });
+
+  const [statusFilter, setStatusFilter] = useState<string[]>(search.status ? search.status.split(',') : []);
+  const [regionFilter, setRegionFilter] = useState<string[]>(search.region ? search.region.split(',') : []);
+
+  useEffect(() => {
+    if (search.status) setStatusFilter(search.status.split(','));
+    if (search.region) setRegionFilter(search.region.split(','));
+  }, [search.status, search.region]);
 
   const filteredClusters = clusters.filter(cluster =>
     (statusFilter.length === 0 || statusFilter.includes(cluster.status)) &&
@@ -25,8 +48,8 @@ function Treecluster() {
           Auflistung der Bewässerungsgruppen
         </h1>
         <p>
-          Eine Bewässerungsgruppen besteht aus bis zu 40 Bäumen, die die gleichen Standortbedingungen vorweisen. 
-          Mindestens fünf Bäume in einer Baumgruppe sind mit Sensoren ausgestattet. 
+          Eine Bewässerungsgruppen besteht aus bis zu 40 Bäumen, die die gleichen Standortbedingungen vorweisen.
+          Mindestens fünf Bäume in einer Baumgruppe sind mit Sensoren ausgestattet.
           Diese gelieferten Werte werden gemittelt, sodass eine Handlungsempfehlung für die Baumgruppe gegeben werden kann.
         </p>
       </article>
@@ -34,14 +57,20 @@ function Treecluster() {
       <section className="mt-16">
         <div className="flex justify-end mb-4">
           <Dialog
-            headline="Bewässerungsgruppen filtern" 
+            headline="Bewässerungsgruppen filtern"
+            fullUrlPath={Route.fullPath}
             applyFilter={(statusTags, regionTags) => {
               setStatusFilter(statusTags);
               setRegionFilter(regionTags);
+
+              // const searchParams = new URLSearchParams();
+              // if (statusTags.length) searchParams.set('status', statusTags.join(','));
+              // if (regionTags.length) searchParams.set('region', regionTags.join(','));
+              // window.history.replaceState(null, '', '?' + searchParams.toString());
             }}
           />
         </div>
-  
+
         <header className="hidden border-b pb-2 text-sm text-dark-800 px-8 border-b-dark-200 mb-5 lg:grid lg:grid-cols-[1fr,1.5fr,2fr,1fr] lg:gap-5 xl:px-10">
           <p>Status</p>
           <p>Name</p>
@@ -52,15 +81,12 @@ function Treecluster() {
         <ul>
           {filteredClusters.length === 0 ? (
             <li className="text-center text-dark-600 mt-10">
-              <p>
-                Keine Ergebnisse mit den eingestellten Filteroptionen gefunden.
-              </p>
+              <p>Keine Ergebnisse mit den eingestellten Filteroptionen gefunden.</p>
             </li>
           ) : (
             filteredClusters.map((cluster, key) => (
               <li key={key} className="mb-5 last:mb-0">
-                <TreeclusterCard
-                  treecluster={cluster} />
+                <TreeclusterCard treecluster={cluster} />
               </li>
             ))
           )}
