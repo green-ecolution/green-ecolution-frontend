@@ -38,7 +38,6 @@ function Treecluster() {
             applyFilter={(statusTags, regionTags) => {
               setStatusFilter(statusTags);
               setRegionFilter(regionTags);
-              console.log(statusTags, regionTags);
             }}
           />
         </div>

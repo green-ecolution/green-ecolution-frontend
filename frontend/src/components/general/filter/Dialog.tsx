@@ -34,6 +34,13 @@ const Dialog: React.FC<DialogProps> = ({ headline, applyFilter }) => {
     }
   };
 
+  const resetFilters = () => {
+    setStatusTags([]);
+    setRegionsTags([]);
+    applyFilter([], []);
+    handleFilterView();
+  };
+
   return (
     <div>
       <div className={`bg-dark-900/90 fixed inset-0 z-50 ${isOpen ? 'block' : 'hidden'}`}></div>
@@ -53,7 +60,7 @@ const Dialog: React.FC<DialogProps> = ({ headline, applyFilter }) => {
         <div className="flex items-center justify-between gap-x-5 mb-5">
           <h2 className="text-xl font-semibold">{headline}</h2>
           <button
-            aria-label="Close Modal"
+            aria-label="Close Dialog"
             className="text-dark-400 hover:text-dark-600 stroke-1" 
             onClick={handleFilterView}>
               <X />
@@ -72,14 +79,15 @@ const Dialog: React.FC<DialogProps> = ({ headline, applyFilter }) => {
                 key={statusKey}
                 label={statusValue}
                 name={statusKey}
-                filterHandler={filterHandler('status')}
+                checked={statusTags.includes(statusValue)}
+                onChange={filterHandler('status')}
               >
                 <div className={`bg-${WateringStatusColor[statusValue].color} w-4 h-4 rounded-full`} />
               </Option>
           ))}
         </fieldset>
 
-        <fieldset>
+        <fieldset className="mt-6">
           <legend className="font-lato font-semibold text-dark-600 mb-2">
             Stadtteil in Flensburg:
           </legend>
@@ -91,13 +99,22 @@ const Dialog: React.FC<DialogProps> = ({ headline, applyFilter }) => {
                 key={regionKey}
                 label={regionValue}
                 name={regionKey}
-                filterHandler={filterHandler('regions')} />
+                checked={regionsTags.includes(regionValue)}
+                onChange={filterHandler('regions')}
+              />
           ))}
         </fieldset>
 
         <div className="flex flex-wrap gap-5 mt-6">
-          <PrimaryButton label="Anwenden" type="button" onClick={() => {applyFilter(statusTags, regionsTags), handleFilterView()}}/>
-          <SecondaryButton label="Zurücksetzen" />
+          <PrimaryButton 
+            label="Anwenden" 
+            type="button" 
+            onClick={() => {applyFilter(statusTags, regionsTags); handleFilterView()}}
+          />
+          <SecondaryButton 
+            label="Zurücksetzen"
+            onClick={() => resetFilters()}
+          />
         </div>
       </section>
     </div>
