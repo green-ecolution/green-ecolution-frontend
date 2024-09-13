@@ -1,4 +1,6 @@
+import { useState } from 'react';
 import TreeclusterCard from "@/components/general/cards/TreeclusterCard";
+import Dialog from "@/components/general/filter/Dialog";
 import { treeclusterDemoData } from "@/data/treecluser";
 import { createFileRoute } from "@tanstack/react-router";
 
@@ -8,6 +10,11 @@ export const Route = createFileRoute("/_protected/treecluster/")({
 
 function Treecluster() {
   const clusters = treeclusterDemoData();
+  const [filter, setFilter] = useState<string[]>([]);
+
+  const filteredClusters = clusters.filter(cluster =>
+    filter.length === 0 || filter.includes(cluster.status)
+  );
 
   return (
     <div className="container mt-6">
@@ -23,6 +30,13 @@ function Treecluster() {
       </article>
 
       <section className="mt-16">
+        <div className="flex justify-end mb-4">
+          <Dialog
+            headline="Bewässerungsgruppen filtern" 
+            applyFilter={(tags) => setFilter(tags)} // Correctly pass the function
+          />
+        </div>
+  
         <header className="hidden border-b pb-2 text-sm text-dark-800 px-8 border-b-dark-200 mb-5 lg:grid lg:grid-cols-[1fr,1.5fr,2fr,1fr] lg:gap-5 xl:px-10">
           <p>Status</p>
           <p>Name</p>
@@ -31,14 +45,14 @@ function Treecluster() {
         </header>
 
         <ul>
-          {clusters.length === 0 ? (
+          {filteredClusters.length === 0 ? (
             <li className="text-center text-dark-600 mt-10">
               <p>
                 Keine Ergebnisse mit den eingestellten Filteroptionen gefunden.
               </p>
             </li>
           ) : (
-            clusters.map((cluster, key) => (
+            filteredClusters.map((cluster, key) => (
               <li key={key} className="mb-5 last:mb-0">
                 <TreeclusterCard
                   treecluster={cluster} />
