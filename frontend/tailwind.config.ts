@@ -9,6 +9,12 @@ const config = {
     './src/**/*.{ts,tsx}',
     '*.html',
 	],
+  safelist: [
+    {
+      pattern: /^bg-(green|red|yellow)(-(light))?$/,
+      variants: ['before']
+    },
+  ],
   prefix: "",
   theme: {
     container: {
@@ -150,7 +156,7 @@ const config = {
         "accordion-up": "accordion-up 0.2s ease-out",
       },
       boxShadow: {
-        'card': 'box-shadow: 0px 5px 10px 0px rgba(23, 23, 23, 5%)',
+        'cards': '0px 5px 10px 0px rgba(23, 23, 23, 5%)',
       },
     },
   },

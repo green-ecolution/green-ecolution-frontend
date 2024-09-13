@@ -9,7 +9,7 @@ export function useBreadcrumbs() {
       '/sensors': 'Sensoren',
       '/settings': 'Einstellungen',
       '/team': 'Mitarbeitende',
-      '/treecluster': 'Baumgruppen',
+      '/treecluster/': 'Bewässerungsgruppen',
       '/vehicles': 'Fahrzeuge',
       '/waypoints/': 'Einsatzpläne',
       '/waypoints/new': 'Neuer Einsatzplan',
