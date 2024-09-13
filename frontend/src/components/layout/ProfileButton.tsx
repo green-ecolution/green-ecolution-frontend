@@ -2,10 +2,12 @@ import { ChevronDown, LogOut, Settings } from "lucide-react";
 import useStore from '@/store/store';
 import { useState } from "react";
 import NavLink from "../navigation/NavLink";
+import useOutsideClick from "@/hooks/useOutsideClick";
 
 function ProfileButton() {
   const [open, setOpen] = useState(false);
   const user = useStore((state) => state.user);
+  const overlayRef = useOutsideClick<HTMLDivElement>(() => toggleOverlay(false));
   const userInitials = `${user.firstName.charAt(0)}${user.lastName.charAt(0)}`;
 
   const links = [
@@ -26,7 +28,7 @@ function ProfileButton() {
   }
 
   return (
-    <div className="relative">
+    <div className="relative" ref={overlayRef}>
       <button
         aria-label="Profilinformationen anzeigen"
         aria-expanded={open}
@@ -41,13 +43,13 @@ function ProfileButton() {
         <ChevronDown className={`w-5 h-5 text-dark transition-all ease-in-out duration-300 ${open ? 'rotate-180' : ''}`}/>
       </button>
 
-      <div 
+      <div
         id="profile-informations"
-        className={`bg-dark z-50 text-sm text-white pt-5 px-2 right-0 rounded-lg absolute top-14 ${open ? "block" : "hidden"}`}
+        className={`bg-dark shadow-cards max-w-72 z-50 text-sm text-white pt-5 px-2 right-0 rounded-lg absolute top-14 ${open ? "block" : "hidden"}`}
       >
         <p className="border-b border-b-dark-800 mx-3 pb-4">
           Angemeldet als:<br />
-          <strong>{user.email}</strong>
+          <strong className="block truncate">{user.email}</strong>
         </p>
 
         <ul className="py-2">
