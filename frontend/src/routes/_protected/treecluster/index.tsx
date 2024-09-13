@@ -7,7 +7,7 @@ import useUrlParams from '@/hooks/useUrlParams';
 import { mapStatusToOptions } from '@/types/WateringStatus';
 import { mapRegionToOptions } from '@/types/Region';
 
-export const Route = createFileRoute("/treecluster/")({
+export const Route = createFileRoute("/_protected/treecluster/")({
   component: Treecluster,
 });
 

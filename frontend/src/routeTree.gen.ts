@@ -11,142 +11,235 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as VehiclesImport } from './routes/vehicles'
-import { Route as TeamImport } from './routes/team'
-import { Route as SettingsImport } from './routes/settings'
-import { Route as SensorsImport } from './routes/sensors'
-import { Route as IndexImport } from './routes/index'
-import { Route as WaypointsIndexImport } from './routes/waypoints/index'
-import { Route as TreeclusterIndexImport } from './routes/treecluster/index'
-import { Route as MapIndexImport } from './routes/map/index'
-import { Route as WaypointsNewImport } from './routes/waypoints/new'
-import { Route as TreeclusterTreeclusterIdImport } from './routes/treecluster/$treeclusterId'
+import { Route as LogoutImport } from './routes/logout'
+import { Route as LoginImport } from './routes/login'
+import { Route as ProtectedImport } from './routes/_protected'
+import { Route as ProtectedIndexImport } from './routes/_protected/index'
+import { Route as AuthCallbackImport } from './routes/auth/callback'
+import { Route as ProtectedVehiclesImport } from './routes/_protected/vehicles'
+import { Route as ProtectedTeamImport } from './routes/_protected/team'
+import { Route as ProtectedSettingsImport } from './routes/_protected/settings'
+import { Route as ProtectedSensorsImport } from './routes/_protected/sensors'
+import { Route as ProtectedInfoImport } from './routes/_protected/info'
+import { Route as ProtectedDebugImport } from './routes/_protected/debug'
+import { Route as ProtectedWaypointsIndexImport } from './routes/_protected/waypoints/index'
+import { Route as ProtectedTreeclusterIndexImport } from './routes/_protected/treecluster/index'
+import { Route as ProtectedMapIndexImport } from './routes/_protected/map/index'
+import { Route as ProtectedWaypointsNewImport } from './routes/_protected/waypoints/new'
+import { Route as ProtectedTreeclusterTreeclusterIdImport } from './routes/_protected/treecluster/$treeclusterId'
+import { Route as ProtectedDashboardTreeTreeIdImport } from './routes/_protected/dashboard/tree/$treeId'
 
 // Create/Update Routes
 
-const VehiclesRoute = VehiclesImport.update({
-  path: '/vehicles',
+const LogoutRoute = LogoutImport.update({
+  path: '/logout',
   getParentRoute: () => rootRoute,
 } as any)
 
-const TeamRoute = TeamImport.update({
-  path: '/team',
+const LoginRoute = LoginImport.update({
+  path: '/login',
   getParentRoute: () => rootRoute,
 } as any)
 
-const SettingsRoute = SettingsImport.update({
-  path: '/settings',
+const ProtectedRoute = ProtectedImport.update({
+  id: '/_protected',
   getParentRoute: () => rootRoute,
 } as any)
 
-const SensorsRoute = SensorsImport.update({
-  path: '/sensors',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const IndexRoute = IndexImport.update({
+const ProtectedIndexRoute = ProtectedIndexImport.update({
   path: '/',
+  getParentRoute: () => ProtectedRoute,
+} as any)
+
+const AuthCallbackRoute = AuthCallbackImport.update({
+  path: '/auth/callback',
   getParentRoute: () => rootRoute,
 } as any)
 
-const WaypointsIndexRoute = WaypointsIndexImport.update({
+const ProtectedVehiclesRoute = ProtectedVehiclesImport.update({
+  path: '/vehicles',
+  getParentRoute: () => ProtectedRoute,
+} as any)
+
+const ProtectedTeamRoute = ProtectedTeamImport.update({
+  path: '/team',
+  getParentRoute: () => ProtectedRoute,
+} as any)
+
+const ProtectedSettingsRoute = ProtectedSettingsImport.update({
+  path: '/settings',
+  getParentRoute: () => ProtectedRoute,
+} as any)
+
+const ProtectedSensorsRoute = ProtectedSensorsImport.update({
+  path: '/sensors',
+  getParentRoute: () => ProtectedRoute,
+} as any)
+
+const ProtectedInfoRoute = ProtectedInfoImport.update({
+  path: '/info',
+  getParentRoute: () => ProtectedRoute,
+} as any)
+
+const ProtectedDebugRoute = ProtectedDebugImport.update({
+  path: '/debug',
+  getParentRoute: () => ProtectedRoute,
+} as any)
+
+const ProtectedWaypointsIndexRoute = ProtectedWaypointsIndexImport.update({
   path: '/waypoints/',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => ProtectedRoute,
 } as any)
 
-const TreeclusterIndexRoute = TreeclusterIndexImport.update({
+const ProtectedTreeclusterIndexRoute = ProtectedTreeclusterIndexImport.update({
   path: '/treecluster/',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => ProtectedRoute,
 } as any)
 
-const MapIndexRoute = MapIndexImport.update({
+const ProtectedMapIndexRoute = ProtectedMapIndexImport.update({
   path: '/map/',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => ProtectedRoute,
 } as any)
 
-const WaypointsNewRoute = WaypointsNewImport.update({
+const ProtectedWaypointsNewRoute = ProtectedWaypointsNewImport.update({
   path: '/waypoints/new',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => ProtectedRoute,
 } as any)
 
-const TreeclusterTreeclusterIdRoute = TreeclusterTreeclusterIdImport.update({
-  path: '/treecluster/$treeclusterId',
-  getParentRoute: () => rootRoute,
-} as any)
+const ProtectedTreeclusterTreeclusterIdRoute =
+  ProtectedTreeclusterTreeclusterIdImport.update({
+    path: '/treecluster/$treeclusterId',
+    getParentRoute: () => ProtectedRoute,
+  } as any)
+
+const ProtectedDashboardTreeTreeIdRoute =
+  ProtectedDashboardTreeTreeIdImport.update({
+    path: '/dashboard/tree/$treeId',
+    getParentRoute: () => ProtectedRoute,
+  } as any)
 
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexImport
+    '/_protected': {
+      id: '/_protected'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof ProtectedImport
       parentRoute: typeof rootRoute
     }
-    '/sensors': {
-      id: '/sensors'
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginImport
+      parentRoute: typeof rootRoute
+    }
+    '/logout': {
+      id: '/logout'
+      path: '/logout'
+      fullPath: '/logout'
+      preLoaderRoute: typeof LogoutImport
+      parentRoute: typeof rootRoute
+    }
+    '/_protected/debug': {
+      id: '/_protected/debug'
+      path: '/debug'
+      fullPath: '/debug'
+      preLoaderRoute: typeof ProtectedDebugImport
+      parentRoute: typeof ProtectedImport
+    }
+    '/_protected/info': {
+      id: '/_protected/info'
+      path: '/info'
+      fullPath: '/info'
+      preLoaderRoute: typeof ProtectedInfoImport
+      parentRoute: typeof ProtectedImport
+    }
+    '/_protected/sensors': {
+      id: '/_protected/sensors'
       path: '/sensors'
       fullPath: '/sensors'
-      preLoaderRoute: typeof SensorsImport
-      parentRoute: typeof rootRoute
+      preLoaderRoute: typeof ProtectedSensorsImport
+      parentRoute: typeof ProtectedImport
     }
-    '/settings': {
-      id: '/settings'
+    '/_protected/settings': {
+      id: '/_protected/settings'
       path: '/settings'
       fullPath: '/settings'
-      preLoaderRoute: typeof SettingsImport
-      parentRoute: typeof rootRoute
+      preLoaderRoute: typeof ProtectedSettingsImport
+      parentRoute: typeof ProtectedImport
     }
-    '/team': {
-      id: '/team'
+    '/_protected/team': {
+      id: '/_protected/team'
       path: '/team'
       fullPath: '/team'
-      preLoaderRoute: typeof TeamImport
-      parentRoute: typeof rootRoute
+      preLoaderRoute: typeof ProtectedTeamImport
+      parentRoute: typeof ProtectedImport
     }
-    '/vehicles': {
-      id: '/vehicles'
+    '/_protected/vehicles': {
+      id: '/_protected/vehicles'
       path: '/vehicles'
       fullPath: '/vehicles'
-      preLoaderRoute: typeof VehiclesImport
+      preLoaderRoute: typeof ProtectedVehiclesImport
+      parentRoute: typeof ProtectedImport
+    }
+    '/auth/callback': {
+      id: '/auth/callback'
+      path: '/auth/callback'
+      fullPath: '/auth/callback'
+      preLoaderRoute: typeof AuthCallbackImport
       parentRoute: typeof rootRoute
     }
-    '/treecluster/$treeclusterId': {
-      id: '/treecluster/$treeclusterId'
+    '/_protected/': {
+      id: '/_protected/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof ProtectedIndexImport
+      parentRoute: typeof ProtectedImport
+    }
+    '/_protected/treecluster/$treeclusterId': {
+      id: '/_protected/treecluster/$treeclusterId'
       path: '/treecluster/$treeclusterId'
       fullPath: '/treecluster/$treeclusterId'
-      preLoaderRoute: typeof TreeclusterTreeclusterIdImport
-      parentRoute: typeof rootRoute
+      preLoaderRoute: typeof ProtectedTreeclusterTreeclusterIdImport
+      parentRoute: typeof ProtectedImport
     }
-    '/waypoints/new': {
-      id: '/waypoints/new'
+    '/_protected/waypoints/new': {
+      id: '/_protected/waypoints/new'
       path: '/waypoints/new'
       fullPath: '/waypoints/new'
-      preLoaderRoute: typeof WaypointsNewImport
-      parentRoute: typeof rootRoute
+      preLoaderRoute: typeof ProtectedWaypointsNewImport
+      parentRoute: typeof ProtectedImport
     }
-    '/map/': {
-      id: '/map/'
+    '/_protected/map/': {
+      id: '/_protected/map/'
       path: '/map'
       fullPath: '/map'
-      preLoaderRoute: typeof MapIndexImport
-      parentRoute: typeof rootRoute
+      preLoaderRoute: typeof ProtectedMapIndexImport
+      parentRoute: typeof ProtectedImport
     }
-    '/treecluster/': {
-      id: '/treecluster/'
+    '/_protected/treecluster/': {
+      id: '/_protected/treecluster/'
       path: '/treecluster'
       fullPath: '/treecluster'
-      preLoaderRoute: typeof TreeclusterIndexImport
-      parentRoute: typeof rootRoute
+      preLoaderRoute: typeof ProtectedTreeclusterIndexImport
+      parentRoute: typeof ProtectedImport
     }
-    '/waypoints/': {
-      id: '/waypoints/'
+    '/_protected/waypoints/': {
+      id: '/_protected/waypoints/'
       path: '/waypoints'
       fullPath: '/waypoints'
-      preLoaderRoute: typeof WaypointsIndexImport
-      parentRoute: typeof rootRoute
+      preLoaderRoute: typeof ProtectedWaypointsIndexImport
+      parentRoute: typeof ProtectedImport
+    }
+    '/_protected/dashboard/tree/$treeId': {
+      id: '/_protected/dashboard/tree/$treeId'
+      path: '/dashboard/tree/$treeId'
+      fullPath: '/dashboard/tree/$treeId'
+      preLoaderRoute: typeof ProtectedDashboardTreeTreeIdImport
+      parentRoute: typeof ProtectedImport
     }
   }
 }
@@ -154,16 +247,24 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 export const routeTree = rootRoute.addChildren({
-  IndexRoute,
-  SensorsRoute,
-  SettingsRoute,
-  TeamRoute,
-  VehiclesRoute,
-  TreeclusterTreeclusterIdRoute,
-  WaypointsNewRoute,
-  MapIndexRoute,
-  TreeclusterIndexRoute,
-  WaypointsIndexRoute,
+  ProtectedRoute: ProtectedRoute.addChildren({
+    ProtectedDebugRoute,
+    ProtectedInfoRoute,
+    ProtectedSensorsRoute,
+    ProtectedSettingsRoute,
+    ProtectedTeamRoute,
+    ProtectedVehiclesRoute,
+    ProtectedIndexRoute,
+    ProtectedTreeclusterTreeclusterIdRoute,
+    ProtectedWaypointsNewRoute,
+    ProtectedMapIndexRoute,
+    ProtectedTreeclusterIndexRoute,
+    ProtectedWaypointsIndexRoute,
+    ProtectedDashboardTreeTreeIdRoute,
+  }),
+  LoginRoute,
+  LogoutRoute,
+  AuthCallbackRoute,
 })
 
 /* prettier-ignore-end */
@@ -174,47 +275,90 @@ export const routeTree = rootRoute.addChildren({
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
-        "/",
-        "/sensors",
-        "/settings",
-        "/team",
-        "/vehicles",
-        "/treecluster/$treeclusterId",
-        "/waypoints/new",
-        "/map/",
-        "/treecluster/",
-        "/waypoints/"
+        "/_protected",
+        "/login",
+        "/logout",
+        "/auth/callback"
       ]
     },
-    "/": {
-      "filePath": "index.tsx"
+    "/_protected": {
+      "filePath": "_protected.tsx",
+      "children": [
+        "/_protected/debug",
+        "/_protected/info",
+        "/_protected/sensors",
+        "/_protected/settings",
+        "/_protected/team",
+        "/_protected/vehicles",
+        "/_protected/",
+        "/_protected/treecluster/$treeclusterId",
+        "/_protected/waypoints/new",
+        "/_protected/map/",
+        "/_protected/treecluster/",
+        "/_protected/waypoints/",
+        "/_protected/dashboard/tree/$treeId"
+      ]
     },
-    "/sensors": {
-      "filePath": "sensors.tsx"
+    "/login": {
+      "filePath": "login.tsx"
     },
-    "/settings": {
-      "filePath": "settings.tsx"
+    "/logout": {
+      "filePath": "logout.tsx"
     },
-    "/team": {
-      "filePath": "team.tsx"
+    "/_protected/debug": {
+      "filePath": "_protected/debug.tsx",
+      "parent": "/_protected"
     },
-    "/vehicles": {
-      "filePath": "vehicles.tsx"
+    "/_protected/info": {
+      "filePath": "_protected/info.tsx",
+      "parent": "/_protected"
     },
-    "/treecluster/$treeclusterId": {
-      "filePath": "treecluster/$treeclusterId.tsx"
+    "/_protected/sensors": {
+      "filePath": "_protected/sensors.tsx",
+      "parent": "/_protected"
     },
-    "/waypoints/new": {
-      "filePath": "waypoints/new.tsx"
+    "/_protected/settings": {
+      "filePath": "_protected/settings.tsx",
+      "parent": "/_protected"
     },
-    "/map/": {
-      "filePath": "map/index.tsx"
+    "/_protected/team": {
+      "filePath": "_protected/team.tsx",
+      "parent": "/_protected"
     },
-    "/treecluster/": {
-      "filePath": "treecluster/index.tsx"
+    "/_protected/vehicles": {
+      "filePath": "_protected/vehicles.tsx",
+      "parent": "/_protected"
     },
-    "/waypoints/": {
-      "filePath": "waypoints/index.tsx"
+    "/auth/callback": {
+      "filePath": "auth/callback.tsx"
+    },
+    "/_protected/": {
+      "filePath": "_protected/index.tsx",
+      "parent": "/_protected"
+    },
+    "/_protected/treecluster/$treeclusterId": {
+      "filePath": "_protected/treecluster/$treeclusterId.tsx",
+      "parent": "/_protected"
+    },
+    "/_protected/waypoints/new": {
+      "filePath": "_protected/waypoints/new.tsx",
+      "parent": "/_protected"
+    },
+    "/_protected/map/": {
+      "filePath": "_protected/map/index.tsx",
+      "parent": "/_protected"
+    },
+    "/_protected/treecluster/": {
+      "filePath": "_protected/treecluster/index.tsx",
+      "parent": "/_protected"
+    },
+    "/_protected/waypoints/": {
+      "filePath": "_protected/waypoints/index.tsx",
+      "parent": "/_protected"
+    },
+    "/_protected/dashboard/tree/$treeId": {
+      "filePath": "_protected/dashboard/tree/$treeId.tsx",
+      "parent": "/_protected"
     }
   }
 }
