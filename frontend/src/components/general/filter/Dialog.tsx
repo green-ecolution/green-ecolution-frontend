@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import FilterButton from '../buttons/FilterButton';
 import PrimaryButton from '../buttons/PrimaryButton';
 import SecondaryButton from '../buttons/SecondaryButton';
@@ -6,10 +6,11 @@ import { X } from 'lucide-react';
 import useOutsideClick from '@/hooks/useOutsideClick';
 import { WateringStatus, WateringStatusColor } from '@/types/WateringStatus';
 import Option from './Option';
+import { Region } from '@/types/Region';
 
 interface DialogProps {
   headline: string;
-  applyFilter: (filterTags: string[]) => void;
+  applyFilter: (statusTags: string[], regionsTags: string[]) => void;
 }
 
 const Dialog: React.FC<DialogProps> = ({ headline, applyFilter }) => {
@@ -17,28 +18,28 @@ const Dialog: React.FC<DialogProps> = ({ headline, applyFilter }) => {
   const handleFilterView = () => setIsOpen(!isOpen);
   const dialogRef = useOutsideClick(() => setIsOpen(false));
 
-  const [filterTags, setFilterTags] = useState<string[]>([]);
+  const [statusTags, setStatusTags] = useState<string[]>([]);
+  const [regionsTags, setRegionsTags] = useState<string[]>([]);
 
-  const filterHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const filterHandler = (type: 'status' | 'regions') => (event: React.ChangeEvent<HTMLInputElement>) => {
     const { checked, value } = event.target;
 
-    setFilterTags(prevTags => {
-      if (checked) {
-        return [...prevTags, value];
-      } else {
-        return prevTags.filter(tag => tag !== value);
-      }
-    });
+    switch(type) {
+      case 'status':
+        setStatusTags(prevTags => checked ? [...prevTags, value] : prevTags.filter(tag => tag !== value));
+        break;
+      case 'regions':
+        setRegionsTags(prevTags => checked ? [...prevTags, value] : prevTags.filter(tag => tag !== value));
+        break;
+    }
   };
-
-  useEffect(() => {}, [filterTags]);
 
   return (
     <div>
       <div className={`bg-dark-900/90 fixed inset-0 z-50 ${isOpen ? 'block' : 'hidden'}`}></div>
 
       <FilterButton 
-        activeCount={filterTags.length}
+        activeCount={statusTags.length + regionsTags.length}
         ariaLabel={headline} 
         onClick={handleFilterView} />
 
@@ -63,6 +64,7 @@ const Dialog: React.FC<DialogProps> = ({ headline, applyFilter }) => {
           <legend className="font-lato font-semibold text-dark-600 mb-2">
             Zustand der Bewässerung:
           </legend>
+
           {Object.entries(WateringStatus)
             .filter(([key]) => key !== 'unknown')
             .map(([statusKey, statusValue]) => (
@@ -70,15 +72,31 @@ const Dialog: React.FC<DialogProps> = ({ headline, applyFilter }) => {
                 key={statusKey}
                 label={statusValue}
                 name={statusKey}
-                filterHandler={filterHandler}
+                filterHandler={filterHandler('status')}
               >
                 <div className={`bg-${WateringStatusColor[statusValue].color} w-4 h-4 rounded-full`} />
               </Option>
           ))}
         </fieldset>
 
+        <fieldset>
+          <legend className="font-lato font-semibold text-dark-600 mb-2">
+            Stadtteil in Flensburg:
+          </legend>
+          
+          {Object.entries(Region)
+            .filter(([key]) => key !== 'unknown')
+            .map(([regionKey, regionValue]) => (
+              <Option
+                key={regionKey}
+                label={regionValue}
+                name={regionKey}
+                filterHandler={filterHandler('regions')} />
+          ))}
+        </fieldset>
+
         <div className="flex flex-wrap gap-5 mt-6">
-          <PrimaryButton label="Anwenden" type="button" onClick={() => {applyFilter(filterTags), handleFilterView()}}/>
+          <PrimaryButton label="Anwenden" type="button" onClick={() => {applyFilter(statusTags, regionsTags), handleFilterView()}}/>
           <SecondaryButton label="Zurücksetzen" />
         </div>
       </section>

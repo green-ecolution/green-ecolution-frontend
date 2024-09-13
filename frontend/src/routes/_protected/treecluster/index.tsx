@@ -10,10 +10,12 @@ export const Route = createFileRoute("/_protected/treecluster/")({
 
 function Treecluster() {
   const clusters = treeclusterDemoData();
-  const [filter, setFilter] = useState<string[]>([]);
+  const [statusFilter, setStatusFilter] = useState<string[]>([]);
+  const [regionFilter, setRegionFilter] = useState<string[]>([]);
 
   const filteredClusters = clusters.filter(cluster =>
-    filter.length === 0 || filter.includes(cluster.status)
+    (statusFilter.length === 0 || statusFilter.includes(cluster.status)) &&
+    (regionFilter.length === 0 || regionFilter.includes(cluster.region))
   );
 
   return (
@@ -33,7 +35,11 @@ function Treecluster() {
         <div className="flex justify-end mb-4">
           <Dialog
             headline="Bewässerungsgruppen filtern" 
-            applyFilter={(tags) => setFilter(tags)} // Correctly pass the function
+            applyFilter={(statusTags, regionTags) => {
+              setStatusFilter(statusTags);
+              setRegionFilter(regionTags);
+              console.log(statusTags, regionTags);
+            }}
           />
         </div>
   
