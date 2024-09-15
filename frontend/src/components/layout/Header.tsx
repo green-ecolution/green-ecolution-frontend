@@ -1,10 +1,11 @@
 import { AlignJustifyIcon } from 'lucide-react';
-import React from "react";
+import { useState } from "react";
 import Navigation from './Navigation';
 import Breadcrumb from './Breadcrumb';
+import ProfileButton from './ProfileButton';
 
 function Header() {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   function toggleSidebar(state: boolean) {
     setOpen(state);
@@ -30,6 +31,7 @@ function Header() {
           <AlignJustifyIcon className="text-light w-5 h-5" />
         </button>
         <Breadcrumb />
+        <ProfileButton />
       </div>
 
       <Navigation 
