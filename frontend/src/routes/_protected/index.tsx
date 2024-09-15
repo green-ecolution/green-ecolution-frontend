@@ -38,7 +38,7 @@ function Dashboard() {
       url: '/settings',
       description: 'Hier können Sie Einstellungen vornehmen, da Sie Administrator sind.',
       headline: 'Einstellungen',
-      linkLabel: 'Zu den Einstellungen',
+      linkLabel: 'Zur Einsatzplanung',
     },
     {
       url: '/profile',
