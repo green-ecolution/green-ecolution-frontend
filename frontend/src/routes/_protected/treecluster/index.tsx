@@ -76,19 +76,24 @@ function Treecluster() {
         </header>
 
         <ul>
-          {filteredClusters.length === 0 ? (
+          {clusters.length === 0 ? (
             <li className="text-center text-dark-600 mt-10">
-              <p>
-                Es sind noch keine Bewässerungsgruppen vorhanden.
-              </p>
+              <p>Es sind noch keine Bewässerungsgruppen vorhanden.</p>
             </li>
           ) : (
-            filteredClusters.map((cluster, key) => (
-              <li key={key} className="mb-5 last:mb-0">
-                <TreeclusterCard
-                  treecluster={cluster} />
+            filteredClusters.length === 0 ? (
+              <li className="text-center text-dark-600 mt-10">
+                <p>Es wurden keine Bewässerungsgruppen gefunden, die den Filterkriterien entsprechen.</p>
               </li>
-            ))
+            ) : (
+              filteredClusters.map((cluster, key) => (
+                <li key={key} className="mb-5 last:mb-0">
+                  <TreeclusterCard
+                    treecluster={cluster}
+                  />
+                </li>
+              ))
+            )
           )}
         </ul>
       </section>
