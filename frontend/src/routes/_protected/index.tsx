@@ -11,16 +11,16 @@ function Dashboard() {
 
   const cards = [
     {
-      url: '/treecluster',
-      description: 'Listenansicht aller gruppierten Bäume, die mit Sensoren ausgestattet sind.',
-      headline: 'Auflistung der Baumgruppen',
-      linkLabel: 'Zu den Baumgruppen',
-    },
-    {
       url: '/map',
       description: 'Alle Bäume in Flensburg im Zuständigkeitsbereich des TBZ.',
       headline: 'Kataster',
       linkLabel: 'Zum Kataster',
+    },
+    {
+      url: '/treecluster',
+      description: 'Listenansicht aller gruppierten Bäume, die mit Sensoren ausgestattet sind.',
+      headline: 'Auflistung der Bewässerungsgruppen',
+      linkLabel: 'Zu den Bewässerungsgruppen',
     },
     {
       url: '/sensors',

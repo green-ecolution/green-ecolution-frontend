@@ -34,7 +34,7 @@ function Treecluster() {
           {clusters.length === 0 ? (
             <li className="text-center text-dark-600 mt-10">
               <p>
-                Keine Ergebnisse mit den eingestellten Filteroptionen gefunden.
+                Es sind noch keine Bewässerungsgruppen vorhanden.
               </p>
             </li>
           ) : (
