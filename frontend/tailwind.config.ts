@@ -9,6 +9,12 @@ const config = {
     './src/**/*.{ts,tsx}',
     '*.html',
 	],
+  safelist: [
+    {
+      pattern: /^bg-(green|red|yellow)(-(light))?$/,
+      variants: ['before']
+    },
+  ],
   prefix: "",
   theme: {
     container: {

@@ -1,0 +1,77 @@
+import { Region } from "@/types/Region";
+import { WateringStatus } from "@/types/WateringStatus";
+
+export function treeclusterDemoData() {
+  return [
+    {
+      id: 0,
+      headline: 'Westliche Höhe/Exe',
+      number: '12345678XY',
+      address: 'Friesische Straße 31 - 40',
+      region: Region.friesischerBerg,
+      treeCount: 34,
+      sensorCount: 4,
+      status: WateringStatus.bad,
+    },
+    {
+      id: 1,
+      headline: 'Westliche Höhe/Exe',
+      number: '12345678XY',
+      address: 'Friesische Straße 31 - 40',
+      region: Region.engelsby,
+      treeCount: 34,
+      sensorCount: 4,
+      status: WateringStatus.bad,
+    },
+    {
+      id: 3,
+      headline: 'Westliche Höhe/Exe',
+      number: '12345678XY',
+      address: 'Friesische Straße 31 - 40',
+      region: Region.fruerlund,
+      treeCount: 34,
+      sensorCount: 4,
+      status: WateringStatus.moderate,
+    },
+    {
+      id: 4,
+      headline: 'Westliche Höhe/Exe',
+      number: '12345678XY',
+      address: 'Friesische Straße 31 - 40',
+      region: Region.muerwik,
+      treeCount: 34,
+      sensorCount: 4,
+      status: WateringStatus.good,
+    },
+    {
+      id: 4,
+      headline: 'Westliche Höhe/Exe',
+      number: '12345678XY',
+      address: 'Friesische Straße 31 - 40',
+      region: Region.friesischerBerg,
+      treeCount: 34,
+      sensorCount: 4,
+      status: WateringStatus.good,
+    },
+    {
+      id: 5,
+      headline: 'Westliche Höhe/Exe',
+      number: '12345678XY',
+      address: 'Friesische Straße 31 - 40',
+      region: Region.neustadt,
+      treeCount: 34,
+      sensorCount: 4,
+      status: WateringStatus.good,
+    },
+    {
+      id: 5,
+      headline: 'Westliche Höhe/Exe',
+      number: '12345678XY',
+      address: 'Friesische Straße 31 - 40',
+      region: Region.friesischerBerg,
+      treeCount: 34,
+      sensorCount: 4,
+      status: WateringStatus.good,
+    },
+  ];
+}
