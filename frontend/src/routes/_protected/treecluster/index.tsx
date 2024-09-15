@@ -2,12 +2,12 @@ import { useState, useEffect } from 'react';
 import TreeclusterCard from "@/components/general/cards/TreeclusterCard";
 import Dialog from "@/components/general/filter/Dialog";
 import { treeclusterDemoData } from "@/data/treecluser";
-import { createFileRoute, useSearch } from '@tanstack/react-router';
+import { createFileRoute, useLoaderData } from '@tanstack/react-router';
 import { z } from 'zod';
 
 const treeclusterFilterSchema = z.object({
-  status: z.string().optional(),
-  region: z.string().optional(),
+  status: z.array(z.string()).optional(),
+  region: z.array(z.string()).optional(),
 });
 
 export const Route = createFileRoute('/_protected/treecluster/')({
@@ -15,8 +15,8 @@ export const Route = createFileRoute('/_protected/treecluster/')({
   validateSearch: treeclusterFilterSchema,
 
   loaderDeps: ({ search: { status, region } }) => ({
-    status: status ? status.split(',') : [],
-    region: region ? region.split(',') : [],
+    status: status || [],
+    region: region || [],
   }),
 
   loader: ({ deps: { status, region } }) => {
@@ -26,14 +26,14 @@ export const Route = createFileRoute('/_protected/treecluster/')({
 
 function Treecluster() {
   const clusters = treeclusterDemoData();
-  const search = useSearch({ from: '/_protected/treecluster/' });
+  const search = useLoaderData({ from: '/_protected/treecluster/' });
 
-  const [statusTags, setStatusTags] = useState<string[]>(search.status ? search.status.split(',') : []);
-  const [regionTags, setRegionTags] = useState<string[]>(search.region ? search.region.split(',') : []);
+  const [statusTags, setStatusTags] = useState<string[]>(search.status);
+  const [regionTags, setRegionTags] = useState<string[]>(search.region);
 
   useEffect(() => {
-    if (search.status) setStatusTags(search.status.split(','));
-    if (search.region) setRegionTags(search.region.split(','));
+    if (search.status) setStatusTags(search.status);
+    if (search.region) setRegionTags(search.region);
   }, [search.status, search.region]);
 
   const filteredClusters = clusters.filter(cluster =>

@@ -54,8 +54,8 @@ const Dialog: React.FC<DialogProps> = ({ initStatusTags, initRegionTags, headlin
 
     navigate({ 
       search: () => ({
-        status: statusTags.length > 0 ? statusTags.join(',') : undefined,
-        region: regionTags.length > 0 ? regionTags.join(',') : undefined,
+        status: statusTags.length > 0 ? statusTags : undefined,
+        region: regionTags.length > 0 ? regionTags : undefined,
       }),
     });
   };
