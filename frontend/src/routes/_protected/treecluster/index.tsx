@@ -48,8 +48,8 @@ function Treecluster() {
           Auflistung der Bewässerungsgruppen
         </h1>
         <p>
-          Eine Bewässerungsgruppen besteht aus bis zu 40 Bäumen, die die gleichen Standortbedingungen vorweisen.
-          Mindestens fünf Bäume in einer Baumgruppe sind mit Sensoren ausgestattet.
+          Eine Bewässerungsgruppen besteht aus bis zu 40 Bäumen, die die gleichen Standortbedingungen vorweisen. 
+          Mindestens fünf Bäume in einer Baumgruppe sind mit Sensoren ausgestattet. 
           Diese gelieferten Werte werden gemittelt, sodass eine Handlungsempfehlung für die Baumgruppe gegeben werden kann.
         </p>
       </article>
@@ -78,12 +78,15 @@ function Treecluster() {
         <ul>
           {filteredClusters.length === 0 ? (
             <li className="text-center text-dark-600 mt-10">
-              <p>Keine Ergebnisse mit den eingestellten Filteroptionen gefunden.</p>
+              <p>
+                Es sind noch keine Bewässerungsgruppen vorhanden.
+              </p>
             </li>
           ) : (
             filteredClusters.map((cluster, key) => (
               <li key={key} className="mb-5 last:mb-0">
-                <TreeclusterCard treecluster={cluster} />
+                <TreeclusterCard
+                  treecluster={cluster} />
               </li>
             ))
           )}
