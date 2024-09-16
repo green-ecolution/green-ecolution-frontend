@@ -14,6 +14,7 @@ export function useBreadcrumbs() {
       '/waypoints/': 'Einsatzpläne',
       '/waypoints/new': 'Neuer Einsatzplan',
       '/map/': 'Kataster',
+      '/profile': 'Dein Profil',
     };
 
     return matches
