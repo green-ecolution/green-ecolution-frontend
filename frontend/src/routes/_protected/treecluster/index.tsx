@@ -1,13 +1,45 @@
+import { useState, useEffect } from 'react';
 import TreeclusterCard from "@/components/general/cards/TreeclusterCard";
+import Dialog from "@/components/general/filter/Dialog";
 import { treeclusterDemoData } from "@/data/treecluser";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useLoaderData } from '@tanstack/react-router';
+import { z } from 'zod';
 
-export const Route = createFileRoute("/_protected/treecluster/")({
+const treeclusterFilterSchema = z.object({
+  status: z.array(z.string()).optional(),
+  region: z.array(z.string()).optional(),
+});
+
+export const Route = createFileRoute('/_protected/treecluster/')({
   component: Treecluster,
+  validateSearch: treeclusterFilterSchema,
+
+  loaderDeps: ({ search: { status, region } }) => ({
+    status: status || [],
+    region: region || [],
+  }),
+
+  loader: ({ deps: { status, region } }) => {
+    return { status, region };
+  },
 });
 
 function Treecluster() {
   const clusters = treeclusterDemoData();
+  const search = useLoaderData({ from: '/_protected/treecluster/' });
+
+  const [statusTags, setStatusTags] = useState<string[]>(search.status);
+  const [regionTags, setRegionTags] = useState<string[]>(search.region);
+
+  useEffect(() => {
+    if (search.status) setStatusTags(search.status);
+    if (search.region) setRegionTags(search.region);
+  }, [search.status, search.region]);
+
+  const filteredClusters = clusters.filter(cluster =>
+    (statusTags.length === 0 || statusTags.includes(cluster.status)) &&
+    (regionTags.length === 0 || regionTags.includes(cluster.region))
+  );
 
   return (
     <div className="container mt-6">
@@ -23,6 +55,19 @@ function Treecluster() {
       </article>
 
       <section className="mt-16">
+        <div className="flex justify-end mb-4">
+          <Dialog
+            initStatusTags={statusTags}
+            initRegionTags={regionTags}
+            headline="Bewässerungsgruppen filtern"
+            fullUrlPath={Route.fullPath}
+            applyFilter={(statusTags, regionTags) => {
+              setStatusTags(statusTags);
+              setRegionTags(regionTags);
+            }}
+          />
+        </div>
+
         <header className="hidden border-b pb-2 text-sm text-dark-800 px-8 border-b-dark-200 mb-5 lg:grid lg:grid-cols-[1fr,1.5fr,2fr,1fr] lg:gap-5 xl:px-10">
           <p>Status</p>
           <p>Name</p>
@@ -33,17 +78,22 @@ function Treecluster() {
         <ul>
           {clusters.length === 0 ? (
             <li className="text-center text-dark-600 mt-10">
-              <p>
-                Es sind noch keine Bewässerungsgruppen vorhanden.
-              </p>
+              <p>Es sind noch keine Bewässerungsgruppen vorhanden.</p>
             </li>
           ) : (
-            clusters.map((cluster, key) => (
-              <li key={key} className="mb-5 last:mb-0">
-                <TreeclusterCard
-                  treecluster={cluster} />
+            filteredClusters.length === 0 ? (
+              <li className="text-center text-dark-600 mt-10">
+                <p>Es wurden keine Bewässerungsgruppen gefunden, die den Filterkriterien entsprechen.</p>
               </li>
-            ))
+            ) : (
+              filteredClusters.map((cluster, key) => (
+                <li key={key} className="mb-5 last:mb-0">
+                  <TreeclusterCard
+                    treecluster={cluster}
+                  />
+                </li>
+              ))
+            )
           )}
         </ul>
       </section>
