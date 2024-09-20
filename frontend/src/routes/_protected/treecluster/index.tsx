@@ -50,7 +50,7 @@ function Treecluster() {
           Auflistung der Bewässerungsgruppen
         </h1>
         <p className="mb-5">
-          Eine Bewässerungsgruppen besteht aus bis zu 40 Bäumen, die die gleichen Standortbedingungen vorweisen. 
+          Eine Bewässerungsgruppe besteht aus bis zu 40 Bäumen, die die gleichen Standortbedingungen vorweisen. 
           Mindestens fünf Bäume in einer Baumgruppe sind mit Sensoren ausgestattet. 
           Diese gelieferten Werte werden gemittelt, sodass eine Handlungsempfehlung für die Baumgruppe gegeben werden kann.
         </p>
