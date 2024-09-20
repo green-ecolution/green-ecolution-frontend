@@ -4,6 +4,8 @@ import Dialog from "@/components/general/filter/Dialog";
 import { treeclusterDemoData } from "@/data/treecluser";
 import { createFileRoute, useLoaderData } from '@tanstack/react-router';
 import { z } from 'zod';
+import GeneralLink from '@/components/general/buttons/GeneralLink';
+import { Plus } from 'lucide-react';
 
 const treeclusterFilterSchema = z.object({
   status: z.array(z.string()).optional(),
@@ -47,11 +49,15 @@ function Treecluster() {
         <h1 className="font-lato font-bold text-3xl mb-4 lg:text-4xl xl:text-5xl">
           Auflistung der Bewässerungsgruppen
         </h1>
-        <p>
+        <p className="mb-5">
           Eine Bewässerungsgruppen besteht aus bis zu 40 Bäumen, die die gleichen Standortbedingungen vorweisen. 
           Mindestens fünf Bäume in einer Baumgruppe sind mit Sensoren ausgestattet. 
           Diese gelieferten Werte werden gemittelt, sodass eine Handlungsempfehlung für die Baumgruppe gegeben werden kann.
         </p>
+        <GeneralLink 
+          icon={Plus} 
+          label="Neue Gruppe erstellen"
+          url="/treecluster/new" />
       </article>
 
       <section className="mt-16">
