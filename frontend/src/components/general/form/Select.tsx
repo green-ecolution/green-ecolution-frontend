@@ -6,10 +6,12 @@ interface SelectProps {
   placeholder?: string;
   required?: boolean;
   label: string;
-  options: Array<{ value: string; label: string }>;  // Define options prop as an array of objects
+  options: Array<{ value: string; label: string }>;
+  value?: string;
+  onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
-const Select: React.FC<SelectProps> = ({ name, required = false, label, placeholder = '', options }) => {
+const Select: React.FC<SelectProps> = ({ name, required = false, label, placeholder = '', options, value = '', onChange }) => {
   return (
     <div className="relative">
       <figure aria-hidden="true" className="absolute right-4 top-[3.25rem]">
@@ -24,6 +26,8 @@ const Select: React.FC<SelectProps> = ({ name, required = false, label, placehol
         className="w-full text-dark-800 border border-green-light rounded-lg bg-white px-4 py-3 focus:outline-green-dark"
         defaultValue={placeholder ? '' : options[0]?.value}
         required={required}
+        value={value}
+        onChange={onChange}
       >
         {placeholder && <option value="" disabled>{placeholder}</option>}
         {options.map((option) => (
