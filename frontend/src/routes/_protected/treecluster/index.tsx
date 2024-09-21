@@ -55,7 +55,7 @@ function Treecluster() {
       </article>
 
       <section className="mt-16">
-        <div className="flex justify-end mb-4">
+        <div className="flex justify-end mb-6 lg:mb-10">
           <Dialog
             initStatusTags={statusTags}
             initRegionTags={regionTags}

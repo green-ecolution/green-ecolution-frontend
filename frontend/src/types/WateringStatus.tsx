@@ -7,7 +7,7 @@ export enum WateringStatus {
 
 // Match watering status enum to color
 export const WateringStatusColor = {
-  [WateringStatus.unknown]: { color: 'dark-600' },
+  [WateringStatus.unknown]: { color: 'dark-400' },
   [WateringStatus.bad]: { color: 'red' },
   [WateringStatus.moderate]: { color: 'yellow' },
   [WateringStatus.good]: { color: 'green-light' },
