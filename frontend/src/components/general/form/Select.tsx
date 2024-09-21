@@ -15,19 +15,18 @@ const Select: React.FC<SelectProps> = ({ name, required = false, label, placehol
   return (
     <div className="relative">
       <figure aria-hidden="true" className="absolute right-4 top-[3.25rem]">
-        <ChevronDown className="w-4 h-4 text-dark-800"/>
+        <ChevronDown className="w-4 h-4 text-dark-800" />
       </figure>
       <label htmlFor={name} className="block font-semibold text-dark-800 mb-2.5">
         {label} {required ? <span className="text-red">*</span> : null}
       </label>
-      <select 
-        name={name} 
-        id={name} 
+      <select
+        name={name}
+        id={name}
         className="w-full text-dark-800 border border-green-light rounded-lg bg-white px-4 py-3 focus:outline-green-dark"
-        defaultValue={placeholder ? '' : options[0]?.value}
-        required={required}
         value={value}
         onChange={onChange}
+        required={required}
       >
         {placeholder && <option value="" disabled>{placeholder}</option>}
         {options.map((option) => (

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PrimaryButton from '@/components/general/buttons/PrimaryButton';
-import Input from '@/components/general/form/input';
+import Input from '@/components/general/form/Input';
 import Select from '@/components/general/form/Select';
 import Textarea from '@/components/general/form/Textarea';
 import { Region } from '@/types/Region';
@@ -16,11 +16,10 @@ function NewTreecluster() {
     name: '',
     address: '',
     region: '',
-    soil_condition: '',
+    soilCondition: '',
     description: '',
   });
   const [selectedTrees, setSelectedTrees] = useState<string[]>([]);
-  const [formSubmitted, setFormSubmitted] = useState(false);
 
   const regionOptions = Object.values(Region).map(region => ({
     value: region,
@@ -36,17 +35,16 @@ function NewTreecluster() {
   };
 
   async function fetchContent() {
-    const apiUrl: string = `/api/v1/cluster`;
+    const apiUrl = '/api/v1/cluster'; // TODO add real apiUrl from generator
 
     const requestOptions = {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',
-        // Add authentication token here if needed
       },
       body: JSON.stringify({
         ...formData,
-        tree_ids: selectedTrees,
+        treeIds: selectedTrees,
       }),
     };
 
@@ -55,8 +53,6 @@ function NewTreecluster() {
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
-      setFormSubmitted(true);
-      console.log("Form submitted successfully");
     } catch (error) {
       console.error("Failed to submit form:", error.message);
     }
@@ -87,6 +83,7 @@ function NewTreecluster() {
               placeholder="Name"
               label="Name der Bewässerungsgruppe"
               required
+              value={formData.name}
               onChange={handleInputChange}
             />
             <Input 
@@ -94,6 +91,7 @@ function NewTreecluster() {
               placeholder="Straße"
               label="Straße"
               required
+              value={formData.address}
               onChange={handleInputChange}
             />
             <Select 
@@ -102,18 +100,22 @@ function NewTreecluster() {
               placeholder="Wählen Sie eine Region aus"
               label="Region in Flensburg"
               required
+              value={formData.region}
               onChange={handleInputChange}
             />
+
             <Input 
-              name="soil_condition"
+              name="soilCondition"
               placeholder="Bodenbeschaffenheit"
               label="Bodenbeschaffenheit"
+              value={formData.soilCondition}
               onChange={handleInputChange}
             />
             <Textarea 
               name="description"
               placeholder="Hier ist Platz für Notizen"
               label="Kurze Beschreibung"
+              value={formData.description}
               onChange={handleInputChange}
             />
           </div>

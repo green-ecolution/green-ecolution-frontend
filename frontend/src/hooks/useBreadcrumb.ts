@@ -10,6 +10,7 @@ export function useBreadcrumbs() {
       '/settings': 'Einstellungen',
       '/team': 'Mitarbeitende',
       '/treecluster/': 'Bewässerungsgruppen',
+      '/treecluster/new': 'Neue Bewässerungsgruppe erstellen',
       '/vehicles': 'Fahrzeuge',
       '/waypoints/': 'Einsatzpläne',
       '/waypoints/new': 'Neuer Einsatzplan',
