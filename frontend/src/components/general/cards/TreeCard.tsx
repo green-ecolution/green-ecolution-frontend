@@ -24,9 +24,11 @@ const TreeCard: React.FC<TreeCardProps> = ({ tree }) => {
         {tree.status}
       </p>
       <h3 className="text-lg font-bold font-lato">{tree.species}</h3>
-      <p className="text-dark-700">
-        <span className="lg:sr-only">Baumnummer: </span>{tree.number}
-      </p>
+      {tree.number && 
+        <p className="text-dark-700">
+          <span className="lg:sr-only">Baumnummer: </span>{tree.number}
+        </p>
+      }
 
       {tree.hasSensor && 
         <p className="font-lato font-semibold text-green-dark flex items-center gap-x-2">

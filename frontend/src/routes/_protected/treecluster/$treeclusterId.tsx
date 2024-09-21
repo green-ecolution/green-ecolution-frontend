@@ -63,7 +63,14 @@ function SingleTreecluster() {
       </section>
 
       <section className="mt-16">
-        <h2 className="text-xl font-bold font-lato mb-6">Alle zugehörigen Bäume</h2>
+        <h2 className="text-xl font-bold font-lato mb-10">Alle zugehörigen Bäume</h2>
+
+        <header className="hidden border-b pb-2 text-sm text-dark-800 px-8 border-b-dark-200 mb-5 lg:grid lg:grid-cols-[1fr,2fr,1fr,1fr] lg:gap-5 xl:px-10">
+          <p>Status</p>
+          <p>Baumart</p>
+          <p>Baumnummer</p>
+        </header>
+
         <ul className="space-y-5">
           {trees.length === 0 ? (
             <li className="text-center text-dark-600 mt-4">
