@@ -1,6 +1,6 @@
 import Tree from '@/components/icons/Tree';
 import { Region } from '@/types/Region';
-import { WateringStatus, WateringStatusColor } from '@/types/WateringStatus';
+import { getWateringStatusDetails, WateringStatus } from '@/types/WateringStatus';
 import { Link } from '@tanstack/react-router';
 import { MapPin } from 'lucide-react';
 import React from 'react';
@@ -20,7 +20,7 @@ interface TreeclusterCard {
 
 const TreeclusterCard: React.FC<TreeclusterCard> = ({ treecluster }) => {
 
-    const statusColor = WateringStatusColor[treecluster.status].color;
+    const statusColor = getWateringStatusDetails(treecluster.status).color;
 
     return (
       <Link 

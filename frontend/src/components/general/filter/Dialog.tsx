@@ -4,7 +4,7 @@ import PrimaryButton from '../buttons/PrimaryButton';
 import SecondaryButton from '../buttons/SecondaryButton';
 import { X } from 'lucide-react';
 import useOutsideClick from '@/hooks/useOutsideClick';
-import { WateringStatus, WateringStatusColor } from '@/types/WateringStatus';
+import { getWateringStatusDetails, WateringStatus } from '@/types/WateringStatus';
 import Option from './Option';
 import { Region } from '@/types/Region';
 import { useNavigate } from '@tanstack/react-router';
@@ -99,7 +99,7 @@ const Dialog: React.FC<DialogProps> = ({ initStatusTags, initRegionTags, headlin
                 checked={statusTags.includes(statusValue)}
                 onChange={handleFilterChange('status')}
               >
-                <div className={`bg-${WateringStatusColor[statusValue].color} w-4 h-4 rounded-full`} />
+                <div className={`bg-${getWateringStatusDetails(statusValue).color} w-4 h-4 rounded-full`} />
               </Option>
             ))}
         </fieldset>
