@@ -1,5 +1,5 @@
 import { Card } from "@/components/ui/card";
-import { Button } from "./ui/button";
+import { Button } from ".././ui/button";
 import {
   Filter,
   LocateFixed,
@@ -16,7 +16,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "./ui/dropdown-menu";
+} from ".././ui/dropdown-menu";
 import { Link } from "@tanstack/react-router";
 
 export interface HeaderProps { }
