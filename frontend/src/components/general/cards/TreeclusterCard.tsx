@@ -8,7 +8,7 @@ import React from 'react';
 interface TreeclusterCard {
   treecluster: {
     id: number;
-    headline: string; 
+    name: string; 
     number: string;
     address: string;
     region: Region;
@@ -33,7 +33,7 @@ const TreeclusterCard: React.FC<TreeclusterCard> = ({ treecluster }) => {
         </p>
 
         <div>
-          <h2 className="font-bold text-lg mb-0.5">{treecluster.headline}</h2>
+          <h2 className="font-bold text-lg mb-0.5">{treecluster.name}</h2>
           <p className="text-dark-700 text-sm">ID-Nummer: {treecluster.number}</p>
         </div>
 
