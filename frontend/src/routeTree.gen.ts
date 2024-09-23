@@ -27,6 +27,7 @@ import { Route as ProtectedWaypointsIndexImport } from './routes/_protected/wayp
 import { Route as ProtectedTreeclusterIndexImport } from './routes/_protected/treecluster/index'
 import { Route as ProtectedMapIndexImport } from './routes/_protected/map/index'
 import { Route as ProtectedWaypointsNewImport } from './routes/_protected/waypoints/new'
+import { Route as ProtectedTreeclusterTreeclusterIdImport } from './routes/_protected/treecluster/$treeclusterId'
 import { Route as ProtectedDashboardTreeTreeIdImport } from './routes/_protected/dashboard/tree/$treeId'
 
 // Create/Update Routes
@@ -110,6 +111,12 @@ const ProtectedWaypointsNewRoute = ProtectedWaypointsNewImport.update({
   path: '/waypoints/new',
   getParentRoute: () => ProtectedRoute,
 } as any)
+
+const ProtectedTreeclusterTreeclusterIdRoute =
+  ProtectedTreeclusterTreeclusterIdImport.update({
+    path: '/treecluster/$treeclusterId',
+    getParentRoute: () => ProtectedRoute,
+  } as any)
 
 const ProtectedDashboardTreeTreeIdRoute =
   ProtectedDashboardTreeTreeIdImport.update({
@@ -205,6 +212,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedIndexImport
       parentRoute: typeof ProtectedImport
     }
+    '/_protected/treecluster/$treeclusterId': {
+      id: '/_protected/treecluster/$treeclusterId'
+      path: '/treecluster/$treeclusterId'
+      fullPath: '/treecluster/$treeclusterId'
+      preLoaderRoute: typeof ProtectedTreeclusterTreeclusterIdImport
+      parentRoute: typeof ProtectedImport
+    }
     '/_protected/waypoints/new': {
       id: '/_protected/waypoints/new'
       path: '/waypoints/new'
@@ -255,6 +269,7 @@ export const routeTree = rootRoute.addChildren({
     ProtectedTeamRoute,
     ProtectedVehiclesRoute,
     ProtectedIndexRoute,
+    ProtectedTreeclusterTreeclusterIdRoute,
     ProtectedWaypointsNewRoute,
     ProtectedMapIndexRoute,
     ProtectedTreeclusterIndexRoute,
@@ -291,6 +306,7 @@ export const routeTree = rootRoute.addChildren({
         "/_protected/team",
         "/_protected/vehicles",
         "/_protected/",
+        "/_protected/treecluster/$treeclusterId",
         "/_protected/waypoints/new",
         "/_protected/map/",
         "/_protected/treecluster/",
@@ -337,6 +353,10 @@ export const routeTree = rootRoute.addChildren({
     },
     "/_protected/": {
       "filePath": "_protected/index.tsx",
+      "parent": "/_protected"
+    },
+    "/_protected/treecluster/$treeclusterId": {
+      "filePath": "_protected/treecluster/$treeclusterId.tsx",
       "parent": "/_protected"
     },
     "/_protected/waypoints/new": {
