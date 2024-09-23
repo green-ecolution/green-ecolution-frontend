@@ -5,7 +5,7 @@ import Textarea from '@/components/general/form/Textarea';
 import { Region } from '@/types/Region';
 import { createFileRoute } from '@tanstack/react-router'
 import { Plus } from 'lucide-react';
-import { clusterApi, EntitiesTreeClusterWateringStatus, EntitiesTreeSoilCondition, infoApi } from '@/api/backendApi'
+import { clusterApi, EntitiesTreeSoilCondition, infoApi } from '@/api/backendApi'
 import { useForm, SubmitHandler } from "react-hook-form"
 import { useState } from 'react';
 import { useAuthHeader } from '@/hooks/useAuthHeader';
@@ -59,10 +59,6 @@ function NewTreecluster() {
       const clusterData = {
         ...data,
         treeIds: selectedTrees,
-        archived: false, // @TODO: delete
-        latitude: 51, // @TODO: delete
-        longitude: 23, // @TODO: delete
-        wateringStatus: EntitiesTreeClusterWateringStatus.TreeClusterWateringStatusUnknown, // @TODO: delete
       };
       
       const response = await clusterApi.createTreeCluster({
