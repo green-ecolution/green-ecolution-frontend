@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import PrimaryButton from '@/components/general/buttons/PrimaryButton';
 import Input from '@/components/general/form/Input';
 import Select from '@/components/general/form/Select';
@@ -6,62 +5,58 @@ import Textarea from '@/components/general/form/Textarea';
 import { Region } from '@/types/Region';
 import { createFileRoute } from '@tanstack/react-router'
 import { Plus } from 'lucide-react';
+import { clusterApi, EntitiesTreeClusterWateringStatus, EntitiesTreeSoilCondition, infoApi } from '@/api/backendApi'
+import { useForm, SubmitHandler } from "react-hook-form"
+import { useState } from 'react';
+import { useAuthHeader } from '@/hooks/useAuthHeader';
+import { SoilConditionOptions } from '@/types/SoilCondition';
 
 export const Route = createFileRoute('/_protected/treecluster/new')({
   component: NewTreecluster
 })
 
+interface NewTreeClusterForm {
+  name: string;
+  address: string;
+  region: Region;
+  description: string;
+  soilCondition: EntitiesTreeSoilCondition;
+}
+
 function NewTreecluster() {
-  const [formData, setFormData] = useState({
-    name: '',
-    address: '',
-    region: '',
-    soilCondition: '',
-    description: '',
-  });
-  const [selectedTrees, setSelectedTrees] = useState<string[]>([]);
+  const [selectedTrees] = useState<number[]>([]);
+  const authorization = useAuthHeader();
 
   const regionOptions = Object.values(Region).map(region => ({
     value: region,
     label: region,
   }));
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
-
-  async function fetchContent() {
-    const apiUrl = '/api/v1/cluster'; // TODO add real apiUrl from generator
-
-    const requestOptions = {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        ...formData,
-        treeIds: selectedTrees,
-      }),
-    };
-
+  const { register, handleSubmit } = useForm<NewTreeClusterForm>()
+  const onSubmit: SubmitHandler<NewTreeClusterForm> = async (data) => {
     try {
-      const response = await fetch(apiUrl, requestOptions);
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
+      await infoApi.getAppInfo({ authorization });
+  
+      const clusterData = {
+        ...data,
+        treeIds: selectedTrees,
+        archived: false, // @TODO: delete
+        latitude: 51, // @TODO: delete
+        longitude: 23, // @TODO: delete
+        wateringStatus: EntitiesTreeClusterWateringStatus.TreeClusterWateringStatusUnknown, // @TODO: delete
+      };
+      
+      const response = await clusterApi.createTreeCluster({
+        authorization,
+        body: clusterData,
+      });
+  
+      console.log('Tree cluster created:', response);
     } catch (error) {
-      console.error("Failed to submit form:", error.message);
+      console.error('Failed to create tree cluster:', error);
     }
-  }
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    fetchContent();
   };
+  
 
   return (
     <div className="container mt-6">
@@ -76,47 +71,44 @@ function NewTreecluster() {
       </article>
 
       <section className="mt-10">
-        <form className="lg:grid lg:grid-cols-2 lg:gap-x-11" onSubmit={handleSubmit}>
+        <form className="space-y-6 lg:space-y-0 lg:grid lg:grid-cols-2 lg:gap-11" onSubmit={handleSubmit(onSubmit)}>
           <div className="space-y-6">
-            <Input 
+            <Input<NewTreeClusterForm>
               name="name"
               placeholder="Name"
               label="Name der Bewässerungsgruppe"
               required
-              value={formData.name}
-              onChange={handleInputChange}
+              register={register}
             />
-            <Input 
+            <Input<NewTreeClusterForm>
               name="address"
               placeholder="Straße"
               label="Straße"
               required
-              value={formData.address}
-              onChange={handleInputChange}
+              register={register}
             />
-            <Select 
+            <Select<NewTreeClusterForm>
               name="region"
               options={regionOptions}
               placeholder="Wählen Sie eine Region aus"
               label="Region in Flensburg"
               required
-              value={formData.region}
-              onChange={handleInputChange}
+              register={register}
             />
-
-            <Input 
+            <Select<NewTreeClusterForm>
               name="soilCondition"
-              placeholder="Bodenbeschaffenheit"
+              options={SoilConditionOptions}
+              placeholder="Wählen Sie eine Bodenbeschaffenheit aus"
               label="Bodenbeschaffenheit"
-              value={formData.soilCondition}
-              onChange={handleInputChange}
+              required
+              register={register}
             />
-            <Textarea 
+            <Textarea<NewTreeClusterForm>
               name="description"
               placeholder="Hier ist Platz für Notizen"
               label="Kurze Beschreibung"
-              value={formData.description}
-              onChange={handleInputChange}
+              required
+              register={register}
             />
           </div>
 

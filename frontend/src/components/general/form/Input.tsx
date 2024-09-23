@@ -1,16 +1,15 @@
-import React from 'react';
+import { FieldValues, Path, UseFormRegister } from "react-hook-form";
 
-interface InputProps {
-  name: string;
+interface InputProps<T extends FieldValues> {
+  name: Path<T>;
   placeholder?: string;
   required?: boolean;
-  label: string;
   type?: string;
-  value?: string;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  label: string;
+  register: UseFormRegister<T>;
 }
 
-const Input: React.FC<InputProps> = ({ name, required = false, label, type = 'text', placeholder = '', value = '', onChange }) => {
+const Input = <T extends FieldValues>({ name, label, type = 'text', placeholder = '', register, required = false }: InputProps<T>) => {
   return (
     <div>
       <label htmlFor={name} className="block font-semibold text-dark-800 mb-2.5">
@@ -18,12 +17,10 @@ const Input: React.FC<InputProps> = ({ name, required = false, label, type = 'te
       </label>
       <input
         type={type}
-        name={name}
         id={name}
         required={required}
         placeholder={placeholder}
-        value={value}
-        onChange={onChange}
+        {...register(name, { required })}
         className="w-full text-dark-800 border border-green-light rounded-lg bg-white px-4 py-3 focus:outline-green-dark"
       />
     </div>
