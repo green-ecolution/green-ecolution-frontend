@@ -1,4 +1,5 @@
-import Map from "@/components/Map";
+import Map from "@/components/map/Map";
+import ZoomControls from "@/components/map/ZoomControls";
 import useMapStore from "@/store/store";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useMapEvents } from "react-leaflet/hooks";
@@ -31,6 +32,7 @@ function MapView() {
   return (
     <div className="relative">
       <Map>
+        <ZoomControls />
         <MapConroller />
       </Map>
     </div>
