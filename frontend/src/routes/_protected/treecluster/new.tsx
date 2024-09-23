@@ -10,10 +10,26 @@ import { useForm, SubmitHandler } from "react-hook-form"
 import { useState } from 'react';
 import { useAuthHeader } from '@/hooks/useAuthHeader';
 import { SoilConditionOptions } from '@/types/SoilCondition';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 export const Route = createFileRoute('/_protected/treecluster/new')({
   component: NewTreecluster
 })
+
+const NewTreeClusterSchema = z.object({
+  name: z.string().min(1, 'Name is required'),
+  address: z.string().min(1, 'Address is required'),
+  region: z.nativeEnum(Region).refine(value => 
+    Object.values(Region).includes(value),
+    { message: 'Invalid soil condition' }
+  ),
+  description: z.string().min(1, 'Description is required').optional(),
+  soilCondition: z.nativeEnum(EntitiesTreeSoilCondition).refine(value => 
+    Object.values(EntitiesTreeSoilCondition).includes(value),
+    { message: 'Invalid soil condition' }
+  ),
+});
 
 interface NewTreeClusterForm {
   name: string;
@@ -32,7 +48,10 @@ function NewTreecluster() {
     label: region,
   }));
 
-  const { register, handleSubmit } = useForm<NewTreeClusterForm>()
+  const { register, handleSubmit, formState: { errors } } = useForm<NewTreeClusterForm>({
+    resolver: zodResolver(NewTreeClusterSchema),
+  });
+
   const onSubmit: SubmitHandler<NewTreeClusterForm> = async (data) => {
     try {
       await infoApi.getAppInfo({ authorization });
@@ -57,7 +76,6 @@ function NewTreecluster() {
     }
   };
   
-
   return (
     <div className="container mt-6">
       <article className="2xl:w-4/5">
@@ -79,6 +97,7 @@ function NewTreecluster() {
               label="Name der Bewässerungsgruppe"
               required
               register={register}
+              error={errors.name?.message}
             />
             <Input<NewTreeClusterForm>
               name="address"
@@ -86,6 +105,7 @@ function NewTreecluster() {
               label="Straße"
               required
               register={register}
+              error={errors.address?.message}
             />
             <Select<NewTreeClusterForm>
               name="region"
@@ -94,6 +114,7 @@ function NewTreecluster() {
               label="Region in Flensburg"
               required
               register={register}
+              error={errors.region?.message}
             />
             <Select<NewTreeClusterForm>
               name="soilCondition"
@@ -102,6 +123,7 @@ function NewTreecluster() {
               label="Bodenbeschaffenheit"
               required
               register={register}
+              error={errors.soilCondition?.message}
             />
             <Textarea<NewTreeClusterForm>
               name="description"
@@ -109,6 +131,7 @@ function NewTreecluster() {
               label="Kurze Beschreibung"
               required
               register={register}
+              error={errors.description?.message}
             />
           </div>
 

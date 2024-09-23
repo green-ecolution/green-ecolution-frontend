@@ -9,9 +9,10 @@ interface SelectProps<T extends FieldValues> {
   options: Array<{ value: string; label: string }>;
   label: string;
   register: UseFormRegister<T>;
+  error?: string,
 }
 
-const Select = <T extends FieldValues>({ name, required = false, label, placeholder = '', options, register }: SelectProps<T>) => {
+const Select = <T extends FieldValues>({ name, required = false, label, placeholder = '', options, register, error }: SelectProps<T>) => {
   return (
     <div className="relative">
       <figure aria-hidden="true" className="absolute right-4 top-[3.25rem]">
@@ -33,6 +34,7 @@ const Select = <T extends FieldValues>({ name, required = false, label, placehol
           </option>
         ))}
       </select>
+      {error && <span className="text-red mt-2 font-semibold text-sm">{error}</span>}
     </div>
   );
 };
