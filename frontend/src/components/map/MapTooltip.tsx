@@ -4,11 +4,11 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from ".././ui/card";
-import { Button } from ".././ui/button";
+} from "../ui/card";
 import { LayoutDashboard, X } from "lucide-react";
 import { Link } from "@tanstack/react-router";
-import { Tooltip, TooltipContent, TooltipTrigger } from ".././ui/tooltip";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import { Button } from "../ui/button";
 
 export interface MapTooltipProps {
   open: boolean;
