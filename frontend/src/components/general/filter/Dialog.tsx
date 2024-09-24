@@ -77,7 +77,7 @@ const Dialog: React.FC<DialogProps> = ({ initStatusTags, initRegionTags, headlin
         className={`fixed z-[60] inset-x-4 shadow-xl bg-white top-1/2 -translate-y-1/2 p-5 rounded-xl mx-auto max-w-[30rem] ${isOpen ? 'block' : 'hidden'}`}
       >
         <div className="flex items-center justify-between gap-x-5 mb-5">
-          <h2 className="text-xl font-semibold">{headline}</h2>
+          <h2 className="text-xl font-lato font-semibold">{headline}</h2>
           <button
             aria-label="Close Dialog"
             className="text-dark-400 hover:text-dark-600 stroke-1"

@@ -4,7 +4,6 @@ import Select from '@/components/general/form/Select';
 import Textarea from '@/components/general/form/Textarea';
 import { Region } from '@/types/Region';
 import { createFileRoute } from '@tanstack/react-router'
-import { Plus } from 'lucide-react';
 import { clusterApi, EntitiesTreeSoilCondition, infoApi } from '@/api/backendApi'
 import { useForm, SubmitHandler } from "react-hook-form"
 import { useState } from 'react';
@@ -12,9 +11,11 @@ import { useAuthHeader } from '@/hooks/useAuthHeader';
 import { SoilConditionOptions } from '@/types/SoilCondition';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import AddTreesSection from '@/components/treecluster/AddTreesSection';
+import SecondaryButton from '@/components/general/buttons/SecondaryButton';
 
 export const Route = createFileRoute('/_protected/treecluster/new')({
-  component: NewTreecluster
+  component: NewTreecluster,
 })
 
 const NewTreeClusterSchema = z.object({
@@ -131,24 +132,7 @@ function NewTreecluster() {
             />
           </div>
 
-          <div>
-            <p className="block font-semibold text-dark-800 mb-2.5">
-              Zugehörige Bäume <span className="text-red">*</span>
-            </p>
-            {selectedTrees.length === 0 ? (
-              <p className="text-dark-600 font-semibold font-lato">
-                Es wurden noch keine Bäume ausgewählt.
-              </p>
-            ) : (
-              <p>
-                Bäume wurden ausgewählt.
-              </p>
-            )}
-            <button type="button" className="mt-6 border border-green-light text-dark-800 px-5 py-2 group flex gap-x-3 rounded-xl items-center transition-all ease-in-out duration-300 hover:border-green-dark hover:text-dark">
-              <span className="font-medium">Bäume hinzufügen</span>
-              <Plus className="text-current" />
-            </button>
-          </div>
+          <AddTreesSection selectedTrees={selectedTrees} />
           
           <PrimaryButton type="submit" label="Speichern" className="mt-10 lg:col-span-full lg:w-fit" />
         </form>

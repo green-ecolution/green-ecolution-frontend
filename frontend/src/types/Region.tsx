@@ -11,4 +11,5 @@ export enum Region {
   suedstadt = 'Südstadt',
   tarup = 'Tarup',
   weiche = 'Weiche',
+  unknown = 'Nicht bekannt',
 }
