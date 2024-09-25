@@ -22,6 +22,7 @@ import { Route as ProtectedSettingsImport } from './routes/_protected/settings'
 import { Route as ProtectedSensorsImport } from './routes/_protected/sensors'
 import { Route as ProtectedProfileImport } from './routes/_protected/profile'
 import { Route as ProtectedInfoImport } from './routes/_protected/info'
+import { Route as ProtectedImportImport } from './routes/_protected/import'
 import { Route as ProtectedDebugImport } from './routes/_protected/debug'
 import { Route as ProtectedWaypointsIndexImport } from './routes/_protected/waypoints/index'
 import { Route as ProtectedTreeclusterIndexImport } from './routes/_protected/treecluster/index'
@@ -85,6 +86,11 @@ const ProtectedProfileRoute = ProtectedProfileImport.update({
 
 const ProtectedInfoRoute = ProtectedInfoImport.update({
   path: '/info',
+  getParentRoute: () => ProtectedRoute,
+} as any)
+
+const ProtectedImportRoute = ProtectedImportImport.update({
+  path: '/import',
   getParentRoute: () => ProtectedRoute,
 } as any)
 
@@ -160,6 +166,13 @@ declare module '@tanstack/react-router' {
       path: '/debug'
       fullPath: '/debug'
       preLoaderRoute: typeof ProtectedDebugImport
+      parentRoute: typeof ProtectedImport
+    }
+    '/_protected/import': {
+      id: '/_protected/import'
+      path: '/import'
+      fullPath: '/import'
+      preLoaderRoute: typeof ProtectedImportImport
       parentRoute: typeof ProtectedImport
     }
     '/_protected/info': {
@@ -275,6 +288,7 @@ declare module '@tanstack/react-router' {
 export const routeTree = rootRoute.addChildren({
   ProtectedRoute: ProtectedRoute.addChildren({
     ProtectedDebugRoute,
+    ProtectedImportRoute,
     ProtectedInfoRoute,
     ProtectedProfileRoute,
     ProtectedSensorsRoute,
@@ -313,6 +327,7 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "_protected.tsx",
       "children": [
         "/_protected/debug",
+        "/_protected/import",
         "/_protected/info",
         "/_protected/profile",
         "/_protected/sensors",
@@ -337,6 +352,10 @@ export const routeTree = rootRoute.addChildren({
     },
     "/_protected/debug": {
       "filePath": "_protected/debug.tsx",
+      "parent": "/_protected"
+    },
+    "/_protected/import": {
+      "filePath": "_protected/import.tsx",
       "parent": "/_protected"
     },
     "/_protected/info": {
