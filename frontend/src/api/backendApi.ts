@@ -3,6 +3,7 @@ import {
   ConfigurationParameters,
   HTTPHeaders,
   InfoApi,
+  TreeClusterApi,
   UserApi,
 } from "@green-ecolution/backend-client";
 
@@ -19,6 +20,7 @@ const configParams: ConfigurationParameters = {
 const config = new Configuration(configParams);
 
 // export const treeApi = new TreesApi(config);
+export const clusterApi = new TreeClusterApi(config);
 export const infoApi = new InfoApi(config);
 export const userApi = new UserApi(config);
 
