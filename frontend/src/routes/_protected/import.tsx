@@ -43,7 +43,7 @@ function ImportFile() {
         </p>
       </article>
       <br />
-      <ul className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+      <ul className="grid grid-cols-1 gap-5 mt-10 md:grid-cols-2 lg:grid-cols-3">
         {cards.map((card, key) => (
           <li key={key}>
             <InfoCard headline={card.headline} value={card.value} description={card.description} />
