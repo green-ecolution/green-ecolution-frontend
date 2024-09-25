@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import FilterButton from '../buttons/FilterButton';
 import PrimaryButton from '../buttons/PrimaryButton';
 import SecondaryButton from '../buttons/SecondaryButton';
-import { X } from 'lucide-react';
+import { MoveRight, X } from 'lucide-react';
 import useOutsideClick from '@/hooks/useOutsideClick';
 import { WateringStatus, WateringStatusColor } from '@/types/WateringStatus';
 import Option from './Option';
@@ -52,7 +52,7 @@ const Dialog: React.FC<DialogProps> = ({ initStatusTags, initRegionTags, headlin
     applyFilter(statusTags, regionTags);
     handleFilterView();
 
-    navigate({ 
+    navigate({
       search: () => ({
         status: statusTags.length > 0 ? statusTags : undefined,
         region: regionTags.length > 0 ? regionTags : undefined,
@@ -120,7 +120,9 @@ const Dialog: React.FC<DialogProps> = ({ initStatusTags, initRegionTags, headlin
         </fieldset>
 
         <div className="flex flex-wrap gap-5 mt-6">
-          <PrimaryButton label="Anwenden" type="button" onClick={applyFilters} />
+          <PrimaryButton label="Anwenden" icon={
+            <MoveRight className="transition-all ease-in-out duration-300 group-hover:translate-x-2" />
+          } type="button" onClick={applyFilters} />
           <SecondaryButton label="Zurücksetzen" onClick={resetFilters} />
         </div>
       </section>
