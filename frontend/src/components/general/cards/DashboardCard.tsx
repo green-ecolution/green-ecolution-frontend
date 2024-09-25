@@ -8,24 +8,25 @@ interface DashboardCard {
   linkLabel: string;
   url: string;
   isDark: boolean;
+  isWhiteBackground: boolean
 }
-
-const DashboardCard: React.FC<DashboardCard> = ({ headline, description, linkLabel, url, isDark }) => {
-    return (
-      <Link 
+const DashboardCard: React.FC<DashboardCard> = ({ headline, description, linkLabel, url, isDark, isWhiteBackground }) => {
+  return (
+    <Link
       to={url}
       aria-label={linkLabel}
-      className={`shadow-cards h-full p-6 rounded-xl group flex flex-col gap-4 transition-all ease-in-out duration-300 border 
-        ${isDark ? 'border-green-dark bg-green-dark-50 hover:bg-green-dark-100' : 'border-green-light bg-green-light-50 hover:bg-green-light-100'} `}
-    >
+      className={`shadow-cards h-full p-6 rounded-xl group flex flex-col gap-4 transition-all ease-in-out duration-300 ${!isWhiteBackground ? 'border' : ''}
+    ${isWhiteBackground ? 'border-gray-300 bg-white hover:bg-green-light-100' :
+          `${isDark ? 'border-green-dark bg-green-dark-50 hover:bg-green-dark-100'
+            : 'border-green-light bg-green-light-50 hover:bg-green-light-100'}`} `}>
       <h3 className="font-lato text-lg text-dark font-semibold">{headline}</h3>
       <p>{description}</p>
       <p className="font-lato font-semibold text-green-dark flex items-center gap-x-2">
         <span>{linkLabel}</span>
-        <MoveRight className="transition-all ease-in-out duration-300 group-hover:translate-x-2"/>
+        <MoveRight className="transition-all ease-in-out duration-300 group-hover:translate-x-2" />
       </p>
     </Link>
-    );
+  );
 }
 
 export default DashboardCard;

@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import SettingCard from '@/components/general/cards/SettingCard';
+import DashboardCard from "@/components/general/cards/DashboardCard";
+import SettingCard from "@/components/general/cards/SettingCard";
 
 export const Route = createFileRoute("/_protected/settings")({
   component: Settings,
@@ -31,19 +32,16 @@ function Settings() {
         </p>
       </article>
 
-      <h2 className="text-sm font-semibold text-dark-800 mb-4">
-        ...
-      </h2>
-
-      <ul className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+      <ul className="grid grid-cols-1 gap-5 mt-10 md:grid-cols-2 lg:grid-cols-3">
         {cards.map((card, key) => (
           <li key={key}>
-            <SettingCard
+            <DashboardCard
               headline={card.headline}
               description={card.description}
               linkLabel={card.linkLabel}
               url={card.url}
-              isDark={key % 2 !== 0} />
+              isDark={key % 2 !== 0} 
+              isWhiteBackground={true}/>
           </li>
         ))}
       </ul>
