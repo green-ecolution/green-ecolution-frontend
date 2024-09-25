@@ -8,7 +8,7 @@ export const NewTreeClusterSchema = z.object({
   region: z.nativeEnum(Region).refine((value) => Object.values(Region).includes(value), {
     message: 'Keine korrekte Region.',
   }),
-  description: z.string().optional(),
+  description: z.string().min(1, 'Beschreibung ist erforderlich.'),
   soilCondition: z.nativeEnum(EntitiesTreeSoilCondition).refine((value) => Object.values(EntitiesTreeSoilCondition).includes(value), {
     message: 'Keine korrekte Bodenbeschaffenheit.',
   }),
