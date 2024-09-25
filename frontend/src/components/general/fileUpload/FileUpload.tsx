@@ -101,7 +101,7 @@ const FileUpload: React.FC<FileUploadProps> = ({to, fileType}) => {
                         <span className="text-indigo-600 text-2xl">📄</span>
 
                         <div className="flex-1">
-                            <h6 className="text-sm font-medium">{selectedFile?.name}</h6>
+                            <p className="text-sm font-medium">{selectedFile?.name}</p>
 
                             <div className="w-full h-1.5 bg-gray-200 rounded mt-2">
                                 <div
