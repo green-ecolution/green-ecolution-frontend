@@ -12,6 +12,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import useStore from '@/store/store';
 import SelectTrees from '@/components/general/form/SelectTrees';
+import { useEffect } from 'react';
 
 export const Route = createFileRoute('/_protected/treecluster/new')({
   component: NewTreecluster,
@@ -48,9 +49,26 @@ function NewTreecluster() {
     label: region,
   }));
 
-  const { register, handleSubmit, formState: { errors }, getValues } = useForm<NewTreeClusterForm>({
+  const { register, handleSubmit, formState: { errors }, getValues, reset } = useForm<NewTreeClusterForm>({
     resolver: zodResolver(NewTreeClusterSchema),
+    defaultValues: {
+      name: newTreecluster.name || '',
+      address: newTreecluster.address || '',
+      region: newTreecluster.region || Region.unknown,
+      description: newTreecluster.description || '',
+      soilCondition: newTreecluster.soilCondition || EntitiesTreeSoilCondition.TreeSoilConditionUnknown,
+    },
   });
+
+  useEffect(() => {
+    reset({
+      name: newTreecluster.name || '',
+      address: newTreecluster.address || '',
+      region: newTreecluster.region || Region.unknown,
+      description: newTreecluster.description || '',
+      soilCondition: newTreecluster.soilCondition || EntitiesTreeSoilCondition.TreeSoilConditionUnknown,
+    });
+  }, [newTreecluster, reset]);
 
   const onSubmit: SubmitHandler<NewTreeClusterForm> = async (data) => {
     try {
