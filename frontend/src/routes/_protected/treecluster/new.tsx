@@ -11,7 +11,7 @@ import { SoilConditionOptions } from '@/types/SoilCondition';
 import { zodResolver } from '@hookform/resolvers/zod';
 import useStore from '@/store/store';
 import SelectTrees from '@/components/general/form/SelectTrees';
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { NewTreeClusterSchema, NewTreeClusterForm } from '@/schema/newTreeclusterSchema';
 
 export const Route = createFileRoute('/_protected/treecluster/new')({
@@ -21,6 +21,7 @@ export const Route = createFileRoute('/_protected/treecluster/new')({
 function NewTreecluster() {
   const authorization = useAuthHeader();
   const newTreecluster = useStore((state) => state.newTreecluster);
+  const [displayError, setDisplayError] = useState(false);
 
   const regionOptions = Object.values(Region).map(region => ({
     value: region,
@@ -47,6 +48,7 @@ function NewTreecluster() {
   const onSubmit: SubmitHandler<NewTreeClusterForm> = async (data) => {
     try {
       await infoApi.getAppInfo({ authorization });
+      setDisplayError(false);
   
       const clusterData = {
         ...data,
@@ -57,9 +59,11 @@ function NewTreecluster() {
         authorization,
         body: clusterData,
       });
-  
+
+      // TODO: navigate to overview and show success toast
       console.log('Tree cluster created:', response);
     } catch (error) {
+      setDisplayError(true);
       console.error('Failed to create tree cluster:', error);
     }
   };
@@ -89,7 +93,7 @@ function NewTreecluster() {
         </p>
       </article>
 
-      <section className="mt-10">
+      <section className="mt-10">      
         <form className="space-y-6 lg:space-y-0 lg:grid lg:grid-cols-2 lg:gap-11" onSubmit={handleSubmit(onSubmit)}>
           <div className="space-y-6">
             <Input<NewTreeClusterForm>
@@ -141,6 +145,10 @@ function NewTreecluster() {
             onClick={handleDeleteTree}
             storeState={storeState}
           />
+
+          <p className={`text-red font-medium mt-10 ${displayError ? '' : 'hidden'}`}>
+            Es ist leider ein Problem aufgetreten. Bitte probieren Sie es erneut oder wenden Sie sich an eine:n Systemadministrator:in.
+          </p>
           
           <PrimaryButton type="submit" label="Speichern" className="mt-10 lg:col-span-full lg:w-fit" />
         </form>
