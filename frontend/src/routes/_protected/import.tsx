@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import InfoCard from '@/components/general/cards/InfoCard';
 import FileUpload from '@/components/general/fileUpload/FileUpload';
+import GeneralStatusCard from '@/components/general/cards/GeneralStatusCard';
 
 export const Route = createFileRoute('/_protected/import')({
   component: ImportFile,
@@ -46,7 +47,7 @@ function ImportFile() {
       <ul className="grid grid-cols-1 gap-5 mt-10 md:grid-cols-2 lg:grid-cols-3">
         {cards.map((card, key) => (
           <li key={key}>
-            <InfoCard headline={card.headline} value={card.value} description={card.description} />
+            <GeneralStatusCard overline={card.headline} value={card.value} description={card.description} />
           </li>
         ))}
       </ul>
