@@ -48,7 +48,7 @@ function NewTreecluster() {
     label: region,
   }));
 
-  const { register, handleSubmit, formState: { errors } } = useForm<NewTreeClusterForm>({
+  const { register, handleSubmit, formState: { errors }, getValues } = useForm<NewTreeClusterForm>({
     resolver: zodResolver(NewTreeClusterSchema),
   });
 
@@ -74,6 +74,15 @@ function NewTreecluster() {
 
   const handleDeleteTree = (treeIdToDelete: number) => {
     newTreecluster.setTreeIds(newTreecluster.treeIds.filter((treeId) => treeId !== treeIdToDelete));
+  };
+
+  const storeState = () => {
+    const formData = getValues();
+    newTreecluster.setName(formData.name);
+    newTreecluster.setAddress(formData.address);
+    newTreecluster.setRegion(formData.region);
+    newTreecluster.setSoilCondition(formData.soilCondition);
+    newTreecluster.setDescription(formData.description);
   };
   
   return (
@@ -101,8 +110,8 @@ function NewTreecluster() {
             />
             <Input<NewTreeClusterForm>
               name="address"
-              placeholder="Straße"
-              label="Straße"
+              placeholder="Adresse"
+              label="Adresse"
               required
               register={register}
               error={errors.address?.message}
@@ -137,7 +146,8 @@ function NewTreecluster() {
 
           <SelectTrees 
             treeIds={newTreecluster.treeIds} 
-            onClick={handleDeleteTree} 
+            onClick={handleDeleteTree}
+            storeState={storeState}
           />
           
           <PrimaryButton type="submit" label="Speichern" className="mt-10 lg:col-span-full lg:w-fit" />
