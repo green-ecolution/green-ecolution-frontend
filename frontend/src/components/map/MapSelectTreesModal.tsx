@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import PrimaryButton from '../general/buttons/PrimaryButton';
 import SecondaryButton from '../general/buttons/SecondaryButton';
 import useStore from '@/store/store';
-import { MoveRight, Trash2, X } from 'lucide-react';
+import { MoveRight, X } from 'lucide-react';
 import { useNavigate } from '@tanstack/react-router';
+import SelectedCard from '../general/cards/SelectedCard';
 
 const MapSelectTreesModal: React.FC = () => {
   const navigate = useNavigate({ from: '/map' })
@@ -29,7 +30,7 @@ const MapSelectTreesModal: React.FC = () => {
     <div className="text-base font-nunito-sans">
       <button 
         onClick={() => setOpenModal(true)}
-        className={`bg-white absolute flex items-center group gap-x-3 rounded-xl px-5 py-2 z-[1000] left-4 bottom-24 transition-all ease-in-out duration-300 hover:bg-dark-100 lg:hidden
+        className={`bg-white absolute flex items-center group gap-x-3 rounded-xl px-5 py-2 z-[1000] left-4 bottom-6 transition-all ease-in-out duration-300 hover:bg-dark-100 lg:hidden
           ${openModal ? 'hidden' : ''}`}
       >
         <span className="font-medium text-base">Auswahl anzeigen</span>
@@ -60,15 +61,8 @@ const MapSelectTreesModal: React.FC = () => {
             </li>
           ) : (
             treeIds.map((treeId, key) => (
-              <li key={key} className="flex justify-between gap-x-6 bg-white border border-dark-50 shadow-cards px-4 py-3 rounded-lg">
-                <h3 className="relative font-medium pl-7 before:absolute before:w-4 before:h-4 before:rounded-full before:left-0 before:top-[0.22rem] before:bg-dark-400">{treeId}</h3>
-                <button 
-                  onClick={() => handleDeleteTree(treeId)} 
-                  className="text-dark-600"
-                >
-                  <Trash2 className="w-5 h-5"/>
-                  <span className="sr-only">Baum aus Auswahl löschen</span>
-                </button>
+              <li key={key}>
+                <SelectedCard itemId={treeId} onClick={handleDeleteTree}/>
               </li>
             ))
           )}

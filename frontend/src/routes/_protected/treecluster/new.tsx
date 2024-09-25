@@ -6,13 +6,12 @@ import { Region } from '@/types/Region';
 import { createFileRoute } from '@tanstack/react-router'
 import { clusterApi, EntitiesTreeSoilCondition, infoApi } from '@/api/backendApi'
 import { useForm, SubmitHandler } from "react-hook-form"
-import { useState } from 'react';
 import { useAuthHeader } from '@/hooks/useAuthHeader';
 import { SoilConditionOptions } from '@/types/SoilCondition';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import AddTreesSection from '@/components/treecluster/AddTreesSection';
-import SecondaryButton from '@/components/general/buttons/SecondaryButton';
+import useStore from '@/store/store';
 
 export const Route = createFileRoute('/_protected/treecluster/new')({
   component: NewTreecluster,
@@ -41,8 +40,8 @@ interface NewTreeClusterForm {
 }
 
 function NewTreecluster() {
-  const [selectedTrees] = useState<number[]>([]);
   const authorization = useAuthHeader();
+  const newTreecluster = useStore((state) => state.newTreecluster);
 
   const regionOptions = Object.values(Region).map(region => ({
     value: region,
@@ -59,7 +58,7 @@ function NewTreecluster() {
   
       const clusterData = {
         ...data,
-        treeIds: selectedTrees,
+        treeIds: newTreecluster.treeIds,
       };
       
       const response = await clusterApi.createTreeCluster({
@@ -71,6 +70,10 @@ function NewTreecluster() {
     } catch (error) {
       console.error('Failed to create tree cluster:', error);
     }
+  };
+
+  const handleDeleteTree = (treeIdToDelete: number) => {
+    newTreecluster.setTreeIds(newTreecluster.treeIds.filter((treeId) => treeId !== treeIdToDelete));
   };
   
   return (
@@ -132,7 +135,10 @@ function NewTreecluster() {
             />
           </div>
 
-          <AddTreesSection selectedTrees={selectedTrees} />
+          <AddTreesSection 
+            treeIds={newTreecluster.treeIds} 
+            onClick={handleDeleteTree} 
+          />
           
           <PrimaryButton type="submit" label="Speichern" className="mt-10 lg:col-span-full lg:w-fit" />
         </form>

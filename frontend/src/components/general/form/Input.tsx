@@ -8,9 +8,10 @@ interface InputProps<T extends FieldValues> {
   label: string;
   register: UseFormRegister<T>;
   error?: string,
+  value?: string,
 }
 
-const Input = <T extends FieldValues>({ name, label, type = 'text', placeholder = '', register, required = false, error }: InputProps<T>) => {
+const Input = <T extends FieldValues>({ name, label, type = 'text', placeholder = '', register, required = false, error, value = '' }: InputProps<T>) => {
   return (
     <div>
       <label htmlFor={name} className="block font-semibold text-dark-800 mb-2.5">
@@ -21,6 +22,7 @@ const Input = <T extends FieldValues>({ name, label, type = 'text', placeholder 
         id={name}
         required={required}
         placeholder={placeholder}
+        value={value}
         {...register(name, { required })}
         className="w-full text-dark-800 border border-green-light rounded-lg bg-white px-4 py-3 focus:outline-green-dark"
       />
