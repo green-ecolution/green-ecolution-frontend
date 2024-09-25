@@ -10,8 +10,8 @@ import { useAuthHeader } from '@/hooks/useAuthHeader';
 import { SoilConditionOptions } from '@/types/SoilCondition';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import AddTreesSection from '@/components/treecluster/AddTreesSection';
 import useStore from '@/store/store';
+import SelectTrees from '@/components/general/form/SelectTrees';
 
 export const Route = createFileRoute('/_protected/treecluster/new')({
   component: NewTreecluster,
@@ -135,7 +135,7 @@ function NewTreecluster() {
             />
           </div>
 
-          <AddTreesSection 
+          <SelectTrees 
             treeIds={newTreecluster.treeIds} 
             onClick={handleDeleteTree} 
           />
