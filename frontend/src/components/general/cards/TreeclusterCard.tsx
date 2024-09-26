@@ -1,6 +1,5 @@
 import Tree from '@/components/icons/Tree';
 import { getWateringStatusDetails } from '@/hooks/useDetailsForWateringStatus';
-import { Region } from '@/types/Region';
 import { EntitiesTreeClusterWateringStatus } from '@green-ecolution/backend-client';
 import { Link } from '@tanstack/react-router';
 import { MapPin } from 'lucide-react';
@@ -12,7 +11,7 @@ interface TreeclusterCard {
     name: string; 
     number: string;
     address: string;
-    region: Region;
+    region: string;
     treeCount: number;
     sensorCount: number;
     status: EntitiesTreeClusterWateringStatus;

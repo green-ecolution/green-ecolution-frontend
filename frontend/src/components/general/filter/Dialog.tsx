@@ -103,7 +103,7 @@ const Dialog: React.FC<DialogProps> = ({ initStatusTags, initRegionTags, headlin
                 key={statusKey}
                 label={getWateringStatusDetails(statusValue).label}
                 name={statusKey}
-                checked={statusTags.includes(statusValue)}
+                checked={statusTags.includes(getWateringStatusDetails(statusValue).label)}
                 onChange={handleFilterChange('status')}
               >
                 <div className={`bg-${getWateringStatusDetails(statusValue).color} w-4 h-4 rounded-full`} />
