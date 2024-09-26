@@ -1,9 +1,13 @@
+import { treeApi } from "@/api/backendApi";
 import Map from "@/components/map/Map";
 import MapSelectTreesModal from "@/components/map/MapSelectTreesModal";
 import ZoomControls from "@/components/map/ZoomControls";
+import { useAuthHeader } from "@/hooks/useAuthHeader";
 import useStore from "@/store/store";
 import useMapStore from "@/store/store";
+import { useQuery } from "@tanstack/react-query";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { Marker } from "react-leaflet";
 import { useMapEvents } from "react-leaflet/hooks";
 import { z } from "zod";
 
@@ -23,7 +27,12 @@ const mapSearchParamsSchema = z.object({
 export const Route = createFileRoute("/_protected/map/")({
   component: MapView,
   validateSearch: mapSearchParamsSchema,
-  loaderDeps: ({ search: { lat, lng, zoom, showSelectModal } }) => ({ lat, lng, zoom, showSelectModal }),
+  loaderDeps: ({ search: { lat, lng, zoom, showSelectModal } }) => ({
+    lat,
+    lng,
+    zoom,
+    showSelectModal,
+  }),
   loader: ({ deps: { lat, lng, zoom, showSelectModal } }) => {
     useMapStore.setState((state) => ({
       map: { ...state.map, center: [lat, lng], zoom, showSelectModal },
@@ -33,6 +42,11 @@ export const Route = createFileRoute("/_protected/map/")({
 
 function MapView() {
   const showSelectModal = useStore((state) => state.map.showSelectModal);
+  const authorization = useAuthHeader();
+  const { data: treeRes } = useQuery({
+    queryKey: ["trees"],
+    queryFn: () => treeApi.getAllTrees({ authorization }),
+  });
 
   return (
     <div className="relative">
@@ -40,6 +54,10 @@ function MapView() {
         {showSelectModal && <MapSelectTreesModal />}
         <ZoomControls />
         <MapConroller />
+
+        {(treeRes?.data || []).map((tree) => (
+          <Marker key={tree.id} position={[tree.latitude, tree.longitude]} />
+        ))}
       </Map>
     </div>
   );
@@ -65,4 +83,3 @@ const MapConroller = () => {
 
   return null;
 };
-
