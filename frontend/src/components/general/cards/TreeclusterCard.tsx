@@ -1,6 +1,7 @@
 import Tree from '@/components/icons/Tree';
+import { getWateringStatusDetails } from '@/hooks/useDetailsForWateringStatus';
 import { Region } from '@/types/Region';
-import { getWateringStatusDetails, WateringStatus } from '@/types/WateringStatus';
+import { EntitiesTreeClusterWateringStatus } from '@green-ecolution/backend-client';
 import { Link } from '@tanstack/react-router';
 import { MapPin } from 'lucide-react';
 import React from 'react';
@@ -14,13 +15,12 @@ interface TreeclusterCard {
     region: Region;
     treeCount: number;
     sensorCount: number;
-    status: WateringStatus;
+    status: EntitiesTreeClusterWateringStatus;
   }
 }
 
 const TreeclusterCard: React.FC<TreeclusterCard> = ({ treecluster }) => {
-
-    const statusColor = getWateringStatusDetails(treecluster.status).color;
+    const statusDetails = getWateringStatusDetails(treecluster.status);
 
     return (
       <Link 
@@ -28,8 +28,8 @@ const TreeclusterCard: React.FC<TreeclusterCard> = ({ treecluster }) => {
         className="bg-white border border-dark-50 p-6 rounded-xl shadow-cards flex flex-col gap-y-4 transition-all ease-in-out duration-300 hover:bg-green-dark-50 hover:border-green-dark lg:grid lg:grid-cols-[1fr,1.5fr,2fr,1fr] lg:items-center lg:gap-5 lg:py-10 xl:px-10"
       >
         <p className={`relative font-medium pl-7 before:absolute before:w-4 before:h-4 before:rounded-full before:left-0 before:top-[0.22rem] 
-          before:bg-${statusColor}`}>
-          {treecluster.status}
+          before:bg-${statusDetails.color}`}>
+          {statusDetails.label}
         </p>
 
         <div>

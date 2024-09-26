@@ -4,10 +4,11 @@ import PrimaryButton from '../buttons/PrimaryButton';
 import SecondaryButton from '../buttons/SecondaryButton';
 import { X } from 'lucide-react';
 import useOutsideClick from '@/hooks/useOutsideClick';
-import { getWateringStatusDetails, WateringStatus } from '@/types/WateringStatus';
 import Option from './Option';
 import { Region } from '@/types/Region';
 import { useNavigate } from '@tanstack/react-router';
+import { EntitiesTreeClusterWateringStatus } from '@green-ecolution/backend-client';
+import { getWateringStatusDetails } from '@/hooks/useDetailsForWateringStatus';
 
 interface DialogProps {
   initStatusTags: string[];
@@ -89,7 +90,7 @@ const Dialog: React.FC<DialogProps> = ({ initStatusTags, initRegionTags, headlin
 
         <fieldset>
           <legend className="font-lato font-semibold text-dark-600 mb-2">Zustand der Bewässerung:</legend>
-          {Object.entries(WateringStatus)
+          {Object.entries(EntitiesTreeClusterWateringStatus)
             .filter(([key]) => key !== 'unknown')
             .map(([statusKey, statusValue]) => (
               <Option
