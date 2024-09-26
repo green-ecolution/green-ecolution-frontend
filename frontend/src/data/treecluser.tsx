@@ -1,5 +1,4 @@
-import { Region } from "@/types/Region";
-import { WateringStatus } from "@/types/WateringStatus";
+import { EntitiesTreeClusterWateringStatus } from "@green-ecolution/backend-client";
 
 export function treeclusterDemoData() {
   return [
@@ -8,10 +7,10 @@ export function treeclusterDemoData() {
       name: 'Westliche Höhe/Exe',
       number: '12345678XY',
       address: 'Friesische Straße 31 - 40',
-      region: Region.friesischerBerg,
+      region: "Friesischer Berg",
       treeCount: 34,
       sensorCount: 4,
-      status: WateringStatus.bad,
+      status: EntitiesTreeClusterWateringStatus.TreeClusterWateringStatusBad,
       description: 'Diese Bewässserungsgruppe bedindet sich an Position XY und beinhlatet XY viele Bäume. Hier ist zudem noch Platz für mehr Inhalt, den ich noch nicht kenne.',
     },
     {
@@ -19,10 +18,10 @@ export function treeclusterDemoData() {
       name: 'Westliche Höhe/Exe',
       number: '12345678XY',
       address: 'Friesische Straße 31 - 40',
-      region: Region.engelsby,
+      region: "Engelsby",
       treeCount: 34,
       sensorCount: 4,
-      status: WateringStatus.bad,
+      status: EntitiesTreeClusterWateringStatus.TreeClusterWateringStatusBad,
       description: 'Diese Bewässserungsgruppe bedindet sich an Position XY und beinhlatet XY viele Bäume. Hier ist zudem noch Platz für mehr Inhalt, den ich noch nicht kenne.',
     },
     {
@@ -30,10 +29,10 @@ export function treeclusterDemoData() {
       name: 'Westliche Höhe/Exe',
       number: '12345678XY',
       address: 'Friesische Straße 31 - 40',
-      region: Region.fruerlund,
+      region: "Fruerlund",
       treeCount: 34,
       sensorCount: 4,
-      status: WateringStatus.moderate,
+      status: EntitiesTreeClusterWateringStatus.TreeClusterWateringStatusModerate,
       description: 'Diese Bewässserungsgruppe bedindet sich an Position XY und beinhlatet XY viele Bäume. Hier ist zudem noch Platz für mehr Inhalt, den ich noch nicht kenne.',
     },
     {
@@ -41,10 +40,10 @@ export function treeclusterDemoData() {
       name: 'Westliche Höhe/Exe',
       number: '12345678XY',
       address: 'Friesische Straße 31 - 40',
-      region: Region.muerwik,
+      region: "Mürwik",
       treeCount: 34,
       sensorCount: 4,
-      status: WateringStatus.good,
+      status: EntitiesTreeClusterWateringStatus.TreeClusterWateringStatusGood,
       description: 'Diese Bewässserungsgruppe bedindet sich an Position XY und beinhlatet XY viele Bäume. Hier ist zudem noch Platz für mehr Inhalt, den ich noch nicht kenne.',
     },
     {
@@ -52,10 +51,10 @@ export function treeclusterDemoData() {
       name: 'Westliche Höhe/Exe',
       number: '12345678XY',
       address: 'Friesische Straße 31 - 40',
-      region: Region.friesischerBerg,
+      region: "Friesischer Berg",
       treeCount: 34,
       sensorCount: 4,
-      status: WateringStatus.good,
+      status: EntitiesTreeClusterWateringStatus.TreeClusterWateringStatusModerate,
       description: '',
     },
     {
@@ -63,10 +62,10 @@ export function treeclusterDemoData() {
       name: 'Westliche Höhe/Exe',
       number: '12345678XY',
       address: 'Friesische Straße 31 - 40',
-      region: Region.neustadt,
+      region: "Neustadt",
       treeCount: 34,
       sensorCount: 4,
-      status: WateringStatus.good,
+      status: EntitiesTreeClusterWateringStatus.TreeClusterWateringStatusGood,
       description: '',
     },
     {
@@ -74,10 +73,10 @@ export function treeclusterDemoData() {
       name: 'Westliche Höhe/Exe',
       number: '12345678XY',
       address: 'Friesische Straße 31 - 40',
-      region: Region.friesischerBerg,
+      region: "Friesischer Berg",
       treeCount: 34,
       sensorCount: 4,
-      status: WateringStatus.good,
+      status: EntitiesTreeClusterWateringStatus.TreeClusterWateringStatusBad,
       description: '',
     },
   ];

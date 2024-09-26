@@ -2,17 +2,17 @@ import PrimaryButton from '@/components/general/buttons/PrimaryButton';
 import Input from '@/components/general/form/Input';
 import Select from '@/components/general/form/Select';
 import Textarea from '@/components/general/form/Textarea';
-import { Region } from '@/types/Region';
 import { createFileRoute } from '@tanstack/react-router'
-import { clusterApi, EntitiesTreeSoilCondition, infoApi } from '@/api/backendApi'
+import { clusterApi, EntitiesTreeSoilCondition, infoApi, regionApi } from '@/api/backendApi'
 import { useForm, SubmitHandler } from "react-hook-form"
 import { useAuthHeader } from '@/hooks/useAuthHeader';
-import { SoilConditionOptions } from '@/types/SoilCondition';
 import { zodResolver } from '@hookform/resolvers/zod';
 import useStore from '@/store/store';
 import SelectTrees from '@/components/general/form/SelectTrees';
 import { useEffect, useMemo, useState } from 'react';
 import { NewTreeClusterSchema, NewTreeClusterForm } from '@/schema/newTreeclusterSchema';
+import { SoilConditionOptions } from '@/hooks/useDetailsForSoilCondition';
+import { useSuspenseQuery } from '@tanstack/react-query';
 
 export const Route = createFileRoute('/_protected/treecluster/new')({
   component: NewTreecluster,
@@ -23,21 +23,21 @@ function NewTreecluster() {
   const newTreecluster = useStore((state) => state.newTreecluster);
   const [displayError, setDisplayError] = useState(false);
 
-  const regionOptions = Object.values(Region).map(region => ({
-    value: region,
-    label: region,
-  }));
+  const { data: regionRes } = useSuspenseQuery({
+    queryKey: ['regions'],
+    queryFn: () => regionApi.v1RegionGet({ authorization }),
+  });
 
   const defaultValues = useMemo(() => ({
     name: newTreecluster.name || '',
     address: newTreecluster.address || '',
-    region: newTreecluster.region || Region.unknown,
+    region: newTreecluster.region || '',
     description: newTreecluster.description || '',
     soilCondition: newTreecluster.soilCondition || EntitiesTreeSoilCondition.TreeSoilConditionUnknown,
   }), [newTreecluster]);
 
   const { register, handleSubmit, formState: { errors }, getValues, reset } = useForm<NewTreeClusterForm>({
-    resolver: zodResolver(NewTreeClusterSchema),
+    resolver: zodResolver(NewTreeClusterSchema(regionRes?.regions || [])),
     defaultValues,
   });
 
@@ -114,7 +114,7 @@ function NewTreecluster() {
             />
             <Select<NewTreeClusterForm>
               name="region"
-              options={regionOptions}
+              options={regionRes?.regions?.map(region => ({ label: region.name, value: region.id }))}
               placeholder="Wählen Sie eine Region aus"
               label="Region in Flensburg"
               required

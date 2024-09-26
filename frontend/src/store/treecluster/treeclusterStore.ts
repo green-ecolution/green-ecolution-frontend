@@ -1,12 +1,11 @@
-import { EntitiesTreeSoilCondition } from "@green-ecolution/backend-client";
+import { EntitiesTreeSoilCondition, RegionFromJSON } from "@green-ecolution/backend-client";
 import { SubStore } from "../store";
 import { NewTreeclusterStore } from "./types";
-import { Region } from "@/types/Region";
 
 export const newTreeclusterStore: SubStore<NewTreeclusterStore> = (set, get) => ({
   name: "",
   address: "",
-  region: Region.unknown,
+  region: RegionFromJSON,
   description: "",
   soilCondition: EntitiesTreeSoilCondition.TreeSoilConditionUnknown,
   treeIds: [],

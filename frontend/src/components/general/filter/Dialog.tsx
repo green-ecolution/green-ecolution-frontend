@@ -4,10 +4,12 @@ import PrimaryButton from '../buttons/PrimaryButton';
 import SecondaryButton from '../buttons/SecondaryButton';
 import { X } from 'lucide-react';
 import useOutsideClick from '@/hooks/useOutsideClick';
-import { getWateringStatusDetails, WateringStatus } from '@/types/WateringStatus';
 import Option from './Option';
-import { Region } from '@/types/Region';
 import { useNavigate } from '@tanstack/react-router';
+import { useSuspenseQuery } from '@tanstack/react-query';
+import { EntitiesTreeClusterWateringStatus, regionApi } from '@/api/backendApi';
+import { useAuthHeader } from '@/hooks/useAuthHeader';
+import { getWateringStatusDetails } from '@/hooks/useDetailsForWateringStatus';
 
 interface DialogProps {
   initStatusTags: string[];
@@ -21,6 +23,11 @@ const Dialog: React.FC<DialogProps> = ({ initStatusTags, initRegionTags, headlin
   const [isOpen, setIsOpen] = useState(false);
   const [statusTags, setStatusTags] = useState<string[]>(initStatusTags);
   const [regionTags, setRegionTags] = useState<string[]>(initRegionTags);
+  const authorization = useAuthHeader();
+  const { data: regionRes } = useSuspenseQuery({
+    queryKey: ['regions'],
+    queryFn: () => regionApi.v1RegionGet({ authorization }),
+  });
 
   const handleFilterView = () => setIsOpen(!isOpen);
   const dialogRef = useOutsideClick(() => setIsOpen(false));
@@ -89,14 +96,14 @@ const Dialog: React.FC<DialogProps> = ({ initStatusTags, initRegionTags, headlin
 
         <fieldset>
           <legend className="font-lato font-semibold text-dark-600 mb-2">Zustand der Bewässerung:</legend>
-          {Object.entries(WateringStatus)
-            .filter(([key]) => key !== 'unknown')
+          {Object.entries(EntitiesTreeClusterWateringStatus)
+            .filter(([key]) => key !== 'TreeClusterWateringStatusUnknown')
             .map(([statusKey, statusValue]) => (
               <Option
                 key={statusKey}
-                label={statusValue}
+                label={getWateringStatusDetails(statusValue).label}
                 name={statusKey}
-                checked={statusTags.includes(statusValue)}
+                checked={statusTags.includes(getWateringStatusDetails(statusValue).label)}
                 onChange={handleFilterChange('status')}
               >
                 <div className={`bg-${getWateringStatusDetails(statusValue).color} w-4 h-4 rounded-full`} />
@@ -106,17 +113,15 @@ const Dialog: React.FC<DialogProps> = ({ initStatusTags, initRegionTags, headlin
 
         <fieldset className="mt-6">
           <legend className="font-lato font-semibold text-dark-600 mb-2">Stadtteil in Flensburg:</legend>
-          {Object.entries(Region)
-            .filter(([key]) => key !== 'unknown')
-            .map(([regionKey, regionValue]) => (
-              <Option
-                key={regionKey}
-                label={regionValue}
-                name={regionKey}
-                checked={regionTags.includes(regionValue)}
-                onChange={handleFilterChange('region')}
-              />
-            ))}
+          {regionRes?.regions.map((region) => (
+            <Option
+              key={region.id}
+              label={region.name}
+              name={region.id}
+              checked={regionTags.includes(region.name)}
+              onChange={handleFilterChange('region')}
+            />
+          ))}
         </fieldset>
 
         <div className="flex flex-wrap gap-5 mt-6">
