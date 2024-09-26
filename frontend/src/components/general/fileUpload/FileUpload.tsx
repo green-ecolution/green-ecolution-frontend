@@ -2,14 +2,15 @@ import React, { useRef, useState } from "react";
 import axios from "axios";
 import { Check, MoveLeft, MoveRight, Trash2 } from "lucide-react";
 import { useAuthHeader } from "@/hooks/useAuthHeader";
+import PrimaryButton from "../buttons/PrimaryButton";
 
 
-interface FileUploadProps  {
-     to : string;
-     fileType: string
-  }
+interface FileUploadProps {
+    to: string;
+    fileType: string
+}
 
-const FileUpload: React.FC<FileUploadProps> = ({to, fileType}) => {
+const FileUpload: React.FC<FileUploadProps> = ({ to, fileType }) => {
     const inputRef = useRef<HTMLInputElement | null>(null);
     const authHeader = useAuthHeader();
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -53,7 +54,7 @@ const FileUpload: React.FC<FileUploadProps> = ({to, fileType}) => {
                 formData.append("file", selectedFile);
             }
 
-            const response = await axios.post(to, formData, {
+            await axios.post(to, formData, {
                 headers: {
                     'Authorization': authHeader,
                     'Content-Type': 'multipart/form-data',
@@ -64,7 +65,7 @@ const FileUpload: React.FC<FileUploadProps> = ({to, fileType}) => {
                     }
                 }
             });
-           
+
 
             setUploadStatus(status.done);
         } catch (error) {
@@ -124,28 +125,21 @@ const FileUpload: React.FC<FileUploadProps> = ({to, fileType}) => {
                                     `${progress}%`
                                 ) : uploadStatus === status.done ? (
                                     <button
-                                    className="w-9 h-9 text-indigo-600 bg-indigo-50 rounded-full flex items-center justify-center"
-                                    onClick={clearFileInput}
-                                >
-                                    <Check />
-                                </button>
+                                        className="w-9 h-9 text-indigo-600 bg-indigo-50 rounded-full flex items-center justify-center"
+                                        onClick={clearFileInput}
+                                    >
+                                        <Check />
+                                    </button>
                                 ) : null}
                             </div>
                         )}
                     </div>
-                    <br />
-                    <button onClick={handleUpload} className="w-72 p-4 bg-green-dark text-white px-5 py-2 group inline-flex gap-x-3 
-        rounded-xl items-center transition-all ease-in-out duration-300 hover:bg-green-light">
-                        <span className="font-medium">
-                            {uploadStatus === status.done ? "erneut selektieren" : "Daten importieren"}
-                        </span>
-                        {uploadStatus === status.done ? (
+                    <PrimaryButton onClick={handleUpload} label={uploadStatus === status.done ? "erneut selektieren" : "Daten importieren"}
+                        icon={uploadStatus === status.done ? (
                             <MoveLeft className="transition-all ease-in-out duration-300 group-hover:translate-x-2" />
                         ) : (
                             <MoveRight className="transition-all ease-in-out duration-300 group-hover:translate-x-2" />
-                        )}
-
-                    </button>
+                        )} className="w-72 p-4 mt-10"></PrimaryButton>
                 </>
             )}
         </div>
