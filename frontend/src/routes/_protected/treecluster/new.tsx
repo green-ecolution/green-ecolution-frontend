@@ -2,16 +2,16 @@ import PrimaryButton from '@/components/general/buttons/PrimaryButton';
 import Input from '@/components/general/form/Input';
 import Select from '@/components/general/form/Select';
 import Textarea from '@/components/general/form/Textarea';
-import { Region } from '@/types/Region';
 import { createFileRoute } from '@tanstack/react-router'
 import { Plus } from 'lucide-react';
-import { clusterApi, EntitiesTreeSoilCondition, infoApi } from '@/api/backendApi'
+import { clusterApi, EntitiesTreeSoilCondition, infoApi, Region, regionApi } from '@/api/backendApi'
 import { useForm, SubmitHandler } from "react-hook-form"
 import { useState } from 'react';
 import { useAuthHeader } from '@/hooks/useAuthHeader';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SoilConditionOptions } from '@/hooks/useDetailsForSoilCondition';
+import { useSuspenseQuery } from '@tanstack/react-query';
 
 export const Route = createFileRoute('/_protected/treecluster/new')({
   component: NewTreecluster
@@ -20,10 +20,7 @@ export const Route = createFileRoute('/_protected/treecluster/new')({
 const NewTreeClusterSchema = z.object({
   name: z.string().min(1, 'Name is required'),
   address: z.string().min(1, 'Address is required'),
-  region: z.nativeEnum(Region).refine(value => 
-    Object.values(Region).includes(value),
-    { message: 'Invalid soil condition' }
-  ),
+  region: z.string().min(1, 'Region is required'),
   description: z.string().min(1, 'Description is required').optional(),
   soilCondition: z.nativeEnum(EntitiesTreeSoilCondition).refine(value => 
     Object.values(EntitiesTreeSoilCondition).includes(value),
@@ -42,10 +39,14 @@ interface NewTreeClusterForm {
 function NewTreecluster() {
   const [selectedTrees] = useState<number[]>([]);
   const authorization = useAuthHeader();
+  const { data: regionRes } = useSuspenseQuery({
+    queryKey: ['regions'],
+    queryFn: () => regionApi.v1RegionGet({ authorization }),
+  });
 
-  const regionOptions = Object.values(Region).map(region => ({
-    value: region,
-    label: region,
+  const regionOptions = (regionRes?.regions || []).map(region => ({
+    value: region.id,
+    label: region.name,
   }));
 
   const { register, handleSubmit, formState: { errors } } = useForm<NewTreeClusterForm>({
