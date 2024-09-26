@@ -1,12 +1,12 @@
-import GeneralStatusCard from '@/components/general/cards/GeneralStatusCard';
-import WateringStatusCard from '@/components/general/cards/WateringStatusCard';
 import BackLink from '@/components/general/links/BackLink';
 import GeneralLink from '@/components/general/links/GeneralLink';
+import Tree from '@/components/icons/Tree';
+import TreeGeneralData from '@/components/tree/TreeGeneralData';
+import TreeWateringStatus from '@/components/tree/TreeWateringStatus';
 import { treeDemoData } from '@/data/trees';
-import { getWateringStatusDetails } from '@/hooks/useDetailsForWateringStatus';
-import { EntitiesTreeClusterWateringStatus } from '@green-ecolution/backend-client';
 import { createFileRoute, useLoaderData } from '@tanstack/react-router'
-import { TreeDeciduous } from 'lucide-react';
+import { File, PieChart, Trash } from 'lucide-react';
+import { useState } from 'react';
 
 export const Route = createFileRoute('/_protected/trees/$treeId')({
   component: SingleTree,
@@ -19,48 +19,34 @@ export const Route = createFileRoute('/_protected/trees/$treeId')({
 
 function SingleTree() {
   const tree = useLoaderData({ from: '/_protected/trees/$treeId'});
+  const [showTabIndex, setShowTabIndex] = useState(0);
 
-  // TODO: Switch to real content
-  const statusProDepth = [
+  const tabs = [
     {
-      status: EntitiesTreeClusterWateringStatus.TreeClusterWateringStatusGood,
-      sensorCount: 1,
-      value: "42,46 kΩ",
+      label: 'Bewässerungsdaten',
+      icon: <Tree className="w-5 h-5" />,
+      view: <TreeWateringStatus tree={tree} />
     },
     {
-      status: EntitiesTreeClusterWateringStatus.TreeClusterWateringStatusGood,
-      sensorCount: 1,
-      value: "35,46 kΩ",
+      label: 'Allgemeine Daten',
+      icon: <File className="w-5 h-5" />,
+      view: <TreeGeneralData tree={tree} />
     },
     {
-      status: EntitiesTreeClusterWateringStatus.TreeClusterWateringStatusModerate,
-      sensorCount: 1,
-      value: "28,12 kΩ",
-    },
-  ];
-
-  // TODO: Switch to real content
-  const statusCards = [
-    {
-      overline: "Bewässerungszustand (ø)",
-      value: "35,02 kΩ",
-      description: "+0.5% zu der letzten Messung.",
+      label: 'Sensordaten',
+      icon: <Trash className="w-5 h-5" />,
+      view: <TreeWateringStatus tree={tree} />
     },
     {
-      overline: "Bodenfeuchte",
-      value: "78 %",
-      description: "-0.5% zu der letzten Messung.",
-    },
-    {
-      overline: "Bodentemperatur",
-      value: "12 °C",
-      description: "- 0.5 °C zur letzten Messung",
+      label: 'Auswertung',
+      icon: <PieChart className="w-5 h-5" />,
+      view: <TreeWateringStatus tree={tree} />
     },
   ]
 
   return (
     <div className="container mt-6">
-      <article className="2xl:w-4/5">
+      <article className="mb-10 2xl:w-4/5">
         <BackLink
           url="/map"
           label="Zum Kataster" />
@@ -75,75 +61,36 @@ function SingleTree() {
           url={`/map?lat=${tree.latitude}&lng=${tree.longitude}`}
           label="Auf der Karte anzeigen" />
       </article>
-
-      <div className="mt-10">
-        <ul className="space-y-5 lg:space-y-0 lg:grid lg:grid-cols-4 lg:gap-x-5">
-          <li>
-            <WateringStatusCard
-              wateringStatus={tree.status} />
-          </li>
-          {statusCards.map((card, key) => (
-            <li key={key}>
-              <GeneralStatusCard
-                overline={card.overline}
-                value={card.value}
-                isLarge
-                description={card.description}
-              />
-            </li>
-          ))}
-        </ul>
-
-        <section className="mt-20">
-          <h2 className="font-bold font-lato text-xl mb-6 lg:mb-0">
-            Bewässerungszustand pro Bodentiefe
-          </h2>
-
-          <div className="lg:grid lg:grid-cols-[auto,15rem] lg:items-end lg:gap-x-10 xl:gap-x-20 xl:grid-cols-[auto,20rem]">
-            <div aria-hidden="true" className="mb-10 lg:mb-0 lg:w-60 lg:col-start-2 xl:w-80">
-              <TreeDeciduous className="w-11 h-11 mx-auto mb-4" />
-              <ul className="space-y-3">
-                {statusProDepth.map((card, key) => (
-                  <li key={key} className={`rounded-xl text-center bg-${getWateringStatusDetails(card.status).color}-100 py-3`}>
-                    <p className={`inline relative pl-8 before:absolute before:w-4 before:h-4 before:rounded-full before:left-2 before:top-[0.1rem] before:bg-${getWateringStatusDetails(card.status).color}`}>
-                      <span className="font-semibold">{card.value}</span>
-                      <span className="text-dark-800 font-normal"> · in {30 * (key + 1)}cm</span>
-                    </p>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="lg:col-start-1 lg:row-start-1">
-              <header className="hidden border-b pb-2 text-sm text-dark-800 border-b-dark-200 lg:grid lg:grid-cols-[1.5fr,1fr,1fr] lg:gap-x-5">
-                <p>Status</p>
-                <p>Eingesetzte Tiefe</p>
-                <p>Anzahl der Sensoren</p>
-              </header>
-
-              <ul className="space-y-3 lg:space-y-0">
-                {statusProDepth.map((card, key) => (
-                  <li key={key} className="space-y-3 border-b border-b-dark-300 pb-3 lg:py-3 lg:space-y-0 lg:grid lg:grid-cols-[1.5fr,1fr,1fr] lg:gap-5">
-                    <h3 className="font-medium text-lg lg:col-start-2 lg:row-start-1">
-                      <span className="lg:hidden">Bodentiefe von </span>{30 * (key + 1)}cm
-                    </h3>
-                    <div className="lg:col-start-1 lg:row-start-1">
-                      <dt className="inline lg:hidden">Bewässerungsstatus:</dt>
-                      <dd className={`inline relative font-medium pl-8 before:absolute before:w-4 before:h-4 before:rounded-full before:left-2 before:top-[0.1rem] before:bg-${getWateringStatusDetails(card.status).color}`}>
-                        {getWateringStatusDetails(card.status).label}
-                      </dd>
-                    </div>
-                    <div>
-                      <dt className="inline lg:hidden">Anzahl der Sensoren:</dt>
-                      <dd className="inline">{card.sensorCount} Sensor(en)</dd>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </section>
+ 
+      <div role="tablist" className="mb-10 border-b border-b-dark-600 flex items-center w-max gap-x-6">
+        {tabs.map((tab, key) => (
+          <button 
+            onClick={() => setShowTabIndex(key)} 
+            key={key} 
+            id={`tab-${key}`} 
+            role="tab" 
+            aria-selected={showTabIndex === key} 
+            aria-controls={`tabpanel-${key}`}
+            className={`flex items-center gap-x-2 pb-2 border-b transition-all ease-in-out duration-300 hover:text-dark-800 ${showTabIndex === key ? 'text-dark border-b-dark' : 'text-dark-600 border-b-transparent'}`}
+          >
+            {tab.icon}
+            {tab.label}
+          </button>
+        ))}
       </div>
+
+      {tabs.map((tab, key) => (
+        <div 
+          key={key} 
+          id={`tabpanel-${key}`} 
+          role="tabpanel" 
+          tabIndex={showTabIndex === key ? 0 : -1} 
+          aria-labelledby={`tab-${key}`}
+          className={`${showTabIndex === key ? 'block': 'hidden'}`}
+        >
+          {tab.view}
+        </div>
+      ))}
     </div>
   )
 }
