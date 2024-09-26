@@ -1,25 +1,29 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import PrimaryButton from '../general/buttons/PrimaryButton';
 import SecondaryButton from '../general/buttons/SecondaryButton';
 import useStore from '@/store/store';
 import { MoveRight, X } from 'lucide-react';
-import { useNavigate } from '@tanstack/react-router';
 import SelectedCard from '../general/cards/SelectedCard';
 
-const MapSelectTreesModal: React.FC = () => {
-  const navigate = useNavigate({ from: '/map' })
+interface MapSelectTreesModalProps {
+  onSave: () => void;
+  onCancel: () => void;
+  treeIds: number[];
+}
+
+const MapSelectTreesModal = ({onSave, onCancel}: MapSelectTreesModalProps) => {
   const [treeIds, setTreeIds] = useState([1,2]);
   const [openModal, setOpenModal] = useState(false);
   const newTreecluster = useStore((state) => state.newTreecluster);
 
-  const handleOnClick = () => {
+  const handleOnSave = () => {
     newTreecluster.setTreeIds(treeIds);
-    navigate({ to: '/treecluster/new' });
+    onSave();
   }
 
   const handleCancel = () => {
     newTreecluster.setTreeIds([]);
-    navigate({ to: '/treecluster/new' });
+    onCancel();
   }
 
   const handleDeleteTree = (treeIdToDelete: number) => {
@@ -69,7 +73,7 @@ const MapSelectTreesModal: React.FC = () => {
         </ul>
 
         <div className="flex flex-wrap gap-5">
-          <PrimaryButton type="submit" label="Speichern" onClick={handleOnClick} />
+          <PrimaryButton type="submit" label="Speichern" onClick={handleOnSave} />
           <SecondaryButton label="Zurück" onClick={handleCancel} />
         </div>
       </div>
