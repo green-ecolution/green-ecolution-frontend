@@ -4,12 +4,12 @@ import PrimaryButton from '../buttons/PrimaryButton';
 import SecondaryButton from '../buttons/SecondaryButton';
 import { X } from 'lucide-react';
 import useOutsideClick from '@/hooks/useOutsideClick';
-import { getWateringStatusDetails, WateringStatus } from '@/types/WateringStatus';
 import Option from './Option';
 import { useNavigate } from '@tanstack/react-router';
 import { useSuspenseQuery } from '@tanstack/react-query';
-import { regionApi } from '@/api/backendApi';
+import { EntitiesTreeClusterWateringStatus, regionApi } from '@/api/backendApi';
 import { useAuthHeader } from '@/hooks/useAuthHeader';
+import { getWateringStatusDetails } from '@/hooks/useDetailsForWateringStatus';
 
 interface DialogProps {
   initStatusTags: string[];
@@ -96,14 +96,14 @@ const Dialog: React.FC<DialogProps> = ({ initStatusTags, initRegionTags, headlin
 
         <fieldset>
           <legend className="font-lato font-semibold text-dark-600 mb-2">Zustand der Bewässerung:</legend>
-          {Object.entries(WateringStatus)
-            .filter(([key]) => key !== 'unknown')
+          {Object.entries(EntitiesTreeClusterWateringStatus)
+            .filter(([key]) => key !== 'TreeClusterWateringStatusUnknown')
             .map(([statusKey, statusValue]) => (
               <Option
                 key={statusKey}
-                label={statusValue}
+                label={getWateringStatusDetails(statusValue).label}
                 name={statusKey}
-                checked={statusTags.includes(statusValue)}
+                checked={statusTags.includes(getWateringStatusDetails(statusValue).label)}
                 onChange={handleFilterChange('status')}
               >
                 <div className={`bg-${getWateringStatusDetails(statusValue).color} w-4 h-4 rounded-full`} />

@@ -6,6 +6,7 @@ import { createFileRoute, useLoaderData } from '@tanstack/react-router';
 import { z } from 'zod';
 import GeneralLink from '@/components/general/buttons/GeneralLink';
 import { Plus } from 'lucide-react';
+import { getWateringStatusDetails } from '@/hooks/useDetailsForWateringStatus';
 
 const treeclusterFilterSchema = z.object({
   status: z.array(z.string()).optional(),
@@ -39,7 +40,7 @@ function Treecluster() {
   }, [search.status, search.region]);
 
   const filteredClusters = clusters.filter(cluster =>
-    (statusTags.length === 0 || statusTags.includes(cluster.status)) &&
+    (statusTags.length === 0 || statusTags.includes(getWateringStatusDetails(cluster.status).label)) &&
     (regionTags.length === 0 || regionTags.includes(cluster.region))
   );
 

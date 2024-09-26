@@ -8,9 +8,9 @@ import { clusterApi, EntitiesTreeSoilCondition, infoApi, Region, regionApi } fro
 import { useForm, SubmitHandler } from "react-hook-form"
 import { useState } from 'react';
 import { useAuthHeader } from '@/hooks/useAuthHeader';
-import { SoilConditionOptions } from '@/types/SoilCondition';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { SoilConditionOptions } from '@/hooks/useDetailsForSoilCondition';
 import { useSuspenseQuery } from '@tanstack/react-query';
 
 export const Route = createFileRoute('/_protected/treecluster/new')({

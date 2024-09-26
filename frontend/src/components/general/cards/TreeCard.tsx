@@ -1,4 +1,5 @@
-import { getWateringStatusDetails, WateringStatus } from '@/types/WateringStatus';
+import { getWateringStatusDetails } from '@/hooks/useDetailsForWateringStatus';
+import { EntitiesTreeClusterWateringStatus } from '@green-ecolution/backend-client';
 import { Link } from '@tanstack/react-router';
 import { MoveRight } from 'lucide-react';
 import React from 'react';
@@ -8,19 +9,23 @@ interface Tree {
   species: string;
   number: string;
   hasSensor: boolean;
-  status: WateringStatus;
+  status: EntitiesTreeClusterWateringStatus;
 }
 
 interface TreeCardContentProps {
   tree: Tree;
-  statusColor: string;
+  statusDetails: {
+    color: string;
+    label: string;
+    description: string;
+  };
 }
 
-const TreeCardContent: React.FC<TreeCardContentProps> = ({ tree, statusColor }) => (
+const TreeCardContent: React.FC<TreeCardContentProps> = ({ tree, statusDetails }) => (
   <>
     <p className={`relative font-medium pl-7 before:absolute before:w-4 before:h-4 before:rounded-full before:left-0 before:top-[0.22rem] 
-      before:bg-${statusColor}`}>
-      {tree.status}
+      before:bg-${statusDetails.color}`}>
+      {statusDetails.label}
     </p>
     <h3 className="text-lg font-bold font-lato">{tree.species}</h3>
     {tree.number && 
@@ -43,13 +48,13 @@ interface TreeCardProps {
 }
 
 const TreeCard: React.FC<TreeCardProps> = ({ tree }) => {
-  const statusColor = getWateringStatusDetails(tree.status).color;
+  const statusDetails = getWateringStatusDetails(tree.status);
   const wrapperClasses = 'bg-white group border border-dark-50 p-6 rounded-xl shadow-cards flex flex-col gap-y-4 lg:grid lg:grid-cols-[1fr,2fr,1fr,1fr] lg:items-center lg:gap-5 lg:py-5 xl:px-10';
 
   if (!tree.hasSensor) {
     return (
       <div className={wrapperClasses}>
-        <TreeCardContent tree={tree} statusColor={statusColor} />
+        <TreeCardContent tree={tree} statusDetails={statusDetails} />
       </div>
     );
   }
@@ -59,7 +64,7 @@ const TreeCard: React.FC<TreeCardProps> = ({ tree }) => {
       to={`/tree/${tree.id}`} 
       className={`transition-all ease-in-out duration-300 hover:bg-green-dark-50 hover:border-green-dark ${wrapperClasses}`}
     >
-      <TreeCardContent tree={tree} statusColor={statusColor} />
+      <TreeCardContent tree={tree} statusDetails={statusDetails} />
     </Link>
   );
 }
