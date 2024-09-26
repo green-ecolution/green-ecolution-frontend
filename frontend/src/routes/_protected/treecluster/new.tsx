@@ -3,74 +3,82 @@ import Input from '@/components/general/form/Input';
 import Select from '@/components/general/form/Select';
 import Textarea from '@/components/general/form/Textarea';
 import { createFileRoute } from '@tanstack/react-router'
-import { Plus } from 'lucide-react';
-import { clusterApi, EntitiesTreeSoilCondition, infoApi, Region, regionApi } from '@/api/backendApi'
+import { clusterApi, EntitiesTreeSoilCondition, infoApi, regionApi } from '@/api/backendApi'
 import { useForm, SubmitHandler } from "react-hook-form"
-import { useState } from 'react';
 import { useAuthHeader } from '@/hooks/useAuthHeader';
-import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import useStore from '@/store/store';
+import SelectTrees from '@/components/general/form/SelectTrees';
+import { useEffect, useMemo, useState } from 'react';
+import { NewTreeClusterSchema, NewTreeClusterForm } from '@/schema/newTreeclusterSchema';
 import { SoilConditionOptions } from '@/hooks/useDetailsForSoilCondition';
 import { useSuspenseQuery } from '@tanstack/react-query';
 
 export const Route = createFileRoute('/_protected/treecluster/new')({
-  component: NewTreecluster
+  component: NewTreecluster,
 })
 
-const NewTreeClusterSchema = z.object({
-  name: z.string().min(1, 'Name is required'),
-  address: z.string().min(1, 'Address is required'),
-  region: z.string().min(1, 'Region is required'),
-  description: z.string().min(1, 'Description is required').optional(),
-  soilCondition: z.nativeEnum(EntitiesTreeSoilCondition).refine(value => 
-    Object.values(EntitiesTreeSoilCondition).includes(value),
-    { message: 'Invalid soil condition' }
-  ),
-});
-
-interface NewTreeClusterForm {
-  name: string;
-  address: string;
-  region: Region;
-  description: string;
-  soilCondition: EntitiesTreeSoilCondition;
-}
-
 function NewTreecluster() {
-  const [selectedTrees] = useState<number[]>([]);
   const authorization = useAuthHeader();
+  const newTreecluster = useStore((state) => state.newTreecluster);
+  const [displayError, setDisplayError] = useState(false);
+
   const { data: regionRes } = useSuspenseQuery({
     queryKey: ['regions'],
     queryFn: () => regionApi.v1RegionGet({ authorization }),
   });
 
-  const regionOptions = (regionRes?.regions || []).map(region => ({
-    value: region.id,
-    label: region.name,
-  }));
+  const defaultValues = useMemo(() => ({
+    name: newTreecluster.name || '',
+    address: newTreecluster.address || '',
+    region: newTreecluster.region || '',
+    description: newTreecluster.description || '',
+    soilCondition: newTreecluster.soilCondition || EntitiesTreeSoilCondition.TreeSoilConditionUnknown,
+  }), [newTreecluster]);
 
-  const { register, handleSubmit, formState: { errors } } = useForm<NewTreeClusterForm>({
-    resolver: zodResolver(NewTreeClusterSchema),
+  const { register, handleSubmit, formState: { errors }, getValues, reset } = useForm<NewTreeClusterForm>({
+    resolver: zodResolver(NewTreeClusterSchema(regionRes?.regions || [])),
+    defaultValues,
   });
+
+  useEffect(() => {
+    reset(defaultValues);
+  }, [defaultValues, reset]);
 
   const onSubmit: SubmitHandler<NewTreeClusterForm> = async (data) => {
     try {
       await infoApi.getAppInfo({ authorization });
+      setDisplayError(false);
   
       const clusterData = {
         ...data,
-        treeIds: selectedTrees,
+        treeIds: newTreecluster.treeIds,
       };
       
       const response = await clusterApi.createTreeCluster({
         authorization,
         body: clusterData,
       });
-  
+
+      // TODO: navigate to overview and show success toast
       console.log('Tree cluster created:', response);
     } catch (error) {
+      setDisplayError(true);
       console.error('Failed to create tree cluster:', error);
     }
+  };
+
+  const handleDeleteTree = (treeIdToDelete: number) => {
+    newTreecluster.setTreeIds(newTreecluster.treeIds.filter((treeId) => treeId !== treeIdToDelete));
+  };
+
+  const storeState = () => {
+    const formData = getValues();
+    newTreecluster.setName(formData.name);
+    newTreecluster.setAddress(formData.address);
+    newTreecluster.setRegion(formData.region);
+    newTreecluster.setSoilCondition(formData.soilCondition);
+    newTreecluster.setDescription(formData.description);
   };
   
   return (
@@ -85,7 +93,7 @@ function NewTreecluster() {
         </p>
       </article>
 
-      <section className="mt-10">
+      <section className="mt-10">      
         <form className="space-y-6 lg:space-y-0 lg:grid lg:grid-cols-2 lg:gap-11" onSubmit={handleSubmit(onSubmit)}>
           <div className="space-y-6">
             <Input<NewTreeClusterForm>
@@ -98,15 +106,15 @@ function NewTreecluster() {
             />
             <Input<NewTreeClusterForm>
               name="address"
-              placeholder="Straße"
-              label="Straße"
+              placeholder="Adresse"
+              label="Adresse"
               required
               register={register}
               error={errors.address?.message}
             />
             <Select<NewTreeClusterForm>
               name="region"
-              options={regionOptions}
+              options={regionRes?.regions?.map(region => ({ label: region.name, value: region.id }))}
               placeholder="Wählen Sie eine Region aus"
               label="Region in Flensburg"
               required
@@ -132,24 +140,15 @@ function NewTreecluster() {
             />
           </div>
 
-          <div>
-            <p className="block font-semibold text-dark-800 mb-2.5">
-              Zugehörige Bäume <span className="text-red">*</span>
-            </p>
-            {selectedTrees.length === 0 ? (
-              <p className="text-dark-600 font-semibold font-lato">
-                Es wurden noch keine Bäume ausgewählt.
-              </p>
-            ) : (
-              <p>
-                Bäume wurden ausgewählt.
-              </p>
-            )}
-            <button type="button" className="mt-6 border border-green-light text-dark-800 px-5 py-2 group flex gap-x-3 rounded-xl items-center transition-all ease-in-out duration-300 hover:border-green-dark hover:text-dark">
-              <span className="font-medium">Bäume hinzufügen</span>
-              <Plus className="text-current" />
-            </button>
-          </div>
+          <SelectTrees 
+            treeIds={newTreecluster.treeIds} 
+            onClick={handleDeleteTree}
+            storeState={storeState}
+          />
+
+          <p className={`text-red font-medium mt-10 ${displayError ? '' : 'hidden'}`}>
+            Es ist leider ein Problem aufgetreten. Bitte probieren Sie es erneut oder wenden Sie sich an eine:n Systemadministrator:in.
+          </p>
           
           <PrimaryButton type="submit" label="Speichern" className="mt-10 lg:col-span-full lg:w-fit" />
         </form>
