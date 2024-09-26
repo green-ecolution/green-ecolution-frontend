@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import PrimaryButton from '../general/buttons/PrimaryButton';
 import SecondaryButton from '../general/buttons/SecondaryButton';
-import useStore from '@/store/store';
 import { MoveRight, X } from 'lucide-react';
 import SelectedCard from '../general/cards/SelectedCard';
 
@@ -9,25 +8,14 @@ interface MapSelectTreesModalProps {
   onSave: () => void;
   onCancel: () => void;
   treeIds: number[];
+  onDeleteTree: (treeId: number) => void; 
 }
 
-const MapSelectTreesModal = ({onSave, onCancel}: MapSelectTreesModalProps) => {
-  const [treeIds, setTreeIds] = useState([1,2]);
+const MapSelectTreesModal = ({onSave, onCancel, treeIds, onDeleteTree}: MapSelectTreesModalProps) => {
   const [openModal, setOpenModal] = useState(false);
-  const newTreecluster = useStore((state) => state.newTreecluster);
-
-  const handleOnSave = () => {
-    newTreecluster.setTreeIds(treeIds);
-    onSave();
-  }
-
-  const handleCancel = () => {
-    newTreecluster.setTreeIds([]);
-    onCancel();
-  }
 
   const handleDeleteTree = (treeIdToDelete: number) => {
-    setTreeIds((prevTreeIds) => prevTreeIds.filter((treeId) => treeId !== treeIdToDelete));
+    onDeleteTree(treeIdToDelete);
   };
 
   return (
@@ -59,7 +47,7 @@ const MapSelectTreesModal = ({onSave, onCancel}: MapSelectTreesModalProps) => {
         </div>
 
         <ul className="space-y-3">
-          {treeIds.length === 0 ? (
+          {(treeIds?.length || 0) === 0 ? (
             <li className="text-dark-600">
               <p>Keine Bäume ausgewählt.</p>
             </li>
@@ -73,8 +61,8 @@ const MapSelectTreesModal = ({onSave, onCancel}: MapSelectTreesModalProps) => {
         </ul>
 
         <div className="flex flex-wrap gap-5">
-          <PrimaryButton type="submit" label="Speichern" onClick={handleOnSave} />
-          <SecondaryButton label="Zurück" onClick={handleCancel} />
+          <PrimaryButton type="submit" label="Speichern" onClick={onSave} />
+          <SecondaryButton label="Zurück" onClick={onCancel} />
         </div>
       </div>
     </div>

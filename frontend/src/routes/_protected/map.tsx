@@ -9,7 +9,6 @@ const mapSearchParamsSchema = z.object({
   selected: z.string().optional(),
   lat: z.number().catch(useMapStore.getState().map.center[0]),
   lng: z.number().catch(useMapStore.getState().map.center[1]),
-  showSelectModal: z.boolean().catch(false),
   zoom: z
     .number()
     .int()
@@ -21,15 +20,14 @@ const mapSearchParamsSchema = z.object({
 export const Route = createFileRoute("/_protected/map")({
   component: MapRoot,
   validateSearch: mapSearchParamsSchema,
-  loaderDeps: ({ search: { lat, lng, zoom, showSelectModal } }) => ({
+  loaderDeps: ({ search: { lat, lng, zoom } }) => ({
     lat,
     lng,
     zoom,
-    showSelectModal,
   }),
-  loader: ({ deps: { lat, lng, zoom, showSelectModal } }) => {
+  loader: ({ deps: { lat, lng, zoom } }) => {
     useMapStore.setState((state) => ({
-      map: { ...state.map, center: [lat, lng], zoom, showSelectModal },
+      map: { ...state.map, center: [lat, lng], zoom },
     }));
   },
 });
