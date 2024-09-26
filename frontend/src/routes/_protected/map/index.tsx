@@ -10,6 +10,17 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Marker } from "react-leaflet";
 import { useMapEvents } from "react-leaflet/hooks";
 import { z } from "zod";
+// @ts-ignore because this image needs to be imported, but not found for some reason, but works.
+import defaultIconPng from 'leaflet/dist/images/marker-icon.png'
+import { Icon } from "leaflet";
+
+const defaultIcon = new Icon({
+  iconUrl: defaultIconPng,
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41],
+});
 
 const mapSearchParamsSchema = z.object({
   selected: z.string().optional(),
@@ -56,7 +67,7 @@ function MapView() {
         <MapConroller />
 
         {(treeRes?.data || []).map((tree) => (
-          <Marker key={tree.id} position={[tree.latitude, tree.longitude]} />
+          <Marker icon={defaultIcon} key={tree.id} position={[tree.latitude, tree.longitude]} />
         ))}
       </Map>
     </div>
