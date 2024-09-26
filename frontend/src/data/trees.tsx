@@ -8,6 +8,8 @@ export function treeDemoData() {
       number: '100123',
       hasSensor: true,
       status: EntitiesTreeClusterWateringStatus.TreeClusterWateringStatusGood,
+      latitude: '54.774471',
+      longitude: '9.433653',
     },
     {
       id: 1,
@@ -15,6 +17,8 @@ export function treeDemoData() {
       number: '100123',
       hasSensor: true,
       status: EntitiesTreeClusterWateringStatus.TreeClusterWateringStatusModerate,
+      latitude: '54.774471',
+      longitude: '9.433653',
     },
     {
       id: 2,
@@ -22,6 +26,8 @@ export function treeDemoData() {
       number: '100123',
       hasSensor: true,
       status: EntitiesTreeClusterWateringStatus.TreeClusterWateringStatusGood,
+      latitude: '54.774471',
+      longitude: '9.433653',
     },
     {
       id: 3,
@@ -29,6 +35,8 @@ export function treeDemoData() {
       number: '100123',
       hasSensor: false,
       status: EntitiesTreeClusterWateringStatus.TreeClusterWateringStatusUnknown,
+      latitude: '54.774471',
+      longitude: '9.433653',
     },
     {
       id: 4,
@@ -36,6 +44,8 @@ export function treeDemoData() {
       number: '100123',
       hasSensor: false,
       status: EntitiesTreeClusterWateringStatus.TreeClusterWateringStatusUnknown,
+      latitude: '54.774471',
+      longitude: '9.433653',
     },
   ];
 }

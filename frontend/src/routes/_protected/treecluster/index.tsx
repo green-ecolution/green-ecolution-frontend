@@ -4,7 +4,7 @@ import Dialog from "@/components/general/filter/Dialog";
 import { treeclusterDemoData } from "@/data/treecluser";
 import { createFileRoute, useLoaderData } from '@tanstack/react-router';
 import { z } from 'zod';
-import GeneralLink from '@/components/general/buttons/GeneralLink';
+import ButtonLink from '@/components/general/links/ButtonLink';
 import { Plus } from 'lucide-react';
 import { getWateringStatusDetails } from '@/hooks/useDetailsForWateringStatus';
 
@@ -55,7 +55,7 @@ function Treecluster() {
           Mindestens fünf Bäume in einer Baumgruppe sind mit Sensoren ausgestattet. 
           Diese gelieferten Werte werden gemittelt, sodass eine Handlungsempfehlung für die Baumgruppe gegeben werden kann.
         </p>
-        <GeneralLink 
+        <ButtonLink 
           icon={Plus} 
           label="Neue Gruppe erstellen"
           url="/treecluster/new" />

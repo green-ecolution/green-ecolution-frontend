@@ -2,13 +2,14 @@ import { Link } from '@tanstack/react-router';
 import { MoveRight } from 'lucide-react';
 import React from 'react';
 
-interface GeneralLinkProps {
+interface ButtonLink {
   label: string;
   url: string;
+  asButton?: boolean;
   icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
 }
 
-const GeneralLink: React.FC<GeneralLinkProps> = ({ label, icon: Icon = MoveRight, url }) => (
+const ButtonLink: React.FC<ButtonLink> = ({ label, icon: Icon = MoveRight, url }) => (
   <Link 
     to={url}
     className="bg-green-dark w-fit text-white px-5 py-2 group flex gap-x-3 rounded-xl items-center transition-all ease-in-out duration-300 hover:bg-green-light"
@@ -18,4 +19,4 @@ const GeneralLink: React.FC<GeneralLinkProps> = ({ label, icon: Icon = MoveRight
   </Link>
 );
 
-export default GeneralLink;
+export default ButtonLink;

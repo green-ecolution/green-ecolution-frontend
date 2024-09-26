@@ -61,7 +61,7 @@ const TreeCard: React.FC<TreeCardProps> = ({ tree }) => {
 
   return (
     <Link 
-      to={`/tree/${tree.id}`} 
+      to={`/trees/${tree.id}`} 
       className={`transition-all ease-in-out duration-300 hover:bg-green-dark-50 hover:border-green-dark ${wrapperClasses}`}
     >
       <TreeCardContent tree={tree} statusDetails={statusDetails} />
