@@ -1,13 +1,12 @@
-import { useState } from "react";
+import { LatLng } from "leaflet";
 import { useMapEvents } from "react-leaflet";
 
-export function useMapMouseSelect() {
-  const [position, setPosition] = useState({ lat: 0, lng: 0 });
+export function useMapMouseSelect(
+  fn: (latlng: LatLng) => any,
+) {
   useMapEvents({
     click(e) {
-      setPosition(e.latlng);
+      fn(e.latlng);
     },
   });
-
-  return position;
 }

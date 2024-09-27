@@ -1,5 +1,7 @@
 import L, { DivIcon, Icon, IconOptions } from "leaflet";
 import { Marker } from "react-leaflet";
+import { Marker as LeafletMarker } from "leaflet";
+import { useMemo, useRef } from "react";
 
 export interface MapMarkerProps {
   icon: Icon<IconOptions> | DivIcon | undefined;
@@ -38,5 +40,45 @@ export const TreeIcon = (color: string) =>
     popupAnchor: [0, -36],
     html: `<span style="${markerHtmlStyles(color)}" />`,
   });
+
+interface DragableMarkerProps {
+  position: L.LatLng;
+  onMove?: (latlng: L.LatLng) => void;
+  onDrag?: (latlng: L.LatLng) => void;
+}
+
+export const DragableMarker = ({
+  position,
+  onDrag,
+  onMove,
+}: DragableMarkerProps) => {
+  const markerRef = useRef<LeafletMarker>(null);
+  const eventHandlers = useMemo(
+    () => ({
+      move() {
+        const marker = markerRef.current;
+        if (marker != null) {
+          onMove?.(marker.getLatLng());
+        }
+      },
+      dragend() {
+        const marker = markerRef.current;
+        if (marker != null) {
+          onDrag?.(marker.getLatLng());
+        }
+      },
+    }),
+    [],
+  );
+
+  return (
+    <Marker
+      eventHandlers={eventHandlers}
+      ref={markerRef}
+      draggable
+      position={position}
+    />
+  );
+};
 
 export default MapMarker;
