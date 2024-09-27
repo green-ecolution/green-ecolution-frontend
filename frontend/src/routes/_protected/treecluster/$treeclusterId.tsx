@@ -44,7 +44,7 @@ function SingleTreecluster() {
       </article>
 
       <section className="mt-10">
-        <ul className="space-y-5 lg:space-y-0 lg:grid lg:grid-cols-3 lg:gap-x-5">
+        <ul className="space-y-5 md:space-y-0 md:grid md:gap-5 md:grid-cols-2 lg:grid-cols-4">
           <li>
             <EntitiesStatusCard
               statusDetails={getWateringStatusDetails(treecluster.status)}

@@ -6,16 +6,13 @@ import GeneralStatusCard from '../general/cards/GeneralStatusCard';
 import EntitiesStatusCard from '../general/cards/EntitiesStatusCard';
 
 interface TreeWateringStatus {
-  tree: {
+  tree?: {
     id: number;
-    species: string;
-    number: string;
-    hasSensor: boolean;
-    status: EntitiesTreeClusterWateringStatus;
-  }
+  };
 }
 
 const TreeWateringStatus: React.FC<TreeWateringStatus> = ({ tree }) => {
+  // TODO: Add real watering status
   // TODO: Switch to real content
   const statusProDepth = [
     {
@@ -56,10 +53,10 @@ const TreeWateringStatus: React.FC<TreeWateringStatus> = ({ tree }) => {
 
   return (
     <>
-      <ul className="space-y-5 lg:space-y-0 lg:grid lg:grid-cols-4 lg:gap-x-5">
+      <ul className="space-y-5 md:space-y-0 md:grid md:gap-5 md:grid-cols-2 lg:grid-cols-4">
         <li>
           <EntitiesStatusCard
-            statusDetails={getWateringStatusDetails(tree.status)}
+            statusDetails={getWateringStatusDetails(EntitiesTreeClusterWateringStatus.TreeClusterWateringStatusGood)}
             label="Bewässerungszustand (ø)" />
         </li>
         {statusCards.map((card, key) => (
@@ -115,7 +112,7 @@ const TreeWateringStatus: React.FC<TreeWateringStatus> = ({ tree }) => {
                   </div>
                   <div>
                     <dt className="inline lg:hidden">Anzahl der Sensoren:</dt>
-                    <dd className="inline">{card.sensorCount} Sensor(en)</dd>
+                    <dd className="inline"> {card.sensorCount} Sensor(en)</dd>
                   </div>
                 </li>
               ))}

@@ -1,22 +1,23 @@
-import { EntitiesTreeClusterWateringStatus } from '@green-ecolution/backend-client';
 import React from 'react';
 import GeneralStatusCard from '../general/cards/GeneralStatusCard';
 import EntitiesStatusCard from '../general/cards/EntitiesStatusCard';
 import { getSensorStatusDetails, SensorStatus } from '@/hooks/useDetailsForSensorStatus';
 
 interface TreeSensorData {
-  tree: {
+  tree?: {
     id: number;
     species: string;
-    number: string;
-    hasSensor: boolean;
-    status: EntitiesTreeClusterWateringStatus;
-    sensor: SensorStatus;
+    number: number;
+    heightAboveSeaLevel: number;
+    plantingYear: number;
+    age: number;
+    updatedAt: string;
+    latitude: number;
+    longitude: number;
   }
 }
 
 const TreeSensorData: React.FC<TreeSensorData> = ({ tree }) => {
-
   // TODO: Switch to real content
   const statusCards = [
     {
@@ -28,10 +29,10 @@ const TreeSensorData: React.FC<TreeSensorData> = ({ tree }) => {
 
   return (
     <>
-      <ul className="space-y-5 lg:space-y-0 lg:grid lg:grid-cols-4 lg:gap-x-5">
+      <ul className="space-y-5 md:space-y-0 md:grid md:gap-5 md:grid-cols-2 lg:grid-cols-4">
         <li>
           <EntitiesStatusCard
-            statusDetails={getSensorStatusDetails(tree.sensor)}
+            statusDetails={getSensorStatusDetails(SensorStatus.SensorStatusOnline)}
             label="Status der Sensoren" />
         </li>
         {statusCards.map((card, key) => (

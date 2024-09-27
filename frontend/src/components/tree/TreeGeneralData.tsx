@@ -1,49 +1,52 @@
-import { EntitiesTreeClusterWateringStatus } from "@green-ecolution/backend-client";
+import useFormattedDate from "@/hooks/useFormattedDate";
 
 interface TreeGeneralData {
-  tree: {
+  tree?: {
     id: number;
     species: string;
-    number: string;
-    hasSensor: boolean;
-    status: EntitiesTreeClusterWateringStatus;
+    number: number;
+    heightAboveSeaLevel: number;
+    plantingYear: number;
+    age: number;
+    updatedAt: string;
+    latitude: number;
+    longitude: number;
   }
 }
 
 const TreeGeneralData: React.FC<TreeGeneralData> = ({ tree }) => {
-
   const treeData = [
     {
       label: 'Baumart',
-      value: tree.species
+      value: tree?.species ?? 'Keine Angabe',
     },
     {
       label: 'Höhe über NHN',
-      value: '@TODO: Implement'
+      value: tree?.heightAboveSeaLevel ?? 'Keine Angabe',
     },
     {
       label: 'Standalter',
-      value: '@TODO: Implement'
+      value: tree?.age ?? 'Keine Angabe',
     },
     {
       label: 'Pflanzjahr',
-      value: '@TODO: Implement'
+      value: tree?.plantingYear ?? 'Keine Angabe',
     },
     {
       label: 'Bewässerungsgruppe',
       value: '@TODO: Implement'
     },
     {
-      label: 'Standort',
-      value: '@TODO: Implement'
+      label: 'Latitude',
+      value: tree?.longitude ?? 'Keine Angabe',
     },
     {
-      label: 'Region',
-      value: '@TODO: Implement'
+      label: 'Longitude',
+      value: tree?.latitude ?? 'Keine Angabe',
     },
     {
-      label: 'Bodenbeschaffenheit',
-      value: '@TODO: Implement'
+      label: 'Letztes Update',
+      value: useFormattedDate(tree?.updatedAt),
     },
   ];
 
