@@ -11,7 +11,7 @@ import TreeWateringStatus from '@/components/tree/TreeWateringStatus';
 import { useAuthHeader } from '@/hooks/useAuthHeader';
 import { useQuery } from '@tanstack/react-query';
 import { createFileRoute, useLoaderData } from '@tanstack/react-router'
-import { File } from 'lucide-react';
+import { File, Info } from 'lucide-react';
 
 export const Route = createFileRoute('/_protected/trees/$treeId')({
   component: SingleTree,
@@ -30,6 +30,8 @@ function SingleTree() {
     queryFn: () => treeApi.getTrees({ treeId, authorization }),
     enabled: !!treeId,
   });
+
+  console.log(tree);
 
   const tabs = [
     { 
@@ -67,14 +69,26 @@ function SingleTree() {
               <span>@TODO: Adresse der Bewässerungsgruppe</span>
             </p>
             <GeneralLink
-              url={`/map?lat=${tree.latitude}&lng=${tree.longitude}`}
+              url={`/map?lat=${tree.latitude}&lng=${tree.longitude}&zoom=18`}
               label="Auf der Karte anzeigen"
             />
           </article>
           {tree?.sensor ? (
             <Tabs tabs={tabs} />
           ) : (
-            <TreeGeneralData tree={tree} />
+            <section>
+              <div className="bg-white mb-10 border-dark-50 shadow-cards h-full p-6 rounded-xl group flex flex-col gap-4 border">
+                <h3 className="font-lato text-lg text-dark font-semibold flex items-center gap-x-3">
+                  <Info className="text-dark-600 w-5 h-5" />
+                  Info: Dieser Baum ist nicht mit einem Sensor ausgestattet.
+                </h3>
+                <p>
+                  Dieser Baum wurde bisher nicht mit einem Sensor ausgestattet, sodass keine Informationen über den aktuellen Bewässerungszustand angezeigt 
+                  werden können.
+                </p>
+              </div>
+              <TreeGeneralData tree={tree} />
+            </section>
           )}
         </div>
       )}

@@ -1,30 +1,25 @@
-// TODO: use entities from backend client
-export enum SensorStatus {
-  SensorStatusUnknown = 'unknown',
-  SensorStatusOffline = 'offline',
-  SensorStatusOnline = 'online',
-}
+import { EntitiesSensorStatus } from "@green-ecolution/backend-client";
 
 const SensorStatusProperties = {
-  [SensorStatus.SensorStatusUnknown]: {
+  [EntitiesSensorStatus.SensorStatusUnknown]: {
     color: 'dark-400',
     label: 'Unbekannt',
     description: 'Der Status ist unbekannt.',
   },
-  [SensorStatus.SensorStatusOffline]: {
+  [EntitiesSensorStatus.SensorStatusOffline]: {
     color: 'red',
     label: 'Offline',
     description: 'Einige Sensoren haben Probleme und benötigen eine Wartung.',
   },
-  [SensorStatus.SensorStatusOnline]: {
+  [EntitiesSensorStatus.SensorStatusOnline]: {
     color: 'green-light',
     label: 'In Ordnung',
     description: 'Alle Sensoren sind online und können Daten senden.',
   },
 } as const;
 
-type SensorStatusDetails = typeof SensorStatusProperties[SensorStatus];
+type SensorStatusDetails = typeof SensorStatusProperties[EntitiesSensorStatus];
 
-export const getSensorStatusDetails = (status: SensorStatus): SensorStatusDetails => {
+export const getSensorStatusDetails = (status: EntitiesSensorStatus): SensorStatusDetails => {
   return SensorStatusProperties[status];
 };

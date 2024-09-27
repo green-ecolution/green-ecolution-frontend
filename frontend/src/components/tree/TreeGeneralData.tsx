@@ -1,4 +1,4 @@
-import useFormattedDate from "@/hooks/useFormattedDate";
+import { useFormattedDateAndTime } from "@/hooks/useFormattedDate";
 
 interface TreeGeneralData {
   tree?: {
@@ -46,7 +46,7 @@ const TreeGeneralData: React.FC<TreeGeneralData> = ({ tree }) => {
     },
     {
       label: 'Letztes Update',
-      value: useFormattedDate(tree?.updatedAt),
+      value: useFormattedDateAndTime(tree?.updatedAt),
     },
   ];
 

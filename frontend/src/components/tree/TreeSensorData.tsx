@@ -1,38 +1,37 @@
 import React from 'react';
 import GeneralStatusCard from '../general/cards/GeneralStatusCard';
 import EntitiesStatusCard from '../general/cards/EntitiesStatusCard';
-import { getSensorStatusDetails, SensorStatus } from '@/hooks/useDetailsForSensorStatus';
+import { getSensorStatusDetails } from '@/hooks/useDetailsForSensorStatus';
+import { EntitiesSensorStatus } from '@green-ecolution/backend-client';
+import { useFormattedDate, useFormattedTime } from '@/hooks/useFormattedDate';
 
 interface TreeSensorData {
   tree?: {
-    id: number;
-    species: string;
-    number: number;
-    heightAboveSeaLevel: number;
-    plantingYear: number;
-    age: number;
-    updatedAt: string;
-    latitude: number;
-    longitude: number;
+    sensor?: {
+      id: number;
+      status: EntitiesSensorStatus;
+      updatedAt: string;
+    };
   }
 }
 
 const TreeSensorData: React.FC<TreeSensorData> = ({ tree }) => {
-  // TODO: Switch to real content
   const statusCards = [
     {
       overline: "Letzte Messung",
-      value: "13:27 Uhr",
-      description: "am 26. Juli 2024",
+      value: `${useFormattedTime(tree?.sensor?.updatedAt)}`,
+      description: `am ${useFormattedDate(tree?.sensor?.updatedAt)}`,
     },
   ]
+
+  const sensorStatus = tree?.sensor?.status ?? EntitiesSensorStatus.SensorStatusUnknown;
 
   return (
     <>
       <ul className="space-y-5 md:space-y-0 md:grid md:gap-5 md:grid-cols-2 lg:grid-cols-4">
         <li>
           <EntitiesStatusCard
-            statusDetails={getSensorStatusDetails(SensorStatus.SensorStatusOnline)}
+            statusDetails={getSensorStatusDetails(sensorStatus)}
             label="Status der Sensoren" />
         </li>
         {statusCards.map((card, key) => (
