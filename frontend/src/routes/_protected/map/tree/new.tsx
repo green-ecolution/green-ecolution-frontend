@@ -2,7 +2,7 @@ import MapSelectTreesModal from "@/components/map/MapSelectTreesModal";
 import { WithAllTrees } from "@/components/map/TreeMarker";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { LatLng } from "leaflet";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useMapMouseSelect } from "@/hooks/useMapMouseSelect";
 import { DragableMarker } from "@/components/map/MapMarker";
 
@@ -13,11 +13,20 @@ export const Route = createFileRoute("/_protected/map/tree/new")({
 function NewTree() {
   const [treeLatLng, setTreeLatLng] = useState<LatLng>();
   const navigate = useNavigate({ from: Route.fullPath });
-  useMapMouseSelect((latlng) => {
-    setTreeLatLng(latlng);
+  const modalRef = useRef<HTMLDivElement>(null);
+  useMapMouseSelect((latlng, e) => {
+    const target = e.originalEvent.target as HTMLElement;
+    if (!modalRef.current?.contains(target)) {
+      setTreeLatLng(latlng);
+    }
   });
 
-  const handleSave = () => { };
+  const handleSave = () => {
+    navigate({
+      to: "/tree/new",
+      search: { lat: treeLatLng!!.lat, lng: treeLatLng!!.lng },
+    });
+  };
 
   const handleCancel = () => {
     navigate({ to: "/map", search: (prev) => prev });
@@ -27,6 +36,7 @@ function NewTree() {
     <>
       <WithAllTrees />
       <MapSelectTreesModal
+        ref={modalRef}
         onSave={handleSave}
         onCancel={handleCancel}
         title="Baum erfassen:"

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { ForwardedRef, forwardRef, useState } from "react";
 import PrimaryButton from "../general/buttons/PrimaryButton";
 import SecondaryButton from "../general/buttons/SecondaryButton";
 import { MoveRight, X } from "lucide-react";
@@ -12,16 +12,16 @@ interface MapSelectTreesModalProps {
   content: React.ReactNode;
 }
 
-const MapSelectTreesModal = ({
+const MapSelectTreesModal = forwardRef(({
   onSave,
   onCancel,
   content,
   title,
-}: MapSelectTreesModalProps) => {
+}: MapSelectTreesModalProps, ref: ForwardedRef<HTMLDivElement>) => {
   const [openModal, setOpenModal] = useState(false);
 
   return (
-    <div className="text-base font-nunito-sans">
+    <div className="text-base font-nunito-sans" ref={ref}>
       <button
         onClick={() => setOpenModal(true)}
         className={`bg-white absolute flex items-center group gap-x-3 rounded-xl px-5 py-2 z-[1000] left-4 bottom-6 transition-all ease-in-out duration-300 hover:bg-dark-100 lg:hidden
@@ -59,6 +59,6 @@ const MapSelectTreesModal = ({
       </div>
     </div>
   );
-};
+});
 
 export default MapSelectTreesModal;
