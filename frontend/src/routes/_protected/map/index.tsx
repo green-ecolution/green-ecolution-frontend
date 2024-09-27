@@ -1,11 +1,26 @@
+import { treeApi } from "@/api/backendApi";
 import Map from "@/components/map/Map";
 import MapSelectTreesModal from "@/components/map/MapSelectTreesModal";
 import ZoomControls from "@/components/map/ZoomControls";
+import { useAuthHeader } from "@/hooks/useAuthHeader";
 import useStore from "@/store/store";
 import useMapStore from "@/store/store";
+import { useQuery } from "@tanstack/react-query";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { Marker } from "react-leaflet";
 import { useMapEvents } from "react-leaflet/hooks";
 import { z } from "zod";
+// @ts-ignore because this image needs to be imported, but not found for some reason, but works.
+import defaultIconPng from 'leaflet/dist/images/marker-icon.png'
+import { Icon } from "leaflet";
+
+const defaultIcon = new Icon({
+  iconUrl: defaultIconPng,
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41],
+});
 
 const mapSearchParamsSchema = z.object({
   selected: z.string().optional(),
@@ -23,7 +38,12 @@ const mapSearchParamsSchema = z.object({
 export const Route = createFileRoute("/_protected/map/")({
   component: MapView,
   validateSearch: mapSearchParamsSchema,
-  loaderDeps: ({ search: { lat, lng, zoom, showSelectModal } }) => ({ lat, lng, zoom, showSelectModal }),
+  loaderDeps: ({ search: { lat, lng, zoom, showSelectModal } }) => ({
+    lat,
+    lng,
+    zoom,
+    showSelectModal,
+  }),
   loader: ({ deps: { lat, lng, zoom, showSelectModal } }) => {
     useMapStore.setState((state) => ({
       map: { ...state.map, center: [lat, lng], zoom, showSelectModal },
@@ -33,6 +53,11 @@ export const Route = createFileRoute("/_protected/map/")({
 
 function MapView() {
   const showSelectModal = useStore((state) => state.map.showSelectModal);
+  const authorization = useAuthHeader();
+  const { data: treeRes } = useQuery({
+    queryKey: ["trees"],
+    queryFn: () => treeApi.getAllTrees({ authorization }),
+  });
 
   return (
     <div className="relative">
@@ -40,6 +65,10 @@ function MapView() {
         {showSelectModal && <MapSelectTreesModal />}
         <ZoomControls />
         <MapConroller />
+
+        {(treeRes?.data || []).map((tree) => (
+          <Marker icon={defaultIcon} key={tree.id} position={[tree.latitude, tree.longitude]} />
+        ))}
       </Map>
     </div>
   );
@@ -65,4 +94,3 @@ const MapConroller = () => {
 
   return null;
 };
-
