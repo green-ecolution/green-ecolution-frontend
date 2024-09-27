@@ -25,7 +25,7 @@ const SelectTrees: React.FC<SelectTrees> = ({
   const handleStoreState = () => {
     storeState();
     navigate({
-      to: "/map/treecluster/select",
+      to: "/map/treecluster/select/tree",
       search: {
         lat: mapPosition.lat,
         lng: mapPosition.lng,

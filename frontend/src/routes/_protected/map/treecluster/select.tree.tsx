@@ -5,14 +5,16 @@ import { Tree } from "@green-ecolution/backend-client";
 import { WithAllTrees } from "@/components/map/TreeMarker";
 import { useState } from "react";
 
-export const Route = createFileRoute("/_protected/map/treecluster/select")({
-  component: SelectTrees,
-});
+export const Route = createFileRoute("/_protected/map/treecluster/select/tree")(
+  {
+    component: SelectTrees,
+  },
+);
 
 function SelectTrees() {
-  const [treeIds, setTreeIds] = useState<number[]>([]);
-  const navigate = useNavigate({ from: Route.fullPath });
   const newTreecluster = useStore((state) => state.newTreecluster);
+  const [treeIds, setTreeIds] = useState<number[]>(newTreecluster.treeIds);
+  const navigate = useNavigate({ from: Route.fullPath });
 
   const handleSave = () => {
     newTreecluster.setTreeIds(treeIds);
@@ -20,7 +22,6 @@ function SelectTrees() {
   };
 
   const handleCancel = () => {
-    newTreecluster.setTreeIds([]);
     navigate({ to: "/treecluster/new" });
   };
 
@@ -29,7 +30,7 @@ function SelectTrees() {
   };
 
   const handleTreeClick = (tree: Tree) => {
-    setTreeIds((prev) => [...prev, tree.id]);
+    setTreeIds((prev) => (!prev.includes(tree.id) ? [...prev, tree.id] : prev));
   };
 
   return (

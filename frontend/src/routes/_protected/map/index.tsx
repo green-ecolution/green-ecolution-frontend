@@ -7,7 +7,6 @@ export const Route = createFileRoute("/_protected/map/")({
 });
 
 function MapView() {
-
   return (
     <>
       <MapButtons />
