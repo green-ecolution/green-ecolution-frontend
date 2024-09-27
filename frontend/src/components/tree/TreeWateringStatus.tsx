@@ -1,4 +1,4 @@
-import { EntitiesTreeClusterWateringStatus } from '@green-ecolution/backend-client';
+import { EntitiesTreeClusterWateringStatus, Tree } from '@green-ecolution/backend-client';
 import React from 'react';
 import { TreeDeciduous } from 'lucide-react';
 import { getWateringStatusDetails } from '@/hooks/useDetailsForWateringStatus';
@@ -6,13 +6,10 @@ import GeneralStatusCard from '../general/cards/GeneralStatusCard';
 import EntitiesStatusCard from '../general/cards/EntitiesStatusCard';
 
 interface TreeWateringStatus {
-  tree?: {
-    id: number;
-  };
+  tree?: Tree,
 }
 
 const TreeWateringStatus: React.FC<TreeWateringStatus> = ({ tree }) => {
-  // TODO: Add real watering status
   // TODO: Switch to real content
   const statusProDepth = [
     {

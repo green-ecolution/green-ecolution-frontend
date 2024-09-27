@@ -2,17 +2,11 @@ import React from 'react';
 import GeneralStatusCard from '../general/cards/GeneralStatusCard';
 import EntitiesStatusCard from '../general/cards/EntitiesStatusCard';
 import { getSensorStatusDetails } from '@/hooks/useDetailsForSensorStatus';
-import { EntitiesSensorStatus } from '@green-ecolution/backend-client';
+import { EntitiesSensorStatus, Tree } from '@green-ecolution/backend-client';
 import { useFormattedDate, useFormattedTime } from '@/hooks/useFormattedDate';
 
 interface TreeSensorData {
-  tree?: {
-    sensor?: {
-      id: number;
-      status: EntitiesSensorStatus;
-      updatedAt: string;
-    };
-  }
+  tree?: Tree,
 }
 
 const TreeSensorData: React.FC<TreeSensorData> = ({ tree }) => {

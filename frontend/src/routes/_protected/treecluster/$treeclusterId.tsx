@@ -1,10 +1,12 @@
+import { treeApi } from '@/api/backendApi';
 import EntitiesStatusCard from '@/components/general/cards/EntitiesStatusCard';
 import GeneralStatusCard from '@/components/general/cards/GeneralStatusCard';
 import TreeCard from '@/components/general/cards/TreeCard';
 import BackLink from '@/components/general/links/BackLink';
 import { treeclusterDemoData } from '@/data/treecluser';
-import { treeDemoData } from '@/data/trees';
+import { useAuthHeader } from '@/hooks/useAuthHeader';
 import { getWateringStatusDetails } from '@/hooks/useDetailsForWateringStatus';
+import { useQuery } from '@tanstack/react-query';
 import { createFileRoute, useLoaderData } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/_protected/treecluster/$treeclusterId')({
@@ -17,13 +19,14 @@ export const Route = createFileRoute('/_protected/treecluster/$treeclusterId')({
 })
 
 function SingleTreecluster() {
-
-  const trees = treeDemoData();
-
   const treecluster = useLoaderData({ from: '/_protected/treecluster/$treeclusterId'});
-  if (!treecluster) {
-    return <div>Tree cluster not found</div>;
-  }
+  const authorization = useAuthHeader();
+
+  // TODO: delete if real tree cluster data is used
+  const { data: treeRes } = useQuery({
+    queryKey: ["trees"],
+    queryFn: () => treeApi.getAllTrees({ authorization }),
+  });
 
   const location = `${treecluster.address}, ${treecluster.region}`;
   const treeCount = `${treecluster.treeCount} Bäume | ${treecluster.sensorCount} mit Sensoren`;
@@ -44,7 +47,7 @@ function SingleTreecluster() {
       </article>
 
       <section className="mt-10">
-        <ul className="space-y-5 md:space-y-0 md:grid md:gap-5 md:grid-cols-2 lg:grid-cols-4">
+        <ul className="space-y-5 md:space-y-0 md:grid md:gap-5 md:grid-cols-2 lg:grid-cols-3">
           <li>
             <EntitiesStatusCard
               statusDetails={getWateringStatusDetails(treecluster.status)}
@@ -74,12 +77,12 @@ function SingleTreecluster() {
         </header>
 
         <ul className="space-y-5">
-          {trees.length === 0 ? (
+          {treeRes?.data.length === 0 ? (
             <li className="text-center text-dark-600 mt-4">
               <p>Der Bewässerungsgruppe wurden keine Bäume hinzugefügt.</p>
             </li>
           ) : (
-            trees.map((tree, key) => (
+            treeRes?.data.map((tree, key) => (
               <li key={key}>
                 <TreeCard tree={tree}/>
               </li>

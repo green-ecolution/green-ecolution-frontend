@@ -9,7 +9,7 @@ import TreeGeneralData from '@/components/tree/TreeGeneralData';
 import TreeSensorData from '@/components/tree/TreeSensorData';
 import TreeWateringStatus from '@/components/tree/TreeWateringStatus';
 import { useAuthHeader } from '@/hooks/useAuthHeader';
-import { useQuery } from '@tanstack/react-query';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import { createFileRoute, useLoaderData } from '@tanstack/react-router'
 import { File, Info } from 'lucide-react';
 
@@ -25,13 +25,10 @@ function SingleTree() {
   const treeId = useLoaderData({ from: '/_protected/trees/$treeId'});
   const authorization = useAuthHeader();
 
-  const { data: tree, isLoading, isError } = useQuery({
+  const { data: tree, isLoading, isError } = useSuspenseQuery({
     queryKey: ["tree", treeId],
     queryFn: () => treeApi.getTrees({ treeId, authorization }),
-    enabled: !!treeId,
   });
-
-  console.log(tree);
 
   const tabs = [
     { 
