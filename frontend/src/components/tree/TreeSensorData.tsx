@@ -3,18 +3,25 @@ import GeneralStatusCard from '../general/cards/GeneralStatusCard';
 import EntitiesStatusCard from '../general/cards/EntitiesStatusCard';
 import { getSensorStatusDetails } from '@/hooks/useDetailsForSensorStatus';
 import { EntitiesSensorStatus, Tree } from '@green-ecolution/backend-client';
-import { useFormattedDate, useFormattedTime } from '@/hooks/useFormattedDate';
+import { format } from 'date-fns';
 
 interface TreeSensorData {
   tree?: Tree,
 }
 
 const TreeSensorData: React.FC<TreeSensorData> = ({ tree }) => {
+  const updatedDate = tree?.updatedAt 
+    ? format(new Date(tree?.updatedAt), 'dd.MM.yyyy')
+    : 'Keine Angabe';
+    const updatedTime = tree?.updatedAt 
+    ? format(new Date(tree?.updatedAt), 'HH:mm')
+    : 'Keine Angabe';
+
   const statusCards = [
     {
       overline: "Letzte Messung",
-      value: `${useFormattedTime(tree?.sensor?.updatedAt)}`,
-      description: `am ${useFormattedDate(tree?.sensor?.updatedAt)}`,
+      value: `${updatedTime} Uhr`,
+      description: `am ${updatedDate}`,
     },
   ]
 
