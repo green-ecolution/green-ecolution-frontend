@@ -1,9 +1,10 @@
+import EntitiesStatusCard from '@/components/general/cards/EntitiesStatusCard';
 import GeneralStatusCard from '@/components/general/cards/GeneralStatusCard';
 import TreeCard from '@/components/general/cards/TreeCard';
-import WateringStatusCard from '@/components/general/cards/WateringStatusCard';
 import BackLink from '@/components/general/links/BackLink';
 import { treeclusterDemoData } from '@/data/treecluser';
 import { treeDemoData } from '@/data/trees';
+import { getWateringStatusDetails } from '@/hooks/useDetailsForWateringStatus';
 import { createFileRoute, useLoaderData } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/_protected/treecluster/$treeclusterId')({
@@ -45,8 +46,9 @@ function SingleTreecluster() {
       <section className="mt-10">
         <ul className="space-y-5 lg:space-y-0 lg:grid lg:grid-cols-3 lg:gap-x-5">
           <li>
-            <WateringStatusCard
-              wateringStatus={treecluster.status} />
+            <EntitiesStatusCard
+              statusDetails={getWateringStatusDetails(treecluster.status)}
+              label="Bewässerungszustand (ø)" />
           </li>
           <li>
             <GeneralStatusCard 

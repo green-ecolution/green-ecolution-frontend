@@ -1,0 +1,30 @@
+// TODO: use entities from backend client
+export enum SensorStatus {
+  SensorStatusUnknown = 'unknown',
+  SensorStatusOffline = 'offline',
+  SensorStatusOnline = 'online',
+}
+
+const SensorStatusProperties = {
+  [SensorStatus.SensorStatusUnknown]: {
+    color: 'dark-400',
+    label: 'Unbekannt',
+    description: 'Der Status ist unbekannt.',
+  },
+  [SensorStatus.SensorStatusOffline]: {
+    color: 'red',
+    label: 'Offline',
+    description: 'Einige Sensoren haben Probleme und benötigen eine Wartung.',
+  },
+  [SensorStatus.SensorStatusOnline]: {
+    color: 'green-light',
+    label: 'In Ordnung',
+    description: 'Alle Sensoren sind online und können Daten senden.',
+  },
+} as const;
+
+type SensorStatusDetails = typeof SensorStatusProperties[SensorStatus];
+
+export const getSensorStatusDetails = (status: SensorStatus): SensorStatusDetails => {
+  return SensorStatusProperties[status];
+};

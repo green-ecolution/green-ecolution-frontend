@@ -1,3 +1,4 @@
+import { SensorStatus } from "@/hooks/useDetailsForSensorStatus";
 import { EntitiesTreeClusterWateringStatus } from "@green-ecolution/backend-client";
 
 export function treeDemoData() {
@@ -10,6 +11,7 @@ export function treeDemoData() {
       status: EntitiesTreeClusterWateringStatus.TreeClusterWateringStatusGood,
       latitude: '54.774471',
       longitude: '9.433653',
+      sensor: SensorStatus.SensorStatusOffline,
     },
     {
       id: 1,
@@ -19,6 +21,7 @@ export function treeDemoData() {
       status: EntitiesTreeClusterWateringStatus.TreeClusterWateringStatusModerate,
       latitude: '54.774471',
       longitude: '9.433653',
+      sensor: SensorStatus.SensorStatusOnline,
     },
     {
       id: 2,
@@ -28,6 +31,7 @@ export function treeDemoData() {
       status: EntitiesTreeClusterWateringStatus.TreeClusterWateringStatusGood,
       latitude: '54.774471',
       longitude: '9.433653',
+      sensor: SensorStatus.SensorStatusOnline,
     },
     {
       id: 3,
@@ -37,6 +41,7 @@ export function treeDemoData() {
       status: EntitiesTreeClusterWateringStatus.TreeClusterWateringStatusUnknown,
       latitude: '54.774471',
       longitude: '9.433653',
+      sensor: SensorStatus.SensorStatusUnknown,
     },
     {
       id: 4,
@@ -46,6 +51,7 @@ export function treeDemoData() {
       status: EntitiesTreeClusterWateringStatus.TreeClusterWateringStatusUnknown,
       latitude: '54.774471',
       longitude: '9.433653',
+      sensor: SensorStatus.SensorStatusOffline,
     },
   ];
 }

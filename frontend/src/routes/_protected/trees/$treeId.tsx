@@ -1,12 +1,14 @@
 import BackLink from '@/components/general/links/BackLink';
 import GeneralLink from '@/components/general/links/GeneralLink';
+import Tabs from '@/components/general/Tabs';
+import Sensor from '@/components/icons/Sensor';
 import Tree from '@/components/icons/Tree';
 import TreeGeneralData from '@/components/tree/TreeGeneralData';
+import TreeSensorData from '@/components/tree/TreeSensorData';
 import TreeWateringStatus from '@/components/tree/TreeWateringStatus';
 import { treeDemoData } from '@/data/trees';
 import { createFileRoute, useLoaderData } from '@tanstack/react-router'
-import { File, PieChart, Trash } from 'lucide-react';
-import { useState } from 'react';
+import { File } from 'lucide-react';
 
 export const Route = createFileRoute('/_protected/trees/$treeId')({
   component: SingleTree,
@@ -19,7 +21,6 @@ export const Route = createFileRoute('/_protected/trees/$treeId')({
 
 function SingleTree() {
   const tree = useLoaderData({ from: '/_protected/trees/$treeId'});
-  const [showTabIndex, setShowTabIndex] = useState(0);
 
   const tabs = [
     {
@@ -34,13 +35,8 @@ function SingleTree() {
     },
     {
       label: 'Sensordaten',
-      icon: <Trash className="w-5 h-5" />,
-      view: <TreeWateringStatus tree={tree} />
-    },
-    {
-      label: 'Auswertung',
-      icon: <PieChart className="w-5 h-5" />,
-      view: <TreeWateringStatus tree={tree} />
+      icon: <Sensor className="w-5 h-5" />,
+      view: <TreeSensorData tree={tree} />
     },
   ]
 
@@ -62,35 +58,11 @@ function SingleTree() {
           label="Auf der Karte anzeigen" />
       </article>
  
-      <div role="tablist" className="mb-10 border-b border-b-dark-600 flex items-center w-max gap-x-6">
-        {tabs.map((tab, key) => (
-          <button 
-            onClick={() => setShowTabIndex(key)} 
-            key={key} 
-            id={`tab-${key}`} 
-            role="tab" 
-            aria-selected={showTabIndex === key} 
-            aria-controls={`tabpanel-${key}`}
-            className={`flex items-center gap-x-2 pb-2 border-b transition-all ease-in-out duration-300 hover:text-dark-800 ${showTabIndex === key ? 'text-dark border-b-dark' : 'text-dark-600 border-b-transparent'}`}
-          >
-            {tab.icon}
-            {tab.label}
-          </button>
-        ))}
-      </div>
-
-      {tabs.map((tab, key) => (
-        <div 
-          key={key} 
-          id={`tabpanel-${key}`} 
-          role="tabpanel" 
-          tabIndex={showTabIndex === key ? 0 : -1} 
-          aria-labelledby={`tab-${key}`}
-          className={`${showTabIndex === key ? 'block': 'hidden'}`}
-        >
-          {tab.view}
-        </div>
-      ))}
+      {tree.hasSensor ? (
+        <Tabs tabs={tabs} />
+      ) : (
+        <TreeGeneralData tree={tree} />
+      )}
     </div>
   )
 }

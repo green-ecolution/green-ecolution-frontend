@@ -30,7 +30,6 @@ import { Route as ProtectedWaypointsNewImport } from './routes/_protected/waypoi
 import { Route as ProtectedTreesTreeIdImport } from './routes/_protected/trees/$treeId'
 import { Route as ProtectedTreeclusterNewImport } from './routes/_protected/treecluster/new'
 import { Route as ProtectedTreeclusterTreeclusterIdImport } from './routes/_protected/treecluster/$treeclusterId'
-import { Route as ProtectedDashboardTreeTreeIdImport } from './routes/_protected/dashboard/tree/$treeId'
 
 // Create/Update Routes
 
@@ -127,12 +126,6 @@ const ProtectedTreeclusterNewRoute = ProtectedTreeclusterNewImport.update({
 const ProtectedTreeclusterTreeclusterIdRoute =
   ProtectedTreeclusterTreeclusterIdImport.update({
     path: '/treecluster/$treeclusterId',
-    getParentRoute: () => ProtectedRoute,
-  } as any)
-
-const ProtectedDashboardTreeTreeIdRoute =
-  ProtectedDashboardTreeTreeIdImport.update({
-    path: '/dashboard/tree/$treeId',
     getParentRoute: () => ProtectedRoute,
   } as any)
 
@@ -273,13 +266,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedWaypointsIndexImport
       parentRoute: typeof ProtectedImport
     }
-    '/_protected/dashboard/tree/$treeId': {
-      id: '/_protected/dashboard/tree/$treeId'
-      path: '/dashboard/tree/$treeId'
-      fullPath: '/dashboard/tree/$treeId'
-      preLoaderRoute: typeof ProtectedDashboardTreeTreeIdImport
-      parentRoute: typeof ProtectedImport
-    }
   }
 }
 
@@ -302,7 +288,6 @@ export const routeTree = rootRoute.addChildren({
     ProtectedMapIndexRoute,
     ProtectedTreeclusterIndexRoute,
     ProtectedWaypointsIndexRoute,
-    ProtectedDashboardTreeTreeIdRoute,
   }),
   LoginRoute,
   LogoutRoute,
@@ -340,8 +325,7 @@ export const routeTree = rootRoute.addChildren({
         "/_protected/waypoints/new",
         "/_protected/map/",
         "/_protected/treecluster/",
-        "/_protected/waypoints/",
-        "/_protected/dashboard/tree/$treeId"
+        "/_protected/waypoints/"
       ]
     },
     "/login": {
@@ -411,10 +395,6 @@ export const routeTree = rootRoute.addChildren({
     },
     "/_protected/waypoints/": {
       "filePath": "_protected/waypoints/index.tsx",
-      "parent": "/_protected"
-    },
-    "/_protected/dashboard/tree/$treeId": {
-      "filePath": "_protected/dashboard/tree/$treeId.tsx",
       "parent": "/_protected"
     }
   }
