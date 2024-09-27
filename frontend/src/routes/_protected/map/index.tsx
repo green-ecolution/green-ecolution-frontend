@@ -54,10 +54,16 @@ export const Route = createFileRoute("/_protected/map/")({
 function MapView() {
   const showSelectModal = useStore((state) => state.map.showSelectModal);
   const authorization = useAuthHeader();
+  const navigate = useNavigate({ from: '/map' });
+
   const { data: treeRes } = useQuery({
     queryKey: ["trees"],
     queryFn: () => treeApi.getAllTrees({ authorization }),
   });
+
+  const handleMarkerClick = (treeId: number) => {
+    navigate({ to: `/trees/${treeId}` });
+  };
 
   return (
     <div className="relative">
@@ -67,7 +73,13 @@ function MapView() {
         <MapConroller />
 
         {(treeRes?.data || []).map((tree) => (
-          <Marker icon={defaultIcon} key={tree.id} position={[tree.latitude, tree.longitude]} />
+          <Marker 
+            icon={defaultIcon} 
+            key={tree.id} 
+            position={[tree.latitude, tree.longitude]} 
+            eventHandlers={{
+              click: () => handleMarkerClick(tree.id),
+            }} />
         ))}
       </Map>
     </div>
