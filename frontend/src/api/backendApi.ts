@@ -4,6 +4,7 @@ import {
   HTTPHeaders,
   InfoApi,
   RegionApi,
+  SensorApi,
   TreeApi,
   TreeClusterApi,
   UserApi,
@@ -26,5 +27,6 @@ export const clusterApi = new TreeClusterApi(config);
 export const infoApi = new InfoApi(config);
 export const userApi = new UserApi(config);
 export const regionApi = new RegionApi(config);
+export const sensorApi = new SensorApi(config);
 
 export * from "@green-ecolution/backend-client";
