@@ -1,33 +1,67 @@
 import MapSelectTreesModal from "@/components/map/MapSelectTreesModal";
-import { useMapMouseSelect } from "@/hooks/useMapMouseSelect";
+import { WithAllTrees } from "@/components/map/TreeMarker";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { LatLng } from "leaflet";
+import { useRef, useState } from "react";
+import { useMapMouseSelect } from "@/hooks/useMapMouseSelect";
+import { DragableMarker } from "@/components/map/MapMarker";
 
 export const Route = createFileRoute("/_protected/map/tree/new")({
   component: NewTree,
 });
 
 function NewTree() {
+  const [treeLatLng, setTreeLatLng] = useState<LatLng>();
   const navigate = useNavigate({ from: Route.fullPath });
-  const mousePosition = useMapMouseSelect();
-
-
-  useEffect(() => {
-    if (mousePosition.lat !== 0 && mousePosition.lng !== 0) {
-      console.log(mousePosition);
+  const modalRef = useRef<HTMLDivElement>(null);
+  useMapMouseSelect((latlng, e) => {
+    const target = e.originalEvent.target as HTMLElement;
+    if (!modalRef.current?.contains(target)) {
+      setTreeLatLng(latlng);
     }
-  }, [mousePosition]);
+  });
 
-  const handleSave = () => {};
+  const handleSave = () => {
+    navigate({
+      to: "/tree/new",
+      search: { lat: treeLatLng!!.lat, lng: treeLatLng!!.lng },
+    });
+  };
+
   const handleCancel = () => {
     navigate({ to: "/map", search: (prev) => prev });
   };
 
   return (
     <>
-      <MapSelectTreesModal onSave={handleSave} onCancel={handleCancel} />
+      <WithAllTrees />
+      <MapSelectTreesModal
+        ref={modalRef}
+        onSave={handleSave}
+        onCancel={handleCancel}
+        title="Baum erfassen:"
+        content={
+          <ul className="space-y-3">
+            <li className="text-dark-600">
+              {treeLatLng ? (
+                <>
+                  <p>Neuer Baum an folgendem Standort:</p>
+                  {treeLatLng!!.lat}, {treeLatLng!!.lng}
+                </>
+              ) : (
+                <p>Bitte wähle einen Standort für den neuen Baum.</p>
+              )}
+            </li>
+          </ul>
+        }
+      />
+
+      {treeLatLng && (
+        <DragableMarker
+          position={treeLatLng}
+          onMove={(latlng) => setTreeLatLng(latlng)}
+        />
+      )}
     </>
   );
 }
-
-

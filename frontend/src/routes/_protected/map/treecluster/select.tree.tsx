@@ -4,6 +4,7 @@ import useStore from "@/store/store";
 import { Tree } from "@green-ecolution/backend-client";
 import { WithAllTrees } from "@/components/map/TreeMarker";
 import { useState } from "react";
+import SelectedCard from "@/components/general/cards/SelectedCard";
 
 export const Route = createFileRoute("/_protected/map/treecluster/select/tree")(
   {
@@ -39,7 +40,22 @@ function SelectTrees() {
         onSave={handleSave}
         onCancel={handleCancel}
         treeIds={treeIds}
-        onDeleteTree={handleDeleteTree}
+        title="Bäume auswählen:"
+        content={
+          <ul className="space-y-3">
+            {(treeIds?.length || 0) === 0 ? (
+              <li className="text-dark-600">
+                <p>Keine Bäume ausgewählt.</p>
+              </li>
+            ) : (
+              treeIds.map((treeId, key) => (
+                <li key={key}>
+                  <SelectedCard itemId={treeId} onClick={handleDeleteTree} />
+                </li>
+              ))
+            )}
+          </ul>
+        }
       />
       <WithAllTrees onClick={handleTreeClick} />
     </>
