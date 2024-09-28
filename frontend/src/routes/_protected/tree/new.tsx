@@ -41,11 +41,11 @@ function NewTree() {
     // getValues,
     // reset,
   } = useForm<NewTreeForm>({
-    resolver: zodResolver(NewTreeSchema()),
+    resolver: zodResolver(NewTreeSchema(lat, lng)),
   });
 
   const onSubmit = async (data: NewTreeForm) => {
-    console.log(data);
+    console.log(data); // TODO: Send to backend
   };
 
   return (
@@ -86,27 +86,34 @@ function NewTree() {
               name="plantingYear"
               placeholder="Pflanzjahr"
               label="Pflanzjahr"
+              type="number"
+              required
               register={register}
               error={errors.plantingYear?.message}
             />
             <Select<NewTreeForm>
               name="treeClusterId"
-              options={treeClusters?.data?.map((cluster) => ({
-                label: cluster.id.toString(),
-                value: cluster.id.toString(),
-              }))}
+              options={[
+                { label: "Keine Bewässerungsgruppe", value: "-1" },
+                ...treeClusters?.data?.map((cluster) => ({
+                  label: cluster.id.toString(), // TODO: Change to cluster.name
+                  value: cluster.id.toString(),
+                })),
+              ]}
               placeholder="Wählen Sie eine Bewässerungsgruppe aus"
               label="Bewässerungsgruppe"
-              required
               register={register}
               error={errors.treeClusterId?.message}
             />
             <Select<NewTreeForm>
               name="sensorId"
-              options={sensors?.data?.map((sensor) => ({
-                label: sensor.id.toString(),
-                value: sensor.id.toString(),
-              }))}
+              options={[
+                { label: "Kein Sensor", value: "-1" },
+                ...sensors?.data?.map((sensor) => ({
+                  label: `Sensor ${sensor.id.toString()}`,
+                  value: sensor.id.toString(),
+                })),
+              ]}
               placeholder="Wählen Sie einen Sensor aus, sofern vorhanden"
               label="Sensor am Baum"
               register={register}
@@ -144,7 +151,7 @@ function NewTree() {
             </button>
           </div>
 
-          <p className={`text-red font-medium mt-10 ${true ? "" : "hidden"}`}>
+          <p className={`text-red font-medium mt-10 ${false ? "" : "hidden"}`}>
             Es ist leider ein Problem aufgetreten. Bitte probieren Sie es erneut
             oder wenden Sie sich an eine:n Systemadministrator:in.
           </p>
