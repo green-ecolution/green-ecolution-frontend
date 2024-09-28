@@ -1,7 +1,17 @@
+// @ts-ignore because this image needs to be imported, but not found for some reason, but works.
+import defaultIconPng from "leaflet/dist/images/marker-icon.png";
 import L, { DivIcon, Icon, IconOptions } from "leaflet";
 import { Marker } from "react-leaflet";
 import { Marker as LeafletMarker } from "leaflet";
 import { useMemo, useRef } from "react";
+
+export const defaultIcon = new Icon({
+  iconUrl: defaultIconPng,
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41],
+});
 
 export interface MapMarkerProps {
   icon: Icon<IconOptions> | DivIcon | undefined;
@@ -74,6 +84,7 @@ export const DragableMarker = ({
   return (
     <Marker
       eventHandlers={eventHandlers}
+      icon={defaultIcon}
       ref={markerRef}
       draggable
       position={position}
