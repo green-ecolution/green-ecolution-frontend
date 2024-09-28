@@ -4,13 +4,14 @@ interface GeneralStatusCard {
   overline: string;
   value: string;
   description?: string;
+  isLarge?: boolean;
 }
 
-const GeneralStatusCard: React.FC<GeneralStatusCard> = ({ overline, value, description = '' }) => {
+const GeneralStatusCard: React.FC<GeneralStatusCard> = ({ overline, value, description = '', isLarge = false }) => {
     return (
       <div className="h-full space-y-3 bg-dark-50 rounded-xl p-6">
         <h2 className="text-sm text-dark-700 font-medium">{overline}</h2>
-        <p className="font-bold text-xl">{value}</p>
+        <p className={`font-bold ${isLarge ? 'text-3xl' : 'text-xl'}`}>{value}</p>
         {description && <p className="text-sm">{description}</p>}
       </div>
     );
