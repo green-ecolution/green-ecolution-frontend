@@ -19,6 +19,12 @@ import { Checkbox } from "@/components/ui/checkbox";
 
 export const Route = createFileRoute("/_protected/team")({
   component: Team,
+  meta: () => [
+    {
+      title: 'Mitarbeitende',
+      path: '/team',
+    },
+  ],
 });
 
 enum Status {

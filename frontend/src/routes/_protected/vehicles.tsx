@@ -19,6 +19,12 @@ import { Checkbox } from "../../components/ui/checkbox";
 
 export const Route = createFileRoute("/_protected/vehicles")({
   component: Vehicles,
+  meta: () => [
+    {
+      title: 'Fahrzeuge',
+      path: '/vehicles',
+    },
+  ]
 });
 
 const vehicles = [

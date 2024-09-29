@@ -2,6 +2,12 @@ import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_protected/settings")({
   component: Settings,
+  meta: () => [
+    {
+      title: 'Einstellungen',
+      path: '/settings',
+    },
+  ],
 });
 
 function Settings() {

@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
+import { createFileRoute, useLoaderData } from '@tanstack/react-router';
+import { z } from 'zod';
 import TreeclusterCard from "@/components/general/cards/TreeclusterCard";
 import Dialog from "@/components/general/filter/Dialog";
 import { treeclusterDemoData } from "@/data/treecluser";
-import { createFileRoute, useLoaderData } from '@tanstack/react-router';
-import { z } from 'zod';
 import ButtonLink from '@/components/general/links/ButtonLink';
 import { Plus } from 'lucide-react';
 import { getWateringStatusDetails } from '@/hooks/useDetailsForWateringStatus';
@@ -16,12 +16,16 @@ const treeclusterFilterSchema = z.object({
 export const Route = createFileRoute('/_protected/treecluster/')({
   component: Treecluster,
   validateSearch: treeclusterFilterSchema,
-
+  meta: () => [
+    {
+      title: 'Bewässerungsgruppen',
+      path: '/treecluster',
+    },
+  ],
   loaderDeps: ({ search: { status, region } }) => ({
     status: status || [],
     region: region || [],
   }),
-
   loader: ({ deps: { status, region } }) => {
     return { status, region };
   },
@@ -51,8 +55,8 @@ function Treecluster() {
           Auflistung der Bewässerungsgruppen
         </h1>
         <p className="mb-5">
-          Eine Bewässerungsgruppe besteht aus bis zu 40 Bäumen, die die gleichen Standortbedingungen vorweisen. 
-          Mindestens fünf Bäume in einer Baumgruppe sind mit Sensoren ausgestattet. 
+          Eine Bewässerungsgruppe besteht aus bis zu 40 Bäumen, die die gleichen Standortbedingungen vorweisen.
+          Mindestens fünf Bäume in einer Baumgruppe sind mit Sensoren ausgestattet.
           Diese gelieferten Werte werden gemittelt, sodass eine Handlungsempfehlung für die Baumgruppe gegeben werden kann.
         </p>
         <ButtonLink 

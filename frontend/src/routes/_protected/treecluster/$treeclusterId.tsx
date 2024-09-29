@@ -8,17 +8,38 @@ import { useAuthHeader } from '@/hooks/useAuthHeader';
 import { getWateringStatusDetails } from '@/hooks/useDetailsForWateringStatus';
 import { useQuery } from '@tanstack/react-query';
 import { createFileRoute, useLoaderData } from '@tanstack/react-router'
+import { treeDemoData } from '@/data/trees';
 
 export const Route = createFileRoute('/_protected/treecluster/$treeclusterId')({
   component: SingleTreecluster,
 
   loader: async ({ params }) => {
     const treeclusterId = parseInt(params.treeclusterId);
-    return treeclusterDemoData().find(cluster => cluster.id === treeclusterId);
+    const treecluster = treeclusterDemoData().find(cluster => cluster.id === treeclusterId);
+    return {
+      ...treecluster,
+    };
   },
-})
+
+  meta: ({ params }) => {
+    const treeclusterId = parseInt(params.treeclusterId);
+    const treecluster = treeclusterDemoData().find(cluster => cluster.id === treeclusterId);
+    return [
+      {
+        title: 'Bewässerungsgruppen',
+        path: '/treecluster',
+      },
+      {
+        title: treecluster ? treecluster.name : 'Kein Titel vorhanden',
+        path: `/treecluster/${treeclusterId}`,
+      },
+    ];
+  },
+});
+
 
 function SingleTreecluster() {
+<<<<<<< HEAD
   const treecluster = useLoaderData({ from: '/_protected/treecluster/$treeclusterId'});
   const authorization = useAuthHeader();
 
@@ -27,6 +48,14 @@ function SingleTreecluster() {
     queryKey: ["trees"],
     queryFn: () => treeApi.getAllTrees({ authorization }),
   });
+=======
+  const trees = treeDemoData();
+  const treecluster = useLoaderData({ from: '/_protected/treecluster/$treeclusterId' });
+
+  if (!treecluster) {
+    return <div>Tree cluster not found</div>;
+  }
+>>>>>>> 42b8a23 (refactor: Made Breadcrumb Hook more generic, added meta data to routes)
 
   const location = `${treecluster.address}, ${treecluster.region}`;
   const treeCount = `${treecluster.treeCount} Bäume | ${treecluster.sensorCount} mit Sensoren`;
@@ -34,7 +63,7 @@ function SingleTreecluster() {
   return (
     <div className="container mt-6">
       <article className="2xl:w-4/5">
-        <BackLink 
+        <BackLink
           url="/treecluster"
           label="Zu allen Bewässerungsgruppen" />
         <h1 className="font-lato font-bold text-3xl mb-4 lg:text-4xl xl:text-5xl">
@@ -54,13 +83,13 @@ function SingleTreecluster() {
               label="Bewässerungszustand (ø)" />
           </li>
           <li>
-            <GeneralStatusCard 
+            <GeneralStatusCard
               overline="Baumanzahl in der Gruppe"
               value={treeCount}
               description="Nicht alle Bäume haben Sensoren, da Rückschlüsse möglich sind."/>
           </li>
           <li>
-            <GeneralStatusCard 
+            <GeneralStatusCard
               overline="Standort der Gruppe"
               value={location} />
           </li>
@@ -91,5 +120,7 @@ function SingleTreecluster() {
         </ul>
       </section>
     </div>
-  )
+  );
 }
+
+export default SingleTreecluster;
