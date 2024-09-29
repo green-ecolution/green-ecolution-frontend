@@ -1,18 +1,12 @@
-import PrimaryButton from '@/components/general/buttons/PrimaryButton';
-import Input from '@/components/general/form/Input';
-import Select from '@/components/general/form/Select';
-import Textarea from '@/components/general/form/Textarea';
 import { createFileRoute } from '@tanstack/react-router'
-import { clusterApi, EntitiesTreeSoilCondition, infoApi, regionApi } from '@/api/backendApi'
+import { clusterApi, EntitiesTreeSoilCondition, infoApi } from '@/api/backendApi'
 import { useForm, SubmitHandler } from "react-hook-form"
 import { useAuthHeader } from '@/hooks/useAuthHeader';
 import { zodResolver } from '@hookform/resolvers/zod';
 import useStore from '@/store/store';
-import SelectTrees from '@/components/general/form/SelectTrees';
 import { useEffect, useMemo, useState } from 'react';
-import { NewTreeClusterSchema, NewTreeClusterForm } from '@/schema/newTreeclusterSchema';
-import { SoilConditionOptions } from '@/hooks/useDetailsForSoilCondition';
-import { useSuspenseQuery } from '@tanstack/react-query';
+import { TreeclusterForm, TreeclusterSchema } from '@/schema/treeclusterSchema';
+import FormForTreecluster from '@/components/general/form/FormForTreecluster';
 
 export const Route = createFileRoute('/_protected/treecluster/new')({
   component: NewTreecluster,
@@ -23,21 +17,15 @@ function NewTreecluster() {
   const newTreecluster = useStore((state) => state.newTreecluster);
   const [displayError, setDisplayError] = useState(false);
 
-  const { data: regionRes } = useSuspenseQuery({
-    queryKey: ['regions'],
-    queryFn: () => regionApi.v1RegionGet({ authorization }),
-  });
-
   const defaultValues = useMemo(() => ({
     name: newTreecluster.name || '',
     address: newTreecluster.address || '',
-    region: newTreecluster.region || '',
     description: newTreecluster.description || '',
     soilCondition: newTreecluster.soilCondition || EntitiesTreeSoilCondition.TreeSoilConditionUnknown,
   }), [newTreecluster]);
 
-  const { register, handleSubmit, formState: { errors }, getValues, reset } = useForm<NewTreeClusterForm>({
-    resolver: zodResolver(NewTreeClusterSchema(regionRes?.regions || [])),
+  const { register, handleSubmit, formState: { errors }, getValues, reset } = useForm<TreeclusterForm>({
+    resolver: zodResolver(TreeclusterSchema()),
     defaultValues,
   });
 
@@ -45,7 +33,7 @@ function NewTreecluster() {
     reset(defaultValues);
   }, [defaultValues, reset]);
 
-  const onSubmit: SubmitHandler<NewTreeClusterForm> = async (data) => {
+  const onSubmit: SubmitHandler<TreeclusterForm> = async (data) => {
     try {
       await infoApi.getAppInfo({ authorization });
       setDisplayError(false);
@@ -76,7 +64,6 @@ function NewTreecluster() {
     const formData = getValues();
     newTreecluster.setName(formData.name);
     newTreecluster.setAddress(formData.address);
-    newTreecluster.setRegion(formData.region);
     newTreecluster.setSoilCondition(formData.soilCondition);
     newTreecluster.setDescription(formData.description);
   };
@@ -93,65 +80,16 @@ function NewTreecluster() {
         </p>
       </article>
 
-      <section className="mt-10">      
-        <form className="space-y-6 lg:space-y-0 lg:grid lg:grid-cols-2 lg:gap-11" onSubmit={handleSubmit(onSubmit)}>
-          <div className="space-y-6">
-            <Input<NewTreeClusterForm>
-              name="name"
-              placeholder="Name"
-              label="Name der Bewässerungsgruppe"
-              required
-              register={register}
-              error={errors.name?.message}
-            />
-            <Input<NewTreeClusterForm>
-              name="address"
-              placeholder="Adresse"
-              label="Adresse"
-              required
-              register={register}
-              error={errors.address?.message}
-            />
-            <Select<NewTreeClusterForm>
-              name="region"
-              options={regionRes?.regions?.map(region => ({ label: region.name, value: region.id }))}
-              placeholder="Wählen Sie eine Region aus"
-              label="Region in Flensburg"
-              required
-              register={register}
-              error={errors.region?.message}
-            />
-            <Select<NewTreeClusterForm>
-              name="soilCondition"
-              options={SoilConditionOptions}
-              placeholder="Wählen Sie eine Bodenbeschaffenheit aus"
-              label="Bodenbeschaffenheit"
-              required
-              register={register}
-              error={errors.soilCondition?.message}
-            />
-            <Textarea<NewTreeClusterForm>
-              name="description"
-              placeholder="Hier ist Platz für Notizen"
-              label="Kurze Beschreibung"
-              required
-              register={register}
-              error={errors.description?.message}
-            />
-          </div>
-
-          <SelectTrees 
-            treeIds={newTreecluster.treeIds} 
-            onClick={handleDeleteTree}
-            storeState={storeState}
-          />
-
-          <p className={`text-red font-medium mt-10 ${displayError ? '' : 'hidden'}`}>
-            Es ist leider ein Problem aufgetreten. Bitte probieren Sie es erneut oder wenden Sie sich an eine:n Systemadministrator:in.
-          </p>
-          
-          <PrimaryButton type="submit" label="Speichern" className="mt-10 lg:col-span-full lg:w-fit" />
-        </form>
+      <section className="mt-10">
+        <FormForTreecluster
+          register={register}
+          handleDeleteTree={handleDeleteTree}
+          handleSubmit={handleSubmit}
+          displayError={displayError}
+          errors={errors}
+          onSubmit={onSubmit}
+          treeIds={newTreecluster.treeIds} 
+          storeState={storeState} />
       </section>
     </div>
   );

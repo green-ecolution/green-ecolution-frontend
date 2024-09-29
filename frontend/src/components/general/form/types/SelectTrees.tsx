@@ -2,7 +2,7 @@ import { useNavigate } from "@tanstack/react-router";
 import useStore from "@/store/store";
 import React from "react";
 import { Plus } from "lucide-react";
-import SelectedCard from "../cards/SelectedCard";
+import SelectedCard from "../../cards/SelectedCard";
 
 interface SelectTrees {
   treeIds: number[];
