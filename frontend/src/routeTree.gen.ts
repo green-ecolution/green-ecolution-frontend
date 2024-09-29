@@ -32,6 +32,7 @@ import { Route as ProtectedTreesTreeIdImport } from './routes/_protected/trees/$
 import { Route as ProtectedTreeclusterNewImport } from './routes/_protected/treecluster/new'
 import { Route as ProtectedTreeclusterTreeclusterIdImport } from './routes/_protected/treecluster/$treeclusterId'
 import { Route as ProtectedTreeNewImport } from './routes/_protected/tree/new'
+import { Route as ProtectedTreeclusterTreeclusterEditImport } from './routes/_protected/treecluster/$treecluster.edit'
 import { Route as ProtectedMapTreeNewImport } from './routes/_protected/map/tree/new'
 import { Route as ProtectedMapTreeclusterSelectTreeImport } from './routes/_protected/map/treecluster/select.tree'
 
@@ -142,6 +143,12 @@ const ProtectedTreeNewRoute = ProtectedTreeNewImport.update({
   path: '/tree/new',
   getParentRoute: () => ProtectedRoute,
 } as any)
+
+const ProtectedTreeclusterTreeclusterEditRoute =
+  ProtectedTreeclusterTreeclusterEditImport.update({
+    path: '/treecluster/$treecluster/edit',
+    getParentRoute: () => ProtectedRoute,
+  } as any)
 
 const ProtectedMapTreeNewRoute = ProtectedMapTreeNewImport.update({
   path: '/tree/new',
@@ -312,6 +319,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedMapTreeNewImport
       parentRoute: typeof ProtectedMapImport
     }
+    '/_protected/treecluster/$treecluster/edit': {
+      id: '/_protected/treecluster/$treecluster/edit'
+      path: '/treecluster/$treecluster/edit'
+      fullPath: '/treecluster/$treecluster/edit'
+      preLoaderRoute: typeof ProtectedTreeclusterTreeclusterEditImport
+      parentRoute: typeof ProtectedImport
+    }
     '/_protected/map/treecluster/select/tree': {
       id: '/_protected/map/treecluster/select/tree'
       path: '/treecluster/select/tree'
@@ -346,6 +360,7 @@ export const routeTree = rootRoute.addChildren({
     ProtectedWaypointsNewRoute,
     ProtectedTreeclusterIndexRoute,
     ProtectedWaypointsIndexRoute,
+    ProtectedTreeclusterTreeclusterEditRoute,
   }),
   LoginRoute,
   LogoutRoute,
@@ -384,7 +399,8 @@ export const routeTree = rootRoute.addChildren({
         "/_protected/trees/$treeId",
         "/_protected/waypoints/new",
         "/_protected/treecluster/",
-        "/_protected/waypoints/"
+        "/_protected/waypoints/",
+        "/_protected/treecluster/$treecluster/edit"
       ]
     },
     "/login": {
@@ -472,6 +488,10 @@ export const routeTree = rootRoute.addChildren({
     "/_protected/map/tree/new": {
       "filePath": "_protected/map/tree/new.tsx",
       "parent": "/_protected/map"
+    },
+    "/_protected/treecluster/$treecluster/edit": {
+      "filePath": "_protected/treecluster/$treecluster.edit.tsx",
+      "parent": "/_protected"
     },
     "/_protected/map/treecluster/select/tree": {
       "filePath": "_protected/map/treecluster/select.tree.tsx",

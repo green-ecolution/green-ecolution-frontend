@@ -3,11 +3,13 @@ import EntitiesStatusCard from '@/components/general/cards/EntitiesStatusCard';
 import GeneralStatusCard from '@/components/general/cards/GeneralStatusCard';
 import TreeCard from '@/components/general/cards/TreeCard';
 import BackLink from '@/components/general/links/BackLink';
+import ButtonLink from '@/components/general/links/ButtonLink';
 import { treeclusterDemoData } from '@/data/treecluser';
 import { useAuthHeader } from '@/hooks/useAuthHeader';
 import { getWateringStatusDetails } from '@/hooks/useDetailsForWateringStatus';
 import { useQuery } from '@tanstack/react-query';
 import { createFileRoute, useLoaderData } from '@tanstack/react-router'
+import { Pencil } from 'lucide-react';
 
 export const Route = createFileRoute('/_protected/treecluster/$treeclusterId')({
   component: SingleTreecluster,
@@ -33,17 +35,25 @@ function SingleTreecluster() {
 
   return (
     <div className="container mt-6">
-      <article className="2xl:w-4/5">
-        <BackLink 
-          url="/treecluster"
-          label="Zu allen Bewässerungsgruppen" />
-        <h1 className="font-lato font-bold text-3xl mb-4 lg:text-4xl xl:text-5xl">
-          Bewässerungsgruppe: {treecluster.name}
-        </h1>
-        {treecluster.description
-          ? (<p>{treecluster.description}</p>)
-          : (<p>Zu dieser Bewässerungsgruppe ist keine Beschreibung vorhanden.</p>)
-        }
+      <BackLink 
+        url="/treecluster"
+        label="Zu allen Bewässerungsgruppen" />
+      <article className="space-y-6 2xl:space-y-0 2xl:flex 2xl:items-center 2xl:space-x-10">
+        <div className="2xl:w-4/5">
+          <h1 className="font-lato font-bold text-3xl mb-4 lg:text-4xl xl:text-5xl">
+            Bewässerungsgruppe: {treecluster.name}
+          </h1>
+          {treecluster.description
+            ? (<p>{treecluster.description}</p>)
+            : (<p>Zu dieser Bewässerungsgruppe ist keine Beschreibung vorhanden.</p>)
+          }
+        </div>
+        <ButtonLink 
+          icon={Pencil}
+          iconClassName="stroke-1" 
+          label="Gruppe bearbeiten"
+          color="grey"
+          url={`/treecluster/${treecluster.id}/edit`} />
       </article>
 
       <section className="mt-10">
