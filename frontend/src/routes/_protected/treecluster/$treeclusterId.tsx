@@ -39,7 +39,6 @@ export const Route = createFileRoute('/_protected/treecluster/$treeclusterId')({
 
 
 function SingleTreecluster() {
-<<<<<<< HEAD
   const treecluster = useLoaderData({ from: '/_protected/treecluster/$treeclusterId'});
   const authorization = useAuthHeader();
 
@@ -48,14 +47,6 @@ function SingleTreecluster() {
     queryKey: ["trees"],
     queryFn: () => treeApi.getAllTrees({ authorization }),
   });
-=======
-  const trees = treeDemoData();
-  const treecluster = useLoaderData({ from: '/_protected/treecluster/$treeclusterId' });
-
-  if (!treecluster) {
-    return <div>Tree cluster not found</div>;
-  }
->>>>>>> 42b8a23 (refactor: Made Breadcrumb Hook more generic, added meta data to routes)
 
   const location = `${treecluster.address}, ${treecluster.region}`;
   const treeCount = `${treecluster.treeCount} Bäume | ${treecluster.sensorCount} mit Sensoren`;
