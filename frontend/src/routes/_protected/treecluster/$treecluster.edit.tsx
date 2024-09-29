@@ -12,17 +12,16 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 
 export const Route = createFileRoute('/_protected/treecluster/$treecluster/edit')({
   component: EditTreeCluster,
-
   loader: async ({ params }) => {
     return params.treecluster;
   },
-})
+});
 
-function EditTreeCluster () {
+function EditTreeCluster() {
   const authorization = useAuthHeader();
-  const clusterId = useLoaderData({ from: '/_protected/treecluster/$treecluster/edit'});
-  const newTreecluster = useStore((state) => state.newTreecluster);
-  const [displayError, setDisplayError] = useState(false);
+  const clusterId = useLoaderData({ from: '/_protected/treecluster/$treecluster/edit' });
+  const clusterState = useStore((state) => state.treecluster);
+  const [displayError] = useState(false);
 
   const { data: cluster, isLoading, isError } = useSuspenseQuery({
     queryKey: ["treecluster", clusterId],
@@ -42,26 +41,44 @@ function EditTreeCluster () {
   });
 
   useEffect(() => {
-    reset(defaultValues);
-  }, [defaultValues, reset]);
+    if (cluster && clusterState.treeIds.length === 0) {
+      clusterState.setTreeIds(cluster.trees.map(tree => tree.id));
+    }
+  }, [cluster, clusterState]);
 
   const onSubmit: SubmitHandler<TreeclusterForm> = async (data) => {
-    console.log(data);
+    try {
+      setDisplayError(false);
+  
+      const clusterData = {
+        ...data,
+        treeIds: clusterState.treeIds,
+      };
+      
+      const response = await clusterApi.updateTreeCluster({
+        authorization,
+        body: clusterData,
+      });
+
+      // TODO: navigate to overview and show success toast
+      console.log('Tree cluster created:', response);
+    } catch (error) {
+      setDisplayError(true);
+      console.error('Failed to create tree cluster:', error);
+    }
   };
 
   const handleDeleteTree = (treeIdToDelete: number) => {
-    console.log(treeIdToDelete);
-    //newTreecluster.setTreeIds(newTreecluster.treeIds.filter((treeId) => treeId !== treeIdToDelete));
+    clusterState.setTreeIds(clusterState.treeIds.filter((treeId) => treeId !== treeIdToDelete));
   };
 
   const storeState = () => {
     const formData = getValues();
-    newTreecluster.setName(formData.name);
-    newTreecluster.setAddress(formData.address);
-    newTreecluster.setSoilCondition(formData.soilCondition);
-    newTreecluster.setDescription(formData.description);
+    clusterState.setName(formData.name);
+    clusterState.setAddress(formData.address);
+    clusterState.setSoilCondition(formData.soilCondition);
+    clusterState.setDescription(formData.description);
   };
-  
 
   return (
     <div className="container mt-6">
@@ -91,7 +108,7 @@ function EditTreeCluster () {
             displayError={displayError}
             errors={errors}
             onSubmit={onSubmit}
-            treeIds={cluster?.trees.map(tree => tree.id)} 
+            treeIds={clusterState.treeIds} 
             storeState={storeState} />
           </section>
         </div>

@@ -14,15 +14,15 @@ export const Route = createFileRoute('/_protected/treecluster/new')({
 
 function NewTreecluster() {
   const authorization = useAuthHeader();
-  const newTreecluster = useStore((state) => state.newTreecluster);
+  const clusterState = useStore((state) => state.treecluster);
   const [displayError, setDisplayError] = useState(false);
 
   const defaultValues = useMemo(() => ({
-    name: newTreecluster.name || '',
-    address: newTreecluster.address || '',
-    description: newTreecluster.description || '',
-    soilCondition: newTreecluster.soilCondition || EntitiesTreeSoilCondition.TreeSoilConditionUnknown,
-  }), [newTreecluster]);
+    name: clusterState.name || '',
+    address: clusterState.address || '',
+    description: clusterState.description || '',
+    soilCondition: clusterState.soilCondition || EntitiesTreeSoilCondition.TreeSoilConditionUnknown,
+  }), [clusterState]);
 
   const { register, handleSubmit, formState: { errors }, getValues, reset } = useForm<TreeclusterForm>({
     resolver: zodResolver(TreeclusterSchema()),
@@ -35,12 +35,11 @@ function NewTreecluster() {
 
   const onSubmit: SubmitHandler<TreeclusterForm> = async (data) => {
     try {
-      await infoApi.getAppInfo({ authorization });
       setDisplayError(false);
   
       const clusterData = {
         ...data,
-        treeIds: newTreecluster.treeIds,
+        treeIds: clusterState.treeIds,
       };
       
       const response = await clusterApi.createTreeCluster({
@@ -57,15 +56,15 @@ function NewTreecluster() {
   };
 
   const handleDeleteTree = (treeIdToDelete: number) => {
-    newTreecluster.setTreeIds(newTreecluster.treeIds.filter((treeId) => treeId !== treeIdToDelete));
+    clusterState.setTreeIds(clusterState.treeIds.filter((treeId) => treeId !== treeIdToDelete));
   };
 
   const storeState = () => {
     const formData = getValues();
-    newTreecluster.setName(formData.name);
-    newTreecluster.setAddress(formData.address);
-    newTreecluster.setSoilCondition(formData.soilCondition);
-    newTreecluster.setDescription(formData.description);
+    clusterState.setName(formData.name);
+    clusterState.setAddress(formData.address);
+    clusterState.setSoilCondition(formData.soilCondition);
+    clusterState.setDescription(formData.description);
   };
   
   return (
@@ -88,7 +87,7 @@ function NewTreecluster() {
           displayError={displayError}
           errors={errors}
           onSubmit={onSubmit}
-          treeIds={newTreecluster.treeIds} 
+          treeIds={clusterState.treeIds} 
           storeState={storeState} />
       </section>
     </div>

@@ -13,12 +13,12 @@ export const Route = createFileRoute("/_protected/map/treecluster/select/tree")(
 );
 
 function SelectTrees() {
-  const newTreecluster = useStore((state) => state.newTreecluster);
-  const [treeIds, setTreeIds] = useState<number[]>(newTreecluster.treeIds);
+  const clusterState = useStore((state) => state.treecluster);
+  const [treeIds, setTreeIds] = useState<number[]>(clusterState.treeIds);
   const navigate = useNavigate({ from: Route.fullPath });
 
   const handleSave = () => {
-    newTreecluster.setTreeIds(treeIds);
+    clusterState.setTreeIds(treeIds);
     navigate({ to: "/treecluster/new" });
   };
 
