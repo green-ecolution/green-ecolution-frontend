@@ -7,6 +7,9 @@ import { z } from 'zod';
 import ButtonLink from '@/components/general/links/ButtonLink';
 import { Plus } from 'lucide-react';
 import { getWateringStatusDetails } from '@/hooks/useDetailsForWateringStatus';
+import { clusterApi } from '@/api/backendApi';
+import { useAuthHeader } from '@/hooks/useAuthHeader';
+import { useQuery } from '@tanstack/react-query';
 
 const treeclusterFilterSchema = z.object({
   status: z.array(z.string()).optional(),
@@ -28,21 +31,29 @@ export const Route = createFileRoute('/_protected/treecluster/')({
 });
 
 function Treecluster() {
-  const clusters = treeclusterDemoData();
+  // const clusters = treeclusterDemoData();
+  const authorization = useAuthHeader();
   const search = useLoaderData({ from: '/_protected/treecluster/' });
 
   const [statusTags, setStatusTags] = useState<string[]>(search.status);
   const [regionTags, setRegionTags] = useState<string[]>(search.region);
+
+  const { data: clusterRes } = useQuery({
+    queryKey: ["cluster"],
+    queryFn: () => clusterApi.getAllTreeClusters({ authorization }),
+  });
+
+  console.log(clusterRes);
 
   useEffect(() => {
     if (search.status) setStatusTags(search.status);
     if (search.region) setRegionTags(search.region);
   }, [search.status, search.region]);
 
-  const filteredClusters = clusters.filter(cluster =>
-    (statusTags.length === 0 || statusTags.includes(getWateringStatusDetails(cluster.status).label)) &&
-    (regionTags.length === 0 || regionTags.includes(cluster.region))
-  );
+  // const filteredClusters = clusters.filter(cluster =>
+  //   (statusTags.length === 0 || statusTags.includes(getWateringStatusDetails(cluster.status).label)) &&
+  //   (regionTags.length === 0 || regionTags.includes(cluster.region))
+  // );
 
   return (
     <div className="container mt-6">
@@ -62,7 +73,7 @@ function Treecluster() {
       </article>
 
       <section className="mt-10">
-        <div className="flex justify-end mb-6 lg:mb-10">
+        {/* <div className="flex justify-end mb-6 lg:mb-10">
           <Dialog
             initStatusTags={statusTags}
             initRegionTags={regionTags}
@@ -73,7 +84,7 @@ function Treecluster() {
               setRegionTags(regionTags);
             }}
           />
-        </div>
+        </div> */}
 
         <header className="hidden border-b pb-2 text-sm text-dark-800 px-8 border-b-dark-200 mb-5 lg:grid lg:grid-cols-[1fr,1.5fr,2fr,1fr] lg:gap-5 xl:px-10">
           <p>Status</p>
@@ -82,7 +93,7 @@ function Treecluster() {
           <p>Anzahl d. Bäume</p>
         </header>
 
-        <ul>
+        {/* <ul>
           {clusters.length === 0 ? (
             <li className="text-center text-dark-600 mt-10">
               <p>Es sind noch keine Bewässerungsgruppen vorhanden.</p>
@@ -102,7 +113,7 @@ function Treecluster() {
               ))
             )
           )}
-        </ul>
+        </ul> */}
       </section>
     </div>
   );
