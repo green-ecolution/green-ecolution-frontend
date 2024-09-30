@@ -6,14 +6,16 @@ export const Route = createFileRoute("/_protected/settings/plugin")({
   component: PluginView,
 });
 
-const baseUrl = import.meta.env.VITE_BACKEND_BASEURL ?? "/api-local";
+const baseUrl = import.meta.env.VITE_BACKEND_BASEURL ?? "/api-local/v1";
 
 const importPluginComponent = (pluginName: string) =>
-  lazy(() =>
-    import(
-      /* @vite-ignore */ `${baseUrl}/plugins/${pluginName}/plugin.tsx`
-    ).catch(() => import("@/components/PluginError.tsx")),
-  );
+  lazy(async () => {
+    const pkg = await import(
+      /* @vite-ignore */ `${baseUrl}/plugin/${pluginName}/plugin.js`
+    ).catch(() => import("@/components/PluginError.tsx"))
+
+    return pkg;
+  });
 
 function PluginView() {
   const [views, setViews] = useState<
