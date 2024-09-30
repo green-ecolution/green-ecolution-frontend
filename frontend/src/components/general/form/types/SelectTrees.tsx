@@ -6,6 +6,7 @@ import SelectedCard from "../../cards/SelectedCard";
 
 interface SelectTrees {
   treeIds: number[];
+  showError: boolean;
   onClick: (itemId: number) => void;
   storeState: () => void;
 }
@@ -42,15 +43,13 @@ const SelectTrees: React.FC<SelectTrees> = ({
 
       <ul className="space-y-3">
         {treeIds.length === 0 ? (
-          <li>
-            <p className="text-dark-600 font-semibold font-lato">
-              Es wurden noch keine Bäume ausgewählt.
-            </p>
-          </li>
+          <li className="text-red">
+           <p>Bitte wählen Sie mindestens einen Baum aus.</p>
+         </li>
         ) : (
           treeIds.map((treeId, key) => (
             <li key={key}>
-              <SelectedCard itemId={treeId} onClick={onClick} />
+              <SelectedCard treeIds={treeIds} itemId={treeId} onClick={onClick} />
             </li>
           ))
         )}

@@ -2,13 +2,13 @@ import { clusterApi, EntitiesTreeSoilCondition } from '@/api/backendApi';
 import LoadingInfo from '@/components/general/error/LoadingInfo';
 import FormForTreecluster from '@/components/general/form/FormForTreecluster';
 import { useAuthHeader } from '@/hooks/useAuthHeader';
-import { TreeclusterForm, TreeclusterSchema } from '@/schema/treeclusterSchema';
+import { useTreeClusterForm } from '@/hooks/useTreeclusterForm';
+import { TreeclusterForm } from '@/schema/treeclusterSchema';
 import useStore from '@/store/store';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { createFileRoute, useLoaderData } from '@tanstack/react-router'
-import { useEffect, useMemo, useState } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { useEffect, useMemo } from 'react';
+import { SubmitHandler } from 'react-hook-form';
 
 export const Route = createFileRoute('/_protected/treecluster/$treecluster/edit')({
   component: EditTreeCluster,
@@ -21,7 +21,6 @@ function EditTreeCluster() {
   const authorization = useAuthHeader();
   const clusterId = useLoaderData({ from: '/_protected/treecluster/$treecluster/edit' });
   const clusterState = useStore((state) => state.treecluster);
-  const [displayError, setDisplayError] = useState(false);
 
   const { data: cluster, isLoading, isError } = useSuspenseQuery({
     queryKey: ["treecluster", clusterId],
@@ -35,16 +34,24 @@ function EditTreeCluster() {
     soilCondition: cluster?.soilCondition || EntitiesTreeSoilCondition.TreeSoilConditionUnknown,
   }), [cluster]);
 
-  const { register, handleSubmit, formState: { errors }, getValues, reset } = useForm<TreeclusterForm>({
-    resolver: zodResolver(TreeclusterSchema()),
-    defaultValues,
-  });
+  const {
+    reset,
+    register,
+    handleSubmit,
+    errors,
+    storeState,
+    displayError,
+    setDisplayError
+  } = useTreeClusterForm(clusterState, defaultValues);
 
   useEffect(() => {
-    if (cluster && clusterState.treeIds.length === 0) {
+    if (! cluster) return;
+    reset(defaultValues);
+    
+    if (clusterState.treeIds.length === 0) {
       clusterState.setTreeIds(cluster.trees.map(tree => tree.id));
     }
-  }, [cluster, clusterState]);
+  }, [cluster, clusterState, reset, defaultValues]);
 
   const onSubmit: SubmitHandler<TreeclusterForm> = async (data) => {
     try {
@@ -65,20 +72,12 @@ function EditTreeCluster() {
       console.log('Tree cluster created:', response);
     } catch (error) {
       setDisplayError(true);
-      console.error('Failed to create tree cluster:', error);
+      console.error('Failed to edit tree cluster:', error);
     }
   };
 
   const handleDeleteTree = (treeIdToDelete: number) => {
     clusterState.setTreeIds(clusterState.treeIds.filter((treeId) => treeId !== treeIdToDelete));
-  };
-
-  const storeState = () => {
-    const formData = getValues();
-    clusterState.setName(formData.name);
-    clusterState.setAddress(formData.address);
-    clusterState.setSoilCondition(formData.soilCondition);
-    clusterState.setDescription(formData.description);
   };
 
   return (
