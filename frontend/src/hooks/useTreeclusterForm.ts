@@ -1,11 +1,9 @@
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { TreeclusterForm, TreeclusterSchema } from '@/schema/treeclusterSchema';
 import { TreeclusterStore } from '@/store/treecluster/types';
 
 export const useTreeClusterForm = (clusterState: TreeclusterStore, defaultValues: TreeclusterForm) => {
-  const [displayError, setDisplayError] = useState(false);
 
   const { register, handleSubmit, formState: { errors }, getValues, reset } = useForm<TreeclusterForm>({
     resolver: zodResolver(TreeclusterSchema()),
@@ -27,7 +25,5 @@ export const useTreeClusterForm = (clusterState: TreeclusterStore, defaultValues
     handleSubmit,
     errors,
     storeState,
-    displayError,
-    setDisplayError,
   };
 };

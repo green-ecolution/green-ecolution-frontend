@@ -7,7 +7,7 @@ import { TreeclusterForm } from '@/schema/treeclusterSchema';
 import useStore from '@/store/store';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { createFileRoute, useLoaderData } from '@tanstack/react-router'
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 
 export const Route = createFileRoute('/_protected/treecluster/$treecluster/edit')({
@@ -21,6 +21,7 @@ function EditTreeCluster() {
   const authorization = useAuthHeader();
   const clusterId = useLoaderData({ from: '/_protected/treecluster/$treecluster/edit' });
   const clusterState = useStore((state) => state.treecluster);
+  const [displayError, setDisplayError] = useState(false);
 
   const { data: cluster, isLoading, isError } = useSuspenseQuery({
     queryKey: ["treecluster", clusterId],
@@ -40,8 +41,6 @@ function EditTreeCluster() {
     handleSubmit,
     errors,
     storeState,
-    displayError,
-    setDisplayError
   } = useTreeClusterForm(clusterState, defaultValues);
 
   useEffect(() => {

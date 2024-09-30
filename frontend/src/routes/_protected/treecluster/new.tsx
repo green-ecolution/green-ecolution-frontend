@@ -1,12 +1,12 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { clusterApi, EntitiesTreeSoilCondition, infoApi } from '@/api/backendApi'
-import { useForm, SubmitHandler } from "react-hook-form"
+import { clusterApi, EntitiesTreeSoilCondition } from '@/api/backendApi'
+import { SubmitHandler } from "react-hook-form"
 import { useAuthHeader } from '@/hooks/useAuthHeader';
-import { zodResolver } from '@hookform/resolvers/zod';
 import useStore from '@/store/store';
 import { useEffect, useMemo, useState } from 'react';
-import { TreeclusterForm, TreeclusterSchema } from '@/schema/treeclusterSchema';
+import { TreeclusterForm } from '@/schema/treeclusterSchema';
 import FormForTreecluster from '@/components/general/form/FormForTreecluster';
+import { useTreeClusterForm } from '@/hooks/useTreeclusterForm';
 
 export const Route = createFileRoute('/_protected/treecluster/new')({
   component: NewTreecluster,
@@ -24,14 +24,17 @@ function NewTreecluster() {
     soilCondition: clusterState.soilCondition || EntitiesTreeSoilCondition.TreeSoilConditionUnknown,
   }), [clusterState]);
 
-  const { register, handleSubmit, formState: { errors }, getValues, reset } = useForm<TreeclusterForm>({
-    resolver: zodResolver(TreeclusterSchema()),
-    defaultValues,
-  });
+  const {
+    reset,
+    register,
+    handleSubmit,
+    errors,
+    storeState,
+  } = useTreeClusterForm(clusterState, defaultValues);
 
   useEffect(() => {
     reset(defaultValues);
-  }, [defaultValues, reset]);
+  }, [defaultValues, reset, clusterState]);
 
   const onSubmit: SubmitHandler<TreeclusterForm> = async (data) => {
     try {
@@ -58,15 +61,7 @@ function NewTreecluster() {
   const handleDeleteTree = (treeIdToDelete: number) => {
     clusterState.setTreeIds(clusterState.treeIds.filter((treeId) => treeId !== treeIdToDelete));
   };
-
-  const storeState = () => {
-    const formData = getValues();
-    clusterState.setName(formData.name);
-    clusterState.setAddress(formData.address);
-    clusterState.setSoilCondition(formData.soilCondition);
-    clusterState.setDescription(formData.description);
-  };
-  
+ 
   return (
     <div className="container mt-6">
       <article className="2xl:w-4/5">

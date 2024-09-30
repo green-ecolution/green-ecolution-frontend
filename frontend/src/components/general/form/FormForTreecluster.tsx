@@ -79,7 +79,8 @@ const FormForTreecluster: React.FC<FormForTreecluster> = ({
       
       <PrimaryButton 
         type="submit" 
-        label="Speichern" 
+        label="Speichern"
+        disabled={Object.keys(errors).length > 0 || treeIds.length === 0}
         className="mt-10 lg:col-span-full lg:w-fit" />
     </form>
   );

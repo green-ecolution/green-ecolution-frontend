@@ -6,7 +6,6 @@ import SelectedCard from "../../cards/SelectedCard";
 
 interface SelectTrees {
   treeIds: number[];
-  showError: boolean;
   onClick: (itemId: number) => void;
   storeState: () => void;
 }
