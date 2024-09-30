@@ -38,6 +38,7 @@ function NewTreecluster() {
 
   const onSubmit: SubmitHandler<TreeclusterForm> = async (data) => {
     try {
+      if (clusterState.treeIds.length === 0) return;
       setDisplayError(false);
   
       const clusterData = {

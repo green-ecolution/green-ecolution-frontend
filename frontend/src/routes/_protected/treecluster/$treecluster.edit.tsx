@@ -54,6 +54,7 @@ function EditTreeCluster() {
 
   const onSubmit: SubmitHandler<TreeclusterForm> = async (data) => {
     try {
+      if (clusterState.treeIds.length === 0) return;
       setDisplayError(false);
   
       const clusterData = {
@@ -64,14 +65,15 @@ function EditTreeCluster() {
       const response = await clusterApi.updateTreeCluster({
         authorization,
         clusterId,
+        archived: false,
         body: clusterData,
       });
 
-      // TODO: navigate to overview and show success toast
-      console.log('Tree cluster created:', response);
+      // TODO: navigate to treecluster and show success toast
+      console.log('Tree cluster updated:', response);
     } catch (error) {
       setDisplayError(true);
-      console.error('Failed to edit tree cluster:', error);
+      console.error('Failed to update tree cluster:', error);
     }
   };
 
