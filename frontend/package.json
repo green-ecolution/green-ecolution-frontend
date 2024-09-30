@@ -16,6 +16,7 @@
     "@fullcalendar/interaction": "^6.1.14",
     "@fullcalendar/react": "^6.1.14",
     "@green-ecolution/backend-client": "*",
+    "@green-ecolution/plugin-interface": "*",
     "@hookform/resolvers": "^3.9.0",
     "@radix-ui/react-avatar": "^1.1.0",
     "@radix-ui/react-checkbox": "^1.1.1",

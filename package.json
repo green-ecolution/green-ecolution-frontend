@@ -1,7 +1,8 @@
 {
   "workspaces": [
     "backend-client",
-    "frontend"
+    "frontend",
+    "plugin-interface"
   ],
   "name": "green-ecolution-frontend",
   "private": true,
@@ -12,6 +13,7 @@
     "build:frontend": "yarn workspace @green-ecolution/frontend build",
     "build:frontend:dev": "yarn workspace @green-ecolution/frontend build:dev",
     "build:backend-client": "yarn workspace @green-ecolution/backend-client build",
+    "build:plugin-interface": "yarn workspace @green-ecolution/plugin-interface build",
     "generate": "yarn generate:backend-client",
     "generate:dev": "yarn generate:backend-client:dev",
     "generate:local": "yarn generate:backend-client:local",
@@ -22,6 +24,6 @@
     "lint": "yarn workspace @green-ecolution/frontend lint",
     "test": "echo \"It works!\"",
     "preview": "yarn workspace @green-ecolution/frontend preview",
-    "rebuild": "yarn build:backend-client && rm -rf frontend/node_modules && yarn install"
+    "rebuild": "yarn build:backend-client && yarn build:plugin-interface && rm -rf frontend/node_modules && yarn install"
   }
 }
