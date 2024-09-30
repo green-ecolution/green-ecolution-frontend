@@ -19,11 +19,11 @@ function SelectTrees() {
 
   const handleSave = () => {
     clusterState.setTreeIds(treeIds);
-    navigate({ to: "/treecluster/new" });
+    window.history.length > 1 ? window.history.back() : navigate({ to: "/treecluster/new" });
   };
 
   const handleCancel = () => {
-    navigate({ to: "/treecluster/new" });
+    window.history.length > 1 ? window.history.back() : navigate({ to: "/treecluster/new" });
   };
 
   const handleDeleteTree = (treeId: number) => {

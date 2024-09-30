@@ -21,7 +21,7 @@ function EditTreeCluster() {
   const authorization = useAuthHeader();
   const clusterId = useLoaderData({ from: '/_protected/treecluster/$treecluster/edit' });
   const clusterState = useStore((state) => state.treecluster);
-  const [displayError] = useState(false);
+  const [displayError, setDisplayError] = useState(false);
 
   const { data: cluster, isLoading, isError } = useSuspenseQuery({
     queryKey: ["treecluster", clusterId],
@@ -57,6 +57,7 @@ function EditTreeCluster() {
       
       const response = await clusterApi.updateTreeCluster({
         authorization,
+        clusterId,
         body: clusterData,
       });
 
@@ -101,15 +102,15 @@ function EditTreeCluster() {
           </article>
 
           <section className="mt-10">
-          <FormForTreecluster
-            register={register}
-            handleDeleteTree={handleDeleteTree}
-            handleSubmit={handleSubmit}
-            displayError={displayError}
-            errors={errors}
-            onSubmit={onSubmit}
-            treeIds={clusterState.treeIds} 
-            storeState={storeState} />
+            <FormForTreecluster
+              register={register}
+              handleDeleteTree={handleDeleteTree}
+              handleSubmit={handleSubmit}
+              displayError={displayError}
+              errors={errors}
+              onSubmit={onSubmit}
+              treeIds={clusterState.treeIds} 
+              storeState={storeState} />
           </section>
         </div>
       )}
