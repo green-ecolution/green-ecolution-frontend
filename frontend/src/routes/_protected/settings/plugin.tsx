@@ -24,7 +24,7 @@ function PluginView() {
 
   useEffect(() => {
     async function loadPlugins() {
-      const componentsPromises = ["csv_plugin", "excel"].map((pluginName) =>
+      const componentsPromises = ["demo_plugin"].map((pluginName) =>
         importPluginComponent(pluginName),
       );
       Promise.all(componentsPromises).then((components) => {
