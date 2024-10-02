@@ -3,6 +3,7 @@ import axios from "axios";
 import { Check, MoveLeft, MoveRight, Trash2 } from "lucide-react";
 import { useAuthHeader } from "@/hooks/useAuthHeader";
 import PrimaryButton from "../buttons/PrimaryButton";
+import ModalField from "../form/modalField";
 
 
 interface FileUploadProps {
@@ -15,6 +16,9 @@ const FileUpload: React.FC<FileUploadProps> = ({ to, fileType }) => {
     const authHeader = useAuthHeader();
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [progress, setProgress] = useState<number>(0);
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
 
     type Status = "select" | "uploading" | "done";
     const status = { select: "select", uploading: "uploading", done: "done" } as const;
@@ -38,23 +42,36 @@ const FileUpload: React.FC<FileUploadProps> = ({ to, fileType }) => {
         setSelectedFile(null);
         setProgress(0);
         setUploadStatus(status.select);
+        setErrorMessage(null);
     };
 
-    const handleUpload = async () => {
-        if (uploadStatus === status.done) {
+    const handleUpload  = () => {
+        if (uploadStatus != status.done) {
+            setIsModalOpen(true)
+        } else {
             clearFileInput();
-            return;
         }
+    }
+    const handleCancel = () => {
+        setIsModalOpen(false);
+        clearFileInput();
+    }
 
+
+    const handleConfirm = async () => {
+        console.log("handle  upload");
+        setIsModalOpen(false);
         try {
             setUploadStatus(status.uploading);
+            setErrorMessage(null);
+
 
             const formData = new FormData();
             if (selectedFile) {
                 formData.append("file", selectedFile);
             }
 
-            await axios.post(to, formData, {
+            const pr = await axios.post(to, formData, {
                 headers: {
                     'Authorization': authHeader,
                     'Content-Type': 'multipart/form-data',
@@ -66,12 +83,33 @@ const FileUpload: React.FC<FileUploadProps> = ({ to, fileType }) => {
                 }
             });
 
+            console.log(pr)
 
             setUploadStatus(status.done);
         } catch (error) {
+            handleAxiosError(error);
             setUploadStatus(status.select);
         }
+
     };
+    const handleAxiosError = (error: any) => {
+
+        if (error.response && error.response.data && error.response.data.error) {
+            var errorMessage = error.response.data.error;
+            const errorMessage_ = error.response.data.err;
+            if (error.response.data.err) {
+                errorMessage = errorMessage + ": " + errorMessage_;
+            }
+            console.error('Error Message:', errorMessage);
+            setErrorMessage(errorMessage);
+        } else {
+
+            if (error.message) {
+                console.error('Error Message:', error.message);
+                setErrorMessage(error.message);
+            }
+        }
+    }
 
     return (
         <div className="w-full flex flex-col  justify-center">
@@ -141,6 +179,21 @@ const FileUpload: React.FC<FileUploadProps> = ({ to, fileType }) => {
                             <MoveRight className="transition-all ease-in-out duration-300 group-hover:translate-x-2" />
                         )} className="w-72 p-4 mt-10"></PrimaryButton>
                 </>
+            )}
+            {isModalOpen && (
+                <ModalField
+                    title="Soll der Import wirklich neu angestoßen werden?"
+                    description="Der Import kann etwas länger dauern, sodass die Website für einen Moment in den Wartungsmodus schaltet und nicht erreichbar ist."
+                    confirmText="Import fortfahren"
+                    onConfirm={handleConfirm}
+                    onCancel={handleCancel}
+                    isOpen={isModalOpen}
+                />
+            )}
+            {errorMessage && (
+                <div className="mt-4 p-3 bg-red-100 text-red-700 rounded-lg">
+                    {errorMessage}
+                </div>
             )}
         </div>
     );
