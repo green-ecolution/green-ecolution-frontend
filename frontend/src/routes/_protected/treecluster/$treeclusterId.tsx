@@ -62,7 +62,9 @@ function SingleTreecluster() {
           <li>
             <GeneralStatusCard 
               overline="Baumanzahl in der Gruppe"
-              value={treecluster?.trees.length + ' Bäume'}
+              value={treecluster?.trees?.length 
+                ? `${treecluster.trees.length} ${treecluster.trees.length > 1 ? 'Bäume' : 'Baum'}` 
+                : 'Keine Bäume'}
               description="Nicht alle Bäume haben Sensoren, da Rückschlüsse möglich sind."/>
           </li>
           <li>
