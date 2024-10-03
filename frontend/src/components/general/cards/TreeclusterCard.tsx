@@ -35,8 +35,8 @@ const TreeclusterCard: React.FC<TreeclusterCard> = ({ treecluster }) => {
         <div className="text-dark-800 flex gap-x-2">
           <Tree className="w-5 h-5 mt-0.5" />
           <p>
-            {treecluster.trees.length} 
-            {treecluster.trees.length > 1 ? ' Bäume' : ' Baum'}
+            {treecluster.trees.length}
+            {treecluster.trees.length === 1 ? " Baum" : " Bäume"}
           </p>
         </div>
       </Link>
