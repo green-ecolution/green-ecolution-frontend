@@ -3,6 +3,7 @@ import {
   ConfigurationParameters,
   HTTPHeaders,
   InfoApi,
+  PluginApi,
   RegionApi,
   SensorApi,
   TreeApi,
@@ -28,5 +29,6 @@ export const infoApi = new InfoApi(config);
 export const userApi = new UserApi(config);
 export const regionApi = new RegionApi(config);
 export const sensorApi = new SensorApi(config);
+export const pluginApi = new PluginApi(config);
 
 export * from "@green-ecolution/backend-client";
