@@ -372,36 +372,262 @@ declare module '@tanstack/react-router' {
 
 // Create and export the route tree
 
-export const routeTree = rootRoute.addChildren({
-  ProtectedRoute: ProtectedRoute.addChildren({
-    ProtectedDebugRoute,
-    ProtectedInfoRoute,
-    ProtectedMapRoute: ProtectedMapRoute.addChildren({
-      ProtectedMapIndexRoute,
-      ProtectedMapTreeNewRoute,
-      ProtectedMapTreeclusterSelectTreeRoute,
-    }),
-    ProtectedProfileRoute,
-    ProtectedSensorsRoute,
-    ProtectedTeamRoute,
-    ProtectedVehiclesRoute,
-    ProtectedFooLazyRoute,
-    ProtectedIndexRoute,
-    ProtectedTreeNewRoute,
+interface ProtectedMapRouteChildren {
+  ProtectedMapIndexRoute: typeof ProtectedMapIndexRoute
+  ProtectedMapTreeNewRoute: typeof ProtectedMapTreeNewRoute
+  ProtectedMapTreeclusterSelectTreeRoute: typeof ProtectedMapTreeclusterSelectTreeRoute
+}
+
+const ProtectedMapRouteChildren: ProtectedMapRouteChildren = {
+  ProtectedMapIndexRoute: ProtectedMapIndexRoute,
+  ProtectedMapTreeNewRoute: ProtectedMapTreeNewRoute,
+  ProtectedMapTreeclusterSelectTreeRoute:
+    ProtectedMapTreeclusterSelectTreeRoute,
+}
+
+const ProtectedMapRouteWithChildren = ProtectedMapRoute._addFileChildren(
+  ProtectedMapRouteChildren,
+)
+
+interface ProtectedRouteChildren {
+  ProtectedDebugRoute: typeof ProtectedDebugRoute
+  ProtectedInfoRoute: typeof ProtectedInfoRoute
+  ProtectedMapRoute: typeof ProtectedMapRouteWithChildren
+  ProtectedProfileRoute: typeof ProtectedProfileRoute
+  ProtectedSensorsRoute: typeof ProtectedSensorsRoute
+  ProtectedTeamRoute: typeof ProtectedTeamRoute
+  ProtectedVehiclesRoute: typeof ProtectedVehiclesRoute
+  ProtectedFooLazyRoute: typeof ProtectedFooLazyRoute
+  ProtectedIndexRoute: typeof ProtectedIndexRoute
+  ProtectedTreeNewRoute: typeof ProtectedTreeNewRoute
+  ProtectedTreeclusterTreeclusterIdRoute: typeof ProtectedTreeclusterTreeclusterIdRoute
+  ProtectedTreeclusterNewRoute: typeof ProtectedTreeclusterNewRoute
+  ProtectedTreesTreeIdRoute: typeof ProtectedTreesTreeIdRoute
+  ProtectedWaypointsNewRoute: typeof ProtectedWaypointsNewRoute
+  ProtectedSettingsIndexRoute: typeof ProtectedSettingsIndexRoute
+  ProtectedTreeclusterIndexRoute: typeof ProtectedTreeclusterIndexRoute
+  ProtectedWaypointsIndexRoute: typeof ProtectedWaypointsIndexRoute
+  ProtectedSettingsPluginPluginNameRoute: typeof ProtectedSettingsPluginPluginNameRoute
+  ProtectedSettingsPluginIndexRoute: typeof ProtectedSettingsPluginIndexRoute
+}
+
+const ProtectedRouteChildren: ProtectedRouteChildren = {
+  ProtectedDebugRoute: ProtectedDebugRoute,
+  ProtectedInfoRoute: ProtectedInfoRoute,
+  ProtectedMapRoute: ProtectedMapRouteWithChildren,
+  ProtectedProfileRoute: ProtectedProfileRoute,
+  ProtectedSensorsRoute: ProtectedSensorsRoute,
+  ProtectedTeamRoute: ProtectedTeamRoute,
+  ProtectedVehiclesRoute: ProtectedVehiclesRoute,
+  ProtectedFooLazyRoute: ProtectedFooLazyRoute,
+  ProtectedIndexRoute: ProtectedIndexRoute,
+  ProtectedTreeNewRoute: ProtectedTreeNewRoute,
+  ProtectedTreeclusterTreeclusterIdRoute:
     ProtectedTreeclusterTreeclusterIdRoute,
-    ProtectedTreeclusterNewRoute,
-    ProtectedTreesTreeIdRoute,
-    ProtectedWaypointsNewRoute,
-    ProtectedSettingsIndexRoute,
-    ProtectedTreeclusterIndexRoute,
-    ProtectedWaypointsIndexRoute,
+  ProtectedTreeclusterNewRoute: ProtectedTreeclusterNewRoute,
+  ProtectedTreesTreeIdRoute: ProtectedTreesTreeIdRoute,
+  ProtectedWaypointsNewRoute: ProtectedWaypointsNewRoute,
+  ProtectedSettingsIndexRoute: ProtectedSettingsIndexRoute,
+  ProtectedTreeclusterIndexRoute: ProtectedTreeclusterIndexRoute,
+  ProtectedWaypointsIndexRoute: ProtectedWaypointsIndexRoute,
+  ProtectedSettingsPluginPluginNameRoute:
     ProtectedSettingsPluginPluginNameRoute,
-    ProtectedSettingsPluginIndexRoute,
-  }),
-  LoginRoute,
-  LogoutRoute,
-  AuthCallbackRoute,
-})
+  ProtectedSettingsPluginIndexRoute: ProtectedSettingsPluginIndexRoute,
+}
+
+const ProtectedRouteWithChildren = ProtectedRoute._addFileChildren(
+  ProtectedRouteChildren,
+)
+
+export interface FileRoutesByFullPath {
+  '': typeof ProtectedRouteWithChildren
+  '/login': typeof LoginRoute
+  '/logout': typeof LogoutRoute
+  '/debug': typeof ProtectedDebugRoute
+  '/info': typeof ProtectedInfoRoute
+  '/map': typeof ProtectedMapRouteWithChildren
+  '/profile': typeof ProtectedProfileRoute
+  '/sensors': typeof ProtectedSensorsRoute
+  '/team': typeof ProtectedTeamRoute
+  '/vehicles': typeof ProtectedVehiclesRoute
+  '/auth/callback': typeof AuthCallbackRoute
+  '/foo': typeof ProtectedFooLazyRoute
+  '/': typeof ProtectedIndexRoute
+  '/tree/new': typeof ProtectedTreeNewRoute
+  '/treecluster/$treeclusterId': typeof ProtectedTreeclusterTreeclusterIdRoute
+  '/treecluster/new': typeof ProtectedTreeclusterNewRoute
+  '/trees/$treeId': typeof ProtectedTreesTreeIdRoute
+  '/waypoints/new': typeof ProtectedWaypointsNewRoute
+  '/map/': typeof ProtectedMapIndexRoute
+  '/settings': typeof ProtectedSettingsIndexRoute
+  '/treecluster': typeof ProtectedTreeclusterIndexRoute
+  '/waypoints': typeof ProtectedWaypointsIndexRoute
+  '/map/tree/new': typeof ProtectedMapTreeNewRoute
+  '/settings/plugin/$pluginName': typeof ProtectedSettingsPluginPluginNameRoute
+  '/settings/plugin': typeof ProtectedSettingsPluginIndexRoute
+  '/map/treecluster/select/tree': typeof ProtectedMapTreeclusterSelectTreeRoute
+}
+
+export interface FileRoutesByTo {
+  '/login': typeof LoginRoute
+  '/logout': typeof LogoutRoute
+  '/debug': typeof ProtectedDebugRoute
+  '/info': typeof ProtectedInfoRoute
+  '/profile': typeof ProtectedProfileRoute
+  '/sensors': typeof ProtectedSensorsRoute
+  '/team': typeof ProtectedTeamRoute
+  '/vehicles': typeof ProtectedVehiclesRoute
+  '/auth/callback': typeof AuthCallbackRoute
+  '/foo': typeof ProtectedFooLazyRoute
+  '/': typeof ProtectedIndexRoute
+  '/tree/new': typeof ProtectedTreeNewRoute
+  '/treecluster/$treeclusterId': typeof ProtectedTreeclusterTreeclusterIdRoute
+  '/treecluster/new': typeof ProtectedTreeclusterNewRoute
+  '/trees/$treeId': typeof ProtectedTreesTreeIdRoute
+  '/waypoints/new': typeof ProtectedWaypointsNewRoute
+  '/map': typeof ProtectedMapIndexRoute
+  '/settings': typeof ProtectedSettingsIndexRoute
+  '/treecluster': typeof ProtectedTreeclusterIndexRoute
+  '/waypoints': typeof ProtectedWaypointsIndexRoute
+  '/map/tree/new': typeof ProtectedMapTreeNewRoute
+  '/settings/plugin/$pluginName': typeof ProtectedSettingsPluginPluginNameRoute
+  '/settings/plugin': typeof ProtectedSettingsPluginIndexRoute
+  '/map/treecluster/select/tree': typeof ProtectedMapTreeclusterSelectTreeRoute
+}
+
+export interface FileRoutesById {
+  __root__: typeof rootRoute
+  '/_protected': typeof ProtectedRouteWithChildren
+  '/login': typeof LoginRoute
+  '/logout': typeof LogoutRoute
+  '/_protected/debug': typeof ProtectedDebugRoute
+  '/_protected/info': typeof ProtectedInfoRoute
+  '/_protected/map': typeof ProtectedMapRouteWithChildren
+  '/_protected/profile': typeof ProtectedProfileRoute
+  '/_protected/sensors': typeof ProtectedSensorsRoute
+  '/_protected/team': typeof ProtectedTeamRoute
+  '/_protected/vehicles': typeof ProtectedVehiclesRoute
+  '/auth/callback': typeof AuthCallbackRoute
+  '/_protected/foo': typeof ProtectedFooLazyRoute
+  '/_protected/': typeof ProtectedIndexRoute
+  '/_protected/tree/new': typeof ProtectedTreeNewRoute
+  '/_protected/treecluster/$treeclusterId': typeof ProtectedTreeclusterTreeclusterIdRoute
+  '/_protected/treecluster/new': typeof ProtectedTreeclusterNewRoute
+  '/_protected/trees/$treeId': typeof ProtectedTreesTreeIdRoute
+  '/_protected/waypoints/new': typeof ProtectedWaypointsNewRoute
+  '/_protected/map/': typeof ProtectedMapIndexRoute
+  '/_protected/settings/': typeof ProtectedSettingsIndexRoute
+  '/_protected/treecluster/': typeof ProtectedTreeclusterIndexRoute
+  '/_protected/waypoints/': typeof ProtectedWaypointsIndexRoute
+  '/_protected/map/tree/new': typeof ProtectedMapTreeNewRoute
+  '/_protected/settings/plugin/$pluginName': typeof ProtectedSettingsPluginPluginNameRoute
+  '/_protected/settings/plugin/': typeof ProtectedSettingsPluginIndexRoute
+  '/_protected/map/treecluster/select/tree': typeof ProtectedMapTreeclusterSelectTreeRoute
+}
+
+export interface FileRouteTypes {
+  fileRoutesByFullPath: FileRoutesByFullPath
+  fullPaths:
+    | ''
+    | '/login'
+    | '/logout'
+    | '/debug'
+    | '/info'
+    | '/map'
+    | '/profile'
+    | '/sensors'
+    | '/team'
+    | '/vehicles'
+    | '/auth/callback'
+    | '/foo'
+    | '/'
+    | '/tree/new'
+    | '/treecluster/$treeclusterId'
+    | '/treecluster/new'
+    | '/trees/$treeId'
+    | '/waypoints/new'
+    | '/map/'
+    | '/settings'
+    | '/treecluster'
+    | '/waypoints'
+    | '/map/tree/new'
+    | '/settings/plugin/$pluginName'
+    | '/settings/plugin'
+    | '/map/treecluster/select/tree'
+  fileRoutesByTo: FileRoutesByTo
+  to:
+    | '/login'
+    | '/logout'
+    | '/debug'
+    | '/info'
+    | '/profile'
+    | '/sensors'
+    | '/team'
+    | '/vehicles'
+    | '/auth/callback'
+    | '/foo'
+    | '/'
+    | '/tree/new'
+    | '/treecluster/$treeclusterId'
+    | '/treecluster/new'
+    | '/trees/$treeId'
+    | '/waypoints/new'
+    | '/map'
+    | '/settings'
+    | '/treecluster'
+    | '/waypoints'
+    | '/map/tree/new'
+    | '/settings/plugin/$pluginName'
+    | '/settings/plugin'
+    | '/map/treecluster/select/tree'
+  id:
+    | '__root__'
+    | '/_protected'
+    | '/login'
+    | '/logout'
+    | '/_protected/debug'
+    | '/_protected/info'
+    | '/_protected/map'
+    | '/_protected/profile'
+    | '/_protected/sensors'
+    | '/_protected/team'
+    | '/_protected/vehicles'
+    | '/auth/callback'
+    | '/_protected/foo'
+    | '/_protected/'
+    | '/_protected/tree/new'
+    | '/_protected/treecluster/$treeclusterId'
+    | '/_protected/treecluster/new'
+    | '/_protected/trees/$treeId'
+    | '/_protected/waypoints/new'
+    | '/_protected/map/'
+    | '/_protected/settings/'
+    | '/_protected/treecluster/'
+    | '/_protected/waypoints/'
+    | '/_protected/map/tree/new'
+    | '/_protected/settings/plugin/$pluginName'
+    | '/_protected/settings/plugin/'
+    | '/_protected/map/treecluster/select/tree'
+  fileRoutesById: FileRoutesById
+}
+
+export interface RootRouteChildren {
+  ProtectedRoute: typeof ProtectedRouteWithChildren
+  LoginRoute: typeof LoginRoute
+  LogoutRoute: typeof LogoutRoute
+  AuthCallbackRoute: typeof AuthCallbackRoute
+}
+
+const rootRouteChildren: RootRouteChildren = {
+  ProtectedRoute: ProtectedRouteWithChildren,
+  LoginRoute: LoginRoute,
+  LogoutRoute: LogoutRoute,
+  AuthCallbackRoute: AuthCallbackRoute,
+}
+
+export const routeTree = rootRoute
+  ._addFileChildren(rootRouteChildren)
+  ._addFileTypes<FileRouteTypes>()
 
 /* prettier-ignore-end */
 
