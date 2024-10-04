@@ -13,18 +13,16 @@ export const Route = createFileRoute("/_protected/map/treecluster/select/tree")(
 );
 
 function SelectTrees() {
-  const clusterState = useStore((state) => state.treecluster);
-  const [treeIds, setTreeIds] = useState<number[]>(clusterState.treeIds);
+  const formStore = useStore((state) => state.form.treecluster);
   const [showError, setShowError] = useState(false);
   const navigate = useNavigate({ from: Route.fullPath });
 
   const handleSave = () => {
-    if (treeIds.length === 0) {
+    if (formStore.treeIds.length === 0) {
       setShowError(true);
       return;
     }
 
-    clusterState.setTreeIds(treeIds);
     window.history.length > 1 ? window.history.back() : navigate({ to: "/treecluster/new" });
   };
 
@@ -33,11 +31,11 @@ function SelectTrees() {
   };
 
   const handleDeleteTree = (treeId: number) => {
-    setTreeIds((prev) => prev.filter((id) => id !== treeId));
+    formStore.removeTree(treeId);
   };
 
   const handleTreeClick = (tree: Tree) => {
-    setTreeIds((prev) => (!prev.includes(tree.id) ? [...prev, tree.id] : prev));
+    formStore.addTree(tree.id);
   };
 
   return (
@@ -45,18 +43,18 @@ function SelectTrees() {
       <MapSelectTreesModal
         onSave={handleSave}
         onCancel={handleCancel}
-        treeIds={treeIds}
+        treeIds={formStore.treeIds}
         title="Bäume auswählen:"
         content={
           <ul className="space-y-3">
-            {(treeIds?.length || 0) === 0 || showError ? (
+            {(formStore.treeIds?.length || 0) === 0 || showError ? (
               <li className="text-red">
                 <p>Bitte wählen Sie mindestens einen Baum aus.</p>
               </li>
             ) : (
-              treeIds.map((treeId, key) => (
+              formStore.treeIds.map((treeId, key, array) => (
                 <li key={key}>
-                  <SelectedCard treeIds={treeIds} itemId={treeId} onClick={handleDeleteTree} />
+                  <SelectedCard treeIds={array} itemId={treeId} onClick={handleDeleteTree} />
                 </li>
               ))
             )}

@@ -1,6 +1,6 @@
 import { clusterApi, EntitiesTreeSoilCondition } from '@/api/backendApi';
 import LoadingInfo from '@/components/general/error/LoadingInfo';
-import FormForTreecluster from '@/components/general/form/FormForTreecluster';
+import FormForTreeclusterProps from '@/components/general/form/FormForTreecluster';
 import { useAuthHeader } from '@/hooks/useAuthHeader';
 import { useTreeClusterForm } from '@/hooks/useTreeclusterForm';
 import { TreeclusterForm } from '@/schema/treeclusterSchema';

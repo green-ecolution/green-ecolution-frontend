@@ -1,36 +1,43 @@
-import React from 'react';
-import PrimaryButton from '../buttons/PrimaryButton';
-import Input from './types/Input';
-import Select from './types/Select';
-import Textarea from './types/Textarea';
-import SelectTrees from './types/SelectTrees';
-import { FieldErrors, SubmitHandler, UseFormRegister } from 'react-hook-form';
-import { SoilConditionOptions } from '@/hooks/useDetailsForSoilCondition';
-import { TreeclusterForm } from '@/schema/treeclusterSchema';
+import React from "react";
+import PrimaryButton from "../buttons/PrimaryButton";
+import Input from "./types/Input";
+import Select from "./types/Select";
+import Textarea from "./types/Textarea";
+import SelectTrees from "./types/SelectTrees";
+import { FieldErrors, SubmitHandler, UseFormRegister } from "react-hook-form";
+import { SoilConditionOptions } from "@/hooks/useDetailsForSoilCondition";
+import { TreeclusterForm } from "@/schema/treeclusterSchema";
+import useStore from "@/store/store";
 
-interface FormForTreecluster {
+interface FormForTreeclusterProps {
   displayError: boolean;
   register: UseFormRegister<TreeclusterForm>;
   errors: FieldErrors<TreeclusterForm>;
   onSubmit: SubmitHandler<TreeclusterForm>;
-  treeIds: number[];
   handleDeleteTree: (treeIdToDelete: number) => void;
-  storeState: () => void;
-  handleSubmit: (onSubmit: SubmitHandler<TreeclusterForm>) => (e?: React.BaseSyntheticEvent) => Promise<void>;
+  handleSubmit: (
+    onSubmit: SubmitHandler<TreeclusterForm>,
+  ) => (e?: React.BaseSyntheticEvent) => Promise<void>;
 }
 
-const FormForTreecluster: React.FC<FormForTreecluster> = ({
+const FormForTreecluster: React.FC<FormForTreeclusterProps> = ({
   handleSubmit,
   displayError,
   register,
   errors,
   onSubmit,
   handleDeleteTree,
-  treeIds,
-  storeState,
 }) => {
+  const { treeIds } = useStore((state) => ({
+    treeIds: state.form.treecluster.treeIds,
+  }));
+
   return (
-    <form className="space-y-6 lg:space-y-0 lg:grid lg:grid-cols-2 lg:gap-11" onSubmit={handleSubmit(onSubmit)}>
+    <form
+      key="cluster-register"
+      className="space-y-6 lg:space-y-0 lg:grid lg:grid-cols-2 lg:gap-11"
+      onSubmit={handleSubmit(onSubmit)}
+    >
       <div className="space-y-6">
         <Input<TreeclusterForm>
           name="name"
@@ -67,21 +74,21 @@ const FormForTreecluster: React.FC<FormForTreecluster> = ({
         />
       </div>
 
-      <SelectTrees
-        treeIds={treeIds} 
-        onClick={handleDeleteTree}
-        storeState={storeState}
-      />
+      <SelectTrees onClick={handleDeleteTree} register={register} />
 
-      <p className={`text-red font-medium mt-10 ${displayError ? '' : 'hidden'}`}>
-        Es ist leider ein Problem aufgetreten. Bitte probieren Sie es erneut oder wenden Sie sich an eine:n Systemadministrator:in.
+      <p
+        className={`text-red font-medium mt-10 ${displayError ? "" : "hidden"}`}
+      >
+        Es ist leider ein Problem aufgetreten. Bitte probieren Sie es erneut
+        oder wenden Sie sich an eine:n Systemadministrator:in.
       </p>
-      
-      <PrimaryButton 
-        type="submit" 
+
+      <PrimaryButton
+        type="submit"
         label="Speichern"
         disabled={Object.keys(errors).length > 0 || treeIds.length === 0}
-        className="mt-10 lg:col-span-full lg:w-fit" />
+        className="mt-10 lg:col-span-full lg:w-fit"
+      />
     </form>
   );
 };
