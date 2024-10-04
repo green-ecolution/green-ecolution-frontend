@@ -3,7 +3,7 @@ import axios from "axios";
 import { Check, MoveLeft, MoveRight, Trash2 } from "lucide-react";
 import { useAuthHeader } from "@/hooks/useAuthHeader";
 import PrimaryButton from "../buttons/PrimaryButton";
-import ModalField from "../form/modalField";
+import ModalField from "../form/ModalField";
 
 
 interface FileUploadProps {
