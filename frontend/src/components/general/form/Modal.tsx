@@ -1,5 +1,5 @@
 import { MoveRight } from "lucide-react";
-import React, { useState } from "react";
+import React from "react";
 import PrimaryButton from "../buttons/PrimaryButton";
 
 interface ModalProps {
