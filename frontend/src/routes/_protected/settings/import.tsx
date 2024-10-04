@@ -42,7 +42,7 @@ function ImportFile() {
           Mollit laborum officia commodo mollit dolor deserunt qui occaecat anim.
         </p>
       </article>
-      <br />
+
       <ul className="grid grid-cols-1 gap-5 mt-10 md:grid-cols-2 lg:grid-cols-3">
         {cards.map((card, key) => (
           <li key={key}>
@@ -51,14 +51,11 @@ function ImportFile() {
         ))}
       </ul>
 
-      {/* File input section */}
-      <div className="my-6">
-
-        <h3 className="font-semibold text-lg text-gray-900 mb-4">Import neu anstoßen:</h3>
-
-        <label className="block text-sm font-medium text-gray-700 mb-2">
+      <div className="mt-16">
+        <h2 className="text-xl font-bold font-lato mb-4">Import neu anstoßen:</h2>
+        <p className="block text-base text-dark-700 mb-2">
           CSV-Datei mit aktuellen Bäumen:
-        </label>
+        </p>
         <FileUpload to={url} fileType='.csv'/>
       </div>
     </div>

@@ -1,203 +1,147 @@
 import React, { useRef, useState } from "react";
 import axios from "axios";
-import { Check, MoveLeft, MoveRight, Trash2 } from "lucide-react";
+import { Check, FileUp, Trash2 } from "lucide-react";
 import { useAuthHeader } from "@/hooks/useAuthHeader";
 import PrimaryButton from "../buttons/PrimaryButton";
-import ModalField from "../form/Modal";
-
-
+import Modal from "../form/Modal";
 
 interface FileUploadProps {
-    to: string;
-    fileType: string
+  to: string;
+  fileType: string
 }
 
 const FileUpload: React.FC<FileUploadProps> = ({ to, fileType }) => {
-    const inputRef = useRef<HTMLInputElement | null>(null);
-    const authHeader = useAuthHeader();
-    const [selectedFile, setSelectedFile] = useState<File | null>(null);
-    const [progress, setProgress] = useState<number>(0);
-    const [errorMessage, setErrorMessage] = useState<string | null>(null);
-    const [isModalOpen, setIsModalOpen] = useState(false);
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const authorization = useAuthHeader();
+  const [file, setFile] = useState<File | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
+  type Status = "select" | "done";
+  const status = { select: "select", done: "done" } as const;
+  const [uploadStatus, setUploadStatus] = useState<Status>(status.select);
 
-    type Status = "select" | "uploading" | "done";
-    const status = { select: "select", uploading: "uploading", done: "done" } as const;
-    const [uploadStatus, setUploadStatus] = useState<Status>(status.select);
-
-
-    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        if (event.target.files && event.target.files.length > 0) {
-            setSelectedFile(event.target.files[0]);
-        }
-    };
-
-    const onChooseFile = () => {
-        inputRef.current?.click();
-    };
-
-    const clearFileInput = () => {
-        if (inputRef.current) {
-            inputRef.current.value = "";
-        }
-        setSelectedFile(null);
-        setProgress(0);
-        setUploadStatus(status.select);
-        setErrorMessage(null);
-    };
-
-    const handleUpload  = () => {
-        if (uploadStatus != status.done) {
-            setIsModalOpen(true)
-        } else {
-            clearFileInput();
-        }
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files.length > 0) {
+      setFile(event.target.files[0]);
     }
-    const handleCancel = () => {
-        setIsModalOpen(false);
-        clearFileInput();
+  };
+
+  const onChooseFile = () => {
+    inputRef.current?.click();
+  };
+
+  const clearFileInput = () => {
+    if (inputRef.current) {
+      inputRef.current.value = "";
     }
 
+    setFile(null);
+    setUploadStatus(status.select);
+    setErrorMessage(null);
+  };
 
-    const handleConfirm = async () => {
-        console.log("handle  upload");
-        setIsModalOpen(false);
-        try {
-            setUploadStatus(status.uploading);
-            setErrorMessage(null);
+  const handleUpload = () => {
+    uploadStatus != status.done ? setIsModalOpen(true) : clearFileInput();
+  }
 
+  const handleCancel = () => {
+    setIsModalOpen(false);
+    clearFileInput();
+  }
 
-            const formData = new FormData();
-            if (selectedFile) {
-                formData.append("file", selectedFile);
-            }
+  const handleConfirm = async () => {
+    setIsModalOpen(false);
 
-            const pr = await axios.post(to, formData, {
-                headers: {
-                    'Authorization': authHeader,
-                    'Content-Type': 'multipart/form-data',
-                }, onUploadProgress: (progressEvent) => {
-                    if (progressEvent.total) {
-                        const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-                        setProgress(percentCompleted);
-                    }
-                }
-            });
+    try {
+      if (!file) return;
+      setErrorMessage(null);
+      const formData = new FormData();
 
-            console.log(pr)
+      formData.append("file", file);
 
-            setUploadStatus(status.done);
-        } catch (error) {
-            handleAxiosError(error);
-            setUploadStatus(status.select);
+      await axios.post(to, formData, {
+        headers: {
+          'Authorization': authorization,
+          'Content-Type': 'multipart/form-data',
         }
+      });
 
-    };
-    const handleAxiosError = (error: any) => {
-
-        if (error.response && error.response.data && error.response.data.error) {
-            var errorMessage = error.response.data.error;
-            const errorMessage_ = error.response.data.err;
-            if (error.response.data.err) {
-                errorMessage = errorMessage + ": " + errorMessage_;
-            }
-            console.error('Error Message:', errorMessage);
-            setErrorMessage(errorMessage);
-        } else {
-
-            if (error.message) {
-                console.error('Error Message:', error.message);
-                setErrorMessage(error.message);
-            }
-        }
+      setUploadStatus(status.done);
+    } catch (error) {
+      handleAxiosError(error);
+      setUploadStatus(status.select);
     }
+  };
 
-    return (
-        <div className="w-full flex flex-col  justify-center">
-            <input
-                ref={inputRef}
-                accept={fileType}
-                type="file"
-                onChange={handleFileChange}
-                className="hidden"
-            />
+  const handleAxiosError = (error: any) => {
+    const { response, message } = error;
 
-            {/* Button to trigger the file input dialog */}
-            {!selectedFile && (
-                <button
-                    className="w-80 h-36 text-lg font-medium flex flex-col items-center justify-center gap-4 text-indigo-600 bg-black border-2 border-dashed border-indigo-600 rounded-xl cursor-pointer transition duration-300 hover:bg-gray-100"
-                    onClick={onChooseFile}
-                >
-                    <span className="w-12 h-12 text-4xl text-indigo-600 flex items-center justify-center rounded-full bg-indigo-50">
-                        ⬆️
-                    </span>
-                    Datei hochladen
-                </button>
-            )}
+    if (response?.data?.error) {
+      const { error: errorMessage, err: additionalMessage } = response.data;
+      const fullErrorMessage = additionalMessage ? `${errorMessage}: ${additionalMessage}` : errorMessage;
 
-            {selectedFile && (
-                <>
-                    <div className="w-72 p-4 bg-black rounded-lg flex items-center gap-4 border border-indigo-300">
-                        <span className="text-indigo-600 text-2xl">📄</span>
+      setErrorMessage('Leider ist folgender Fehler aufgetreten: ' + fullErrorMessage);
+    } else if (message) {
+      setErrorMessage('Leider ist folgender Fehler aufgetreten: ' + message);
+    } else {
+      const message = 'Leider ist ein unbekannter Fehler aufgetreten. Bitte wenden Sie sich an eine:n Systemadministrator:in.';
+      setErrorMessage(message);
+    }
+  };
 
-                        <div className="flex-1">
-                            <p className="text-sm font-medium">{selectedFile?.name}</p>
+  return (
+    <div className="w-full flex flex-col justify-center">
+      <input
+        ref={inputRef}
+        accept={fileType}
+        type="file"
+        onChange={handleFileChange}
+        className="hidden"
+      />
 
-                            <div className="w-full h-1.5 bg-gray-200 rounded mt-2">
-                                <div
-                                    className="h-1.5 bg-indigo-600 rounded"
-                                    style={{ width: `${progress}%` }}
-                                />
-                            </div>
-                        </div>
+      <button
+        className={`px-4 py-3 items-center gap-4 border-2 border-dashed border-green-light rounded-xl cursor-pointer transition duration-300 focus:outline-green-dark lg:w-1/2 ${file ? 'hidden' : 'flex'}`}
+        onClick={onChooseFile}
+      >
+        <FileUp className="text-dark-400" />
+        Datei hochladen
+      </button>
 
-                        {uploadStatus === status.select ? (
-                            <button
-                                className="w-9 h-9 text-indigo-600 bg-indigo-50 rounded-full flex items-center justify-center"
-                                onClick={clearFileInput}
-                            >
-                                <Trash2 />
-                            </button>
-                        ) : (
-                            <div className="w-9 h-9 bg-indigo-50 rounded-full flex items-center justify-center text-indigo-600">
-                                {uploadStatus === "uploading" ? (
-                                    `${progress}%`
-                                ) : uploadStatus === status.done ? (
-                                    <button
-                                        className="w-9 h-9 text-indigo-600 bg-indigo-50 rounded-full flex items-center justify-center"
-                                        onClick={clearFileInput}
-                                    >
-                                        <Check />
-                                    </button>
-                                ) : null}
-                            </div>
-                        )}
-                    </div>
-                    <PrimaryButton onClick={handleUpload} label={uploadStatus === status.done ? "erneut selektieren" : "Daten importieren"}
-                        icon={uploadStatus === status.done ? (
-                            <MoveLeft className="transition-all ease-in-out duration-300 group-hover:translate-x-2" />
-                        ) : (
-                            <MoveRight className="transition-all ease-in-out duration-300 group-hover:translate-x-2" />
-                        )} className="w-72 p-4 mt-10"></PrimaryButton>
-                </>
-            )}
-            {isModalOpen && (
-                <ModalField
-                    title="Soll der Import wirklich neu angestoßen werden?"
-                    description="Der Import kann etwas länger dauern, sodass die Website für einen Moment in den Wartungsmodus schaltet und nicht erreichbar ist."
-                    confirmText="Import fortfahren"
-                    onConfirm={handleConfirm}
-                    onCancel={handleCancel}
-                    isOpen={isModalOpen}
-                />
-            )}
-            {errorMessage && (
-                <div className="mt-4 p-3 bg-red-100 text-red-700 rounded-lg">
-                    {errorMessage}
-                </div>
-            )}
+      <div className={`w-full items-center gap-4 text-dark-800 border border-green-light rounded-lg bg-white px-4 py-3 focus:outline-green-dark lg:w-1/2 ${file ? 'flex' : 'hidden'}`}>
+        <span className="text-2xl">📄</span>
+        <p className="text-base font-medium flex-1">{file?.name}</p>
+        <button
+          className={`${uploadStatus === status.select ? 'block' : 'hidden'} `}
+          onClick={clearFileInput}
+        >
+          <Trash2 className="text-dark-600" />
+        </button>
+      </div>
+      {errorMessage && (
+        <div className="mt-4 text-red">
+          {errorMessage}
         </div>
-    );
+      )}
+
+      <PrimaryButton
+        onClick={handleUpload}
+        disabled={!file}
+        className="mt-10"
+        label="Daten importieren" />
+
+      {isModalOpen && (
+        <Modal
+          title="Soll der Import wirklich neu angestoßen werden?"
+          description="Der Import kann etwas länger dauern, sodass die Website für einen Moment in den Wartungsmodus schaltet und nicht erreichbar ist."
+          confirmText="Import fortfahren"
+          onConfirm={handleConfirm}
+          onCancel={handleCancel}
+          isOpen={isModalOpen}
+        />
+      )}
+    </div>
+  );
 };
 
 export default FileUpload;
