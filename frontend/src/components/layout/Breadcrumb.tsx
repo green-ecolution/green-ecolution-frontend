@@ -11,12 +11,10 @@ function Breadcrumb() {
   };
 
   return (
-    <nav aria-label="Breadcrumb Navigation" className="hidden text-xs text-dark-800 lg:block">
+    <nav aria-label="Seitennavigation" className="hidden text-xs text-dark-800 lg:block data-[status=active]:text-dark transition-all ease-in-out duration-300 hover:text-green-dark hover:data-[status=active]:text-green-dark">
       <ul className="flex flex-wrap items-center">
         <li className="flex items-center">
-          <Link
-            className="data-[status=active]:text-dark transition-all ease-in-out duration-300 hover:text-green-dark hover:data-[status=active]:text-green-dark"
-            to={rootBreadcrumb.path}>
+          <Link to={rootBreadcrumb.path}>
             {rootBreadcrumb.title}
           </Link>
         </li>

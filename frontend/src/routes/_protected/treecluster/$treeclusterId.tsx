@@ -8,7 +8,7 @@ import { useAuthHeader } from '@/hooks/useAuthHeader';
 import { getWateringStatusDetails } from '@/hooks/useDetailsForWateringStatus';
 import { useQuery } from '@tanstack/react-query';
 import { createFileRoute, useLoaderData } from '@tanstack/react-router'
-import { treeDemoData } from '@/data/trees';
+import { Key } from 'react';
 
 export const Route = createFileRoute('/_protected/treecluster/$treeclusterId')({
   component: SingleTreecluster,
@@ -102,7 +102,7 @@ function SingleTreecluster() {
               <p>Der Bewässerungsgruppe wurden keine Bäume hinzugefügt.</p>
             </li>
           ) : (
-            treeRes?.data.map((tree, key) => (
+            treeRes?.data.map((tree: any, key: Key | null | undefined) => (
               <li key={key}>
                 <TreeCard tree={tree}/>
               </li>
