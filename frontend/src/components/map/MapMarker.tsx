@@ -1,5 +1,17 @@
+// @ts-ignore because this image needs to be imported, but not found for some reason, but works.
+import defaultIconPng from "leaflet/dist/images/marker-icon.png";
 import L, { DivIcon, Icon, IconOptions } from "leaflet";
 import { Marker } from "react-leaflet";
+import { Marker as LeafletMarker } from "leaflet";
+import { useMemo, useRef } from "react";
+
+export const defaultIcon = new Icon({
+  iconUrl: defaultIconPng,
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41],
+});
 
 export interface MapMarkerProps {
   icon: Icon<IconOptions> | DivIcon | undefined;
@@ -38,5 +50,46 @@ export const TreeIcon = (color: string) =>
     popupAnchor: [0, -36],
     html: `<span style="${markerHtmlStyles(color)}" />`,
   });
+
+interface DragableMarkerProps {
+  position: L.LatLng;
+  onMove?: (latlng: L.LatLng) => void;
+  onDrag?: (latlng: L.LatLng) => void;
+}
+
+export const DragableMarker = ({
+  position,
+  onDrag,
+  onMove,
+}: DragableMarkerProps) => {
+  const markerRef = useRef<LeafletMarker>(null);
+  const eventHandlers = useMemo(
+    () => ({
+      move() {
+        const marker = markerRef.current;
+        if (marker != null) {
+          onMove?.(marker.getLatLng());
+        }
+      },
+      dragend() {
+        const marker = markerRef.current;
+        if (marker != null) {
+          onDrag?.(marker.getLatLng());
+        }
+      },
+    }),
+    [],
+  );
+
+  return (
+    <Marker
+      eventHandlers={eventHandlers}
+      icon={defaultIcon}
+      ref={markerRef}
+      draggable
+      position={position}
+    />
+  );
+};
 
 export default MapMarker;

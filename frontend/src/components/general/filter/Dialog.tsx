@@ -117,7 +117,7 @@ const Dialog: React.FC<DialogProps> = ({ initStatusTags, initRegionTags, headlin
             <Option
               key={region.id}
               label={region.name}
-              name={region.id}
+              name={String(region.id)}
               checked={regionTags.includes(region.name)}
               onChange={handleFilterChange('region')}
             />
