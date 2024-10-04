@@ -1,9 +1,8 @@
 import { createFileRoute } from '@tanstack/react-router'
-import InfoCard from '@/components/general/cards/InfoCard';
 import FileUpload from '@/components/general/fileUpload/FileUpload';
 import GeneralStatusCard from '@/components/general/cards/GeneralStatusCard';
 
-export const Route = createFileRoute('/_protected/import')({
+export const Route = createFileRoute('/_protected/settings/import')({
   component: ImportFile,
 })
 

@@ -1,19 +1,18 @@
 import { createFileRoute } from "@tanstack/react-router";
 import DashboardCard from "@/components/general/cards/DashboardCard";
-import SettingCard from "@/components/general/cards/SettingCard";
 
-export const Route = createFileRoute("/_protected/settings")({
+export const Route = createFileRoute("/_protected/settings/")({
   component: Settings,
 });
 
 function Settings() {
   const cards = [
     {
-      url: '/import',
+      url: '/settings/import',
       description: 'Um die Bäume im Kataster zu aktualisieren' +
         'können die Bäume mithilde einer CSV-Datei neu importiert werden.',
-      headline: 'kataster new importieren',
-      linkLabel: 'neuen Import anstoßen',
+      headline: 'Kataster neu importieren',
+      linkLabel: 'Neuen Import anstoßen',
     }
 
   ];
