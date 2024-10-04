@@ -4,7 +4,7 @@ import Dialog from "@/components/general/filter/Dialog";
 import { createFileRoute, useLoaderData } from '@tanstack/react-router';
 import { z } from 'zod';
 import ButtonLink from '@/components/general/links/ButtonLink';
-import { Plus } from 'lucide-react';
+import { Plus, Search, X } from 'lucide-react';
 import { getWateringStatusDetails } from '@/hooks/useDetailsForWateringStatus';
 import { clusterApi } from '@/api/backendApi';
 import { useAuthHeader } from '@/hooks/useAuthHeader';
@@ -36,6 +36,7 @@ function Treecluster() {
 
   const [statusTags, setStatusTags] = useState<string[]>(search.status);
   const [regionTags, setRegionTags] = useState<string[]>(search.region);
+  const [searchQuery, setSearchQuery] = useState<string>('');
 
   const { data: clustersRes, isLoading, error } = useQuery({
     queryKey: ["cluster"],
@@ -60,28 +61,50 @@ function Treecluster() {
           Auflistung der Bewässerungsgruppen
         </h1>
         <p className="mb-5">
-          Eine Bewässerungsgruppe besteht aus bis zu 40 Bäumen, die die gleichen Standortbedingungen vorweisen. 
-          Mindestens fünf Bäume in einer Baumgruppe sind mit Sensoren ausgestattet. 
+          Eine Bewässerungsgruppe besteht aus bis zu 40 Bäumen, die die gleichen Standortbedingungen vorweisen.
+          Mindestens fünf Bäume in einer Baumgruppe sind mit Sensoren ausgestattet.
           Diese gelieferten Werte werden gemittelt, sodass eine Handlungsempfehlung für die Baumgruppe gegeben werden kann.
         </p>
-        <ButtonLink 
-          icon={Plus} 
+        <ButtonLink
+          icon={Plus}
           label="Neue Gruppe erstellen"
           url="/treecluster/new" />
       </article>
 
       <section className="mt-10">
         <div className="flex justify-end mb-6 lg:mb-10">
-          <Dialog
-            initStatusTags={statusTags}
-            initRegionTags={regionTags}
-            headline="Bewässerungsgruppen filtern"
-            fullUrlPath={Route.fullPath}
-            applyFilter={(statusTags, regionTags) => {
-              setStatusTags(statusTags);
-              setRegionTags(regionTags);
-            }}
-          />
+          <div className="flex items-center gap-4">
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <Search className="stroke-1 text-gray-500" />
+              </div>
+              <input
+                type="text"
+                placeholder="Suche..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className={`transition-all duration-300 ease-in-out pl-10 pr-10 py-2 border border-green-light font-medium rounded-full focus:outline-none focus:ring-2 focus:ring-green-light-200 hover:bg-green-light-200 hover:border-transparent w-full`}
+              />
+              {searchQuery && (
+                <div
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
+                  onClick={() => setSearchQuery('')}
+                >
+                  <X className="stroke-1 text-gray-500" />
+                </div>
+              )}
+            </div>
+            <Dialog
+              initStatusTags={statusTags}
+              initRegionTags={regionTags}
+              headline="Bewässerungsgruppen filtern"
+              fullUrlPath={Route.fullPath}
+              applyFilter={(statusTags, regionTags) => {
+                setStatusTags(statusTags);
+                setRegionTags(regionTags);
+              }}
+            />
+          </div>
         </div>
 
         <header className="hidden border-b pb-2 text-sm text-dark-800 px-8 border-b-dark-200 mb-5 lg:grid lg:grid-cols-[1fr,2fr,1.5fr,1fr] lg:gap-5 xl:px-10">

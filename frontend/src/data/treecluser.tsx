@@ -15,7 +15,7 @@ export function treeclusterDemoData() {
     },
     {
       id: 1,
-      name: 'Westliche Höhe/Exe',
+      name: 'Abracadabra',
       number: '12345678XY',
       address: 'Friesische Straße 31 - 40',
       region: "Engelsby",
