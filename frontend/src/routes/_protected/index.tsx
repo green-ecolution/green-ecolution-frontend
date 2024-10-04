@@ -73,7 +73,7 @@ function Dashboard() {
               description={card.description}
               linkLabel={card.linkLabel}
               url={card.url}
-              isDark={key % 2 !== 0} />
+              theme={key % 2 ? "dark" : "light"} />
           </li>
         ))}
       </ul>
