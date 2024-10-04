@@ -43,4 +43,9 @@ export const treeclusterStore: SubStore<TreeclusterFormStore> = (set, get) => ({
       state.form.treecluster.treeIds.push(treeId);
     });
   },
+  setTrees: (ids: number[]) => {
+    set((state) => {
+      state.form.treecluster.treeIds = ids;
+    });
+  }
 });

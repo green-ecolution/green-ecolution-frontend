@@ -1,119 +1,123 @@
-import { clusterApi, EntitiesTreeSoilCondition } from '@/api/backendApi';
-import LoadingInfo from '@/components/general/error/LoadingInfo';
-import FormForTreeclusterProps from '@/components/general/form/FormForTreecluster';
-import { useAuthHeader } from '@/hooks/useAuthHeader';
-import { useTreeClusterForm } from '@/hooks/useTreeclusterForm';
-import { TreeclusterForm } from '@/schema/treeclusterSchema';
-import useStore from '@/store/store';
-import { useSuspenseQuery } from '@tanstack/react-query';
-import { createFileRoute, useLoaderData } from '@tanstack/react-router'
-import { useEffect, useMemo, useState } from 'react';
-import { SubmitHandler } from 'react-hook-form';
+import { clusterApi, TreeCluster, TreeClusterUpdate } from "@/api/backendApi";
+import queryClient from "@/api/queryClient";
+import FormForTreecluster from "@/components/general/form/FormForTreecluster";
+import { useToast } from "@/hooks/use-toast";
+import { useAuthHeader } from "@/hooks/useAuthHeader";
+import { useTreeClusterForm } from "@/hooks/useTreeclusterForm";
+import { TreeclusterForm } from "@/schema/treeclusterSchema";
+import useStore from "@/store/store";
+import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { Suspense, useEffect } from "react";
+import { SubmitHandler } from "react-hook-form";
 
-export const Route = createFileRoute('/_protected/treecluster/$treecluster/edit')({
+const queryParams = (id: string, token: string) => ({
+  queryKey: ["treecluster", id],
+  queryFn: () =>
+    clusterApi.getTreeClusterById({
+      authorization: token,
+      clusterId: id,
+    }),
+});
+
+export const Route = createFileRoute(
+  "/_protected/treecluster/$treecluster/edit",
+)({
   component: EditTreeCluster,
-  loader: async ({ params }) => {
-    return params.treecluster;
+  loader: ({ params: { treecluster } }) => {
+    const token = useStore.getState().auth.token?.accessToken ?? "";
+    return queryClient.ensureQueryData(
+      queryParams(treecluster, `Bearer ${token}`),
+    );
+  },
+  onLeave: () => {
+    useStore.getState().form.treecluster.reset();
   },
 });
 
 function EditTreeCluster() {
   const authorization = useAuthHeader();
-  const clusterId = useLoaderData({ from: '/_protected/treecluster/$treecluster/edit' });
-  const clusterState = useStore((state) => state.treecluster);
-  const [displayError, setDisplayError] = useState(false);
-
-  const { data: cluster, isLoading, isError } = useSuspenseQuery({
-    queryKey: ["treecluster", clusterId],
-    queryFn: () => clusterApi.getTreeClusterById({ clusterId, authorization }),
-  });
-
-  const defaultValues = useMemo(() => ({
-    name: cluster?.name || '',
-    address: cluster?.address || '',
-    description: cluster?.description || '',
-    soilCondition: cluster?.soilCondition || EntitiesTreeSoilCondition.TreeSoilConditionUnknown,
-  }), [cluster]);
-
+  const clusterId = Route.useParams().treecluster;
+  const navigate = useNavigate({ from: Route.fullPath });
+  const formStore = useStore((state) => state.form.treecluster);
+  const { toast } = useToast();
+  const { data } = useSuspenseQuery(queryParams(clusterId, authorization));
   const {
-    reset,
     register,
     handleSubmit,
-    errors,
-    storeState,
-  } = useTreeClusterForm(clusterState, defaultValues);
+    formState: { errors },
+  } = useTreeClusterForm({
+    name: data.name,
+    address: data.address,
+    description: data.description,
+    soilCondition: data.soilCondition,
+    treeIds: data.trees.map((tree) => tree.id),
+  });
 
-  useEffect(() => {
-    if (! cluster) return;
-    reset(defaultValues);
-    
-    if (clusterState.treeIds.length === 0) {
-      clusterState.setTreeIds(cluster.trees.map(tree => tree.id));
-    }
-  }, [cluster, clusterState, reset, defaultValues]);
+  const { isError, mutate } = useMutation({
+    mutationFn: (body: TreeClusterUpdate) =>
+      clusterApi.updateTreeCluster({ authorization, clusterId, body }),
+    onSuccess: (data) => onUpdateSuccess(data),
+    onError: () => onUpdateError(),
+  });
 
-  const onSubmit: SubmitHandler<TreeclusterForm> = async (data) => {
-    try {
-      if (clusterState.treeIds.length === 0) return;
-      setDisplayError(false);
-  
-      const clusterData = {
-        ...data,
-        treeIds: clusterState.treeIds,
-      };
-      
-      const response = await clusterApi.updateTreeCluster({
-        authorization,
-        clusterId,
-        archived: false,
-        body: clusterData,
-      });
-
-      // TODO: navigate to treecluster and show success toast
-      console.log('Tree cluster updated:', response);
-    } catch (error) {
-      setDisplayError(true);
-      console.error('Failed to update tree cluster:', error);
-    }
+  const onUpdateSuccess = (data: TreeCluster) => {
+    toast({
+      title: "Bewässerungsgruppe aktualisiert",
+      description: "Die Bewässerungsgruppe wurde erfolgreich aktualisiert.",
+    });
+    formStore.reset();
+    navigate({
+      to: `/treecluster/${data.id}`,
+      replace: true,
+    });
   };
 
-  const handleDeleteTree = (treeIdToDelete: number) => {
-    clusterState.setTreeIds(clusterState.treeIds.filter((treeId) => treeId !== treeIdToDelete));
+  const onUpdateError = () => {
+    toast({
+      title: "Fehler",
+      description: "Es ist ein Fehler aufgetreten.",
+    });
+  };
+
+  const onSubmit: SubmitHandler<TreeclusterForm> = async (data) => {
+    mutate({
+      ...data,
+      treeIds: formStore.treeIds,
+    });
   };
 
   return (
     <div className="container mt-6">
-      {isLoading ? (
-        <LoadingInfo label="Daten werden geladen …" />
-      ) : isError || !cluster ? (
+      {isError ? (
         <p className="text-red text-lg">
-          Eine Bewässerungsgruppe mit der Nummer {clusterId} gibt es nicht oder die Daten zur Bewässerungsgruppe konnten nicht geladen werden.
+          Eine Bewässerungsgruppe mit der Nummer {clusterId} gibt es nicht oder
+          die Daten zur Bewässerungsgruppe konnten nicht geladen werden.
         </p>
       ) : (
         <div>
           <article className="2xl:w-4/5">
             <h1 className="font-lato font-bold text-3xl mb-4 lg:text-4xl xl:text-5xl">
-              Bewässerungsgruppe {cluster.name} bearbeiten
+              Bewässerungsgruppe {data.name} bearbeiten
             </h1>
             <p className="mb-5">
-              Labore est cillum aliqua do consectetur. 
-              Do anim officia sunt magna nisi eiusmod sit excepteur qui aliqua duis irure in cillum cillum.
+              Labore est cillum aliqua do consectetur. Do anim officia sunt
+              magna nisi eiusmod sit excepteur qui aliqua duis irure in cillum
+              cillum.
             </p>
           </article>
 
           <section className="mt-10">
             <FormForTreecluster
               register={register}
-              handleDeleteTree={handleDeleteTree}
               handleSubmit={handleSubmit}
-              displayError={displayError}
+              displayError={isError}
               errors={errors}
               onSubmit={onSubmit}
-              treeIds={clusterState.treeIds} 
-              storeState={storeState} />
+            />
           </section>
         </div>
       )}
     </div>
-  )
+  );
 }

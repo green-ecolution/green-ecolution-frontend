@@ -56,10 +56,6 @@ function NewTreecluster() {
     });
   };
 
-  const handleDeleteTree = (treeIdToDelete: number) => {
-    formStore.removeTree(treeIdToDelete);
-  };
-
   return (
     <div className="container mt-6">
       <article className="2xl:w-4/5">
@@ -75,7 +71,6 @@ function NewTreecluster() {
       <section className="mt-10">
         <FormForTreecluster
           register={register}
-          handleDeleteTree={handleDeleteTree}
           handleSubmit={handleSubmit}
           displayError={isError}
           errors={errors}

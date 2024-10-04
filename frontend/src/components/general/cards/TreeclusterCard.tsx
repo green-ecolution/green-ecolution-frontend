@@ -28,7 +28,7 @@ const TreeclusterCard: React.FC<TreeclusterCard> = ({ treecluster }) => {
           <MapPin className="w-5 h-5" />
           <p>
             <span>{treecluster.address}, </span><br/>
-            <span className="text-dark-600 lg:block lg:text-sm">{treecluster.region.name}</span>
+            <span className="text-dark-600 lg:block lg:text-sm">{treecluster.region?.name ?? "-"}</span>
           </p>
         </div>
 

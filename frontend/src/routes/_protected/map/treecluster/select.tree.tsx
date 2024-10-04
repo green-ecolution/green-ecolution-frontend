@@ -14,15 +14,17 @@ export const Route = createFileRoute("/_protected/map/treecluster/select/tree")(
 
 function SelectTrees() {
   const formStore = useStore((state) => state.form.treecluster);
+  const [treeIds, setTreeIds] = useState<number[]>(formStore.treeIds);
   const [showError, setShowError] = useState(false);
   const navigate = useNavigate({ from: Route.fullPath });
 
   const handleSave = () => {
-    if (formStore.treeIds.length === 0) {
+    if (treeIds.length === 0) {
       setShowError(true);
       return;
     }
 
+    formStore.setTrees(treeIds);
     window.history.length > 1 ? window.history.back() : navigate({ to: "/treecluster/new" });
   };
 
@@ -31,11 +33,11 @@ function SelectTrees() {
   };
 
   const handleDeleteTree = (treeId: number) => {
-    formStore.removeTree(treeId);
+    setTreeIds((prev) => prev.filter((id) => id !== treeId));
   };
 
   const handleTreeClick = (tree: Tree) => {
-    formStore.addTree(tree.id);
+    setTreeIds((prev) => (!prev.includes(tree.id) ? [...prev, tree.id] : prev));
   };
 
   return (
@@ -43,16 +45,16 @@ function SelectTrees() {
       <MapSelectTreesModal
         onSave={handleSave}
         onCancel={handleCancel}
-        treeIds={formStore.treeIds}
+        treeIds={treeIds}
         title="Bäume auswählen:"
         content={
           <ul className="space-y-3">
-            {(formStore.treeIds?.length || 0) === 0 || showError ? (
+            {(treeIds?.length || 0) === 0 || showError ? (
               <li className="text-red">
                 <p>Bitte wählen Sie mindestens einen Baum aus.</p>
               </li>
             ) : (
-              formStore.treeIds.map((treeId, key, array) => (
+              treeIds.map((treeId, key, array) => (
                 <li key={key}>
                   <SelectedCard treeIds={array} itemId={treeId} onClick={handleDeleteTree} />
                 </li>

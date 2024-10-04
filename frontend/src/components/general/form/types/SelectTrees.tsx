@@ -3,15 +3,12 @@ import useStore from "@/store/store";
 import React from "react";
 import { Plus } from "lucide-react";
 import SelectedCard from "../../cards/SelectedCard";
-import { UseFormRegister } from "react-hook-form";
-import { TreeclusterForm } from "@/schema/treeclusterSchema";
 
 interface SelectTreesProps {
-  onClick: (itemId: number) => void;
-  register: UseFormRegister<TreeclusterForm>;
+  onDelete: (itemId: number) => void;
 }
 
-const SelectTrees: React.FC<SelectTreesProps> = ({ onClick }) => {
+const SelectTrees: React.FC<SelectTreesProps> = ({ onDelete }) => {
   const navigate = useNavigate({ from: "/treecluster/new" });
   const { treeIds } = useStore((state) => ({
     treeIds: state.form.treecluster.treeIds,
@@ -51,7 +48,7 @@ const SelectTrees: React.FC<SelectTreesProps> = ({ onClick }) => {
               <SelectedCard
                 treeIds={treeIds}
                 itemId={treeId}
-                onClick={onClick}
+                onClick={onDelete}
               />
             </li>
           ))
