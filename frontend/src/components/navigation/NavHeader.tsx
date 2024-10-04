@@ -14,6 +14,7 @@ const NavHeader: React.FC<NavHeader> = ({ isOpen, closeSidebar }) => {
           to="/"
           className="block transition-all ease-in-out duration-300 hover:opacity-75" 
           aria-label="Zurück zum persönlichen Dashboard"
+          onClick={closeSidebar}
         >
           <img 
             className="h-4 lg:hidden" 
