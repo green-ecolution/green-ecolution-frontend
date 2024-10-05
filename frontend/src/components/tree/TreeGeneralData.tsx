@@ -6,7 +6,6 @@ interface TreeGeneralData {
     id: number;
     species: string;
     number: number;
-    heightAboveSeaLevel: number;
     plantingYear: number;
     age: number;
     updatedAt: string;
@@ -24,10 +23,6 @@ const TreeGeneralData: React.FC<TreeGeneralData> = ({ tree }) => {
     {
       label: 'Baumart',
       value: tree?.species ?? 'Keine Angabe',
-    },
-    {
-      label: 'Höhe über NHN',
-      value: tree?.heightAboveSeaLevel ?? 'Keine Angabe',
     },
     {
       label: 'Standalter',
