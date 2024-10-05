@@ -1,13 +1,25 @@
-import { TreeClusterCreate, TreeClusterUpdate } from "@green-ecolution/backend-client";
+import {
+    EntitiesTreeSoilCondition,
+  TreeClusterCreate,
+} from "@green-ecolution/backend-client";
 
 interface TreeclusterFormState extends TreeClusterCreate {}
 
+type TreeclusterFormFields = {
+  name: string;
+  address: string;
+  description: string;
+  soilCondition: EntitiesTreeSoilCondition;
+};
+
 type TreeclusterFormActions = {
-  cache: (cluster: TreeClusterCreate | TreeClusterUpdate) => void;
+  cache: (fields: TreeclusterFormFields) => void;
   reset: () => void;
   removeTree: (treeId: number) => void;
   addTree: (treeId: number) => void;
   setTrees: (ids: number[]) => void;
+  isEmpty: () => boolean;
 };
 
-export type TreeclusterFormStore = TreeclusterFormState & TreeclusterFormActions;
+export type TreeclusterFormStore = TreeclusterFormState &
+  TreeclusterFormActions;

@@ -1,24 +1,36 @@
-import { clusterApi, TreeCluster, TreeClusterUpdate } from "@/api/backendApi";
+import {
+  clusterApi,
+  EntitiesTreeSoilCondition,
+  TreeCluster,
+  TreeClusterUpdate,
+} from "@/api/backendApi";
 import queryClient from "@/api/queryClient";
 import FormForTreecluster from "@/components/general/form/FormForTreecluster";
 import { useToast } from "@/hooks/use-toast";
 import { useAuthHeader } from "@/hooks/useAuthHeader";
+import { useStoreSubscribe } from "@/hooks/useReactiveStore";
 import { useTreeClusterForm } from "@/hooks/useTreeclusterForm";
 import { TreeclusterForm } from "@/schema/treeclusterSchema";
 import useStore from "@/store/store";
-import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
+import {
+  queryOptions,
+  useMutation,
+  useSuspenseQuery,
+} from "@tanstack/react-query";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { Suspense, useEffect } from "react";
+import { useEffect } from "react";
 import { SubmitHandler } from "react-hook-form";
 
-const queryParams = (id: string, token: string) => ({
-  queryKey: ["treecluster", id],
-  queryFn: () =>
-    clusterApi.getTreeClusterById({
-      authorization: token,
-      clusterId: id,
-    }),
-});
+const queryParams = (id: string, token: string, skip?: boolean) =>
+  queryOptions({
+    queryKey: ["treecluster", id],
+    queryFn: () =>
+      clusterApi.getTreeClusterById({
+        authorization: token,
+        clusterId: id,
+      }),
+    enabled: !skip,
+  });
 
 export const Route = createFileRoute(
   "/_protected/treecluster/$treecluster/edit",
@@ -31,9 +43,13 @@ export const Route = createFileRoute(
     );
   },
   onLeave: () => {
-    useStore.getState().form.treecluster.reset();
+    // useStore.getState().form.treecluster.reset();
   },
 });
+
+const logger: Parameters<typeof useStore.subscribe>[0] = (state) => {
+  console.log("form treecluster", state.form.treecluster);
+};
 
 function EditTreeCluster() {
   const authorization = useAuthHeader();
@@ -41,18 +57,32 @@ function EditTreeCluster() {
   const navigate = useNavigate({ from: Route.fullPath });
   const formStore = useStore((state) => state.form.treecluster);
   const { toast } = useToast();
-  const { data } = useSuspenseQuery(queryParams(clusterId, authorization));
+  const { data } = useSuspenseQuery(
+    queryParams(clusterId, authorization, formStore.isEmpty()),
+  );
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useTreeClusterForm({
-    name: data.name,
-    address: data.address,
-    description: data.description,
-    soilCondition: data.soilCondition,
-    treeIds: data.trees.map((tree) => tree.id),
+    name: formStore.name === "" ? data.name : formStore.name,
+    address: formStore.address === "" ? data.address : formStore.address,
+    description:
+      formStore.description === "" ? data.description : formStore.description,
+    soilCondition:
+      formStore.soilCondition ===
+      EntitiesTreeSoilCondition.TreeSoilConditionUnknown
+        ? data.soilCondition
+        : formStore.soilCondition,
   });
+  useStoreSubscribe(logger);
+
+  useEffect(() => {
+    if (formStore.isEmpty()) {
+      formStore.setTrees(data.trees.map((tree) => tree.id));
+    }
+  }, [data.trees]);
 
   const { isError, mutate } = useMutation({
     mutationFn: (body: TreeClusterUpdate) =>

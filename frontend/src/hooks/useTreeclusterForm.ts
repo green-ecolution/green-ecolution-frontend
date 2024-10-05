@@ -1,19 +1,19 @@
-import { useForm } from "react-hook-form";
+import { DefaultValues, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { TreeclusterForm, TreeclusterSchema } from "@/schema/treeclusterSchema";
 import { useEffect } from "react";
 import useStore from "@/store/store";
+import { EntitiesTreeSoilCondition } from "@green-ecolution/backend-client";
 
-export const useTreeClusterForm = (defaultValues: TreeclusterForm) => {
-  const { cache, cluster } = useStore((state) => ({
+type AsyncDefaultValues<T> = (payload?: unknown) => Promise<T>;
+
+export const useTreeClusterForm = (
+  defaultValues?:
+    | DefaultValues<TreeclusterForm>
+    | AsyncDefaultValues<TreeclusterForm>,
+) => {
+  const { cache } = useStore((state) => ({
     cache: state.form.treecluster.cache,
-    cluster: {
-      treeIds: state.form.treecluster.treeIds,
-      name: state.form.treecluster.name,
-      address: state.form.treecluster.address,
-      description: state.form.treecluster.description,
-      soilCondition: state.form.treecluster.soilCondition,
-    },
   }));
 
   const form = useForm<TreeclusterForm>({
@@ -23,13 +23,14 @@ export const useTreeClusterForm = (defaultValues: TreeclusterForm) => {
 
   useEffect(() => {
     const { unsubscribe } = form.watch((value) => {
+      console.log(value);
       cache({
-        treeIds:
-          value.treeIds?.filter((id): id is number => !!id) ?? cluster.treeIds,
-        name: value.name ?? cluster.name,
-        address: value.address ?? cluster.address,
-        description: value.description ?? cluster.description,
-        soilCondition: value.soilCondition ?? cluster.soilCondition,
+        name: value.name ?? "",
+        address: value.address ?? "",
+        description: value.description ?? "",
+        soilCondition:
+          value.soilCondition ??
+          EntitiesTreeSoilCondition.TreeSoilConditionUnknown,
       });
     });
 

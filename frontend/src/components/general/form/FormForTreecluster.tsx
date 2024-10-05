@@ -38,38 +38,28 @@ const FormForTreecluster: React.FC<FormForTreeclusterProps> = ({
       onSubmit={handleSubmit(onSubmit)}
     >
       <div className="space-y-6">
-        <Input<TreeclusterForm>
-          name="name"
-          placeholder="Name"
-          label="Name der Bewässerungsgruppe"
-          required
-          register={register}
+        <Input
+          label="Name"
           error={errors.name?.message}
+          {...register("name")}
         />
-        <Input<TreeclusterForm>
-          name="address"
-          placeholder="Adresse"
+        <Input
           label="Adresse"
-          required
-          register={register}
           error={errors.address?.message}
+          {...register("address")}
         />
-        <Select<TreeclusterForm>
-          name="soilCondition"
+        <Select
           options={SoilConditionOptions}
           placeholder="Wählen Sie eine Bodenbeschaffenheit aus"
           label="Bodenbeschaffenheit"
-          required
-          register={register}
           error={errors.soilCondition?.message}
+          {...register("soilCondition")}
         />
-        <Textarea<TreeclusterForm>
-          name="description"
+        <Textarea
           placeholder="Hier ist Platz für Notizen"
           label="Kurze Beschreibung"
-          required
-          register={register}
           error={errors.description?.message}
+          {...register("description")}
         />
       </div>
 

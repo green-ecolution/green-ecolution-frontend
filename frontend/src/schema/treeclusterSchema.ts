@@ -14,7 +14,6 @@ export const TreeclusterSchema = () =>
           message: "Keine korrekte Bodenbeschaffenheit.",
         },
       ),
-    treeIds: z.array(z.number()),
   });
 
 export type TreeclusterForm = z.infer<ReturnType<typeof TreeclusterSchema>>;

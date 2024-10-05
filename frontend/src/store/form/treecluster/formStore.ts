@@ -12,7 +12,6 @@ export const treeclusterStore: SubStore<TreeclusterFormStore> = (set, get) => ({
   treeIds: [],
   cache: (cluster) => {
     set((state) => {
-      state.form.treecluster.treeIds = cluster.treeIds;
       state.form.treecluster.name = cluster.name;
       state.form.treecluster.address = cluster.address;
       state.form.treecluster.description = cluster.description;
@@ -47,5 +46,12 @@ export const treeclusterStore: SubStore<TreeclusterFormStore> = (set, get) => ({
     set((state) => {
       state.form.treecluster.treeIds = ids;
     });
-  }
+  },
+  isEmpty: () => {
+    return get().form.treecluster.treeIds.length === 0 
+      && !get().form.treecluster.name 
+      && !get().form.treecluster.address 
+      && !get().form.treecluster.description 
+      && get().form.treecluster.soilCondition === EntitiesTreeSoilCondition.TreeSoilConditionUnknown
+  },
 });
