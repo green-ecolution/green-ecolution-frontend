@@ -2,7 +2,7 @@ import { clusterApi, TreeCluster, TreeClusterUpdate } from "@/api/backendApi";
 import queryClient from "@/api/queryClient";
 import FormForTreecluster from "@/components/general/form/FormForTreecluster";
 import { useFormSync } from "@/hooks/form/useFormSync";
-import { useInitTreeClusterForm } from "@/hooks/form/useInitForm";
+import { useInitFormQuery } from "@/hooks/form/useInitForm";
 import { useAuthHeader } from "@/hooks/useAuthHeader";
 import { TreeclusterSchema } from "@/schema/treeclusterSchema";
 import useFormStore, { FormStore } from "@/store/form/useFormStore";
@@ -14,7 +14,7 @@ import { useCallback } from "react";
 import { SubmitHandler } from "react-hook-form";
 
 const queryParams = (id: string, token: string) =>
-  queryOptions({
+  queryOptions<TreeCluster>({
     queryKey: ["treescluster", id],
     queryFn: () =>
       clusterApi.getTreeClusterById({
@@ -42,7 +42,16 @@ function EditTreeCluster() {
   const authorization = useAuthHeader();
   const clusterId = Route.useParams().treecluster;
   const navigate = useNavigate({ from: Route.fullPath });
-  const {initForm, loadedData } = useInitTreeClusterForm(clusterId);
+  const {initForm, loadedData } = useInitFormQuery<TreeCluster, TreeclusterSchema>(
+    queryParams(clusterId, authorization),
+    (data) => ({
+      name: data.name,
+      address: data.address,
+      description: data.description,
+      soilCondition: data.soilCondition,
+      treeIds: data.trees.map((tree) => tree.id),
+    }),
+  );
 
   const formStore = useFormStore((state: FormStore<TreeclusterSchema>) => ({
     form: state.form,

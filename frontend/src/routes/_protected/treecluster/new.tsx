@@ -1,13 +1,18 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { clusterApi, TreeClusterCreate } from "@/api/backendApi";
+import {
+  clusterApi,
+  EntitiesTreeSoilCondition,
+  TreeClusterCreate,
+} from "@/api/backendApi";
 import { SubmitHandler } from "react-hook-form";
 import { useAuthHeader } from "@/hooks/useAuthHeader";
-import useStore from "@/store/store";
 import { TreeclusterSchema } from "@/schema/treeclusterSchema";
-import { useTreeClusterForm } from "@/hooks/useTreeclusterForm";
 import { useMutation } from "@tanstack/react-query";
-import { useToast } from "@/hooks/use-toast";
 import FormForTreecluster from "@/components/general/form/FormForTreecluster";
+import useFormStore, { FormStore } from "@/store/form/useFormStore";
+import { useFormSync } from "@/hooks/form/useFormSync";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useInitForm } from "@/hooks/form/useInitForm";
 
 export const Route = createFileRoute("/_protected/treecluster/new")({
   component: NewTreecluster,
@@ -16,13 +21,23 @@ export const Route = createFileRoute("/_protected/treecluster/new")({
 function NewTreecluster() {
   const authorization = useAuthHeader();
   const navigate = useNavigate({ from: Route.fullPath });
-  const formStore = useStore((state) => state.form.treecluster);
-  const { toast } = useToast();
+  const { initForm } = useInitForm<TreeclusterSchema>({
+    name: "",
+    address: "",
+    description: "",
+    soilCondition: EntitiesTreeSoilCondition.TreeSoilConditionUnknown,
+    treeIds: [],
+  });
+  const formStore = useFormStore((state: FormStore<TreeclusterSchema>) => ({
+    form: state.form,
+    reset: state.reset,
+  }));
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useTreeClusterForm(formStore);
+  } = useFormSync<TreeclusterSchema>(initForm, zodResolver(TreeclusterSchema));
 
   const { isError, mutate } = useMutation({
     mutationFn: (cluster: TreeClusterCreate) =>
@@ -31,10 +46,6 @@ function NewTreecluster() {
         body: cluster,
       }),
     onSuccess: (data) => {
-      toast({
-        title: "Bewässerungsgruppe erstellt",
-        description: "Die Bewässerungsgruppe wurde erfolgreich erstellt.",
-      }); // TODO: Replace with our own toast
       formStore.reset();
       navigate({
         to: `/treecluster/${data.id}`,
@@ -42,17 +53,15 @@ function NewTreecluster() {
       });
     },
     onError: () => {
-      toast({
-        title: "Fehler",
-        description: "Es ist ein Fehler aufgetreten.",
-      }); // TODO: Replace with our own toast
+      console.error("Error creating treecluster");
     },
   });
 
   const onSubmit: SubmitHandler<TreeclusterSchema> = async (data) => {
     mutate({
       ...data,
-      treeIds: formStore.treeIds,
+      description: formStore.form?.description ?? "",
+      treeIds: formStore.form?.treeIds ?? [],
     });
   };
 

@@ -9,7 +9,7 @@ type FormStoreState<Form> = {
 };
 
 type FormStoreActions<Form> = {
-  commit: (form: DeepPartial<Form>) => void;
+  commit: (form?: Form | DeepPartial<Form>) => void;
   reset: () => void;
   isEmpty: () => boolean;
 };
