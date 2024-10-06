@@ -14,6 +14,7 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as LogoutImport } from './routes/logout'
 import { Route as LoginImport } from './routes/login'
 import { Route as ProtectedImport } from './routes/_protected'
+import { Route as IndexImport } from './routes/index'
 import { Route as ProtectedIndexImport } from './routes/_protected/index'
 import { Route as AuthCallbackImport } from './routes/auth/callback'
 import { Route as ProtectedVehiclesImport } from './routes/_protected/vehicles'
@@ -50,6 +51,11 @@ const LoginRoute = LoginImport.update({
 
 const ProtectedRoute = ProtectedImport.update({
   id: '/_protected',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const IndexRoute = IndexImport.update({
+  path: '/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -164,6 +170,13 @@ const ProtectedMapTreeclusterSelectTreeRoute =
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexImport
+      parentRoute: typeof rootRoute
+    }
     '/_protected': {
       id: '/_protected'
       path: ''
@@ -338,6 +351,7 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 export const routeTree = rootRoute.addChildren({
+  IndexRoute,
   ProtectedRoute: ProtectedRoute.addChildren({
     ProtectedDebugRoute,
     ProtectedInfoRoute,
@@ -374,11 +388,15 @@ export const routeTree = rootRoute.addChildren({
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
+        "/",
         "/_protected",
         "/login",
         "/logout",
         "/auth/callback"
       ]
+    },
+    "/": {
+      "filePath": "index.tsx"
     },
     "/_protected": {
       "filePath": "_protected.tsx",
