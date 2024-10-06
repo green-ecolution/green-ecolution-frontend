@@ -3,7 +3,7 @@ import FileUpload from '@/components/general/fileUpload/FileUpload';
 import GeneralStatusCard from '@/components/general/cards/GeneralStatusCard';
 import Modal from '@/components/general/form/Modal';
 import PrimaryButton from '@/components/general/buttons/PrimaryButton';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTrees } from '@/hooks/useTrees';
 
 export const Route = createFileRoute('/_protected/settings/import')({
@@ -24,16 +24,16 @@ function ImportFile() {
   }
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files && event.target.files.length === 1) {
-      const file = event.target.files[0];
-      
-      if (file.type !== "text/csv") {
-        setMessage("Es sind nur CSV-Dateien erlaubt.");
-        return;
-      }
+    if (!event.target.files) return;
+    if (event.target.files.length === 0) setFile(null);
 
-      setFile(event.target.files[0]);
+    const file = event.target.files[0];
+    if (file.type !== "text/csv") {
+      setMessage("Es sind nur CSV-Dateien erlaubt.");
+      return;
     }
+
+    setFile(event.target.files[0]);
   };
 
   const handleConfirm = async () => {
@@ -76,7 +76,7 @@ function ImportFile() {
         'Am 20.05.2024 wurde das letzte Mal die Bäume anhand einer CSV Datei importiert.',
     },
   ];
-
+  
   return (
     <div className="container mt-6">
       <article className="2xl:w-4/5">
