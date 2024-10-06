@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import FilterButton from '../buttons/FilterButton';
 import PrimaryButton from '../buttons/PrimaryButton';
 import SecondaryButton from '../buttons/SecondaryButton';
-import { MoveRight, X } from 'lucide-react';
+import { X } from 'lucide-react';
 import useOutsideClick from '@/hooks/useOutsideClick';
 import Option from './Option';
 import { useNavigate } from '@tanstack/react-router';
 import { useSuspenseQuery } from '@tanstack/react-query';
-import { EntitiesTreeClusterWateringStatus, regionApi } from '@/api/backendApi';
+import { EntitiesWateringStatus, regionApi } from '@/api/backendApi';
 import { useAuthHeader } from '@/hooks/useAuthHeader';
 import { getWateringStatusDetails } from '@/hooks/useDetailsForWateringStatus';
 
@@ -96,8 +96,7 @@ const Dialog: React.FC<DialogProps> = ({ initStatusTags, initRegionTags, headlin
 
         <fieldset>
           <legend className="font-lato font-semibold text-dark-600 mb-2">Zustand der Bewässerung:</legend>
-          {Object.entries(EntitiesTreeClusterWateringStatus)
-            .filter(([key]) => key !== 'TreeClusterWateringStatusUnknown')
+          {Object.entries(EntitiesWateringStatus)
             .map(([statusKey, statusValue]) => (
               <Option
                 key={statusKey}
@@ -125,9 +124,7 @@ const Dialog: React.FC<DialogProps> = ({ initStatusTags, initRegionTags, headlin
         </fieldset>
 
         <div className="flex flex-wrap gap-5 mt-6">
-          <PrimaryButton label="Anwenden" icon={
-            <MoveRight className="transition-all ease-in-out duration-300 group-hover:translate-x-2" />
-          } type="button" onClick={applyFilters} />
+          <PrimaryButton label="Anwenden" type="button" onClick={applyFilters} />
           <SecondaryButton label="Zurücksetzen" onClick={resetFilters} />
         </div>
       </section>
