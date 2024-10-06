@@ -79,6 +79,7 @@ function EditTreeCluster() {
   const onSubmit: SubmitHandler<TreeclusterSchema> = async (data) => {
     mutate({
       ...data,
+      description: formStore.form?.description ?? "",
       treeIds: formStore.form?.treeIds ?? [],
     });
   };

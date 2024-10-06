@@ -49,10 +49,12 @@ const FormForTreecluster: React.FC<FormForTreeclusterProps> = ({
         <Input
           label="Name"
           error={errors.name?.message}
-          {...register("name")}
+          required
+          {...register("name", {})}
         />
         <Input
           label="Adresse"
+          required
           error={errors.address?.message}
           {...register("address")}
         />
@@ -60,6 +62,7 @@ const FormForTreecluster: React.FC<FormForTreeclusterProps> = ({
           options={SoilConditionOptions}
           placeholder="Wählen Sie eine Bodenbeschaffenheit aus"
           label="Bodenbeschaffenheit"
+          required
           error={errors.soilCondition?.message}
           {...register("soilCondition")}
         />

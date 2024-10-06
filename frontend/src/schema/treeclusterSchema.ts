@@ -4,7 +4,7 @@ import { z } from "zod";
 export const TreeclusterSchema = z.object({
   name: z.string().min(1, "Name ist erforderlich.").default(""),
   address: z.string().min(1, "Adresse ist erforderlich.").default(""),
-  description: z.string().min(1, "Beschreibung ist erforderlich.").default(""),
+  description: z.string().min(1, "Beschreibung ist erforderlich.").optional(),
   soilCondition: z
     .nativeEnum(EntitiesTreeSoilCondition)
     .refine(
