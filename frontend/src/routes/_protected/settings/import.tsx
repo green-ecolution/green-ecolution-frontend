@@ -24,7 +24,14 @@ function ImportFile() {
   }
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files && event.target.files.length > 0) {
+    if (event.target.files && event.target.files.length === 1) {
+      const file = event.target.files[0];
+      
+      if (file.type !== "text/csv") {
+        setMessage("Es sind nur CSV-Dateien erlaubt.");
+        return;
+      }
+
       setFile(event.target.files[0]);
     }
   };
