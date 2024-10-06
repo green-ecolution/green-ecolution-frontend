@@ -13,8 +13,12 @@ import useFormStore, { FormStore } from "@/store/form/useFormStore";
 import { useFormSync } from "@/hooks/form/useFormSync";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useInitForm } from "@/hooks/form/useInitForm";
+import useStore from "@/store/store";
 
-export const Route = createFileRoute("/_protected/treecluster/new")({
+export const Route = createFileRoute("/_protected/treecluster/_formular/new")({
+  beforeLoad: () => {
+    useFormStore.getState().setType("new");
+  },
   component: NewTreecluster,
 });
 
@@ -33,6 +37,12 @@ function NewTreecluster() {
     reset: state.reset,
   }));
 
+  const mapPosition = useStore((state) => ({
+    lat: state.map.center[0],
+    lng: state.map.center[1],
+    zoom: state.map.zoom,
+  }));
+
   const {
     register,
     handleSubmit,
@@ -49,6 +59,7 @@ function NewTreecluster() {
       formStore.reset();
       navigate({
         to: `/treecluster/${data.id}`,
+        search: { resetStore: false },
         replace: true,
       });
     },
@@ -62,6 +73,17 @@ function NewTreecluster() {
       ...data,
       description: formStore.form?.description ?? "",
       treeIds: formStore.form?.treeIds ?? [],
+    });
+  };
+
+  const navigateToTreeSelect = () => {
+    navigate({
+      to: "/map/treecluster/select/tree",
+      search: {
+        lat: mapPosition.lat,
+        lng: mapPosition.lng,
+        zoom: mapPosition.zoom,
+      },
     });
   };
 
@@ -84,6 +106,7 @@ function NewTreecluster() {
           displayError={isError}
           errors={errors}
           onSubmit={onSubmit}
+          onAddTrees={navigateToTreeSelect}
         />
       </section>
     </div>

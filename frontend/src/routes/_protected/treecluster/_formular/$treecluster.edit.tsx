@@ -24,17 +24,17 @@ const queryParams = (id: string, token: string) =>
   });
 
 export const Route = createFileRoute(
-  "/_protected/treecluster/$treecluster/edit",
+  "/_protected/treecluster/_formular/$treecluster/edit",
 )({
   component: EditTreeCluster,
+  beforeLoad: () => {
+    useFormStore.getState().setType("edit");
+  },
   loader: ({ params: { treecluster } }) => {
     const token = useStore.getState().auth.token?.accessToken ?? "";
     return queryClient.ensureQueryData(
       queryParams(treecluster, `Bearer ${token}`),
     );
-  },
-  onLeave: () => {
-    // useFormStore.getState().reset();
   },
 });
 
@@ -42,16 +42,22 @@ function EditTreeCluster() {
   const authorization = useAuthHeader();
   const clusterId = Route.useParams().treecluster;
   const navigate = useNavigate({ from: Route.fullPath });
-  const {initForm, loadedData } = useInitFormQuery<TreeCluster, TreeclusterSchema>(
-    queryParams(clusterId, authorization),
-    (data) => ({
-      name: data.name,
-      address: data.address,
-      description: data.description,
-      soilCondition: data.soilCondition,
-      treeIds: data.trees.map((tree) => tree.id),
-    }),
-  );
+  const { initForm, loadedData } = useInitFormQuery<
+    TreeCluster,
+    TreeclusterSchema
+  >(queryParams(clusterId, authorization), (data) => ({
+    name: data.name,
+    address: data.address,
+    description: data.description,
+    soilCondition: data.soilCondition,
+    treeIds: data.trees.map((tree) => tree.id),
+  }));
+
+  const mapPosition = useStore((state) => ({
+    lat: state.map.center[0],
+    lng: state.map.center[1],
+    zoom: state.map.zoom,
+  }));
 
   const formStore = useFormStore((state: FormStore<TreeclusterSchema>) => ({
     form: state.form,
@@ -77,6 +83,7 @@ function EditTreeCluster() {
     console.log("reset", formStore.form);
     navigate({
       to: `/treecluster/${data.id}`,
+      search: { resetStore: false },
       replace: true,
     });
   }, []);
@@ -90,6 +97,18 @@ function EditTreeCluster() {
       ...data,
       description: formStore.form?.description ?? "",
       treeIds: formStore.form?.treeIds ?? [],
+    });
+  };
+
+  const navigateToTreeSelect = () => {
+    navigate({
+      to: "/map/treecluster/select/tree",
+      search: {
+        lat: mapPosition.lat,
+        lng: mapPosition.lng,
+        zoom: mapPosition.zoom,
+        clusterId: Number(clusterId),
+      },
     });
   };
 
@@ -120,6 +139,7 @@ function EditTreeCluster() {
               displayError={isError}
               errors={errors}
               onSubmit={onSubmit}
+              onAddTrees={navigateToTreeSelect}
             />
           </section>
         </div>

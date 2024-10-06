@@ -6,12 +6,14 @@ import { DeepPartial } from "react-hook-form";
 
 type FormStoreState<Form> = {
   form?: Form;
+  type: "edit" | "new";
 };
 
 type FormStoreActions<Form> = {
   commit: (form?: Form | DeepPartial<Form>) => void;
   reset: () => void;
   isEmpty: () => boolean;
+  setType: (type: "edit" | "new") => void;
 };
 
 export type FormStore<T> = FormStoreState<T> & FormStoreActions<T>;
@@ -21,6 +23,7 @@ const useFormStore = create<FormStore<any>>()(
     immer(
       subscribeWithSelector((set, get) => ({
         form: undefined,
+        type: "new",
         commit: (form) => {
           console.log("commit", form);
           set((state) => {
@@ -36,6 +39,11 @@ const useFormStore = create<FormStore<any>>()(
         },
         isEmpty: () => {
           return get().form === undefined;
+        },
+        setType: (type) => {
+          set((state) => {
+            state.type = type;
+          });
         },
       })),
     ),

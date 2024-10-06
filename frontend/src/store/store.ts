@@ -8,16 +8,11 @@ import { userStore } from "./user/userStore";
 import { authStore } from "./auth/authStore";
 import { MapStore } from "./map/types";
 import { mapStore } from "./map/mapStore";
-import { TreeclusterFormStore } from "./form/treecluster/types";
-import { treeclusterStore } from "./form/treecluster/formStore";
 
 export interface Store {
   auth: AuthStore;
   user: UserStore;
   map: MapStore;
-  form: {
-    treecluster: TreeclusterFormStore;
-  };
 }
 
 export type SubStore<T> = (
@@ -37,9 +32,6 @@ const useStore = create<Store>()(
       auth: authStore(set, get),
       user: userStore(set, get),
       map: mapStore(set, get),
-      form: {
-        treecluster: treeclusterStore(set, get),
-      },
     })),
   ),
 );
@@ -47,6 +39,5 @@ const useStore = create<Store>()(
 export const useAuthStore = () => useStore((state) => state.auth);
 export const useUserStore = () => useStore((state) => state.user);
 export const useMapStore = () => useStore((state) => state.map);
-export const useTreeclusterFormStore = () => useStore((state) => state.form.treecluster);
 
 export default useStore;

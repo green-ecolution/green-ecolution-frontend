@@ -17,6 +17,7 @@ interface FormForTreeclusterProps {
   handleSubmit: (
     onSubmit: SubmitHandler<TreeclusterSchema>,
   ) => (e?: React.BaseSyntheticEvent) => Promise<void>;
+  onAddTrees: () => void;
 }
 
 const FormForTreecluster: React.FC<FormForTreeclusterProps> = ({
@@ -25,6 +26,7 @@ const FormForTreecluster: React.FC<FormForTreeclusterProps> = ({
   register,
   errors,
   onSubmit,
+  onAddTrees,
 }) => {
   const { form, set } = useFormStore((state: FormStore<TreeclusterSchema>) => ({
     form: state.form,
@@ -74,7 +76,7 @@ const FormForTreecluster: React.FC<FormForTreeclusterProps> = ({
         />
       </div>
 
-      <SelectTrees onDelete={handleDeleteTree} treeIds={form?.treeIds ?? []} />
+      <SelectTrees onDelete={handleDeleteTree} treeIds={form?.treeIds ?? []} onAddTrees={onAddTrees} />
 
       <p
         className={`text-red font-medium mt-10 ${displayError ? "" : "hidden"}`}
