@@ -1,35 +1,26 @@
-import {
-  clusterApi,
-  EntitiesTreeSoilCondition,
-  TreeCluster,
-  TreeClusterUpdate,
-} from "@/api/backendApi";
+import { clusterApi, TreeCluster, TreeClusterUpdate } from "@/api/backendApi";
 import queryClient from "@/api/queryClient";
 import FormForTreecluster from "@/components/general/form/FormForTreecluster";
-import { useToast } from "@/hooks/use-toast";
+import { useFormSync } from "@/hooks/form/useFormSync";
+import { useInitTreeClusterForm } from "@/hooks/form/useInitForm";
 import { useAuthHeader } from "@/hooks/useAuthHeader";
-import { useStoreSubscribe } from "@/hooks/useReactiveStore";
-import { useTreeClusterForm } from "@/hooks/useTreeclusterForm";
-import { TreeclusterForm } from "@/schema/treeclusterSchema";
+import { TreeclusterSchema } from "@/schema/treeclusterSchema";
+import useFormStore, { FormStore } from "@/store/form/useFormStore";
 import useStore from "@/store/store";
-import {
-  queryOptions,
-  useMutation,
-  useSuspenseQuery,
-} from "@tanstack/react-query";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { queryOptions, useMutation } from "@tanstack/react-query";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useEffect } from "react";
+import { useCallback } from "react";
 import { SubmitHandler } from "react-hook-form";
 
-const queryParams = (id: string, token: string, skip?: boolean) =>
+const queryParams = (id: string, token: string) =>
   queryOptions({
-    queryKey: ["treecluster", id],
+    queryKey: ["treescluster", id],
     queryFn: () =>
       clusterApi.getTreeClusterById({
         authorization: token,
         clusterId: id,
       }),
-    enabled: !skip,
   });
 
 export const Route = createFileRoute(
@@ -43,46 +34,26 @@ export const Route = createFileRoute(
     );
   },
   onLeave: () => {
-    // useStore.getState().form.treecluster.reset();
+    // useFormStore.getState().reset();
   },
 });
-
-const logger: Parameters<typeof useStore.subscribe>[0] = (state) => {
-  console.log("form treecluster", state.form.treecluster);
-};
 
 function EditTreeCluster() {
   const authorization = useAuthHeader();
   const clusterId = Route.useParams().treecluster;
   const navigate = useNavigate({ from: Route.fullPath });
-  const formStore = useStore((state) => state.form.treecluster);
-  const { toast } = useToast();
-  const { data } = useSuspenseQuery(
-    queryParams(clusterId, authorization, formStore.isEmpty()),
-  );
+  const {initForm, loadedData } = useInitTreeClusterForm(clusterId);
+
+  const formStore = useFormStore((state: FormStore<TreeclusterSchema>) => ({
+    form: state.form,
+    reset: state.reset,
+  }));
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useTreeClusterForm({
-    name: formStore.name === "" ? data.name : formStore.name,
-    address: formStore.address === "" ? data.address : formStore.address,
-    description:
-      formStore.description === "" ? data.description : formStore.description,
-    soilCondition:
-      formStore.soilCondition ===
-      EntitiesTreeSoilCondition.TreeSoilConditionUnknown
-        ? data.soilCondition
-        : formStore.soilCondition,
-  });
-  useStoreSubscribe(logger);
-
-  useEffect(() => {
-    if (formStore.isEmpty()) {
-      formStore.setTrees(data.trees.map((tree) => tree.id));
-    }
-  }, [data.trees]);
+  } = useFormSync<TreeclusterSchema>(initForm, zodResolver(TreeclusterSchema));
 
   const { isError, mutate } = useMutation({
     mutationFn: (body: TreeClusterUpdate) =>
@@ -91,29 +62,24 @@ function EditTreeCluster() {
     onError: () => onUpdateError(),
   });
 
-  const onUpdateSuccess = (data: TreeCluster) => {
-    toast({
-      title: "Bewässerungsgruppe aktualisiert",
-      description: "Die Bewässerungsgruppe wurde erfolgreich aktualisiert.",
-    });
+  const onUpdateSuccess = useCallback((data: TreeCluster) => {
+    console.log("Treecluster updated", data);
     formStore.reset();
+    console.log("reset", formStore.form);
     navigate({
       to: `/treecluster/${data.id}`,
       replace: true,
     });
-  };
+  }, []);
 
   const onUpdateError = () => {
-    toast({
-      title: "Fehler",
-      description: "Es ist ein Fehler aufgetreten.",
-    });
+    console.error("Error updating treecluster");
   };
 
-  const onSubmit: SubmitHandler<TreeclusterForm> = async (data) => {
+  const onSubmit: SubmitHandler<TreeclusterSchema> = async (data) => {
     mutate({
       ...data,
-      treeIds: formStore.treeIds,
+      treeIds: formStore.form?.treeIds ?? [],
     });
   };
 
@@ -128,7 +94,7 @@ function EditTreeCluster() {
         <div>
           <article className="2xl:w-4/5">
             <h1 className="font-lato font-bold text-3xl mb-4 lg:text-4xl xl:text-5xl">
-              Bewässerungsgruppe {data.name} bearbeiten
+              Bewässerungsgruppe {loadedData?.name} bearbeiten
             </h1>
             <p className="mb-5">
               Labore est cillum aliqua do consectetur. Do anim officia sunt

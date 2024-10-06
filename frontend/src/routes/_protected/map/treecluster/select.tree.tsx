@@ -1,10 +1,11 @@
 import MapSelectTreesModal from "@/components/map/MapSelectTreesModal";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import useStore from "@/store/store";
 import { Tree } from "@green-ecolution/backend-client";
 import { WithAllTrees } from "@/components/map/TreeMarker";
 import { useState } from "react";
 import SelectedCard from "@/components/general/cards/SelectedCard";
+import useFormStore, { FormStore } from "@/store/form/useFormStore";
+import { TreeclusterSchema } from "@/schema/treeclusterSchema";
 
 export const Route = createFileRoute("/_protected/map/treecluster/select/tree")(
   {
@@ -13,8 +14,14 @@ export const Route = createFileRoute("/_protected/map/treecluster/select/tree")(
 );
 
 function SelectTrees() {
-  const formStore = useStore((state) => state.form.treecluster);
-  const [treeIds, setTreeIds] = useState<number[]>(formStore.treeIds);
+  const { form, storeTreeIds, set } = useFormStore(
+    (state: FormStore<TreeclusterSchema>) => ({
+      form: state.form,
+      storeTreeIds: state.form?.treeIds ?? [],
+      set: state.commit,
+    }),
+  );
+  const [treeIds, setTreeIds] = useState<number[]>(storeTreeIds);
   const [showError, setShowError] = useState(false);
   const navigate = useNavigate({ from: Route.fullPath });
 
@@ -24,12 +31,21 @@ function SelectTrees() {
       return;
     }
 
-    formStore.setTrees(treeIds);
-    window.history.length > 1 ? window.history.back() : navigate({ to: "/treecluster/new" });
+    form &&
+      set({
+        ...form,
+        treeIds,
+      });
+
+    window.history.length > 1
+      ? window.history.back()
+      : navigate({ to: "/treecluster/new" });
   };
 
   const handleCancel = () => {
-    window.history.length > 1 ? window.history.back() : navigate({ to: "/treecluster/new" });
+    window.history.length > 1
+      ? window.history.back()
+      : navigate({ to: "/treecluster/new" });
   };
 
   const handleDeleteTree = (treeId: number) => {
@@ -56,7 +72,11 @@ function SelectTrees() {
             ) : (
               treeIds.map((treeId, key, array) => (
                 <li key={key}>
-                  <SelectedCard treeIds={array} itemId={treeId} onClick={handleDeleteTree} />
+                  <SelectedCard
+                    treeIds={array}
+                    itemId={treeId}
+                    onClick={handleDeleteTree}
+                  />
                 </li>
               ))
             )}

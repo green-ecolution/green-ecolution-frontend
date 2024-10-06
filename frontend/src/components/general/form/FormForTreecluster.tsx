@@ -6,16 +6,16 @@ import Textarea from "./types/Textarea";
 import SelectTrees from "./types/SelectTrees";
 import { FieldErrors, SubmitHandler, UseFormRegister } from "react-hook-form";
 import { SoilConditionOptions } from "@/hooks/useDetailsForSoilCondition";
-import { TreeclusterForm } from "@/schema/treeclusterSchema";
-import useStore from "@/store/store";
+import { TreeclusterSchema } from "@/schema/treeclusterSchema";
+import useFormStore, { FormStore } from "@/store/form/useFormStore";
 
 interface FormForTreeclusterProps {
   displayError: boolean;
-  register: UseFormRegister<TreeclusterForm>;
-  errors: FieldErrors<TreeclusterForm>;
-  onSubmit: SubmitHandler<TreeclusterForm>;
+  register: UseFormRegister<TreeclusterSchema>;
+  errors: FieldErrors<TreeclusterSchema>;
+  onSubmit: SubmitHandler<TreeclusterSchema>;
   handleSubmit: (
-    onSubmit: SubmitHandler<TreeclusterForm>,
+    onSubmit: SubmitHandler<TreeclusterSchema>,
   ) => (e?: React.BaseSyntheticEvent) => Promise<void>;
 }
 
@@ -26,10 +26,18 @@ const FormForTreecluster: React.FC<FormForTreeclusterProps> = ({
   errors,
   onSubmit,
 }) => {
-  const { treeIds, removeTree } = useStore((state) => ({
-    treeIds: state.form.treecluster.treeIds,
-    removeTree: state.form.treecluster.removeTree,
+  const { form, set } = useFormStore((state: FormStore<TreeclusterSchema>) => ({
+    form: state.form,
+    set: state.commit,
   }));
+
+  const handleDeleteTree = (treeId: number) => {
+    form &&
+      set({
+        ...form,
+        treeIds: form?.treeIds.filter((id) => id !== treeId) ?? [],
+      });
+  };
 
   return (
     <form
@@ -63,7 +71,7 @@ const FormForTreecluster: React.FC<FormForTreeclusterProps> = ({
         />
       </div>
 
-      <SelectTrees onDelete={removeTree} />
+      <SelectTrees onDelete={handleDeleteTree} treeIds={form?.treeIds ?? []} />
 
       <p
         className={`text-red font-medium mt-10 ${displayError ? "" : "hidden"}`}
@@ -75,7 +83,7 @@ const FormForTreecluster: React.FC<FormForTreeclusterProps> = ({
       <PrimaryButton
         type="submit"
         label="Speichern"
-        disabled={Object.keys(errors).length > 0 || treeIds.length === 0}
+        disabled={Object.keys(errors).length > 0 || form?.treeIds.length === 0}
         className="mt-10 lg:col-span-full lg:w-fit"
       />
     </form>

@@ -1,46 +1,44 @@
-import {
-  TreeClusterCreate,
-  TreeClusterUpdate,
-} from "@green-ecolution/backend-client";
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
+import { subscribeWithSelector } from "zustand/middleware";
+import { DeepPartial } from "react-hook-form";
 
-type TreeClusterForm = TreeClusterCreate | TreeClusterUpdate;
-
-type Form = TreeClusterForm;
-type FormStoreState = {
-  id: string;
+type FormStoreState<Form> = {
   form?: Form;
 };
 
-type FormStoreActions = {
-  cache: (form: Form) => string;
-  reset: (id: string) => void;
+type FormStoreActions<Form> = {
+  commit: (form: DeepPartial<Form>) => void;
+  reset: () => void;
+  isEmpty: () => boolean;
 };
 
-type FormStore = FormStoreState & FormStoreActions;
+export type FormStore<T> = FormStoreState<T> & FormStoreActions<T>;
 
-const useFormStore = create<FormStore>()(
+const useFormStore = create<FormStore<any>>()(
   devtools(
-    immer((set) => ({
-      id: "",
-      form: undefined,
-      cache: (form) => {
-        const id = crypto.randomUUID();
-        set((state) => {
-          state.id = id;
-          state.form = form;
-        });
-        return id;
-      },
-      reset: (id) => {
-        set((state) => {
-          state.id = id;
-          state.form = undefined;
-        });
-      },
-    })),
+    immer(
+      subscribeWithSelector((set, get) => ({
+        form: undefined,
+        commit: (form) => {
+          console.log("commit", form);
+          set((state) => {
+            state.form = form;
+          });
+        },
+        reset: () => {
+          console.log("reset before", get().form);
+          set((state) => {
+            state.form = undefined;
+          });
+          console.log("reset after", get().form);
+        },
+        isEmpty: () => {
+          return get().form === undefined;
+        },
+      })),
+    ),
   ),
 );
 

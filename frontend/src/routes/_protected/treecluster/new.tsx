@@ -3,7 +3,7 @@ import { clusterApi, TreeClusterCreate } from "@/api/backendApi";
 import { SubmitHandler } from "react-hook-form";
 import { useAuthHeader } from "@/hooks/useAuthHeader";
 import useStore from "@/store/store";
-import { TreeclusterForm } from "@/schema/treeclusterSchema";
+import { TreeclusterSchema } from "@/schema/treeclusterSchema";
 import { useTreeClusterForm } from "@/hooks/useTreeclusterForm";
 import { useMutation } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
@@ -49,7 +49,7 @@ function NewTreecluster() {
     },
   });
 
-  const onSubmit: SubmitHandler<TreeclusterForm> = async (data) => {
+  const onSubmit: SubmitHandler<TreeclusterSchema> = async (data) => {
     mutate({
       ...data,
       treeIds: formStore.treeIds,

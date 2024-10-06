@@ -6,14 +6,11 @@ import SelectedCard from "../../cards/SelectedCard";
 
 interface SelectTreesProps {
   onDelete: (itemId: number) => void;
+  treeIds: number[];
 }
 
-const SelectTrees: React.FC<SelectTreesProps> = ({ onDelete }) => {
+const SelectTrees: React.FC<SelectTreesProps> = ({ onDelete, treeIds }) => {
   const navigate = useNavigate({ from: "/treecluster/new" });
-  const { treeIds } = useStore((state) => ({
-    treeIds: state.form.treecluster.treeIds,
-    cache: state.form.treecluster.cache,
-  }));
   const mapPosition = useStore((state) => ({
     lat: state.map.center[0],
     lng: state.map.center[1],

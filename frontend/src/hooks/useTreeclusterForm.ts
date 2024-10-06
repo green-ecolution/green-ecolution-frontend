@@ -1,6 +1,6 @@
 import { DefaultValues, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { TreeclusterForm, TreeclusterSchema } from "@/schema/treeclusterSchema";
+import { TreeclusterSchema } from "@/schema/treeclusterSchema";
 import { useEffect } from "react";
 import useStore from "@/store/store";
 import { EntitiesTreeSoilCondition } from "@green-ecolution/backend-client";
@@ -9,14 +9,11 @@ type AsyncDefaultValues<T> = (payload?: unknown) => Promise<T>;
 
 export const useTreeClusterForm = (
   defaultValues?:
-    | DefaultValues<TreeclusterForm>
-    | AsyncDefaultValues<TreeclusterForm>,
+    | DefaultValues<TreeclusterSchema>
+    | AsyncDefaultValues<TreeclusterSchema>,
+  commit?: () => void,
 ) => {
-  const { cache } = useStore((state) => ({
-    cache: state.form.treecluster.cache,
-  }));
-
-  const form = useForm<TreeclusterForm>({
+  const form = useForm<TreeclusterSchema>({
     resolver: zodResolver(TreeclusterSchema()),
     defaultValues,
   });
