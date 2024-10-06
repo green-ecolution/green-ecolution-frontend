@@ -4,6 +4,7 @@ import GeneralStatusCard from '@/components/general/cards/GeneralStatusCard';
 import Modal from '@/components/general/form/Modal';
 import PrimaryButton from '@/components/general/buttons/PrimaryButton';
 import { useState } from 'react';
+import { useTrees } from '@/hooks/useTrees';
 
 export const Route = createFileRoute('/_protected/settings/import')({
   component: ImportFile,
@@ -13,6 +14,14 @@ function ImportFile() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [file, setFile] = useState<File | null>(null);
   const [message, setMessage] = useState("");
+  const trees = useTrees();
+
+  const getReadonlyTreesLength = () => {
+    if (!trees) return 0;
+    
+    const readonlyTrees = trees.filter(tree => tree.readonly);
+    return readonlyTrees.length;
+  }
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files.length > 0) {
@@ -40,17 +49,17 @@ function ImportFile() {
     }
   };
 
-  // TODO: use real data
+  // TODO: use real date of import
   const cards = [
     {
       headline: 'Anzahl der importierten Bäume',
-      value: '820 Bäume',
+      value: `${getReadonlyTreesLength()} Bäume`,
       description:
         'Diese Bäume wurden aus einer CSV Datei importiert und nicht im System manuell eingepflegt.',
     },
     {
       headline: 'Anzahl der manuell eingepflegten Bäume',
-      value: '24 Bäume',
+      value: `${(trees?.length ?? 0) - getReadonlyTreesLength()} Bäume`,
       description: 'Diese Bäume wurden manuell im System eingepflegt.',
     },
     {
