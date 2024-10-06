@@ -1,6 +1,9 @@
 import { createFileRoute } from '@tanstack/react-router'
 import FileUpload from '@/components/general/fileUpload/FileUpload';
 import GeneralStatusCard from '@/components/general/cards/GeneralStatusCard';
+import Modal from '@/components/general/form/Modal';
+import PrimaryButton from '@/components/general/buttons/PrimaryButton';
+import { useEffect, useState } from 'react';
 import { useTrees } from '@/hooks/useTrees';
 
 export const Route = createFileRoute('/_protected/settings/import')({
@@ -8,6 +11,9 @@ export const Route = createFileRoute('/_protected/settings/import')({
 })
 
 function ImportFile() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [file, setFile] = useState<File | null>(null);
+  const [message, setMessage] = useState("");
   const trees = useTrees();
 
   const getReadonlyTreesLength = () => {
@@ -16,8 +22,41 @@ function ImportFile() {
     const readonlyTrees = trees.filter(tree => tree.readonly);
     return readonlyTrees.length;
   }
-  
-  const url = '/api-local/v1/import/csv'
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (!event.target.files) return;
+    if (event.target.files.length === 0) setFile(null);
+
+    const file = event.target.files[0];
+    if (file.type !== "text/csv") {
+      setMessage("Es sind nur CSV-Dateien erlaubt.");
+      return;
+    }
+
+    setFile(event.target.files[0]);
+  };
+
+  const handleConfirm = async () => {
+    setIsModalOpen(false);
+
+    try {
+      if (!file) return;
+
+      setMessage("");
+      const formData = new FormData();
+      formData.append("file", file);
+
+      // TODO: Send form to provided endpoint of backend client
+
+      setFile(null);
+      setMessage("Es wurden erfolgreich neue Daten importiert.");
+    } catch (error: any) {
+      console.error(error);
+      setMessage(error)
+    }
+  };
+
+  // TODO: use real date of import
   const cards = [
     {
       headline: 'Anzahl der importierten Bäume',
@@ -37,7 +76,7 @@ function ImportFile() {
         'Am 20.05.2024 wurde das letzte Mal die Bäume anhand einer CSV Datei importiert.',
     },
   ];
-
+  
   return (
     <div className="container mt-6">
       <article className="2xl:w-4/5">
@@ -52,7 +91,7 @@ function ImportFile() {
           Mollit laborum officia commodo mollit dolor deserunt qui occaecat anim.
         </p>
       </article>
-      <br />
+
       <ul className="grid grid-cols-1 gap-5 mt-10 md:grid-cols-2 lg:grid-cols-3">
         {cards.map((card, key) => (
           <li key={key}>
@@ -61,15 +100,35 @@ function ImportFile() {
         ))}
       </ul>
 
-      {/* File input section */}
-      <div className="my-6">
-
-        <h3 className="font-semibold text-lg text-gray-900 mb-4">Import neu anstoßen:</h3>
-
-        <label className="block text-sm font-medium text-gray-700 mb-2">
+      <div className="mt-16">
+        <h2 className="text-xl font-bold font-lato mb-4">Import neu anstoßen:</h2>
+        <p className="block text-base text-dark-700 mb-2">
           CSV-Datei mit aktuellen Bäumen:
-        </label>
-        <FileUpload to={url} fileType='.csv'/>
+        </p>
+        <form className="w-full flex flex-col justify-center">
+          <FileUpload
+            name="import_file"
+            fileType='.csv'
+            message={message}
+            handleFileChange={handleFileChange}
+            showDeleteButton={file !== null}
+            clearFileInput={() => setFile(null)} />
+        </form>
+
+        <PrimaryButton
+          onClick={() => setIsModalOpen(true)}
+          disabled={!file}
+          className="mt-10"
+          label="Daten importieren" />
+
+        <Modal
+          title="Soll der Import wirklich neu angestoßen werden?"
+          description="Der Import kann etwas länger dauern, sodass die Website für einen Moment in den Wartungsmodus schaltet und nicht erreichbar ist."
+          confirmText="Import fortfahren"
+          onConfirm={handleConfirm}
+          onCancel={() => setIsModalOpen(false)}
+          isOpen={isModalOpen}
+        />
       </div>
     </div>
   );
