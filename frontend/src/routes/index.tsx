@@ -13,7 +13,9 @@ export const Route = createFileRoute('/')({
 })
 
 function Startpage() {
-  const store = useStore.getState();
+  const { isAuthenticated } = useStore((state) => ({
+    isAuthenticated: state.auth.isAuthenticated,
+  }));
 
   return (
     <>
@@ -28,7 +30,7 @@ function Startpage() {
             Occaecat exercitation dolor irure fugiat ullamco elit cupidatat commodo fugiat consectetur.
           </p>
           <div className="flex flex-wrap justify-center items-center gap-x-6 mt-10 xl:justify-start">
-            {store.auth.isAuthenticated ? (
+            {isAuthenticated ? (
               <ButtonLink
                 url="/dashboard"
                 label="Zum Dashboard"
