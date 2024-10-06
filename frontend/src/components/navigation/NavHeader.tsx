@@ -11,7 +11,7 @@ const NavHeader: React.FC<NavHeader> = ({ isOpen, closeSidebar }) => {
     return (
       <div className="relative mb-10 flex items-center justify-between">
         <Link 
-          to="/"
+          to="/dashboard"
           className="block transition-all ease-in-out duration-300 hover:opacity-75" 
           aria-label="Zurück zum persönlichen Dashboard"
           onClick={closeSidebar}

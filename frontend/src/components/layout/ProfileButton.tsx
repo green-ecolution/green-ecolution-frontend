@@ -39,7 +39,7 @@ function ProfileButton() {
   const links = store.auth.isAuthenticated ? linksLoggedIn : linksLoggedOut;
 
   return (
-    <div className="relative" ref={overlayRef}>
+    <div className="relative ml-auto" ref={overlayRef}>
       <button
         aria-label="Profilinformationen anzeigen"
         aria-expanded={open}
