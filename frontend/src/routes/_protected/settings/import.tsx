@@ -34,27 +34,11 @@ function ImportFile() {
 
       setFile(null);
       setMessage("Es wurden erfolgreich neue Daten importiert.");
-    } catch (error) {
-      handleAxiosError(error);
+    } catch (error: any) {
+      console.error(error);
+      setMessage(error)
     }
   };
-
-  const handleAxiosError = (error: any) => {
-    const { response, message } = error;
-
-    if (response?.data?.error) {
-      const { error: errorMessage, err: additionalMessage } = response.data;
-      const fullErrorMessage = additionalMessage ? `${errorMessage}: ${additionalMessage}` : errorMessage;
-
-      setMessage('Leider ist folgender Fehler aufgetreten: ' + fullErrorMessage);
-    } else if (message) {
-      setMessage('Leider ist folgender Fehler aufgetreten: ' + message);
-    } else {
-      const message = 'Leider ist ein unbekannter Fehler aufgetreten. Bitte wenden Sie sich an eine:n Systemadministrator:in.';
-      setMessage(message);
-    }
-  };
-
 
   // TODO: use real data
   const cards = [
@@ -126,7 +110,7 @@ function ImportFile() {
           description="Der Import kann etwas länger dauern, sodass die Website für einen Moment in den Wartungsmodus schaltet und nicht erreichbar ist."
           confirmText="Import fortfahren"
           onConfirm={handleConfirm}
-          onCancel={() => console.log('test')}
+          onCancel={() => setIsModalOpen(false)}
           isOpen={isModalOpen}
         />
       </div>
