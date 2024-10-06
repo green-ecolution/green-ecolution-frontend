@@ -1,5 +1,6 @@
 import ButtonLink from '@/components/general/links/ButtonLink'
 import IntroductionSlider from '@/components/startpage/IntroductionSlider'
+import KeyFacts from '@/components/startpage/KeyFacts'
 import { createFileRoute } from '@tanstack/react-router'
 import { Mail, MoveRight } from 'lucide-react'
 
@@ -34,6 +35,7 @@ function Startpage() {
       </article>
 
       <IntroductionSlider />
+      <KeyFacts />
     </>
   )
 }
