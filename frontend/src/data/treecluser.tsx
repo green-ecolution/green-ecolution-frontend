@@ -1,4 +1,4 @@
-import { EntitiesTreeClusterWateringStatus } from "@green-ecolution/backend-client";
+import { EntitiesWateringStatus } from "@green-ecolution/backend-client";
 
 export function treeclusterDemoData() {
   return [
@@ -10,7 +10,7 @@ export function treeclusterDemoData() {
       region: "Friesischer Berg",
       treeCount: 34,
       sensorCount: 4,
-      status: EntitiesTreeClusterWateringStatus.TreeClusterWateringStatusBad,
+      status: EntitiesWateringStatus.WateringStatusBad,
       description: 'Diese Bewässserungsgruppe bedindet sich an Position XY und beinhlatet XY viele Bäume. Hier ist zudem noch Platz für mehr Inhalt, den ich noch nicht kenne.',
     },
     {
@@ -21,7 +21,7 @@ export function treeclusterDemoData() {
       region: "Engelsby",
       treeCount: 34,
       sensorCount: 4,
-      status: EntitiesTreeClusterWateringStatus.TreeClusterWateringStatusBad,
+      status: EntitiesWateringStatus.WateringStatusBad,
       description: 'Diese Bewässserungsgruppe bedindet sich an Position XY und beinhlatet XY viele Bäume. Hier ist zudem noch Platz für mehr Inhalt, den ich noch nicht kenne.',
     },
     {
@@ -32,7 +32,7 @@ export function treeclusterDemoData() {
       region: "Fruerlund",
       treeCount: 34,
       sensorCount: 4,
-      status: EntitiesTreeClusterWateringStatus.TreeClusterWateringStatusModerate,
+      status: EntitiesWateringStatus.WateringStatusModerate,
       description: 'Diese Bewässserungsgruppe bedindet sich an Position XY und beinhlatet XY viele Bäume. Hier ist zudem noch Platz für mehr Inhalt, den ich noch nicht kenne.',
     },
     {
@@ -43,7 +43,7 @@ export function treeclusterDemoData() {
       region: "Mürwik",
       treeCount: 34,
       sensorCount: 4,
-      status: EntitiesTreeClusterWateringStatus.TreeClusterWateringStatusGood,
+      status: EntitiesWateringStatus.WateringStatusGood,
       description: 'Diese Bewässserungsgruppe bedindet sich an Position XY und beinhlatet XY viele Bäume. Hier ist zudem noch Platz für mehr Inhalt, den ich noch nicht kenne.',
     },
     {
@@ -54,7 +54,7 @@ export function treeclusterDemoData() {
       region: "Friesischer Berg",
       treeCount: 34,
       sensorCount: 4,
-      status: EntitiesTreeClusterWateringStatus.TreeClusterWateringStatusModerate,
+      status: EntitiesWateringStatus.WateringStatusModerate,
       description: '',
     },
     {
@@ -65,7 +65,7 @@ export function treeclusterDemoData() {
       region: "Neustadt",
       treeCount: 34,
       sensorCount: 4,
-      status: EntitiesTreeClusterWateringStatus.TreeClusterWateringStatusGood,
+      status: EntitiesWateringStatus.WateringStatusGood,
       description: '',
     },
     {
@@ -76,7 +76,7 @@ export function treeclusterDemoData() {
       region: "Friesischer Berg",
       treeCount: 34,
       sensorCount: 4,
-      status: EntitiesTreeClusterWateringStatus.TreeClusterWateringStatusBad,
+      status: EntitiesWateringStatus.WateringStatusModerate,
       description: '',
     },
   ];

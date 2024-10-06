@@ -7,7 +7,7 @@ import useOutsideClick from '@/hooks/useOutsideClick';
 import Option from './Option';
 import { useNavigate } from '@tanstack/react-router';
 import { useSuspenseQuery } from '@tanstack/react-query';
-import { EntitiesTreeClusterWateringStatus, regionApi } from '@/api/backendApi';
+import { EntitiesWateringStatus, regionApi } from '@/api/backendApi';
 import { useAuthHeader } from '@/hooks/useAuthHeader';
 import { getWateringStatusDetails } from '@/hooks/useDetailsForWateringStatus';
 
@@ -96,8 +96,7 @@ const Dialog: React.FC<DialogProps> = ({ initStatusTags, initRegionTags, headlin
 
         <fieldset>
           <legend className="font-lato font-semibold text-dark-600 mb-2">Zustand der Bewässerung:</legend>
-          {Object.entries(EntitiesTreeClusterWateringStatus)
-            .filter(([key]) => key !== 'TreeClusterWateringStatusUnknown')
+          {Object.entries(EntitiesWateringStatus)
             .map(([statusKey, statusValue]) => (
               <Option
                 key={statusKey}
