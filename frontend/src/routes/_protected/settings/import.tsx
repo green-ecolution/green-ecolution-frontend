@@ -1,23 +1,33 @@
 import { createFileRoute } from '@tanstack/react-router'
 import FileUpload from '@/components/general/fileUpload/FileUpload';
 import GeneralStatusCard from '@/components/general/cards/GeneralStatusCard';
+import { useTrees } from '@/hooks/useTrees';
 
 export const Route = createFileRoute('/_protected/settings/import')({
   component: ImportFile,
 })
 
 function ImportFile() {
+  const trees = useTrees();
+
+  const getReadonlyTreesLength = () => {
+    if (!trees) return 0;
+    
+    const readonlyTrees = trees.filter(tree => tree.readonly);
+    return readonlyTrees.length;
+  }
+  
   const url = '/api-local/v1/import/csv'
   const cards = [
     {
       headline: 'Anzahl der importierten Bäume',
-      value: '820 Bäume',
+      value: `${getReadonlyTreesLength()} Bäume`,
       description:
         'Diese Bäume wurden aus einer CSV Datei importiert und nicht im System manuell eingepflegt.',
     },
     {
       headline: 'Anzahl der manuell eingepflegten Bäume',
-      value: '24 Bäume',
+      value: `${(trees?.length ?? 0) - getReadonlyTreesLength()} Bäume`,
       description: 'Diese Bäume wurden manuell im System eingepflegt.',
     },
     {
