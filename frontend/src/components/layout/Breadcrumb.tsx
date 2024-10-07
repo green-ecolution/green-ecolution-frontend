@@ -7,7 +7,7 @@ function Breadcrumb() {
 
   const rootBreadcrumb = {
     title: 'Dashboard',
-    path: '/',
+    path: '/dashboard',
   };
 
   return (

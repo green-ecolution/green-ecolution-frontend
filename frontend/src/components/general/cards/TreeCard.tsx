@@ -1,5 +1,5 @@
 import { getWateringStatusDetails } from '@/hooks/useDetailsForWateringStatus';
-import { EntitiesTreeClusterWateringStatus, Tree } from '@green-ecolution/backend-client';
+import { EntitiesWateringStatus, Tree } from '@green-ecolution/backend-client';
 import { Link } from '@tanstack/react-router';
 import { MoveRight } from 'lucide-react';
 import React from 'react';
@@ -8,8 +8,7 @@ interface TreeCardProps {
 }
 
 const TreeCard: React.FC<TreeCardProps> = ({ tree }) => {
-  // TODO: Add real status
-  const statusDetails = getWateringStatusDetails(EntitiesTreeClusterWateringStatus.TreeClusterWateringStatusGood);
+  const statusDetails = getWateringStatusDetails(tree.wateringStatus ?? EntitiesWateringStatus.WateringStatusUnknown);
   const wrapperClasses = 'bg-white group border border-dark-50 p-6 rounded-xl shadow-cards flex flex-col gap-y-4 lg:grid lg:grid-cols-[1fr,2fr,1fr,1fr] lg:items-center lg:gap-5 lg:py-5 xl:px-10';
 
   return (
@@ -22,9 +21,9 @@ const TreeCard: React.FC<TreeCardProps> = ({ tree }) => {
         {statusDetails.label}
       </p>
       <h3 className="text-lg font-bold font-lato">{tree.species}</h3>
-      {tree?.treeNumber && 
+      {tree.treeNumber && 
         <p className="text-dark-700">
-          <span className="lg:sr-only">Baumnummer: </span>{tree?.treeNumber}
+          <span className="lg:sr-only">Baumnummer: </span>{tree.treeNumber}
         </p>
       }
 

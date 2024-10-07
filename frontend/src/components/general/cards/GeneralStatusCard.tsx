@@ -2,7 +2,7 @@ import React from 'react';
 
 interface GeneralStatusCard {
   overline: string;
-  value?: number | string;
+  value: string | number;
   description?: string;
   isLarge?: boolean;
 }

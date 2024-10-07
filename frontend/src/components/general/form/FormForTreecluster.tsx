@@ -18,6 +18,7 @@ interface FormForTreeclusterProps {
     onSubmit: SubmitHandler<TreeclusterSchema>,
   ) => (e?: React.BaseSyntheticEvent) => Promise<void>;
   onAddTrees: () => void;
+  onDeleteTree: (treeId: number) => void;
 }
 
 const FormForTreecluster: React.FC<FormForTreeclusterProps> = ({
@@ -27,19 +28,11 @@ const FormForTreecluster: React.FC<FormForTreeclusterProps> = ({
   errors,
   onSubmit,
   onAddTrees,
+  onDeleteTree,
 }) => {
-  const { form, set } = useFormStore((state: FormStore<TreeclusterSchema>) => ({
-    form: state.form,
-    set: state.commit,
+  const { treeIds } = useFormStore((state: FormStore<TreeclusterSchema>) => ({
+    treeIds: state.form?.treeIds,
   }));
-
-  const handleDeleteTree = (treeId: number) => {
-    form &&
-      set({
-        ...form,
-        treeIds: form?.treeIds.filter((id) => id !== treeId) ?? [],
-      });
-  };
 
   return (
     <form
@@ -52,7 +45,7 @@ const FormForTreecluster: React.FC<FormForTreeclusterProps> = ({
           label="Name"
           error={errors.name?.message}
           required
-          {...register("name", {})}
+          {...register("name")}
         />
         <Input
           label="Adresse"
@@ -76,7 +69,11 @@ const FormForTreecluster: React.FC<FormForTreeclusterProps> = ({
         />
       </div>
 
-      <SelectTrees onDelete={handleDeleteTree} treeIds={form?.treeIds ?? []} onAddTrees={onAddTrees} />
+      <SelectTrees
+        onDelete={onDeleteTree}
+        treeIds={treeIds ?? []}
+        onAddTrees={onAddTrees}
+      />
 
       <p
         className={`text-red font-medium mt-10 ${displayError ? "" : "hidden"}`}
@@ -88,7 +85,7 @@ const FormForTreecluster: React.FC<FormForTreeclusterProps> = ({
       <PrimaryButton
         type="submit"
         label="Speichern"
-        disabled={Object.keys(errors).length > 0 /*|| form?.treeIds.length === 0 */}
+        disabled={Object.keys(errors).length > 0 || treeIds?.length === 0}
         className="mt-10 lg:col-span-full lg:w-fit"
       />
     </form>

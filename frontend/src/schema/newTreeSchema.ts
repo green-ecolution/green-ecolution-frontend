@@ -18,7 +18,6 @@ export const NewTreeSchema = (lat: number, lng: number) => {
   return z.object({
     lat: z.number().default(lat),
     lng: z.number().default(lng),
-    heightAboveSeaLevel: z.number().int().optional(),
     number: z.string().min(1, "Baumnummer ist erforderlich."),
     species: z.string().min(1, "Art ist erforderlich."),
     plantingYear: z.preprocess(

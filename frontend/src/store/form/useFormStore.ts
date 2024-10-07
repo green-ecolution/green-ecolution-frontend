@@ -23,17 +23,15 @@ const useFormStore = create<FormStore<any>>()(
       form: undefined,
       type: "new",
       commit: (form) => {
-        console.log("commit", form);
+        // console.log("commit", form);
         set((state) => {
           state.form = form;
         });
       },
       reset: () => {
-        console.log("reset before", get().form);
         set((state) => {
           state.form = undefined;
         });
-        console.log("reset after", get().form);
       },
       isEmpty: () => {
         return get().form === undefined;

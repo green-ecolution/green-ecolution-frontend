@@ -31,6 +31,7 @@ export const Route = createFileRoute(
     useFormStore.getState().setType("edit");
   },
   loader: ({ params: { treecluster } }) => {
+    if (!useStore.getState().auth.isAuthenticated) return;
     const token = useStore.getState().auth.token?.accessToken ?? "";
     return queryClient.ensureQueryData(
       queryParams(treecluster, `Bearer ${token}`),
@@ -66,6 +67,7 @@ function EditTreeCluster() {
 
   const {
     register,
+    setValue,
     handleSubmit,
     formState: { errors },
   } = useFormSync<TreeclusterSchema>(initForm, zodResolver(TreeclusterSchema));
@@ -78,9 +80,7 @@ function EditTreeCluster() {
   });
 
   const onUpdateSuccess = useCallback((data: TreeCluster) => {
-    console.log("Treecluster updated", data);
     formStore.reset();
-    console.log("reset", formStore.form);
     navigate({
       to: `/treecluster/${data.id}`,
       search: { resetStore: false },
@@ -95,7 +95,6 @@ function EditTreeCluster() {
   const onSubmit: SubmitHandler<TreeclusterSchema> = async (data) => {
     mutate({
       ...data,
-      description: formStore.form?.description ?? "",
       treeIds: formStore.form?.treeIds ?? [],
     });
   };
@@ -111,6 +110,13 @@ function EditTreeCluster() {
       },
     });
   };
+
+  const handleDeleteTree = (treeId: number) => {
+    setValue(
+      "treeIds",
+      formStore.form?.treeIds?.filter((id) => id !== treeId) ?? [],
+    );
+  }
 
   return (
     <div className="container mt-6">
@@ -140,6 +146,7 @@ function EditTreeCluster() {
               errors={errors}
               onSubmit={onSubmit}
               onAddTrees={navigateToTreeSelect}
+              onDeleteTree={handleDeleteTree}
             />
           </section>
         </div>

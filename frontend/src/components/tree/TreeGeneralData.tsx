@@ -1,18 +1,9 @@
+import { Tree } from "@green-ecolution/backend-client";
 import { format } from "date-fns";
 
 
 interface TreeGeneralData {
-  tree?: {
-    id: number;
-    species: string;
-    number: number;
-    heightAboveSeaLevel: number;
-    plantingYear: number;
-    age: number;
-    updatedAt: string;
-    latitude: number;
-    longitude: number;
-  }
+  tree?: Tree
 }
 
 const TreeGeneralData: React.FC<TreeGeneralData> = ({ tree }) => {
@@ -24,14 +15,6 @@ const TreeGeneralData: React.FC<TreeGeneralData> = ({ tree }) => {
     {
       label: 'Baumart',
       value: tree?.species ?? 'Keine Angabe',
-    },
-    {
-      label: 'Höhe über NHN',
-      value: tree?.heightAboveSeaLevel ?? 'Keine Angabe',
-    },
-    {
-      label: 'Standalter',
-      value: tree?.age ?? 'Keine Angabe',
     },
     {
       label: 'Pflanzjahr',
