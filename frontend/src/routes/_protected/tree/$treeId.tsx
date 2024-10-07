@@ -13,7 +13,7 @@ import { useSuspenseQuery } from '@tanstack/react-query';
 import { createFileRoute, useLoaderData } from '@tanstack/react-router'
 import { File, Info } from 'lucide-react';
 
-export const Route = createFileRoute('/_protected/trees/$treeId')({
+export const Route = createFileRoute('/_protected/tree/$treeId')({
   component: SingleTree,
 
   loader: async ({ params }) => {

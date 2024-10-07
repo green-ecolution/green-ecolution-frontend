@@ -1,35 +1,50 @@
+import { DragableMarker } from "@/components/map/MapMarker";
 import MapSelectTreesModal from "@/components/map/MapSelectTreesModal";
 import { WithAllTrees } from "@/components/map/TreeMarker";
+import { NewTreeForm } from "@/schema/newTreeSchema";
+import useFormStore, { FormStore } from "@/store/form/useFormStore";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { LatLng } from "leaflet";
 import { useRef, useState } from "react";
-import { useMapMouseSelect } from "@/hooks/useMapMouseSelect";
-import { DragableMarker } from "@/components/map/MapMarker";
 
-export const Route = createFileRoute("/_protected/map/tree/new")({
-  component: NewTree,
+export const Route = createFileRoute("/_protected/map/tree/edit")({
+  component: EditTree,
 });
 
-function NewTree() {
-  const [treeLatLng, setTreeLatLng] = useState<LatLng>();
+function EditTree() {
   const navigate = useNavigate({ from: Route.fullPath });
   const modalRef = useRef<HTMLDivElement>(null);
-  useMapMouseSelect((latlng, e) => {
-    const target = e.originalEvent.target as HTMLElement;
-    if (!modalRef.current?.contains(target)) {
-      setTreeLatLng(latlng);
-    }
-  });
+  const { commit, form } = useFormStore(
+    (state: FormStore<NewTreeForm>) => ({
+      form: state.form!!,
+      commit: state.commit,
+    }),
+  );
+  const [treeLatLng, setTreeLatLng] = useState<LatLng>(
+    new LatLng(form.latitude, form.longitude),
+  );
 
   const handleSave = () => {
+    commit({...form, latitude: treeLatLng.lat, longitude: treeLatLng.lng});
     navigate({
       to: "/tree/new",
-      search: { lat: treeLatLng!!.lat, lng: treeLatLng!!.lng, resetStore: true },
+      search: {
+        lat: treeLatLng!!.lat,
+        lng: treeLatLng!!.lng,
+        resetStore: false,
+      },
     });
   };
 
   const handleCancel = () => {
-    navigate({ to: "/map", search: (prev) => prev });
+    navigate({
+      to: "/tree/new",
+      search: {
+        lat: treeLatLng!!.lat,
+        lng: treeLatLng!!.lng,
+        resetStore: false,
+      },
+    });
   };
 
   return (
