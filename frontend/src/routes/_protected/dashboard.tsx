@@ -2,7 +2,7 @@ import DashboardCard from '@/components/general/cards/DashboardCard';
 import { createFileRoute } from '@tanstack/react-router'
 import useStore from '@/store/store';
 
-export const Route = createFileRoute('/_protected/')({
+export const Route = createFileRoute('/_protected/dashboard')({
   component: Dashboard,
 })
 
