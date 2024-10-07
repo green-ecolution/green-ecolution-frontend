@@ -45,6 +45,7 @@ function NewTreecluster() {
 
   const {
     register,
+    setValue,
     handleSubmit,
     formState: { errors },
   } = useFormSync<TreeclusterSchema>(initForm, zodResolver(TreeclusterSchema));
@@ -86,6 +87,13 @@ function NewTreecluster() {
     });
   };
 
+  const handleDeleteTree = (treeId: number) => {
+    setValue(
+      "treeIds",
+      formStore.form?.treeIds?.filter((id) => id !== treeId) ?? [],
+    );
+  }
+
   return (
     <div className="container mt-6">
       <article className="2xl:w-4/5">
@@ -106,6 +114,7 @@ function NewTreecluster() {
           errors={errors}
           onSubmit={onSubmit}
           onAddTrees={navigateToTreeSelect}
+          onDeleteTree={handleDeleteTree}
         />
       </section>
     </div>
