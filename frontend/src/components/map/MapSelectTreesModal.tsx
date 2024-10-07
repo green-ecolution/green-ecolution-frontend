@@ -35,10 +35,10 @@ const MapSelectTreesModal = forwardRef(({
       <div
         role="dialog"
         aria-modal="true"
-        className={`space-y-6 absolute z-[1000] top-4 inset-x-4 lg:w-[30rem] lg:left-auto lg:right-10 bg-white border-dark-50 shadow-xl p-5 rounded-xl
+        className={`max-h-[50vh] overflow-y-auto space-y-6 absolute z-[1000] top-4 inset-x-4 lg:w-[30rem] lg:left-auto lg:right-10 bg-white border-dark-50 shadow-xl p-5 rounded-xl
           ${openModal ? "block" : "hidden lg:block"}`}
       >
-        <div className="flex justify-between gap-x-6">
+        <div className="h-full flex justify-between gap-x-6">
           <h2 className="text-lg font-lato font-semibold lg:text-xl">
             {title}
           </h2>
