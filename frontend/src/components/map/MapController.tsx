@@ -4,7 +4,7 @@ import useMapStore from "@/store/store";
 
 export interface MapConrollerProps  {
   path: string;
-};
+}
 
 const MapConroller = ({path}: MapConrollerProps) => {
   const navigate = useNavigate({ from: path });
