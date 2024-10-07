@@ -6,7 +6,7 @@ import SelectedCard from "../cards/SelectedCard";
 
 interface SelectTrees {
   treeIds: number[];
-  onClick: (itemId: number) => void;
+  onClick: (treeId: number) => void;
   storeState: () => void;
 }
 
@@ -50,7 +50,7 @@ const SelectTrees: React.FC<SelectTrees> = ({
         ) : (
           treeIds.map((treeId, key) => (
             <li key={key}>
-              <SelectedCard itemId={treeId} onClick={onClick} />
+              <SelectedCard treeId={treeId} onClick={onClick} />
             </li>
           ))
         )}

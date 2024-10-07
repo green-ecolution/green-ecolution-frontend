@@ -50,7 +50,7 @@ function SelectTrees() {
             ) : (
               treeIds.map((treeId, key) => (
                 <li key={key}>
-                  <SelectedCard itemId={treeId} onClick={handleDeleteTree} />
+                  <SelectedCard treeId={treeId} onClick={handleDeleteTree} />
                 </li>
               ))
             )}
