@@ -38,6 +38,7 @@ const SelectTrees: React.FC<SelectTreesProps> = ({
       </ul>
 
       <button
+        type="button"
         onClick={(e) => {
           e.preventDefault();
           onAddTrees();

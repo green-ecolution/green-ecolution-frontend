@@ -69,7 +69,7 @@ function NewTreecluster() {
     },
   });
 
-  const onSubmit: SubmitHandler<TreeclusterSchema> = async (data) => {
+  const onSubmit: SubmitHandler<TreeclusterSchema> = (data) => {
     mutate({
       ...data,
       treeIds: formStore.form?.treeIds ?? [],
