@@ -1,4 +1,4 @@
-// @ts-expect-error" because this image needs to be imported, but not found for some reason, but works.
+// @ts-expect-error because this image needs to be imported, but not found for some reason, but works.
 import defaultIconPng from "leaflet/dist/images/marker-icon.png";
 import L, { DivIcon, Icon, IconOptions } from "leaflet";
 import { Marker } from "react-leaflet";

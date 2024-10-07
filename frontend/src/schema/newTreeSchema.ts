@@ -1,4 +1,4 @@
-import { clusterApi, sensorApi, treeApi } from "@/api/backendApi";
+import { treeApi } from "@/api/backendApi";
 import { useAuthHeader } from "@/hooks/useAuthHeader";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { z } from "zod";
