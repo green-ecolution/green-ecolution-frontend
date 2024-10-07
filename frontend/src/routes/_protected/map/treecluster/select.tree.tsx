@@ -19,7 +19,7 @@ function SelectTrees() {
   const { form, storeTreeIds, set, type } = useFormStore(
     (state: FormStore<TreeclusterSchema>) => ({
       form: state.form,
-      storeTreeIds: state.form?.treeIds ?? [1],
+      storeTreeIds: state.form?.treeIds ?? [],
       set: state.commit,
       type: state.type,
     }),

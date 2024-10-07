@@ -1,11 +1,8 @@
 import useFormStore, { FormStore } from "@/store/form/useFormStore";
 import { useEffect } from "react";
-import { Resolver, DefaultValues, useForm, FieldValues} from "react-hook-form";
-
-// type AsyncDefaultValues<T> = (payload?: unknown) => Promise<T>;
+import { Resolver, DefaultValues, useForm, FieldValues } from "react-hook-form";
 
 export const useFormSync = <T extends FieldValues>(
-  //defaultValues?: DefaultValues<T> | AsyncDefaultValues<T>,
   defaultValues?: DefaultValues<T>,
   resolver?: Resolver<T>,
 ) => {

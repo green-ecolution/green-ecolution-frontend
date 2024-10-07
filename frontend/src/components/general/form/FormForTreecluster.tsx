@@ -52,7 +52,7 @@ const FormForTreecluster: React.FC<FormForTreeclusterProps> = ({
           label="Name"
           error={errors.name?.message}
           required
-          {...register("name", {})}
+          {...register("name")}
         />
         <Input
           label="Adresse"
@@ -76,7 +76,11 @@ const FormForTreecluster: React.FC<FormForTreeclusterProps> = ({
         />
       </div>
 
-      <SelectTrees onDelete={handleDeleteTree} treeIds={form?.treeIds ?? []} onAddTrees={onAddTrees} />
+      <SelectTrees
+        onDelete={handleDeleteTree}
+        treeIds={form?.treeIds ?? []}
+        onAddTrees={onAddTrees}
+      />
 
       <p
         className={`text-red font-medium mt-10 ${displayError ? "" : "hidden"}`}
@@ -88,7 +92,7 @@ const FormForTreecluster: React.FC<FormForTreeclusterProps> = ({
       <PrimaryButton
         type="submit"
         label="Speichern"
-        disabled={Object.keys(errors).length > 0 /*|| form?.treeIds.length === 0 */}
+        disabled={Object.keys(errors).length > 0 || form?.treeIds.length === 0}
         className="mt-10 lg:col-span-full lg:w-fit"
       />
     </form>
