@@ -78,9 +78,7 @@ function EditTreeCluster() {
   });
 
   const onUpdateSuccess = useCallback((data: TreeCluster) => {
-    console.log("Treecluster updated", data);
     formStore.reset();
-    console.log("reset", formStore.form);
     navigate({
       to: `/treecluster/${data.id}`,
       search: { resetStore: false },
