@@ -31,6 +31,7 @@ export const Route = createFileRoute(
     useFormStore.getState().setType("edit");
   },
   loader: ({ params: { treecluster } }) => {
+    if (!useStore.getState().auth.isAuthenticated) return;
     const token = useStore.getState().auth.token?.accessToken ?? "";
     return queryClient.ensureQueryData(
       queryParams(treecluster, `Bearer ${token}`),
