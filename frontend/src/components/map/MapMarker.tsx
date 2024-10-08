@@ -5,7 +5,7 @@ import { Marker } from "react-leaflet";
 import { Marker as LeafletMarker } from "leaflet";
 import { useMemo, useRef } from "react";
 
-export const defaultIcon = new Icon({
+const defaultIcon = new Icon({
   iconUrl: defaultIconPng,
   iconSize: [25, 41],
   iconAnchor: [12, 41],
@@ -78,7 +78,7 @@ export const DragableMarker = ({
         }
       },
     }),
-    [],
+    [onDrag, onMove],
   );
 
   return (
