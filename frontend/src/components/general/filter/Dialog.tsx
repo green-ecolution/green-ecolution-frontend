@@ -10,6 +10,7 @@ import { useSuspenseQuery } from '@tanstack/react-query';
 import { EntitiesWateringStatus, regionApi } from '@/api/backendApi';
 import { useAuthHeader } from '@/hooks/useAuthHeader';
 import { getWateringStatusDetails } from '@/hooks/useDetailsForWateringStatus';
+import useTreeclusterFilter from '@/hooks/useTreeclusterFilter';
 
 interface DialogProps {
   initStatusTags: string[];
@@ -22,16 +23,7 @@ interface DialogProps {
 const Dialog: React.FC<DialogProps> = ({ initStatusTags, initRegionTags, headline, fullUrlPath, applyFilter }) => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate({ from: fullUrlPath });
-
-  const [filters, setFilters] = useState({
-    statusTags: initStatusTags,
-    regionTags: initRegionTags,
-  });
-  
-  const [appliedFilters, setAppliedFilters] = useState({
-    statusTags: initStatusTags,
-    regionTags: initRegionTags,
-  });
+  const dialogRef = useOutsideClick(() => setIsOpen(false));
 
   const authorization = useAuthHeader();
   const { data: regionRes } = useSuspenseQuery({
@@ -39,38 +31,20 @@ const Dialog: React.FC<DialogProps> = ({ initStatusTags, initRegionTags, headlin
     queryFn: () => regionApi.v1RegionGet({ authorization }),
   });
 
+  const { filters, appliedFilters, handleFilterChange, resetFilters, applyFilters } = useTreeclusterFilter(initStatusTags, initRegionTags);
+
   const handleFilterView = () => {
-    if (isOpen) setFilters(appliedFilters);
-    setIsOpen(!isOpen);
+    isOpen ? setIsOpen(false) : setIsOpen(true);
   };
 
-  const dialogRef = useOutsideClick(() => {
-    setFilters(appliedFilters);
-    setIsOpen(false);
-  });
-
-  const handleFilterChange = (type: 'status' | 'region') => (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { checked, value } = event.target;
-
-    setFilters((prevFilters) => ({
-      ...prevFilters,
-      [type === 'status' ? 'statusTags' : 'regionTags']: checked
-        ? [...prevFilters[type === 'status' ? 'statusTags' : 'regionTags'], value]
-        : prevFilters[type === 'status' ? 'statusTags' : 'regionTags'].filter((tag) => tag !== value),
-    }));
-  };
-
-  const resetFilters = () => {
-    setAppliedFilters({ statusTags: [], regionTags: [] });
-    setFilters({ statusTags: [], regionTags: [] });
-    applyFilter([], []);
+  const resetAndClose = () => {
+    resetFilters(applyFilter);
     handleFilterView();
     navigate({ search: () => ({}) });
   };
 
-  const applyFilters = () => {
-    setAppliedFilters(filters);
-    applyFilter(filters.statusTags, filters.regionTags);
+  const handleApplyFilters = () => {
+    applyFilters(applyFilter);
     handleFilterView();
 
     navigate({
@@ -138,8 +112,8 @@ const Dialog: React.FC<DialogProps> = ({ initStatusTags, initRegionTags, headlin
         </fieldset>
 
         <div className="flex flex-wrap gap-5 mt-6">
-          <PrimaryButton label="Anwenden" type="button" onClick={applyFilters} />
-          <SecondaryButton label="Zurücksetzen" onClick={resetFilters} />
+          <PrimaryButton label="Anwenden" type="button" onClick={handleApplyFilters} />
+          <SecondaryButton label="Zurücksetzen" onClick={resetAndClose} />
         </div>
       </section>
     </div>
