@@ -53,7 +53,7 @@ const TreeWateringStatus: React.FC<TreeWateringStatus> = ({ tree }) => {
       <ul className="space-y-5 md:space-y-0 md:grid md:gap-5 md:grid-cols-2 lg:grid-cols-4">
         <li>
           <EntitiesStatusCard
-            statusDetails={getWateringStatusDetails(EntitiesWateringStatus.WateringStatusGood)}
+            statusDetails={getWateringStatusDetails(tree?.wateringStatus ?? EntitiesWateringStatus.WateringStatusUnknown)}
             label="Bewässerungszustand (ø)" />
         </li>
         {statusCards.map((card, key) => (

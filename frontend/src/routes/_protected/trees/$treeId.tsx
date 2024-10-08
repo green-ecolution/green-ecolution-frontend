@@ -59,7 +59,7 @@ function SingleTree() {
           <article className="mb-10 2xl:w-4/5">
             <BackLink url="/map" label="Zum Kataster" />
             <h1 className="font-lato font-bold text-3xl mb-4 lg:text-4xl xl:text-5xl">
-              Baum: {tree.number}
+              Baum: {tree.treeNumber}
             </h1>
             <p className="text-dark-600 text-lg mb-4">
               <span>@TODO: Bewässerungsgruppe hinzufügen, </span>
