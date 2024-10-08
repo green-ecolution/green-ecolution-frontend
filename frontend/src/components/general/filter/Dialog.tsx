@@ -21,48 +21,62 @@ interface DialogProps {
 
 const Dialog: React.FC<DialogProps> = ({ initStatusTags, initRegionTags, headline, fullUrlPath, applyFilter }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [statusTags, setStatusTags] = useState<string[]>(initStatusTags);
-  const [regionTags, setRegionTags] = useState<string[]>(initRegionTags);
+  const navigate = useNavigate({ from: fullUrlPath });
+
+  const [filters, setFilters] = useState({
+    statusTags: initStatusTags,
+    regionTags: initRegionTags,
+  });
+  
+  const [appliedFilters, setAppliedFilters] = useState({
+    statusTags: initStatusTags,
+    regionTags: initRegionTags,
+  });
+
   const authorization = useAuthHeader();
   const { data: regionRes } = useSuspenseQuery({
     queryKey: ['regions'],
     queryFn: () => regionApi.v1RegionGet({ authorization }),
   });
 
-  const handleFilterView = () => setIsOpen(!isOpen);
-  const dialogRef = useOutsideClick(() => setIsOpen(false));
+  const handleFilterView = () => {
+    if (isOpen) setFilters(appliedFilters);
+    setIsOpen(!isOpen);
+  };
 
-  const navigate = useNavigate({ from: fullUrlPath });
+  const dialogRef = useOutsideClick(() => {
+    setFilters(appliedFilters);
+    setIsOpen(false);
+  });
 
   const handleFilterChange = (type: 'status' | 'region') => (event: React.ChangeEvent<HTMLInputElement>) => {
     const { checked, value } = event.target;
 
-    switch (type) {
-      case 'status':
-        setStatusTags((prevTags) => (checked ? [...prevTags, value] : prevTags.filter((tag) => tag !== value)));
-        break;
-      case 'region':
-        setRegionTags((prevTags) => (checked ? [...prevTags, value] : prevTags.filter((tag) => tag !== value)));
-        break;
-    }
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      [type === 'status' ? 'statusTags' : 'regionTags']: checked
+        ? [...prevFilters[type === 'status' ? 'statusTags' : 'regionTags'], value]
+        : prevFilters[type === 'status' ? 'statusTags' : 'regionTags'].filter((tag) => tag !== value),
+    }));
   };
 
   const resetFilters = () => {
-    setStatusTags([]);
-    setRegionTags([]);
+    setAppliedFilters({ statusTags: [], regionTags: [] });
+    setFilters({ statusTags: [], regionTags: [] });
     applyFilter([], []);
     handleFilterView();
     navigate({ search: () => ({}) });
   };
 
   const applyFilters = () => {
-    applyFilter(statusTags, regionTags);
+    setAppliedFilters(filters);
+    applyFilter(filters.statusTags, filters.regionTags);
     handleFilterView();
 
     navigate({
       search: () => ({
-        status: statusTags.length > 0 ? statusTags : undefined,
-        region: regionTags.length > 0 ? regionTags : undefined,
+        status: filters.statusTags.length > 0 ? filters.statusTags : undefined,
+        region: filters.regionTags.length > 0 ? filters.regionTags : undefined,
       }),
     });
   };
@@ -72,7 +86,7 @@ const Dialog: React.FC<DialogProps> = ({ initStatusTags, initRegionTags, headlin
       <div className={`bg-dark-900/90 fixed inset-0 z-50 ${isOpen ? 'block' : 'hidden'}`}></div>
 
       <FilterButton
-        activeCount={statusTags.length + regionTags.length}
+        activeCount={appliedFilters.statusTags.length + appliedFilters.regionTags.length}
         ariaLabel={headline}
         onClick={handleFilterView}
       />
@@ -102,7 +116,7 @@ const Dialog: React.FC<DialogProps> = ({ initStatusTags, initRegionTags, headlin
                 key={statusKey}
                 label={getWateringStatusDetails(statusValue).label}
                 name={statusKey}
-                checked={statusTags.includes(getWateringStatusDetails(statusValue).label)}
+                checked={filters.statusTags.includes(getWateringStatusDetails(statusValue).label)}
                 onChange={handleFilterChange('status')}
               >
                 <div className={`bg-${getWateringStatusDetails(statusValue).color} w-4 h-4 rounded-full`} />
@@ -117,7 +131,7 @@ const Dialog: React.FC<DialogProps> = ({ initStatusTags, initRegionTags, headlin
               key={region.id}
               label={region.name}
               name={String(region.id)}
-              checked={regionTags.includes(region.name)}
+              checked={filters.regionTags.includes(region.name)}
               onChange={handleFilterChange('region')}
             />
           ))}
