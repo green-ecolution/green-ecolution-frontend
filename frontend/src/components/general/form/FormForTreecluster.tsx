@@ -4,19 +4,22 @@ import Input from "./types/Input";
 import Select from "./types/Select";
 import Textarea from "./types/Textarea";
 import SelectTrees from "./types/SelectTrees";
-import { FieldErrors, SubmitHandler, UseFormRegister } from "react-hook-form";
+import { FieldValues, FormState, SubmitHandler, UseFormRegister } from "react-hook-form";
 import { SoilConditionOptions } from "@/hooks/useDetailsForSoilCondition";
 import { TreeclusterSchema } from "@/schema/treeclusterSchema";
 import useFormStore, { FormStore } from "@/store/form/useFormStore";
 
-interface FormForTreeclusterProps {
+export type FormForProps<T extends FieldValues> = {
   displayError: boolean;
-  register: UseFormRegister<TreeclusterSchema>;
-  errors: FieldErrors<TreeclusterSchema>;
-  onSubmit: SubmitHandler<TreeclusterSchema>;
+  register: UseFormRegister<T>;
+  onSubmit: SubmitHandler<T>;
+  formState: FormState<T>;
   handleSubmit: (
-    onSubmit: SubmitHandler<TreeclusterSchema>,
+    onSubmit: SubmitHandler<T>,
   ) => (e?: React.BaseSyntheticEvent) => Promise<void>;
+};
+
+interface FormForTreeclusterProps extends FormForProps<TreeclusterSchema> {
   onAddTrees: () => void;
   onDeleteTree: (treeId: number) => void;
 }
@@ -25,10 +28,10 @@ const FormForTreecluster: React.FC<FormForTreeclusterProps> = ({
   handleSubmit,
   displayError,
   register,
-  errors,
   onSubmit,
   onAddTrees,
   onDeleteTree,
+  formState: { errors, isDirty, isValid },
 }) => {
   const { treeIds } = useFormStore((state: FormStore<TreeclusterSchema>) => ({
     treeIds: state.form?.treeIds,
@@ -85,7 +88,7 @@ const FormForTreecluster: React.FC<FormForTreeclusterProps> = ({
       <PrimaryButton
         type="submit"
         label="Speichern"
-        disabled={Object.keys(errors).length > 0 || treeIds?.length === 0}
+        disabled={!isValid || !isDirty}
         className="mt-10 lg:col-span-full lg:w-fit"
       />
     </form>

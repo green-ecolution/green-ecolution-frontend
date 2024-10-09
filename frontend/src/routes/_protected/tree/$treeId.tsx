@@ -10,7 +10,7 @@ import TreeSensorData from '@/components/tree/TreeSensorData';
 import TreeWateringStatus from '@/components/tree/TreeWateringStatus';
 import { useAuthHeader } from '@/hooks/useAuthHeader';
 import { useSuspenseQuery } from '@tanstack/react-query';
-import { createFileRoute, useLoaderData } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router'
 import { File, Info } from 'lucide-react';
 
 export const Route = createFileRoute('/_protected/tree/$treeId')({
@@ -22,7 +22,7 @@ export const Route = createFileRoute('/_protected/tree/$treeId')({
 })
 
 function SingleTree() {
-  const treeId = useLoaderData({ from: '/_protected/trees/$treeId'});
+  const treeId = Route.useParams().treeId;
   const authorization = useAuthHeader();
 
   const { data: tree, isLoading, isError } = useSuspenseQuery({

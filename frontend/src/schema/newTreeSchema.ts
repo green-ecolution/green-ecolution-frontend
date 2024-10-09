@@ -1,8 +1,5 @@
 import { useAuthHeader } from "@/hooks/useAuthHeader";
-import {
-  sensorClusterQuery,
-  treeClusterQuery,
-} from "@/routes/_protected/tree/_formular/new";
+import { sensorQuery, treeClusterQuery } from "@/routes/_protected/tree/_formular";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { z } from "zod";
 
@@ -11,7 +8,7 @@ export const NewTreeSchema = (lat: number, lng: number) => {
   const { data: treeClusters } = useSuspenseQuery(
     treeClusterQuery(authorization),
   );
-  const { data: sensors } = useSuspenseQuery(sensorClusterQuery(authorization));
+  const { data: sensors } = useSuspenseQuery(sensorQuery(authorization));
 
   return z
     .object({
@@ -38,14 +35,14 @@ export const NewTreeSchema = (lat: number, lng: number) => {
           .refine((value) =>
             treeClusters.data.some((cluster) => cluster.id === value),
           ),
-      ).or(z.literal(-1)), // -1 no cluster selected
+      ).or(z.literal("-1").or(z.literal(-1))), // -1 no cluster selected
       sensorId: z.preprocess(
         (value) => parseInt(value as string, 10),
         z
           .number()
           .refine((value) => sensors.data.some((sensor) => sensor.id === value))
           .optional(),
-      ).or(z.literal(-1)), // -1 no sensor selected
+      ).or(z.literal("-1")), // -1 no sensor selected
       description: z.string().optional(),
     })
 };

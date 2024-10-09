@@ -5,7 +5,7 @@ import { NewTreeForm } from "@/schema/newTreeSchema";
 import useFormStore, { FormStore } from "@/store/form/useFormStore";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { LatLng } from "leaflet";
-import { useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 
 export const Route = createFileRoute("/_protected/map/tree/edit")({
   component: EditTree,
@@ -14,37 +14,50 @@ export const Route = createFileRoute("/_protected/map/tree/edit")({
 function EditTree() {
   const navigate = useNavigate({ from: Route.fullPath });
   const modalRef = useRef<HTMLDivElement>(null);
-  const { commit, form } = useFormStore(
+  const { treeId } = Route.useSearch();
+  const { commit, form, type } = useFormStore(
     (state: FormStore<NewTreeForm>) => ({
       form: state.form!!,
       commit: state.commit,
+      type: state.type,
     }),
   );
   const [treeLatLng, setTreeLatLng] = useState<LatLng>(
     new LatLng(form.latitude, form.longitude),
   );
 
+  const handleNavigateBack = useCallback(() => {
+    switch (type) {
+      case "new":
+        return navigate({
+          to: "/tree/new",
+          search: {
+            resetStore: false,
+            lat: treeLatLng.lat,
+            lng: treeLatLng.lng,
+          },
+        });
+      case "edit":
+        return navigate({
+          to: `/tree/$treeId/edit`,
+          params: { treeId: treeId?.toString() ?? "" },
+          search: { resetStore: false },
+        });
+      default:
+        return navigate({
+          to: "/treecluster/new",
+          search: { resetStore: false },
+        });
+    }
+  }, [navigate, type, treeId]);
+
   const handleSave = () => {
-    commit({...form, latitude: treeLatLng.lat, longitude: treeLatLng.lng});
-    navigate({
-      to: "/tree/new",
-      search: {
-        lat: treeLatLng!!.lat,
-        lng: treeLatLng!!.lng,
-        resetStore: false,
-      },
-    });
+    commit({ ...form, latitude: treeLatLng.lat, longitude: treeLatLng.lng });
+    handleNavigateBack();
   };
 
   const handleCancel = () => {
-    navigate({
-      to: "/tree/new",
-      search: {
-        lat: treeLatLng!!.lat,
-        lng: treeLatLng!!.lng,
-        resetStore: false,
-      },
-    });
+    handleNavigateBack();
   };
 
   return (

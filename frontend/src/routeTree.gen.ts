@@ -41,7 +41,7 @@ import { Route as ProtectedTreeFormularNewImport } from './routes/_protected/tre
 import { Route as ProtectedMapTreeNewImport } from './routes/_protected/map/tree/new'
 import { Route as ProtectedMapTreeEditImport } from './routes/_protected/map/tree/edit'
 import { Route as ProtectedTreeclusterFormularTreeclusterEditImport } from './routes/_protected/treecluster/_formular/$treecluster.edit'
-import { Route as ProtectedTreeFormularTreeEditImport } from './routes/_protected/tree/_formular/$tree.edit'
+import { Route as ProtectedTreeFormularTreeIdEditImport } from './routes/_protected/tree/_formular/$treeId.edit'
 import { Route as ProtectedMapTreeclusterSelectTreeImport } from './routes/_protected/map/treecluster/select.tree'
 
 // Create Virtual Routes
@@ -205,9 +205,9 @@ const ProtectedTreeclusterFormularTreeclusterEditRoute =
     getParentRoute: () => ProtectedTreeclusterFormularRoute,
   } as any)
 
-const ProtectedTreeFormularTreeEditRoute =
-  ProtectedTreeFormularTreeEditImport.update({
-    path: '/$tree/edit',
+const ProtectedTreeFormularTreeIdEditRoute =
+  ProtectedTreeFormularTreeIdEditImport.update({
+    path: '/$treeId/edit',
     getParentRoute: () => ProtectedTreeFormularRoute,
   } as any)
 
@@ -431,11 +431,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedMapTreeclusterSelectTreeImport
       parentRoute: typeof ProtectedMapImport
     }
-    '/_protected/tree/_formular/$tree/edit': {
-      id: '/_protected/tree/_formular/$tree/edit'
-      path: '/$tree/edit'
-      fullPath: '/tree/$tree/edit'
-      preLoaderRoute: typeof ProtectedTreeFormularTreeEditImport
+    '/_protected/tree/_formular/$treeId/edit': {
+      id: '/_protected/tree/_formular/$treeId/edit'
+      path: '/$treeId/edit'
+      fullPath: '/tree/$treeId/edit'
+      preLoaderRoute: typeof ProtectedTreeFormularTreeIdEditImport
       parentRoute: typeof ProtectedTreeFormularImport
     }
     '/_protected/treecluster/_formular/$treecluster/edit': {
@@ -471,7 +471,7 @@ export const routeTree = rootRoute.addChildren({
     ProtectedTreeRoute: ProtectedTreeRoute.addChildren({
       ProtectedTreeFormularRoute: ProtectedTreeFormularRoute.addChildren({
         ProtectedTreeFormularNewRoute,
-        ProtectedTreeFormularTreeEditRoute,
+        ProtectedTreeFormularTreeIdEditRoute,
       }),
     }),
     ProtectedTreeclusterTreeclusterIdRoute,
@@ -598,7 +598,7 @@ export const routeTree = rootRoute.addChildren({
       "parent": "/_protected/tree",
       "children": [
         "/_protected/tree/_formular/new",
-        "/_protected/tree/_formular/$tree/edit"
+        "/_protected/tree/_formular/$treeId/edit"
       ]
     },
     "/_protected/treecluster/$treeclusterId": {
@@ -661,8 +661,8 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "_protected/map/treecluster/select.tree.tsx",
       "parent": "/_protected/map"
     },
-    "/_protected/tree/_formular/$tree/edit": {
-      "filePath": "_protected/tree/_formular/$tree.edit.tsx",
+    "/_protected/tree/_formular/$treeId/edit": {
+      "filePath": "_protected/tree/_formular/$treeId.edit.tsx",
       "parent": "/_protected/tree/_formular"
     },
     "/_protected/treecluster/_formular/$treecluster/edit": {
