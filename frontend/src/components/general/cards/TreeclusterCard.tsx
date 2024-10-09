@@ -1,55 +1,48 @@
-import Tree from '@/components/icons/Tree';
-import { getWateringStatusDetails } from '@/hooks/useDetailsForWateringStatus';
-import { EntitiesWateringStatus } from '@green-ecolution/backend-client';
-import { Link } from '@tanstack/react-router';
-import { MapPin } from 'lucide-react';
-import React from 'react';
+import Tree from "@/components/icons/Tree";
+import { getWateringStatusDetails } from "@/hooks/useDetailsForWateringStatus";
+import { TreeCluster } from "@green-ecolution/backend-client";
+import { Link } from "@tanstack/react-router";
+import { MapPin } from "lucide-react";
+import React from "react";
 
 interface TreeclusterCard {
-  treecluster: {
-    id: number;
-    name: string; 
-    number: string;
-    address: string;
-    region: string;
-    treeCount: number;
-    sensorCount: number;
-    status: EntitiesWateringStatus;
-  }
+  treecluster: TreeCluster;
 }
 
 const TreeclusterCard: React.FC<TreeclusterCard> = ({ treecluster }) => {
-    const statusDetails = getWateringStatusDetails(treecluster.wateringStatus);
+  const statusDetails = getWateringStatusDetails(treecluster.wateringStatus);
 
-    return (
-      <Link 
-        to={`/treecluster/${treecluster.id}`}
-        className="bg-white border border-dark-50 p-6 rounded-xl shadow-cards flex flex-col gap-y-4 transition-all ease-in-out duration-300 hover:bg-green-dark-50 hover:border-green-dark lg:grid lg:grid-cols-[1fr,2fr,1.5fr,1fr] lg:items-center lg:gap-5 lg:py-10 xl:px-10"
+  return (
+    <Link
+      to={`/treecluster/${treecluster.id}`}
+      className="bg-white border border-dark-50 p-6 rounded-xl shadow-cards flex flex-col gap-y-4 transition-all ease-in-out duration-300 hover:bg-green-dark-50 hover:border-green-dark lg:grid lg:grid-cols-[1fr,2fr,1.5fr,1fr] lg:items-center lg:gap-5 lg:py-10 xl:px-10"
+    >
+      <p
+        className={`relative font-medium pl-7 before:absolute before:w-4 before:h-4 before:rounded-full before:left-0 before:top-[0.22rem] 
+          before:bg-${statusDetails.color}`}
       >
-        <p className={`relative font-medium pl-7 before:absolute before:w-4 before:h-4 before:rounded-full before:left-0 before:top-[0.22rem] 
-          before:bg-${statusDetails.color}`}>
-          {statusDetails.label}
+        {statusDetails.label}
+      </p>
+
+      <h2 className="font-bold text-lg mb-0.5">{treecluster.name}</h2>
+
+      <div className="text-dark-800 flex gap-x-2">
+        <MapPin className="w-5 h-5" />
+        <p>
+          <span>{treecluster.address}, </span>
+          <br />
+          <span className="text-dark-600 lg:block lg:text-sm">
+            {treecluster.region.name}
+          </span>
         </p>
+      </div>
 
-        <h2 className="font-bold text-lg mb-0.5">{treecluster.name}</h2>
-
-        <div className="text-dark-800 flex gap-x-2">
-          <MapPin className="w-5 h-5" />
-          <p>
-            <span>{treecluster.address}, </span><br/>
-            <span className="text-dark-600 lg:block lg:text-sm">{treecluster.region?.name ?? "-"}</span>
-          </p>
-        </div>
-
-        <div className="text-dark-800 flex gap-x-2">
-          <Tree className="w-5 h-5 mt-0.5" />
-          <p>
-            {treecluster.trees.length}
-            {treecluster.trees.length === 1 ? " Baum" : " Bäume"}
-          </p>
-        </div>
-      </Link>
-    );
-}
+      <div className="text-dark-800 flex gap-x-2">
+        <Tree className="w-5 h-5 mt-0.5" />
+        <p>{treecluster.trees.length} Bäume</p>
+      </div>
+    </Link>
+  );
+};
 
 export default TreeclusterCard;

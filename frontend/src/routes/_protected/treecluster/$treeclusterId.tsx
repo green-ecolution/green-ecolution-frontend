@@ -49,7 +49,7 @@ function SingleTreecluster() {
           iconClassName="stroke-1" 
           label="Gruppe bearbeiten"
           color="grey"
-          url={`/treecluster/${treecluster?.id}/edit`} />
+          link={{to: "/treecluster/$treecluster/edit", params: {treeclusterId: clusterId}}}/>
       </article>
 
       <section className="mt-10">
