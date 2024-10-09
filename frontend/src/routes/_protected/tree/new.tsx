@@ -1,8 +1,8 @@
 import { treeApi } from "@/api/backendApi";
 import PrimaryButton from "@/components/general/buttons/PrimaryButton";
-import Input from "@/components/general/form/Input";
-import Select from "@/components/general/form/Select";
-import Textarea from "@/components/general/form/Textarea";
+import Input from "@/components/general/form/types/Input";
+import Select from "@/components/general/form/types/Select";
+import Textarea from "@/components/general/form/types/Textarea";
 import { useAuthHeader } from "@/hooks/useAuthHeader";
 import { NewTreeForm, NewTreeSchema } from "@/schema/newTreeSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
