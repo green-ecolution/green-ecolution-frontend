@@ -1,4 +1,4 @@
-import { clusterApi, EntitiesTreeClusterWateringStatus } from '@/api/backendApi';
+import { clusterApi, EntitiesWateringStatus } from '@/api/backendApi';
 import EntitiesStatusCard from '@/components/general/cards/EntitiesStatusCard';
 import GeneralStatusCard from '@/components/general/cards/GeneralStatusCard';
 import TreeCard from '@/components/general/cards/TreeCard';
@@ -27,7 +27,7 @@ function SingleTreecluster() {
     queryFn: () => clusterApi.getTreeClusterById({clusterId, authorization }),
   });
 
-  const wateringStatus = getWateringStatusDetails(treecluster?.wateringStatus ?? EntitiesTreeClusterWateringStatus.TreeClusterWateringStatusUnknown);
+  const wateringStatus = getWateringStatusDetails(treecluster?.wateringStatus ?? EntitiesWateringStatus.WateringStatusUnknown);
 
   return (
     <div className="container mt-6">

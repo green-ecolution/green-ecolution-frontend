@@ -27,11 +27,7 @@ const SelectTrees: React.FC<SelectTreesProps> = ({
         ) : (
           treeIds.map((treeId, key) => (
             <li key={key}>
-              <SelectedCard
-                areTreesSelected={treeIds.length > 0}
-                itemId={treeId}
-                onClick={onDelete}
-              />
+              <SelectedCard treeId={treeId} onClick={onDelete} />
             </li>
           ))
         )}
