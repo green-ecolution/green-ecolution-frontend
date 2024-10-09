@@ -3,7 +3,7 @@ import FormForTree from "@/components/general/form/FormForTree";
 import { useFormSync } from "@/hooks/form/useFormSync";
 import { useInitForm } from "@/hooks/form/useInitForm";
 import { useAuthHeader } from "@/hooks/useAuthHeader";
-import { NewTreeForm, NewTreeSchema } from "@/schema/newTreeSchema";
+import { TreeForm, TreeSchema } from "@/schema/newTreeSchema";
 import useFormStore, { FormStore } from "@/store/form/useFormStore";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -40,12 +40,12 @@ function NewTree() {
     treeClusterQuery(authorization),
   );
 
-  const formStore = useFormStore((state: FormStore<NewTreeForm>) => ({
+  const formStore = useFormStore((state: FormStore<TreeForm>) => ({
     form: state.form,
     reset: state.reset,
   }));
 
-  const { initForm } = useInitForm<NewTreeForm>({
+  const { initForm } = useInitForm<TreeForm>({
     latitude: lat,
     longitude: lng,
     treeNumber: "",
@@ -60,10 +60,10 @@ function NewTree() {
     register,
     handleSubmit,
     formState,
-  } = useFormSync<NewTreeForm>(
+  } = useFormSync<TreeForm>(
     initForm,
     zodResolver(
-      NewTreeSchema(lat, lng),
+      TreeSchema(lat, lng),
     ),
   );
 
@@ -84,7 +84,7 @@ function NewTree() {
     },
   });
 
-  const onSubmit = (data: NewTreeForm) => {
+  const onSubmit = (data: TreeForm) => {
     mutate({
       ...data,
       sensorId: data.sensorId === -1 ? undefined : data.sensorId,

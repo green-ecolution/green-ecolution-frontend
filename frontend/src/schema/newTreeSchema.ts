@@ -3,7 +3,7 @@ import { sensorQuery, treeClusterQuery } from "@/routes/_protected/tree/_formula
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { z } from "zod";
 
-export const NewTreeSchema = (lat: number, lng: number) => {
+export const TreeSchema = (lat: number, lng: number) => {
   const authorization = useAuthHeader();
   const { data: treeClusters } = useSuspenseQuery(
     treeClusterQuery(authorization),
@@ -47,4 +47,4 @@ export const NewTreeSchema = (lat: number, lng: number) => {
     })
 };
 
-export type NewTreeForm = z.infer<ReturnType<typeof NewTreeSchema>>;
+export type TreeForm = z.infer<ReturnType<typeof TreeSchema>>;

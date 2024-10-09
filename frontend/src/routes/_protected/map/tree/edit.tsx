@@ -1,7 +1,7 @@
 import { DragableMarker } from "@/components/map/MapMarker";
 import MapSelectTreesModal from "@/components/map/MapSelectTreesModal";
 import { WithAllTrees } from "@/components/map/TreeMarker";
-import { NewTreeForm } from "@/schema/newTreeSchema";
+import { TreeForm } from "@/schema/newTreeSchema";
 import useFormStore, { FormStore } from "@/store/form/useFormStore";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { LatLng } from "leaflet";
@@ -16,7 +16,7 @@ function EditTree() {
   const modalRef = useRef<HTMLDivElement>(null);
   const { treeId } = Route.useSearch();
   const { commit, form, type } = useFormStore(
-    (state: FormStore<NewTreeForm>) => ({
+    (state: FormStore<TreeForm>) => ({
       form: state.form!!,
       commit: state.commit,
       type: state.type,

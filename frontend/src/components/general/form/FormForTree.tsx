@@ -1,4 +1,4 @@
-import { NewTreeForm } from "@/schema/newTreeSchema";
+import { TreeForm } from "@/schema/newTreeSchema";
 import { FormForProps } from "./FormForTreecluster";
 import Input from "./types/Input";
 import Select from "./types/Select";
@@ -8,14 +8,14 @@ import { MapPin } from "lucide-react";
 import PrimaryButton from "../buttons/PrimaryButton";
 import useFormStore, { FormStore } from "@/store/form/useFormStore";
 
-interface FormForTreeProps extends FormForProps<NewTreeForm> {
+interface FormForTreeProps extends FormForProps<TreeForm> {
   treeClusters: TreeCluster[];
   sensors: Sensor[];
   onChangeLocation: () => void;
 }
 
 const FormForTree = (props: FormForTreeProps) => {
-  const { lat, lng } = useFormStore((state: FormStore<NewTreeForm>) => ({
+  const { lat, lng } = useFormStore((state: FormStore<TreeForm>) => ({
     lat: state.form?.latitude ?? 0,
     lng: state.form?.longitude ?? 0,
   }));
