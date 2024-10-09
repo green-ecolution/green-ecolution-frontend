@@ -121,6 +121,8 @@ function NewTree() {
   const onSubmit = (data: NewTreeForm) => {
     mutate({
       ...data,
+      sensorId: data.sensorId === -1 ? undefined : data.sensorId,
+      treeClusterId: data.treeClusterId === -1 ? undefined : data.treeClusterId,
       readonly: false,
     });
   };
