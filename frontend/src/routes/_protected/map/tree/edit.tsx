@@ -62,7 +62,6 @@ function EditTree() {
 
   return (
     <>
-      <WithAllTrees />
       <MapSelectTreesModal
         ref={modalRef}
         onSave={handleSave}
