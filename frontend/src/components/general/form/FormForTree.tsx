@@ -1,4 +1,4 @@
-import { TreeForm } from "@/schema/newTreeSchema";
+import { TreeForm } from "@/schema/treeSchema";
 import { FormForProps } from "./FormForTreecluster";
 import Input from "./types/Input";
 import Select from "./types/Select";

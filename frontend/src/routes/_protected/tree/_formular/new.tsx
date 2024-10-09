@@ -3,7 +3,7 @@ import FormForTree from "@/components/general/form/FormForTree";
 import { useFormSync } from "@/hooks/form/useFormSync";
 import { useInitForm } from "@/hooks/form/useInitForm";
 import { useAuthHeader } from "@/hooks/useAuthHeader";
-import { TreeForm, TreeSchema } from "@/schema/newTreeSchema";
+import { TreeForm, TreeSchema } from "@/schema/treeSchema";
 import useFormStore, { FormStore } from "@/store/form/useFormStore";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -13,6 +13,7 @@ import {
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { z } from "zod";
 import { sensorQuery, treeClusterQuery } from "../_formular";
+import { useMapStore } from "@/store/store";
 
 const newTreeSearchSchema = z.object({
   lat: z.number(),
@@ -35,10 +36,12 @@ function NewTree() {
   const { lat, lng } = Route.useLoaderDeps();
   const navigate = useNavigate({ from: Route.fullPath });
   const authorization = useAuthHeader();
+  const map = useMapStore();
   const { data: sensors } = useSuspenseQuery(sensorQuery(authorization));
   const { data: treeClusters } = useSuspenseQuery(
     treeClusterQuery(authorization),
   );
+
 
   const formStore = useFormStore((state: FormStore<TreeForm>) => ({
     form: state.form,
@@ -87,11 +90,22 @@ function NewTree() {
   const onSubmit = (data: TreeForm) => {
     mutate({
       ...data,
-      sensorId: data.sensorId === -1 ? undefined : data.sensorId,
-      treeClusterId: data.treeClusterId === -1 ? undefined : data.treeClusterId,
+      sensorId: data.sensorId === "-1" ? undefined : data.sensorId,
+      treeClusterId: data.treeClusterId === "-1" ? undefined : data.treeClusterId,
       readonly: false,
     });
   };
+
+  const handleOnChangeLocation = () => {
+    navigate({
+      to: "/map/tree/new",
+      search: {
+        lat: formStore.form?.latitude ?? 0,
+        lng: formStore.form?.longitude ?? 0,
+        zoom: map.zoom,
+      },
+    });
+  }
 
   return (
     <div className="container mt-6">
@@ -114,6 +128,7 @@ function NewTree() {
           sensors={sensors.data}
           onSubmit={onSubmit}
           displayError={isError}
+          onChangeLocation={handleOnChangeLocation}
         />
       </section>
     </div>

@@ -3,7 +3,7 @@ import FormForTree from "@/components/general/form/FormForTree";
 import { useFormSync } from "@/hooks/form/useFormSync";
 import { useInitFormQuery } from "@/hooks/form/useInitForm";
 import { useAuthHeader } from "@/hooks/useAuthHeader";
-import { TreeForm, TreeSchema } from "@/schema/newTreeSchema";
+import { TreeForm, TreeSchema } from "@/schema/treeSchema";
 import { TreeclusterSchema } from "@/schema/treeclusterSchema";
 import useFormStore, { FormStore } from "@/store/form/useFormStore";
 import useStore, { useMapStore } from "@/store/store";
@@ -87,8 +87,8 @@ function EditTreeCluster() {
   const onSubmit = (data: TreeForm) => {
     mutate({
       ...data,
-      sensorId: data.sensorId === -1 ? undefined : data.sensorId,
-      treeClusterId: data.treeClusterId === -1 ? undefined : data.treeClusterId,
+      sensorId: data.sensorId === "-1" ? undefined : data.sensorId,
+      treeClusterId: data.treeClusterId === "-1" ? undefined : data.treeClusterId,
       readonly: false,
     });
   };

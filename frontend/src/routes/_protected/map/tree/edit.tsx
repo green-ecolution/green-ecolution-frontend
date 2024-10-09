@@ -1,7 +1,7 @@
 import { DragableMarker } from "@/components/map/MapMarker";
 import MapSelectTreesModal from "@/components/map/MapSelectTreesModal";
 import { WithAllTrees } from "@/components/map/TreeMarker";
-import { TreeForm } from "@/schema/newTreeSchema";
+import { TreeForm } from "@/schema/treeSchema";
 import useFormStore, { FormStore } from "@/store/form/useFormStore";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { LatLng } from "leaflet";
