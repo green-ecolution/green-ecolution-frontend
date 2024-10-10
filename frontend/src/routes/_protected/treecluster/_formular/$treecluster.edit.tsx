@@ -1,6 +1,7 @@
 import { clusterApi, TreeCluster, TreeClusterUpdate } from '@/api/backendApi'
 import queryClient from '@/api/queryClient'
 import FormForTreecluster from '@/components/general/form/FormForTreecluster'
+import Modal from '@/components/general/form/Modal'
 import LinkAsButton from '@/components/general/links/LinkAsButton'
 import { useFormSync } from '@/hooks/form/useFormSync'
 import { useInitFormQuery } from '@/hooks/form/useInitForm'
@@ -11,7 +12,8 @@ import useStore from '@/store/store'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { queryOptions, useMutation } from '@tanstack/react-query'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
-import { useCallback } from 'react'
+import { setMaxIdleHTTPParsers } from 'http'
+import { useCallback, useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
 
 const queryParams = (id: string, token: string) =>
@@ -42,6 +44,7 @@ export const Route = createFileRoute(
 
 function EditTreeCluster() {
   const authorization = useAuthHeader()
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const clusterId = Route.useParams().treecluster
   const navigate = useNavigate({ from: Route.fullPath })
   const { initForm, loadedData } = useInitFormQuery<
@@ -119,6 +122,10 @@ function EditTreeCluster() {
     )
   }
 
+  const handleDeleteTreeCluster = (treeClusterId: number) => {
+    console.log(treeClusterId);
+  }
+
   return (
     <div className="container mt-6">
       {isError ? (
@@ -154,9 +161,17 @@ function EditTreeCluster() {
           <section className="mt-10">
             <LinkAsButton
               label="Baumgruppe löschen"
-              onClick={() => console.log('test')}
+              onClick={() => setIsModalOpen(true)}
             />
           </section>
+          <Modal
+            title="Soll die Bewässerungsgruppe wirklich gelöscht werden?"
+            description="Sobald eine Bewässerungsgruppe gelöscht wurde, können die Daten nicht wieder hergestellt werden."
+            confirmText="Wirklich löschen"
+            onConfirm={() => handleDeleteTreeCluster(loadedData?.id)}
+            onCancel={() => setIsModalOpen(false)}
+            isOpen={isModalOpen}
+          />
         </div>
       )}
     </div>
