@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import TreeclusterCard from "@/components/general/cards/TreeclusterCard";
 import Dialog from "@/components/general/filter/Dialog";
-import { createFileRoute, useLoaderData } from '@tanstack/react-router';
+import { createFileRoute, useLoaderData, useSearch } from '@tanstack/react-router';
 import { z } from 'zod';
 import ButtonLink from '@/components/general/links/ButtonLink';
 import { Plus } from 'lucide-react';
@@ -10,23 +10,26 @@ import { clusterApi } from '@/api/backendApi';
 import { useAuthHeader } from '@/hooks/useAuthHeader';
 import { useQuery } from '@tanstack/react-query';
 import LoadingInfo from '@/components/general/error/LoadingInfo';
+import Toast from '@/components/general/Toast';
 
 const treeclusterFilterSchema = z.object({
   status: z.array(z.string()).optional(),
   region: z.array(z.string()).optional(),
+  showToast: z.boolean().optional(),
 });
 
 export const Route = createFileRoute('/_protected/treecluster/')({
   component: Treecluster,
   validateSearch: treeclusterFilterSchema,
 
-  loaderDeps: ({ search: { status, region } }) => ({
+  loaderDeps: ({ search: { status, region, showToast } }) => ({
     status: status || [],
     region: region || [],
+    showToast: showToast || false,
   }),
 
-  loader: ({ deps: { status, region } }) => {
-    return { status, region };
+  loader: ({ deps: { status, region, showToast } }) => {
+    return { status, region, showToast };
   },
 });
 
@@ -36,6 +39,7 @@ function Treecluster() {
 
   const [statusTags, setStatusTags] = useState<string[]>(search.status);
   const [regionTags, setRegionTags] = useState<string[]>(search.region);
+  const [showToast] = useState(search.showToast);
 
   const { data: clustersRes, isLoading, error } = useQuery({
     queryKey: ["cluster"],
@@ -47,7 +51,6 @@ function Treecluster() {
     if (search.region) setRegionTags(search.region);
   }, [search.status, search.region]);
 
-  // Filter clusters based on status and region tags
   const filteredClusters = clustersRes?.data.filter(cluster =>
     (statusTags.length === 0 || statusTags.includes(getWateringStatusDetails(cluster.wateringStatus).label)) &&
     (regionTags.length === 0 || regionTags.includes(cluster.region.name))
@@ -111,6 +114,8 @@ function Treecluster() {
           </ul>
         )}
       </section>
+      
+      {showToast && <Toast label="Die Bewässerungsgruppe wurde erfolgreich gelöscht." />}
     </div>
   );
 }

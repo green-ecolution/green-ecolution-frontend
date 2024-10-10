@@ -1,10 +1,10 @@
 import { MoveRight } from "lucide-react";
-import Modal from "../general/form/Modal";
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { clusterApi } from "@/api/backendApi";
 import { useAuthHeader } from "@/hooks/useAuthHeader";
 import { useNavigate } from "@tanstack/react-router";
+import Modal from "../general/Modal";
 
 interface DeleteSectionProps {
   clusterId: number;
@@ -23,7 +23,7 @@ const DeleteSection: React.FC<DeleteSectionProps> = ({ clusterId }) => {
         clusterId: String(clusterId),
       }),
     onSuccess: () => {
-      navigate({ to: `/treecluster` });
+      navigate({ to: "/treecluster", search: { showToast: true } });
       setIsModalOpen(true);
     },
     onError: (error: any) => {

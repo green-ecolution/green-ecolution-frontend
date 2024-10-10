@@ -1,6 +1,6 @@
 import React from "react";
-import PrimaryButton from "../buttons/PrimaryButton";
-import SecondaryButton from "../buttons/SecondaryButton";
+import PrimaryButton from "./buttons/PrimaryButton";
+import SecondaryButton from "./buttons/SecondaryButton";
 
 interface ModalProps {
   title: string;
