@@ -1,12 +1,12 @@
 import { MoveRight } from 'lucide-react';
 import React from 'react';
 
-interface LinkAsButtonProps {
+interface LinkButtonProps {
   onClick: () => void;
   label: string;
 }
 
-const LinkAsButton: React.FC<LinkAsButtonProps> = ({ label, onClick }) => (
+const LinkAsButton: React.FC<LinkButtonProps> = ({ label, onClick }) => (
   <button
     onClick={onClick}
     className="group flex items-center gap-x-2 text-red font-medium text-base mb-4">

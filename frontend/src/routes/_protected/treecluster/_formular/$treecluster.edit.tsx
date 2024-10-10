@@ -1,8 +1,7 @@
 import { clusterApi, TreeCluster, TreeClusterUpdate } from '@/api/backendApi'
 import queryClient from '@/api/queryClient'
 import FormForTreecluster from '@/components/general/form/FormForTreecluster'
-import Modal from '@/components/general/form/Modal'
-import LinkAsButton from '@/components/general/links/LinkAsButton'
+import DeleteSection from '@/components/treecluster/DeleteSection'
 import { useFormSync } from '@/hooks/form/useFormSync'
 import { useInitFormQuery } from '@/hooks/form/useInitForm'
 import { useAuthHeader } from '@/hooks/useAuthHeader'
@@ -12,8 +11,7 @@ import useStore from '@/store/store'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { queryOptions, useMutation } from '@tanstack/react-query'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
-import { setMaxIdleHTTPParsers } from 'http'
-import { useCallback, useState } from 'react'
+import { useCallback } from 'react'
 import { SubmitHandler } from 'react-hook-form'
 
 const queryParams = (id: string, token: string) =>
@@ -44,7 +42,6 @@ export const Route = createFileRoute(
 
 function EditTreeCluster() {
   const authorization = useAuthHeader()
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const clusterId = Route.useParams().treecluster
   const navigate = useNavigate({ from: Route.fullPath })
   const { initForm, loadedData } = useInitFormQuery<
@@ -122,10 +119,6 @@ function EditTreeCluster() {
     )
   }
 
-  const handleDeleteTreeCluster = (treeClusterId: number) => {
-    console.log(treeClusterId);
-  }
-
   return (
     <div className="container mt-6">
       {isError ? (
@@ -133,7 +126,7 @@ function EditTreeCluster() {
           Eine Bewässerungsgruppe mit der Nummer {clusterId} gibt es nicht oder
           die Daten zur Bewässerungsgruppe konnten nicht geladen werden.
         </p>
-      ) : (
+      ) : 
         <div>
           <article className="2xl:w-4/5">
             <h1 className="font-lato font-bold text-3xl mb-4 lg:text-4xl xl:text-5xl">
@@ -156,24 +149,11 @@ function EditTreeCluster() {
               onAddTrees={navigateToTreeSelect}
               onDeleteTree={handleDeleteTree}
             />
-          </section>
-
-          <section className="mt-10">
-            <LinkAsButton
-              label="Baumgruppe löschen"
-              onClick={() => setIsModalOpen(true)}
-            />
-          </section>
-          <Modal
-            title="Soll die Bewässerungsgruppe wirklich gelöscht werden?"
-            description="Sobald eine Bewässerungsgruppe gelöscht wurde, können die Daten nicht wieder hergestellt werden."
-            confirmText="Wirklich löschen"
-            onConfirm={() => handleDeleteTreeCluster(loadedData?.id)}
-            onCancel={() => setIsModalOpen(false)}
-            isOpen={isModalOpen}
-          />
+            </section>
+            
+            <DeleteSection clusterId={loadedData?.id}/>
         </div>
-      )}
+      }
     </div>
   )
 }
