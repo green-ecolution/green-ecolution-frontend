@@ -1,10 +1,11 @@
 import MapSelectTreesModal from "@/components/map/MapSelectTreesModal";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import useStore from "@/store/store";
 import { Tree } from "@green-ecolution/backend-client";
 import { WithAllTrees } from "@/components/map/TreeMarker";
-import { useRef, useState } from "react";
+import { useCallback, useState, useRef } from "react";
 import SelectedCard from "@/components/general/cards/SelectedCard";
+import useFormStore, { FormStore } from "@/store/form/useFormStore";
+import { TreeclusterSchema } from "@/schema/treeclusterSchema";
 import { useMapMouseSelect } from "@/hooks/useMapMouseSelect";
 import { useMap } from "react-leaflet";
 
@@ -15,20 +16,57 @@ export const Route = createFileRoute("/_protected/map/treecluster/select/tree")(
 );
 
 function SelectTrees() {
-  const newTreecluster = useStore((state) => state.newTreecluster);
-  const [treeIds, setTreeIds] = useState<number[]>(newTreecluster.treeIds);
+  const { form, storeTreeIds, set, type } = useFormStore(
+    (state: FormStore<TreeclusterSchema>) => ({
+      form: state.form,
+      storeTreeIds: state.form?.treeIds ?? [],
+      set: state.commit,
+      type: state.type,
+    }),
+  );
+  const [treeIds, setTreeIds] = useState<number[]>(storeTreeIds);
+  const [showError, setShowError] = useState(false);
   const navigate = useNavigate({ from: Route.fullPath });
   const modalRef = useRef<HTMLDivElement>(null);
   const map = useMap();
+  const { clusterId } = Route.useSearch();
+
+  const handleNavigateBack = useCallback(() => {
+    switch (type) {
+      case "new":
+        return navigate({
+          to: "/treecluster/new",
+          search: { resetStore: false },
+        });
+      case "edit":
+        return navigate({
+          to: `/treecluster/$treecluster/edit`,
+          params: { treecluster: clusterId?.toString() ?? "" },
+          search: { resetStore: false },
+        });
+      default:
+        return navigate({
+          to: "/treecluster/new",
+          search: { resetStore: false },
+        });
+    }
+  }, [navigate, type, clusterId]);
 
   const handleSave = () => {
-    newTreecluster.setTreeIds(treeIds);
-    navigate({ to: "/treecluster/new" });
+    if (treeIds.length === 0) {
+      setShowError(true);
+      return;
+    }
+    form &&
+      set({
+        ...form,
+        treeIds,
+      });
+
+    handleNavigateBack();
   };
 
-  const handleCancel = () => {
-    navigate({ to: "/treecluster/new" });
-  };
+  const handleCancel = () => handleNavigateBack();
 
   const handleDeleteTree = (treeId: number) => {
     setTreeIds((prev) => prev.filter((id) => id !== treeId));
@@ -38,7 +76,7 @@ function SelectTrees() {
     setTreeIds((prev) => (!prev.includes(tree.id) ? [...prev, tree.id] : prev));
   };
 
-  useMapMouseSelect((latlng, e) => {
+  useMapMouseSelect((_, e) => {
     const target = e.originalEvent.target as HTMLElement;
     if (modalRef.current?.contains(target)) {
       map.dragging.disable();
@@ -59,9 +97,9 @@ function SelectTrees() {
         title="Bäume auswählen:"
         content={
           <ul className="space-y-3">
-            {(treeIds?.length || 0) === 0 ? (
-              <li className="text-dark-600">
-                <p>Keine Bäume ausgewählt.</p>
+            {(treeIds?.length || 0) === 0 || showError ? (
+              <li className="text-red">
+                <p>Bitte wählen Sie mindestens einen Baum aus.</p>
               </li>
             ) : (
               treeIds.map((treeId, key) => (

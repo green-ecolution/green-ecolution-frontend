@@ -17,6 +17,7 @@ const MapSelectTreesModal = forwardRef(({
   onCancel,
   content,
   title,
+  treeIds,
 }: MapSelectTreesModalProps, ref: ForwardedRef<HTMLDivElement>) => {
   const [openModal, setOpenModal] = useState(false);
 
@@ -42,7 +43,7 @@ const MapSelectTreesModal = forwardRef(({
             {title}
           </h2>
           <button
-            aria-label="Close Dialog"
+            aria-label="Dialog schließen"
             className="text-dark-400 hover:text-dark-600 stroke-1 lg:hidden"
             onClick={() => setOpenModal(false)}
           >
@@ -53,7 +54,7 @@ const MapSelectTreesModal = forwardRef(({
         {content}
 
         <div className="flex flex-wrap gap-5">
-          <PrimaryButton type="submit" label="Speichern" onClick={onSave} />
+          <PrimaryButton type="submit" label="Speichern" onClick={onSave} disabled={treeIds?.length === 0} />
           <SecondaryButton label="Zurück" onClick={onCancel} />
         </div>
       </div>

@@ -1,12 +1,15 @@
 import { useState, useEffect } from 'react';
 import TreeclusterCard from "@/components/general/cards/TreeclusterCard";
 import Dialog from "@/components/general/filter/Dialog";
-import { treeclusterDemoData } from "@/data/treecluser";
 import { createFileRoute, useLoaderData } from '@tanstack/react-router';
 import { z } from 'zod';
 import ButtonLink from '@/components/general/links/ButtonLink';
 import { Plus } from 'lucide-react';
 import { getWateringStatusDetails } from '@/hooks/useDetailsForWateringStatus';
+import { clusterApi } from '@/api/backendApi';
+import { useAuthHeader } from '@/hooks/useAuthHeader';
+import { useQuery } from '@tanstack/react-query';
+import LoadingInfo from '@/components/general/error/LoadingInfo';
 
 const treeclusterFilterSchema = z.object({
   status: z.array(z.string()).optional(),
@@ -28,20 +31,26 @@ export const Route = createFileRoute('/_protected/treecluster/')({
 });
 
 function Treecluster() {
-  const clusters = treeclusterDemoData();
+  const authorization = useAuthHeader();
   const search = useLoaderData({ from: '/_protected/treecluster/' });
 
   const [statusTags, setStatusTags] = useState<string[]>(search.status);
   const [regionTags, setRegionTags] = useState<string[]>(search.region);
+
+  const { data: clustersRes, isLoading, error } = useQuery({
+    queryKey: ["cluster"],
+    queryFn: () => clusterApi.getAllTreeClusters({ authorization }),
+  });
 
   useEffect(() => {
     if (search.status) setStatusTags(search.status);
     if (search.region) setRegionTags(search.region);
   }, [search.status, search.region]);
 
-  const filteredClusters = clusters.filter(cluster =>
-    (statusTags.length === 0 || statusTags.includes(getWateringStatusDetails(cluster.status).label)) &&
-    (regionTags.length === 0 || regionTags.includes(cluster.region))
+  // Filter clusters based on status and region tags
+  const filteredClusters = clustersRes?.data.filter(cluster =>
+    (statusTags.length === 0 || statusTags.includes(getWateringStatusDetails(cluster.wateringStatus).label)) &&
+    (regionTags.length === 0 || regionTags.includes(cluster.region.name))
   );
 
   return (
@@ -75,34 +84,32 @@ function Treecluster() {
           />
         </div>
 
-        <header className="hidden border-b pb-2 text-sm text-dark-800 px-8 border-b-dark-200 mb-5 lg:grid lg:grid-cols-[1fr,1.5fr,2fr,1fr] lg:gap-5 xl:px-10">
+        <header className="hidden border-b pb-2 text-sm text-dark-800 px-8 border-b-dark-200 mb-5 lg:grid lg:grid-cols-[1fr,2fr,1.5fr,1fr] lg:gap-5 xl:px-10">
           <p>Status</p>
           <p>Name</p>
           <p>Standort</p>
           <p>Anzahl d. Bäume</p>
         </header>
 
-        <ul>
-          {clusters.length === 0 ? (
-            <li className="text-center text-dark-600 mt-10">
-              <p>Es sind noch keine Bewässerungsgruppen vorhanden.</p>
-            </li>
-          ) : (
-            filteredClusters.length === 0 ? (
+        {isLoading ? (
+          <LoadingInfo label="Daten werden geladen" />
+        ) : error ? (
+          <p className="text-center text-dark-600 mt-10">Fehler beim Laden der Daten.</p>
+        ) : (
+          <ul>
+            {filteredClusters?.length === 0 ? (
               <li className="text-center text-dark-600 mt-10">
                 <p>Es wurden keine Bewässerungsgruppen gefunden, die den Filterkriterien entsprechen.</p>
               </li>
             ) : (
-              filteredClusters.map((cluster, key) => (
+              filteredClusters?.map((cluster, key) => (
                 <li key={key} className="mb-5 last:mb-0">
-                  <TreeclusterCard
-                    treecluster={cluster}
-                  />
+                  <TreeclusterCard treecluster={cluster} />
                 </li>
               ))
-            )
-          )}
-        </ul>
+            )}
+          </ul>
+        )}
       </section>
     </div>
   );
