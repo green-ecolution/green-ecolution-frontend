@@ -19,7 +19,7 @@ export const useFormSync = <T extends FieldValues>(
   useEffect(() => {
     // console.log("defaultValues", defaultValues);
     defaultValues && form.reset(defaultValues);
-  }, [defaultValues]);
+  }, [defaultValues, form]);
 
   useEffect(() => {
     const { unsubscribe } = form.watch((value) => {
@@ -28,7 +28,7 @@ export const useFormSync = <T extends FieldValues>(
     });
 
     return () => unsubscribe();
-  }, [form.watch]);
+  }, [commit, form, form.watch]);
 
   return form;
 };
