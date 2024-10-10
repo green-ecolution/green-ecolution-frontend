@@ -50,9 +50,9 @@ function ImportFile() {
 
       setFile(null);
       setMessage("Es wurden erfolgreich neue Daten importiert.");
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error(error);
-      setMessage(error)
+      setMessage(String(error));
     }
   };
 

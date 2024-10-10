@@ -17,7 +17,7 @@ type FormStoreActions<Form> = {
 
 export type FormStore<T> = FormStoreState<T> & FormStoreActions<T>;
 
-const useFormStore = create<FormStore<any>>()(
+const useFormStore = create<FormStore<unknown>>()(
   devtools(
     immer((set, get) => ({
       form: undefined,
