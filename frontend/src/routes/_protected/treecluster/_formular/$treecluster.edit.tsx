@@ -1,48 +1,49 @@
-import { clusterApi, TreeCluster, TreeClusterUpdate } from "@/api/backendApi";
-import queryClient from "@/api/queryClient";
-import FormForTreecluster from "@/components/general/form/FormForTreecluster";
-import { useFormSync } from "@/hooks/form/useFormSync";
-import { useInitFormQuery } from "@/hooks/form/useInitForm";
-import { useAuthHeader } from "@/hooks/useAuthHeader";
-import { TreeclusterSchema } from "@/schema/treeclusterSchema";
-import useFormStore, { FormStore } from "@/store/form/useFormStore";
-import useStore from "@/store/store";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { queryOptions, useMutation } from "@tanstack/react-query";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useCallback } from "react";
-import { SubmitHandler } from "react-hook-form";
+import { clusterApi, TreeCluster, TreeClusterUpdate } from '@/api/backendApi'
+import queryClient from '@/api/queryClient'
+import FormForTreecluster from '@/components/general/form/FormForTreecluster'
+import LinkAsButton from '@/components/general/links/LinkAsButton'
+import { useFormSync } from '@/hooks/form/useFormSync'
+import { useInitFormQuery } from '@/hooks/form/useInitForm'
+import { useAuthHeader } from '@/hooks/useAuthHeader'
+import { TreeclusterSchema } from '@/schema/treeclusterSchema'
+import useFormStore, { FormStore } from '@/store/form/useFormStore'
+import useStore from '@/store/store'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { queryOptions, useMutation } from '@tanstack/react-query'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
+import { useCallback } from 'react'
+import { SubmitHandler } from 'react-hook-form'
 
 const queryParams = (id: string, token: string) =>
   queryOptions<TreeCluster>({
-    queryKey: ["treescluster", id],
+    queryKey: ['treescluster', id],
     queryFn: () =>
       clusterApi.getTreeClusterById({
         authorization: token,
         clusterId: id,
       }),
-  });
+  })
 
 export const Route = createFileRoute(
-  "/_protected/treecluster/_formular/$treecluster/edit",
+  '/_protected/treecluster/_formular/$treecluster/edit'
 )({
   component: EditTreeCluster,
   beforeLoad: () => {
-    useFormStore.getState().setType("edit");
+    useFormStore.getState().setType('edit')
   },
   loader: ({ params: { treecluster } }) => {
-    if (!useStore.getState().auth.isAuthenticated) return;
-    const token = useStore.getState().auth.token?.accessToken ?? "";
+    if (!useStore.getState().auth.isAuthenticated) return
+    const token = useStore.getState().auth.token?.accessToken ?? ''
     return queryClient.ensureQueryData(
-      queryParams(treecluster, `Bearer ${token}`),
-    );
+      queryParams(treecluster, `Bearer ${token}`)
+    )
   },
-});
+})
 
 function EditTreeCluster() {
-  const authorization = useAuthHeader();
-  const clusterId = Route.useParams().treecluster;
-  const navigate = useNavigate({ from: Route.fullPath });
+  const authorization = useAuthHeader()
+  const clusterId = Route.useParams().treecluster
+  const navigate = useNavigate({ from: Route.fullPath })
   const { initForm, loadedData } = useInitFormQuery<
     TreeCluster,
     TreeclusterSchema
@@ -52,70 +53,70 @@ function EditTreeCluster() {
     description: data.description,
     soilCondition: data.soilCondition,
     treeIds: data.trees.map((tree) => tree.id),
-  }));
+  }))
 
   const mapPosition = useStore((state) => ({
     lat: state.map.center[0],
     lng: state.map.center[1],
     zoom: state.map.zoom,
-  }));
+  }))
 
   const formStore = useFormStore((state: FormStore<TreeclusterSchema>) => ({
     form: state.form,
     reset: state.reset,
-  }));
+  }))
 
   const {
     register,
     setValue,
     handleSubmit,
     formState: { errors },
-  } = useFormSync<TreeclusterSchema>(initForm, zodResolver(TreeclusterSchema));
+  } = useFormSync<TreeclusterSchema>(initForm, zodResolver(TreeclusterSchema))
 
   const { isError, mutate } = useMutation({
     mutationFn: (body: TreeClusterUpdate) =>
       clusterApi.updateTreeCluster({ authorization, clusterId, body }),
     onSuccess: (data) => onUpdateSuccess(data),
     onError: () => onUpdateError(),
-  });
+  })
 
   const onUpdateSuccess = useCallback((data: TreeCluster) => {
-    formStore.reset();
+    formStore.reset()
     navigate({
       to: `/treecluster/${data.id}`,
       search: { resetStore: false },
       replace: true,
-    });
-  }, []);
+    })
+  }, [])
 
   const onUpdateError = () => {
-    console.error("Error updating treecluster");
-  };
+    console.error('Error updating treecluster')
+  }
 
   const onSubmit: SubmitHandler<TreeclusterSchema> = async (data) => {
     mutate({
       ...data,
       treeIds: formStore.form?.treeIds ?? [],
-    });
-  };
+    })
+  }
 
   const navigateToTreeSelect = () => {
     navigate({
-      to: "/map/treecluster/select/tree",
+      to: '/map/treecluster/select/tree',
       search: {
         lat: mapPosition.lat,
         lng: mapPosition.lng,
         zoom: mapPosition.zoom,
         clusterId: Number(clusterId),
       },
-    });
-  };
+    })
+  }
 
   const handleDeleteTree = (treeId: number) => {
     setValue(
-      "treeIds",
-      formStore.form?.treeIds?.filter((id) => id !== treeId) ?? [],
-    );
+      'treeIds',
+      formStore.form?.treeIds?.filter((id) => id !== treeId) ?? []
+    )
   }
 
   return (
@@ -149,8 +150,15 @@ function EditTreeCluster() {
               onDeleteTree={handleDeleteTree}
             />
           </section>
+
+          <section className="mt-10">
+            <LinkAsButton
+              label="Baumgruppe löschen"
+              onClick={() => console.log('test')}
+            />
+          </section>
         </div>
       )}
     </div>
-  );
+  )
 }
