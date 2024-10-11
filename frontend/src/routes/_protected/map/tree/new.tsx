@@ -40,6 +40,7 @@ function NewTree() {
         onSave={handleSave}
         onCancel={handleCancel}
         title="Baum erfassen:"
+        disabled={!treeLatLng}
         content={
           <ul className="space-y-3">
             <li className="text-dark-600">
