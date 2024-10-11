@@ -73,7 +73,11 @@ function SelectTrees() {
   };
 
   const handleTreeClick = (tree: Tree) => {
-    setTreeIds((prev) => (!prev.includes(tree.id) ? [...prev, tree.id] : prev));
+    if (treeIds.includes(tree.id)) {
+      setTreeIds((prev) => prev.filter((id) => id !== tree.id));
+    } else {
+      setTreeIds((prev) => [...prev, tree.id]);
+    }
   };
 
   useMapMouseSelect((_, e) => {
