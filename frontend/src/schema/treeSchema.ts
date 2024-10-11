@@ -42,7 +42,7 @@ export const TreeSchema = (lat: number, lng: number) => {
           .number()
           .refine((value) => sensors.data.some((sensor) => sensor.id === value))
           .optional(),
-      ).or(z.literal("-1")), // -1 no sensor selected
+      ).or(z.literal("-1").or(z.literal(-1))), // -1 no sensor selected
       description: z.string().optional(),
     })
 };
