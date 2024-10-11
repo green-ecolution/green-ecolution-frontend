@@ -4,10 +4,16 @@ import Input from "./types/Input";
 import Select from "./types/Select";
 import Textarea from "./types/Textarea";
 import SelectTrees from "./types/SelectTrees";
-import { FieldValues, FormState, SubmitHandler, UseFormRegister } from "react-hook-form";
+import {
+  FieldValues,
+  FormState,
+  SubmitHandler,
+  UseFormRegister,
+} from "react-hook-form";
 import { SoilConditionOptions } from "@/hooks/useDetailsForSoilCondition";
 import { TreeclusterSchema } from "@/schema/treeclusterSchema";
 import useFormStore, { FormStore } from "@/store/form/useFormStore";
+import FormError from "./FormError";
 
 export type FormForProps<T extends FieldValues> = {
   displayError: boolean;
@@ -78,12 +84,10 @@ const FormForTreecluster: React.FC<FormForTreeclusterProps> = ({
         onAddTrees={onAddTrees}
       />
 
-      <p
-        className={`text-red font-medium mt-10 ${displayError ? "" : "hidden"}`}
-      >
-        Es ist leider ein Problem aufgetreten. Bitte probieren Sie es erneut
-        oder wenden Sie sich an eine:n Systemadministrator:in.
-      </p>
+      <FormError
+        show={displayError}
+        error="Es ist leider ein Problem aufgetreten. Bitte probieren Sie es erneut oder wenden Sie sich an eine:n Systemadministrator:in."
+      />
 
       <PrimaryButton
         type="submit"

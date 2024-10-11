@@ -7,6 +7,7 @@ import Textarea from "./types/Textarea";
 import { MapPin } from "lucide-react";
 import PrimaryButton from "../buttons/PrimaryButton";
 import useFormStore, { FormStore } from "@/store/form/useFormStore";
+import FormError from "./FormError";
 
 interface FormForTreeProps extends FormForProps<TreeForm> {
   treeClusters: TreeCluster[];
@@ -71,7 +72,7 @@ const FormForTree = (props: FormForTreeProps) => {
             })),
           ]}
           placeholder="Wählen Sie einen Sensor aus, sofern vorhanden"
-          label="Sensor am Baum"
+          label="Verknüpfter Sensor"
           error={errors.sensorId?.message}
           {...props.register("sensorId")}
         />
@@ -89,11 +90,10 @@ const FormForTree = (props: FormForTreeProps) => {
         </p>
         <div>
           <p className="block mb-2.5">
-            <span className="text-dark-800 font-semibold">Breitengrad:</span>{" "}
-            {lat}
+            <strong className="text-dark-800">Breitengrad:</strong> {lat}
           </p>
           <p className="block mb-2.5">
-            <span className="text-dark-800 font-semibold">Längengrad:</span>{" "}
+            <strong className="text-dark-800 font-semibold">Längengrad:</strong>{" "}
             {lng}
           </p>
         </div>
@@ -108,12 +108,10 @@ const FormForTree = (props: FormForTreeProps) => {
         </button>
       </div>
 
-      <p
-        className={`text-red font-medium mt-10 ${props.displayError ? "" : "hidden"}`}
-      >
-        Es ist leider ein Problem aufgetreten. Bitte probieren Sie es erneut
-        oder wenden Sie sich an eine:n Systemadministrator:in.
-      </p>
+      <FormError
+        show={props.displayError}
+        error="Es ist leider ein Problem aufgetreten. Bitte probieren Sie es erneut oder wenden Sie sich an eine:n Systemadministrator:in."
+      />
 
       <PrimaryButton
         type="submit"
