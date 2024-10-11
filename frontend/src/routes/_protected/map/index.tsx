@@ -11,7 +11,7 @@ function MapView() {
   const navigate = useNavigate({ from: '/map' });
 
   const handleMarkerClick = (tree: Tree) => {
-    navigate({ to: `/trees/${tree.id}` });
+    navigate({ to: `/tree/$treeId`, params: { treeId: tree.id.toString() } });
   };
 
   return (

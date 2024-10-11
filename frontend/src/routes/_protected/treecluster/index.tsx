@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 import TreeclusterCard from "@/components/general/cards/TreeclusterCard";
 import Dialog from "@/components/general/filter/Dialog";
 import { createFileRoute, useLoaderData } from '@tanstack/react-router';
@@ -16,7 +16,7 @@ const treeclusterFilterSchema = z.object({
   region: z.array(z.string()).optional(),
 });
 
-export const Route = createFileRoute('/_protected/treecluster/')({
+export const Route = createFileRoute("/_protected/treecluster/")({
   component: Treecluster,
   validateSearch: treeclusterFilterSchema,
 
@@ -32,13 +32,17 @@ export const Route = createFileRoute('/_protected/treecluster/')({
 
 function Treecluster() {
   const authorization = useAuthHeader();
-  const search = useLoaderData({ from: '/_protected/treecluster/' });
+  const search = useLoaderData({ from: "/_protected/treecluster/" });
 
   const [statusTags, setStatusTags] = useState<string[]>(search.status);
   const [regionTags, setRegionTags] = useState<string[]>(search.region);
   const [searchQuery, setSearchQuery] = useState<string>('');
 
-  const { data: clustersRes, isLoading, error } = useQuery({
+  const {
+    data: clustersRes,
+    isLoading,
+    error,
+  } = useQuery({
     queryKey: ["cluster"],
     queryFn: () => clusterApi.getAllTreeClusters({ authorization }),
   });
@@ -49,9 +53,13 @@ function Treecluster() {
   }, [search.status, search.region]);
 
   // Filter clusters based on status and region tags
-  const filteredClusters = clustersRes?.data.filter(cluster =>
-    (statusTags.length === 0 || statusTags.includes(getWateringStatusDetails(cluster.wateringStatus).label)) &&
-    (regionTags.length === 0 || regionTags.includes(cluster.region.name))
+  const filteredClusters = clustersRes?.data.filter(
+    (cluster) =>
+      (statusTags.length === 0 ||
+        statusTags.includes(
+          getWateringStatusDetails(cluster.wateringStatus).label,
+        )) &&
+      (regionTags.length === 0 || regionTags.includes(cluster.region.name)),
   );
 
   return (
@@ -61,14 +69,17 @@ function Treecluster() {
           Auflistung der Bewässerungsgruppen
         </h1>
         <p className="mb-5">
-          Eine Bewässerungsgruppe besteht aus bis zu 40 Bäumen, die die gleichen Standortbedingungen vorweisen.
-          Mindestens fünf Bäume in einer Baumgruppe sind mit Sensoren ausgestattet.
-          Diese gelieferten Werte werden gemittelt, sodass eine Handlungsempfehlung für die Baumgruppe gegeben werden kann.
+          Eine Bewässerungsgruppe besteht aus bis zu 40 Bäumen, die die gleichen
+          Standortbedingungen vorweisen. Mindestens fünf Bäume in einer
+          Baumgruppe sind mit Sensoren ausgestattet. Diese gelieferten Werte
+          werden gemittelt, sodass eine Handlungsempfehlung für die Baumgruppe
+          gegeben werden kann.
         </p>
         <ButtonLink
           icon={Plus}
           label="Neue Gruppe erstellen"
-          url="/treecluster/new" />
+          link={{ to: "/treecluster/new" }}
+        />
       </article>
 
       <section className="mt-10">
@@ -117,12 +128,17 @@ function Treecluster() {
         {isLoading ? (
           <LoadingInfo label="Daten werden geladen" />
         ) : error ? (
-          <p className="text-center text-dark-600 mt-10">Fehler beim Laden der Daten.</p>
+          <p className="text-center text-dark-600 mt-10">
+            Fehler beim Laden der Daten.
+          </p>
         ) : (
           <ul>
             {filteredClusters?.length === 0 ? (
               <li className="text-center text-dark-600 mt-10">
-                <p>Es wurden keine Bewässerungsgruppen gefunden, die den Filterkriterien entsprechen.</p>
+                <p>
+                  Es wurden keine Bewässerungsgruppen gefunden, die den
+                  Filterkriterien entsprechen.
+                </p>
               </li>
             ) : (
               filteredClusters?.map((cluster, key) => (
