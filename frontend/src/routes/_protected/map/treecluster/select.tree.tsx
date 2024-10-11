@@ -93,7 +93,7 @@ function SelectTrees() {
         ref={modalRef}
         onSave={handleSave}
         onCancel={handleCancel}
-        treeIds={treeIds}
+        disabled={treeIds.length === 0}
         title="Bäume auswählen:"
         content={
           <ul className="space-y-3">

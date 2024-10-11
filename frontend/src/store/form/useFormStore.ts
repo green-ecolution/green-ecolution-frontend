@@ -23,7 +23,7 @@ const useFormStore = create<FormStore<any>>()(
       form: undefined,
       type: "new",
       commit: (form) => {
-        // console.log("commit", form);
+        console.log("commit", form);
         set((state) => {
           state.form = form;
         });
