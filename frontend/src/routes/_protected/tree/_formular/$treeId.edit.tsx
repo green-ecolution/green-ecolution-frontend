@@ -1,45 +1,46 @@
-import { Tree, treeApi, TreeUpdate } from "@/api/backendApi";
-import FormForTree from "@/components/general/form/FormForTree";
-import { useFormSync } from "@/hooks/form/useFormSync";
-import { useInitFormQuery } from "@/hooks/form/useInitForm";
-import { useAuthHeader } from "@/hooks/useAuthHeader";
-import { TreeForm, TreeSchema } from "@/schema/treeSchema";
-import { TreeclusterSchema } from "@/schema/treeclusterSchema";
-import useFormStore, { FormStore } from "@/store/form/useFormStore";
-import useStore, { useMapStore } from "@/store/store";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { sensorQuery, treeClusterQuery, treeQuery } from "../_formular";
-import { useRef } from "react";
+import { Tree, treeApi, TreeUpdate } from '@/api/backendApi'
+import FormForTree from '@/components/general/form/FormForTree'
+import { useFormSync } from '@/hooks/form/useFormSync'
+import { useInitFormQuery } from '@/hooks/form/useInitForm'
+import { useAuthHeader } from '@/hooks/useAuthHeader'
+import { TreeForm, TreeSchema } from '@/schema/treeSchema'
+import { TreeclusterSchema } from '@/schema/treeclusterSchema'
+import useFormStore, { FormStore } from '@/store/form/useFormStore'
+import useStore, { useMapStore } from '@/store/store'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useMutation, useSuspenseQuery } from '@tanstack/react-query'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
+import { sensorQuery, treeClusterQuery, treeQuery } from '../_formular'
+import { useRef } from 'react'
+import BackLink from '@/components/general/links/BackLink'
 
-export const Route = createFileRoute("/_protected/tree/_formular/$treeId/edit")(
+export const Route = createFileRoute('/_protected/tree/_formular/$treeId/edit')(
   {
     component: EditTreeCluster,
     beforeLoad: () => {
-      useFormStore.getState().setType("edit");
+      useFormStore.getState().setType('edit')
     },
     loader: ({ params: { treeId } }) => {
-      const token = useStore.getState().auth.token?.accessToken ?? "";
+      const token = useStore.getState().auth.token?.accessToken ?? ''
       return {
         tree: treeQuery(treeId, token),
         sensors: sensorQuery(token),
         clusters: treeClusterQuery(token),
-      };
+      }
     },
-  },
-);
+  }
+)
 
 function EditTreeCluster() {
-  const authorization = useAuthHeader();
-  const treeId = Route.useParams().treeId;
-  const navigate = useNavigate({ from: Route.fullPath });
-  const skipBlocker = useRef(false);
-  const { data: sensors } = useSuspenseQuery(sensorQuery(authorization));
-  const map = useMapStore();
+  const authorization = useAuthHeader()
+  const treeId = Route.useParams().treeId
+  const navigate = useNavigate({ from: Route.fullPath })
+  const skipBlocker = useRef(false)
+  const { data: sensors } = useSuspenseQuery(sensorQuery(authorization))
+  const map = useMapStore()
   const { data: treeClusters } = useSuspenseQuery(
-    treeClusterQuery(authorization),
-  );
+    treeClusterQuery(authorization)
+  )
   const { initForm, loadedData } = useInitFormQuery<Tree, TreeForm>(
     treeQuery(treeId, authorization),
     (data) => ({
@@ -50,21 +51,19 @@ function EditTreeCluster() {
       plantingYear: data.plantingYear,
       treeClusterId: data.treeClusterId ?? -1,
       sensorId: data.sensor?.id ?? -1,
-      description: "", // data.description,
-    }),
-  );
+      description: '', // data.description,
+    })
+  )
 
   const formStore = useFormStore((state: FormStore<TreeclusterSchema>) => ({
     form: state.form,
     reset: state.reset,
-  }));
+  }))
 
   const { register, handleSubmit, formState } = useFormSync<TreeForm>(
     initForm,
-    zodResolver(
-      TreeSchema(initForm?.latitude ?? 0, initForm?.longitude ?? 0),
-    ),
-  );
+    zodResolver(TreeSchema(initForm?.latitude ?? 0, initForm?.longitude ?? 0))
+  )
 
   const { isError, mutate } = useMutation({
     mutationFn: (tree: TreeUpdate) =>
@@ -74,37 +73,38 @@ function EditTreeCluster() {
         body: tree,
       }),
     onSuccess: (data) => {
-      formStore.reset();
+      formStore.reset()
       navigate({
-        to: "/tree/$treeId",
+        to: '/tree/$treeId',
         params: { treeId: data.id.toString() },
         search: { resetStore: false },
         replace: true,
-      });
+      })
     },
-  });
+  })
 
   const onSubmit = (data: TreeForm) => {
     mutate({
       ...data,
-      sensorId: data.sensorId === "-1" ? undefined : data.sensorId,
-      treeClusterId: data.treeClusterId === "-1" ? undefined : data.treeClusterId,
+      sensorId: data.sensorId === '-1' ? undefined : data.sensorId,
+      treeClusterId:
+        data.treeClusterId === '-1' ? undefined : data.treeClusterId,
       readonly: false,
-    });
-  };
+    })
+  }
 
   const handleOnChangeLocation = () => {
-    skipBlocker.current = true;
+    skipBlocker.current = true
     navigate({
-      to: "/map/tree/edit",
+      to: '/map/tree/edit',
       search: {
         treeId: Number(treeId),
         lat: initForm?.latitude ?? 0,
         lng: initForm?.longitude ?? 0,
         zoom: map.zoom,
       },
-    });
-  };
+    })
+  }
 
   return (
     <div className="container mt-6">
@@ -115,6 +115,10 @@ function EditTreeCluster() {
         </p>
       ) : (
         <div>
+          <BackLink
+            link={{ to: '/tree/$treeId', params: { treeId } }}
+            label="Zurück zur Übersicht"
+          />
           <article className="2xl:w-4/5">
             <h1 className="font-lato font-bold text-3xl mb-4 lg:text-4xl xl:text-5xl">
               Baum {loadedData.treeNumber} bearbeiten
@@ -141,5 +145,5 @@ function EditTreeCluster() {
         </div>
       )}
     </div>
-  );
+  )
 }

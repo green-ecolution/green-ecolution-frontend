@@ -32,7 +32,7 @@ function SingleTreecluster() {
   return (
     <div className="container mt-6">
       <BackLink 
-        url="/treecluster"
+        link={{to: "/treecluster"}}
         label="Zu allen Bewässerungsgruppen" />
       <article className="space-y-6 2xl:space-y-0 2xl:flex 2xl:items-center 2xl:space-x-10">
         <div className="2xl:w-4/5">
