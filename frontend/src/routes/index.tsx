@@ -29,7 +29,7 @@ function Startpage() {
             Labore id duis minim nisi duis incididunt. Aliqua qui dolor laborum anim aliquip sit nulla eiusmod laboris excepteur sit non laboris do.
             Occaecat exercitation dolor irure fugiat ullamco elit cupidatat commodo fugiat consectetur.
           </p>
-          <div className="flex flex-wrap justify-center items-center gap-x-6 mt-10 xl:justify-start">
+          <div className="flex flex-wrap justify-center items-center gap-6 mt-10 xl:justify-start">
             {isAuthenticated ? (
               <ButtonLink
                 url="/dashboard"
