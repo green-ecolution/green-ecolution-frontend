@@ -66,12 +66,8 @@ function EditTreeCluster() {
     reset: state.reset,
   }))
 
-  const {
-    register,
-    setValue,
-    handleSubmit,
-    formState: { errors },
-  } = useFormSync<TreeclusterSchema>(initForm, zodResolver(TreeclusterSchema))
+  const { register, setValue, handleSubmit, formState } =
+    useFormSync<TreeclusterSchema>(initForm, zodResolver(TreeclusterSchema));
 
   const { isError, mutate } = useMutation({
     mutationFn: (body: TreeClusterUpdate) =>
@@ -87,7 +83,7 @@ function EditTreeCluster() {
       search: { resetStore: false },
       replace: true,
     })
-  }, [])
+  }, [formStore, navigate])
 
   const onUpdateError = () => {
     console.error('Error updating treecluster')
@@ -114,10 +110,10 @@ function EditTreeCluster() {
 
   const handleDeleteTree = (treeId: number) => {
     setValue(
-      'treeIds',
-      formStore.form?.treeIds?.filter((id) => id !== treeId) ?? []
-    )
-  }
+      "treeIds",
+      formStore.form?.treeIds?.filter((id) => id !== treeId) ?? [],
+    );
+  };
 
   return (
     <div className="container mt-6">
@@ -142,9 +138,9 @@ function EditTreeCluster() {
           <section className="mt-10">
             <FormForTreecluster
               register={register}
+              formState={formState}
               handleSubmit={handleSubmit}
               displayError={isError}
-              errors={errors}
               onSubmit={onSubmit}
               onAddTrees={navigateToTreeSelect}
               onDeleteTree={handleDeleteTree}
