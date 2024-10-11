@@ -4,11 +4,12 @@ import L, { DivIcon, Icon, IconOptions } from "leaflet";
 import { Marker } from "react-leaflet";
 import { Marker as LeafletMarker } from "leaflet";
 import { useMemo, useRef } from "react";
-import { Check, LucideIcon, Plus } from "lucide-react";
+import { Check } from "lucide-react";
 import { renderToStaticMarkup } from "react-dom/server";
+import Tree from "../icons/Tree";
 
-const iconToSvg = (IconComponent: LucideIcon) => {
-  return renderToStaticMarkup(<IconComponent className="text-white" size={18} strokeWidth={3} />);
+const iconToSvg = (IconComponent: React.FC<React.SVGProps<SVGSVGElement>>) => {
+  return renderToStaticMarkup(<IconComponent className="text-white w-[1.125rem] h-[1.125rem]" strokeWidth={3} />);
 };
 
 const defaultIcon = new Icon({
@@ -69,7 +70,7 @@ export const TreeIcon = (color: string, isSelected: boolean) =>
     html:
       `<figure style="${makerWrapperStyles(isSelected)}">
         <span style="${markerHtmlStyles(color)}">
-          ${isSelected ? iconToSvg(Check) : iconToSvg(Plus)}
+          ${isSelected ? iconToSvg(Check) : iconToSvg(Tree)}
         </span>
       </figure>`,
   });
