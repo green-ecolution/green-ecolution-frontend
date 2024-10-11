@@ -39,9 +39,9 @@ export const useInitForm = <T>(defaulForm: T) => {
   useEffect(() => {
     if (isEmpty()) {
       initForm.current = defaulForm;
-      isEmpty() && init(initForm.current);
-    }
-  }, [defaulForm, init, isEmpty]);
+      init(initForm.current);
+    } 
+  }, [init, isEmpty]);
 
   return { initForm: initForm.current };
 };

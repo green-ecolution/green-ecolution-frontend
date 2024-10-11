@@ -1,6 +1,6 @@
 {
   "name": "@green-ecolution/backend-client",
-  "version": "1.0.6",
+  "version": "1.0.8",
   "description": "Client for the Green Ecolution backend",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
