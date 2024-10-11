@@ -31,8 +31,7 @@ const SelectedCard: React.FC<SelectedCard> = ({ onClick, treeId }) => {
       </h3>
       <button
         type="button"
-        onClick={(e) => {
-          e.preventDefault();
+        onClick={() => {
           onClick(treeId);
         }}
         className="text-dark-600"
