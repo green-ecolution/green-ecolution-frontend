@@ -1,21 +1,12 @@
 import Tree from '@/components/icons/Tree';
 import { getWateringStatusDetails } from '@/hooks/useDetailsForWateringStatus';
-import { EntitiesWateringStatus } from '@green-ecolution/backend-client';
+import { TreeCluster } from '@green-ecolution/backend-client';
 import { Link } from '@tanstack/react-router';
 import { MapPin } from 'lucide-react';
 import React from 'react';
 
 interface TreeclusterCard {
-  treecluster: {
-    id: number;
-    name: string; 
-    number: string;
-    address: string;
-    region: string;
-    treeCount: number;
-    sensorCount: number;
-    status: EntitiesWateringStatus;
-  }
+  treecluster: TreeCluster,
 }
 
 const TreeclusterCard: React.FC<TreeclusterCard> = ({ treecluster }) => {

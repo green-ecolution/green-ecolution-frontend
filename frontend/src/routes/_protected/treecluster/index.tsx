@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import TreeclusterCard from "@/components/general/cards/TreeclusterCard";
 import Dialog from "@/components/general/filter/Dialog";
-import { createFileRoute, useLoaderData, useSearch } from '@tanstack/react-router';
+import { createFileRoute, useLoaderData } from '@tanstack/react-router';
 import { z } from 'zod';
 import ButtonLink from '@/components/general/links/ButtonLink';
 import { Plus } from 'lucide-react';
@@ -11,11 +11,12 @@ import { useAuthHeader } from '@/hooks/useAuthHeader';
 import { useQuery } from '@tanstack/react-query';
 import LoadingInfo from '@/components/general/error/LoadingInfo';
 import Toast from '@/components/general/Toast';
+import { getToastLabel } from '@/hooks/useToastMessage';
 
 const treeclusterFilterSchema = z.object({
   status: z.array(z.string()).optional(),
   region: z.array(z.string()).optional(),
-  showToast: z.boolean().optional(),
+  showToast: z.string().optional(),
 });
 
 export const Route = createFileRoute('/_protected/treecluster/')({
@@ -25,7 +26,7 @@ export const Route = createFileRoute('/_protected/treecluster/')({
   loaderDeps: ({ search: { status, region, showToast } }) => ({
     status: status || [],
     region: region || [],
-    showToast: showToast || false,
+    showToast: showToast || undefined,
   }),
 
   loader: ({ deps: { status, region, showToast } }) => {
@@ -40,6 +41,7 @@ function Treecluster() {
   const [statusTags, setStatusTags] = useState<string[]>(search.status);
   const [regionTags, setRegionTags] = useState<string[]>(search.region);
   const [showToast] = useState(search.showToast);
+  const [toastMessage, setToastMessage] = useState("");
 
   const { data: clustersRes, isLoading, error } = useQuery({
     queryKey: ["cluster"],
@@ -49,7 +51,13 @@ function Treecluster() {
   useEffect(() => {
     if (search.status) setStatusTags(search.status);
     if (search.region) setRegionTags(search.region);
-  }, [search.status, search.region]);
+
+    if (showToast) {
+      const action = showToast as 'delete' | 'create' | 'update';
+      const message = getToastLabel('treecluster', action);
+      setToastMessage(message);
+    }
+  }, [search.status, search.region, showToast]);
 
   const filteredClusters = clustersRes?.data.filter(cluster =>
     (statusTags.length === 0 || statusTags.includes(getWateringStatusDetails(cluster.wateringStatus).label)) &&
@@ -115,7 +123,7 @@ function Treecluster() {
         )}
       </section>
       
-      {showToast && <Toast label="Die Bewässerungsgruppe wurde erfolgreich gelöscht." />}
+      {showToast && <Toast label={toastMessage} />}
     </div>
   );
 }

@@ -23,7 +23,7 @@ const DeleteSection: React.FC<DeleteSectionProps> = ({ clusterId }) => {
         clusterId: String(clusterId),
       }),
     onSuccess: () => {
-      navigate({ to: "/treecluster", search: { showToast: true } });
+      navigate({ to: "/treecluster", search: { showToast: "delete" } });
       setIsModalOpen(true);
     },
     onError: (error: any) => {
