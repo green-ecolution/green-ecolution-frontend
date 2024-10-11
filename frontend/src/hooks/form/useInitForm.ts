@@ -41,7 +41,7 @@ export const useInitForm = <T>(defaulForm: T) => {
       initForm.current = defaulForm;
       init(initForm.current);
     } 
-  }, [init, isEmpty]);
+  }, [defaulForm, init, isEmpty]);
 
   return { initForm: initForm.current };
 };

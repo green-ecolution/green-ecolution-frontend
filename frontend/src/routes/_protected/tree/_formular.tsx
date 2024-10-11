@@ -28,7 +28,6 @@ export const treeQuery = (treeId: string, authorization: string) =>
     queryFn: () => treeApi.getTrees({ treeId, authorization }),
   });
 
-
 export const Route = createFileRoute("/_protected/tree/_formular")({
   component: () => <Outlet />,
   validateSearch: treeFormularSchema,

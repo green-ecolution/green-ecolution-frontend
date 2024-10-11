@@ -25,7 +25,7 @@ function NewTree() {
     if (!treeLatLng) return;
     navigate({
       to: "/tree/new",
-      search: { lat: treeLatLng!!.lat, lng: treeLatLng!!.lng, resetStore: true },
+      search: { lat: treeLatLng!.lat, lng: treeLatLng!.lng, resetStore: true },
     });
   };
 
