@@ -1,8 +1,8 @@
 import { DragableMarker } from "@/components/map/MapMarker";
 import MapSelectTreesModal from "@/components/map/MapSelectTreesModal";
-import { WithAllTrees } from "@/components/map/TreeMarker";
 import { TreeForm } from "@/schema/treeSchema";
 import useFormStore, { FormStore } from "@/store/form/useFormStore";
+import { useMapStore } from "@/store/store";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { LatLng } from "leaflet";
 import { useCallback, useRef, useState } from "react";
@@ -15,13 +15,12 @@ function EditTree() {
   const navigate = useNavigate({ from: Route.fullPath });
   const modalRef = useRef<HTMLDivElement>(null);
   const { treeId } = Route.useSearch();
-  const { commit, form, type } = useFormStore(
-    (state: FormStore<TreeForm>) => ({
-      form: state.form!!,
-      commit: state.commit,
-      type: state.type,
-    }),
-  );
+  const { commit, form, type } = useFormStore((state: FormStore<TreeForm>) => ({
+    form: state.form!!,
+    commit: state.commit,
+    type: state.type,
+  }));
+  const { zoom } = useMapStore();
   const [treeLatLng, setTreeLatLng] = useState<LatLng>(
     new LatLng(form.latitude, form.longitude),
   );
@@ -45,8 +44,8 @@ function EditTree() {
         });
       default:
         return navigate({
-          to: "/treecluster/new",
-          search: { resetStore: false },
+          to: "/map",
+          search: { lat: treeLatLng.lat, lng: treeLatLng.lng, zoom },
         });
     }
   }, [navigate, type, treeId]);
@@ -56,16 +55,12 @@ function EditTree() {
     handleNavigateBack();
   };
 
-  const handleCancel = () => {
-    handleNavigateBack();
-  };
-
   return (
     <>
       <MapSelectTreesModal
         ref={modalRef}
         onSave={handleSave}
-        onCancel={handleCancel}
+        onCancel={handleNavigateBack}
         title="Baum erfassen:"
         content={
           <ul className="space-y-3">
