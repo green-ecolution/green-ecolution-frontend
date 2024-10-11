@@ -14,19 +14,21 @@ import LoadingInfo from '@/components/general/error/LoadingInfo';
 const treeclusterFilterSchema = z.object({
   status: z.array(z.string()).optional(),
   region: z.array(z.string()).optional(),
+  search: z.string().optional(),
 });
 
 export const Route = createFileRoute("/_protected/treecluster/")({
   component: Treecluster,
   validateSearch: treeclusterFilterSchema,
 
-  loaderDeps: ({ search: { status, region } }) => ({
+  loaderDeps: ({ search: { status, region, search } }) => ({
     status: status || [],
     region: region || [],
+    search: search || '',
   }),
 
-  loader: ({ deps: { status, region } }) => {
-    return { status, region };
+  loader: ({ deps: { status, region, search } }) => {
+    return { status, region, search };
   },
 });
 
@@ -36,7 +38,7 @@ function Treecluster() {
 
   const [statusTags, setStatusTags] = useState<string[]>(search.status);
   const [regionTags, setRegionTags] = useState<string[]>(search.region);
-  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [searchInput, setSearchInput] = useState<string>('');
 
   const {
     data: clustersRes,
@@ -59,7 +61,8 @@ function Treecluster() {
         statusTags.includes(
           getWateringStatusDetails(cluster.wateringStatus).label,
         )) &&
-      (regionTags.length === 0 || regionTags.includes(cluster.region.name)),
+      (regionTags.length === 0 || regionTags.includes(cluster.region.name)) &&
+      (cluster.name.toLowerCase().includes(searchInput.toLowerCase())),
   );
 
   return (
@@ -92,14 +95,14 @@ function Treecluster() {
               <input
                 type="text"
                 placeholder="Suche..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                value={searchInput}
+                onChange={(e) => setSearchInput(e.target.value)}
                 className={`transition-all duration-300 ease-in-out pl-10 pr-10 py-2 border border-green-light font-medium rounded-full focus:outline-none focus:ring-2 focus:ring-green-light-200 hover:bg-green-light-200 hover:border-transparent w-full`}
               />
-              {searchQuery && (
+              {searchInput && (
                 <div
                   className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
-                  onClick={() => setSearchQuery('')}
+                  onClick={() => setSearchInput('')}
                 >
                   <X className="stroke-1 text-gray-500" />
                 </div>
