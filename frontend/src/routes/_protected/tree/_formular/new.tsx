@@ -98,7 +98,7 @@ function NewTree() {
 
   const handleOnChangeLocation = () => {
     navigate({
-      to: "/map/tree/new",
+      to: "/map/tree/edit",
       search: {
         lat: formStore.form?.latitude ?? 0,
         lng: formStore.form?.longitude ?? 0,
