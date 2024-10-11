@@ -1,11 +1,11 @@
-// @ts-ignore because this image needs to be imported, but not found for some reason, but works.
+// @ts-expect-error because this image needs to be imported, but not found for some reason, but works.
 import defaultIconPng from "leaflet/dist/images/marker-icon.png";
 import L, { DivIcon, Icon, IconOptions } from "leaflet";
 import { Marker } from "react-leaflet";
 import { Marker as LeafletMarker } from "leaflet";
 import { useMemo, useRef } from "react";
 
-export const defaultIcon = new Icon({
+const defaultIcon = new Icon({
   iconUrl: defaultIconPng,
   iconSize: [25, 41],
   iconAnchor: [12, 41],
@@ -33,22 +33,34 @@ const MapMarker = ({ position, icon, onClick }: MapMarkerProps) => {
 
 const markerHtmlStyles = (color: string) => `
   background-color: ${color};
-  width: 2rem;
-  height: 2rem;
-  display: block;
-  left: -1rem;
-  top: -1rem;
-  position: relative;
-  border-radius: 3rem 3rem 0;
-  transform: rotate(45deg);
-  border: 1px solid #FFFFFF
+  width: 1.5rem;
+  height: 1.5rem;
+  position: absolute;
+  border-radius: 3rem;
+  left: 0.25rem;
+  top: 0.25rem;
+  border: 1px solid white;
 `;
 
-export const TreeIcon = (color: string) =>
+const makerWrapperStyles = (isSelected: boolean) => `
+  background-color: ${isSelected ? 'white' : ''};
+  width: 2rem;
+  height: 2rem;
+  border-radius: 3rem;
+  position: relative;
+  left: -1rem;
+  top: -1rem;
+  box-shadow: rgba(0, 0, 0, ${isSelected ? '0.35' : '0'}) 0px 5px 15px;
+`;
+
+export const TreeIcon = (color: string, isSelected: boolean) =>
   L.divIcon({
     iconAnchor: [0, 24],
     popupAnchor: [0, -36],
-    html: `<span style="${markerHtmlStyles(color)}" />`,
+    html:
+      `<figure style="${makerWrapperStyles(isSelected)}">
+        <span style="${markerHtmlStyles(color)}" />
+      </figure>`,
   });
 
 interface DragableMarkerProps {
@@ -78,7 +90,7 @@ export const DragableMarker = ({
         }
       },
     }),
-    [],
+    [onDrag, onMove],
   );
 
   return (

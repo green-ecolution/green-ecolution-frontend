@@ -111,7 +111,7 @@ function SelectTrees() {
           </ul>
         }
       />
-      <WithAllTrees onClick={handleTreeClick} />
+      <WithAllTrees selectedTrees={treeIds} onClick={handleTreeClick} />
     </>
   );
 }
