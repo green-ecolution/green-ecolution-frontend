@@ -4,6 +4,12 @@ import L, { DivIcon, Icon, IconOptions } from "leaflet";
 import { Marker } from "react-leaflet";
 import { Marker as LeafletMarker } from "leaflet";
 import { useMemo, useRef } from "react";
+import { Check, LucideIcon, Plus } from "lucide-react";
+import { renderToStaticMarkup } from "react-dom/server";
+
+const iconToSvg = (IconComponent: LucideIcon) => {
+  return renderToStaticMarkup(<IconComponent className="text-white" size={18} strokeWidth={3} />);
+};
 
 const defaultIcon = new Icon({
   iconUrl: defaultIconPng,
@@ -33,19 +39,22 @@ const MapMarker = ({ position, icon, onClick }: MapMarkerProps) => {
 
 const markerHtmlStyles = (color: string) => `
   background-color: ${color};
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 2rem;
+  height: 2rem;
   position: absolute;
   border-radius: 3rem;
   left: 0.25rem;
   top: 0.25rem;
   border: 1px solid white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const makerWrapperStyles = (isSelected: boolean) => `
   background-color: ${isSelected ? 'white' : ''};
-  width: 2rem;
-  height: 2rem;
+  width: 2.5rem;
+  height: 2.5rem;
   border-radius: 3rem;
   position: relative;
   left: -1rem;
@@ -59,7 +68,9 @@ export const TreeIcon = (color: string, isSelected: boolean) =>
     popupAnchor: [0, -36],
     html:
       `<figure style="${makerWrapperStyles(isSelected)}">
-        <span style="${markerHtmlStyles(color)}" />
+        <span style="${markerHtmlStyles(color)}">
+          ${isSelected ? iconToSvg(Check) : iconToSvg(Plus)}
+        </span>
       </figure>`,
   });
 
