@@ -1,20 +1,20 @@
-import { MoveRight } from "lucide-react";
-import { useState } from "react";
-import { useMutation } from "@tanstack/react-query";
-import { clusterApi } from "@/api/backendApi";
-import { useAuthHeader } from "@/hooks/useAuthHeader";
-import { useNavigate } from "@tanstack/react-router";
-import Modal from "../general/Modal";
+import { MoveRight } from 'lucide-react'
+import { useState } from 'react'
+import { useMutation } from '@tanstack/react-query'
+import { clusterApi } from '@/api/backendApi'
+import { useAuthHeader } from '@/hooks/useAuthHeader'
+import { useNavigate } from '@tanstack/react-router'
+import Modal from '../general/Modal'
 
 interface DeleteSectionProps {
-  clusterId: number;
+  clusterId: number
 }
 
 const DeleteSection: React.FC<DeleteSectionProps> = ({ clusterId }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [displayError, setDisplayError] = useState<string | null>(null);
-  const authorization = useAuthHeader();
-  const navigate = useNavigate();
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [displayError, setDisplayError] = useState<string | null>(null)
+  const authorization = useAuthHeader()
+  const navigate = useNavigate()
 
   const { mutate, isError } = useMutation({
     mutationFn: () =>
@@ -23,16 +23,18 @@ const DeleteSection: React.FC<DeleteSectionProps> = ({ clusterId }) => {
         clusterId: String(clusterId),
       }),
     onSuccess: () => {
-      navigate({ to: "/treecluster", search: { showToast: "delete" } });
-      setIsModalOpen(true);
+      navigate({ to: '/treecluster', search: { showToast: 'delete' } })
+      setIsModalOpen(true)
     },
-    onError: (error: any) => {
-      setDisplayError(error?.message || "An unknown error occurred");
-      console.error(error);
-      setIsModalOpen(false);
+    onError: (error: unknown) => {
+      error instanceof Error
+        ? setDisplayError(error.message)
+        : setDisplayError('Leider ist ein Fehler aufgetreten')
+      console.error(error)
+      setIsModalOpen(false)
     },
-  });
-  
+  })
+
   return (
     <>
       <button
@@ -45,7 +47,7 @@ const DeleteSection: React.FC<DeleteSectionProps> = ({ clusterId }) => {
 
       {isError && (
         <p className="text-red mt-2 font-semibold text-sm">
-          {displayError || "Es ist leider ein Fehler aufgetreten."}
+          {displayError || 'Es ist leider ein Fehler aufgetreten.'}
         </p>
       )}
 
@@ -58,7 +60,7 @@ const DeleteSection: React.FC<DeleteSectionProps> = ({ clusterId }) => {
         isOpen={isModalOpen}
       />
     </>
-  );
-};
+  )
+}
 
-export default DeleteSection;
+export default DeleteSection
