@@ -1,7 +1,7 @@
 import { SubStore } from "../store";
 import { AuthStore } from "./types";
 
-export const authStore: SubStore<AuthStore> = (set, get) => ({
+export const authStore: SubStore<AuthStore> = (set) => ({
   isAuthenticated: false,
   token: null,
   setIsAuthenticated: (auth) =>

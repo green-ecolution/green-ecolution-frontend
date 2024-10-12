@@ -2,7 +2,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import FileUpload from '@/components/general/fileUpload/FileUpload';
 import GeneralStatusCard from '@/components/general/cards/GeneralStatusCard';
 import PrimaryButton from '@/components/general/buttons/PrimaryButton';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useTrees } from '@/hooks/useTrees';
 import Modal from '@/components/general/Modal';
 
@@ -50,9 +50,9 @@ function ImportFile() {
 
       setFile(null);
       setMessage("Es wurden erfolgreich neue Daten importiert.");
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error(error);
-      setMessage(error)
+      setMessage(String(error));
     }
   };
 

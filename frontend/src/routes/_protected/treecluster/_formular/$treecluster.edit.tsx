@@ -82,8 +82,8 @@ function EditTreeCluster() {
       to: `/treecluster/${data.id}`,
       search: { resetStore: false },
       replace: true,
-    })
-  }, [formStore, navigate])
+    });
+  }, [formStore, navigate]);
 
   const onUpdateError = () => {
     console.error('Error updating treecluster')
