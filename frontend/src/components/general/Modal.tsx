@@ -29,7 +29,7 @@ const Modal: React.FC<ModalProps> = ({
       >
         <h2 className="text-xl font-semibold mb-4 text-left">{title}</h2>
         <p className="mb-6 text-left text-gray-600">{description}</p>
-        <div className="flex flex-wrap gap-x-2 items-center mt-6">
+        <div className="flex flex-wrap gap-2 items-center mt-6">
           <PrimaryButton isDanger onClick={onConfirm} label={confirmText} />
           <SecondaryButton
             label="Abbrechen"
