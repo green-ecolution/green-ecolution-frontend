@@ -84,7 +84,7 @@ function SingleTree() {
                 {tree.readonly && <Pill label="importiert" />}
               </h1>
               {tree.treeClusterId ? (
-                <p className="text-dark-600 text-lg mb-4">
+                <p className="text-dark-600 text-lg">
                   <span>Bewässerungsgruppe: {treeCluster?.name}</span>
                   {', '}
                   <span>
@@ -92,11 +92,12 @@ function SingleTree() {
                   </span>
                 </p>
               ) : (
-                <p className="text-dark-600 text-lg mb-4">
-                  Dieser Baum ist Bewässerungsgruppe zugeordnet.
+                <p className="text-dark-600 text-lg">
+                  Dieser Baum ist keiner Bewässerungsgruppe zugeordnet.
                 </p>
               )}
-              <div className="flex flex-wrap gap-x-10">
+              {tree.description && <p>{tree.description}</p>}
+              <div className="flex mt-4 flex-wrap gap-x-10">
                 <GeneralLink
                   url={`/map?lat=${tree.latitude}&lng=${tree.longitude}&zoom=18`}
                   label="Auf der Karte anzeigen"
