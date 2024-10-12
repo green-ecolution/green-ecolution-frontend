@@ -87,7 +87,7 @@ function EditTreeCluster() {
         search: { resetStore: false },
         replace: true,
       })
-      showToast("Die Bewässerungsgruppe wurde erfolgreich editiert.")
+      showToast('Die Bewässerungsgruppe wurde erfolgreich editiert.')
     },
     [formStore, navigate, showToast]
   )
@@ -120,6 +120,13 @@ function EditTreeCluster() {
       'treeIds',
       formStore.form?.treeIds?.filter((id) => id !== treeId) ?? []
     )
+  }
+
+  const handleDeleteTreeCluster = () => {
+    return clusterApi.deleteTreeCluster({
+      authorization,
+      clusterId: String(clusterId),
+    })
   }
 
   return (
@@ -161,7 +168,10 @@ function EditTreeCluster() {
             />
           </section>
 
-          <DeleteSection clusterId={loadedData?.id} />
+          <DeleteSection
+            mutationFn={handleDeleteTreeCluster}
+            entityName="die Bewässerungsgruppe"
+          />
         </div>
       )}
     </div>
