@@ -2,15 +2,15 @@ import { Splide, SplideSlide } from "@splidejs/react-splide";
 import "@splidejs/react-splide/css";
 import { MapPin, PieChart } from "lucide-react";
 import IntroductionCard from "../general/cards/IntroductionCard";
-import Sensor from "../icons/Sensor";
-import Tree from "../icons/Tree";
+import SensorIcon from "../icons/Sensor";
+import TreeIcon from "../icons/Tree";
 import { i18nTranslated } from "../../lib/sliderTranslations";
 
 const IntroductionSlider = () => {
   const facts = [
     {
       label: "Entwicklung einer Sensorlösung",
-      icon: Sensor,
+      icon: SensorIcon,
       description:
         "Daten zur Bodenfeuchte werden mithilfe von in unterschiedlicher Tiefe platzierten Sensoren geliefert.",
     },
@@ -22,7 +22,7 @@ const IntroductionSlider = () => {
     },
     {
       label: "Augenmerk auf Jungbäume und Beete",
-      icon: Tree,
+      icon: TreeIcon,
       description:
         "Jungbäume und Blumenbeete sind besonders hitzeanfällig und daher äußerst schutzbedürftig.",
     },

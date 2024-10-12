@@ -1,4 +1,3 @@
-import { EntitiesWateringStatus } from '@/api/backendApi'
 import { treeClusterIdQuery } from '@/api/queries'
 import queryClient from '@/api/queryClient'
 import EntitiesStatusCard from '@/components/general/cards/EntitiesStatusCard'
@@ -21,9 +20,7 @@ export const Route = createFileRoute('/_protected/treecluster/$treeclusterId')({
 function SingleTreecluster() {
   const clusterId = Route.useParams().treeclusterId
   const { data: treecluster } = useSuspenseQuery(treeClusterIdQuery(clusterId))
-  const wateringStatus = getWateringStatusDetails(
-    treecluster?.wateringStatus ?? EntitiesWateringStatus.WateringStatusUnknown
-  )
+  const wateringStatus = getWateringStatusDetails(treecluster.wateringStatus)
 
   return (
     <div className="container mt-6">
@@ -34,9 +31,9 @@ function SingleTreecluster() {
       <article className="space-y-6 2xl:space-y-0 2xl:flex 2xl:items-center 2xl:space-x-10">
         <div className="2xl:w-4/5">
           <h1 className="font-lato font-bold text-3xl mb-4 lg:text-4xl xl:text-5xl">
-            Bewässerungsgruppe: {treecluster?.name}
+            Bewässerungsgruppe: {treecluster.name}
           </h1>
-          {treecluster?.description && <p>{treecluster?.description}</p>}
+          <p>{treecluster.description}</p>
         </div>
         <ButtonLink
           icon={Pencil}
@@ -62,7 +59,7 @@ function SingleTreecluster() {
             <GeneralStatusCard
               overline="Baumanzahl in der Gruppe"
               value={
-                treecluster?.trees?.length
+                treecluster.trees?.length
                   ? `${treecluster.trees.length} ${treecluster.trees.length > 1 ? 'Bäume' : 'Baum'}`
                   : 'Keine Bäume'
               }
@@ -72,7 +69,7 @@ function SingleTreecluster() {
           <li>
             <GeneralStatusCard
               overline="Standort der Gruppe"
-              value={`${treecluster?.address}, ${treecluster?.region?.name ?? '-'}`}
+              value={`${treecluster.address}, ${treecluster.region?.name ?? '-'}`}
             />
           </li>
         </ul>
@@ -90,12 +87,12 @@ function SingleTreecluster() {
         </header>
 
         <ul className="space-y-5">
-          {treecluster?.trees.length === 0 ? (
+          {treecluster.trees?.length === 0 ? (
             <li className="text-center text-dark-600 mt-4">
               <p>Der Bewässerungsgruppe wurden keine Bäume hinzugefügt.</p>
             </li>
           ) : (
-            treecluster?.trees.map((tree, key) => (
+            treecluster.trees?.map((tree, key) => (
               <li key={key}>
                 <TreeCard tree={tree} />
               </li>

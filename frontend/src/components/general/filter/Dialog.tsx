@@ -120,10 +120,8 @@ const Dialog: React.FC<DialogProps> = ({ initStatusTags, initRegionTags, headlin
         </fieldset>
 
         <fieldset className="mt-6">
-          <legend className="font-lato font-semibold text-dark-600 mb-2">
-            Stadtteil in Flensburg:
-          </legend>
-          {regionRes?.regions.map((region) => (
+          <legend className="font-lato font-semibold text-dark-600 mb-2">Stadtteil in Flensburg:</legend>
+          {regionRes.regions.map((region) => (
             <Option
               key={region.id}
               label={region.name}
