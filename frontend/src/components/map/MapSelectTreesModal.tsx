@@ -6,10 +6,10 @@ import { MoveRight, X } from "lucide-react";
 interface MapSelectTreesModalProps {
   onSave: () => void;
   onCancel: () => void;
-  treeIds?: number[];
   title?: string;
   subtitle?: string;
   content: React.ReactNode;
+  disabled?: boolean;
 }
 
 const MapSelectTreesModal = forwardRef(({
@@ -17,6 +17,7 @@ const MapSelectTreesModal = forwardRef(({
   onCancel,
   content,
   title,
+  disabled = false,
 }: MapSelectTreesModalProps, ref: ForwardedRef<HTMLDivElement>) => {
   const [openModal, setOpenModal] = useState(false);
 
@@ -42,7 +43,7 @@ const MapSelectTreesModal = forwardRef(({
             {title}
           </h2>
           <button
-            aria-label="Close Dialog"
+            aria-label="Dialog schließen"
             className="text-dark-400 hover:text-dark-600 stroke-1 lg:hidden"
             onClick={() => setOpenModal(false)}
           >
@@ -53,7 +54,7 @@ const MapSelectTreesModal = forwardRef(({
         {content}
 
         <div className="flex flex-wrap gap-5">
-          <PrimaryButton type="submit" label="Speichern" onClick={onSave} />
+          <PrimaryButton type="submit" label="Speichern" onClick={onSave} disabled={disabled} />
           <SecondaryButton label="Zurück" onClick={onCancel} />
         </div>
       </div>

@@ -22,9 +22,10 @@ function NewTree() {
   });
 
   const handleSave = () => {
+    if (!treeLatLng) return;
     navigate({
       to: "/tree/new",
-      search: { lat: treeLatLng!!.lat, lng: treeLatLng!!.lng },
+      search: { lat: treeLatLng!.lat, lng: treeLatLng!.lng, resetStore: true },
     });
   };
 
@@ -40,13 +41,14 @@ function NewTree() {
         onSave={handleSave}
         onCancel={handleCancel}
         title="Baum erfassen:"
+        disabled={!treeLatLng}
         content={
           <ul className="space-y-3">
             <li className="text-dark-600">
               {treeLatLng ? (
                 <>
                   <p>Neuer Baum an folgendem Standort:</p>
-                  {treeLatLng!!.lat}, {treeLatLng!!.lng}
+                  {treeLatLng?.lat}, {treeLatLng?.lng}
                 </>
               ) : (
                 <p>Bitte wähle einen Standort für den neuen Baum.</p>

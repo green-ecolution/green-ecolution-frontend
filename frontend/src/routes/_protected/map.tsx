@@ -9,6 +9,8 @@ const mapSearchParamsSchema = z.object({
   selected: z.string().optional(),
   lat: z.number().catch(useMapStore.getState().map.center[0]),
   lng: z.number().catch(useMapStore.getState().map.center[1]),
+  clusterId: z.number().optional(),
+  treeId: z.number().optional(),
   zoom: z
     .number()
     .int()
