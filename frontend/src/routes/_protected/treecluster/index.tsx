@@ -7,7 +7,6 @@ import { Plus } from 'lucide-react'
 import LoadingInfo from '@/components/general/error/LoadingInfo'
 import { ErrorBoundary } from 'react-error-boundary'
 import TreeClusterList from '@/components/treecluster/TreeClusterList'
-import { QueryErrorResetBoundary } from '@tanstack/react-query'
 
 const treeclusterFilterSchema = z.object({
   status: z.array(z.string()).optional().default([]),
