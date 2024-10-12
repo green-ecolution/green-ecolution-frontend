@@ -1,4 +1,5 @@
 import { clusterApi, TreeCluster, TreeClusterUpdate } from '@/api/backendApi'
+import { treeClusterIdQuery } from '@/api/queries'
 import queryClient from '@/api/queryClient'
 import FormForTreecluster from '@/components/general/form/FormForTreecluster'
 import BackLink from '@/components/general/links/BackLink'
@@ -11,20 +12,10 @@ import { TreeclusterSchema } from '@/schema/treeclusterSchema'
 import useFormStore, { FormStore } from '@/store/form/useFormStore'
 import useStore from '@/store/store'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { queryOptions, useMutation } from '@tanstack/react-query'
+import { useMutation } from '@tanstack/react-query'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { useCallback } from 'react'
 import { SubmitHandler } from 'react-hook-form'
-
-const queryParams = (id: string, token: string) =>
-  queryOptions<TreeCluster>({
-    queryKey: ['treescluster', id],
-    queryFn: () =>
-      clusterApi.getTreeClusterById({
-        authorization: token,
-        clusterId: id,
-      }),
-  })
 
 export const Route = createFileRoute(
   '/_protected/treecluster/_formular/$treecluster/edit'
@@ -37,7 +28,7 @@ export const Route = createFileRoute(
     if (!useStore.getState().auth.isAuthenticated) return
     const token = useStore.getState().auth.token?.accessToken ?? ''
     return queryClient.ensureQueryData(
-      queryParams(treecluster, `Bearer ${token}`)
+      treeClusterIdQuery(treecluster, `Bearer ${token}`)
     )
   },
 })
@@ -50,7 +41,7 @@ function EditTreeCluster() {
   const { initForm, loadedData } = useInitFormQuery<
     TreeCluster,
     TreeclusterSchema
-  >(queryParams(clusterId, authorization), (data) => ({
+  >(treeClusterIdQuery(clusterId, authorization), (data) => ({
     name: data.name,
     address: data.address,
     description: data.description,

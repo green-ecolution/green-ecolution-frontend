@@ -1,9 +1,14 @@
-import useMapStore from "@/store/store";
-import { createFileRoute, Outlet } from "@tanstack/react-router";
-import { z } from "zod";
-import Map from "@/components/map/Map";
-import MapConroller from "@/components/map/MapController";
-import ZoomControls from "@/components/map/ZoomControls";
+import useMapStore from '@/store/store'
+import { createFileRoute, Outlet, redirect } from '@tanstack/react-router'
+import { z } from 'zod'
+import Map from '@/components/map/Map'
+import MapConroller from '@/components/map/MapController'
+import ZoomControls from '@/components/map/ZoomControls'
+import queryClient from '@/api/queryClient'
+import useStore from '@/store/store'
+import { Suspense } from 'react'
+import { treeClusterQuery, treeQuery } from '@/api/queries'
+import LoadingInfo from '@/components/general/error/LoadingInfo'
 
 const mapSearchParamsSchema = z.object({
   selected: z.string().optional(),
@@ -17,9 +22,9 @@ const mapSearchParamsSchema = z.object({
     .max(useMapStore.getState().map.maxZoom)
     .min(useMapStore.getState().map.minZoom)
     .catch(useMapStore.getState().map.minZoom),
-});
+})
 
-export const Route = createFileRoute("/_protected/map")({
+export const Route = createFileRoute('/_protected/map')({
   component: MapRoot,
   validateSearch: mapSearchParamsSchema,
   loaderDeps: ({ search: { lat, lng, zoom } }) => ({
@@ -30,9 +35,16 @@ export const Route = createFileRoute("/_protected/map")({
   loader: ({ deps: { lat, lng, zoom } }) => {
     useMapStore.setState((state) => ({
       map: { ...state.map, center: [lat, lng], zoom },
-    }));
+    }))
+    const token = useStore.getState().auth.token?.accessToken
+    if (!token) throw redirect({ to: '/login' })
+
+    return {
+      cluster: queryClient.ensureQueryData(treeClusterQuery(`Bearer ${token}`)),
+      tree: queryClient.ensureQueryData(treeQuery(`Bearer ${token}`)),
+    }
   },
-});
+})
 
 function MapRoot() {
   return (
@@ -40,8 +52,10 @@ function MapRoot() {
       <Map>
         <MapConroller path={Route.fullPath} />
         <ZoomControls />
-        <Outlet />
+        <Suspense fallback={<LoadingInfo label='Lade Karte...' />}>
+          <Outlet />
+        </Suspense>
       </Map>
     </div>
-  );
+  )
 }

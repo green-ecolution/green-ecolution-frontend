@@ -54,7 +54,7 @@ function EditTreeCluster() {
       plantingYear: data.plantingYear,
       treeClusterId: data.treeClusterId ?? -1,
       sensorId: data.sensor?.id ?? -1,
-      description: '', // data.description,
+      description: data.description,
     })
   )
 

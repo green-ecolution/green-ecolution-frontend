@@ -22,6 +22,7 @@
     "lint": "yarn workspace @green-ecolution/frontend lint",
     "test": "echo \"It works!\"",
     "preview": "yarn workspace @green-ecolution/frontend preview",
-    "rebuild": "yarn build:backend-client && rm -rf frontend/node_modules && yarn install"
+    "rebuild": "yarn build:backend-client && rm -rf frontend/node_modules && yarn install",
+    "fmt": "yarn workspace @green-ecolution/frontend fmt"
   }
 }
