@@ -29,7 +29,7 @@ const ToastProvider = ({ children }: ToastProviderProps) => {
   return (
     <ToastContext.Provider value={{ showToast }}>
       <div
-        className={`fixed inset-x-4 mx-auto bottom-10 bg-dark text-white rounded-[1.875rem] grid grid-cols-[1.5fr,auto] items-center gap-x-4 pr-4 pl-2.5 py-2.5 w-fit transition-all ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
+        className={`z-[1000] fixed inset-x-4 mx-auto bottom-10 bg-dark text-white rounded-[1.875rem] grid grid-cols-[1.5fr,auto] items-center gap-x-4 pr-4 pl-2.5 py-2.5 w-fit transition-all ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
           } duration-300 ease-in-out`}
       >
         <figure
