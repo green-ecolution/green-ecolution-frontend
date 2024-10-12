@@ -47,7 +47,7 @@ function NewTreecluster() {
     register,
     setValue,
     handleSubmit,
-    formState: { errors },
+    formState,
   } = useFormSync<TreeclusterSchema>(initForm, zodResolver(TreeclusterSchema));
 
   const { isError, mutate } = useMutation({
@@ -111,7 +111,7 @@ function NewTreecluster() {
           register={register}
           handleSubmit={handleSubmit}
           displayError={isError}
-          errors={errors}
+          formState={formState}
           onSubmit={onSubmit}
           onAddTrees={navigateToTreeSelect}
           onDeleteTree={handleDeleteTree}
