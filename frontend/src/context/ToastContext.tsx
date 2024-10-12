@@ -1,11 +1,11 @@
 import { Check } from 'lucide-react'
-import { createContext, useContext, useEffect, useRef, useState } from 'react'
+import { createContext, useEffect, useRef, useState } from 'react'
 
 interface ToastContext {
   showToast: (message: string) => void
 }
 
-const ToastContext = createContext<ToastContext | undefined>(undefined)
+export const ToastContext = createContext<ToastContext | undefined>(undefined)
 
 interface ToastProviderProps extends React.PropsWithChildren { }
 
@@ -43,20 +43,6 @@ const ToastProvider = ({ children }: ToastProviderProps) => {
       {children}
     </ToastContext.Provider>
   )
-}
-
-const useToastContext = () => {
-  const context = useContext(ToastContext)
-  if (context === undefined) {
-    throw new Error('useToastContext must be used within a ToastProvider')
-  }
-  return context
-}
-
-export const useToast = () => {
-  const context = useToastContext()
-
-  return context.showToast
 }
 
 export default ToastProvider

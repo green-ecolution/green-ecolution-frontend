@@ -5,7 +5,7 @@ import { clusterApi } from '@/api/backendApi'
 import { useAuthHeader } from '@/hooks/useAuthHeader'
 import { useNavigate } from '@tanstack/react-router'
 import Modal from '../general/Modal'
-import { useToast } from '@/context/ToastContext'
+import useToast from '@/hooks/useToast'
 
 interface DeleteSectionProps {
   clusterId: number
