@@ -70,7 +70,7 @@ function SingleTreecluster() {
           <li>
             <GeneralStatusCard 
               overline="Standort der Gruppe"
-              value={`${treecluster?.address}, ${treecluster?.region.name}`} />
+              value={`${treecluster?.address}, ${treecluster?.region?.name ?? '-'}`} />
           </li>
         </ul>
       </section>

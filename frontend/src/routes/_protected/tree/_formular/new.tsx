@@ -1,73 +1,66 @@
-import { treeApi, TreeCreate } from "@/api/backendApi";
-import FormForTree from "@/components/general/form/FormForTree";
-import { useFormSync } from "@/hooks/form/useFormSync";
-import { useInitForm } from "@/hooks/form/useInitForm";
-import { useAuthHeader } from "@/hooks/useAuthHeader";
-import { TreeForm, TreeSchema } from "@/schema/treeSchema";
-import useFormStore, { FormStore } from "@/store/form/useFormStore";
-import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  useMutation,
-  useSuspenseQuery,
-} from "@tanstack/react-query";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { z } from "zod";
-import { sensorQuery, treeClusterQuery } from "../_formular";
-import { useMapStore } from "@/store/store";
+import { treeApi, TreeCreate } from '@/api/backendApi'
+import FormForTree from '@/components/general/form/FormForTree'
+import { useFormSync } from '@/hooks/form/useFormSync'
+import { useInitForm } from '@/hooks/form/useInitForm'
+import { useAuthHeader } from '@/hooks/useAuthHeader'
+import { TreeForm, TreeSchema } from '@/schema/treeSchema'
+import useFormStore, { FormStore } from '@/store/form/useFormStore'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useMutation, useSuspenseQuery } from '@tanstack/react-query'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
+import { z } from 'zod'
+import { sensorQuery, treeClusterQuery } from '../_formular'
+import { useMapStore } from '@/store/store'
+import useToast from '@/hooks/useToast'
 
 const newTreeSearchSchema = z.object({
   lat: z.number(),
   lng: z.number(),
-});
+})
 
-export const Route = createFileRoute("/_protected/tree/_formular/new")({
+export const Route = createFileRoute('/_protected/tree/_formular/new')({
   component: NewTree,
   validateSearch: newTreeSearchSchema,
   loaderDeps: ({ search: { lat, lng } }) => {
-    const storeNotInit = useFormStore.getState().isEmpty();
+    const storeNotInit = useFormStore.getState().isEmpty()
     return {
       lat: storeNotInit ? lat : useFormStore.getState().form.latitude,
-      lng: storeNotInit ? lng : useFormStore.getState().form.longitude
-    };
+      lng: storeNotInit ? lng : useFormStore.getState().form.longitude,
+    }
   },
-});
+})
 
 function NewTree() {
-  const { lat, lng } = Route.useLoaderDeps();
-  const navigate = useNavigate({ from: Route.fullPath });
-  const authorization = useAuthHeader();
-  const map = useMapStore();
-  const { data: sensors } = useSuspenseQuery(sensorQuery(authorization));
+  const { lat, lng } = Route.useLoaderDeps()
+  const navigate = useNavigate({ from: Route.fullPath })
+  const authorization = useAuthHeader()
+  const showToast = useToast()
+  const map = useMapStore()
+  const { data: sensors } = useSuspenseQuery(sensorQuery(authorization))
   const { data: treeClusters } = useSuspenseQuery(
-    treeClusterQuery(authorization),
-  );
+    treeClusterQuery(authorization)
+  )
 
   const formStore = useFormStore((state: FormStore<TreeForm>) => ({
     form: state.form,
     reset: state.reset,
-  }));
+  }))
 
   const { initForm } = useInitForm<TreeForm>({
     latitude: lat,
     longitude: lng,
-    treeNumber: "",
-    species: "",
+    treeNumber: '',
+    species: '',
     plantingYear: new Date().getFullYear(),
     treeClusterId: -1,
     sensorId: -1,
-    description: "",
-  });
+    description: '',
+  })
 
-  const {
-    register,
-    handleSubmit,
-    formState,
-  } = useFormSync<TreeForm>(
+  const { register, handleSubmit, formState } = useFormSync<TreeForm>(
     initForm,
-    zodResolver(
-      TreeSchema(lat, lng),
-    ),
-  );
+    zodResolver(TreeSchema(lat, lng))
+  )
 
   const { isError, mutate } = useMutation({
     mutationFn: (tree: TreeCreate) =>
@@ -76,34 +69,36 @@ function NewTree() {
         body: tree,
       }),
     onSuccess: (data) => {
-      formStore.reset();
+      formStore.reset()
       navigate({
-        to: "/tree/$treeId",
+        to: '/tree/$treeId',
         params: { treeId: data.id.toString() },
         search: { resetStore: false },
         replace: true,
-      });
+      })
+      showToast("Der Baum wurde erfolgreich erstellt.")
     },
-  });
+  })
 
   const onSubmit = (data: TreeForm) => {
     mutate({
       ...data,
-      sensorId: data.sensorId === "-1" ? undefined : data.sensorId,
-      treeClusterId: data.treeClusterId === "-1" ? undefined : data.treeClusterId,
+      sensorId: data.sensorId === '-1' ? undefined : data.sensorId,
+      treeClusterId:
+        data.treeClusterId === '-1' ? undefined : data.treeClusterId,
       readonly: false,
-    });
-  };
+    })
+  }
 
   const handleOnChangeLocation = () => {
     navigate({
-      to: "/map/tree/edit",
+      to: '/map/tree/edit',
       search: {
         lat: formStore.form?.latitude ?? 0,
         lng: formStore.form?.longitude ?? 0,
         zoom: map.zoom,
       },
-    });
+    })
   }
 
   return (
@@ -131,5 +126,5 @@ function NewTree() {
         />
       </section>
     </div>
-  );
+  )
 }

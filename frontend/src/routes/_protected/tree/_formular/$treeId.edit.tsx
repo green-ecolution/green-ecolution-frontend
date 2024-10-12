@@ -13,6 +13,7 @@ import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { sensorQuery, treeClusterQuery, treeQuery } from '../_formular'
 import { useRef } from 'react'
 import BackLink from '@/components/general/links/BackLink'
+import useToast from '@/hooks/useToast'
 
 export const Route = createFileRoute('/_protected/tree/_formular/$treeId/edit')(
   {
@@ -33,6 +34,7 @@ export const Route = createFileRoute('/_protected/tree/_formular/$treeId/edit')(
 
 function EditTreeCluster() {
   const authorization = useAuthHeader()
+  const showToast = useToast()
   const treeId = Route.useParams().treeId
   const navigate = useNavigate({ from: Route.fullPath })
   const skipBlocker = useRef(false)
@@ -80,6 +82,7 @@ function EditTreeCluster() {
         search: { resetStore: false },
         replace: true,
       })
+      showToast("Der Baum wurde erfolgreich editiert")
     },
   })
 

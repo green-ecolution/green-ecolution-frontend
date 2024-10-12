@@ -1,22 +1,22 @@
-import { useState, useEffect } from "react";
-import TreeclusterCard from "@/components/general/cards/TreeclusterCard";
-import Dialog from "@/components/general/filter/Dialog";
-import { createFileRoute, useLoaderData } from "@tanstack/react-router";
-import { z } from "zod";
-import ButtonLink from "@/components/general/links/ButtonLink";
-import { Plus } from "lucide-react";
-import { getWateringStatusDetails } from "@/hooks/useDetailsForWateringStatus";
-import { clusterApi } from "@/api/backendApi";
-import { useAuthHeader } from "@/hooks/useAuthHeader";
-import { useQuery } from "@tanstack/react-query";
-import LoadingInfo from "@/components/general/error/LoadingInfo";
+import { useState, useEffect } from 'react'
+import TreeclusterCard from '@/components/general/cards/TreeclusterCard'
+import Dialog from '@/components/general/filter/Dialog'
+import { createFileRoute, useLoaderData } from '@tanstack/react-router'
+import { z } from 'zod'
+import ButtonLink from '@/components/general/links/ButtonLink'
+import { Plus } from 'lucide-react'
+import { getWateringStatusDetails } from '@/hooks/useDetailsForWateringStatus'
+import { clusterApi } from '@/api/backendApi'
+import { useAuthHeader } from '@/hooks/useAuthHeader'
+import { useQuery } from '@tanstack/react-query'
+import LoadingInfo from '@/components/general/error/LoadingInfo'
 
 const treeclusterFilterSchema = z.object({
   status: z.array(z.string()).optional(),
   region: z.array(z.string()).optional(),
-});
+})
 
-export const Route = createFileRoute("/_protected/treecluster/")({
+export const Route = createFileRoute('/_protected/treecluster/')({
   component: Treecluster,
   validateSearch: treeclusterFilterSchema,
 
@@ -26,40 +26,38 @@ export const Route = createFileRoute("/_protected/treecluster/")({
   }),
 
   loader: ({ deps: { status, region } }) => {
-    return { status, region };
+    return { status, region }
   },
-});
+})
 
 function Treecluster() {
-  const authorization = useAuthHeader();
-  const search = useLoaderData({ from: "/_protected/treecluster/" });
-
-  const [statusTags, setStatusTags] = useState<string[]>(search.status);
-  const [regionTags, setRegionTags] = useState<string[]>(search.region);
+  const authorization = useAuthHeader()
+  const search = useLoaderData({ from: '/_protected/treecluster/' })
+  const [statusTags, setStatusTags] = useState<string[]>(search.status)
+  const [regionTags, setRegionTags] = useState<string[]>(search.region)
 
   const {
     data: clustersRes,
     isLoading,
     error,
   } = useQuery({
-    queryKey: ["cluster"],
+    queryKey: ['cluster'],
     queryFn: () => clusterApi.getAllTreeClusters({ authorization }),
-  });
+  })
 
   useEffect(() => {
-    if (search.status) setStatusTags(search.status);
-    if (search.region) setRegionTags(search.region);
-  }, [search.status, search.region]);
+    if (search.status) setStatusTags(search.status)
+    if (search.region) setRegionTags(search.region)
+  }, [search.status, search.region])
 
-  // Filter clusters based on status and region tags
   const filteredClusters = clustersRes?.data.filter(
     (cluster) =>
       (statusTags.length === 0 ||
         statusTags.includes(
-          getWateringStatusDetails(cluster.wateringStatus).label,
+          getWateringStatusDetails(cluster.wateringStatus).label
         )) &&
-      (regionTags.length === 0 || regionTags.includes(cluster.region.name)),
-  );
+      (regionTags.length === 0 || regionTags.includes(cluster.region.name))
+  )
 
   return (
     <div className="container mt-6">
@@ -77,7 +75,7 @@ function Treecluster() {
         <ButtonLink
           icon={Plus}
           label="Neue Gruppe erstellen"
-          link={{ to: "/treecluster/new" }}
+          link={{ to: '/treecluster/new' }}
         />
       </article>
 
@@ -89,8 +87,8 @@ function Treecluster() {
             headline="Bewässerungsgruppen filtern"
             fullUrlPath={Route.fullPath}
             applyFilter={(statusTags, regionTags) => {
-              setStatusTags(statusTags);
-              setRegionTags(regionTags);
+              setStatusTags(statusTags)
+              setRegionTags(regionTags)
             }}
           />
         </div>
@@ -128,7 +126,7 @@ function Treecluster() {
         )}
       </section>
     </div>
-  );
+  )
 }
 
-export default Treecluster;
+export default Treecluster
