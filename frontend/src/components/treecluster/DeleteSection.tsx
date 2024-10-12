@@ -5,6 +5,7 @@ import { clusterApi } from '@/api/backendApi'
 import { useAuthHeader } from '@/hooks/useAuthHeader'
 import { useNavigate } from '@tanstack/react-router'
 import Modal from '../general/Modal'
+import { useToast } from '@/context/ToastContext'
 
 interface DeleteSectionProps {
   clusterId: number
@@ -15,6 +16,7 @@ const DeleteSection: React.FC<DeleteSectionProps> = ({ clusterId }) => {
   const [displayError, setDisplayError] = useState<string | null>(null)
   const authorization = useAuthHeader()
   const navigate = useNavigate()
+  const showToast = useToast()
 
   const { mutate, isError } = useMutation({
     mutationFn: () =>
@@ -25,6 +27,7 @@ const DeleteSection: React.FC<DeleteSectionProps> = ({ clusterId }) => {
     onSuccess: () => {
       navigate({ to: '/treecluster', search: { showToast: 'delete' } })
       setIsModalOpen(true)
+      showToast('Bewässerungsgruppe erfolgreich gelöscht')
     },
     onError: (error: unknown) => {
       error instanceof Error

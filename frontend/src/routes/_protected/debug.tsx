@@ -1,4 +1,5 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useToast } from "@/context/ToastContext";
 import { useAuthStore, useMapStore, useUserStore } from "@/store/store";
 import { createFileRoute } from "@tanstack/react-router";
 import ReactJson from "react-json-view";
@@ -35,12 +36,16 @@ const Store = () => {
   const mapStore = useMapStore();
   const userStore = useUserStore();
 
+  const showToast = useToast();
+
   return (
     <div>
       <ReactJson src={authStore} collapsed name="authStore" />
       <ReactJson src={userStore} collapsed name="userStore" />
       <ReactJson src={mapStore} collapsed name="mapStore" />
+      <button onClick={() => showToast("Hello World!")}>Toast</button>
     </div>
+
   );
 };
 
