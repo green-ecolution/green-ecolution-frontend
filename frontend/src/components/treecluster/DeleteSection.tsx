@@ -25,8 +25,8 @@ const DeleteSection: React.FC<DeleteSectionProps> = ({ clusterId }) => {
         clusterId: String(clusterId),
       }),
     onSuccess: () => {
-      navigate({ to: '/treecluster', search: { showToast: 'delete' } })
-      setIsModalOpen(true)
+      navigate({ to: '/treecluster' })
+      setIsModalOpen(false)
       showToast('Bewässerungsgruppe erfolgreich gelöscht')
     },
     onError: (error: unknown) => {
