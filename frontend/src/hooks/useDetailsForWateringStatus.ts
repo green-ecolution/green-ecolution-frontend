@@ -1,4 +1,4 @@
-import { EntitiesWateringStatus } from "@green-ecolution/backend-client";
+import { EntitiesWateringStatus } from '@green-ecolution/backend-client'
 
 const WateringStatusProperties = {
   [EntitiesWateringStatus.WateringStatusUnknown]: {
@@ -22,13 +22,17 @@ const WateringStatusProperties = {
   [EntitiesWateringStatus.WateringStatusGood]: {
     color: 'green-light',
     label: 'In Ordnung',
-    description: 'Die Bewässerung ist ausreichend, keine Maßnahmen erforderlich.',
+    description:
+      'Die Bewässerung ist ausreichend, keine Maßnahmen erforderlich.',
     colorHex: '#ACB63B',
   },
-} as const;
+} as const
 
-type WateringStatusDetails = typeof WateringStatusProperties[EntitiesWateringStatus];
+type WateringStatusDetails =
+  (typeof WateringStatusProperties)[EntitiesWateringStatus]
 
-export const getWateringStatusDetails = (status: EntitiesWateringStatus): WateringStatusDetails => {
-  return WateringStatusProperties[status];
-};
+export const getWateringStatusDetails = (
+  status: EntitiesWateringStatus
+): WateringStatusDetails => {
+  return WateringStatusProperties[status]
+}

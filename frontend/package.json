@@ -8,7 +8,8 @@
     "build": "tsc && vite build",
     "build:dev": "tsc && NODE_ENV=development vite build --mode development",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "fmt": "prettier --write src/**/*.ts src/**/*.tsx"
   },
   "dependencies": {
     "@fullcalendar/core": "^6.1.14",

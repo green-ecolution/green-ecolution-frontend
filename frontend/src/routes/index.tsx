@@ -1,21 +1,21 @@
-import ButtonLink from "@/components/general/links/ButtonLink";
-import IntroductionSlider from "@/components/startpage/IntroductionSlider";
-import KeyFacts from "@/components/startpage/KeyFacts";
-import { createFileRoute } from "@tanstack/react-router";
-import { Mail, MoveRight } from "lucide-react";
-import Lottie from "lottie-react";
-import dashboardAnimation from "../../src/animations/dashboardAnimation.json";
-import QuickLinks from "@/components/startpage/QuickLinks";
-import useStore from "@/store/store";
+import ButtonLink from '@/components/general/links/ButtonLink'
+import IntroductionSlider from '@/components/startpage/IntroductionSlider'
+import KeyFacts from '@/components/startpage/KeyFacts'
+import { createFileRoute } from '@tanstack/react-router'
+import { Mail, MoveRight } from 'lucide-react'
+import Lottie from 'lottie-react'
+import dashboardAnimation from '../../src/animations/dashboardAnimation.json'
+import QuickLinks from '@/components/startpage/QuickLinks'
+import useStore from '@/store/store'
 
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute('/')({
   component: Startpage,
-});
+})
 
 function Startpage() {
   const { isAuthenticated } = useStore((state) => ({
     isAuthenticated: state.auth.isAuthenticated,
-  }));
+  }))
 
   return (
     <>
@@ -38,13 +38,13 @@ function Startpage() {
           <div className="flex flex-wrap justify-center items-center gap-6 mt-10 xl:justify-start">
             {isAuthenticated ? (
               <ButtonLink
-                link={{ to: "/dashboard" }}
+                link={{ to: '/dashboard' }}
                 label="Zum Dashboard"
                 icon={MoveRight}
               />
             ) : (
               <ButtonLink
-                link={{ to: "/login" }}
+                link={{ to: '/login' }}
                 label="Einloggen"
                 icon={MoveRight}
               />
@@ -68,5 +68,5 @@ function Startpage() {
       <KeyFacts />
       <IntroductionSlider />
     </>
-  );
+  )
 }
