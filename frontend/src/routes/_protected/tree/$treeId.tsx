@@ -93,7 +93,7 @@ function SingleTree() {
                 </p>
               ) : (
                 <p className="text-dark-600 text-lg">
-                  Dieser Baum ist Bewässerungsgruppe zugeordnet.
+                  Dieser Baum ist keiner Bewässerungsgruppe zugeordnet.
                 </p>
               )}
               {tree.description && <p>{tree.description}</p>}
