@@ -5,7 +5,7 @@ export interface MapButtonsProps extends React.PropsWithChildren {}
 
 const MapButtons = ({ children }: MapButtonsProps) => {
   return (
-    <div className="absolute z-[1000] space-y-2 top-6 left-4 lg:left-10 lg:top-10">
+    <div className="absolute z-[1000] space-y-2 top-6 left-36">
       <div className="flex space-x-2">
         {children !== undefined ? children : <DefaultMapButtons />}
       </div>
@@ -16,8 +16,7 @@ const MapButtons = ({ children }: MapButtonsProps) => {
 const DefaultMapButtons = () => {
   return (
     <>
-      {/* <FilterButton ariaLabel="Filter" activeCount={0} onClick={() => {}} /> */}
-      <SettingsButton />
+      {/* <SettingsButton /> */}
       <AddTreeButton />
     </>
   );

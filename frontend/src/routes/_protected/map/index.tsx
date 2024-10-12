@@ -5,6 +5,10 @@ import { useSuspenseQuery } from '@tanstack/react-query'
 import { WithTreesAndClusters } from '@/components/map/TreeMarker'
 import { useAuthHeader } from '@/hooks/useAuthHeader'
 import { treeClusterQuery } from '@/api/queries'
+import { useState } from 'react'
+import Dialog from '@/components/general/filter/Dialog'
+import { useMapMouseSelect } from '@/hooks/useMapMouseSelect'
+import { useMap } from 'react-leaflet'
 
 export const Route = createFileRoute('/_protected/map/')({
   component: MapView,
@@ -13,6 +17,9 @@ export const Route = createFileRoute('/_protected/map/')({
 function MapView() {
   const navigate = useNavigate({ from: '/map' })
   const auth = useAuthHeader()
+  const map = useMap()
+  const [statusTags, setStatusTags] = useState<string[]>([])
+  const [regionTags, setRegionTags] = useState<string[]>([])
   const { data } = useSuspenseQuery(treeClusterQuery(auth))
 
   const handleTreeClick = (tree: Tree) => {
@@ -26,8 +33,32 @@ function MapView() {
     })
   }
 
+  useMapMouseSelect((_, e) => {
+    const target = e.originalEvent.target as HTMLElement
+    if (dialogRef.current?.contains(target)) {
+      map.dragging.disable()
+      map.scrollWheelZoom.disable()
+    } else {
+      map.dragging.enable()
+      map.scrollWheelZoom.enable()
+    }
+  })
+
   return (
     <>
+      <div className="absolute top-6 left-4">
+        <Dialog
+          ref={dialogRef}
+          initStatusTags={statusTags}
+          initRegionTags={regionTags}
+          headline="Bäume filtern"
+          fullUrlPath={Route.fullPath}
+          applyFilter={(statusTags, regionTags) => {
+            setStatusTags(statusTags)
+            setRegionTags(regionTags)
+          }}
+        />
+      </div>
       <MapButtons />
       <WithTreesAndClusters
         clusters={data.data}
