@@ -107,7 +107,6 @@ function EditTreeCluster() {
         zoom: map.zoom,
       },
     })
-    showToast("Der Baum wurde erfolgreich editiert.")
   }
 
   return (
