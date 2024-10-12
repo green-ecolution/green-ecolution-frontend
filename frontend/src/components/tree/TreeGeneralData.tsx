@@ -1,15 +1,14 @@
-import { Tree } from "@green-ecolution/backend-client";
-import { format } from "date-fns";
-
+import { Tree } from '@green-ecolution/backend-client'
+import { format } from 'date-fns'
 
 interface TreeGeneralData {
   tree?: Tree
 }
 
 const TreeGeneralData: React.FC<TreeGeneralData> = ({ tree }) => {
-  const updatedDate = tree?.updatedAt 
+  const updatedDate = tree?.updatedAt
     ? format(new Date(tree?.updatedAt), 'dd.MM.yyyy')
-    : 'Keine Angabe';
+    : 'Keine Angabe'
 
   const treeData = [
     {
@@ -19,10 +18,6 @@ const TreeGeneralData: React.FC<TreeGeneralData> = ({ tree }) => {
     {
       label: 'Pflanzjahr',
       value: tree?.plantingYear ?? 'Keine Angabe',
-    },
-    {
-      label: 'Bewässerungsgruppe',
-      value: '@TODO: Implement'
     },
     {
       label: 'Latitude',
@@ -36,7 +31,11 @@ const TreeGeneralData: React.FC<TreeGeneralData> = ({ tree }) => {
       label: 'Letztes Update',
       value: updatedDate,
     },
-  ];
+    {
+      label: 'Art der Erstellung',
+      value: tree?.readonly ? 'importiert' : 'manuell erstellt',
+    },
+  ]
 
   return (
     <>
@@ -45,19 +44,17 @@ const TreeGeneralData: React.FC<TreeGeneralData> = ({ tree }) => {
           <div
             key={index}
             className={`py-4 border-b border-b-dark-200 group md:last:border-b-transparent 
-              ${treeData.length/2 === index + 1 ? 'md:border-b-transparent' : ''}`}
-            >
+              ${treeData.length / 2 === index + 1 ? 'md:border-b-transparent' : ''}`}
+          >
             <dt className="font-bold sm:inline">{data.label}:</dt>
             <dd className="sm:inline sm:px-2">{data.value}</dd>
           </div>
         ))}
       </dl>
 
-      <section className="mt-16">
-        @TODO: Add image slider
-      </section>
+      <section className="mt-16">@TODO: Add image slider</section>
     </>
-  );
+  )
 }
 
-export default TreeGeneralData;
+export default TreeGeneralData
