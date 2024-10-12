@@ -3,6 +3,7 @@ import LoadingInfo from '@/components/general/error/LoadingInfo'
 import BackLink from '@/components/general/links/BackLink'
 import ButtonLink from '@/components/general/links/ButtonLink'
 import GeneralLink from '@/components/general/links/GeneralLink'
+import Pill from '@/components/general/Pill'
 import Tabs from '@/components/general/Tabs'
 import Sensor from '@/components/icons/Sensor'
 import Tree from '@/components/icons/Tree'
@@ -70,16 +71,17 @@ function SingleTree() {
         <LoadingInfo label="Baumdaten werden geladen …" />
       ) : isError || !tree ? (
         <p className="text-red text-lg">
-          Einen Baum mit der Baumnummer {treeId} gibt es nicht oder die
-          Baumdaten konnten nicht geladen werden.
+          Einen Baum mit der Identifikationsnummer {treeId} gibt es nicht oder
+          die Baumdaten konnten nicht geladen werden.
         </p>
       ) : (
         <div>
           <BackLink link={{ to: '/map' }} label="Zum Kataster" />
           <article className="space-y-6 2xl:space-y-0 2xl:flex 2xl:items-center 2xl:space-x-10">
             <div className="2xl:w-4/5">
-              <h1 className="font-lato font-bold text-3xl mb-4 lg:text-4xl xl:text-5xl">
+              <h1 className="font-lato font-bold text-3xl mb-4 flex flex-wrap items-center gap-4 lg:text-4xl xl:text-5xl">
                 Baum: {tree.treeNumber}
+                {tree.readonly && <Pill label="importiert" />}
               </h1>
               {tree.treeClusterId ? (
                 <p className="text-dark-600 text-lg mb-4">
@@ -107,7 +109,7 @@ function SingleTree() {
                 )}
               </div>
             </div>
-            {!tree.readonly ? (
+            {!tree.readonly && (
               <ButtonLink
                 icon={Pencil}
                 iconClassName="stroke-1"
@@ -115,12 +117,6 @@ function SingleTree() {
                 color="grey"
                 link={{ to: `/tree/$treeId/edit`, params: { treeId } }}
               />
-            ) : (
-              /* TODO: Make it prettier */
-              <p className="text-dark-600 text-lg">
-                Dieser Baum ist schreibgeschützt und kann nicht bearbeitet
-                werden.
-              </p>
             )}
           </article>
           {tree?.sensor ? (
