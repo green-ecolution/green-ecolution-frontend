@@ -1,69 +1,91 @@
-import React, { useState } from 'react';
-import FilterButton from '../buttons/FilterButton';
-import PrimaryButton from '../buttons/PrimaryButton';
-import SecondaryButton from '../buttons/SecondaryButton';
-import { X } from 'lucide-react';
-import useOutsideClick from '@/hooks/useOutsideClick';
-import Option from './Option';
-import { useNavigate } from '@tanstack/react-router';
-import { useSuspenseQuery } from '@tanstack/react-query';
-import { EntitiesWateringStatus, regionApi } from '@/api/backendApi';
-import { useAuthHeader } from '@/hooks/useAuthHeader';
-import { getWateringStatusDetails } from '@/hooks/useDetailsForWateringStatus';
-import useTreeclusterFilter from '@/hooks/useTreeclusterFilter';
+import React, { useState } from 'react'
+import FilterButton from '../buttons/FilterButton'
+import PrimaryButton from '../buttons/PrimaryButton'
+import SecondaryButton from '../buttons/SecondaryButton'
+import { X } from 'lucide-react'
+import useOutsideClick from '@/hooks/useOutsideClick'
+import Option from './Option'
+import { useNavigate } from '@tanstack/react-router'
+import { useSuspenseQuery } from '@tanstack/react-query'
+import { EntitiesWateringStatus, regionApi } from '@/api/backendApi'
+import { useAuthHeader } from '@/hooks/useAuthHeader'
+import { getWateringStatusDetails } from '@/hooks/useDetailsForWateringStatus'
+import useTreeclusterFilter from '@/hooks/useTreeclusterFilter'
 
 interface DialogProps {
-  initStatusTags: string[];
-  initRegionTags: string[];
-  headline: string;
-  fullUrlPath: string;
-  applyFilter: (statusTags: string[], regionTags: string[]) => void;
+  initStatusTags: string[]
+  initRegionTags: string[]
+  headline: string
+  fullUrlPath: string
+  applyFilter: (statusTags: string[], regionTags: string[]) => void
 }
 
-const Dialog: React.FC<DialogProps> = ({ initStatusTags, initRegionTags, headline, fullUrlPath, applyFilter }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const navigate = useNavigate({ from: fullUrlPath });
-  const dialogRef = useOutsideClick(() => close());
+const Dialog: React.FC<DialogProps> = ({
+  initStatusTags,
+  initRegionTags,
+  headline,
+  fullUrlPath,
+  applyFilter,
+}) => {
+  const [isOpen, setIsOpen] = useState(false)
+  const navigate = useNavigate({ from: fullUrlPath })
+  const dialogRef = useOutsideClick(() => close())
 
-  const authorization = useAuthHeader();
+  const authorization = useAuthHeader()
   const { data: regionRes } = useSuspenseQuery({
     queryKey: ['regions'],
     queryFn: () => regionApi.v1RegionGet({ authorization }),
-  });
+  })
 
-  const { filters, setFilters, appliedFilters, handleFilterChange, resetFilters, applyFilters } = useTreeclusterFilter(initStatusTags, initRegionTags);
+  const {
+    filters,
+    setFilters,
+    appliedFilters,
+    handleFilterChange,
+    resetFilters,
+    applyFilters,
+  } = useTreeclusterFilter(initStatusTags, initRegionTags)
 
   const resetAndClose = () => {
-    resetFilters(applyFilter);
-    setIsOpen(false);
-    navigate({ search: () => ({}) });
-  };
+    resetFilters(applyFilter)
+    setIsOpen(false)
+    navigate({ search: () => ({}) })
+  }
 
   const close = () => {
-    setIsOpen(false);
-    setFilters({ statusTags: appliedFilters.statusTags, regionTags: appliedFilters.regionTags });
+    setIsOpen(false)
+    setFilters({
+      statusTags: appliedFilters.statusTags,
+      regionTags: appliedFilters.regionTags,
+    })
   }
 
   const handleApplyFilters = () => {
-    applyFilters(applyFilter);
-    setIsOpen(false);
+    applyFilters(applyFilter)
+    setIsOpen(false)
 
     navigate({
       search: () => ({
         status: filters.statusTags.length > 0 ? filters.statusTags : undefined,
         region: filters.regionTags.length > 0 ? filters.regionTags : undefined,
       }),
-    });
-  };
+    })
+  }
 
   return (
     <div>
-      <div className={`bg-dark-900/90 fixed inset-0 z-50 ${isOpen ? 'block' : 'hidden'}`}></div>
+      <div
+        className={`bg-dark-900/90 fixed inset-0 z-50 ${isOpen ? 'block' : 'hidden'}`}
+      ></div>
 
       <FilterButton
-        activeCount={appliedFilters.statusTags.length + appliedFilters.regionTags.length}
+        activeCount={
+          appliedFilters.statusTags.length + appliedFilters.regionTags.length
+        }
         ariaLabel={headline}
-        onClick={() => { isOpen ? setIsOpen(false) : setIsOpen(true) }}
+        onClick={() => {
+          isOpen ? setIsOpen(false) : setIsOpen(true)
+        }}
       />
 
       <section
@@ -84,23 +106,32 @@ const Dialog: React.FC<DialogProps> = ({ initStatusTags, initRegionTags, headlin
         </div>
 
         <fieldset>
-          <legend className="font-lato font-semibold text-dark-600 mb-2">Zustand der Bewässerung:</legend>
-          {Object.entries(EntitiesWateringStatus)
-            .map(([statusKey, statusValue]) => (
+          <legend className="font-lato font-semibold text-dark-600 mb-2">
+            Zustand der Bewässerung:
+          </legend>
+          {Object.entries(EntitiesWateringStatus).map(
+            ([statusKey, statusValue]) => (
               <Option
                 key={statusKey}
                 label={getWateringStatusDetails(statusValue).label}
                 name={statusKey}
-                checked={filters.statusTags.includes(getWateringStatusDetails(statusValue).label)}
+                checked={filters.statusTags.includes(
+                  getWateringStatusDetails(statusValue).label
+                )}
                 onChange={handleFilterChange('status')}
               >
-                <div className={`bg-${getWateringStatusDetails(statusValue).color} w-4 h-4 rounded-full`} />
+                <div
+                  className={`bg-${getWateringStatusDetails(statusValue).color} w-4 h-4 rounded-full`}
+                />
               </Option>
-            ))}
+            )
+          )}
         </fieldset>
 
         <fieldset className="mt-6">
-          <legend className="font-lato font-semibold text-dark-600 mb-2">Stadtteil in Flensburg:</legend>
+          <legend className="font-lato font-semibold text-dark-600 mb-2">
+            Stadtteil in Flensburg:
+          </legend>
           {regionRes?.regions.map((region) => (
             <Option
               key={region.id}
@@ -113,12 +144,16 @@ const Dialog: React.FC<DialogProps> = ({ initStatusTags, initRegionTags, headlin
         </fieldset>
 
         <div className="flex flex-wrap gap-5 mt-6">
-          <PrimaryButton label="Anwenden" type="button" onClick={handleApplyFilters} />
+          <PrimaryButton
+            label="Anwenden"
+            type="button"
+            onClick={handleApplyFilters}
+          />
           <SecondaryButton label="Zurücksetzen" onClick={resetAndClose} />
         </div>
       </section>
     </div>
-  );
-};
+  )
+}
 
-export default Dialog;
+export default Dialog
