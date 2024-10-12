@@ -1,6 +1,7 @@
 import { clusterApi, TreeCluster, TreeClusterUpdate } from '@/api/backendApi'
 import queryClient from '@/api/queryClient'
 import FormForTreecluster from '@/components/general/form/FormForTreecluster'
+import BackLink from '@/components/general/links/BackLink'
 import DeleteSection from '@/components/treecluster/DeleteSection'
 import { useFormSync } from '@/hooks/form/useFormSync'
 import { useInitFormQuery } from '@/hooks/form/useInitForm'
@@ -67,7 +68,7 @@ function EditTreeCluster() {
   }))
 
   const { register, setValue, handleSubmit, formState } =
-    useFormSync<TreeclusterSchema>(initForm, zodResolver(TreeclusterSchema));
+    useFormSync<TreeclusterSchema>(initForm, zodResolver(TreeclusterSchema))
 
   const { isError, mutate } = useMutation({
     mutationFn: (body: TreeClusterUpdate) =>
@@ -76,14 +77,17 @@ function EditTreeCluster() {
     onError: () => onUpdateError(),
   })
 
-  const onUpdateSuccess = useCallback((data: TreeCluster) => {
-    formStore.reset()
-    navigate({
-      to: `/treecluster/${data.id}`,
-      search: { resetStore: false },
-      replace: true,
-    });
-  }, [formStore, navigate]);
+  const onUpdateSuccess = useCallback(
+    (data: TreeCluster) => {
+      formStore.reset()
+      navigate({
+        to: `/treecluster/${data.id}`,
+        search: { resetStore: false },
+        replace: true,
+      })
+    },
+    [formStore, navigate]
+  )
 
   const onUpdateError = () => {
     console.error('Error updating treecluster')
@@ -110,10 +114,10 @@ function EditTreeCluster() {
 
   const handleDeleteTree = (treeId: number) => {
     setValue(
-      "treeIds",
-      formStore.form?.treeIds?.filter((id) => id !== treeId) ?? [],
-    );
-  };
+      'treeIds',
+      formStore.form?.treeIds?.filter((id) => id !== treeId) ?? []
+    )
+  }
 
   return (
     <div className="container mt-6">
@@ -122,9 +126,16 @@ function EditTreeCluster() {
           Eine Bewässerungsgruppe mit der Nummer {clusterId} gibt es nicht oder
           die Daten zur Bewässerungsgruppe konnten nicht geladen werden.
         </p>
-      ) : 
+      ) : (
         <div>
           <article className="2xl:w-4/5">
+            <BackLink
+              label="Zurück zur Bewässerungsgruppe"
+              link={{
+                to: `/treecluster/$treeclusterId`,
+                params: { treeclusterId: clusterId?.toString() ?? '' },
+              }}
+            />
             <h1 className="font-lato font-bold text-3xl mb-4 lg:text-4xl xl:text-5xl">
               Bewässerungsgruppe {loadedData?.name} bearbeiten
             </h1>
@@ -145,11 +156,11 @@ function EditTreeCluster() {
               onAddTrees={navigateToTreeSelect}
               onDeleteTree={handleDeleteTree}
             />
-            </section>
-            
-            <DeleteSection clusterId={loadedData?.id}/>
+          </section>
+
+          <DeleteSection clusterId={loadedData?.id} />
         </div>
-      }
+      )}
     </div>
   )
 }

@@ -14,6 +14,7 @@ import { useFormSync } from "@/hooks/form/useFormSync";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useInitForm } from "@/hooks/form/useInitForm";
 import useStore from "@/store/store";
+import BackLink from "@/components/general/links/BackLink";
 
 export const Route = createFileRoute("/_protected/treecluster/_formular/new")({
   beforeLoad: () => {
@@ -97,6 +98,9 @@ function NewTreecluster() {
   return (
     <div className="container mt-6">
       <article className="2xl:w-4/5">
+        <BackLink 
+          link={{to: "/treecluster"}}
+          label="Zu allen Bewässerungsgruppen" />
         <h1 className="font-lato font-bold text-3xl mb-4 lg:text-4xl xl:text-5xl">
           Neue Bewässerungsgruppe erstellen
         </h1>
