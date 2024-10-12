@@ -6,6 +6,7 @@ import DeleteSection from '@/components/treecluster/DeleteSection'
 import { useFormSync } from '@/hooks/form/useFormSync'
 import { useInitFormQuery } from '@/hooks/form/useInitForm'
 import { useAuthHeader } from '@/hooks/useAuthHeader'
+import useToast from '@/hooks/useToast'
 import { TreeclusterSchema } from '@/schema/treeclusterSchema'
 import useFormStore, { FormStore } from '@/store/form/useFormStore'
 import useStore from '@/store/store'
@@ -45,6 +46,7 @@ function EditTreeCluster() {
   const authorization = useAuthHeader()
   const clusterId = Route.useParams().treecluster
   const navigate = useNavigate({ from: Route.fullPath })
+  const showToast = useToast()
   const { initForm, loadedData } = useInitFormQuery<
     TreeCluster,
     TreeclusterSchema
@@ -85,8 +87,9 @@ function EditTreeCluster() {
         search: { resetStore: false },
         replace: true,
       })
+      showToast("Die Bewässerungsgruppe wurde erfolgreich editiert.")
     },
-    [formStore, navigate]
+    [formStore, navigate, showToast]
   )
 
   const onUpdateError = () => {
