@@ -1,33 +1,32 @@
 import { MoveRight } from 'lucide-react'
 import { useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
-import { clusterApi } from '@/api/backendApi'
-import { useAuthHeader } from '@/hooks/useAuthHeader'
-import { useNavigate } from '@tanstack/react-router'
 import Modal from '../general/Modal'
 import useToast from '@/hooks/useToast'
+import { LinkProps, useNavigate } from '@tanstack/react-router'
 
 interface DeleteSectionProps {
-  clusterId: number
+  mutationFn: () => Promise<unknown>
+  entityName: string
+  redirectUrl: LinkProps
 }
 
-const DeleteSection: React.FC<DeleteSectionProps> = ({ clusterId }) => {
+const DeleteSection: React.FC<DeleteSectionProps> = ({
+  mutationFn,
+  entityName,
+  redirectUrl,
+}) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [displayError, setDisplayError] = useState<string | null>(null)
-  const authorization = useAuthHeader()
   const navigate = useNavigate()
+  const [displayError, setDisplayError] = useState<string | null>(null)
   const showToast = useToast()
 
   const { mutate, isError } = useMutation({
-    mutationFn: () =>
-      clusterApi.deleteTreeCluster({
-        authorization,
-        clusterId: String(clusterId),
-      }),
+    mutationFn,
     onSuccess: () => {
-      navigate({ to: '/treecluster' })
       setIsModalOpen(false)
-      showToast('Bewässerungsgruppe erfolgreich gelöscht')
+      navigate(redirectUrl)
+      showToast(`${entityName.charAt(0).toUpperCase()}${entityName.slice(1)} wurde erfolgreich gelöscht.`)
     },
     onError: (error: unknown) => {
       error instanceof Error
@@ -44,7 +43,7 @@ const DeleteSection: React.FC<DeleteSectionProps> = ({ clusterId }) => {
         onClick={() => setIsModalOpen(true)}
         className="mt-10 group flex items-center gap-x-2 text-red font-medium text-base mb-4"
       >
-        Bewässerungsgruppe löschen
+        Löschen
         <MoveRight className="w-4 h-4 transition-all ease-in-out duration-300 group-hover:translate-x-1" />
       </button>
 
@@ -55,8 +54,8 @@ const DeleteSection: React.FC<DeleteSectionProps> = ({ clusterId }) => {
       )}
 
       <Modal
-        title="Soll die Bewässerungsgruppe wirklich gelöscht werden?"
-        description="Sobald eine Bewässerungsgruppe gelöscht wurde, können die Daten nicht wieder hergestellt werden."
+        title={`Soll ${entityName} wirklich gelöscht werden?`}
+        description={`Sobald ${entityName} gelöscht wurde, können die Daten nicht wieder hergestellt werden.`}
         confirmText="Wirklich löschen"
         onConfirm={() => mutate()}
         onCancel={() => setIsModalOpen(false)}

@@ -14,6 +14,7 @@ import { sensorQuery, treeClusterQuery, treeQuery } from '../_formular'
 import { useRef } from 'react'
 import BackLink from '@/components/general/links/BackLink'
 import useToast from '@/hooks/useToast'
+import DeleteSection from '@/components/treecluster/DeleteSection'
 
 export const Route = createFileRoute('/_protected/tree/_formular/$treeId/edit')(
   {
@@ -82,7 +83,7 @@ function EditTreeCluster() {
         search: { resetStore: false },
         replace: true,
       })
-      showToast("Der Baum wurde erfolgreich editiert")
+      showToast('Der Baum wurde erfolgreich editiert')
     },
   })
 
@@ -106,6 +107,13 @@ function EditTreeCluster() {
         lng: initForm?.longitude ?? 0,
         zoom: map.zoom,
       },
+    })
+  }
+
+  const handleDeleteTree = () => {
+    return treeApi.deleteTree({
+      authorization,
+      treeId: String(treeId),
     })
   }
 
@@ -145,6 +153,12 @@ function EditTreeCluster() {
               onChangeLocation={handleOnChangeLocation}
             />
           </section>
+
+          <DeleteSection
+            mutationFn={handleDeleteTree}
+            entityName="der Baum"
+            redirectUrl={{ to: '/map' }}
+          />
         </div>
       )}
     </div>
