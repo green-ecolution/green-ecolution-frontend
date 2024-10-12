@@ -10,4 +10,4 @@ export const i18nTranslated = {
   select: 'Paginierung der Elemente',
   slide: 'Slider Element',
   slideLabel: '%s von %s',
-};
+}

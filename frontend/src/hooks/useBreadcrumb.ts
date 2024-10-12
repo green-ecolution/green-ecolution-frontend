@@ -1,8 +1,8 @@
-import { useRouterState } from '@tanstack/react-router';
-import { useMemo } from 'react';
+import { useRouterState } from '@tanstack/react-router'
+import { useMemo } from 'react'
 
 export function useBreadcrumbs() {
-  const matches = useRouterState({ select: (s) => s.matches });
+  const matches = useRouterState({ select: (s) => s.matches })
   const breadcrumbs = useMemo(() => {
     const pathNameMap: { [key: string]: string } = {
       '/': 'Dashboard',
@@ -16,18 +16,18 @@ export function useBreadcrumbs() {
       '/waypoints/new': 'Neuer Einsatzplan',
       '/map/': 'Kataster',
       '/profile': 'Dein Profil',
-    };
+    }
 
     return matches
       .filter(({ pathname }) => pathname !== '/')
       .map(({ pathname }) => {
-        const title = pathNameMap[pathname] || 'Kein Titel vorhanden';
+        const title = pathNameMap[pathname] || 'Kein Titel vorhanden'
         return {
           title,
           path: pathname,
-        };
-      });
-  }, [matches]);
+        }
+      })
+  }, [matches])
 
-  return breadcrumbs;
+  return breadcrumbs
 }

@@ -1,5 +1,5 @@
-import { queryOptions } from "@tanstack/react-query"
-import { clusterApi, treeApi, TreeCluster } from "./backendApi"
+import { queryOptions } from '@tanstack/react-query'
+import { clusterApi, treeApi, TreeCluster } from './backendApi'
 
 export const treeClusterQuery = (token: string) =>
   queryOptions({

@@ -1,4 +1,4 @@
-import { EntitiesSensorStatus } from "@green-ecolution/backend-client";
+import { EntitiesSensorStatus } from '@green-ecolution/backend-client'
 
 const SensorStatusProperties = {
   [EntitiesSensorStatus.SensorStatusUnknown]: {
@@ -16,10 +16,12 @@ const SensorStatusProperties = {
     label: 'In Ordnung',
     description: 'Alle Sensoren sind online und können Daten senden.',
   },
-} as const;
+} as const
 
-type SensorStatusDetails = typeof SensorStatusProperties[EntitiesSensorStatus];
+type SensorStatusDetails = (typeof SensorStatusProperties)[EntitiesSensorStatus]
 
-export const getSensorStatusDetails = (status: EntitiesSensorStatus): SensorStatusDetails => {
-  return SensorStatusProperties[status];
-};
+export const getSensorStatusDetails = (
+  status: EntitiesSensorStatus
+): SensorStatusDetails => {
+  return SensorStatusProperties[status]
+}
