@@ -1,15 +1,15 @@
 import { useState, useEffect } from 'react'
 import TreeclusterCard from '@/components/general/cards/TreeclusterCard'
 import Dialog from '@/components/general/filter/Dialog'
-import { createFileRoute, useLoaderData } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router'
 import { z } from 'zod'
 import ButtonLink from '@/components/general/links/ButtonLink'
 import { Plus } from 'lucide-react'
 import { getWateringStatusDetails } from '@/hooks/useDetailsForWateringStatus'
-import { clusterApi } from '@/api/backendApi'
-import { useAuthHeader } from '@/hooks/useAuthHeader'
 import { useQuery } from '@tanstack/react-query'
 import LoadingInfo from '@/components/general/error/LoadingInfo'
+import queryClient from '@/api/queryClient'
+import { treeClusterQuery } from '@/api/queries'
 
 const treeclusterFilterSchema = z.object({
   status: z.array(z.string()).optional(),
@@ -26,24 +26,20 @@ export const Route = createFileRoute('/_protected/treecluster/')({
   }),
 
   loader: ({ deps: { status, region } }) => {
-    return { status, region }
+    return {
+      status,
+      region,
+      cluster: queryClient.ensureQueryData(treeClusterQuery()),
+    }
   },
 })
 
 function Treecluster() {
-  const authorization = useAuthHeader()
-  const search = useLoaderData({ from: '/_protected/treecluster/' })
+  const search = Route.useLoaderData()
   const [statusTags, setStatusTags] = useState<string[]>(search.status)
   const [regionTags, setRegionTags] = useState<string[]>(search.region)
 
-  const {
-    data: clustersRes,
-    isLoading,
-    error,
-  } = useQuery({
-    queryKey: ['cluster'],
-    queryFn: () => clusterApi.getAllTreeClusters({ authorization }),
-  })
+  const { data: clustersRes, isLoading, error } = useQuery(treeClusterQuery())
 
   useEffect(() => {
     if (search.status) setStatusTags(search.status)

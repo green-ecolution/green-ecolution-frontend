@@ -26,9 +26,8 @@ export const Route = createFileRoute(
   },
   loader: ({ params: { treecluster } }) => {
     if (!useStore.getState().auth.isAuthenticated) return
-    const token = useStore.getState().auth.token?.accessToken ?? ''
     return queryClient.ensureQueryData(
-      treeClusterIdQuery(treecluster, `Bearer ${token}`)
+      treeClusterIdQuery(treecluster)
     )
   },
 })
@@ -41,7 +40,7 @@ function EditTreeCluster() {
   const { initForm, loadedData } = useInitFormQuery<
     TreeCluster,
     TreeclusterSchema
-  >(treeClusterIdQuery(clusterId, authorization), (data) => ({
+  >(treeClusterIdQuery(clusterId), (data) => ({
     name: data.name,
     address: data.address,
     description: data.description,

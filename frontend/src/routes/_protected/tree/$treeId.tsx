@@ -1,4 +1,4 @@
-import { clusterApi, treeApi } from '@/api/backendApi'
+import { treeClusterIdQuery, treeIdQuery } from '@/api/queries'
 import LoadingInfo from '@/components/general/error/LoadingInfo'
 import BackLink from '@/components/general/links/BackLink'
 import ButtonLink from '@/components/general/links/ButtonLink'
@@ -10,7 +10,6 @@ import Tree from '@/components/icons/Tree'
 import TreeGeneralData from '@/components/tree/TreeGeneralData'
 import TreeSensorData from '@/components/tree/TreeSensorData'
 import TreeWateringStatus from '@/components/tree/TreeWateringStatus'
-import { useAuthHeader } from '@/hooks/useAuthHeader'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { createFileRoute } from '@tanstack/react-router'
 import { File, Info, Pencil } from 'lucide-react'
@@ -25,27 +24,13 @@ export const Route = createFileRoute('/_protected/tree/$treeId')({
 
 function SingleTree() {
   const treeId = Route.useParams().treeId
-  const authorization = useAuthHeader()
-
   const {
     data: tree,
     isLoading,
     isError,
-  } = useSuspenseQuery({
-    queryKey: ['tree', treeId],
-    queryFn: () => treeApi.getTrees({ treeId, authorization }),
-  })
+  } = useSuspenseQuery(treeIdQuery(treeId))
 
-  const { data: treeCluster } = useSuspenseQuery({
-    queryKey: ['treeCluster', tree.treeClusterId],
-    queryFn: () =>
-      tree.treeClusterId
-        ? clusterApi.getTreeClusterById({
-            clusterId: String(tree.treeClusterId),
-            authorization,
-          })
-        : null,
-  })
+  const { data: treeCluster } = useSuspenseQuery(treeClusterIdQuery(tree.treeClusterId?.toString() ?? ''))
 
   const tabs = [
     {

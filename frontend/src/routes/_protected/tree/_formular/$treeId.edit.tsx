@@ -6,15 +6,15 @@ import { useAuthHeader } from '@/hooks/useAuthHeader'
 import { TreeForm, TreeSchema } from '@/schema/treeSchema'
 import { TreeclusterSchema } from '@/schema/treeclusterSchema'
 import useFormStore, { FormStore } from '@/store/form/useFormStore'
-import useStore, { useMapStore } from '@/store/store'
+import { useMapStore } from '@/store/store'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useSuspenseQuery } from '@tanstack/react-query'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
-import { sensorQuery, treeClusterQuery, treeQuery } from '../_formular'
 import { useRef } from 'react'
 import BackLink from '@/components/general/links/BackLink'
 import useToast from '@/hooks/useToast'
 import DeleteSection from '@/components/treecluster/DeleteSection'
+import { sensorQuery, treeClusterQuery, treeIdQuery } from '@/api/queries'
 
 export const Route = createFileRoute('/_protected/tree/_formular/$treeId/edit')(
   {
@@ -23,11 +23,10 @@ export const Route = createFileRoute('/_protected/tree/_formular/$treeId/edit')(
       useFormStore.getState().setType('edit')
     },
     loader: ({ params: { treeId } }) => {
-      const token = useStore.getState().auth.token?.accessToken ?? ''
       return {
-        tree: treeQuery(treeId, token),
-        sensors: sensorQuery(token),
-        clusters: treeClusterQuery(token),
+        tree: treeIdQuery(treeId),
+        sensors: sensorQuery(),
+        clusters: treeClusterQuery(),
       }
     },
   }
@@ -39,13 +38,11 @@ function EditTreeCluster() {
   const treeId = Route.useParams().treeId
   const navigate = useNavigate({ from: Route.fullPath })
   const skipBlocker = useRef(false)
-  const { data: sensors } = useSuspenseQuery(sensorQuery(authorization))
+  const { data: sensors } = useSuspenseQuery(sensorQuery())
   const map = useMapStore()
-  const { data: treeClusters } = useSuspenseQuery(
-    treeClusterQuery(authorization)
-  )
+  const { data: treeClusters } = useSuspenseQuery(treeClusterQuery())
   const { initForm, loadedData } = useInitFormQuery<Tree, TreeForm>(
-    treeQuery(treeId, authorization),
+    treeIdQuery(treeId),
     (data) => ({
       latitude: data.latitude,
       longitude: data.longitude,

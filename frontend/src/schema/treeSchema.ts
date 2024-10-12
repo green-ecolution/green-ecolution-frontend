@@ -1,17 +1,10 @@
-import { useAuthHeader } from '@/hooks/useAuthHeader'
-import {
-  sensorQuery,
-  treeClusterQuery,
-} from '@/routes/_protected/tree/_formular'
+import { sensorQuery, treeClusterQuery } from '@/api/queries'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { z } from 'zod'
 
 export const TreeSchema = (lat: number, lng: number) => {
-  const authorization = useAuthHeader()
-  const { data: treeClusters } = useSuspenseQuery(
-    treeClusterQuery(authorization)
-  )
-  const { data: sensors } = useSuspenseQuery(sensorQuery(authorization))
+  const { data: treeClusters } = useSuspenseQuery(treeClusterQuery())
+  const { data: sensors } = useSuspenseQuery(sensorQuery())
 
   return z.object({
     latitude: z.number().default(lat),

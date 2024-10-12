@@ -9,7 +9,6 @@ import { useMapMouseSelect } from '@/hooks/useMapMouseSelect'
 import { useMap } from 'react-leaflet'
 import { WithAllTrees } from '@/components/map/TreeMarker'
 import { useSuspenseQuery } from '@tanstack/react-query'
-import { useAuthHeader } from '@/hooks/useAuthHeader'
 import { treeQuery } from '@/api/queries'
 
 export const Route = createFileRoute('/_protected/map/treecluster/select/tree')(
@@ -32,9 +31,8 @@ function SelectTrees() {
   const navigate = useNavigate({ from: Route.fullPath })
   const modalRef = useRef<HTMLDivElement>(null)
   const map = useMap()
-  const auth = useAuthHeader()
   const { clusterId } = Route.useSearch()
-  const { data: trees } = useSuspenseQuery(treeQuery(auth))
+  const { data: trees } = useSuspenseQuery(treeQuery())
 
   const handleNavigateBack = useCallback(() => {
     switch (type) {
