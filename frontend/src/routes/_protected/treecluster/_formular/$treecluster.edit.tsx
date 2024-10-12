@@ -82,7 +82,7 @@ function EditTreeCluster() {
       search: { resetStore: false },
       replace: true,
     });
-  }, []);
+  }, [formStore, navigate]);
 
   const onUpdateError = () => {
     console.error("Error updating treecluster");

@@ -3,7 +3,7 @@ import FileUpload from '@/components/general/fileUpload/FileUpload';
 import GeneralStatusCard from '@/components/general/cards/GeneralStatusCard';
 import Modal from '@/components/general/form/Modal';
 import PrimaryButton from '@/components/general/buttons/PrimaryButton';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useTrees } from '@/hooks/useTrees';
 
 export const Route = createFileRoute('/_protected/settings/import')({
@@ -50,9 +50,9 @@ function ImportFile() {
 
       setFile(null);
       setMessage("Es wurden erfolgreich neue Daten importiert.");
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error(error);
-      setMessage(error)
+      setMessage(String(error));
     }
   };
 

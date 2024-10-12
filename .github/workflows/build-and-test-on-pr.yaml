@@ -31,7 +31,7 @@ jobs:
           yarn build
 
       - name: Linter
-        continue-on-error: true # For now
+        continue-on-error: false
         run: |
           yarn lint
 

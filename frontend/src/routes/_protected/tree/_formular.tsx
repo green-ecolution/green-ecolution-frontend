@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { clusterApi, sensorApi, Tree, treeApi } from "@/api/backendApi";
 import queryClient from "@/api/queryClient";
 import useFormStore from "@/store/form/useFormStore";
@@ -27,7 +28,6 @@ export const treeQuery = (treeId: string, authorization: string) =>
     queryKey: ["tree", treeId],
     queryFn: () => treeApi.getTrees({ treeId, authorization }),
   });
-
 
 export const Route = createFileRoute("/_protected/tree/_formular")({
   component: () => <Outlet />,

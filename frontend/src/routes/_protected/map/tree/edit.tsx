@@ -16,7 +16,7 @@ function EditTree() {
   const modalRef = useRef<HTMLDivElement>(null);
   const { treeId } = Route.useSearch();
   const { commit, form, type } = useFormStore((state: FormStore<TreeForm>) => ({
-    form: state.form!!,
+    form: state.form!,
     commit: state.commit,
     type: state.type,
   }));
@@ -48,7 +48,7 @@ function EditTree() {
           search: { lat: treeLatLng.lat, lng: treeLatLng.lng, zoom },
         });
     }
-  }, [navigate, type, treeId]);
+  }, [type, navigate, treeLatLng.lat, treeLatLng.lng, treeId, zoom]);
 
   const handleSave = () => {
     commit({ ...form, latitude: treeLatLng.lat, longitude: treeLatLng.lng });
@@ -68,7 +68,7 @@ function EditTree() {
               {treeLatLng ? (
                 <>
                   <p>Neuer Baum an folgendem Standort:</p>
-                  {treeLatLng!!.lat}, {treeLatLng!!.lng}
+                  {treeLatLng!.lat}, {treeLatLng!.lng}
                 </>
               ) : (
                 <p>Bitte wähle einen Standort für den neuen Baum.</p>

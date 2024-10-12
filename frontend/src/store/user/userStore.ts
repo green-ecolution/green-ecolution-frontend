@@ -1,7 +1,7 @@
 import { SubStore } from "../store";
 import { UserStore } from "./types";
 
-export const userStore: SubStore<UserStore> = (set, get) => ({
+export const userStore: SubStore<UserStore> = (set) => ({
   username: "",
   email: "",
   firstName: "",
