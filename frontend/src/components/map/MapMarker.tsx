@@ -52,6 +52,24 @@ const markerHtmlStyles = (color: string) => `
   justify-content: center;
 `;
 
+const markerClusterHtmlStyles = (color: string) => `
+  background-color: ${color};
+  width: 2.25rem;
+  height: 2.25rem;
+  position: absolute;
+  border-radius: 3rem;
+  left: 0.25rem;
+  top: 0.25rem;
+  border: 1px solid white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 0.875rem;
+  color: white;
+  font-family: Nunito, sans-serif;
+`;
+
 const makerWrapperStyles = (isSelected: boolean) => `
   background-color: ${isSelected ? 'white' : ''};
   width: 2.5rem;
@@ -71,6 +89,18 @@ export const TreeIcon = (color: string, isSelected: boolean) =>
       `<figure style="${makerWrapperStyles(isSelected)}">
         <span style="${markerHtmlStyles(color)}">
           ${isSelected ? iconToSvg(Check) : iconToSvg(Tree)}
+        </span>
+      </figure>`,
+  });
+
+export const ClusterIcon = (color: string, isSelected: boolean, includedTrees: number) =>
+  L.divIcon({
+    iconAnchor: [0, 24],
+    popupAnchor: [0, -36],
+    html:
+      `<figure style="${makerWrapperStyles(isSelected)}">
+        <span style="${markerClusterHtmlStyles(color)}">
+          ${isSelected ? iconToSvg(Check) : includedTrees}
         </span>
       </figure>`,
   });

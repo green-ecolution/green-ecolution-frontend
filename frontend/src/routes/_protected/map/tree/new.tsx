@@ -1,41 +1,49 @@
-import MapSelectTreesModal from "@/components/map/MapSelectTreesModal";
-import { WithAllTrees } from "@/components/map/TreeMarker";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { LatLng } from "leaflet";
-import { useRef, useState } from "react";
-import { useMapMouseSelect } from "@/hooks/useMapMouseSelect";
-import { DragableMarker } from "@/components/map/MapMarker";
+import MapSelectTreesModal from '@/components/map/MapSelectTreesModal'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
+import { LatLng } from 'leaflet'
+import { useRef, useState } from 'react'
+import { useMapMouseSelect } from '@/hooks/useMapMouseSelect'
+import { DragableMarker } from '@/components/map/MapMarker'
+import { WithTreesAndClusters } from '@/components/map/TreeMarker'
+import { useAuthHeader } from '@/hooks/useAuthHeader'
+import { useSuspenseQuery } from '@tanstack/react-query'
+import { treeClusterQuery } from '@/api/queries'
 
-export const Route = createFileRoute("/_protected/map/tree/new")({
+export const Route = createFileRoute('/_protected/map/tree/new')({
   component: NewTree,
-});
+})
 
 function NewTree() {
-  const [treeLatLng, setTreeLatLng] = useState<LatLng>();
-  const navigate = useNavigate({ from: Route.fullPath });
-  const modalRef = useRef<HTMLDivElement>(null);
+  const [treeLatLng, setTreeLatLng] = useState<LatLng>()
+  const navigate = useNavigate({ from: Route.fullPath })
+  const modalRef = useRef<HTMLDivElement>(null)
   useMapMouseSelect((latlng, e) => {
-    const target = e.originalEvent.target as HTMLElement;
+    const target = e.originalEvent.target as HTMLElement
     if (!modalRef.current?.contains(target)) {
-      setTreeLatLng(latlng);
+      setTreeLatLng(latlng)
     }
-  });
+  })
+  const auth = useAuthHeader()
+  const { data } = useSuspenseQuery(treeClusterQuery(auth))
 
   const handleSave = () => {
-    if (!treeLatLng) return;
+    if (!treeLatLng) return
     navigate({
-      to: "/tree/new",
+      to: '/tree/new',
       search: { lat: treeLatLng!.lat, lng: treeLatLng!.lng, resetStore: true },
-    });
-  };
+    })
+  }
 
   const handleCancel = () => {
-    navigate({ to: "/map", search: (prev) => prev });
-  };
+    navigate({ to: '/map', search: (prev) => prev })
+  }
 
   return (
     <>
-      <WithAllTrees />
+      <WithTreesAndClusters
+        clusters={data.data}
+        trees={data.data.flatMap((cluster) => cluster.trees)}
+      />
       <MapSelectTreesModal
         ref={modalRef}
         onSave={handleSave}
@@ -65,5 +73,5 @@ function NewTree() {
         />
       )}
     </>
-  );
+  )
 }

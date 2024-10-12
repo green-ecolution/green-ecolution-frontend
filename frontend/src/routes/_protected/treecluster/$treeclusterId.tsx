@@ -12,7 +12,6 @@ import { Pencil } from 'lucide-react';
 
 export const Route = createFileRoute('/_protected/treecluster/$treeclusterId')({
   component: SingleTreecluster,
-
   loader: async ({ params }) => {
     return params.treeclusterId;
   },
