@@ -42,7 +42,6 @@ function NewTree() {
     treeClusterQuery(authorization),
   );
 
-
   const formStore = useFormStore((state: FormStore<TreeForm>) => ({
     form: state.form,
     reset: state.reset,
