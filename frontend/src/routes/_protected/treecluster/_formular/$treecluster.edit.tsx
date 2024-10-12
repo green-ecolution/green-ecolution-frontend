@@ -171,6 +171,7 @@ function EditTreeCluster() {
           <DeleteSection
             mutationFn={handleDeleteTreeCluster}
             entityName="die Bewässerungsgruppe"
+            redirectUrl={{ to: "/treecluster" }}
           />
         </div>
       )}

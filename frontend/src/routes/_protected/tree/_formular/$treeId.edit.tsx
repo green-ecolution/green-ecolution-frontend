@@ -83,7 +83,7 @@ function EditTreeCluster() {
         search: { resetStore: false },
         replace: true,
       })
-      showToast("Der Baum wurde erfolgreich editiert")
+      showToast('Der Baum wurde erfolgreich editiert')
     },
   })
 
@@ -153,10 +153,11 @@ function EditTreeCluster() {
               onChangeLocation={handleOnChangeLocation}
             />
           </section>
-            
+
           <DeleteSection
             mutationFn={handleDeleteTree}
             entityName="der Baum"
+            redirectUrl={{ to: '/map' }}
           />
         </div>
       )}

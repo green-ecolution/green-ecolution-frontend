@@ -3,26 +3,30 @@ import { useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import Modal from '../general/Modal'
 import useToast from '@/hooks/useToast'
+import { LinkProps, useNavigate } from '@tanstack/react-router'
 
 interface DeleteSectionProps {
   mutationFn: () => Promise<unknown>
   entityName: string
+  redirectUrl: LinkProps
 }
 
 const DeleteSection: React.FC<DeleteSectionProps> = ({
   mutationFn,
   entityName,
+  redirectUrl,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const navigate = useNavigate()
   const [displayError, setDisplayError] = useState<string | null>(null)
-  const uppercaseEntityName = `${entityName.charAt(0).toUpperCase()}${entityName.slice(1)}`
   const showToast = useToast()
 
   const { mutate, isError } = useMutation({
     mutationFn,
     onSuccess: () => {
       setIsModalOpen(false)
-      showToast(`${uppercaseEntityName} wurde erfolgreich gelöscht.`)
+      navigate(redirectUrl)
+      showToast(`${entityName.charAt(0).toUpperCase()}${entityName.slice(1)} wurde erfolgreich gelöscht.`)
     },
     onError: (error: unknown) => {
       error instanceof Error
@@ -39,7 +43,7 @@ const DeleteSection: React.FC<DeleteSectionProps> = ({
         onClick={() => setIsModalOpen(true)}
         className="mt-10 group flex items-center gap-x-2 text-red font-medium text-base mb-4"
       >
-        {uppercaseEntityName} löschen
+        Löschen
         <MoveRight className="w-4 h-4 transition-all ease-in-out duration-300 group-hover:translate-x-1" />
       </button>
 
