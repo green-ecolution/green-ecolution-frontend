@@ -40,6 +40,7 @@ const useTreeclusterFilter = (initStatusTags: string[], initRegionTags: string[]
 
   return {
     filters,
+    setFilters,
     appliedFilters,
     handleFilterChange,
     resetFilters,

@@ -23,7 +23,7 @@ interface DialogProps {
 const Dialog: React.FC<DialogProps> = ({ initStatusTags, initRegionTags, headline, fullUrlPath, applyFilter }) => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate({ from: fullUrlPath });
-  const dialogRef = useOutsideClick(() => setIsOpen(false));
+  const dialogRef = useOutsideClick(() => close());
 
   const authorization = useAuthHeader();
   const { data: regionRes } = useSuspenseQuery({
@@ -31,21 +31,22 @@ const Dialog: React.FC<DialogProps> = ({ initStatusTags, initRegionTags, headlin
     queryFn: () => regionApi.v1RegionGet({ authorization }),
   });
 
-  const { filters, appliedFilters, handleFilterChange, resetFilters, applyFilters } = useTreeclusterFilter(initStatusTags, initRegionTags);
-
-  const handleFilterView = () => {
-    isOpen ? setIsOpen(false) : setIsOpen(true);
-  };
+  const { filters, setFilters, appliedFilters, handleFilterChange, resetFilters, applyFilters } = useTreeclusterFilter(initStatusTags, initRegionTags);
 
   const resetAndClose = () => {
     resetFilters(applyFilter);
-    handleFilterView();
+    setIsOpen(false);
     navigate({ search: () => ({}) });
   };
 
+  const close = () => {
+    setIsOpen(false);
+    setFilters({ statusTags: appliedFilters.statusTags, regionTags: appliedFilters.regionTags });
+  }
+
   const handleApplyFilters = () => {
     applyFilters(applyFilter);
-    handleFilterView();
+    setIsOpen(false);
 
     navigate({
       search: () => ({
@@ -62,7 +63,7 @@ const Dialog: React.FC<DialogProps> = ({ initStatusTags, initRegionTags, headlin
       <FilterButton
         activeCount={appliedFilters.statusTags.length + appliedFilters.regionTags.length}
         ariaLabel={headline}
-        onClick={handleFilterView}
+        onClick={() => { isOpen ? setIsOpen(false) : setIsOpen(true) }}
       />
 
       <section
@@ -76,7 +77,7 @@ const Dialog: React.FC<DialogProps> = ({ initStatusTags, initRegionTags, headlin
           <button
             aria-label="Close Dialog"
             className="text-dark-400 hover:text-dark-600 stroke-1"
-            onClick={handleFilterView}
+            onClick={close}
           >
             <X />
           </button>
