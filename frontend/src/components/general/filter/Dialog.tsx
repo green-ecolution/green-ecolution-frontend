@@ -11,27 +11,24 @@ import { EntitiesWateringStatus, regionApi } from '@/api/backendApi'
 import { useAuthHeader } from '@/hooks/useAuthHeader'
 import { getWateringStatusDetails } from '@/hooks/useDetailsForWateringStatus'
 import useTreeclusterFilter from '@/hooks/useTreeclusterFilter'
+import useFilter from '@/hooks/useFilter'
 
 interface DialogProps {
-  initStatusTags: string[]
-  initRegionTags: string[]
   headline: string
   fullUrlPath: string
-  applyFilter: (statusTags: string[], regionTags: string[]) => void
+  onApplyFilters: () => void;
+  onResetFilters: () => void;
 }
 
 const Dialog = forwardRef(({
-  initStatusTags,
-  initRegionTags,
   headline,
   fullUrlPath,
-  applyFilter,
+  onApplyFilters,
+  onResetFilters,
 }: DialogProps, ref: ForwardedRef<HTMLDivElement>) => {
   const [isOpen, setIsOpen] = useState(false)
-  const navigate = useNavigate({ from: fullUrlPath })
-
+  // const navigate = useNavigate({ from: fullUrlPath })
   const dialogRef = useOutsideClick(() => close())
-
   const authorization = useAuthHeader()
   const { data: regionRes } = useSuspenseQuery({
     queryKey: ['regions'],
@@ -42,37 +39,20 @@ const Dialog = forwardRef(({
 
   const {
     filters,
-    setFilters,
-    appliedFilters,
-    handleFilterChange,
+    handleStatusChange,
+    handleRegionChange,
     resetFilters,
-    applyFilters,
-  } = useTreeclusterFilter(initStatusTags, initRegionTags)
+  } = useFilter();
 
-  const resetAndClose = () => {
-    resetFilters(applyFilter)
-    setIsOpen(false)
-    navigate({ search: () => ({}) })
-  }
+  const handleSubmit = () => {
+    onApplyFilters();
+    setIsOpen(false);
+  };
 
-  const close = () => {
-    setIsOpen(false)
-    setFilters({
-      statusTags: appliedFilters.statusTags,
-      regionTags: appliedFilters.regionTags,
-    })
-  }
-
-  const handleApplyFilters = () => {
-    applyFilters(applyFilter)
-    setIsOpen(false)
-
-    navigate({
-      search: () => ({
-        status: filters.statusTags.length > 0 ? filters.statusTags : undefined,
-        region: filters.regionTags.length > 0 ? filters.regionTags : undefined,
-      }),
-    })
+  const handleReset = () => {
+    onResetFilters();
+    resetFilters();
+    setIsOpen(false);
   }
 
   return (
@@ -81,7 +61,7 @@ const Dialog = forwardRef(({
 
       <FilterButton
         activeCount={
-          appliedFilters.statusTags.length + appliedFilters.regionTags.length
+          filters.statusTags.length + filters.regionTags.length
         }
         ariaLabel={headline}
         onClick={() => {
@@ -119,7 +99,7 @@ const Dialog = forwardRef(({
                 checked={filters.statusTags.includes(
                   getWateringStatusDetails(statusValue).label
                 )}
-                onChange={handleFilterChange('status')}
+                onChange={handleStatusChange}
               >
                 <div
                   className={`bg-${getWateringStatusDetails(statusValue).color} w-4 h-4 rounded-full`}
@@ -139,7 +119,7 @@ const Dialog = forwardRef(({
               label={region.name}
               name={String(region.id)}
               checked={filters.regionTags.includes(region.name)}
-              onChange={handleFilterChange('region')}
+              onChange={handleRegionChange}
             />
           ))}
         </fieldset>
@@ -148,9 +128,9 @@ const Dialog = forwardRef(({
           <PrimaryButton
             label="Anwenden"
             type="button"
-            onClick={handleApplyFilters}
+            onClick={handleSubmit}
           />
-          <SecondaryButton label="Zurücksetzen" onClick={resetAndClose} />
+          <SecondaryButton label="Zurücksetzen" onClick={handleReset} />
         </div>
       </section>
     </div>
