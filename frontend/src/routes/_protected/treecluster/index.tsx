@@ -1,52 +1,32 @@
+import { useState, useEffect, Suspense } from 'react'
 import Dialog from '@/components/general/filter/Dialog'
-import { createFileRoute, useLoaderData } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router'
 import { z } from 'zod'
 import ButtonLink from '@/components/general/links/ButtonLink'
 import { Plus } from 'lucide-react'
-import { getWateringStatusDetails } from '@/hooks/useDetailsForWateringStatus'
-import { TreeCluster } from '@/api/backendApi'
-import { useSuspenseQuery } from '@tanstack/react-query'
 import LoadingInfo from '@/components/general/error/LoadingInfo'
-import FilterProvider from '@/context/FilterContext'
-import useFilter from '@/hooks/useFilter'
-import { Suspense, useState } from 'react'
-import StatusFieldset from '@/components/general/filter/fieldsets/StatusFieldset'
-import RegionFieldset from '@/components/general/filter/fieldsets/RegionFieldset'
 import { ErrorBoundary } from 'react-error-boundary'
 import TreeClusterList from '@/components/treecluster/TreeClusterList'
-import { treeClusterQuery } from '@/api/queries'
 
 const treeclusterFilterSchema = z.object({
   status: z.array(z.string()).optional().default([]),
   region: z.array(z.string()).optional().default([]),
 })
 
+export const Route = createFileRoute('/_protected/treecluster/')({
+  component: Treecluster,
+  validateSearch: treeclusterFilterSchema,
+})
+
 function Treecluster() {
-  const { data: clustersRes } = useSuspenseQuery(treeClusterQuery())
-  const { filters } = useFilter()
+  const search = Route.useSearch()
+  const [statusTags, setStatusTags] = useState<string[]>(search.status)
+  const [regionTags, setRegionTags] = useState<string[]>(search.region)
 
-  const filterData = () => {
-    return clustersRes.data.filter((cluster) => {
-      const statusFilter =
-        filters.statusTags.length === 0 ||
-        filters.statusTags.includes(
-          getWateringStatusDetails(cluster.wateringStatus).label
-        )
-
-      const regionFilter =
-        filters.regionTags.length === 0 ||
-        filters.regionTags.includes(cluster.region.name)
-
-      return statusFilter && regionFilter
-    })
-  }
-
-  const [filteredData, setFilteredData] = useState<TreeCluster[]>(filterData())
-
-  const handleFilter = () => {
-    const data = filterData();
-    setFilteredData(data);
-  }
+  useEffect(() => {
+    if (search.status) setStatusTags(search.status)
+    if (search.region) setRegionTags(search.region)
+  }, [search.status, search.region])
 
   return (
     <div className="container mt-6">
@@ -71,14 +51,15 @@ function Treecluster() {
       <section className="mt-10">
         <div className="flex justify-end mb-6 lg:mb-10">
           <Dialog
+            initStatusTags={statusTags}
+            initRegionTags={regionTags}
             headline="Bewässerungsgruppen filtern"
             fullUrlPath={Route.fullPath}
-            onApplyFilters={() => handleFilter()}
-            onResetFilters={() => setFilteredData(clustersRes.data)}
-          >
-            <StatusFieldset />
-            <RegionFieldset />
-          </Dialog>
+            applyFilter={(statusTags, regionTags) => {
+              setStatusTags(statusTags)
+              setRegionTags(regionTags)
+            }}
+          />
         </div>
 
         <header className="hidden border-b pb-2 text-sm text-dark-800 px-8 border-b-dark-200 mb-5 lg:grid lg:grid-cols-[1fr,2fr,1.5fr,1fr] lg:gap-5 xl:px-10">
@@ -97,38 +78,12 @@ function Treecluster() {
               </p>
             }
           >
-            <TreeClusterList filteredData={filteredData} />
+            <TreeClusterList
+              filter={{ status: statusTags, region: regionTags }}
+            />
           </ErrorBoundary>
         </Suspense>
       </section>
     </div>
   )
 }
-
-const TreeclusterWithProvider = () => {
-  const search = useLoaderData({ from: '/_protected/treecluster/' })
-  return (
-    <FilterProvider
-      initialStatus={search.status ?? []}
-      initialRegions={search.region ?? []}
-    >
-      <Treecluster />
-    </FilterProvider>
-  )
-}
-
-export const Route = createFileRoute('/_protected/treecluster/')({
-  component: TreeclusterWithProvider,
-  validateSearch: treeclusterFilterSchema,
-
-  loaderDeps: ({ search: { status, region } }) => ({
-    status: status || [],
-    region: region || [],
-  }),
-
-  loader: ({ deps: { status, region } }) => {
-    return { status, region }
-  },
-})
-
-export default TreeclusterWithProvider

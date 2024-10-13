@@ -84,7 +84,6 @@ interface WithTreesAndClustersProps {
   trees: Tree[]
   clusters: TreeCluster[]
   zoomThreshold?: number
-  activeFilter?: boolean,
 }
 
 export const WithTreesAndClusters = ({
@@ -95,7 +94,6 @@ export const WithTreesAndClusters = ({
   trees,
   clusters,
   zoomThreshold = 17,
-  activeFilter = false,
 }: WithTreesAndClustersProps) => {
   const { zoom } = useStore((state) => ({
     zoom: state.map.zoom,
@@ -103,7 +101,7 @@ export const WithTreesAndClusters = ({
 
   return (
     <>
-      {zoom >= zoomThreshold || activeFilter
+      {zoom >= zoomThreshold
         ? <WithAllTrees trees={trees} onClick={onClickTree} selectedTrees={selectedTrees} />
         : <WithAllClusters clusters={clusters} onClick={onClickCluster} selectedClusters={selectedClusters} />}
          
