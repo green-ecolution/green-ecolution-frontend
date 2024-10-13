@@ -2,6 +2,12 @@ import { createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/_protected/sensors')({
   component: Sensors,
+  meta: () => [
+    {
+      title: 'Sensoren',
+      path: '/sensors',
+    },
+  ],
 })
 
 

@@ -30,7 +30,8 @@ export const Route = createFileRoute('/_protected/tree/_formular/new')({
       lat: storeNotInit ? lat : useFormStore.getState().form.latitude,
       lng: storeNotInit ? lng : useFormStore.getState().form.longitude,
     }
-  }
+  },
+  meta: () => [{ title: 'Neuer Baum' }],
 })
 
 function NewTree() {

@@ -87,5 +87,3 @@ function Treecluster() {
     </div>
   )
 }
-
-export default Treecluster
