@@ -10,6 +10,8 @@ import Dialog from '@/components/general/filter/Dialog'
 import { useMapMouseSelect } from '@/hooks/useMapMouseSelect'
 import { useMap } from 'react-leaflet'
 import FilterProvider from '@/context/FilterContext'
+import StatusFieldset from '@/components/general/filter/fieldsets/StatusFieldset'
+import RegionFieldset from '@/components/general/filter/fieldsets/RegionFieldset'
 
 export const Route = createFileRoute('/_protected/map/')({
   component: MapView,
@@ -20,7 +22,7 @@ function MapView() {
   const auth = useAuthHeader()
   const map = useMap()
   const dialogRef = useRef<HTMLDivElement>(null)
-  const [filteredData, setFilteredData] = useState<string[]>([])
+  const [filteredData, setFilteredData] = useState<Tree[]>([])
   const { data } = useSuspenseQuery(treeClusterQuery(auth))
 
   const handleTreeClick = (tree: Tree) => {
@@ -46,7 +48,7 @@ function MapView() {
   })
 
   const filterData = () => {
-    console.log('filterData')
+    console.log(data.data);
   }
 
   return (
@@ -57,8 +59,11 @@ function MapView() {
             headline="Bäume filtern"
             fullUrlPath={Route.fullPath}
             onApplyFilters={() => filterData()}
-            onResetFilters={() => setFilteredData([])}
-          />
+            onResetFilters={() => setFilteredData(data.data)}
+          >
+            <StatusFieldset />
+            <RegionFieldset />
+          </Dialog>
         </div>
         <MapButtons />
         <WithTreesAndClusters
