@@ -11,7 +11,7 @@ import {  useSuspenseQuery } from '@tanstack/react-query'
 import LoadingInfo from '@/components/general/error/LoadingInfo'
 import FilterProvider from '@/context/FilterContext'
 import useFilter from '@/hooks/useFilter'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 const treeclusterFilterSchema = z.object({
   status: z.array(z.string()).optional(),
@@ -32,27 +32,27 @@ function Treecluster() {
     queryFn: () => clusterApi.getAllTreeClusters({ authorization }),
   })
 
-  const filterData = () => {
-    const data =  clustersRes.data.filter((cluster) => {
-      const statusFilter = 
-        filters.statusTags.length === 0 || 
+  const filterData = useCallback(() => {
+    const data = clustersRes.data.filter((cluster) => {
+      const statusFilter =
+        filters.statusTags.length === 0 ||
         filters.statusTags.includes(getWateringStatusDetails(cluster.wateringStatus).label);
 
-      const regionFilter = 
-        filters.regionTags.length === 0 || 
+      const regionFilter =
+        filters.regionTags.length === 0 ||
         filters.regionTags.includes(cluster.region.name);
 
       return statusFilter && regionFilter;
     });
 
     setFilteredData(data);
-  };
+  }, [clustersRes.data, filters]); 
 
   useEffect(() => {
-    if (filteredData.length === 0) {
-      setFilteredData(clustersRes?.data);
+    if (clustersRes?.data) {
+      filterData();
     }
-  }, [clustersRes, filteredData, filters]);
+  }, [clustersRes, filterData]);
 
   return (
     <div className="container mt-6">

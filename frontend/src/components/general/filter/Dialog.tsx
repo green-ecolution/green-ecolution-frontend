@@ -27,8 +27,8 @@ const Dialog = forwardRef(({
   onResetFilters,
 }: DialogProps, ref: ForwardedRef<HTMLDivElement>) => {
   const [isOpen, setIsOpen] = useState(false)
-  // const navigate = useNavigate({ from: fullUrlPath })
-  const dialogRef = useOutsideClick(() => close())
+  const navigate = useNavigate({ from: fullUrlPath })
+  const dialogRef = useOutsideClick(() => handleClose())
   const authorization = useAuthHeader()
   const { data: regionRes } = useSuspenseQuery({
     queryKey: ['regions'],
@@ -47,11 +47,23 @@ const Dialog = forwardRef(({
   const handleSubmit = () => {
     onApplyFilters();
     setIsOpen(false);
+
+    navigate({
+      search: () => ({
+        status: filters.statusTags.length > 0 ? filters.statusTags : undefined,
+        region: filters.regionTags.length > 0 ? filters.regionTags : undefined,
+      }),
+    })
   };
 
   const handleReset = () => {
     onResetFilters();
     resetFilters();
+    setIsOpen(false);
+    navigate({ search: () => ({}) })
+  }
+
+  const handleClose = () => {
     setIsOpen(false);
   }
 
