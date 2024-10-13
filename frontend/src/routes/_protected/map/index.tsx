@@ -21,9 +21,9 @@ import ClusterFieldset from '@/components/general/filter/fieldsets/ClusterFields
 import PlantingYearFieldset from '@/components/general/filter/fieldsets/PlantingYearFieldset'
 
 const mapFilterSchema = z.object({
-  status: z.array(z.string()).optional().default([]),
+  status: z.array(z.string()).optional(),
   hasCluster: z.boolean().optional(),
-  plantingYears: z.array(z.number()).optional().default([]),
+  plantingYears: z.array(z.number()).optional(),
 })
 
 function MapView() {

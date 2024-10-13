@@ -66,7 +66,6 @@ const FilterProvider: React.FC<FilterProviderProps> = ({
       checked ? [...prev, Number(value)] : prev.filter((year) => year !== Number(value))
     );
   }
-  
 
   const applyOldStateToTags = (oldValues: Filters) => {
     setStatusTags(oldValues.statusTags)
