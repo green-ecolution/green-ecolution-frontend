@@ -7,8 +7,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [v1.0.0] - 2024-10-14
-
 ### Added
 
 -   Initial release
@@ -40,6 +38,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-[Unreleased]: https://github.com/green-ecolution/green-ecolution-frontend/compare/v1.0.0...HEAD
-
-[v1.0.0]: https://github.com/green-ecolution/green-ecolution-frontend/releases/tag/v1.0.0
+[Unreleased]: https://github.com/green-ecolution/green-ecolution-frontend/compare/c0b0e1...HEAD
