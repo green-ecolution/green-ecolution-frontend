@@ -44,6 +44,7 @@ export const Route = createFileRoute('/_protected/map')({
       tree: queryClient.ensureQueryData(treeQuery()),
     }
   },
+  meta: () => [{ title: 'Kataster' }],
 })
 
 function MapRoot() {

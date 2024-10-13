@@ -4,6 +4,7 @@ import { MoveRight, UserRound } from 'lucide-react';
 
 export const Route = createFileRoute('/_protected/profile')({
   component: Sensors,
+  meta: () => [{ title: 'Profil' }],
 })
 
 

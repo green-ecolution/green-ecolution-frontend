@@ -10,6 +10,7 @@ import { treeClusterQuery, treeQuery } from '@/api/queries'
 
 export const Route = createFileRoute('/_protected/map/tree/new')({
   component: NewTree,
+  meta: () => [{ title: 'Neuer Baum' }],
 })
 
 function NewTree() {

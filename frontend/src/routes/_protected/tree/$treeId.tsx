@@ -1,4 +1,4 @@
-import { treeIdQuery, treeQuery } from '@/api/queries'
+import { treeIdQuery } from '@/api/queries'
 import queryClient from '@/api/queryClient'
 import LoadingInfo from '@/components/general/error/LoadingInfo'
 import TreeDashboard from '@/components/tree/TreeDashboard'

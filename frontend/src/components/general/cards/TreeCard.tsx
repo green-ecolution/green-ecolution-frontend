@@ -1,6 +1,5 @@
 import { getWateringStatusDetails } from '@/hooks/useDetailsForWateringStatus'
 import { EntitiesWateringStatus, Tree } from '@green-ecolution/backend-client'
-import { Link } from '@tanstack/react-router'
 import { MoveRight } from 'lucide-react'
 import React from 'react'
 

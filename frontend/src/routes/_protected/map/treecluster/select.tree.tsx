@@ -14,6 +14,7 @@ import { treeQuery } from '@/api/queries'
 export const Route = createFileRoute('/_protected/map/treecluster/select/tree')(
   {
     component: SelectTrees,
+    meta: () => [{ title: 'Bäume auswählen' }],
   }
 )
 
