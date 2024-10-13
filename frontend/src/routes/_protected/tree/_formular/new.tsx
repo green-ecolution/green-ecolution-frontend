@@ -9,9 +9,9 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useSuspenseQuery } from '@tanstack/react-query'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { z } from 'zod'
-import { sensorQuery, treeClusterQuery } from '../_formular'
 import { useMapStore } from '@/store/store'
 import useToast from '@/hooks/useToast'
+import { sensorQuery, treeClusterQuery } from '@/api/queries'
 
 const newTreeSearchSchema = z.object({
   lat: z.number(),
@@ -36,10 +36,8 @@ function NewTree() {
   const authorization = useAuthHeader()
   const showToast = useToast()
   const map = useMapStore()
-  const { data: sensors } = useSuspenseQuery(sensorQuery(authorization))
-  const { data: treeClusters } = useSuspenseQuery(
-    treeClusterQuery(authorization)
-  )
+  const { data: sensors } = useSuspenseQuery(sensorQuery())
+  const { data: treeClusters } = useSuspenseQuery(treeClusterQuery())
 
   const formStore = useFormStore((state: FormStore<TreeForm>) => ({
     form: state.form,

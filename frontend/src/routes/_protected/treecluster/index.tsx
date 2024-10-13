@@ -1,38 +1,30 @@
-import TreeclusterCard from '@/components/general/cards/TreeclusterCard'
 import Dialog from '@/components/general/filter/Dialog'
 import { createFileRoute, useLoaderData } from '@tanstack/react-router'
 import { z } from 'zod'
 import ButtonLink from '@/components/general/links/ButtonLink'
 import { Plus } from 'lucide-react'
 import { getWateringStatusDetails } from '@/hooks/useDetailsForWateringStatus'
-import { clusterApi, TreeCluster } from '@/api/backendApi'
-import { useAuthHeader } from '@/hooks/useAuthHeader'
+import { TreeCluster } from '@/api/backendApi'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import LoadingInfo from '@/components/general/error/LoadingInfo'
 import FilterProvider from '@/context/FilterContext'
 import useFilter from '@/hooks/useFilter'
-import { useCallback, useEffect, useState } from 'react'
+import { Suspense, useCallback, useEffect, useState } from 'react'
 import StatusFieldset from '@/components/general/filter/fieldsets/StatusFieldset'
 import RegionFieldset from '@/components/general/filter/fieldsets/RegionFieldset'
+import { ErrorBoundary } from 'react-error-boundary'
+import TreeClusterList from '@/components/treecluster/TreeClusterList'
+import { treeClusterQuery } from '@/api/queries'
 
 const treeclusterFilterSchema = z.object({
-  status: z.array(z.string()).optional(),
-  region: z.array(z.string()).optional(),
+  status: z.array(z.string()).optional().default([]),
+  region: z.array(z.string()).optional().default([]),
 })
 
 function Treecluster() {
-  const authorization = useAuthHeader()
+  const { data: clustersRes } = useSuspenseQuery(treeClusterQuery())
   const { filters } = useFilter()
   const [filteredData, setFilteredData] = useState<TreeCluster[]>([])
-
-  const {
-    data: clustersRes,
-    isLoading,
-    error,
-  } = useSuspenseQuery({
-    queryKey: ['cluster'],
-    queryFn: () => clusterApi.getAllTreeClusters({ authorization }),
-  })
 
   const filterData = useCallback(() => {
     const data = clustersRes.data.filter((cluster) => {
@@ -98,30 +90,20 @@ function Treecluster() {
           <p>Anzahl d. Bäume</p>
         </header>
 
-        {isLoading ? (
-          <LoadingInfo label="Daten werden geladen" />
-        ) : error ? (
-          <p className="text-center text-dark-600 mt-10">
-            Fehler beim Laden der Daten.
-          </p>
-        ) : (
-          <ul>
-            {filteredData?.length === 0 ? (
-              <li className="text-center text-dark-600 mt-10">
-                <p>
-                  Es wurden keine Bewässerungsgruppen gefunden, die den
-                  Filterkriterien entsprechen.
-                </p>
-              </li>
-            ) : (
-              filteredData?.map((cluster, key) => (
-                <li key={key} className="mb-5 last:mb-0">
-                  <TreeclusterCard treecluster={cluster} />
-                </li>
-              ))
-            )}
-          </ul>
-        )}
+        <Suspense fallback={<LoadingInfo label="Daten werden geladen" />}>
+          <ErrorBoundary
+            fallback={
+              <p className="text-center text-dark-600 mt-10">
+                Es ist ein Fehler aufgetreten. Bitte versuchen Sie es später
+                erneut.
+              </p>
+            }
+          >
+            <TreeClusterList
+              filteredData={filteredData}
+            />
+          </ErrorBoundary>
+        </Suspense>
       </section>
     </div>
   )

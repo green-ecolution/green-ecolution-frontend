@@ -3,8 +3,7 @@ import MapButtons from '@/components/map/MapButtons'
 import { Tree, TreeCluster } from '@green-ecolution/backend-client'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { WithTreesAndClusters } from '@/components/map/TreeMarker'
-import { useAuthHeader } from '@/hooks/useAuthHeader'
-import { treeClusterQuery } from '@/api/queries'
+import { treeClusterQuery, treeQuery } from '@/api/queries'
 import { useRef, useState } from 'react'
 import Dialog from '@/components/general/filter/Dialog'
 import { useMapMouseSelect } from '@/hooks/useMapMouseSelect'
@@ -19,12 +18,12 @@ export const Route = createFileRoute('/_protected/map/')({
 
 function MapView() {
   const navigate = useNavigate({ from: '/map' })
-  const auth = useAuthHeader()
   const map = useMap()
   const dialogRef = useRef<HTMLDivElement>(null)
   const [filteredData, setFilteredData] = useState<Tree[]>([])
   const [activeFilter, setActiveFitler] = useState(false)
-  const { data } = useSuspenseQuery(treeClusterQuery(auth))
+  const { data: cluster } = useSuspenseQuery(treeClusterQuery())
+  const { data: trees } = useSuspenseQuery(treeQuery())
 
   const handleTreeClick = (tree: Tree) => {
     navigate({ to: `/tree/$treeId`, params: { treeId: tree.id.toString() } })
@@ -72,8 +71,8 @@ function MapView() {
         </div>
         <MapButtons />
         <WithTreesAndClusters
-          clusters={data.data}
-          trees={data.data.flatMap((cluster) => cluster.trees)}
+          clusters={cluster.data}
+          trees={trees.data}
           activeFilter={activeFilter}
           onClickTree={handleTreeClick}
           onClickCluster={handleClusterClick}

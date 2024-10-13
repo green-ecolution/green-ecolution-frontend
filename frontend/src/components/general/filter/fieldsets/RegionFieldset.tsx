@@ -1,16 +1,11 @@
-import { useAuthHeader } from '@/hooks/useAuthHeader'
 import Option from '../Option'
 import useFilter from '@/hooks/useFilter'
 import { useSuspenseQuery } from '@tanstack/react-query'
-import { regionApi } from '@/api/backendApi'
+import { regionsQuery } from '@/api/queries'
 
 const RegionFieldset = () => {
   const { tempFilters, handleRegionChange } = useFilter()
-  const authorization = useAuthHeader()
-  const { data: regionRes } = useSuspenseQuery({
-    queryKey: ['regions'],
-    queryFn: () => regionApi.v1RegionGet({ authorization }),
-  })
+  const { data: regionRes } = useSuspenseQuery(regionsQuery());
 
   return (
     <fieldset className="mt-6">

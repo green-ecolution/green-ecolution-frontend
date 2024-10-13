@@ -1,7 +1,7 @@
-import { EntitiesWateringStatus, treeApi } from "@/api/backendApi";
-import { useAuthHeader } from "@/hooks/useAuthHeader";
+import { EntitiesWateringStatus} from "@/api/backendApi";
+import { treeIdQuery } from "@/api/queries";
 import { getWateringStatusDetails } from "@/hooks/useDetailsForWateringStatus";
-import { useQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { Trash2 } from "lucide-react";
 import React from "react";
 
@@ -11,14 +11,10 @@ interface SelectedCard {
 }
 
 const SelectedCard: React.FC<SelectedCard> = ({ onClick, treeId }) => {
-  const authorization = useAuthHeader();
-  const { data: tree } = useQuery({
-    queryKey: ["tree", treeId],
-    queryFn: () => treeApi.getTrees({ treeId: String(treeId), authorization }),
-  });
+  const { data: tree } = useSuspenseQuery(treeIdQuery(String(treeId)))
 
   const statusDetails = getWateringStatusDetails(
-    tree?.wateringStatus ?? EntitiesWateringStatus.WateringStatusUnknown,
+    tree.wateringStatus ?? EntitiesWateringStatus.WateringStatusUnknown,
   );
 
   return (
@@ -26,8 +22,8 @@ const SelectedCard: React.FC<SelectedCard> = ({ onClick, treeId }) => {
       <h3
         className={`relative font-medium pl-7 before:absolute before:w-4 before:h-4 before:rounded-full before:left-0 before:top-[0.22rem] before:bg-${statusDetails.color}`}
       >
-        <strong className="font-semibold">Baum:</strong> {tree?.species} ·{" "}
-        {treeId} · {tree?.plantingYear}
+        <strong className="font-semibold">Baum:</strong> {tree.species} ·{" "}
+        {treeId} · {tree.plantingYear}
       </h3>
       <button
         type="button"
