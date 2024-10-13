@@ -17,9 +17,11 @@ import { getWateringStatusDetails } from '@/hooks/useDetailsForWateringStatus'
 import useFilter from '@/hooks/useFilter'
 import FilterProvider from '@/context/FilterContext'
 import { z } from 'zod'
+import ClusterFieldset from '@/components/general/filter/fieldsets/ClusterFieldset'
 
 const mapFilterSchema = z.object({
   status: z.array(z.string()).optional().default([]),
+  hasCluster: z.boolean().optional(),
 })
 
 function MapView() {
@@ -61,7 +63,12 @@ function MapView() {
           getWateringStatusDetails(tree.wateringStatus).label
         )
 
-      return statusFilter
+      const hasCluster =
+        filters.hasCluster === undefined ||
+        (filters.hasCluster && tree.treeClusterId) ||
+        (!filters.hasCluster && !tree.treeClusterId)
+
+      return statusFilter && hasCluster
     })
   }
 
@@ -89,6 +96,7 @@ function MapView() {
           onResetFilters={handleReset}
         >
           <StatusFieldset />
+          <ClusterFieldset />
         </Dialog>
       </div>
       <MapButtons />
@@ -106,7 +114,7 @@ function MapView() {
 const MapViewWithProvider = () => {
   const search = useLoaderData({ from: '/_protected/map/' })
   return (
-    <FilterProvider initialStatus={search.status ?? []} initialRegions={[]}>
+    <FilterProvider initialStatus={search.status ?? []} initalHasCluster>
       <MapView />
     </FilterProvider>
   )
@@ -116,11 +124,12 @@ export const Route = createFileRoute('/_protected/map/')({
   component: MapViewWithProvider,
   validateSearch: mapFilterSchema,
 
-  loaderDeps: ({ search: { status } }) => ({
+  loaderDeps: ({ search: { status, hasCluster } }) => ({
     status: status || [],
+    hasCluster: hasCluster || undefined,
   }),
 
-  loader: ({ deps: { status } }) => {
-    return { status }
+  loader: ({ deps: { status, hasCluster } }) => {
+    return { status, hasCluster }
   },
 })

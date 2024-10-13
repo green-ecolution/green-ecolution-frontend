@@ -38,6 +38,7 @@ const Dialog = forwardRef(
     const [oldValues, setOldValues] = useState<Filters>({
       statusTags: [],
       regionTags: [],
+      hasCluster: undefined,
     })
     const navigate = useNavigate({ from: fullUrlPath })
     useImperativeHandle(ref, () => dialogRef.current)
@@ -60,13 +61,15 @@ const Dialog = forwardRef(
             filters.statusTags.length > 0 ? filters.statusTags : undefined,
           region:
             filters.regionTags.length > 0 ? filters.regionTags : undefined,
+          hasCluster:
+            filters.hasCluster ?? undefined,
         }),
       })
     }
 
     const handleReset = () => {
       onResetFilters()
-      applyOldStateToTags({ statusTags: [], regionTags: [] })
+      applyOldStateToTags({ statusTags: [], regionTags: [], hasCluster: undefined })
       resetFilters()
       setIsOpen(false)
       navigate({ search: () => ({}) })
@@ -89,7 +92,7 @@ const Dialog = forwardRef(
         ></div>
 
         <FilterButton
-          activeCount={filters.statusTags.length + filters.regionTags.length}
+          activeCount={filters.statusTags.length + filters.regionTags.length + (filters.hasCluster ? 1 : 0)}
           ariaLabel={headline}
           isOnMap={isOnMap}
           onClick={() => {
