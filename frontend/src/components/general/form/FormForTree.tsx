@@ -21,7 +21,7 @@ const FormForTree = (props: FormForTreeProps) => {
     lng: state.form?.longitude ?? 0,
   }));
 
-  const { errors, isDirty, isValid } = props.formState;
+  const { errors, isValid } = props.formState;
 
   return (
     <form
@@ -117,7 +117,7 @@ const FormForTree = (props: FormForTreeProps) => {
         type="submit"
         label="Speichern"
         className="mt-10 lg:col-span-full lg:w-fit"
-        disabled={!isValid || !isDirty}
+        disabled={!isValid}
       />
     </form>
   );

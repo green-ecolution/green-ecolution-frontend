@@ -37,7 +37,7 @@ const FormForTreecluster: React.FC<FormForTreeclusterProps> = ({
   onSubmit,
   onAddTrees,
   onDeleteTree,
-  formState: { errors, isDirty, isValid },
+  formState: { errors, isValid },
 }) => {
   const { treeIds } = useFormStore((state: FormStore<TreeclusterSchema>) => ({
     treeIds: state.form?.treeIds,
@@ -92,7 +92,7 @@ const FormForTreecluster: React.FC<FormForTreeclusterProps> = ({
       <PrimaryButton
         type="submit"
         label="Speichern"
-        disabled={!isValid || !isDirty}
+        disabled={!isValid}
         className="mt-10 lg:col-span-full lg:w-fit"
       />
     </form>
