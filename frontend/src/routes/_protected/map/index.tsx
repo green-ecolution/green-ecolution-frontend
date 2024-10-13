@@ -23,6 +23,7 @@ function MapView() {
   const map = useMap()
   const dialogRef = useRef<HTMLDivElement>(null)
   const [filteredData, setFilteredData] = useState<Tree[]>([])
+  const [activeFilter, setActiveFitler] = useState(false)
   const { data } = useSuspenseQuery(treeClusterQuery(auth))
 
   const handleTreeClick = (tree: Tree) => {
@@ -47,10 +48,14 @@ function MapView() {
     }
   })
 
-  const filterData = () => {
-    console.log(data.data);
+  const handleFilter = () => {
+    setActiveFitler(true);
   }
 
+  const handleReset = () => {
+    //setFilteredData(data.data);
+    setActiveFitler(false);
+  }
   return (
     <>
       <FilterProvider initialStatus={[]} initialRegions={[]}>
@@ -58,8 +63,8 @@ function MapView() {
           <Dialog
             headline="Bäume filtern"
             fullUrlPath={Route.fullPath}
-            onApplyFilters={() => filterData()}
-            onResetFilters={() => setFilteredData(data.data)}
+            onApplyFilters={handleFilter}
+            onResetFilters={handleReset}
           >
             <StatusFieldset />
             <RegionFieldset />
@@ -69,6 +74,7 @@ function MapView() {
         <WithTreesAndClusters
           clusters={data.data}
           trees={data.data.flatMap((cluster) => cluster.trees)}
+          activeFilter={activeFilter}
           onClickTree={handleTreeClick}
           onClickCluster={handleClusterClick}
         />
