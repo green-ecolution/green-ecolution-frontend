@@ -7,6 +7,7 @@ import BackLink from '@/components/general/links/BackLink'
 import ButtonLink from '@/components/general/links/ButtonLink'
 import { Pencil } from 'lucide-react'
 import { getWateringStatusDetails } from '@/hooks/useDetailsForWateringStatus'
+import { Link } from '@tanstack/react-router'
 
 interface TreeClusterDashboardProps {
   clusterId: string
@@ -88,7 +89,15 @@ const TreeClusterDashboard = ({ clusterId }: TreeClusterDashboardProps) => {
           ) : (
             treecluster.trees?.map((tree, key) => (
               <li key={key}>
-                <TreeCard tree={tree} />
+                <Link
+                  to="/treecluster/$treeclusterId/tree/$treeId"
+                  params={{
+                    treeId: tree.id.toString(),
+                    treeclusterId: clusterId,
+                  }}
+                >
+                  <TreeCard tree={tree} />
+                </Link>
               </li>
             ))
           )}

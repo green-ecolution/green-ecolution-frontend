@@ -1,32 +1,19 @@
 import { useRouterState } from '@tanstack/react-router'
-import { useMemo } from 'react'
-
-interface Breadcrumb {
-  title: string
-  path: string
-}
 
 export function useBreadcrumbs() {
-  const matches = useRouterState({ select: (s) => s.matches })
-  const breadcrumbs = useMemo(() => {
-    const result: Breadcrumb[] = []
+  const breadcrumbs = useRouterState({
+    select: (state) => {
+      console.log(state)
+      return state.matches
+        .map((match) => ({
+          title: match.meta?.find((tag) => tag.title)!.title as string,
+          path: match.pathname,
+        }))
+        .filter((crumb) => Boolean(crumb.title))
+    },
+  })
 
-    matches.forEach(({ meta }) => {
-      const titlesAndPaths =
-        meta?.filter(
-          (tag): tag is { title: string; path: string } =>
-            tag.title !== undefined
-        ) || []
-      titlesAndPaths.forEach((tag) => {
-        result.push({
-          title: tag.title,
-          path: tag.path,
-        })
-      })
-    })
-
-    return result
-  }, [matches])
+  console.log(breadcrumbs)
 
   return breadcrumbs
 }

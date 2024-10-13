@@ -16,12 +16,6 @@ const treeclusterFilterSchema = z.object({
 export const Route = createFileRoute('/_protected/treecluster/')({
   component: Treecluster,
   validateSearch: treeclusterFilterSchema,
-  meta: () => [
-    {
-      title: 'Bewässerungsgruppen',
-      path: '/treecluster',
-    },
-  ],
 })
 
 function Treecluster() {
@@ -93,5 +87,3 @@ function Treecluster() {
     </div>
   )
 }
-
-export default Treecluster
