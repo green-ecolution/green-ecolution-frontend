@@ -22,16 +22,19 @@ export const Route = createFileRoute('/_protected/tree/_formular/new')({
   component: NewTree,
   validateSearch: newTreeSearchSchema,
   loaderDeps: ({ search: { lat, lng } }) => {
+    return { lat, lng }
+  },
+  loader: ({ deps: { lat, lng } }) => {
     const storeNotInit = useFormStore.getState().isEmpty()
     return {
       lat: storeNotInit ? lat : useFormStore.getState().form.latitude,
       lng: storeNotInit ? lng : useFormStore.getState().form.longitude,
     }
-  },
+  }
 })
 
 function NewTree() {
-  const { lat, lng } = Route.useLoaderDeps()
+  const { lat, lng } = Route.useLoaderData()
   const navigate = useNavigate({ from: Route.fullPath })
   const authorization = useAuthHeader()
   const showToast = useToast()
