@@ -1,7 +1,6 @@
 import {
   ForwardedRef,
   forwardRef,
-  useEffect,
   useImperativeHandle,
   useState,
 } from 'react'
