@@ -8,7 +8,7 @@ import { Tree, TreeCluster } from '@green-ecolution/backend-client'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { WithTreesAndClusters } from '@/components/map/TreeMarker'
 import { treeClusterQuery, treeQuery } from '@/api/queries'
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import Dialog from '@/components/general/filter/Dialog'
 import { useMapMouseSelect } from '@/hooks/useMapMouseSelect'
 import { useMap } from 'react-leaflet'
@@ -23,11 +23,9 @@ const mapFilterSchema = z.object({
 })
 
 function MapView() {
-  const search = useLoaderData({ from: '/_protected/map/' })
   const navigate = useNavigate({ from: '/map' })
   const map = useMap()
   const dialogRef = useRef<HTMLDivElement>(null)
-  const [filteredData, setFilteredData] = useState<Tree[]>([])
   const [activeFilter, setActiveFilter] = useState(true)
   const { data: cluster } = useSuspenseQuery(treeClusterQuery())
   const { data: trees } = useSuspenseQuery(treeQuery())
@@ -55,8 +53,8 @@ function MapView() {
     }
   })
 
-  const handleFilter = () => {
-    const data = trees.data.filter((tree) => {
+  const filterData = () => {
+    return trees.data.filter((tree) => {
       const statusFilter =
         filters.statusTags.length === 0 ||
         filters.statusTags.includes(
@@ -65,7 +63,12 @@ function MapView() {
 
       return statusFilter
     })
+  }
 
+  const [filteredData, setFilteredData] = useState<Tree[]>(filterData())
+
+  const handleFilter = () => {
+    const data = filterData()
     setActiveFilter(true)
     setFilteredData(data)
   }
@@ -74,13 +77,6 @@ function MapView() {
     setActiveFilter(false)
     setFilteredData(trees.data)
   }
-
-  useEffect(() => {
-    if (search.status) {
-      setActiveFilter(true);
-      handleFilter();
-    }
-  }, []);
 
   return (
     <>

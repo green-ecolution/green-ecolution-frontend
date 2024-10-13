@@ -9,7 +9,7 @@ import { useSuspenseQuery } from '@tanstack/react-query'
 import LoadingInfo from '@/components/general/error/LoadingInfo'
 import FilterProvider from '@/context/FilterContext'
 import useFilter from '@/hooks/useFilter'
-import { Suspense, useCallback, useEffect, useState } from 'react'
+import { Suspense, useState } from 'react'
 import StatusFieldset from '@/components/general/filter/fieldsets/StatusFieldset'
 import RegionFieldset from '@/components/general/filter/fieldsets/RegionFieldset'
 import { ErrorBoundary } from 'react-error-boundary'
@@ -24,10 +24,9 @@ const treeclusterFilterSchema = z.object({
 function Treecluster() {
   const { data: clustersRes } = useSuspenseQuery(treeClusterQuery())
   const { filters } = useFilter()
-  const [filteredData, setFilteredData] = useState<TreeCluster[]>([])
 
-  const filterData = useCallback(() => {
-    const data = clustersRes.data.filter((cluster) => {
+  const filterData = () => {
+    return clustersRes.data.filter((cluster) => {
       const statusFilter =
         filters.statusTags.length === 0 ||
         filters.statusTags.includes(
@@ -40,15 +39,14 @@ function Treecluster() {
 
       return statusFilter && regionFilter
     })
+  }
 
-    setFilteredData(data)
-  }, [clustersRes.data, filters])
+  const [filteredData, setFilteredData] = useState<TreeCluster[]>(filterData())
 
-  useEffect(() => {
-    if (clustersRes?.data) {
-      filterData()
-    }
-  }, [])
+  const handleFilter = () => {
+    const data = filterData();
+    setFilteredData(data);
+  }
 
   return (
     <div className="container mt-6">
@@ -75,7 +73,7 @@ function Treecluster() {
           <Dialog
             headline="Bewässerungsgruppen filtern"
             fullUrlPath={Route.fullPath}
-            onApplyFilters={() => filterData()}
+            onApplyFilters={() => handleFilter()}
             onResetFilters={() => setFilteredData(clustersRes.data)}
           >
             <StatusFieldset />

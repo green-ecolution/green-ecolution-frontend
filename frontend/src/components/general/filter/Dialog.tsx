@@ -18,7 +18,7 @@ interface DialogProps {
   headline: string
   fullUrlPath: string
   children?: React.ReactNode
-  isOnMap?: boolean;
+  isOnMap?: boolean
   onApplyFilters: () => void
   onResetFilters: () => void
 }
@@ -83,7 +83,7 @@ const Dialog = forwardRef(
       if (isOpen) {
         setOldValues(filters)
       }
-    }, [isOpen])
+    }, [filters, isOpen])
 
     return (
       <div className="font-nunito-sans text-base">

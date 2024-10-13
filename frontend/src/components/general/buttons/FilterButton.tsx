@@ -1,16 +1,20 @@
-import React from 'react';
+import React from 'react'
 
 interface FilterButtonProps {
-  ariaLabel: string;
-  activeCount: number;
-  isOnMap: boolean;
-  onClick: () => void;
+  ariaLabel: string
+  activeCount: number
+  isOnMap: boolean
+  onClick: () => void
 }
 
-const FilterButton: React.FC<FilterButtonProps> = ({ ariaLabel, activeCount, onClick, isOnMap }) => {
-
+const FilterButton: React.FC<FilterButtonProps> = ({
+  ariaLabel,
+  activeCount,
+  onClick,
+  isOnMap,
+}) => {
   return (
-    <button 
+    <button
       aria-label={ariaLabel}
       id="filter-button"
       aria-selected={activeCount > 0}
@@ -18,9 +22,11 @@ const FilterButton: React.FC<FilterButtonProps> = ({ ariaLabel, activeCount, onC
       onClick={onClick}
     >
       Filter
-      <span className="block bg-green-dark/20 w-6 h-6 rounded-full">{activeCount}</span>
+      <span className="block bg-green-dark/20 w-6 h-6 rounded-full">
+        {activeCount}
+      </span>
     </button>
-  );
-};
+  )
+}
 
-export default FilterButton;
+export default FilterButton
