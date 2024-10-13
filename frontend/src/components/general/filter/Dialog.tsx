@@ -67,7 +67,7 @@ const Dialog = forwardRef(
 
     const handleReset = () => {
       onResetFilters()
-      applyOldStateToTags({ statusTags: [], regionsTags: [] })
+      applyOldStateToTags({ statusTags: [], regionTags: [] })
       resetFilters()
       setIsOpen(false)
       navigate({ search: () => ({}) })
@@ -76,14 +76,12 @@ const Dialog = forwardRef(
     const handleClose = () => {
       setIsOpen(false)
       applyOldStateToTags(oldValues)
-      console.log(filters)
     }
 
-    useEffect(() => {
-      if (isOpen) {
-        setOldValues(filters)
-      }
-    }, [filters, isOpen])
+    const openFilter = () => {
+      setOldValues(filters)
+      setIsOpen(true)
+    }
 
     return (
       <div className="font-nunito-sans text-base">
@@ -96,7 +94,7 @@ const Dialog = forwardRef(
           ariaLabel={headline}
           isOnMap={isOnMap}
           onClick={() => {
-            isOpen ? setIsOpen(false) : setIsOpen(true)
+            isOpen ? setIsOpen(false) : openFilter()
           }}
         />
 

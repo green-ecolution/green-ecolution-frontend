@@ -51,7 +51,6 @@ const FilterProvider: React.FC<FilterProviderProps> = ({
   }
 
   const resetFilters = () => {
-    console.log('test')
     setStatusTags([])
     setRegionTags([])
   }
