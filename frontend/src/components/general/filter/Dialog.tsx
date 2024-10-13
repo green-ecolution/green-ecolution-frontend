@@ -1,16 +1,16 @@
-import React, { useState } from 'react'
-import FilterButton from '../buttons/FilterButton'
-import PrimaryButton from '../buttons/PrimaryButton'
-import SecondaryButton from '../buttons/SecondaryButton'
-import { X } from 'lucide-react'
-import useOutsideClick from '@/hooks/useOutsideClick'
-import Option from './Option'
-import { useNavigate } from '@tanstack/react-router'
-import { useSuspenseQuery } from '@tanstack/react-query'
-import { EntitiesWateringStatus, regionApi } from '@/api/backendApi'
-import { useAuthHeader } from '@/hooks/useAuthHeader'
-import { getWateringStatusDetails } from '@/hooks/useDetailsForWateringStatus'
 import useTreeclusterFilter from '@/hooks/useTreeclusterFilter'
+import React, { useState } from 'react';
+import FilterButton from '../buttons/FilterButton';
+import PrimaryButton from '../buttons/PrimaryButton';
+import SecondaryButton from '../buttons/SecondaryButton';
+import { X } from 'lucide-react';
+import useOutsideClick from '@/hooks/useOutsideClick';
+import Option from './Option';
+import { useNavigate } from '@tanstack/react-router';
+import { useSuspenseQuery } from '@tanstack/react-query';
+import { EntitiesWateringStatus } from '@/api/backendApi';
+import { getWateringStatusDetails } from '@/hooks/useDetailsForWateringStatus';
+import { regionsQuery } from '@/api/queries';
 
 interface DialogProps {
   initStatusTags: string[]
@@ -20,22 +20,11 @@ interface DialogProps {
   applyFilter: (statusTags: string[], regionTags: string[]) => void
 }
 
-const Dialog: React.FC<DialogProps> = ({
-  initStatusTags,
-  initRegionTags,
-  headline,
-  fullUrlPath,
-  applyFilter,
-}) => {
-  const [isOpen, setIsOpen] = useState(false)
+const Dialog: React.FC<DialogProps> = ({ initStatusTags, initRegionTags, headline, fullUrlPath, applyFilter }) => {
+  const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate({ from: fullUrlPath })
   const dialogRef = useOutsideClick(() => close())
-
-  const authorization = useAuthHeader()
-  const { data: regionRes } = useSuspenseQuery({
-    queryKey: ['regions'],
-    queryFn: () => regionApi.v1RegionGet({ authorization }),
-  })
+  const { data: regionRes } = useSuspenseQuery(regionsQuery());
 
   const {
     filters,
@@ -129,10 +118,8 @@ const Dialog: React.FC<DialogProps> = ({
         </fieldset>
 
         <fieldset className="mt-6">
-          <legend className="font-lato font-semibold text-dark-600 mb-2">
-            Stadtteil in Flensburg:
-          </legend>
-          {regionRes?.regions.map((region) => (
+          <legend className="font-lato font-semibold text-dark-600 mb-2">Stadtteil in Flensburg:</legend>
+          {regionRes.regions.map((region) => (
             <Option
               key={region.id}
               label={region.name}

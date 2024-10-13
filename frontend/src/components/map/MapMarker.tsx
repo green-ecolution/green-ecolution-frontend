@@ -6,7 +6,7 @@ import { Marker as LeafletMarker } from "leaflet";
 import { useMemo, useRef } from "react";
 import { Check } from "lucide-react";
 import { renderToStaticMarkup } from "react-dom/server";
-import Tree from "../icons/Tree";
+import TreeIcon from "../icons/Tree";
 
 const iconToSvg = (IconComponent: React.FC<React.SVGProps<SVGSVGElement>>) => {
   return renderToStaticMarkup(<IconComponent className="text-white w-[1.125rem] h-[1.125rem]" strokeWidth={3} />);
@@ -81,14 +81,14 @@ const makerWrapperStyles = (isSelected: boolean) => `
   box-shadow: rgba(0, 0, 0, ${isSelected ? '0.35' : '0'}) 0px 5px 15px;
 `;
 
-export const TreeIcon = (color: string, isSelected: boolean) =>
+export const TreeMarkerIcon = (color: string, isSelected: boolean) =>
   L.divIcon({
     iconAnchor: [0, 24],
     popupAnchor: [0, -36],
     html:
       `<figure style="${makerWrapperStyles(isSelected)}">
         <span style="${markerHtmlStyles(color)}">
-          ${isSelected ? iconToSvg(Check) : iconToSvg(Tree)}
+          ${isSelected ? iconToSvg(Check) : iconToSvg(TreeIcon)}
         </span>
       </figure>`,
   });

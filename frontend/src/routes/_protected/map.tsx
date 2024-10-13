@@ -40,8 +40,8 @@ export const Route = createFileRoute('/_protected/map')({
     if (!token) throw redirect({ to: '/login' })
 
     return {
-      cluster: queryClient.ensureQueryData(treeClusterQuery(`Bearer ${token}`)),
-      tree: queryClient.ensureQueryData(treeQuery(`Bearer ${token}`)),
+      cluster: queryClient.ensureQueryData(treeClusterQuery()),
+      tree: queryClient.ensureQueryData(treeQuery()),
     }
   },
 })

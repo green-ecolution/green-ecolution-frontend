@@ -4,7 +4,7 @@ import {
   Tree,
   TreeCluster,
 } from '@green-ecolution/backend-client'
-import { ClusterIcon, TreeIcon } from './MapMarker'
+import { ClusterIcon, TreeMarkerIcon } from './MapMarker'
 import { getWateringStatusDetails } from '@/hooks/useDetailsForWateringStatus'
 import useStore from '@/store/store'
 
@@ -32,7 +32,7 @@ export const WithAllTrees = ({
 
   return trees.map((tree) => (
     <Marker
-      icon={TreeIcon(getStatusColor(tree.wateringStatus), isSelected(tree.id))}
+      icon={TreeMarkerIcon(getStatusColor(tree.wateringStatus), isSelected(tree.id))}
       key={tree.id}
       position={[tree.latitude, tree.longitude]}
       eventHandlers={{

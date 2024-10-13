@@ -2,9 +2,10 @@ import { createFileRoute } from '@tanstack/react-router'
 import GeneralStatusCard from '@/components/general/cards/GeneralStatusCard'
 import PrimaryButton from '@/components/general/buttons/PrimaryButton'
 import { useState } from 'react'
-import { useTrees } from '@/hooks/useTrees'
 import FileUpload from '@/components/general/form/types/FileUpload'
 import Modal from '@/components/general/Modal'
+import { useSuspenseQuery } from '@tanstack/react-query'
+import { treeQuery } from '@/api/queries'
 
 export const Route = createFileRoute('/_protected/settings/import')({
   component: ImportFile,
@@ -14,12 +15,10 @@ function ImportFile() {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [file, setFile] = useState<File | null>(null)
   const [message, setMessage] = useState('')
-  const trees = useTrees()
+  const {data: trees} = useSuspenseQuery(treeQuery())
 
   const getReadonlyTreesLength = () => {
-    if (!trees) return 0
-
-    const readonlyTrees = trees.filter((tree) => tree.readonly)
+    const readonlyTrees = trees.data.filter((tree) => tree.readonly)
     return readonlyTrees.length
   }
 
@@ -66,7 +65,7 @@ function ImportFile() {
     },
     {
       headline: 'Anzahl der manuell eingepflegten Bäume',
-      value: `${(trees?.length ?? 0) - getReadonlyTreesLength()} Bäume`,
+      value: `${trees.data.length - getReadonlyTreesLength()} Bäume`,
       description: 'Diese Bäume wurden manuell im System eingepflegt.',
     },
     {

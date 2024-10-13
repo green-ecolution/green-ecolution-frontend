@@ -1,4 +1,4 @@
-import Tree from "@/components/icons/Tree";
+import TreeIcon from "@/components/icons/Tree";
 import { getWateringStatusDetails } from "@/hooks/useDetailsForWateringStatus";
 import { TreeCluster } from "@green-ecolution/backend-client";
 import { Link } from "@tanstack/react-router";
@@ -38,10 +38,10 @@ const TreeclusterCard: React.FC<TreeclusterCard> = ({ treecluster }) => {
       </div>
 
       <div className="text-dark-800 flex gap-x-2">
-        <Tree className="w-5 h-5 mt-0.5" />
+        <TreeIcon className="w-5 h-5 mt-0.5" />
         <p>
-          {treecluster.trees.length}
-          {treecluster.trees.length === 1 ? " Baum" : " Bäume"}
+          {treecluster.trees?.length}
+          {treecluster.trees?.length === 1 ? " Baum" : " Bäume"}
         </p>
       </div>
     </Link>

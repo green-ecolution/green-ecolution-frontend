@@ -5,9 +5,8 @@ import { useRef, useState } from 'react'
 import { useMapMouseSelect } from '@/hooks/useMapMouseSelect'
 import { DragableMarker } from '@/components/map/MapMarker'
 import { WithTreesAndClusters } from '@/components/map/TreeMarker'
-import { useAuthHeader } from '@/hooks/useAuthHeader'
 import { useSuspenseQuery } from '@tanstack/react-query'
-import { treeClusterQuery } from '@/api/queries'
+import { treeClusterQuery, treeQuery } from '@/api/queries'
 
 export const Route = createFileRoute('/_protected/map/tree/new')({
   component: NewTree,
@@ -23,8 +22,8 @@ function NewTree() {
       setTreeLatLng(latlng)
     }
   })
-  const auth = useAuthHeader()
-  const { data } = useSuspenseQuery(treeClusterQuery(auth))
+  const { data: cluster } = useSuspenseQuery(treeClusterQuery())
+  const { data: trees } = useSuspenseQuery(treeQuery())
 
   const handleSave = () => {
     if (!treeLatLng) return
@@ -40,10 +39,7 @@ function NewTree() {
 
   return (
     <>
-      <WithTreesAndClusters
-        clusters={data.data}
-        trees={data.data.flatMap((cluster) => cluster.trees)}
-      />
+      <WithTreesAndClusters clusters={cluster.data} trees={trees.data} />
       <MapSelectTreesModal
         ref={modalRef}
         onSave={handleSave}
