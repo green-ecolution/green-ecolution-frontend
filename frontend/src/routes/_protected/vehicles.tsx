@@ -1,3 +1,4 @@
+import useDocumentTitle from "@/hooks/useDocumentTitle";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_protected/vehicles")({
@@ -5,6 +6,7 @@ export const Route = createFileRoute("/_protected/vehicles")({
 });
 
 function Vehicles() {
+  useDocumentTitle('Fahrzeuge')
   return (
     <div className="container mt-6">
       <article className="mb-20 2xl:w-4/5">
