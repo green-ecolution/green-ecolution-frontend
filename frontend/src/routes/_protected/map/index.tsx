@@ -8,13 +8,10 @@ import { useRef, useState } from 'react'
 import Dialog from '@/components/general/filter/Dialog'
 import { useMapMouseSelect } from '@/hooks/useMapMouseSelect'
 import { useMap } from 'react-leaflet'
-import FilterProvider from '@/context/FilterContext'
 import StatusFieldset from '@/components/general/filter/fieldsets/StatusFieldset'
-import RegionFieldset from '@/components/general/filter/fieldsets/RegionFieldset'
-
-export const Route = createFileRoute('/_protected/map/')({
-  component: MapView,
-})
+import { getWateringStatusDetails } from '@/hooks/useDetailsForWateringStatus'
+import useFilter from '@/hooks/useFilter'
+import FilterProvider from '@/context/FilterContext'
 
 function MapView() {
   const navigate = useNavigate({ from: '/map' })
@@ -24,6 +21,7 @@ function MapView() {
   const [activeFilter, setActiveFitler] = useState(false)
   const { data: cluster } = useSuspenseQuery(treeClusterQuery())
   const { data: trees } = useSuspenseQuery(treeQuery())
+  const { filters } = useFilter()
 
   const handleTreeClick = (tree: Tree) => {
     navigate({ to: `/tree/$treeId`, params: { treeId: tree.id.toString() } })
@@ -48,36 +46,57 @@ function MapView() {
   })
 
   const handleFilter = () => {
-    setActiveFitler(true);
+    const data = trees.data.filter((tree) => {
+      const statusFilter =
+        filters.statusTags.length === 0 ||
+        filters.statusTags.includes(
+          getWateringStatusDetails(tree.wateringStatus).label
+        )
+
+      return statusFilter
+    })
+
+    setActiveFitler(true)
+    setFilteredData(data)
   }
 
   const handleReset = () => {
-    //setFilteredData(data.data);
-    setActiveFitler(false);
+    setActiveFitler(false)
+    setFilteredData(trees.data)
   }
+
   return (
     <>
-      <FilterProvider initialStatus={[]} initialRegions={[]}>
-        <div className="absolute top-6 left-4">
-          <Dialog
-            headline="Bäume filtern"
-            fullUrlPath={Route.fullPath}
-            onApplyFilters={handleFilter}
-            onResetFilters={handleReset}
-          >
-            <StatusFieldset />
-            <RegionFieldset />
-          </Dialog>
-        </div>
-        <MapButtons />
-        <WithTreesAndClusters
-          clusters={cluster.data}
-          trees={trees.data}
-          activeFilter={activeFilter}
-          onClickTree={handleTreeClick}
-          onClickCluster={handleClusterClick}
-        />
-      </FilterProvider>
+      <div className="absolute top-6 left-4">
+        <Dialog
+          headline="Bäume filtern"
+          fullUrlPath={Route.fullPath}
+          onApplyFilters={handleFilter}
+          onResetFilters={handleReset}
+        >
+          <StatusFieldset />
+        </Dialog>
+      </div>
+      <MapButtons />
+      <WithTreesAndClusters
+        clusters={cluster.data}
+        trees={filteredData}
+        activeFilter={activeFilter}
+        onClickTree={handleTreeClick}
+        onClickCluster={handleClusterClick}
+      />
     </>
   )
 }
+
+const MapViewWithProvider = () => {
+  return (
+    <FilterProvider initialStatus={[]} initialRegions={[]}>
+      <MapView />
+    </FilterProvider>
+  )
+}
+
+export const Route = createFileRoute('/_protected/map/')({
+  component: MapViewWithProvider,
+})
