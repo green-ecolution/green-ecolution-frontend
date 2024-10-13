@@ -3,6 +3,7 @@ import React from 'react'
 interface OptionProps {
   name: string
   label: string
+  value?: string
   children?: React.ReactNode
   checked: boolean
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
@@ -11,6 +12,7 @@ interface OptionProps {
 const Option: React.FC<OptionProps> = ({
   name,
   label,
+  value,
   children,
   checked,
   onChange,
@@ -24,7 +26,7 @@ const Option: React.FC<OptionProps> = ({
         type="checkbox"
         name={name}
         checked={checked}
-        value={label}
+        value={value ?? label}
         onChange={onChange}
         className="opacity-0 w-0 h-0"
       />

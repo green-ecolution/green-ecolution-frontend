@@ -17,9 +17,13 @@ import { getWateringStatusDetails } from '@/hooks/useDetailsForWateringStatus'
 import useFilter from '@/hooks/useFilter'
 import FilterProvider from '@/context/FilterContext'
 import { z } from 'zod'
+import ClusterFieldset from '@/components/general/filter/fieldsets/ClusterFieldset'
+import PlantingYearFieldset from '@/components/general/filter/fieldsets/PlantingYearFieldset'
 
 const mapFilterSchema = z.object({
-  status: z.array(z.string()).optional().default([]),
+  status: z.array(z.string()).optional(),
+  hasCluster: z.boolean().optional(),
+  plantingYears: z.array(z.number()).optional(),
 })
 
 function MapView() {
@@ -61,7 +65,16 @@ function MapView() {
           getWateringStatusDetails(tree.wateringStatus).label
         )
 
-      return statusFilter
+      const hasCluster =
+        filters.hasCluster === undefined ||
+        (filters.hasCluster && tree.treeClusterId) ||
+        (!filters.hasCluster && !tree.treeClusterId)
+
+      const plantingYearsFilter =
+        filters.plantingYears.length === 0 ||
+        filters.plantingYears.includes(tree.plantingYear);
+      
+      return statusFilter && hasCluster && plantingYearsFilter
     })
   }
 
@@ -82,6 +95,7 @@ function MapView() {
     <>
       <div className="absolute top-6 left-4">
         <Dialog
+          ref={dialogRef}
           headline="Bäume filtern"
           isOnMap
           fullUrlPath={Route.fullPath}
@@ -89,6 +103,8 @@ function MapView() {
           onResetFilters={handleReset}
         >
           <StatusFieldset />
+          <ClusterFieldset />
+          <PlantingYearFieldset />
         </Dialog>
       </div>
       <MapButtons />
@@ -106,7 +122,11 @@ function MapView() {
 const MapViewWithProvider = () => {
   const search = useLoaderData({ from: '/_protected/map/' })
   return (
-    <FilterProvider initialStatus={search.status ?? []} initialRegions={[]}>
+    <FilterProvider
+      initialStatus={search.status ?? []}
+      initialHasCluster={search.hasCluster ?? undefined}
+      initialPlantingYears={search.plantingYears ?? []}
+    >
       <MapView />
     </FilterProvider>
   )
@@ -116,11 +136,13 @@ export const Route = createFileRoute('/_protected/map/')({
   component: MapViewWithProvider,
   validateSearch: mapFilterSchema,
 
-  loaderDeps: ({ search: { status } }) => ({
+  loaderDeps: ({ search: { status, hasCluster, plantingYears } }) => ({
     status: status || [],
+    hasCluster: hasCluster || undefined,
+    plantingYears: plantingYears || [],
   }),
 
-  loader: ({ deps: { status } }) => {
-    return { status }
+  loader: ({ deps: { status, hasCluster, plantingYears } }) => {
+    return { status, hasCluster, plantingYears }
   },
 })
