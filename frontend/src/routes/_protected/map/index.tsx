@@ -3,7 +3,7 @@ import MapButtons from '@/components/map/MapButtons'
 import { Tree, TreeCluster } from '@green-ecolution/backend-client'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { WithTreesAndClusters } from '@/components/map/TreeMarker'
-import { treeClusterQuery } from '@/api/queries'
+import { treeClusterQuery, treeQuery } from '@/api/queries'
 
 export const Route = createFileRoute('/_protected/map/')({
   component: MapView,
@@ -11,7 +11,8 @@ export const Route = createFileRoute('/_protected/map/')({
 
 function MapView() {
   const navigate = useNavigate({ from: '/map' })
-  const { data } = useSuspenseQuery(treeClusterQuery())
+  const { data: cluster } = useSuspenseQuery(treeClusterQuery())
+  const { data: trees } = useSuspenseQuery(treeQuery())
 
   const handleTreeClick = (tree: Tree) => {
     navigate({ to: `/tree/$treeId`, params: { treeId: tree.id.toString() } })
@@ -28,8 +29,8 @@ function MapView() {
     <>
       <MapButtons />
       <WithTreesAndClusters
-        clusters={data.data}
-        trees={data.data.flatMap((cluster) => cluster.trees)}
+        clusters={cluster.data}
+        trees={trees.data}
         onClickTree={handleTreeClick}
         onClickCluster={handleClusterClick}
       />
