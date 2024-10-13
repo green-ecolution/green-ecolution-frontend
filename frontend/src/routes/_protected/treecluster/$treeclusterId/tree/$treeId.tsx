@@ -6,7 +6,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Suspense } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 
-export const Route = createFileRoute('/_protected/tree/$treeId')({
+export const Route = createFileRoute('/_protected/treecluster/$treeclusterId/tree/$treeId')({
   component: SingleTree,
   loader: async ({ params: { treeId } }) => {
     return {

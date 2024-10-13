@@ -11,23 +11,17 @@ function Breadcrumb() {
   };
 
   return (
-    <nav aria-label="Seitennavigation" className="hidden text-xs text-dark-800 lg:block">
+    <nav aria-label="Seitennavigation" className="hidden text-xs text-dark-800 lg:block data-[status=active]:text-dark transition-all ease-in-out duration-300 hover:text-green-dark hover:data-[status=active]:text-green-dark">
       <ul className="flex flex-wrap items-center">
         <li className="flex items-center">
-          <Link 
-            className="data-[status=active]:text-dark data-[status=active]:font-semibold transition-all ease-in-out duration-300 hover:text-green-dark hover:data-[status=active]:text-green-dark" 
-            to={rootBreadcrumb.path}
-          >
+          <Link to={rootBreadcrumb.path}>
             {rootBreadcrumb.title}
           </Link>
         </li>
-        {breadcrumbs.map((breadcrumb, key) => (
-          <li key={key} className="flex items-center">
+        {breadcrumbs.map((breadcrumb, index) => (
+          <li key={index} className="flex items-center data-[status=active]:text-dark transition-all ease-in-out duration-300 hover:text-green-dark hover:data-[status=active]:text-green-dark last:font-semibold">
             <ChevronRight className="w-3.5 stroke-1" />
-            <Link 
-              className="data-[status=active]:text-dark data-[status=active]:font-semibold transition-all ease-in-out duration-300 hover:text-green-dark hover:data-[status=active]:text-green-dark" 
-              to={breadcrumb.path}
-            >
+            <Link to={breadcrumb.path}>
               {breadcrumb.title}
             </Link>
           </li>

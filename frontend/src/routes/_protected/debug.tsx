@@ -5,6 +5,9 @@ import ReactJson from "react-json-view";
 
 export const Route = createFileRoute("/_protected/debug")({
   component: Debug,
+  meta: () => [{
+    title: "Debugging",
+  }],
 });
 
 function Debug() {
