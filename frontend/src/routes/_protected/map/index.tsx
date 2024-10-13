@@ -9,6 +9,7 @@ import { useRef, useState } from 'react'
 import Dialog from '@/components/general/filter/Dialog'
 import { useMapMouseSelect } from '@/hooks/useMapMouseSelect'
 import { useMap } from 'react-leaflet'
+import FilterProvider from '@/context/FilterContext'
 
 export const Route = createFileRoute('/_protected/map/')({
   component: MapView,
@@ -19,8 +20,7 @@ function MapView() {
   const auth = useAuthHeader()
   const map = useMap()
   const dialogRef = useRef<HTMLDivElement>(null)
-  const [statusTags, setStatusTags] = useState<string[]>([])
-  const [regionTags, setRegionTags] = useState<string[]>([])
+  const [filteredData, setFilteredData] = useState<string[]>([])
   const { data } = useSuspenseQuery(treeClusterQuery(auth))
 
   const handleTreeClick = (tree: Tree) => {
@@ -45,28 +45,29 @@ function MapView() {
     }
   })
 
+  const filterData = () => {
+    console.log('filterData')
+  }
+
   return (
     <>
-      <div className="absolute top-6 left-4">
-        <Dialog
-          ref={dialogRef}
-          initStatusTags={statusTags}
-          initRegionTags={regionTags}
-          headline="Bäume filtern"
-          fullUrlPath={Route.fullPath}
-          applyFilter={(statusTags, regionTags) => {
-            setStatusTags(statusTags)
-            setRegionTags(regionTags)
-          }}
+      <FilterProvider initialStatus={[]} initialRegions={[]}>
+        <div className="absolute top-6 left-4">
+          <Dialog
+            headline="Bäume filtern"
+            fullUrlPath={Route.fullPath}
+            onApplyFilters={() => filterData()}
+            onResetFilters={() => setFilteredData([])}
+          />
+        </div>
+        <MapButtons />
+        <WithTreesAndClusters
+          clusters={data.data}
+          trees={data.data.flatMap((cluster) => cluster.trees)}
+          onClickTree={handleTreeClick}
+          onClickCluster={handleClusterClick}
         />
-      </div>
-      <MapButtons />
-      <WithTreesAndClusters
-        clusters={data.data}
-        trees={data.data.flatMap((cluster) => cluster.trees)}
-        onClickTree={handleTreeClick}
-        onClickCluster={handleClusterClick}
-      />
+      </FilterProvider>
     </>
   )
 }
