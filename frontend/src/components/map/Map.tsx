@@ -9,7 +9,7 @@ export interface MapProps extends React.PropsWithChildren {
 
 const Map = ({
   width = '100%',
-  height = 'calc(100dvh - 4.563rem)', // calculate screen height minus header height
+  height = 'calc(100dvh - 4.563rem)',
   children,
 }: MapProps) => {
   const { zoom, center, maxZoom, minZoom } = useMapStore((state) => ({
