@@ -99,9 +99,7 @@ function Treecluster() {
               </p>
             }
           >
-            <TreeClusterList
-              filteredData={filteredData}
-            />
+            <TreeClusterList filteredData={filteredData} />
           </ErrorBoundary>
         </Suspense>
       </section>
@@ -111,13 +109,10 @@ function Treecluster() {
 
 const TreeclusterWithProvider = () => {
   const search = useLoaderData({ from: '/_protected/treecluster/' })
-
-  const initialStatus = search.status || []
-  const initialRegions = search.region || []
   return (
     <FilterProvider
-      initialStatus={initialStatus}
-      initialRegions={initialRegions}
+      initialStatus={search.status ?? []}
+      initialRegions={search.region ?? []}
     >
       <Treecluster />
     </FilterProvider>
