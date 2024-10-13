@@ -70,6 +70,7 @@ function MapView() {
       <div className="absolute top-6 left-4">
         <Dialog
           headline="Bäume filtern"
+          isOnMap
           fullUrlPath={Route.fullPath}
           onApplyFilters={handleFilter}
           onResetFilters={handleReset}
