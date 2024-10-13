@@ -4,11 +4,7 @@ import PrimaryButton from '../buttons/PrimaryButton'
 import SecondaryButton from '../buttons/SecondaryButton'
 import { X } from 'lucide-react'
 import useOutsideClick from '@/hooks/useOutsideClick'
-import Option from './Option'
 import { useNavigate } from '@tanstack/react-router'
-import { useSuspenseQuery } from '@tanstack/react-query'
-import { regionApi } from '@/api/backendApi'
-import { useAuthHeader } from '@/hooks/useAuthHeader'
 import useFilter from '@/hooks/useFilter'
 
 interface DialogProps {
@@ -29,18 +25,12 @@ const Dialog = forwardRef(({
   const [isOpen, setIsOpen] = useState(false)
   const navigate = useNavigate({ from: fullUrlPath })
   const dialogRef = useOutsideClick(() => handleClose())
-  const authorization = useAuthHeader()
-  const { data: regionRes } = useSuspenseQuery({
-    queryKey: ['regions'],
-    queryFn: () => regionApi.v1RegionGet({ authorization }),
-  })
 
   useImperativeHandle(ref, () => dialogRef.current)
 
   const {
     filters,
     tempFilters,
-    handleRegionChange,
     resetFilters,
     resetTempFilters,
     applyStateToTags,
@@ -104,21 +94,6 @@ const Dialog = forwardRef(({
         </div>
 
         {children}
-
-        <fieldset className="mt-6">
-          <legend className="font-lato font-semibold text-dark-600 mb-2">
-            Stadtteil in Flensburg:
-          </legend>
-          {regionRes?.regions.map((region) => (
-            <Option
-              key={region.id}
-              label={region.name}
-              name={String(region.id)}
-              checked={tempFilters.regionTags.includes(region.name)}
-              onChange={handleRegionChange}
-            />
-          ))}
-        </fieldset>
 
         <div className="flex flex-wrap gap-5 mt-6">
           <PrimaryButton

@@ -13,6 +13,7 @@ import FilterProvider from '@/context/FilterContext'
 import useFilter from '@/hooks/useFilter'
 import { useCallback, useEffect, useState } from 'react'
 import StatusFieldset from '@/components/general/filter/fieldsets/StatusFieldset'
+import RegionFieldset from '@/components/general/filter/fieldsets/RegionFieldset'
 
 const treeclusterFilterSchema = z.object({
   status: z.array(z.string()).optional(),
@@ -86,6 +87,7 @@ function Treecluster() {
             onResetFilters={() => setFilteredData(clustersRes.data)}
           >
             <StatusFieldset />
+            <RegionFieldset />
           </Dialog>
         </div>
 

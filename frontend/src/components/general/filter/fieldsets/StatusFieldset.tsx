@@ -3,7 +3,6 @@ import { getWateringStatusDetails } from '@/hooks/useDetailsForWateringStatus'
 import useFilter from '@/hooks/useFilter'
 import { EntitiesWateringStatus } from '@green-ecolution/backend-client'
 
-
 const StatusFieldset = () => {
   const { tempFilters, handleStatusChange } = useFilter()
   return (
