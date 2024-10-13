@@ -4,7 +4,7 @@ import { useSuspenseQuery } from '@tanstack/react-query'
 import { regionsQuery } from '@/api/queries'
 
 const RegionFieldset = () => {
-  const { tempFilters, handleRegionChange } = useFilter()
+  const { filters, handleRegionChange } = useFilter()
   const { data: regionRes } = useSuspenseQuery(regionsQuery());
 
   return (
@@ -17,7 +17,7 @@ const RegionFieldset = () => {
           key={region.id}
           label={region.name}
           name={String(region.id)}
-          checked={tempFilters.regionTags.includes(region.name)}
+          checked={filters.regionTags.includes(region.name)}
           onChange={handleRegionChange}
         />
       ))}

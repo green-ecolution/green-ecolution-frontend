@@ -1,4 +1,4 @@
-import { ForwardedRef, forwardRef, useImperativeHandle, useState } from 'react'
+import { ForwardedRef, forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react'
 import FilterButton from '../buttons/FilterButton'
 import PrimaryButton from '../buttons/PrimaryButton'
 import SecondaryButton from '../buttons/SecondaryButton'
@@ -6,6 +6,7 @@ import { X } from 'lucide-react'
 import useOutsideClick from '@/hooks/useOutsideClick'
 import { useNavigate } from '@tanstack/react-router'
 import useFilter from '@/hooks/useFilter'
+import { Filters } from '@/context/FilterContext'
 
 interface DialogProps {
   headline: string
@@ -23,35 +24,37 @@ const Dialog = forwardRef(({
   children,
 }: DialogProps, ref: ForwardedRef<HTMLDivElement>) => {
   const [isOpen, setIsOpen] = useState(false)
+  const [oldValues, setOldValues] = useState<Filters>({ statusTags: [], regionTags: []})
   const navigate = useNavigate({ from: fullUrlPath })
-  const dialogRef = useOutsideClick(() => handleClose())
-
   useImperativeHandle(ref, () => dialogRef.current)
+
+  const dialogRef = useOutsideClick((event) => {
+    if (event.target?.id === "filter-button" || !isOpen) return;
+    handleClose();
+  })
 
   const {
     filters,
-    tempFilters,
     resetFilters,
-    resetTempFilters,
-    applyStateToTags,
+    applyOldStateToTags,
   } = useFilter();
 
   const handleSubmit = () => {
-    applyStateToTags();
     onApplyFilters();
     setIsOpen(false);
     setIsOpen(false);
-
+    
     navigate({
       search: () => ({
-        status: tempFilters.statusTags.length > 0 ? tempFilters.statusTags : undefined,
-        region: tempFilters.regionTags.length > 0 ? tempFilters.regionTags : undefined,
+        status: filters.statusTags.length > 0 ? filters.statusTags : undefined,
+        region: filters.regionTags.length > 0 ? filters.regionTags : undefined,
       }),
     })
   };
 
   const handleReset = () => {
-    onResetFilters();
+    onResetFilters()
+    applyOldStateToTags({statusTags: [], regionsTags: []})
     resetFilters();
     setIsOpen(false);
     navigate({ search: () => ({}) })
@@ -59,8 +62,15 @@ const Dialog = forwardRef(({
 
   const handleClose = () => {
     setIsOpen(false);
-    resetTempFilters();
+    applyOldStateToTags(oldValues);
+    console.log(filters);
   }
+
+  useEffect(() => {
+    if (isOpen) {
+      setOldValues(filters);
+    }
+  }, [isOpen])
 
   return (
     <div className="font-nunito-sans text-base">

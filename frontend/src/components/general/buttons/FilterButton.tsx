@@ -11,6 +11,7 @@ const FilterButton: React.FC<FilterButtonProps> = ({ ariaLabel, activeCount, onC
   return (
     <button 
       aria-label={ariaLabel}
+      id="filter-button"
       aria-selected={activeCount > 0}
       className={`relative font-nunito-sans text-base z-[1000] bg-white border border-green-light px-5 py-2 font-medium rounded-full flex items-center gap-x-2 transition-colors ease-in-out duration-300 ${activeCount > 0 ? 'bg-green-light-200' : ''} hover:bg-green-light-200`}
       onClick={onClick}

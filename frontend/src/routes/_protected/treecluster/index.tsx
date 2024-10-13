@@ -48,7 +48,7 @@ function Treecluster() {
     if (clustersRes?.data) {
       filterData()
     }
-  }, [clustersRes, filterData])
+  }, [])
 
   return (
     <div className="container mt-6">
