@@ -10,8 +10,6 @@ import { treeApi } from "@/api/backendApi"
 import { useAuthHeader } from "@/hooks/useAuthHeader"
 import { useMapStore } from "@/store/store"
 import { useNavigate } from "@tanstack/react-router"
-import useFormStore, { FormStore } from "@/store/form/useFormStore"
-import { TreeclusterSchema } from "@/schema/treeclusterSchema"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useFormSync } from "@/hooks/form/useFormSync"
 

@@ -24,8 +24,6 @@ const Dialog: React.FC<DialogProps> = ({ initStatusTags, initRegionTags, headlin
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate({ from: fullUrlPath })
   const dialogRef = useOutsideClick(() => close())
-  const [statusTags, setStatusTags] = useState<string[]>(initStatusTags);
-  const [regionTags, setRegionTags] = useState<string[]>(initRegionTags);
   const { data: regionRes } = useSuspenseQuery(regionsQuery());
 
   const {
