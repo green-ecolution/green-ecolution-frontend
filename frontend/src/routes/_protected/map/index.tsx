@@ -1,23 +1,39 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import MapButtons from "@/components/map/MapButtons";
-import { WithAllTrees } from "@/components/map/TreeMarker";
-import { Tree } from "@green-ecolution/backend-client";
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
+import MapButtons from '@/components/map/MapButtons'
+import { Tree, TreeCluster } from '@green-ecolution/backend-client'
+import { useSuspenseQuery } from '@tanstack/react-query'
+import { WithTreesAndClusters } from '@/components/map/TreeMarker'
+import { treeClusterQuery, treeQuery } from '@/api/queries'
 
-export const Route = createFileRoute("/_protected/map/")({
+export const Route = createFileRoute('/_protected/map/')({
   component: MapView,
-});
+})
 
 function MapView() {
-  const navigate = useNavigate({ from: '/map' });
+  const navigate = useNavigate({ from: '/map' })
+  const { data: cluster } = useSuspenseQuery(treeClusterQuery())
+  const { data: trees } = useSuspenseQuery(treeQuery())
 
-  const handleMarkerClick = (tree: Tree) => {
-    navigate({ to: `/trees/${tree.id}` });
-  };
+  const handleTreeClick = (tree: Tree) => {
+    navigate({ to: `/tree/$treeId`, params: { treeId: tree.id.toString() } })
+  }
+
+  const handleClusterClick = (cluster: TreeCluster) => {
+    navigate({
+      to: `/treecluster/$treeclusterId`,
+      params: { treeclusterId: cluster.id.toString() },
+    })
+  }
 
   return (
     <>
       <MapButtons />
-      <WithAllTrees onClick={handleMarkerClick}/>
+      <WithTreesAndClusters
+        clusters={cluster.data}
+        trees={trees.data}
+        onClickTree={handleTreeClick}
+        onClickCluster={handleClusterClick}
+      />
     </>
-  );
+  )
 }

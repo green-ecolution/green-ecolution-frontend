@@ -7,7 +7,6 @@ export const Route = createFileRoute("/_protected/debug")({
   component: Debug,
 });
 
-
 function Debug() {
   return (
     <div className="container mt-6">

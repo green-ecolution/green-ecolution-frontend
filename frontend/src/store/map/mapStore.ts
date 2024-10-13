@@ -1,7 +1,7 @@
 import { SubStore } from "../store";
 import { MapStore } from "./types";
 
-export const mapStore: SubStore<MapStore> = (set, get) => ({
+export const mapStore: SubStore<MapStore> = (set) => ({
   center: [54.792277136221905, 9.43580607453268],
   zoom: 13,
   minZoom: 13,

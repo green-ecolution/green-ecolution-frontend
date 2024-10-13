@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Tree: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
+const TreeIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
   <svg 
     width="24" 
     height="24" 
@@ -14,4 +14,4 @@ const Tree: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
   </svg>
 );
 
-export default Tree;
+export default TreeIcon;

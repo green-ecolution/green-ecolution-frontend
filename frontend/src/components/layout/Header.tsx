@@ -6,6 +6,7 @@ import ProfileButton from './ProfileButton';
 
 function Header() {
   const [open, setOpen] = useState(false);
+  const isStartPage = location.pathname === '/';
 
   function toggleSidebar(state: boolean) {
     setOpen(state);
@@ -30,7 +31,7 @@ function Header() {
         >
           <AlignJustifyIcon className="text-light w-5 h-5" />
         </button>
-        <Breadcrumb />
+        {!isStartPage && <Breadcrumb />}
         <ProfileButton />
       </div>
 

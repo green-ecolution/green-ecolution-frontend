@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Sensor: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
+const SensorIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
   <svg 
     width="24" 
     height="24" 
@@ -12,4 +12,4 @@ const Sensor: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
   </svg>
 );
 
-export default Sensor;
+export default SensorIcon;
