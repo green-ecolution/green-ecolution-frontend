@@ -7,11 +7,12 @@ import { Plus } from 'lucide-react'
 import { getWateringStatusDetails } from '@/hooks/useDetailsForWateringStatus'
 import { clusterApi, TreeCluster } from '@/api/backendApi'
 import { useAuthHeader } from '@/hooks/useAuthHeader'
-import {  useSuspenseQuery } from '@tanstack/react-query'
+import { useSuspenseQuery } from '@tanstack/react-query'
 import LoadingInfo from '@/components/general/error/LoadingInfo'
 import FilterProvider from '@/context/FilterContext'
 import useFilter from '@/hooks/useFilter'
 import { useCallback, useEffect, useState } from 'react'
+import StatusFieldset from '@/components/general/filter/fieldsets/StatusFieldset'
 
 const treeclusterFilterSchema = z.object({
   status: z.array(z.string()).optional(),
@@ -21,7 +22,7 @@ const treeclusterFilterSchema = z.object({
 function Treecluster() {
   const authorization = useAuthHeader()
   const { filters } = useFilter()
-  const [filteredData, setFilteredData] = useState<TreeCluster[]>([]);
+  const [filteredData, setFilteredData] = useState<TreeCluster[]>([])
 
   const {
     data: clustersRes,
@@ -36,23 +37,25 @@ function Treecluster() {
     const data = clustersRes.data.filter((cluster) => {
       const statusFilter =
         filters.statusTags.length === 0 ||
-        filters.statusTags.includes(getWateringStatusDetails(cluster.wateringStatus).label);
+        filters.statusTags.includes(
+          getWateringStatusDetails(cluster.wateringStatus).label
+        )
 
       const regionFilter =
         filters.regionTags.length === 0 ||
-        filters.regionTags.includes(cluster.region.name);
+        filters.regionTags.includes(cluster.region.name)
 
-      return statusFilter && regionFilter;
-    });
+      return statusFilter && regionFilter
+    })
 
-    setFilteredData(data);
-  }, [clustersRes.data, filters]); 
+    setFilteredData(data)
+  }, [clustersRes.data, filters])
 
   useEffect(() => {
     if (clustersRes?.data) {
-      filterData();
+      filterData()
     }
-  }, [clustersRes, filterData]);
+  }, [clustersRes, filterData])
 
   return (
     <div className="container mt-6">
@@ -81,7 +84,9 @@ function Treecluster() {
             fullUrlPath={Route.fullPath}
             onApplyFilters={() => filterData()}
             onResetFilters={() => setFilteredData(clustersRes.data)}
-          />
+          >
+            <StatusFieldset />
+          </Dialog>
         </div>
 
         <header className="hidden border-b pb-2 text-sm text-dark-800 px-8 border-b-dark-200 mb-5 lg:grid lg:grid-cols-[1fr,2fr,1.5fr,1fr] lg:gap-5 xl:px-10">

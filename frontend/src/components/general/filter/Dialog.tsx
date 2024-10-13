@@ -7,9 +7,8 @@ import useOutsideClick from '@/hooks/useOutsideClick'
 import Option from './Option'
 import { useNavigate } from '@tanstack/react-router'
 import { useSuspenseQuery } from '@tanstack/react-query'
-import { EntitiesWateringStatus, regionApi } from '@/api/backendApi'
+import { regionApi } from '@/api/backendApi'
 import { useAuthHeader } from '@/hooks/useAuthHeader'
-import { getWateringStatusDetails } from '@/hooks/useDetailsForWateringStatus'
 import useFilter from '@/hooks/useFilter'
 
 interface DialogProps {
@@ -17,6 +16,7 @@ interface DialogProps {
   fullUrlPath: string
   onApplyFilters: () => void;
   onResetFilters: () => void;
+  children?: React.ReactNode;
 }
 
 const Dialog = forwardRef(({
@@ -24,6 +24,7 @@ const Dialog = forwardRef(({
   fullUrlPath,
   onApplyFilters,
   onResetFilters,
+  children,
 }: DialogProps, ref: ForwardedRef<HTMLDivElement>) => {
   const [isOpen, setIsOpen] = useState(false)
   const navigate = useNavigate({ from: fullUrlPath })
@@ -39,7 +40,6 @@ const Dialog = forwardRef(({
   const {
     filters,
     tempFilters,
-    handleStatusChange,
     handleRegionChange,
     resetFilters,
     resetTempFilters,
@@ -103,28 +103,7 @@ const Dialog = forwardRef(({
           </button>
         </div>
 
-        <fieldset>
-          <legend className="font-lato font-semibold text-dark-600 mb-2">
-            Zustand der Bewässerung:
-          </legend>
-          {Object.entries(EntitiesWateringStatus).map(
-            ([statusKey, statusValue]) => (
-              <Option
-                key={statusKey}
-                label={getWateringStatusDetails(statusValue).label}
-                name={statusKey}
-                checked={tempFilters.statusTags.includes(
-                  getWateringStatusDetails(statusValue).label
-                )}
-                onChange={handleStatusChange}
-              >
-                <div
-                  className={`bg-${getWateringStatusDetails(statusValue).color} w-4 h-4 rounded-full`}
-                />
-              </Option>
-            )
-          )}
-        </fieldset>
+        {children}
 
         <fieldset className="mt-6">
           <legend className="font-lato font-semibold text-dark-600 mb-2">
