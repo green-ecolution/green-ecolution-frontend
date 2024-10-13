@@ -5,7 +5,7 @@ import { useSuspenseQuery } from '@tanstack/react-query'
 import { WithTreesAndClusters } from '@/components/map/TreeMarker'
 import { useAuthHeader } from '@/hooks/useAuthHeader'
 import { treeClusterQuery } from '@/api/queries'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import Dialog from '@/components/general/filter/Dialog'
 import { useMapMouseSelect } from '@/hooks/useMapMouseSelect'
 import { useMap } from 'react-leaflet'
@@ -18,6 +18,7 @@ function MapView() {
   const navigate = useNavigate({ from: '/map' })
   const auth = useAuthHeader()
   const map = useMap()
+  const dialogRef = useRef<HTMLDivElement>(null)
   const [statusTags, setStatusTags] = useState<string[]>([])
   const [regionTags, setRegionTags] = useState<string[]>([])
   const { data } = useSuspenseQuery(treeClusterQuery(auth))

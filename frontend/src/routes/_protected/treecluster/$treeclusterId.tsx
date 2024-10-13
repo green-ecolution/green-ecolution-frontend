@@ -38,10 +38,7 @@ function SingleTreecluster() {
           <h1 className="font-lato font-bold text-3xl mb-4 lg:text-4xl xl:text-5xl">
             Bewässerungsgruppe: {treecluster?.name}
           </h1>
-          {treecluster?.description
-            ? (<p>{treecluster?.description}</p>)
-            : (<p>Zu dieser Bewässerungsgruppe ist keine Beschreibung vorhanden.</p>)
-          }
+          {treecluster?.description && <p>{treecluster?.description}</p>}
         </div>
         <ButtonLink
           icon={Pencil}

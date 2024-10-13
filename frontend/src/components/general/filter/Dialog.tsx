@@ -1,80 +1,92 @@
-import React, { useState } from 'react';
-import FilterButton from '../buttons/FilterButton';
-import PrimaryButton from '../buttons/PrimaryButton';
-import SecondaryButton from '../buttons/SecondaryButton';
-import { X } from 'lucide-react';
-import useOutsideClick from '@/hooks/useOutsideClick';
-import Option from './Option';
-import { useNavigate } from '@tanstack/react-router';
-import { useSuspenseQuery } from '@tanstack/react-query';
-import { EntitiesWateringStatus, regionApi } from '@/api/backendApi';
-import { useAuthHeader } from '@/hooks/useAuthHeader';
-import { getWateringStatusDetails } from '@/hooks/useDetailsForWateringStatus';
+import { ForwardedRef, forwardRef, useImperativeHandle, useState } from 'react'
+import FilterButton from '../buttons/FilterButton'
+import PrimaryButton from '../buttons/PrimaryButton'
+import SecondaryButton from '../buttons/SecondaryButton'
+import { X } from 'lucide-react'
+import useOutsideClick from '@/hooks/useOutsideClick'
+import Option from './Option'
+import { useNavigate } from '@tanstack/react-router'
+import { useSuspenseQuery } from '@tanstack/react-query'
+import { EntitiesWateringStatus, regionApi } from '@/api/backendApi'
+import { useAuthHeader } from '@/hooks/useAuthHeader'
+import { getWateringStatusDetails } from '@/hooks/useDetailsForWateringStatus'
+import useTreeclusterFilter from '@/hooks/useTreeclusterFilter'
 
 interface DialogProps {
-  initStatusTags: string[];
-  initRegionTags: string[];
-  headline: string;
-  fullUrlPath: string;
-  applyFilter: (statusTags: string[], regionTags: string[]) => void;
+  initStatusTags: string[]
+  initRegionTags: string[]
+  headline: string
+  fullUrlPath: string
+  applyFilter: (statusTags: string[], regionTags: string[]) => void
 }
 
-const Dialog: React.FC<DialogProps> = ({ initStatusTags, initRegionTags, headline, fullUrlPath, applyFilter }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [statusTags, setStatusTags] = useState<string[]>(initStatusTags);
-  const [regionTags, setRegionTags] = useState<string[]>(initRegionTags);
-  const authorization = useAuthHeader();
+const Dialog = forwardRef(({
+  initStatusTags,
+  initRegionTags,
+  headline,
+  fullUrlPath,
+  applyFilter,
+}: DialogProps, ref: ForwardedRef<HTMLDivElement>) => {
+  const [isOpen, setIsOpen] = useState(false)
+  const navigate = useNavigate({ from: fullUrlPath })
+
+  const dialogRef = useOutsideClick(() => close())
+
+  const authorization = useAuthHeader()
   const { data: regionRes } = useSuspenseQuery({
     queryKey: ['regions'],
     queryFn: () => regionApi.v1RegionGet({ authorization }),
-  });
+  })
 
-  const handleFilterView = () => setIsOpen(!isOpen);
-  const dialogRef = useOutsideClick(() => setIsOpen(false));
+  useImperativeHandle(ref, () => dialogRef.current)
 
-  const navigate = useNavigate({ from: fullUrlPath });
+  const {
+    filters,
+    setFilters,
+    appliedFilters,
+    handleFilterChange,
+    resetFilters,
+    applyFilters,
+  } = useTreeclusterFilter(initStatusTags, initRegionTags)
 
-  const handleFilterChange = (type: 'status' | 'region') => (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { checked, value } = event.target;
+  const resetAndClose = () => {
+    resetFilters(applyFilter)
+    setIsOpen(false)
+    navigate({ search: () => ({}) })
+  }
 
-    switch (type) {
-      case 'status':
-        setStatusTags((prevTags) => (checked ? [...prevTags, value] : prevTags.filter((tag) => tag !== value)));
-        break;
-      case 'region':
-        setRegionTags((prevTags) => (checked ? [...prevTags, value] : prevTags.filter((tag) => tag !== value)));
-        break;
-    }
-  };
+  const close = () => {
+    setIsOpen(false)
+    setFilters({
+      statusTags: appliedFilters.statusTags,
+      regionTags: appliedFilters.regionTags,
+    })
+  }
 
-  const resetFilters = () => {
-    setStatusTags([]);
-    setRegionTags([]);
-    applyFilter([], []);
-    handleFilterView();
-    navigate({ search: () => ({}) });
-  };
-
-  const applyFilters = () => {
-    applyFilter(statusTags, regionTags);
-    handleFilterView();
+  const handleApplyFilters = () => {
+    applyFilters(applyFilter)
+    setIsOpen(false)
 
     navigate({
       search: () => ({
-        status: statusTags.length > 0 ? statusTags : undefined,
-        region: regionTags.length > 0 ? regionTags : undefined,
+        status: filters.statusTags.length > 0 ? filters.statusTags : undefined,
+        region: filters.regionTags.length > 0 ? filters.regionTags : undefined,
       }),
-    });
-  };
+    })
+  }
 
   return (
     <div className="font-nunito-sans text-base">
       <div className={`bg-dark-900/90 fixed inset-0 z-[1000] ${isOpen ? 'block' : 'hidden'}`}></div>
 
       <FilterButton
-        activeCount={statusTags.length + regionTags.length}
+        activeCount={
+          appliedFilters.statusTags.length + appliedFilters.regionTags.length
+        }
         ariaLabel={headline}
-        onClick={handleFilterView}
+        onClick={() => {
+          isOpen ? setIsOpen(false) : setIsOpen(true)
+        }}
       />
 
       <section
@@ -83,55 +95,66 @@ const Dialog: React.FC<DialogProps> = ({ initStatusTags, initRegionTags, headlin
         aria-modal="true"
         className={`fixed max-h-[80dvh] overflow-y-auto z-[1010] inset-x-4 shadow-xl bg-white top-1/2 -translate-y-1/2 p-5 rounded-xl mx-auto max-w-[30rem] ${isOpen ? 'block' : 'hidden'}`}
       >
-        <div className="h-full">
-          <div className="flex items-center justify-between gap-x-5 mb-5">
-            <h2 className="text-xl font-lato font-semibold">{headline}</h2>
-            <button
-              aria-label="Close Dialog"
-              className="text-dark-400 hover:text-dark-600 stroke-1"
-              onClick={handleFilterView}
-            >
-              <X />
-            </button>
-          </div>
+        <div className="flex items-center justify-between gap-x-5 mb-5">
+          <h2 className="text-xl font-lato font-semibold">{headline}</h2>
+          <button
+            aria-label="Close Dialog"
+            className="text-dark-400 hover:text-dark-600 stroke-1"
+            onClick={close}
+          >
+            <X />
+          </button>
+        </div>
 
-          <fieldset>
-            <legend className="font-lato font-semibold text-dark-600 mb-2">Zustand der Bewässerung:</legend>
-            {Object.entries(EntitiesWateringStatus)
-              .map(([statusKey, statusValue]) => (
-                <Option
-                  key={statusKey}
-                  label={getWateringStatusDetails(statusValue).label}
-                  name={statusKey}
-                  checked={statusTags.includes(getWateringStatusDetails(statusValue).label)}
-                  onChange={handleFilterChange('status')}
-                >
-                  <div className={`bg-${getWateringStatusDetails(statusValue).color} w-4 h-4 rounded-full`} />
-                </Option>
-              ))}
-          </fieldset>
-
-          <fieldset className="mt-6">
-            <legend className="font-lato font-semibold text-dark-600 mb-2">Stadtteil in Flensburg:</legend>
-            {regionRes?.regions.map((region) => (
+        <fieldset>
+          <legend className="font-lato font-semibold text-dark-600 mb-2">
+            Zustand der Bewässerung:
+          </legend>
+          {Object.entries(EntitiesWateringStatus).map(
+            ([statusKey, statusValue]) => (
               <Option
-                key={region.id}
-                label={region.name}
-                name={String(region.id)}
-                checked={regionTags.includes(region.name)}
-                onChange={handleFilterChange('region')}
-              />
-            ))}
-          </fieldset>
+                key={statusKey}
+                label={getWateringStatusDetails(statusValue).label}
+                name={statusKey}
+                checked={filters.statusTags.includes(
+                  getWateringStatusDetails(statusValue).label
+                )}
+                onChange={handleFilterChange('status')}
+              >
+                <div
+                  className={`bg-${getWateringStatusDetails(statusValue).color} w-4 h-4 rounded-full`}
+                />
+              </Option>
+            )
+          )}
+        </fieldset>
 
-          <div className="flex flex-wrap gap-5 mt-6">
-            <PrimaryButton label="Anwenden" type="button" onClick={applyFilters} />
-            <SecondaryButton label="Zurücksetzen" onClick={resetFilters} />
-          </div>
+        <fieldset className="mt-6">
+          <legend className="font-lato font-semibold text-dark-600 mb-2">
+            Stadtteil in Flensburg:
+          </legend>
+          {regionRes?.regions.map((region) => (
+            <Option
+              key={region.id}
+              label={region.name}
+              name={String(region.id)}
+              checked={filters.regionTags.includes(region.name)}
+              onChange={handleFilterChange('region')}
+            />
+          ))}
+        </fieldset>
+
+        <div className="flex flex-wrap gap-5 mt-6">
+          <PrimaryButton
+            label="Anwenden"
+            type="button"
+            onClick={handleApplyFilters}
+          />
+          <SecondaryButton label="Zurücksetzen" onClick={resetAndClose} />
         </div>
       </section>
     </div>
   );
-};
+});
 
-export default Dialog;
+export default Dialog
