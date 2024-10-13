@@ -10,7 +10,6 @@ import { useSuspenseQuery } from '@tanstack/react-query'
 import { EntitiesWateringStatus, regionApi } from '@/api/backendApi'
 import { useAuthHeader } from '@/hooks/useAuthHeader'
 import { getWateringStatusDetails } from '@/hooks/useDetailsForWateringStatus'
-import useTreeclusterFilter from '@/hooks/useTreeclusterFilter'
 import useFilter from '@/hooks/useFilter'
 
 interface DialogProps {
@@ -51,11 +50,12 @@ const Dialog = forwardRef(({
     applyStateToTags();
     onApplyFilters();
     setIsOpen(false);
+    setIsOpen(false);
 
     navigate({
       search: () => ({
-        status: filters.statusTags.length > 0 ? filters.statusTags : undefined,
-        region: filters.regionTags.length > 0 ? filters.regionTags : undefined,
+        status: tempFilters.statusTags.length > 0 ? tempFilters.statusTags : undefined,
+        region: tempFilters.regionTags.length > 0 ? tempFilters.regionTags : undefined,
       }),
     })
   };
