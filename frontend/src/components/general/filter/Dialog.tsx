@@ -39,12 +39,16 @@ const Dialog = forwardRef(({
 
   const {
     filters,
+    tempFilters,
     handleStatusChange,
     handleRegionChange,
     resetFilters,
+    resetTempFilters,
+    applyStateToTags,
   } = useFilter();
 
   const handleSubmit = () => {
+    applyStateToTags();
     onApplyFilters();
     setIsOpen(false);
 
@@ -65,6 +69,7 @@ const Dialog = forwardRef(({
 
   const handleClose = () => {
     setIsOpen(false);
+    resetTempFilters();
   }
 
   return (
@@ -92,7 +97,7 @@ const Dialog = forwardRef(({
           <button
             aria-label="Close Dialog"
             className="text-dark-400 hover:text-dark-600 stroke-1"
-            onClick={close}
+            onClick={handleClose}
           >
             <X />
           </button>
@@ -108,7 +113,7 @@ const Dialog = forwardRef(({
                 key={statusKey}
                 label={getWateringStatusDetails(statusValue).label}
                 name={statusKey}
-                checked={filters.statusTags.includes(
+                checked={tempFilters.statusTags.includes(
                   getWateringStatusDetails(statusValue).label
                 )}
                 onChange={handleStatusChange}
@@ -130,7 +135,7 @@ const Dialog = forwardRef(({
               key={region.id}
               label={region.name}
               name={String(region.id)}
-              checked={filters.regionTags.includes(region.name)}
+              checked={tempFilters.regionTags.includes(region.name)}
               onChange={handleRegionChange}
             />
           ))}
