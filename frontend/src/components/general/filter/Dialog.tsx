@@ -1,6 +1,7 @@
 import {
   ForwardedRef,
   forwardRef,
+  useEffect,
   useImperativeHandle,
   useState,
 } from 'react'
@@ -39,7 +40,9 @@ const Dialog = forwardRef(
       statusTags: [],
       regionTags: [],
       hasCluster: undefined,
+      plantingYears: [],
     })
+    const [count, setCount] = useState(0);
     const navigate = useNavigate({ from: fullUrlPath })
     useImperativeHandle(ref, () => dialogRef.current)
 
@@ -63,13 +66,15 @@ const Dialog = forwardRef(
             filters.regionTags.length > 0 ? filters.regionTags : undefined,
           hasCluster:
             filters.hasCluster ?? undefined,
+          plantingYears:
+            filters.plantingYears.length > 0 ? filters.plantingYears : undefined
         }),
       })
     }
 
     const handleReset = () => {
       onResetFilters()
-      applyOldStateToTags({ statusTags: [], regionTags: [], hasCluster: undefined })
+      applyOldStateToTags({ statusTags: [], regionTags: [], hasCluster: undefined, plantingYears: [] })
       resetFilters()
       setIsOpen(false)
       navigate({ search: () => ({}) })
@@ -85,6 +90,13 @@ const Dialog = forwardRef(
       setIsOpen(true)
     }
 
+    useEffect(() => {
+      setCount(filters.statusTags.length
+        + filters.regionTags.length
+        + (filters.hasCluster !== undefined ? 1 : 0)
+        + filters.plantingYears.length);
+    }, [filters])
+
     return (
       <div className="font-nunito-sans text-base">
         <div
@@ -92,7 +104,7 @@ const Dialog = forwardRef(
         ></div>
 
         <FilterButton
-          activeCount={filters.statusTags.length + filters.regionTags.length + (filters.hasCluster ? 1 : 0)}
+          activeCount={count}
           ariaLabel={headline}
           isOnMap={isOnMap}
           onClick={() => {
