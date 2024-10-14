@@ -29,8 +29,8 @@ const mapFilterSchema = z.object({
 function MapView() {
   const navigate = useNavigate({ from: '/map' })
   const map = useMap()
+  const search = useLoaderData({ from: '/_protected/map/' })
   const dialogRef = useRef<HTMLDivElement>(null)
-  const [activeFilter, setActiveFilter] = useState(true)
   const { data: cluster } = useSuspenseQuery(treeClusterQuery())
   const { data: trees } = useSuspenseQuery(treeQuery())
   const { filters } = useFilter()
@@ -45,6 +45,16 @@ function MapView() {
       params: { treeclusterId: cluster.id.toString() },
     })
   }
+
+  const hasActiveFilter = () => {
+    return search.status.length > 0 ||
+      search.hasCluster !== undefined ||
+      search.plantingYears.length > 0
+      ? true
+      : false
+  }
+
+  const [activeFilter, setActiveFilter] = useState(hasActiveFilter())
 
   useMapMouseSelect((_, e) => {
     const target = e.originalEvent.target as HTMLElement
@@ -72,8 +82,8 @@ function MapView() {
 
       const plantingYearsFilter =
         filters.plantingYears.length === 0 ||
-        filters.plantingYears.includes(tree.plantingYear);
-      
+        filters.plantingYears.includes(tree.plantingYear)
+
       return statusFilter && hasCluster && plantingYearsFilter
     })
   }
