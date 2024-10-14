@@ -26,7 +26,7 @@ function SingleTree() {
       <Suspense fallback={<LoadingInfo label="Baumdaten werden geladen …" />}>
         <ErrorBoundary
           fallback={
-            <p className="text-red text-lg">
+            <p className="text-red text-lg font-semibold">
               Einen Baum mit der Identifikationsnummer {treeId} gibt es nicht
               oder die Baumdaten konnten nicht geladen werden.
             </p>
