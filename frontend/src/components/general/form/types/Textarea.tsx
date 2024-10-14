@@ -24,7 +24,7 @@ const Textarea = forwardRef(
           {...props}
         />
         {props.error && (
-          <span className="text-red mt-2 font-semibold text-sm">{props.error}</span>
+          <span className="block text-red mt-2 font-semibold text-sm">{props.error}</span>
         )}
       </div>
     );

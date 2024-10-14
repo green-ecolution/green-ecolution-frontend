@@ -56,7 +56,7 @@ function EditTreeCluster() {
       >
         <ErrorBoundary
           fallback={
-            <p className="text-red text-lg">
+            <p className="text-red text-lg font-semibold">
               Eine Bewässerungsgruppe mit der Nummer {clusterId} gibt es nicht
               oder die Daten zur Bewässerungsgruppe konnten nicht geladen
               werden.

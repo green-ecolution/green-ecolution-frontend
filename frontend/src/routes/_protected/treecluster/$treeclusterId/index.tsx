@@ -26,7 +26,7 @@ function SingleTreecluster() {
       >
         <ErrorBoundary
           fallback={
-            <p className="text-red text-lg">
+            <p className="text-red text-lg font-semibold">
               Eine Bewässerungsgruppe mit der Identifikationsnummer {clusterId}{' '}
               gibt es nicht oder die Bewässerungsgruppendaten konnten nicht
               geladen werden

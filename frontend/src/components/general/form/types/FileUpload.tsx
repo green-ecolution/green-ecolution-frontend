@@ -56,7 +56,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
       </div>
 
       {message && (
-        <div className="mt-4 text-red">
+        <div className="mt-4 text-red font-semibold text-sm">
           {message}
         </div>
       )}
