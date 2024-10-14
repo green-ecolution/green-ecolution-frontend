@@ -6,6 +6,7 @@ import React, { Suspense } from 'react'
 import { TooltipProvider } from './components/ui/tooltip'
 import Footer from './components/layout/Footer'
 import Header from './components/layout/Header'
+import useDocumentTitle from '@/hooks/useDocumentTitle';
 import ToastProvider from './context/ToastContext'
 
 const TanStackRouterDevtools =
@@ -18,6 +19,7 @@ const TanStackRouterDevtools =
     )
 
 function App() {
+  useDocumentTitle();
   return (
     <>
       <ToastProvider>

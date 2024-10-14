@@ -1,4 +1,3 @@
-import useDocumentTitle from '@/hooks/useDocumentTitle';
 import { createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/_protected/sensors')({
@@ -13,7 +12,6 @@ export const Route = createFileRoute('/_protected/sensors')({
 
 
 function Sensors() {
-  useDocumentTitle("Sensoren")
   return (
     <div className="container mt-6">
       <article className="2xl:w-4/5">

@@ -7,7 +7,6 @@ import { Plus } from 'lucide-react'
 import LoadingInfo from '@/components/general/error/LoadingInfo'
 import { ErrorBoundary } from 'react-error-boundary'
 import TreeClusterList from '@/components/treecluster/TreeClusterList'
-import useDocumentTitle from '@/hooks/useDocumentTitle'
 
 const treeclusterFilterSchema = z.object({
   status: z.array(z.string()).optional().default([]),
@@ -20,7 +19,6 @@ export const Route = createFileRoute('/_protected/treecluster/')({
 })
 
 function Treecluster() {
-  useDocumentTitle('Bewässerungsgruppen')
   const search = Route.useSearch()
   const [statusTags, setStatusTags] = useState<string[]>(search.status)
   const [regionTags, setRegionTags] = useState<string[]>(search.region)

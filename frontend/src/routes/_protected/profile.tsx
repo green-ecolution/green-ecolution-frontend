@@ -1,7 +1,6 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import useStore from '@/store/store';
 import { MoveRight, UserRound } from 'lucide-react';
-import useDocumentTitle from '@/hooks/useDocumentTitle';
 
 export const Route = createFileRoute('/_protected/profile')({
   component: Sensors,
@@ -11,7 +10,6 @@ export const Route = createFileRoute('/_protected/profile')({
 
 function Sensors() {
   const user = useStore((state) => state.user);
-  useDocumentTitle("Profil")
 
   return (
     <div className="container mt-6">
