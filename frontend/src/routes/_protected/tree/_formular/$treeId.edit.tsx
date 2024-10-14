@@ -6,7 +6,6 @@ import { Suspense } from 'react'
 import LoadingInfo from '@/components/general/error/LoadingInfo'
 import { ErrorBoundary } from 'react-error-boundary'
 import TreeUpdate from '@/components/tree/TreeUpdate'
-import { sensorQuery, treeClusterQuery, treeIdQuery } from '@/api/queries'
 import useToast from '@/hooks/useToast'
 
 export const Route = createFileRoute('/_protected/tree/_formular/$treeId/edit')(
@@ -15,34 +14,28 @@ export const Route = createFileRoute('/_protected/tree/_formular/$treeId/edit')(
     beforeLoad: () => {
       useFormStore.getState().setType('edit')
     },
-    loader: ({ params: { treeId } }) => {
-      return {
-        tree: treeIdQuery(treeId),
-        sensors: sensorQuery(),
-        clusters: treeClusterQuery(),
-      }
-    },
+    meta: () => [{ title: `Baum editieren` }],
   }
 )
 
 function EditTreeCluster() {
   const showToast = useToast()
   const treeId = Route.useParams().treeId
-  const navigate = useNavigate({from: Route.fullPath})
+  const navigate = useNavigate({ from: Route.fullPath })
   const formStore = useFormStore((state: FormStore<TreeclusterSchema>) => ({
     form: state.form,
     reset: state.reset,
   }))
 
   const handleOnUpdateSuccess = (data: Tree) => {
-      formStore.reset()
-      navigate({
-        to: '/tree/$treeId',
-        params: { treeId: data.id.toString() },
-        search: { resetStore: false },
-        replace: true,
-      })
-      showToast('Der Baum wurde erfolgreich editiert')
+    formStore.reset()
+    navigate({
+      to: '/tree/$treeId',
+      params: { treeId: data.id.toString() },
+      search: { resetStore: false },
+      replace: true,
+    })
+    showToast('Der Baum wurde erfolgreich editiert')
   }
 
   return (
@@ -50,13 +43,17 @@ function EditTreeCluster() {
       <Suspense fallback={<LoadingInfo label="Baumdaten werden geladen …" />}>
         <ErrorBoundary
           fallback={
-            <p className="text-red text-lg">
+            <p className="text-red text-lg font-semibold">
               Einen Baum mit der Identifikationsnummer {treeId} gibt es nicht
               oder die Baumdaten konnten nicht geladen werden.
-            </p> 
+            </p>
           }
         >
-          <TreeUpdate treeId={treeId} onUpdateSuccess={handleOnUpdateSuccess} onUpdateError={console.error} />
+          <TreeUpdate
+            treeId={treeId}
+            onUpdateSuccess={handleOnUpdateSuccess}
+            onUpdateError={console.error}
+          />
         </ErrorBoundary>
       </Suspense>
     </div>

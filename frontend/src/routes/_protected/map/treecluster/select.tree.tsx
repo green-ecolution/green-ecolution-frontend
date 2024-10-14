@@ -14,6 +14,7 @@ import { treeQuery } from '@/api/queries'
 export const Route = createFileRoute('/_protected/map/treecluster/select/tree')(
   {
     component: SelectTrees,
+    meta: () => [{ title: 'Bäume auswählen' }],
   }
 )
 
@@ -105,7 +106,7 @@ function SelectTrees() {
         content={
           <ul className="space-y-3">
             {(treeIds?.length || 0) === 0 || showError ? (
-              <li className="text-red">
+              <li className="text-red font-semibold text-sm">
                 <p>Bitte wählen Sie mindestens einen Baum aus.</p>
               </li>
             ) : (

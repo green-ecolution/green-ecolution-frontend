@@ -22,6 +22,7 @@ export const Route = createFileRoute('/_protected/treecluster/_formular/new')({
     useFormStore.getState().setType('new')
   },
   component: NewTreecluster,
+  meta: () => [{ title: 'Neue Bewässerungsgruppe' }],
 })
 
 function NewTreecluster() {

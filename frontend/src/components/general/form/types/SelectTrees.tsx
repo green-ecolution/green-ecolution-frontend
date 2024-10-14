@@ -21,7 +21,7 @@ const SelectTrees: React.FC<SelectTreesProps> = ({
 
       <ul className="space-y-3">
         {treeIds.length === 0 ? (
-          <li className="text-red">
+          <li className="text-red font-semibold text-sm">
             <p>Bitte wählen Sie mindestens einen Baum aus.</p>
           </li>
         ) : (

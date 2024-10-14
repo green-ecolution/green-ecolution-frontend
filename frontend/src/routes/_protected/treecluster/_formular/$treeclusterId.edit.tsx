@@ -10,19 +10,20 @@ import { Suspense, useCallback } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 
 export const Route = createFileRoute(
-  '/_protected/treecluster/_formular/$treecluster/edit'
+  '/_protected/treecluster/_formular/$treeclusterId/edit'
 )({
   component: EditTreeCluster,
   beforeLoad: () => {
     useFormStore.getState().setType('edit')
   },
-  loader: () => {
+  loader: async () => {
     if (!useStore.getState().auth.isAuthenticated) return
   },
+  meta: () => [{title: 'Bewässerungsgruppe editieren'}],
 })
 
 function EditTreeCluster() {
-  const clusterId = Route.useParams().treecluster
+  const clusterId = Route.useParams().treeclusterId
   const navigate = useNavigate({ from: Route.fullPath })
   const showToast = useToast()
 
@@ -55,7 +56,7 @@ function EditTreeCluster() {
       >
         <ErrorBoundary
           fallback={
-            <p className="text-red text-lg">
+            <p className="text-red text-lg font-semibold">
               Eine Bewässerungsgruppe mit der Nummer {clusterId} gibt es nicht
               oder die Daten zur Bewässerungsgruppe konnten nicht geladen
               werden.

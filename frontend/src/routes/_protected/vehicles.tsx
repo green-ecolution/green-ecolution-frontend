@@ -3,6 +3,12 @@ import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_protected/vehicles")({
   component: Vehicles,
+  meta: () => [
+    {
+      title: 'Fahrzeuge',
+      path: '/vehicles',
+    },
+  ]
 });
 
 function Vehicles() {

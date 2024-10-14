@@ -9,6 +9,7 @@ import { useCallback, useRef, useState } from "react";
 
 export const Route = createFileRoute("/_protected/map/tree/edit")({
   component: EditTree,
+  meta: () => [{ title: "Baum bearbeiten" }],
 });
 
 function EditTree() {

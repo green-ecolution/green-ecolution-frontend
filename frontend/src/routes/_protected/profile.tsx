@@ -5,6 +5,7 @@ import useDocumentTitle from '@/hooks/useDocumentTitle';
 
 export const Route = createFileRoute('/_protected/profile')({
   component: Sensors,
+  meta: () => [{ title: 'Profil' }],
 })
 
 

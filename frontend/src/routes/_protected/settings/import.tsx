@@ -9,6 +9,7 @@ import { treeQuery } from '@/api/queries'
 
 export const Route = createFileRoute('/_protected/settings/import')({
   component: ImportFile,
+  meta: () => [{ title: 'Bäume importieren' }],
 })
 
 function ImportFile() {

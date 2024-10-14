@@ -40,7 +40,7 @@ const Select = forwardRef(
           ))}
         </select>
         {props.error && (
-          <span className="text-red mt-2 font-semibold text-sm">
+          <span className="block text-red mt-2 font-semibold text-sm">
             {props.error}
           </span>
         )}
