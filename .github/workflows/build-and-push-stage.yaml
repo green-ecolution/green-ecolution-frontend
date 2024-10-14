@@ -1,6 +1,10 @@
 name: Build and Push Docker Image Staging
 "on":
   workflow_dispatch:
+    inputs:
+      version:
+        description: "The release version"
+        required: true
   push:
     branches:
       - release/*
@@ -87,7 +91,7 @@ jobs:
           file: ./.docker/Dockerfile.stage
           platforms: linux/amd64 #,linux/arm64
           push: true
-          tags: ghcr.io/${{ env.REPO_LC }}-stage:${{ env.RELEASE_VERSION }}-preview, ghcr.io/${{ env.REPO_LC }}-stage:latest, ghcr.io/${{ env.REPO_LC }}-stage:${{ env.COMMIT_SHA }}
+          tags: ghcr.io/${{ env.REPO_LC }}-stage:${{ env.RELEASE_VERSION }}-stage,ghcr.io/${{ env.REPO_LC }}-stage:${{ env.RELEASE_VERSION }}-preview, ghcr.io/${{ env.REPO_LC }}-stage:latest, ghcr.io/${{ env.REPO_LC }}-stage:${{ env.COMMIT_SHA }}
 
       - name: Notify management repo to update submodules
         uses: peter-evans/repository-dispatch@v3
