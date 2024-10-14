@@ -1,6 +1,7 @@
 import {
   Configuration,
   ConfigurationParameters,
+  FileImportApi,
   HTTPHeaders,
   InfoApi,
   RegionApi,
@@ -28,5 +29,10 @@ export const infoApi = new InfoApi(config)
 export const userApi = new UserApi(config)
 export const regionApi = new RegionApi(config)
 export const sensorApi = new SensorApi(config)
+export const importApi = new FileImportApi(
+  new Configuration({
+    basePath: import.meta.env.VITE_BACKEND_BASEURL ?? '/api-local',
+  })
+)
 
 export * from '@green-ecolution/backend-client'

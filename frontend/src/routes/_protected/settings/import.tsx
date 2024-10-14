@@ -4,8 +4,11 @@ import PrimaryButton from '@/components/general/buttons/PrimaryButton'
 import { useState } from 'react'
 import FileUpload from '@/components/general/form/types/FileUpload'
 import Modal from '@/components/general/Modal'
-import { useSuspenseQuery } from '@tanstack/react-query'
+import { useMutation, useQueryClient, useSuspenseQuery } from '@tanstack/react-query'
 import { treeQuery } from '@/api/queries'
+import { importApi } from '@/api/backendApi'
+import { useAuthHeader } from '@/hooks/useAuthHeader'
+import useToast from '@/hooks/useToast'
 
 export const Route = createFileRoute('/_protected/settings/import')({
   component: ImportFile,
@@ -13,10 +16,27 @@ export const Route = createFileRoute('/_protected/settings/import')({
 })
 
 function ImportFile() {
+  const authorization = useAuthHeader()
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [file, setFile] = useState<File | null>(null)
   const [message, setMessage] = useState('')
-  const {data: trees} = useSuspenseQuery(treeQuery())
+  const { data: trees } = useSuspenseQuery(treeQuery())
+  const queryClient = useQueryClient()
+  const showToast = useToast()
+
+  const { mutate } = useMutation({
+    mutationFn: (file: File) =>
+      importApi.importTreesFromCsv({ file, authorization }),
+    onSuccess: () => {
+      queryClient.invalidateQueries(treeQuery())
+      setMessage('Die Bäume wurden erfolgreich importiert.')
+      showToast('Die Bäume wurden erfolgreich importiert.')
+    },
+    onError: (error) => {
+      console.error(error)
+      setMessage('Es ist ein Fehler beim Importieren aufgetreten.')
+    },
+  })
 
   const getReadonlyTreesLength = () => {
     const readonlyTrees = trees.data.filter((tree) => tree.readonly)
@@ -38,22 +58,7 @@ function ImportFile() {
 
   const handleConfirm = async () => {
     setIsModalOpen(false)
-
-    try {
-      if (!file) return
-
-      setMessage('')
-      const formData = new FormData()
-      formData.append('file', file)
-
-      // TODO: Send form to provided endpoint of backend client
-
-      setFile(null)
-      setMessage('Es wurden erfolgreich neue Daten importiert.')
-    } catch (error: unknown) {
-      console.error(error)
-      setMessage(String(error))
-    }
+    file && mutate(file)
   }
 
   // TODO: use real date of import
