@@ -1,31 +1,14 @@
-import { treeClusterQuery } from '@/api/queries'
-import { getWateringStatusDetails } from '@/hooks/useDetailsForWateringStatus'
-import { useSuspenseQuery } from '@tanstack/react-query'
 import TreeclusterCard from '../general/cards/TreeclusterCard'
+import { TreeCluster } from '@/api/backendApi'
 
 interface TreeClusterListProps {
-  filter: {
-    status: string[]
-    region: string[]
-  }
+  filteredData: TreeCluster[];
 }
 
-const TreeClusterList = ({ filter }: TreeClusterListProps) => {
-  const { data: clustersRes } = useSuspenseQuery(treeClusterQuery())
-
-  const filteredClusters = clustersRes?.data.filter(
-    (cluster) =>
-      (filter.status.length === 0 ||
-        filter.status.includes(
-          getWateringStatusDetails(cluster.wateringStatus).label
-        )) &&
-      (filter.region.length === 0 ||
-        filter.region.includes(cluster.region?.name || ''))
-  )
-
+const TreeClusterList = ({ filteredData }: TreeClusterListProps) => {
   return (
     <ul>
-      {filteredClusters?.length === 0 ? (
+      {filteredData?.length === 0 ? (
         <li className="text-center text-dark-600 mt-10">
           <p>
             Es wurden keine Bewässerungsgruppen gefunden, die den
@@ -33,7 +16,7 @@ const TreeClusterList = ({ filter }: TreeClusterListProps) => {
           </p>
         </li>
       ) : (
-        filteredClusters?.map((cluster, key) => (
+        filteredData?.map((cluster, key) => (
           <li key={key} className="mb-5 last:mb-0">
             <TreeclusterCard treecluster={cluster} />
           </li>
