@@ -13,6 +13,7 @@ import useOutsideClick from '@/hooks/useOutsideClick'
 import { useNavigate } from '@tanstack/react-router'
 import useFilter from '@/hooks/useFilter'
 import { Filters } from '@/context/FilterContext'
+import useStore from '@/store/store'
 
 interface DialogProps {
   headline: string
@@ -42,8 +43,13 @@ const Dialog = forwardRef(
       hasCluster: undefined,
       plantingYears: [],
     })
-    const [count, setCount] = useState(0);
+    const [count, setCount] = useState(0)
     const navigate = useNavigate({ from: fullUrlPath })
+    const mapPosition = useStore((state) => ({
+      lat: state.map.center[0],
+      lng: state.map.center[1],
+      zoom: state.map.zoom,
+    }))
     useImperativeHandle(ref, () => dialogRef.current)
 
     const dialogRef = useOutsideClick(() => {
@@ -60,24 +66,41 @@ const Dialog = forwardRef(
 
       navigate({
         search: () => ({
+          lat: isOnMap ? mapPosition.lat : undefined,
+          lng: isOnMap ? mapPosition.lng : undefined,
+          zoom: isOnMap ? mapPosition.zoom : undefined,
           status:
             filters.statusTags.length > 0 ? filters.statusTags : undefined,
           region:
             filters.regionTags.length > 0 ? filters.regionTags : undefined,
-          hasCluster:
-            filters.hasCluster ?? undefined,
+          hasCluster: filters.hasCluster ?? undefined,
           plantingYears:
-            filters.plantingYears.length > 0 ? filters.plantingYears : undefined
+            filters.plantingYears.length > 0
+              ? filters.plantingYears
+              : undefined,
         }),
       })
     }
 
     const handleReset = () => {
       onResetFilters()
-      applyOldStateToTags({ statusTags: [], regionTags: [], hasCluster: undefined, plantingYears: [] })
+      applyOldStateToTags({
+        statusTags: [],
+        regionTags: [],
+        hasCluster: undefined,
+        plantingYears: [],
+      })
       resetFilters()
       setIsOpen(false)
-      navigate({ search: () => ({}) })
+      isOnMap
+        ? navigate({
+            search: {
+              lat: mapPosition.lat,
+              lng: mapPosition.lng,
+              zoom: mapPosition.zoom,
+            },
+          })
+        : navigate({ search: () => ({}) })
     }
 
     const handleClose = () => {
@@ -91,10 +114,12 @@ const Dialog = forwardRef(
     }
 
     useEffect(() => {
-      setCount(filters.statusTags.length
-        + filters.regionTags.length
-        + (filters.hasCluster !== undefined ? 1 : 0)
-        + filters.plantingYears.length);
+      setCount(
+        filters.statusTags.length +
+          filters.regionTags.length +
+          (filters.hasCluster !== undefined ? 1 : 0) +
+          filters.plantingYears.length
+      )
     }, [filters])
 
     return (
