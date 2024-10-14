@@ -1,16 +1,21 @@
-import { useEffect } from 'react';
-import { useRouterState } from '@tanstack/react-router';
+import { useEffect } from 'react'
+import { useRouterState } from '@tanstack/react-router'
 
 function useDocumentTitle() {
-  const route = useRouterState({
-    select: (state) => state.matches.find(match => match.meta?.find(tag => tag.title)),
-  });
-
-  const title = route?.meta?.find(tag => tag.title)?.title || 'Green Ecolution';
+  const title = useRouterState({
+    select: (state) => {
+      console.log(state.matches)
+      return state.matches
+        .map((match) => match.meta?.find((tag) => tag.title)?.title)
+        .filter((title) => Boolean(title))
+        .reverse()
+        .join(' | ')
+    },
+  })
 
   useEffect(() => {
-    document.title = title;
-  }, [title]);
+    document.title = title || 'Green Ecolution'
+  }, [title])
 }
 
-export default useDocumentTitle;
+export default useDocumentTitle
