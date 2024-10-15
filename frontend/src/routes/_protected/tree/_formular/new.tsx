@@ -6,12 +6,12 @@ import { useAuthHeader } from '@/hooks/useAuthHeader'
 import { TreeForm, TreeSchema } from '@/schema/treeSchema'
 import useFormStore, { FormStore } from '@/store/form/useFormStore'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useMutation, useSuspenseQuery } from '@tanstack/react-query'
+import { useMutation, useQueryClient, useSuspenseQuery } from '@tanstack/react-query'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { z } from 'zod'
 import { useMapStore } from '@/store/store'
 import useToast from '@/hooks/useToast'
-import { sensorQuery, treeClusterQuery } from '@/api/queries'
+import { sensorQuery, treeClusterQuery, treeQuery } from '@/api/queries'
 
 const newTreeSearchSchema = z.object({
   lat: z.number(),
@@ -39,6 +39,7 @@ function NewTree() {
   const navigate = useNavigate({ from: Route.fullPath })
   const authorization = useAuthHeader()
   const showToast = useToast()
+  const queryClient = useQueryClient()
   const map = useMapStore()
   const { data: sensors } = useSuspenseQuery(sensorQuery())
   const { data: treeClusters } = useSuspenseQuery(treeClusterQuery())
@@ -78,6 +79,7 @@ function NewTree() {
         search: { resetStore: false },
         replace: true,
       })
+      queryClient.invalidateQueries(treeQuery())
       showToast("Der Baum wurde erfolgreich erstellt.")
     },
   })
@@ -88,6 +90,7 @@ function NewTree() {
       sensorId: data.sensorId === '-1' ? undefined : data.sensorId,
       treeClusterId:
         data.treeClusterId === '-1' ? undefined : data.treeClusterId,
+      description: data.description ?? '',
       readonly: false,
     })
   }
