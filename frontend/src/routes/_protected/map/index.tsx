@@ -10,8 +10,6 @@ import { WithTreesAndClusters } from '@/components/map/TreeMarker'
 import { treeClusterQuery, treeQuery } from '@/api/queries'
 import { useRef, useState } from 'react'
 import Dialog from '@/components/general/filter/Dialog'
-import { useMapMouseSelect } from '@/hooks/useMapMouseSelect'
-import { useMap } from 'react-leaflet'
 import StatusFieldset from '@/components/general/filter/fieldsets/StatusFieldset'
 import { getWateringStatusDetails } from '@/hooks/useDetailsForWateringStatus'
 import useFilter from '@/hooks/useFilter'
@@ -28,7 +26,6 @@ const mapFilterSchema = z.object({
 
 function MapView() {
   const navigate = useNavigate({ from: '/map' })
-  const map = useMap()
   const search = useLoaderData({ from: '/_protected/map/' })
   const dialogRef = useRef<HTMLDivElement>(null)
   const { data: cluster } = useSuspenseQuery(treeClusterQuery())
@@ -55,17 +52,6 @@ function MapView() {
   }
 
   const [activeFilter, setActiveFilter] = useState(hasActiveFilter())
-
-  useMapMouseSelect((_, e) => {
-    const target = e.originalEvent.target as HTMLElement
-    if (dialogRef.current?.contains(target)) {
-      map.dragging.disable()
-      map.scrollWheelZoom.disable()
-    } else {
-      map.dragging.enable()
-      map.scrollWheelZoom.enable()
-    }
-  })
 
   const filterData = () => {
     return trees.data.filter((tree) => {
