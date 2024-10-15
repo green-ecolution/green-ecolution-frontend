@@ -5,7 +5,7 @@ import useFormStore, { FormStore } from "@/store/form/useFormStore";
 import { useMapStore } from "@/store/store";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { LatLng } from "leaflet";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useState } from "react";
 
 export const Route = createFileRoute("/_protected/map/tree/edit")({
   component: EditTree,
@@ -14,7 +14,6 @@ export const Route = createFileRoute("/_protected/map/tree/edit")({
 
 function EditTree() {
   const navigate = useNavigate({ from: Route.fullPath });
-  const modalRef = useRef<HTMLDivElement>(null);
   const { treeId } = Route.useSearch();
   const { commit, form, type } = useFormStore((state: FormStore<TreeForm>) => ({
     form: state.form!,
@@ -59,7 +58,6 @@ function EditTree() {
   return (
     <>
       <MapSelectTreesModal
-        ref={modalRef}
         onSave={handleSave}
         onCancel={handleNavigateBack}
         title="Baum erfassen:"

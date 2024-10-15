@@ -2,14 +2,12 @@ import {
   ForwardedRef,
   forwardRef,
   useEffect,
-  useImperativeHandle,
   useState,
 } from 'react'
 import FilterButton from '../buttons/FilterButton'
 import PrimaryButton from '../buttons/PrimaryButton'
 import SecondaryButton from '../buttons/SecondaryButton'
 import { X } from 'lucide-react'
-import useOutsideClick from '@/hooks/useOutsideClick'
 import { useNavigate } from '@tanstack/react-router'
 import useFilter from '@/hooks/useFilter'
 import { Filters } from '@/context/FilterContext'
@@ -52,12 +50,6 @@ const Dialog = forwardRef(
       lng: state.map.center[1],
       zoom: state.map.zoom,
     }))
-    useImperativeHandle(ref, () => dialogRef.current)
-
-    const dialogRef = useOutsideClick(() => {
-      if (!isOpen) return
-      handleClose()
-    })
 
     const { filters, resetFilters, applyOldStateToTags } = useFilter()
 
@@ -131,6 +123,7 @@ const Dialog = forwardRef(
     return (
       <div className="font-nunito-sans text-base">
         <div
+          onClick={() => handleClose()}
           className={`bg-dark-900/90 fixed inset-0 z-[1020] ${isOpen ? 'block' : 'hidden'}`}
         ></div>
 
@@ -144,7 +137,7 @@ const Dialog = forwardRef(
         />
 
         <section
-          ref={dialogRef}
+          ref={ref}
           role="dialog"
           aria-modal="true"
           className={`fixed max-h-[80dvh] overflow-y-auto z-[1030] inset-x-4 shadow-xl bg-white top-1/2 -translate-y-1/2 p-5 rounded-xl mx-auto max-w-[30rem] ${isOpen ? 'block' : 'hidden'}`}
