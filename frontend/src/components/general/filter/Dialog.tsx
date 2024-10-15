@@ -14,7 +14,6 @@ import { useNavigate } from '@tanstack/react-router'
 import useFilter from '@/hooks/useFilter'
 import { Filters } from '@/context/FilterContext'
 import useStore from '@/store/store'
-import { useMap } from 'react-leaflet'
 
 interface DialogProps {
   headline: string
@@ -23,6 +22,7 @@ interface DialogProps {
   isOnMap?: boolean
   onApplyFilters: () => void
   onResetFilters: () => void
+  onToggleOpen?: (isOpen: boolean) => void
 }
 
 const Dialog = forwardRef(
@@ -34,6 +34,7 @@ const Dialog = forwardRef(
       onResetFilters,
       children,
       isOnMap = false,
+      onToggleOpen,
     }: DialogProps,
     ref: ForwardedRef<HTMLDivElement>
   ) => {
@@ -45,7 +46,6 @@ const Dialog = forwardRef(
       plantingYears: [],
     })
     const [count, setCount] = useState(0)
-    const map = useMap()
     const navigate = useNavigate({ from: fullUrlPath })
     const mapPosition = useStore((state) => ({
       lat: state.map.center[0],
@@ -65,7 +65,6 @@ const Dialog = forwardRef(
       onApplyFilters()
       setIsOpen(false)
       setIsOpen(false)
-      enableMapDragging()
       navigate({
         search: () => ({
           lat: isOnMap ? mapPosition.lat : undefined,
@@ -94,37 +93,25 @@ const Dialog = forwardRef(
       })
       resetFilters()
       setIsOpen(false)
-      enableMapDragging()
       isOnMap
         ? navigate({
-          search: {
-            lat: mapPosition.lat,
-            lng: mapPosition.lng,
-            zoom: mapPosition.zoom,
-          },
-        })
+            search: {
+              lat: mapPosition.lat,
+              lng: mapPosition.lng,
+              zoom: mapPosition.zoom,
+            },
+          })
         : navigate({ search: () => ({}) })
     }
 
     const handleClose = () => {
       setIsOpen(false)
       applyOldStateToTags(oldValues)
-      enableMapDragging()
     }
 
     const handleOpen = () => {
       setOldValues(filters)
       setIsOpen(true)
-      if (isOnMap) {
-        map.dragging.disable()
-        map.scrollWheelZoom.disable()
-      }
-    }
-
-    const enableMapDragging = () => {
-      if (!isOnMap) return;
-      map.dragging.enable()
-      map.scrollWheelZoom.enable()
     }
 
     useEffect(() => {
@@ -135,6 +122,11 @@ const Dialog = forwardRef(
           filters.plantingYears.length
       )
     }, [filters])
+
+    useEffect(() => {
+      if (!onToggleOpen) return
+      onToggleOpen(isOpen)
+    }, [isOpen, onToggleOpen])
 
     return (
       <div className="font-nunito-sans text-base">

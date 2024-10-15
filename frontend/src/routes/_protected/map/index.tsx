@@ -17,6 +17,7 @@ import FilterProvider from '@/context/FilterContext'
 import { z } from 'zod'
 import ClusterFieldset from '@/components/general/filter/fieldsets/ClusterFieldset'
 import PlantingYearFieldset from '@/components/general/filter/fieldsets/PlantingYearFieldset'
+import useMapInteractions from '@/hooks/useMapInteractions'
 
 const mapFilterSchema = z.object({
   status: z.array(z.string()).optional(),
@@ -27,6 +28,7 @@ const mapFilterSchema = z.object({
 function MapView() {
   const navigate = useNavigate({ from: '/map' })
   const search = useLoaderData({ from: '/_protected/map/' })
+  const { enableDragging, disableDragging } = useMapInteractions()
   const dialogRef = useRef<HTMLDivElement>(null)
   const { data: cluster } = useSuspenseQuery(treeClusterQuery())
   const { data: trees } = useSuspenseQuery(treeQuery())
@@ -87,6 +89,10 @@ function MapView() {
     setFilteredData(trees.data)
   }
 
+  const handleMapInteractions = (isOpen: boolean) => {
+    isOpen ? disableDragging() : enableDragging()
+  }
+
   return (
     <>
       <div className="absolute top-6 left-4">
@@ -97,6 +103,7 @@ function MapView() {
           fullUrlPath={Route.fullPath}
           onApplyFilters={handleFilter}
           onResetFilters={handleReset}
+          onToggleOpen={handleMapInteractions}
         >
           <StatusFieldset />
           <ClusterFieldset />
