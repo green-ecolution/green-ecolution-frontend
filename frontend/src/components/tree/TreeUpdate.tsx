@@ -57,9 +57,9 @@ const TreeUpdate = ({ treeId, onUpdateSuccess, onUpdateError }: TreeUpdateProps)
     mutate({
       ...data,
       description: data.description ?? '',
-      sensorId: data.sensorId === '-1' ? undefined : data.sensorId,
+      sensorId: data.sensorId && (data.sensorId === '-1' || data.sensorId <= 0) ? undefined : data.sensorId,
       treeClusterId:
-        data.treeClusterId === '-1' ? undefined : data.treeClusterId,
+        data.treeClusterId && (data.treeClusterId === '-1' || data.treeClusterId <= 0) ? undefined : data.treeClusterId,
       readonly: false,
     })
   }
