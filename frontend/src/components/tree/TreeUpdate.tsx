@@ -7,7 +7,6 @@ import { Tree, TreeUpdate as TreeUpdateReq } from "@green-ecolution/backend-clie
 import { useInitFormQuery } from "@/hooks/form/useInitForm"
 import { sensorQuery, treeClusterQuery, treeIdQuery } from "@/api/queries"
 import { treeApi } from "@/api/backendApi"
-import { useAuthHeader } from "@/hooks/useAuthHeader"
 import { useMapStore } from "@/store/store"
 import { useNavigate } from "@tanstack/react-router"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -20,7 +19,6 @@ interface TreeUpdateProps {
 }
 
 const TreeUpdate = ({ treeId, onUpdateSuccess, onUpdateError }: TreeUpdateProps) => {
-  const authorization = useAuthHeader()
   const navigate = useNavigate()
   const { data: sensors } = useSuspenseQuery(sensorQuery())
   const { data: treeClusters } = useSuspenseQuery(treeClusterQuery())
@@ -47,7 +45,6 @@ const TreeUpdate = ({ treeId, onUpdateSuccess, onUpdateError }: TreeUpdateProps)
   const { isError, mutate } = useMutation({
     mutationFn: (tree: TreeUpdateReq) =>
       treeApi.updateTree({
-        authorization,
         treeId: treeId,
         body: tree,
       }),
@@ -70,7 +67,6 @@ const TreeUpdate = ({ treeId, onUpdateSuccess, onUpdateError }: TreeUpdateProps)
 
   const handleDeleteTree = () => {
     return treeApi.deleteTree({
-      authorization,
       treeId: String(treeId),
     })
   }

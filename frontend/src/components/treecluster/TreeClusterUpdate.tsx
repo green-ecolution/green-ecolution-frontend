@@ -2,7 +2,6 @@ import { useMutation } from '@tanstack/react-query'
 import FormForTreecluster from '../general/form/FormForTreecluster'
 import BackLink from '../general/links/BackLink'
 import DeleteSection from './DeleteSection'
-import { useAuthHeader } from '@/hooks/useAuthHeader'
 import {
   TreeCluster,
   TreeClusterUpdate as ClusterUpdate,
@@ -31,7 +30,6 @@ const TreeClusterUpdate = ({
   onUpdateError,
   onUpdateSuccess,
 }: TreeClusterUpdateProps) => {
-  const authorization = useAuthHeader()
   const navigate = useNavigate()
   const { initForm, loadedData } = useInitFormQuery<
     TreeCluster,
@@ -60,7 +58,7 @@ const TreeClusterUpdate = ({
 
   const { isError, mutate } = useMutation({
     mutationFn: (body: ClusterUpdate) =>
-      clusterApi.updateTreeCluster({ authorization, clusterId, body }),
+      clusterApi.updateTreeCluster({ clusterId, body }),
     onSuccess: (data) => onUpdateSuccess(data),
     onError: () => onUpdateError(),
     throwOnError: true,
@@ -75,7 +73,6 @@ const TreeClusterUpdate = ({
 
   const handleDeleteTreeCluster = () => {
     return clusterApi.deleteTreeCluster({
-      authorization,
       clusterId: String(clusterId),
     })
   }

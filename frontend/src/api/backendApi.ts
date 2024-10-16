@@ -56,7 +56,7 @@ const configParams: ConfigurationParameters = {
   basePath,
   headers,
   fetchApi: backendFetch,
-  accessToken(_name, _scopes) {
+  accessToken() {
     const token = useStore.getState().auth.token?.accessToken
     if (!token) {
       return ''
@@ -75,7 +75,8 @@ export const regionApi = new RegionApi(config)
 export const sensorApi = new SensorApi(config)
 export const importApi = new FileImportApi(
   new Configuration({
-    basePath: import.meta.env.VITE_BACKEND_BASEURL ?? '/api-local',
+    ...configParams,
+    headers: {},
   })
 )
 
