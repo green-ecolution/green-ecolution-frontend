@@ -20,10 +20,22 @@ function clean_up() {
     exit_on_error "Could not delete the src folder"
 }
 
-function generate_client() {
+function generate_client_docker() {
   docker run --rm -v ${PWD}:/local -u `id -u`:`id -g` openapitools/openapi-generator-cli generate \
     -i /local/$API_DOCS_FILE \
     -o /local/src/ \
+    -g typescript-fetch \
+    --language-specific-primitives \
+    --reserved-words-mappings \
+    --additional-properties=supportsES6=true
+
+  exit_on_error "Could not create the client"
+}
+
+function generate_client() {
+  openapi-generator-cli generate \
+    -i $API_DOCS_FILE \
+    -o src \
     -g typescript-fetch \
     --language-specific-primitives \
     --reserved-words-mappings \
@@ -62,7 +74,13 @@ function main() {
   fi
 
   clean_up
-  generate_client
+  if [ "$API_DOCS_SOURCE" == "local" ]; then
+    echo "Generating client"
+    generate_client
+  else
+    echo "🐳 Generating client using docker"
+    generate_client_docker
+  fi
   revise_generation
 
   echo "✨ Done"
