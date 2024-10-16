@@ -10,8 +10,6 @@ import { WithTreesAndClusters } from '@/components/map/TreeMarker'
 import { treeClusterQuery, treeQuery } from '@/api/queries'
 import { useRef, useState } from 'react'
 import Dialog from '@/components/general/filter/Dialog'
-import { useMapMouseSelect } from '@/hooks/useMapMouseSelect'
-import { useMap } from 'react-leaflet'
 import StatusFieldset from '@/components/general/filter/fieldsets/StatusFieldset'
 import { getWateringStatusDetails } from '@/hooks/useDetailsForWateringStatus'
 import useFilter from '@/hooks/useFilter'
@@ -19,6 +17,7 @@ import FilterProvider from '@/context/FilterContext'
 import { z } from 'zod'
 import ClusterFieldset from '@/components/general/filter/fieldsets/ClusterFieldset'
 import PlantingYearFieldset from '@/components/general/filter/fieldsets/PlantingYearFieldset'
+import useMapInteractions from '@/hooks/useMapInteractions'
 
 const mapFilterSchema = z.object({
   status: z.array(z.string()).optional(),
@@ -28,8 +27,8 @@ const mapFilterSchema = z.object({
 
 function MapView() {
   const navigate = useNavigate({ from: '/map' })
-  const map = useMap()
   const search = useLoaderData({ from: '/_protected/map/' })
+  const { enableDragging, disableDragging } = useMapInteractions()
   const dialogRef = useRef<HTMLDivElement>(null)
   const { data: cluster } = useSuspenseQuery(treeClusterQuery())
   const { data: trees } = useSuspenseQuery(treeQuery())
@@ -55,17 +54,6 @@ function MapView() {
   }
 
   const [activeFilter, setActiveFilter] = useState(hasActiveFilter())
-
-  useMapMouseSelect((_, e) => {
-    const target = e.originalEvent.target as HTMLElement
-    if (dialogRef.current?.contains(target)) {
-      map.dragging.disable()
-      map.scrollWheelZoom.disable()
-    } else {
-      map.dragging.enable()
-      map.scrollWheelZoom.enable()
-    }
-  })
 
   const filterData = () => {
     return trees.data.filter((tree) => {
@@ -101,6 +89,10 @@ function MapView() {
     setFilteredData(trees.data)
   }
 
+  const handleMapInteractions = (isOpen: boolean) => {
+    isOpen ? disableDragging() : enableDragging()
+  }
+
   return (
     <>
       <div className="absolute top-6 left-4">
@@ -111,6 +103,7 @@ function MapView() {
           fullUrlPath={Route.fullPath}
           onApplyFilters={handleFilter}
           onResetFilters={handleReset}
+          onToggleOpen={handleMapInteractions}
         >
           <StatusFieldset />
           <ClusterFieldset />

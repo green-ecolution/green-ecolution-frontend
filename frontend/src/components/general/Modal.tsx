@@ -21,7 +21,7 @@ const Modal: React.FC<ModalProps> = ({
 }) => {
   return (
     <>
-      <div className={`bg-dark-900/90 fixed inset-0 z-50 ${isOpen ? 'block' : 'hidden'}`}></div>
+      <div onClick={onCancel} className={`bg-dark-900/90 fixed inset-0 z-50 ${isOpen ? 'block' : 'hidden'}`}></div>
       <div
         role="dialog"
         aria-modal="true"

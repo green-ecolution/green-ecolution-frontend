@@ -2,14 +2,12 @@ import {
   ForwardedRef,
   forwardRef,
   useEffect,
-  useImperativeHandle,
   useState,
 } from 'react'
 import FilterButton from '../buttons/FilterButton'
 import PrimaryButton from '../buttons/PrimaryButton'
 import SecondaryButton from '../buttons/SecondaryButton'
 import { X } from 'lucide-react'
-import useOutsideClick from '@/hooks/useOutsideClick'
 import { useNavigate } from '@tanstack/react-router'
 import useFilter from '@/hooks/useFilter'
 import { Filters } from '@/context/FilterContext'
@@ -22,6 +20,7 @@ interface DialogProps {
   isOnMap?: boolean
   onApplyFilters: () => void
   onResetFilters: () => void
+  onToggleOpen?: (isOpen: boolean) => void
 }
 
 const Dialog = forwardRef(
@@ -33,6 +32,7 @@ const Dialog = forwardRef(
       onResetFilters,
       children,
       isOnMap = false,
+      onToggleOpen,
     }: DialogProps,
     ref: ForwardedRef<HTMLDivElement>
   ) => {
@@ -50,12 +50,6 @@ const Dialog = forwardRef(
       lng: state.map.center[1],
       zoom: state.map.zoom,
     }))
-    useImperativeHandle(ref, () => dialogRef.current)
-
-    const dialogRef = useOutsideClick(() => {
-      if (!isOpen) return
-      handleClose()
-    })
 
     const { filters, resetFilters, applyOldStateToTags } = useFilter()
 
@@ -63,7 +57,6 @@ const Dialog = forwardRef(
       onApplyFilters()
       setIsOpen(false)
       setIsOpen(false)
-
       navigate({
         search: () => ({
           lat: isOnMap ? mapPosition.lat : undefined,
@@ -108,7 +101,7 @@ const Dialog = forwardRef(
       applyOldStateToTags(oldValues)
     }
 
-    const openFilter = () => {
+    const handleOpen = () => {
       setOldValues(filters)
       setIsOpen(true)
     }
@@ -122,9 +115,15 @@ const Dialog = forwardRef(
       )
     }, [filters])
 
+    useEffect(() => {
+      if (!onToggleOpen) return
+      onToggleOpen(isOpen)
+    }, [isOpen, onToggleOpen])
+
     return (
       <div className="font-nunito-sans text-base">
         <div
+          onClick={() => handleClose()}
           className={`bg-dark-900/90 fixed inset-0 z-[1020] ${isOpen ? 'block' : 'hidden'}`}
         ></div>
 
@@ -133,12 +132,12 @@ const Dialog = forwardRef(
           ariaLabel={headline}
           isOnMap={isOnMap}
           onClick={() => {
-            isOpen ? setIsOpen(false) : openFilter()
+            isOpen ? handleClose() : handleOpen()
           }}
         />
 
         <section
-          ref={dialogRef}
+          ref={ref}
           role="dialog"
           aria-modal="true"
           className={`fixed max-h-[80dvh] overflow-y-auto z-[1030] inset-x-4 shadow-xl bg-white top-1/2 -translate-y-1/2 p-5 rounded-xl mx-auto max-w-[30rem] ${isOpen ? 'block' : 'hidden'}`}
