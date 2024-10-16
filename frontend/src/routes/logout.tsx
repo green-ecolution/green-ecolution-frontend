@@ -17,10 +17,7 @@ export const Route = createFileRoute('/logout')({
         },
       })
       .then(() => {
-        useStore.setState((state) => {
-          state.auth.isAuthenticated = false
-          state.auth.token = null
-        })
+        useStore.getState().auth.logout()
       })
       .catch((err) => {
         console.error(err)

@@ -24,5 +24,11 @@ export const authStore: SubStore<AuthStore> = (set) => ({
       state.auth.isAuthenticated = true;
       state.auth.token = token;
     }),
+  logout: () =>
+    set((state) => {
+      localStorage.removeItem("refreshToken");
+      state.auth.isAuthenticated = false;
+      state.auth.token = null;
+    }),
 });
 
