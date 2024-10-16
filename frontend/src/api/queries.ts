@@ -48,7 +48,7 @@ export const treeQuery = () =>
   queryOptions<TreeList>({
     queryKey: ['tree'],
     queryFn: () =>
-      treeApi.getAllTrees({ authorization: authHeader().authorization }),
+      treeApi.getAllTrees(),
   })
 
 export const treeIdQuery = (id: string) =>
