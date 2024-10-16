@@ -2,7 +2,6 @@ import { treeApi, TreeCreate } from '@/api/backendApi'
 import FormForTree from '@/components/general/form/FormForTree'
 import { useFormSync } from '@/hooks/form/useFormSync'
 import { useInitForm } from '@/hooks/form/useInitForm'
-import { useAuthHeader } from '@/hooks/useAuthHeader'
 import { TreeForm, TreeSchema } from '@/schema/treeSchema'
 import useFormStore, { FormStore } from '@/store/form/useFormStore'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -37,7 +36,6 @@ export const Route = createFileRoute('/_protected/tree/_formular/new')({
 function NewTree() {
   const { lat, lng } = Route.useLoaderData()
   const navigate = useNavigate({ from: Route.fullPath })
-  const authorization = useAuthHeader()
   const showToast = useToast()
   const map = useMapStore()
   const { data: sensors } = useSuspenseQuery(sensorQuery())
@@ -67,7 +65,6 @@ function NewTree() {
   const { isError, mutate } = useMutation({
     mutationFn: (tree: TreeCreate) =>
       treeApi.createTree({
-        authorization,
         body: tree,
       }),
     onSuccess: (data) => {

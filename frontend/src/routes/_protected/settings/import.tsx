@@ -7,7 +7,6 @@ import Modal from '@/components/general/Modal'
 import { useMutation, useQueryClient, useSuspenseQuery } from '@tanstack/react-query'
 import { treeQuery } from '@/api/queries'
 import { importApi } from '@/api/backendApi'
-import { useAuthHeader } from '@/hooks/useAuthHeader'
 import useToast from '@/hooks/useToast'
 
 export const Route = createFileRoute('/_protected/settings/import')({
@@ -16,7 +15,6 @@ export const Route = createFileRoute('/_protected/settings/import')({
 })
 
 function ImportFile() {
-  const authorization = useAuthHeader()
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [file, setFile] = useState<File | null>(null)
   const [message, setMessage] = useState('')
@@ -26,7 +24,7 @@ function ImportFile() {
 
   const { mutate } = useMutation({
     mutationFn: (file: File) =>
-      importApi.importTreesFromCsv({ file, authorization }),
+      importApi.importTreesFromCsv({ file }),
     onSuccess: () => {
       queryClient.invalidateQueries(treeQuery())
       setMessage('Die Bäume wurden erfolgreich importiert.')

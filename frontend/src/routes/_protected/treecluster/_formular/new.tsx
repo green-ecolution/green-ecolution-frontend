@@ -5,7 +5,6 @@ import {
   TreeClusterCreate,
 } from '@/api/backendApi'
 import { SubmitHandler } from 'react-hook-form'
-import { useAuthHeader } from '@/hooks/useAuthHeader'
 import { TreeclusterSchema } from '@/schema/treeclusterSchema'
 import { useMutation } from '@tanstack/react-query'
 import FormForTreecluster from '@/components/general/form/FormForTreecluster'
@@ -26,7 +25,6 @@ export const Route = createFileRoute('/_protected/treecluster/_formular/new')({
 })
 
 function NewTreecluster() {
-  const authorization = useAuthHeader()
   const showToast = useToast()
   const navigate = useNavigate({ from: Route.fullPath })
   const { initForm } = useInitForm<TreeclusterSchema>({
@@ -53,7 +51,6 @@ function NewTreecluster() {
   const { isError, mutate } = useMutation({
     mutationFn: (cluster: TreeClusterCreate) =>
       clusterApi.createTreeCluster({
-        authorization,
         body: cluster,
       }),
     onSuccess: (data) => {

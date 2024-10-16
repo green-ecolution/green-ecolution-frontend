@@ -36,21 +36,8 @@ export const Route = createFileRoute("/auth/callback")({
       throw new Error("Error while fetching token");
     }
 
-
-    useStore.setState((state) => {
-      state.auth.isAuthenticated = true;
-      state.auth.token = token;
-    });
-
-    const jwtInfo = decodeJWT<KeycloakJWT>(token.accessToken);
-    if (jwtInfo) {
-      useStore.setState((state) => {
-        state.user.email = jwtInfo.email;
-        state.user.username = jwtInfo.preferred_username;
-        state.user.firstName = jwtInfo.given_name;
-        state.user.lastName = jwtInfo.family_name;
-      });
-    }
+    useStore.getState().auth.setToken(token);
+    useStore.getState().user.setFromJwt(token.accessToken);
 
     throw routerRedirect({
       to: redirect,
