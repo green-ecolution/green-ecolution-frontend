@@ -1,12 +1,10 @@
 import MapSelectTreesModal from '@/components/map/MapSelectTreesModal'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { Tree } from '@green-ecolution/backend-client'
-import { useCallback, useState, useRef } from 'react'
+import { useCallback, useState } from 'react'
 import SelectedCard from '@/components/general/cards/SelectedCard'
 import useFormStore, { FormStore } from '@/store/form/useFormStore'
 import { TreeclusterSchema } from '@/schema/treeclusterSchema'
-import { useMapMouseSelect } from '@/hooks/useMapMouseSelect'
-import { useMap } from 'react-leaflet'
 import { WithAllTrees } from '@/components/map/TreeMarker'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { treeQuery } from '@/api/queries'
@@ -30,8 +28,6 @@ function SelectTrees() {
   const [treeIds, setTreeIds] = useState<number[]>(storeTreeIds)
   const [showError, setShowError] = useState(false)
   const navigate = useNavigate({ from: Route.fullPath })
-  const modalRef = useRef<HTMLDivElement>(null)
-  const map = useMap()
   const { clusterId } = Route.useSearch()
   const { data: trees } = useSuspenseQuery(treeQuery())
 
@@ -84,25 +80,13 @@ function SelectTrees() {
     }
   }
 
-  useMapMouseSelect((_, e) => {
-    const target = e.originalEvent.target as HTMLElement
-    if (modalRef.current?.contains(target)) {
-      map.dragging.disable()
-      map.scrollWheelZoom.disable()
-    } else {
-      map.dragging.enable()
-      map.scrollWheelZoom.enable()
-    }
-  })
-
   return (
     <>
       <MapSelectTreesModal
-        ref={modalRef}
         onSave={handleSave}
         onCancel={handleCancel}
         disabled={treeIds.length === 0}
-        title="Bäume auswählen:"
+        title="Ausgewählte Bäume:"
         content={
           <ul className="space-y-3">
             {(treeIds?.length || 0) === 0 || showError ? (
