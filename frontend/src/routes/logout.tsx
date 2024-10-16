@@ -7,7 +7,7 @@ export const Route = createFileRoute('/logout')({
     const store = useStore.getState()
 
     if (!store.auth.isAuthenticated) {
-      throw redirect({ to: '/login', replace: true })
+      throw redirect({ to: '/', replace: true })
     }
 
     await userApi
@@ -27,6 +27,6 @@ export const Route = createFileRoute('/logout')({
         throw new Error(err.message)
       })
 
-    throw redirect({ to: '/login', replace: true })
+    throw redirect({ to: '/', replace: true })
   },
 })
