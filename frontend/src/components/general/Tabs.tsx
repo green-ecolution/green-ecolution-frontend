@@ -10,7 +10,7 @@ const Tabs: React.FC<Tabs> = ({ tabs }) => {
 
   return (
     <>
-      <div role="tablist" className="mb-10 border-b border-b-dark-600 flex items-center w-max gap-x-6">
+      <div role="tablist" className="mt-10 mb-6 border-b border-b-dark-600 flex items-center w-max gap-x-6">
         {tabs.map((tab, key) => (
           <button 
             onClick={() => setShowTabIndex(key)} 
