@@ -8,6 +8,7 @@ import ButtonLink from '@/components/general/links/ButtonLink'
 import { Pencil } from 'lucide-react'
 import { getWateringStatusDetails } from '@/hooks/useDetailsForWateringStatus'
 import { Link } from '@tanstack/react-router'
+import GeneralLink from '../general/links/GeneralLink'
 
 interface TreeClusterDashboardProps {
   clusterId: string
@@ -28,7 +29,11 @@ const TreeClusterDashboard = ({ clusterId }: TreeClusterDashboardProps) => {
           <h1 className="font-lato font-bold text-3xl mb-4 lg:text-4xl xl:text-5xl">
             Bewässerungsgruppe: {treecluster.name}
           </h1>
-          <p>{treecluster.description}</p>
+          <p className="mb-4">{treecluster.description}</p>
+          <GeneralLink
+              url={`/map?lat=${treecluster.latitude}&lng=${treecluster.longitude}&zoom=16&cluster=${treecluster.id}`}
+              label="Auf der Karte anzeigen"
+            />
         </div>
         <ButtonLink
           icon={Pencil}
