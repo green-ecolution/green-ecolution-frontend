@@ -40,6 +40,7 @@ const backendFetch: FetchAPI = async (...args) => {
     }
     const data = ClientTokenFromJSON(await res.json())
     useStore.getState().auth.setToken(data)
+    useStore.getState().user.setFromJwt(data.accessToken);
 
     response = await fetch(resource, {
       ...config,
