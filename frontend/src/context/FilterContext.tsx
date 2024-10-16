@@ -57,14 +57,18 @@ const FilterProvider: React.FC<FilterProviderProps> = ({
 
   const handleClusterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target
-    setHasCluster(value === "true");
+    setHasCluster(value === 'true')
   }
 
-  const handlePlantingYearChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { checked, value } = event.target;
-    setPlantingYears((prev) => 
-      checked ? [...prev, Number(value)] : prev.filter((year) => year !== Number(value))
-    );
+  const handlePlantingYearChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const { checked, value } = event.target
+    setPlantingYears((prev) =>
+      checked
+        ? [...prev, Number(value)]
+        : prev.filter((year) => year !== Number(value))
+    )
   }
 
   const applyOldStateToTags = (oldValues: Filters) => {
