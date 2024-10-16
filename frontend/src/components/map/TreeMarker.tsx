@@ -1,4 +1,4 @@
-import { Marker } from 'react-leaflet'
+import { Marker, Tooltip } from 'react-leaflet'
 import {
   EntitiesWateringStatus,
   Tree,
@@ -32,13 +32,26 @@ export const WithAllTrees = ({
 
   return trees.map((tree) => (
     <Marker
-      icon={TreeMarkerIcon(getStatusColor(tree.wateringStatus), isSelected(tree.id))}
+      icon={TreeMarkerIcon(
+        getStatusColor(tree.wateringStatus),
+        isSelected(tree.id)
+      )}
       key={tree.id}
       position={[tree.latitude, tree.longitude]}
       eventHandlers={{
         click: () => onClick?.(tree),
       }}
-    />
+    >
+      {tree.treeNumber && (
+        <Tooltip
+          direction="top"
+          offset={[5, -40]}
+          className="font-nunito-sans font-semibold"
+        >
+          {tree.treeNumber}
+        </Tooltip>
+      )}
+    </Marker>
   ))
 }
 
@@ -51,7 +64,7 @@ interface WithAllClustersProps {
 export const WithAllClusters = ({
   onClick,
   selectedClusters = [],
-  clusters
+  clusters,
 }: WithAllClustersProps) => {
   const getStatusColor = (wateringStatus: EntitiesWateringStatus) => {
     const statusDetails = getWateringStatusDetails(
@@ -66,7 +79,11 @@ export const WithAllClusters = ({
 
   return clusters.map((cluster) => (
     <Marker
-      icon={ClusterIcon(getStatusColor(cluster.wateringStatus), isSelected(cluster.id), cluster.trees.length)}
+      icon={ClusterIcon(
+        getStatusColor(cluster.wateringStatus),
+        isSelected(cluster.id),
+        cluster.trees.length
+      )}
       key={cluster.id}
       position={[cluster.latitude, cluster.longitude]}
       eventHandlers={{
@@ -84,7 +101,7 @@ interface WithTreesAndClustersProps {
   trees: Tree[]
   clusters: TreeCluster[]
   zoomThreshold?: number
-  activeFilter?: boolean,
+  activeFilter?: boolean
 }
 
 export const WithTreesAndClusters = ({
@@ -103,10 +120,19 @@ export const WithTreesAndClusters = ({
 
   return (
     <>
-      {zoom >= zoomThreshold || activeFilter
-        ? <WithAllTrees trees={trees} onClick={onClickTree} selectedTrees={selectedTrees} />
-        : <WithAllClusters clusters={clusters} onClick={onClickCluster} selectedClusters={selectedClusters} />}
-         
+      {zoom >= zoomThreshold || activeFilter ? (
+        <WithAllTrees
+          trees={trees}
+          onClick={onClickTree}
+          selectedTrees={selectedTrees}
+        />
+      ) : (
+        <WithAllClusters
+          clusters={clusters}
+          onClick={onClickCluster}
+          selectedClusters={selectedClusters}
+        />
+      )}
     </>
   )
 }
