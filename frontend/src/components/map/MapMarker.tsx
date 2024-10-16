@@ -70,37 +70,48 @@ const markerClusterHtmlStyles = (color: string) => `
   font-family: Nunito, sans-serif;
 `;
 
-const makerWrapperStyles = (isSelected: boolean) => `
-  background-color: ${isSelected ? 'white' : ''};
+const makerWrapperStyles = (isSelected: boolean, isHighlighted: boolean) => `
+  background-color: ${isSelected || isHighlighted ? 'white' : ''};
   width: 2.5rem;
   height: 2.5rem;
   border-radius: 3rem;
   position: relative;
   left: -1rem;
   top: -1rem;
-  box-shadow: rgba(0, 0, 0, ${isSelected ? '0.35' : '0'}) 0px 5px 15px;
+  box-shadow: rgba(0, 0, 0, ${isSelected || isHighlighted ? '0.35' : '0'}) 0px 5px 15px;
 `;
 
-export const TreeMarkerIcon = (color: string, isSelected: boolean) =>
+const makerClusterWrapperStyles = (isHighlighted: boolean) => `
+  background-color: ${isHighlighted ? 'white' : ''};
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 3rem;
+  position: relative;
+  left: -1.25rem;
+  top: -1.25rem;
+  box-shadow: rgba(0, 0, 0, ${isHighlighted ? '0.35' : '0'}) 0px 5px 15px;
+`;
+
+export const TreeMarkerIcon = (color: string, isSelected: boolean, isHighlighted: boolean) =>
   L.divIcon({
     iconAnchor: [0, 24],
     popupAnchor: [0, -36],
     html:
-      `<figure style="${makerWrapperStyles(isSelected)}">
+      `<figure style="${makerWrapperStyles(isSelected, isHighlighted)}">
         <span style="${markerHtmlStyles(color)}">
           ${isSelected ? iconToSvg(Check) : iconToSvg(TreeIcon)}
         </span>
       </figure>`,
   });
 
-export const ClusterIcon = (color: string, isSelected: boolean, includedTrees: number) =>
+export const ClusterIcon = (color: string, isHighlighted: boolean, includedTrees: number) =>
   L.divIcon({
     iconAnchor: [0, 24],
     popupAnchor: [0, -36],
     html:
-      `<figure style="${makerWrapperStyles(isSelected)}">
+      `<figure style="${makerClusterWrapperStyles(isHighlighted)}">
         <span style="${markerClusterHtmlStyles(color)}">
-          ${isSelected ? iconToSvg(Check) : includedTrees}
+          ${includedTrees}
         </span>
       </figure>`,
   });
