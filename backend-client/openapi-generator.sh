@@ -21,9 +21,9 @@ function clean_up() {
 }
 
 function generate_client() {
-  openapi-generator-cli generate \
-    -i $API_DOCS_FILE \
-    -o src/ \
+  docker run --rm -v ${PWD}:/local -u `id -u`:`id -g` openapitools/openapi-generator-cli generate \
+    -i /local/$API_DOCS_FILE \
+    -o /local/src/ \
     -g typescript-fetch \
     --language-specific-primitives \
     --reserved-words-mappings \
