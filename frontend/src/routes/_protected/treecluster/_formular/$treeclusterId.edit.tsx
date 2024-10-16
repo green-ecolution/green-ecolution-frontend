@@ -1,10 +1,12 @@
 import { TreeCluster } from '@/api/backendApi'
+import { treeClusterIdQuery } from '@/api/queries'
 import LoadingInfo from '@/components/general/error/LoadingInfo'
 import TreeClusterUpdate from '@/components/treecluster/TreeClusterUpdate'
 import useToast from '@/hooks/useToast'
 import { TreeclusterSchema } from '@/schema/treeclusterSchema'
 import useFormStore, { FormStore } from '@/store/form/useFormStore'
 import useStore from '@/store/store'
+import { useQueryClient } from '@tanstack/react-query'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { Suspense, useCallback } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
@@ -26,6 +28,7 @@ function EditTreeCluster() {
   const clusterId = Route.useParams().treeclusterId
   const navigate = useNavigate({ from: Route.fullPath })
   const showToast = useToast()
+  const queryClient = useQueryClient()
 
   const formStore = useFormStore((state: FormStore<TreeclusterSchema>) => ({
     form: state.form,
@@ -41,8 +44,9 @@ function EditTreeCluster() {
         replace: true,
       })
       showToast('Die Bewässerungsgruppe wurde erfolgreich editiert.')
+      queryClient.invalidateQueries(treeClusterIdQuery(clusterId))
     },
-    [formStore, navigate, showToast]
+    [formStore, navigate, showToast, clusterId, queryClient]
   )
 
   const onUpdateError = () => {

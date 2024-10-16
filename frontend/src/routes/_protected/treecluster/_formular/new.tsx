@@ -6,7 +6,7 @@ import {
 } from '@/api/backendApi'
 import { SubmitHandler } from 'react-hook-form'
 import { TreeclusterSchema } from '@/schema/treeclusterSchema'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import FormForTreecluster from '@/components/general/form/FormForTreecluster'
 import useFormStore, { FormStore } from '@/store/form/useFormStore'
 import { useFormSync } from '@/hooks/form/useFormSync'
@@ -15,6 +15,7 @@ import { useInitForm } from '@/hooks/form/useInitForm'
 import useStore from '@/store/store'
 import BackLink from '@/components/general/links/BackLink'
 import useToast from '@/hooks/useToast'
+import { treeClusterQuery } from '@/api/queries'
 
 export const Route = createFileRoute('/_protected/treecluster/_formular/new')({
   beforeLoad: () => {
@@ -27,6 +28,7 @@ export const Route = createFileRoute('/_protected/treecluster/_formular/new')({
 function NewTreecluster() {
   const showToast = useToast()
   const navigate = useNavigate({ from: Route.fullPath })
+  const queryClient = useQueryClient()
   const { initForm } = useInitForm<TreeclusterSchema>({
     name: '',
     address: '',
@@ -60,6 +62,7 @@ function NewTreecluster() {
         search: { resetStore: false },
         replace: true,
       })
+      queryClient.invalidateQueries(treeClusterQuery())
       showToast("Die Bewässerungsgruppe wurde erfolgreich erstellt.")
     },
     onError: () => {

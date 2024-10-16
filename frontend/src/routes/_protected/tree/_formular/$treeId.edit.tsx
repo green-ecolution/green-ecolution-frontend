@@ -7,6 +7,8 @@ import LoadingInfo from '@/components/general/error/LoadingInfo'
 import { ErrorBoundary } from 'react-error-boundary'
 import TreeUpdate from '@/components/tree/TreeUpdate'
 import useToast from '@/hooks/useToast'
+import { useQueryClient } from '@tanstack/react-query'
+import { treeIdQuery } from '@/api/queries'
 
 export const Route = createFileRoute('/_protected/tree/_formular/$treeId/edit')(
   {
@@ -21,6 +23,7 @@ export const Route = createFileRoute('/_protected/tree/_formular/$treeId/edit')(
 function EditTreeCluster() {
   const showToast = useToast()
   const treeId = Route.useParams().treeId
+  const queryClient = useQueryClient()
   const navigate = useNavigate({ from: Route.fullPath })
   const formStore = useFormStore((state: FormStore<TreeclusterSchema>) => ({
     form: state.form,
@@ -36,6 +39,7 @@ function EditTreeCluster() {
       replace: true,
     })
     showToast('Der Baum wurde erfolgreich editiert')
+    queryClient.invalidateQueries(treeIdQuery(treeId))
   }
 
   return (
