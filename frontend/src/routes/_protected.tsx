@@ -8,7 +8,7 @@ export const Route = createFileRoute('/_protected')({
     if (!isAuthenticated) {
       const loginUrl = await userApi
         .v1UserLoginGet({
-          redirectUrl: `${window.location.origin}/auth/callback?redirect=${encodeURIComponent(location.pathname)}`,
+          redirectUrl: `${window.location.origin}/auth/callback?redirect=${encodeURIComponent(location.pathname + location.search)}`,
         })
         .then((res) => res.loginUrl)
 
