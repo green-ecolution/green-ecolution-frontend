@@ -13,6 +13,7 @@ import {
   TreeClusterApi,
   UserApi,
 } from '@green-ecolution/backend-client'
+import { redirect } from '@tanstack/react-router'
 
 const basePath = import.meta.env.VITE_BACKEND_BASEURL ?? '/api-local'
 
@@ -36,7 +37,11 @@ const backendFetch: FetchAPI = async (...args) => {
     }
     const res = await fetch(`${basePath}/v1/user/token/refresh`, params)
     if (res.status !== 200) {
-      return response
+      useStore.getState().auth.logout()
+      throw redirect({
+        to: '/login',
+        search: { redirect: window.location.pathname + window.location.search },
+      })
     }
     const data = ClientTokenFromJSON(await res.json())
     useStore.getState().auth.setToken(data)
