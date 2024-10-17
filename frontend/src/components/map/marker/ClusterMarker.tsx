@@ -1,4 +1,4 @@
-import { Marker } from 'react-leaflet'
+import { Marker, Tooltip } from 'react-leaflet'
 import {
   EntitiesWateringStatus,
   TreeCluster,
@@ -38,7 +38,17 @@ const ClusterMarker = ({
       eventHandlers={{
         click: () => onClick?.(cluster),
       }}
-    />
+    >
+      {cluster.name && (
+        <Tooltip
+          direction="top"
+          offset={[5, -40]}
+          className="font-nunito-sans font-semibold"
+        >
+          {cluster.name}
+        </Tooltip>
+      )}
+    </Marker>
   )
 }
 
