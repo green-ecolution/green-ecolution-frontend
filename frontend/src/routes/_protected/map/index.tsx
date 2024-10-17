@@ -123,9 +123,6 @@ function MapView() {
       </div>
       <MapButtons />
       <WithTreesAndClusters
-        clusters={cluster.data}
-        trees={filteredData}
-        activeFilter={activeFilter}
         onClickTree={handleTreeClick}
         onClickCluster={handleClusterClick}
         hasHighlightedTree={search.tree}

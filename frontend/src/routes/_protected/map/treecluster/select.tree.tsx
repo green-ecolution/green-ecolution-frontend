@@ -106,7 +106,6 @@ function SelectTrees() {
       <WithAllTrees
         selectedTrees={treeIds}
         onClick={handleTreeClick}
-        trees={trees.data}
       />
     </>
   )

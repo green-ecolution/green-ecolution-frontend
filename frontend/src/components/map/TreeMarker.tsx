@@ -7,20 +7,21 @@ import {
 import { ClusterIcon, TreeMarkerIcon } from './MapMarker'
 import { getWateringStatusDetails } from '@/hooks/useDetailsForWateringStatus'
 import useStore from '@/store/store'
+import { useSuspenseQuery } from '@tanstack/react-query'
+import { treeClusterQuery, treeQuery } from '@/api/queries'
 
 interface WithAllTreesProps {
   onClick?: (tree: Tree) => void
   selectedTrees?: number[]
-  trees: Tree[]
   hasHighlightedTree?: number
 }
 
 export const WithAllTrees = ({
   onClick,
   selectedTrees = [],
-  trees,
   hasHighlightedTree,
 }: WithAllTreesProps) => {
+  const { data } = useSuspenseQuery(treeQuery())
   const getStatusColor = (wateringStatus: EntitiesWateringStatus) => {
     const statusDetails = getWateringStatusDetails(
       wateringStatus ?? EntitiesWateringStatus.WateringStatusUnknown
@@ -36,7 +37,7 @@ export const WithAllTrees = ({
     return hasHighlightedTree === treeId
   }
 
-  return trees.map((tree) => (
+  return data.data.map((tree) => (
     <Marker
       icon={TreeMarkerIcon(
         getStatusColor(tree.wateringStatus),
@@ -64,15 +65,14 @@ export const WithAllTrees = ({
 
 interface WithAllClustersProps {
   onClick?: (tree: TreeCluster) => void
-  clusters: TreeCluster[]
   hasHighlightedCluster?: number
 }
 
 export const WithAllClusters = ({
   onClick,
-  clusters,
   hasHighlightedCluster,
 }: WithAllClustersProps) => {
+  const { data } = useSuspenseQuery(treeClusterQuery())
   const getStatusColor = (wateringStatus: EntitiesWateringStatus) => {
     const statusDetails = getWateringStatusDetails(
       wateringStatus ?? EntitiesWateringStatus.WateringStatusUnknown
@@ -84,7 +84,7 @@ export const WithAllClusters = ({
     return hasHighlightedCluster === clusterId
   }
 
-  return clusters
+  return data.data
     .filter((cluster) => cluster.region !== undefined)
     .map((cluster) => (
       <Marker
@@ -106,8 +106,6 @@ interface WithTreesAndClustersProps {
   onClickTree?: (tree: Tree) => void
   onClickCluster?: (cluster: TreeCluster) => void
   selectedTrees?: number[]
-  trees: Tree[]
-  clusters: TreeCluster[]
   zoomThreshold?: number
   activeFilter?: boolean
   hasHighlightedTree?: number
@@ -118,8 +116,6 @@ export const WithTreesAndClusters = ({
   onClickTree,
   onClickCluster,
   selectedTrees = [],
-  trees,
-  clusters,
   zoomThreshold = 17,
   activeFilter = false,
   hasHighlightedTree,
@@ -133,14 +129,12 @@ export const WithTreesAndClusters = ({
     <>
       {zoom >= zoomThreshold || activeFilter ? (
         <WithAllTrees
-          trees={trees}
           onClick={onClickTree}
           selectedTrees={selectedTrees}
           hasHighlightedTree={hasHighlightedTree}
         />
       ) : (
         <WithAllClusters
-          clusters={clusters}
           onClick={onClickCluster}
           hasHighlightedCluster={hasHighlightedCluster}
         />
