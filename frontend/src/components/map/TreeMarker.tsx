@@ -84,25 +84,22 @@ export const WithAllClusters = ({
     return hasHighlightedCluster === clusterId
   }
 
-  // Do not show tree clusters on the map that do not have a region
-  const filterEmptyClusters = (clusters: TreeCluster[]) => {
-    return clusters.filter(cluster => cluster.region !== undefined);
-  }
-
-  return filterEmptyClusters(clusters).map((cluster) => (
-    <Marker
-      icon={ClusterIcon(
-        getStatusColor(cluster.wateringStatus),
-        isHighlighted(cluster.id),
-        cluster.trees?.length ?? 0
-      )}
-      key={cluster.id}
-      position={[cluster.latitude, cluster.longitude]}
-      eventHandlers={{
-        click: () => onClick?.(cluster),
-      }}
-    />
-  ))
+  return clusters
+    .filter((cluster) => cluster.region !== undefined)
+    .map((cluster) => (
+      <Marker
+        icon={ClusterIcon(
+          getStatusColor(cluster.wateringStatus),
+          isHighlighted(cluster.id),
+          cluster.trees?.length ?? 0
+        )}
+        key={cluster.id}
+        position={[cluster.latitude, cluster.longitude]}
+        eventHandlers={{
+          click: () => onClick?.(cluster),
+        }}
+      />
+    ))
 }
 
 interface WithTreesAndClustersProps {
