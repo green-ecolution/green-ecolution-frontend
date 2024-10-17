@@ -1,6 +1,4 @@
 import { userApi } from "@/api/backendApi";
-import { KeycloakJWT } from "@/lib/types/keycloak";
-import { decodeJWT } from "@/lib/utils";
 import useStore from "@/store/store";
 import {
   createFileRoute,
