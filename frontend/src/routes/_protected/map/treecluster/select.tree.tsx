@@ -5,9 +5,7 @@ import { useCallback, useState } from 'react'
 import SelectedCard from '@/components/general/cards/SelectedCard'
 import useFormStore, { FormStore } from '@/store/form/useFormStore'
 import { TreeclusterSchema } from '@/schema/treeclusterSchema'
-import { WithAllTrees } from '@/components/map/TreeMarker'
-import { useSuspenseQuery } from '@tanstack/react-query'
-import { treeQuery } from '@/api/queries'
+import WithAllTrees from '@/components/map/marker/WithAllTrees'
 
 export const Route = createFileRoute('/_protected/map/treecluster/select/tree')(
   {
@@ -29,7 +27,6 @@ function SelectTrees() {
   const [showError, setShowError] = useState(false)
   const navigate = useNavigate({ from: Route.fullPath })
   const { clusterId } = Route.useSearch()
-  const { data: trees } = useSuspenseQuery(treeQuery())
 
   const handleNavigateBack = useCallback(() => {
     switch (type) {
@@ -40,8 +37,8 @@ function SelectTrees() {
         })
       case 'edit':
         return navigate({
-          to: `/treecluster/$treecluster/edit`,
-          params: { treecluster: clusterId?.toString() ?? '' },
+          to: `/treecluster/$treeclusterId/edit`,
+          params: { treeclusterId: clusterId?.toString() ?? '' },
           search: { resetStore: false },
         })
       default:

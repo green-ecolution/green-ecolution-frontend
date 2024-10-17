@@ -4,7 +4,7 @@ import { LatLng } from 'leaflet'
 import { useRef, useState } from 'react'
 import { useMapMouseSelect } from '@/hooks/useMapMouseSelect'
 import { DragableMarker } from '@/components/map/MapMarker'
-import { WithTreesAndClusters } from '@/components/map/TreeMarker'
+import { WithTreesAndClusters } from '@/components/map/marker/WithAllClusterAndTrees'
 
 export const Route = createFileRoute('/_protected/map/tree/new')({
   component: NewTree,
