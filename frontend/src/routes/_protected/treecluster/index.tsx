@@ -35,7 +35,8 @@ function Treecluster() {
 
       const regionFilter =
         filters.regionTags.length === 0 ||
-        filters.regionTags.includes(cluster.region.name)
+        (cluster.region !== undefined &&
+        filters.regionTags.includes(cluster.region.name))
 
       return statusFilter && regionFilter
     })

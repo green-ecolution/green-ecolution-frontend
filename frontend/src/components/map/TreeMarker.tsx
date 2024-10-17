@@ -84,7 +84,12 @@ export const WithAllClusters = ({
     return hasHighlightedCluster === clusterId
   }
 
-  return clusters.map((cluster) => (
+  // Do not show tree clusters on the map that do not have a region
+  const filterEmptyClusters = (clusters: TreeCluster[]) => {
+    return clusters.filter(cluster => cluster.region !== undefined);
+  }
+
+  return filterEmptyClusters(clusters).map((cluster) => (
     <Marker
       icon={ClusterIcon(
         getStatusColor(cluster.wateringStatus),
