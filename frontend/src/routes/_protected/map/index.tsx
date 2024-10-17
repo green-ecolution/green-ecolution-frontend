@@ -6,7 +6,7 @@ import {
 import MapButtons from '@/components/map/MapButtons'
 import { Tree, TreeCluster } from '@green-ecolution/backend-client'
 import { useSuspenseQuery } from '@tanstack/react-query'
-import { treeClusterQuery, treeQuery } from '@/api/queries'
+import { treeQuery } from '@/api/queries'
 import { useRef, useState } from 'react'
 import Dialog from '@/components/general/filter/Dialog'
 import StatusFieldset from '@/components/general/filter/fieldsets/StatusFieldset'
@@ -69,7 +69,6 @@ function MapView() {
   const search = useLoaderData({ from: '/_protected/map/' })
   const { enableDragging, disableDragging } = useMapInteractions()
   const dialogRef = useRef<HTMLDivElement>(null)
-  const { data: cluster } = useSuspenseQuery(treeClusterQuery())
   const { data: trees } = useSuspenseQuery(treeQuery())
   const { filters } = useFilter()
   const [activeFilter, setActiveFilter] = useState(hasActiveFilter(search))
