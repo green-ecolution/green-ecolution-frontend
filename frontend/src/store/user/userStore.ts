@@ -3,7 +3,7 @@ import { SubStore } from '../store'
 import { UserStore } from './types'
 import { KeycloakJWT } from '@/lib/types/keycloak'
 
-export const userStore: SubStore<UserStore> = (set) => ({
+export const userStore: SubStore<UserStore> = (set, get) => ({
   username: '',
   email: '',
   firstName: '',
@@ -34,4 +34,12 @@ export const userStore: SubStore<UserStore> = (set) => ({
         state.user.lastName = jwtInfo.family_name
       }
     }),
+  isEmpty: () => {
+    return (
+      !get().user.username ||
+      !get().user.email ||
+      !get().user.firstName ||
+      !get().user.lastName
+    )
+  },
 })

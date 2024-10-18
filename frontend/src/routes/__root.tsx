@@ -6,7 +6,10 @@ import { createRootRoute } from '@tanstack/react-router'
 export const Route = createRootRoute({
   component: Root,
   beforeLoad: async () => {
-    if (!useStore.getState().auth.isAuthenticated) {
+    if (
+      !useStore.getState().auth.isAuthenticated ||
+      !useStore.getState().user.isEmpty()
+    ) {
       return
     }
     const token = await userApi.v1UserTokenRefreshPost({
