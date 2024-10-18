@@ -1,19 +1,19 @@
-import { useMap } from "react-leaflet";
+import { useMap } from 'react-leaflet'
 
 function useMapInteractions() {
-  const map = useMap();
+  const map = useMap()
 
   const enableDragging = () => {
-    map.dragging.enable();
-    map.scrollWheelZoom.enable();
-  };
+    map.dragging.enable()
+    map.scrollWheelZoom.enable()
+  }
 
   const disableDragging = () => {
-    map.dragging.disable();
-    map.scrollWheelZoom.disable();
-  };
+    map.dragging.disable()
+    map.scrollWheelZoom.disable()
+  }
 
-  return { enableDragging, disableDragging };
+  return { enableDragging, disableDragging }
 }
 
-export default useMapInteractions;
+export default useMapInteractions

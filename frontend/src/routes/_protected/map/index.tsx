@@ -24,6 +24,8 @@ const mapFilterSchema = z.object({
   hasCluster: z.boolean().optional(),
   plantingYears: z.array(z.number()).optional(),
   highlighted: z.number().optional(),
+  tree: z.number().optional(),
+  cluster: z.number().optional(),
 })
 
 function MapView() {
@@ -81,7 +83,15 @@ function MapView() {
 
   const handleFilter = () => {
     const data = filterData()
-    setActiveFilter(true)
+    if (
+      filters.statusTags.length > 0 ||
+      filters.hasCluster !== undefined ||
+      filters.plantingYears.length > 0
+    ) {
+      setActiveFilter(true)
+    } else {
+      setActiveFilter(false)
+    }
     setFilteredData(data)
   }
 
@@ -142,7 +152,9 @@ export const Route = createFileRoute('/_protected/map/')({
   component: MapViewWithProvider,
   validateSearch: mapFilterSchema,
 
-  loaderDeps: ({ search: { status, hasCluster, plantingYears, tree, cluster } }) => ({
+  loaderDeps: ({
+    search: { status, hasCluster, plantingYears, tree, cluster },
+  }) => ({
     status: status || [],
     hasCluster: hasCluster || undefined,
     plantingYears: plantingYears || [],
