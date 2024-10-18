@@ -94,8 +94,7 @@ const TreeUpdate = ({ treeId, onUpdateSuccess, onUpdateError }: TreeUpdateProps)
           Baum {loadedData.treeNumber} bearbeiten
         </h1>
         <p className="mb-5">
-          Labore est cillum aliqua do consectetur. Do anim officia sunt magna
-          nisi eiusmod sit excepteur qui aliqua duis irure in cillum cillum.
+          In dieser Ansicht können Sie einem Baum bearbeiten. Falls Sie Ihre Anpassungen verwerfen wollen, gehen Sie zurück zur Übersicht.
         </p>
       </article>
 

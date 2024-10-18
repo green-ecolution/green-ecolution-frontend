@@ -65,7 +65,7 @@ function ImportFile() {
       headline: 'Anzahl der importierten Bäume',
       value: `${getReadonlyTreesLength()} Bäume`,
       description:
-        'Diese Bäume wurden aus einer CSV Datei importiert und nicht im System manuell eingepflegt.',
+        'Diese Bäume wurden aus einer CSV-Datei importiert und nicht manuell im System eingepflegt.',
     },
     {
       headline: 'Anzahl der manuell eingepflegten Bäume',
@@ -76,7 +76,7 @@ function ImportFile() {
       headline: 'Datum des letzten Imports',
       value: '20.05.2024',
       description:
-        'Am 20.05.2024 wurde das letzte Mal die Bäume anhand einer CSV Datei importiert.',
+        'Am 20.05.2024 wurde das letzte Mal ein Import von Bäumen anhand einer CSV-Datei ausgeführt.',
     },
   ]
 
@@ -87,11 +87,7 @@ function ImportFile() {
           Kataster neu importieren
         </h1>
         <p>
-          Qui voluptate dolore amet sunt elit dolor in anim consequat laborum
-          ipsum est adipisicing Lorem fugiat. Reprehenderit duis velit
-          adipisicing incididunt veniam reprehenderit sit id sunt. Ut magna
-          dolore nulla reprehenderit culpa anim tempor. Mollit laborum officia
-          commodo mollit dolor deserunt qui occaecat anim.
+          Diese Funktion erlaubt Ihnen, das Baumkataster zu importieren. Bitte beachten Sie, dass ein Import alle bisherigen importierten Bäume löscht, sofern dieser erfolgreich war. Ein erfolgreicher Import ist irreversibel.
         </p>
       </article>
 
@@ -109,7 +105,7 @@ function ImportFile() {
 
       <div className="mt-16">
         <h2 className="text-xl font-bold font-lato mb-4">
-          Import neu anstoßen:
+          Import anstoßen:
         </h2>
         <p className="block text-base text-dark-700 mb-2">
           CSV-Datei mit aktuellen Bäumen:
