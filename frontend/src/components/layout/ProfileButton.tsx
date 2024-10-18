@@ -15,12 +15,12 @@ function ProfileButton() {
 
   const linksLoggedIn = [
     {
-      label: "Dein Profil",
+      label: "Ihr Profil",
       icon: <Settings className="w-5 h-5" />,
       to: "/profile",
     },
     {
-      label: "Ausloggen",
+      label: "Abmelden",
       icon: <LogOut className="w-5 h-5" />,
       to: "/logout",
     },
@@ -28,7 +28,7 @@ function ProfileButton() {
 
   const linksLoggedOut = [
     {
-      label: "Einloggen",
+      label: "Anmelden",
       icon: <LogIn className="w-5 h-5" />,
       to: "/login",
     },

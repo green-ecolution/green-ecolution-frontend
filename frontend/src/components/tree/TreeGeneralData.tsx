@@ -20,6 +20,10 @@ const TreeGeneralData: React.FC<TreeGeneralData> = ({ tree }) => {
       value: tree?.plantingYear ?? 'Keine Angabe',
     },
     {
+      label: 'Art der Erstellung',
+      value: tree?.readonly ? 'importiert' : 'Manuell erstellt',
+    },
+    {
       label: 'Latitude',
       value: tree?.latitude ?? 'Keine Angabe',
     },
@@ -30,10 +34,6 @@ const TreeGeneralData: React.FC<TreeGeneralData> = ({ tree }) => {
     {
       label: 'Letztes Update',
       value: updatedDate,
-    },
-    {
-      label: 'Art der Erstellung',
-      value: tree?.readonly ? 'importiert' : 'manuell erstellt',
     },
   ]
 

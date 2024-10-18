@@ -24,7 +24,7 @@ function Dashboard() {
     },
     {
       url: '/sensors',
-      description: 'Zeigt alle verbauten Sensoren in Flensburg inkl. Akkustand, Standort …',
+      description: 'Zeigt alle verbauten Sensoren in Flensburg inkl. Akkustand, Standort,…',
       headline: 'Liste aller verbauten Sensoren',
       linkLabel: 'Zu den Sensoren',
     },
@@ -55,9 +55,7 @@ function Dashboard() {
           Willkommen zurück, {`${user.firstName} ${user.lastName}`}!
         </h1>
         <p>
-          Labore id duis minim nisi duis incididunt. Aliqua qui dolor laborum anim aliquip sit nulla eiusmod laboris excepteur sit non laboris do.
-          Occaecat exercitation dolor irure fugiat ullamco elit cupidatat commodo fugiat consectetur. 
-          Nisi id officia ullamco tempor anim quis duis proident culpa laborum.
+          Sie befinden sich auf dem Dashboard. Dies ist eine Übersichtsseite, um direkten Zugriff auf wichtige Bereiche zu erhalten.
         </p>
       </article>
 

@@ -30,10 +30,7 @@ function Startpage() {
             Grünflächen&shy;management
           </h1>
           <p>
-            Labore id duis minim nisi duis incididunt. Aliqua qui dolor laborum
-            anim aliquip sit nulla eiusmod laboris excepteur sit non laboris do.
-            Occaecat exercitation dolor irure fugiat ullamco elit cupidatat
-            commodo fugiat consectetur.
+            Sie befinden sich auf der Startseite. Falls eine Anmeldung erfolgen soll oder eine Kontaktaufnahme, verwenden Sie einen der beiden Buttons unterhalb.
           </p>
           <div className="flex flex-wrap justify-center items-center gap-6 mt-10 xl:justify-start">
             {isAuthenticated ? (
@@ -45,7 +42,7 @@ function Startpage() {
             ) : (
               <ButtonLink
                 link={{ to: '/login' }}
-                label="Einloggen"
+                label="Anmelden"
                 icon={MoveRight}
               />
             )}

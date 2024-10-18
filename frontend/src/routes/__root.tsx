@@ -19,7 +19,7 @@ export const Route = createRootRoute({
     }
     useStore.getState().auth.setToken(token)
     useStore.getState().user.setFromJwt(token.accessToken)
-  }
+  },
 })
 
 function Root() {

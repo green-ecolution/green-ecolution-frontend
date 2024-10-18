@@ -100,7 +100,7 @@ const TreeDashboard = ({ treeId }: TreeDashboardProps) => {
           <div className="bg-white mb-10 border-dark-50 shadow-cards h-full p-6 rounded-xl group flex flex-col gap-4 border">
             <h3 className="font-lato text-lg text-dark font-semibold flex items-center gap-x-3">
               <Info className="text-dark-600 w-5 h-5" />
-              Info: Dieser Baum ist nicht mit einem Sensor ausgestattet.
+              Hinweis: Dieser Baum ist nicht mit einem Sensor ausgestattet.
             </h3>
             <p>
               Dieser Baum wurde bisher nicht mit einem Sensor ausgestattet,
