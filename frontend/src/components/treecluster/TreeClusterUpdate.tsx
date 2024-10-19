@@ -110,8 +110,7 @@ const TreeClusterUpdate = ({
             Bewässerungsgruppe {loadedData?.name} bearbeiten
           </h1>
           <p className="mb-5">
-            Labore est cillum aliqua do consectetur. Do anim officia sunt magna
-            nisi eiusmod sit excepteur qui aliqua duis irure in cillum cillum.
+            Hier können Sie Bäume der aktuell ausgewählten Bewässerungsgruppe zuweisen oder entfernen sowie auch Name und Adresse angeben.
           </p>
         </article>
 

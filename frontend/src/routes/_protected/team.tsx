@@ -18,10 +18,7 @@ function Team() {
           Auflistung aller Mitarbeitenden
         </h1>
         <p>
-          Eu ipsum occaecat non exercitation occaecat ea aute fugiat quis magna do veniam commodo.
-          Magna Lorem cupidatat id fugiat nostrud quis qui in quis fugiat. Irure pariatur anim cupidatat nulla ipsum Lorem irure. 
-          Est elit laborum sunt commodo officia nulla cupidatat fugiat tempor exercitation laborum. Sint irure eiusmod sunt. 
-          Magna esse proident magna dolore aliqua nulla id sunt adipisicing.
+          In dieser Ansicht finden Sie eine Liste aller Mitarbeitenden, die an einer Einsatzplanung beteiligt sein können.
         </p>
       </article>
     </div>

@@ -9,8 +9,8 @@ function Settings() {
   const cards = [
     {
       url: '/settings/import',
-      description: 'Um die Bäume im Kataster zu aktualisieren' +
-        'können die Bäume mithilde einer CSV-Datei neu importiert werden.',
+      description: 'Um die Bäume im Kataster zu aktualisieren, ' +
+        'können die Bäume mit einer CSV-Datei neu importiert werden.',
       headline: 'Kataster neu importieren',
       linkLabel: 'Neuen Import anstoßen',
     }
@@ -24,10 +24,7 @@ function Settings() {
           Ihre persönlichen Einstellungen
         </h1>
         <p>
-          Eu ipsum occaecat non exercitation occaecat ea aute fugiat quis magna do veniam commodo.
-          Magna Lorem cupidatat id fugiat nostrud quis qui in quis fugiat. Irure pariatur anim cupidatat nulla ipsum Lorem irure.
-          Est elit laborum sunt commodo officia nulla cupidatat fugiat tempor exercitation laborum. Sint irure eiusmod sunt.
-          Magna esse proident magna dolore aliqua nulla id sunt adipisicing.
+          In diesem Bereich können Sie Einstellungen ändern sowie einen Re-Import des Baumkatasters anstoßen.
         </p>
       </article>
 
