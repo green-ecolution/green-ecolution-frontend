@@ -106,7 +106,7 @@ function NewTreecluster() {
           Neue Bewässerungsgruppe erstellen
         </h1>
         <p className="mb-5">
-          In dieser können Sie eine neue Bewässerungsgruppe erstellen sowie dieser Bäume zuweisen.
+          In dieser Ansicht können Sie eine neue Bewässerungsgruppe erstellen sowie dieser Bäume zuweisen.
         </p>
       </article>
 

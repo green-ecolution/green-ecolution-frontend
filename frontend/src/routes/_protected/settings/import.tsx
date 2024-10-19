@@ -87,7 +87,7 @@ function ImportFile() {
           Kataster neu importieren
         </h1>
         <p>
-          Diese Funktion erlaubt Ihnen, das Baumkataster zu importieren. Bitte beachten Sie, dass ein Import alle bisherigen importierten Bäume löscht, sofern dieser erfolgreich war. Ein erfolgreicher Import ist irreversibel.
+          Diese Funktion erlaubt Ihnen, das Baumkataster zu importieren.
         </p>
       </article>
 

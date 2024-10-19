@@ -18,7 +18,7 @@ function Sensors() {
           Profil von {user.firstName} {user.lastName}
         </h1>
         <p>
-          Dies ist ihre persönliche Profilseite. Auf dieser Seite finden Sie Ihre persönlichen Daten sowie Ihre Berechtigungsstufe.        </p>
+          Dies ist Ihre persönliche Profilseite. Auf dieser Seite finden Sie Ihre persönlichen Daten sowie Ihre Berechtigungsstufe.        </p>
       </article>
 
       <section className="mt-16 grid grid-cols-1 gap-y-10 lg:grid-cols-2 lg:gap-x-11">
@@ -41,7 +41,7 @@ function Sensors() {
 
         <div className="bg-dark-50 rounded-xl flex flex-col gap-y-3 p-6">
           <span className="text-dark-700 font-semibold text-sm">Deine Berechtigungen</span>
-          <h3 className="text-2xl font-bold xl:text-3xl">Administrator:in</h3>
+          <h3 className="text-2xl font-bold xl:text-3xl">Administrierende</h3>
           <p>
             Eine Beschreibung zu dieser Berechtigungsstufe finden Sie auf der 
             Übersichtsseite.

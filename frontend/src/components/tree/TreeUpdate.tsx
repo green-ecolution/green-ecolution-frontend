@@ -94,7 +94,7 @@ const TreeUpdate = ({ treeId, onUpdateSuccess, onUpdateError }: TreeUpdateProps)
           Baum {loadedData.treeNumber} bearbeiten
         </h1>
         <p className="mb-5">
-          In dieser Ansicht können Sie einem Baum bearbeiten. Falls Sie Ihre Anpassungen verwerfen wollen, gehen Sie zurück zur Übersicht.
+          In dieser Ansicht können Sie einem Baum bearbeiten.
         </p>
       </article>
 
