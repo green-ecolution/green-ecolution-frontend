@@ -14,6 +14,9 @@ While the project is created in collaboration with the local green space managem
 This project makes use of React working in Vite with HMR and .ESLint rules.
 For further information refer to [React + TypeScript + Vite](https://github.com/fresh-app/fresh-vite-app-react-ts)
 
+This project also uses Git-Flow. The main branch stores the official release history while the develop branch serves as an integration branch for features and fixes.
+For further information refer to [Gitflow workflow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)
+
 ## Local development
 
 ### Requirements
@@ -48,7 +51,7 @@ yarn rebuild
 yarn dev
 ```
 
-If you not want use the local backend the environment variable VITE_BACKEND_BASEURL needs to be changed.
+If you not want use the deployed backend the environment variable VITE_BACKEND_BASEURL needs to be changed.
 ```bash
 VITE_BACKEND_BASEURL=/api-dev yarn dev
 ```
