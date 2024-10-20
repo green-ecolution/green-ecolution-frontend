@@ -22,7 +22,7 @@ export default defineConfig({
       "/api-stage": {
         target: "https://app.stage.green-ecolution.de",
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api-dev/, "/api"),
+        rewrite: (path) => path.replace(/^\/api-stage/, "/api"),
       },
     },
   },
