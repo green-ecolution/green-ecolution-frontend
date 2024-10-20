@@ -1,7 +1,7 @@
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import {
   clusterApi,
-  EntitiesTreeSoilCondition,
+  SoilCondition,
   TreeClusterCreate,
 } from '@/api/backendApi'
 import { SubmitHandler } from 'react-hook-form'
@@ -33,7 +33,7 @@ function NewTreecluster() {
     name: '',
     address: '',
     description: '',
-    soilCondition: EntitiesTreeSoilCondition.TreeSoilConditionUnknown,
+    soilCondition: SoilCondition.TreeSoilConditionUnknown,
     treeIds: [],
   })
   const formStore = useFormStore((state: FormStore<TreeclusterSchema>) => ({
@@ -106,8 +106,7 @@ function NewTreecluster() {
           Neue Bewässerungsgruppe erstellen
         </h1>
         <p className="mb-5">
-          Labore est cillum aliqua do consectetur. Do anim officia sunt magna
-          nisi eiusmod sit excepteur qui aliqua duis irure in cillum cillum.
+          In dieser Ansicht können Sie eine neue Bewässerungsgruppe erstellen sowie dieser Bäume zuweisen.
         </p>
       </article>
 

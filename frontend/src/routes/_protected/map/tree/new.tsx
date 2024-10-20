@@ -4,9 +4,7 @@ import { LatLng } from 'leaflet'
 import { useRef, useState } from 'react'
 import { useMapMouseSelect } from '@/hooks/useMapMouseSelect'
 import { DragableMarker } from '@/components/map/MapMarker'
-import { WithTreesAndClusters } from '@/components/map/TreeMarker'
-import { useSuspenseQuery } from '@tanstack/react-query'
-import { treeClusterQuery, treeQuery } from '@/api/queries'
+import { WithTreesAndClusters } from '@/components/map/marker/WithAllClusterAndTrees'
 
 export const Route = createFileRoute('/_protected/map/tree/new')({
   component: NewTree,
@@ -23,8 +21,6 @@ function NewTree() {
       setTreeLatLng(latlng)
     }
   })
-  const { data: cluster } = useSuspenseQuery(treeClusterQuery())
-  const { data: trees } = useSuspenseQuery(treeQuery())
 
   const handleSave = () => {
     if (!treeLatLng) return
@@ -40,7 +36,7 @@ function NewTree() {
 
   return (
     <>
-      <WithTreesAndClusters clusters={cluster.data} trees={trees.data} />
+      <WithTreesAndClusters />
       <MapSelectTreesModal
         ref={modalRef}
         onSave={handleSave}

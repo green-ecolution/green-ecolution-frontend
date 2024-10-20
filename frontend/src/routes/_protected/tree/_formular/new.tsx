@@ -110,8 +110,7 @@ function NewTree() {
           Neuen Baum erfassen
         </h1>
         <p className="mb-5">
-          Labore est cillum aliqua do consectetur. Do anim officia sunt magna
-          nisi eiusmod sit excepteur qui aliqua duis irure in cillum cillum.
+          Hier können Sie einen neuen Baum erstellen. Dieser wird im System als "manuell erstellt" erfasst.
         </p>
       </article>
 

@@ -1,4 +1,4 @@
-import { EntitiesWateringStatus, Tree } from '@green-ecolution/backend-client';
+import { WateringStatus, Tree } from '@green-ecolution/backend-client';
 import React from 'react';
 import { TreeDeciduous } from 'lucide-react';
 import { getWateringStatusDetails } from '@/hooks/useDetailsForWateringStatus';
@@ -13,17 +13,17 @@ const TreeWateringStatus: React.FC<TreeWateringStatus> = ({ tree }) => {
   // TODO: Switch to real content
   const statusProDepth = [
     {
-      status: EntitiesWateringStatus.WateringStatusGood,
+      status: WateringStatus.WateringStatusGood,
       sensorCount: 1,
       value: "42,46 kΩ",
     },
     {
-      status: EntitiesWateringStatus.WateringStatusGood,
+      status: WateringStatus.WateringStatusGood,
       sensorCount: 1,
       value: "35,46 kΩ",
     },
     {
-      status: EntitiesWateringStatus.WateringStatusModerate,
+      status: WateringStatus.WateringStatusModerate,
       sensorCount: 1,
       value: "28,12 kΩ",
     },
@@ -53,7 +53,7 @@ const TreeWateringStatus: React.FC<TreeWateringStatus> = ({ tree }) => {
       <ul className="space-y-5 md:space-y-0 md:grid md:gap-5 md:grid-cols-2 lg:grid-cols-4">
         <li>
           <EntitiesStatusCard
-            statusDetails={getWateringStatusDetails(tree?.wateringStatus ?? EntitiesWateringStatus.WateringStatusUnknown)}
+            statusDetails={getWateringStatusDetails(tree?.wateringStatus ?? WateringStatus.WateringStatusUnknown)}
             label="Bewässerungszustand (ø)" />
         </li>
         {statusCards.map((card, key) => (

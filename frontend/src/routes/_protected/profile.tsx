@@ -18,11 +18,7 @@ function Sensors() {
           Profil von {user.firstName} {user.lastName}
         </h1>
         <p>
-          Eu ipsum occaecat non exercitation occaecat ea aute fugiat quis magna do veniam commodo.
-          Magna Lorem cupidatat id fugiat nostrud quis qui in quis fugiat. Irure pariatur anim cupidatat nulla ipsum Lorem irure. 
-          Est elit laborum sunt commodo officia nulla cupidatat fugiat tempor exercitation laborum. Sint irure eiusmod sunt. 
-          Magna esse proident magna dolore aliqua nulla id sunt adipisicing.
-        </p>
+          Dies ist Ihre persönliche Profilseite. Auf dieser Seite finden Sie Ihre persönlichen Daten sowie Ihre Berechtigungsstufe.        </p>
       </article>
 
       <section className="mt-16 grid grid-cols-1 gap-y-10 lg:grid-cols-2 lg:gap-x-11">
@@ -45,9 +41,9 @@ function Sensors() {
 
         <div className="bg-dark-50 rounded-xl flex flex-col gap-y-3 p-6">
           <span className="text-dark-700 font-semibold text-sm">Deine Berechtigungen</span>
-          <h3 className="text-2xl font-bold xl:text-3xl">Administrator:in</h3>
+          <h3 className="text-2xl font-bold xl:text-3xl">Administrierende</h3>
           <p>
-            Eine Beschreibung zu dieser Berechtigungsstufe findest du auf der 
+            Eine Beschreibung zu dieser Berechtigungsstufe finden Sie auf der 
             Übersichtsseite.
           </p>
           <Link to="/user-roles" className="font-lato font-semibold text-green-dark flex items-center gap-x-2 group">

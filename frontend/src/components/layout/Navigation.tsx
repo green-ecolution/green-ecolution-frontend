@@ -84,7 +84,7 @@ const Navigation: React.FC<NavigationProps> = ({
           to: "/vehicles",
         },
         {
-          label: "Mitarbeitenden",
+          label: "Mitarbeitende",
           icon: <Users className="w-5 h-5" />,
           to: "/team",
         },

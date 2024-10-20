@@ -30,10 +30,9 @@ function Startpage() {
             Grünflächen&shy;management
           </h1>
           <p>
-            Labore id duis minim nisi duis incididunt. Aliqua qui dolor laborum
-            anim aliquip sit nulla eiusmod laboris excepteur sit non laboris do.
-            Occaecat exercitation dolor irure fugiat ullamco elit cupidatat
-            commodo fugiat consectetur.
+            Dieses Projekt befasst sich mit der smarten Bewässerung von Bäumen und Beeten.            
+            Mittels sensorgestützter Überwachung werden Daten über das LoRaWan-Netz übermittelt und ausgewertet, sodass Handlungsempfehlungen für die Bewässerung abgegeben werden können.
+            Anhand dieser Handlungsempfehlungen können Einsätze zu einer Bewässerungstour erstellt werden.
           </p>
           <div className="flex flex-wrap justify-center items-center gap-6 mt-10 xl:justify-start">
             {isAuthenticated ? (
@@ -45,7 +44,7 @@ function Startpage() {
             ) : (
               <ButtonLink
                 link={{ to: '/login' }}
-                label="Einloggen"
+                label="Anmelden"
                 icon={MoveRight}
               />
             )}

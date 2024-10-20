@@ -23,6 +23,7 @@ const Map = ({
   return (
     <MapContainer
       key={time}
+      preferCanvas
       className="z-0"
       zoomControl={false}
       style={{ width, height }}
