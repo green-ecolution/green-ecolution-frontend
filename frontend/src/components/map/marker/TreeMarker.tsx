@@ -1,6 +1,6 @@
 import { Marker, Tooltip } from 'react-leaflet'
 import {
-    EntitiesWateringStatus,
+    WateringStatus,
   Tree,
 } from '@green-ecolution/backend-client'
 import { TreeMarkerIcon } from '../MapMarker'
@@ -14,9 +14,9 @@ interface TreeMarkerProps {
 }
 
 const TreeMarker = ({tree, onClick, hasHighlightedTree, selectedTrees}: TreeMarkerProps) => {
-  const getStatusColor = (wateringStatus: EntitiesWateringStatus) => {
+  const getStatusColor = (wateringStatus: WateringStatus) => {
     const statusDetails = getWateringStatusDetails(
-      wateringStatus ?? EntitiesWateringStatus.WateringStatusUnknown
+      wateringStatus ?? WateringStatus.WateringStatusUnknown
     )
     return statusDetails.colorHex
   }

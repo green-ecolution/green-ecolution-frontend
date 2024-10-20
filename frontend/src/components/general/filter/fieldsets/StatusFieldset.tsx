@@ -1,7 +1,7 @@
 import Option from '../Option'
 import { getWateringStatusDetails } from '@/hooks/useDetailsForWateringStatus'
 import useFilter from '@/hooks/useFilter'
-import { EntitiesWateringStatus } from '@green-ecolution/backend-client'
+import { WateringStatus } from '@green-ecolution/backend-client'
 
 const StatusFieldset = () => {
   const { filters, handleStatusChange } = useFilter()
@@ -10,7 +10,7 @@ const StatusFieldset = () => {
       <legend className="font-lato font-semibold text-dark-600 mb-2">
         Zustand der Bewässerung:
       </legend>
-      {Object.entries(EntitiesWateringStatus).map(
+      {Object.entries(WateringStatus).map(
         ([statusKey, statusValue]) => (
           <Option
             key={statusKey}

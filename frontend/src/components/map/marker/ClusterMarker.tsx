@@ -1,6 +1,6 @@
 import { Marker, Tooltip } from 'react-leaflet'
 import {
-  EntitiesWateringStatus,
+  WateringStatus,
   TreeCluster,
 } from '@green-ecolution/backend-client'
 import { ClusterIcon } from '../MapMarker'
@@ -17,9 +17,9 @@ const ClusterMarker = ({
   onClick,
   hasHighlightedCluster,
 }: ClusterMarkerProps) => {
-  const getStatusColor = (wateringStatus: EntitiesWateringStatus) => {
+  const getStatusColor = (wateringStatus: WateringStatus) => {
     const statusDetails = getWateringStatusDetails(
-      wateringStatus ?? EntitiesWateringStatus.WateringStatusUnknown
+      wateringStatus ?? WateringStatus.WateringStatusUnknown
     )
     return statusDetails.colorHex
   }
