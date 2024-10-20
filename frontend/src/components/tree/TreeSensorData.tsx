@@ -2,7 +2,7 @@ import React from 'react';
 import GeneralStatusCard from '../general/cards/GeneralStatusCard';
 import EntitiesStatusCard from '../general/cards/EntitiesStatusCard';
 import { getSensorStatusDetails } from '@/hooks/useDetailsForSensorStatus';
-import { EntitiesSensorStatus, Tree } from '@green-ecolution/backend-client';
+import { SensorStatus, Tree } from '@green-ecolution/backend-client';
 import { format } from 'date-fns';
 
 interface TreeSensorData {
@@ -25,7 +25,7 @@ const TreeSensorData: React.FC<TreeSensorData> = ({ tree }) => {
     },
   ]
 
-  const sensorStatus = tree?.sensor?.status ?? EntitiesSensorStatus.SensorStatusUnknown;
+  const sensorStatus = tree?.sensor?.status ?? SensorStatus.SensorStatusUnknown;
 
   return (
     <>
