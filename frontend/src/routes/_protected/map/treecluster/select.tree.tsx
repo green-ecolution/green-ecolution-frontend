@@ -87,8 +87,8 @@ function SelectTrees() {
         content={
           <ul className="space-y-3">
             {(treeIds?.length || 0) === 0 || showError ? (
-              <li className="text-red font-semibold text-sm">
-                <p>Bitte wählen Sie mindestens einen Baum aus.</p>
+              <li className="text-dark-600 font-semibold text-sm">
+                <p>Hier können Sie zugehörige Bäume verlinken.</p>
               </li>
             ) : (
               treeIds.map((treeId, key) => (
