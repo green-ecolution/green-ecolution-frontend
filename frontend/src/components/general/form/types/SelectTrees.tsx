@@ -16,13 +16,13 @@ const SelectTrees: React.FC<SelectTreesProps> = ({
   return (
     <div>
       <p className="block font-semibold text-dark-800 mb-2.5">
-        Zugehörige Bäume <span className="text-red">*</span>
+        Zugehörige Bäume
       </p>
 
       <ul className="space-y-3">
         {treeIds.length === 0 ? (
-          <li className="text-red font-semibold text-sm">
-            <p>Bitte wählen Sie mindestens einen Baum aus.</p>
+          <li className="text-dark-600 font-semibold text-sm">
+            <p>Hier können Sie zugehörige Bäume verlinken.</p>
           </li>
         ) : (
           treeIds.map((treeId, key) => (
