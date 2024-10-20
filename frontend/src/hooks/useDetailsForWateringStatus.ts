@@ -28,8 +28,7 @@ const WateringStatusProperties = {
   },
 } as const
 
-type WateringStatusDetails =
-  (typeof WateringStatusProperties)[WateringStatus]
+type WateringStatusDetails = (typeof WateringStatusProperties)[WateringStatus]
 
 export const getWateringStatusDetails = (
   status: WateringStatus
