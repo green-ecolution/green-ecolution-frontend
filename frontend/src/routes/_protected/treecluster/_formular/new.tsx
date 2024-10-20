@@ -1,7 +1,7 @@
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import {
   clusterApi,
-  EntitiesTreeSoilCondition,
+  SoilCondition,
   TreeClusterCreate,
 } from '@/api/backendApi'
 import { SubmitHandler } from 'react-hook-form'
@@ -33,7 +33,7 @@ function NewTreecluster() {
     name: '',
     address: '',
     description: '',
-    soilCondition: EntitiesTreeSoilCondition.TreeSoilConditionUnknown,
+    soilCondition: SoilCondition.TreeSoilConditionUnknown,
     treeIds: [],
   })
   const formStore = useFormStore((state: FormStore<TreeclusterSchema>) => ({

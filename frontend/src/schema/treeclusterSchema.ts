@@ -1,4 +1,4 @@
-import { EntitiesTreeSoilCondition } from '@green-ecolution/backend-client'
+import { SoilCondition } from '@green-ecolution/backend-client'
 import { z } from 'zod'
 
 export const TreeclusterSchema = z.object({
@@ -6,14 +6,14 @@ export const TreeclusterSchema = z.object({
   address: z.string().min(1, 'Adresse ist erforderlich.').default(''),
   description: z.string().optional().default(''),
   soilCondition: z
-    .nativeEnum(EntitiesTreeSoilCondition)
+    .nativeEnum(SoilCondition)
     .refine(
-      (value) => Object.values(EntitiesTreeSoilCondition).includes(value),
+      (value) => Object.values(SoilCondition).includes(value),
       {
         message: 'Keine korrekte Bodenbeschaffenheit.',
       }
     )
-    .default(EntitiesTreeSoilCondition.TreeSoilConditionUnknown),
+    .default(SoilCondition.TreeSoilConditionUnknown),
   treeIds: z.array(z.number()).default([]),
 })
 

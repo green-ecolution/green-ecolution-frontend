@@ -1,4 +1,4 @@
-import { EntitiesWateringStatus} from "@/api/backendApi";
+import { WateringStatus} from "@/api/backendApi";
 import { treeIdQuery } from "@/api/queries";
 import { getWateringStatusDetails } from "@/hooks/useDetailsForWateringStatus";
 import { useSuspenseQuery } from "@tanstack/react-query";
@@ -14,7 +14,7 @@ const SelectedCard: React.FC<SelectedCard> = ({ onClick, treeId }) => {
   const { data: tree } = useSuspenseQuery(treeIdQuery(String(treeId)))
 
   const statusDetails = getWateringStatusDetails(
-    tree.wateringStatus ?? EntitiesWateringStatus.WateringStatusUnknown,
+    tree.wateringStatus ?? WateringStatus.WateringStatusUnknown,
   );
 
   return (
