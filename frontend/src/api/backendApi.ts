@@ -37,7 +37,7 @@ const backendFetch: FetchAPI = async (...args) => {
     }
     const res = await fetch(`${basePath}/v1/user/token/refresh`, params)
     if (res.status !== 200) {
-      useStore.getState().auth.logout()
+      useStore.getState().auth.clear()
       throw redirect({
         to: '/login',
         search: { redirect: window.location.pathname + window.location.search },

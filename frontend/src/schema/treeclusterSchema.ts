@@ -7,12 +7,9 @@ export const TreeclusterSchema = z.object({
   description: z.string().optional().default(''),
   soilCondition: z
     .nativeEnum(SoilCondition)
-    .refine(
-      (value) => Object.values(SoilCondition).includes(value),
-      {
-        message: 'Keine korrekte Bodenbeschaffenheit.',
-      }
-    )
+    .refine((value) => Object.values(SoilCondition).includes(value), {
+      message: 'Keine korrekte Bodenbeschaffenheit.',
+    })
     .default(SoilCondition.TreeSoilConditionUnknown),
   treeIds: z.array(z.number()).default([]),
 })

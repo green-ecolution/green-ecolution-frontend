@@ -12,6 +12,7 @@ type UserActions = {
   setLastName: (lastName: string) => void;
   setFromJwt: (jwt: string) => void;
   isEmpty: () => boolean;
+  clear: () => void;
 };
 
 export type UserStore = UserState & UserActions;
