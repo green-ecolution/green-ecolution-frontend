@@ -1,5 +1,5 @@
 import { TreeCluster } from '@/api/backendApi'
-import { treeClusterIdQuery, treeClusterQuery } from '@/api/queries'
+import { treeClusterIdQuery } from '@/api/queries'
 import LoadingInfo from '@/components/general/error/LoadingInfo'
 import TreeClusterUpdate from '@/components/treecluster/TreeClusterUpdate'
 import useToast from '@/hooks/useToast'
@@ -45,7 +45,6 @@ function EditTreeCluster() {
       })
       showToast('Die Bewässerungsgruppe wurde erfolgreich editiert.')
       queryClient.invalidateQueries(treeClusterIdQuery(clusterId))
-      queryClient.invalidateQueries(treeClusterQuery())
     },
     [formStore, navigate, showToast, clusterId, queryClient]
   )
