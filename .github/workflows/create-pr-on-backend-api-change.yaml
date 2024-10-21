@@ -1,0 +1,58 @@
+name: "Create PR on backend API change"
+
+on:
+  repository_dispatch:
+    types: [api-docs-update]
+
+jobs:
+  create_pr:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
+      actions: write
+      pull-requests: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Create branch
+        run: git checkout -b feature/update-backend-client-${{ github.event.client_payload.hash }}
+
+      - name: Initialize mandatory git config
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email noreply@github.com
+
+      - name: Bump version in package.json
+        run: |
+          cd backend-client
+          yarn version --patch --no-git-tag-version
+          cd ..
+
+      - name: Commit changelog and manifest files
+        id: make-commit
+        run: |
+          git add backend-client/package.json
+          git commit --message "chore: update backend client to commit ${{ github.event.client_payload.hash }}"
+
+          echo "::set-output name=commit::$(git rev-parse HEAD)"
+
+      - name: Push new branch
+        env:
+          GITHUB_TOKEN: ${{ secrets.GREEN_ECOLUTION_PAT }}
+        run: git push origin feature/update-backend-client-${{ github.event.client_payload.hash }}
+
+      - name: Create pull request
+        uses: thomaseizinger/create-pull-request@1.0.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GREEN_ECOLUTION_PAT }}
+        with:
+          head: feature/update-backend-client-${{ github.event.client_payload.hash }}
+          base: develop
+          title: Update Backend API Client
+          body: |
+            API Docs have been updated in the backend green-ecolution/green-ecolution-backend@${{ github.event.client_payload.hash }}. Please review if the changes are compatible with the frontend.
+          labels: api-docs-update
+          draft: true
+

@@ -1,0 +1,29 @@
+{
+  "workspaces": [
+    "backend-client",
+    "frontend"
+  ],
+  "name": "green-ecolution-frontend",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "yarn workspace @green-ecolution/frontend dev",
+    "build": "yarn build:backend-client && yarn build:frontend",
+    "build:frontend": "yarn workspace @green-ecolution/frontend build",
+    "build:frontend:dev": "yarn workspace @green-ecolution/frontend build:dev",
+    "build:frontend:stage": "yarn workspace @green-ecolution/frontend build:stage",
+    "build:backend-client": "yarn workspace @green-ecolution/backend-client build",
+    "generate": "yarn generate:backend-client",
+    "generate:dev": "yarn generate:backend-client:dev",
+    "generate:local": "yarn generate:backend-client:local",
+    "generate:backend-client": "yarn workspace @green-ecolution/backend-client generate",
+    "generate:backend-client:local": "yarn workspace @green-ecolution/backend-client generate:local",
+    "generate:backend-client:dev": "yarn workspace @green-ecolution/backend-client generate:dev",
+    "ci": "yarn workspace @green-ecolution/backend-client generate:ci",
+    "lint": "yarn workspace @green-ecolution/frontend lint",
+    "test": "echo \"It works!\"",
+    "preview": "yarn workspace @green-ecolution/frontend preview",
+    "rebuild": "yarn build:backend-client && rm -rf frontend/node_modules && yarn install",
+    "fmt": "yarn workspace @green-ecolution/frontend fmt"
+  }
+}
