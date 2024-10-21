@@ -1,0 +1,42 @@
+name: "Build and test project on PR"
+
+on:
+  pull_request:
+    branches:
+      - develop
+      - release/*
+
+jobs:
+  build_and_test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'yarn'
+
+      - name: Get api docs artifacts
+        env:
+          GH_TOKEN: ${{ secrets.GREEN_ECOLUTION_PAT }}
+        run: |
+          gh run download -R green-ecolution/green-ecolution-backend -n api-docs.json 
+          mv api-docs.json ./backend-client/api-docs.json
+
+      - name: Build 
+        run: |
+          yarn install --frozen-lockfile
+          yarn ci
+          yarn build
+
+      - name: Linter
+        continue-on-error: false
+        run: |
+          yarn lint
+
+      - name: Test
+        run: |
+          yarn test
+
