@@ -1,30 +1,71 @@
-# React + TypeScript + Vite
+# Green Ecolution Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Smart irrigation is needed to save water, staff and costs. This project is the user-interface for Green Ecolution. For Backend please refer to [Green Ecolution Frontend](https://github.com/green-ecolution/green-ecolution-backend)
+The user-interface allows users to connect to the backend and interact with it's database. Interactions are possible with:
+- trees
+- tree clusters
+- flower beds
+- sensors
 
-Currently, two official plugins are available:
+While the project is created in collaboration with the local green space management (TBZ Flensburg) this software aims to be applicable for other cities.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- [Roadmap](https://github.com/orgs/green-ecolution/projects/5/views/3)
 
-## Expanding the ESLint configuration
+This project makes use of React working in Vite with HMR and .ESLint rules.
+For further information refer to [React + TypeScript + Vite](https://github.com/fresh-app/fresh-vite-app-react-ts)
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+This project also uses Git-Flow. The main branch stores the official release history while the develop branch serves as an integration branch for features and fixes.
+For further information refer to [Gitflow workflow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)
 
-- Configure the top-level `parserOptions` property like this:
+## Local development
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+### Requirements
+- [node](https://github.com/nodejs/node) JavaScript runtime environment
+- [yarn](https://github.com/yarnpkg) Dependency management for JavaScript
+- [fnm](https://github.com/Schniz/fnm) Fast and simple Node.js version manager
+
+### Setup
+
+fnm is used download node and npm to install yarn.
+
+Download node
+```bash
+fnm use
+```
+Install yarn
+```bash
+npm install --global yarn
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+### Build
+
+Download dependencies
+```bash
+yarn
+```
+
+Build and start backend-client
+```bash
+yarn generate:local
+yarn rebuild
+yarn dev
+```
+
+If you not want use the deployed backend the environment variable VITE_BACKEND_BASEURL needs to be changed.
+```bash
+VITE_BACKEND_BASEURL=/api-dev yarn dev
+```
+
+### How to contribute
+
+If you want to contribute to the project please follow this guideline:
+
+- Fork the project.
+- Create a topic branch from develop.
+- Make some commits to improve the project.
+- Push this branch to your GitHub project.
+- Open a Pull Request on GitHub.
+- Discuss, and optionally continue committing.
+- The project owner merges or closes the Pull Request.
+
+Please refer to naming conventions for branches [Medium Article](https://medium.com/@abhay.pixolo/naming-conventions-for-git-branches-a-cheatsheet-8549feca2534).
