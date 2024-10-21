@@ -42,4 +42,11 @@ export const userStore: SubStore<UserStore> = (set, get) => ({
       !get().user.lastName
     )
   },
+  clear: () =>
+    set((state) => {
+      state.user.username = ''
+      state.user.email = ''
+      state.user.firstName = ''
+      state.user.lastName = ''
+    }),
 })

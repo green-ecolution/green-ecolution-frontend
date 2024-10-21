@@ -8,7 +8,7 @@ type AuthState = {
 type AuthActions = {
   setIsAuthenticated: (auth: boolean) => void;
   setToken: (token: ClientToken) => void;
-  logout: () => void;
+  clear: () => void;
 };
 
 export type AuthStore = AuthState & AuthActions;

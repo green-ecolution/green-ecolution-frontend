@@ -17,8 +17,8 @@ import TreeClusterList from '@/components/treecluster/TreeClusterList'
 import { treeClusterQuery } from '@/api/queries'
 
 const treeclusterFilterSchema = z.object({
-  status: z.array(z.string()).optional().default([]),
-  region: z.array(z.string()).optional().default([]),
+  status: z.array(z.string()).optional(),
+  region: z.array(z.string()).optional(),
 })
 
 function Treecluster() {
