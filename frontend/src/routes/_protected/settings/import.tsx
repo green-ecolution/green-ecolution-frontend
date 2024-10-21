@@ -46,7 +46,7 @@ function ImportFile() {
     if (event.target.files.length === 0) setFile(null)
 
     const file = event.target.files[0]
-    if (file.type !== 'text/csv') {
+    if (file.type !== 'text/csv' && file.type !== 'application/vnd.ms-excel') {
       setMessage('Es sind nur CSV-Dateien erlaubt.')
       return
     }
