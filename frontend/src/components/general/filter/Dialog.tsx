@@ -140,7 +140,7 @@ const Dialog = forwardRef(
           ref={ref}
           role="dialog"
           aria-modal="true"
-          className={`fixed max-h-[80dvh] overflow-y-auto z-[1030] inset-x-4 shadow-xl bg-white top-1/2 -translate-y-1/2 p-5 rounded-xl mx-auto max-w-[30rem] ${isOpen ? 'block' : 'hidden'}`}
+          className={`fixed max-h-[80dvh] overflow-y-auto z-[1030] inset-x-4 shadow-xl bg-white top-1/2 -translate-y-1/2 p-6 rounded-xl mx-auto max-w-[30rem] ${isOpen ? 'block' : 'hidden'}`}
         >
           <div className="flex items-center justify-between gap-x-5 mb-5">
             <h2 className="text-xl font-lato font-semibold">{headline}</h2>
