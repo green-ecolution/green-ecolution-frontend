@@ -1,12 +1,15 @@
 import React, { useEffect, useRef } from "react";
 import { Trash2 } from "lucide-react";
+import { MessageType, type } from "@/enum/MessageTypes";
+
 
 interface FileUploadProps {
   fileType: string;
   name: string;
   message?: string;
-  showDeleteButton: boolean;
+  isFileSelected: boolean;
   clearFileInput: () => void;
+  messageType : MessageType; 
   handleFileChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -16,7 +19,8 @@ const FileUpload: React.FC<FileUploadProps> = ({
   message = "",
   handleFileChange,
   clearFileInput,
-  showDeleteButton,
+  isFileSelected,
+  messageType, 
 }) => {
   const inputFileRef = useRef<HTMLInputElement | null>(null);
 
@@ -47,7 +51,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
 
         <button
           type="button"
-          className={`${showDeleteButton ? 'block' : 'hidden'} `}
+          className={`${isFileSelected ? 'block' : 'hidden'} `}
           onClick={handleClearInput}
         >
           <Trash2 className="text-dark-600" />
@@ -55,13 +59,25 @@ const FileUpload: React.FC<FileUploadProps> = ({
         </button>
       </div>
 
-      {message && (
-        <div className="mt-4 text-red font-semibold text-sm">
+      {message && !isFileSelected && (
+        <div className={`mt-4 ${getClassNameForMessageType(messageType)}
+        font-semibold text-sm`}>
           {message}
         </div>
       )}
     </>
   );
 };
-
+const getClassNameForMessageType = (messageType: MessageType) => {
+  switch (messageType) {
+    case type.success:
+      return 'text-green-dark';
+    case type.warning:
+      return 'text-yellow';
+    case type.error:
+      return 'text-red';
+    default:
+      return '';
+  }
+};
 export default FileUpload;

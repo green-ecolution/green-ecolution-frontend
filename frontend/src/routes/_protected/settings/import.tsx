@@ -8,6 +8,7 @@ import { useMutation, useQueryClient, useSuspenseQuery } from '@tanstack/react-q
 import { treeQuery } from '@/api/queries'
 import { importApi } from '@/api/backendApi'
 import useToast from '@/hooks/useToast'
+import { MessageType, type } from '@/enum/MessageTypes'
 
 export const Route = createFileRoute('/_protected/settings/import')({
   component: ImportFile,
@@ -15,6 +16,7 @@ export const Route = createFileRoute('/_protected/settings/import')({
 })
 
 function ImportFile() {
+  const [messageType, setMessageType] = useState<MessageType>(type.warning);
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [file, setFile] = useState<File | null>(null)
   const [message, setMessage] = useState('')
@@ -29,10 +31,13 @@ function ImportFile() {
       queryClient.invalidateQueries(treeQuery())
       setMessage('Die Bäume wurden erfolgreich importiert.')
       showToast('Die Bäume wurden erfolgreich importiert.')
+      setFile(null)
+      setMessageType(type.success)
     },
     onError: (error) => {
       console.error(error)
       setMessage('Es ist ein Fehler beim Importieren aufgetreten.')
+      setMessageType(type.error)
     },
   })
 
@@ -49,6 +54,7 @@ function ImportFile() {
     // Firefox on windows has a different file type, that's why the excel type is also needed
     if (file.type !== 'text/csv' && file.type !== 'application/vnd.ms-excel') {
       setMessage('Es sind nur CSV-Dateien erlaubt.')
+      setMessageType(type.error)
       return
     }
 
@@ -117,9 +123,9 @@ function ImportFile() {
             fileType=".csv"
             message={message}
             handleFileChange={handleFileChange}
-            showDeleteButton={file !== null}
+            isFileSelected={file !== null}
             clearFileInput={() => setFile(null)}
-          />
+            messageType={messageType} />
         </form>
 
         <PrimaryButton
