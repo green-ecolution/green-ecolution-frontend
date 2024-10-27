@@ -33,7 +33,7 @@ function Treecluster() {
 
   useEffect(() => {
     handleFilter()
-  }, [filters])
+  }, [filters, handleFilter])
 
   const filterData = () => {
     return clustersRes.data.filter((cluster) => {
