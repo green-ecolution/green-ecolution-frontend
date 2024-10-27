@@ -31,6 +31,11 @@ function Treecluster() {
     clustersRes.data
   )
 
+  const handleFilter = () => {
+    const data = filterData()
+    setFilteredData(data)
+  }
+
   useEffect(() => {
     handleFilter()
   }, [filters, handleFilter])
@@ -53,11 +58,6 @@ function Treecluster() {
 
       return statusFilter && regionFilter && searchFilter
     })
-  }
-
-  const handleFilter = () => {
-    const data = filterData()
-    setFilteredData(data)
   }
 
   return (
