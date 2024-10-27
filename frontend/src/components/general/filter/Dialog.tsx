@@ -40,6 +40,7 @@ const Dialog = forwardRef(
     const [oldValues, setOldValues] = useState<Filters>({
       statusTags: [],
       regionTags: [],
+      searchTag: "",
       hasCluster: undefined,
       plantingYears: [],
     })
@@ -80,6 +81,7 @@ const Dialog = forwardRef(
       applyOldStateToTags({
         statusTags: [],
         regionTags: [],
+        searchTag: "", 
         hasCluster: undefined,
         plantingYears: [],
       })
