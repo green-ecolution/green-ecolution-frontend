@@ -1,4 +1,3 @@
-// src/pages/Treecluster.tsx
 import Dialog from '@/components/general/filter/Dialog'
 import { createFileRoute, useLoaderData } from '@tanstack/react-router'
 import { z } from 'zod'
@@ -10,7 +9,7 @@ import { useSuspenseQuery } from '@tanstack/react-query'
 import LoadingInfo from '@/components/general/error/LoadingInfo'
 import FilterProvider from '@/context/FilterContext'
 import useFilter from '@/hooks/useFilter'
-import { Suspense, useState, useEffect } from 'react'
+import { Suspense, useState, useEffect, useCallback } from 'react'
 import StatusFieldset from '@/components/general/filter/fieldsets/StatusFieldset'
 import RegionFieldset from '@/components/general/filter/fieldsets/RegionFieldset'
 import { ErrorBoundary } from 'react-error-boundary'
@@ -31,16 +30,7 @@ function Treecluster() {
     clustersRes.data
   )
 
-  const handleFilter = () => {
-    const data = filterData()
-    setFilteredData(data)
-  }
-
-  useEffect(() => {
-    handleFilter()
-  }, [filters, handleFilter])
-
-  const filterData = () => {
+  const filterData = useCallback(() => {
     return clustersRes.data.filter((cluster) => {
       const statusFilter =
         filters.statusTags.length === 0 ||
@@ -58,7 +48,16 @@ function Treecluster() {
 
       return statusFilter && regionFilter && searchFilter
     })
-  }
+  }, [clustersRes.data, filters]) // Wrapped in useCallback
+
+  const handleFilter = useCallback(() => {
+    const data = filterData()
+    setFilteredData(data)
+  }, [filterData]) // Wrapped in useCallback
+
+  useEffect(() => {
+    handleFilter()
+  }, [filters, handleFilter]) // Updated dependency array
 
   return (
     <div className="container mt-6">
