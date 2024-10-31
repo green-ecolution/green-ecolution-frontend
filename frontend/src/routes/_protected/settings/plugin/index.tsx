@@ -47,7 +47,7 @@ const PluginList = () => {
             headline={plugin.name}
             description={plugin.description}
             linkLabel={`${plugin.name} starten`}
-            url={`/settings/plugin/${plugin.name}`}
+            url={`/settings/plugin/${plugin.slug}`}
             isDark={key % 2 !== 0}
           />
         </li>
