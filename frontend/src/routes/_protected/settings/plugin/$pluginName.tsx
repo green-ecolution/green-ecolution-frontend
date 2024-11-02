@@ -3,7 +3,7 @@ import { lazy, Suspense, useMemo } from 'react'
 import {
   __federation_method_getRemote,
   __federation_method_setRemote,
-  // @ts-ignore
+  // @ts-expect-error - This is a global variable injected by the federation plugin
 } from '__federation__'
 import { PluginProvider } from '@green-ecolution/plugin-interface'
 import useStore from '@/store/store'

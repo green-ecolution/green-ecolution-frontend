@@ -14,7 +14,7 @@ const importPluginComponent = (pluginName: string) =>
   })
 
 export type LazyPluginComponent = React.LazyExoticComponent<
-  React.ComponentType<any>
+  React.ComponentType<unknown>
 >
 
 export const usePluginComponent = (pluginName: string) => {
@@ -23,14 +23,14 @@ export const usePluginComponent = (pluginName: string) => {
 
   useEffect(() => {
     loader()
-  }, [])
+  })
 
   return view
 }
 
 export const usePluginLoader = (
   pluginName: string,
-  fn: (plugin: LazyPluginComponent) => any
+  fn: (plugin: LazyPluginComponent) => void
 ) => {
   return async () => {
     const componentsPromises = importPluginComponent(pluginName)
