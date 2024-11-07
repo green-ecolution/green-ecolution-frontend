@@ -1,5 +1,13 @@
 import { Tree } from '@green-ecolution/backend-client'
 import { format } from 'date-fns'
+import Imageslider from '@/components/tree/Imageslider' // Import the ImageSlider component
+
+// Import local images
+import image1 from '@/images/image1.jpg'
+import image2 from '@/images/image2.jpg'
+import image3 from '@/images/image3.jpg'
+import image4 from '@/images/image4.jpg'
+import image5 from '@/images/image5.jpg'
 
 interface TreeGeneralData {
   tree?: Tree
@@ -37,6 +45,8 @@ const TreeGeneralData: React.FC<TreeGeneralData> = ({ tree }) => {
     },
   ]
 
+  const localImages = [image1, image2, image3, image4, image5]
+
   return (
     <>
       <dl className="text-lg md:columns-2 md:gap-x-11">
@@ -52,7 +62,9 @@ const TreeGeneralData: React.FC<TreeGeneralData> = ({ tree }) => {
         ))}
       </dl>
 
-      <section className="mt-16">@TODO: Add image slider</section>
+      <section className="mt-16">
+        <Imageslider images={localImages} />
+      </section>
     </>
   )
 }
