@@ -29,17 +29,13 @@ const Imageslider: React.FC<ImageSliderProps> = ({ images }) => {
 
   const goToPrevious = () => {
     if (currentIndex > 0) {
-      setCurrentIndex((prevIndex) =>
-        prevIndex === 0 ? images.length - visibleImages : prevIndex - 1
-      )
+      setCurrentIndex((prevIndex) => prevIndex - 1)
     }
   }
 
   const goToNext = () => {
     if (currentIndex < images.length - visibleImages) {
-      setCurrentIndex((prevIndex) =>
-        prevIndex >= images.length - visibleImages ? 0 : prevIndex + 1
-      )
+      setCurrentIndex((prevIndex) => prevIndex + 1)
     }
   }
 
@@ -47,11 +43,6 @@ const Imageslider: React.FC<ImageSliderProps> = ({ images }) => {
     currentIndex,
     currentIndex + visibleImages
   )
-  if (displayedImages.length < visibleImages) {
-    displayedImages.push(
-      ...images.slice(0, visibleImages - displayedImages.length)
-    )
-  }
 
   const totalImages = images.length
   const startIndex = currentIndex + 1
@@ -64,6 +55,8 @@ const Imageslider: React.FC<ImageSliderProps> = ({ images }) => {
     visibleImages === 1
       ? `${startIndex} von ${totalImages} Bildern`
       : `${startIndex}-${endIndex} von ${totalImages} Bildern`
+
+  const shouldShowNavigation = images.length > visibleImages
 
   return (
     <div className="relative w-full">
@@ -80,27 +73,35 @@ const Imageslider: React.FC<ImageSliderProps> = ({ images }) => {
         ))}
       </div>
 
-      <div className="flex justify-between items-center mt-2">
-        <button
-          onClick={goToPrevious}
-          aria-label="Previous Images"
-          disabled={currentIndex === 0}
-          className={`flex items-center justify-center p-2 hover:bg-gray-200 transition ${currentIndex === 0 ? 'cursor-not-allowed opacity-50' : ''}`}
-        >
-          <ArrowLeft size={24} />
-        </button>
+      {shouldShowNavigation && (
+        <div className="flex justify-between items-center mt-2">
+          <button
+            onClick={goToPrevious}
+            aria-label="Previous Images"
+            disabled={currentIndex === 0} // Disable if we're on the first image
+            className={`flex items-center justify-center p-2 hover:bg-gray-200 transition ${
+              currentIndex === 0 ? 'cursor-not-allowed opacity-50' : ''
+            }`}
+          >
+            <ArrowLeft size={24} />
+          </button>
 
-        <span className="text-lg">{rangeText}</span>
+          <span className="text-lg">{rangeText}</span>
 
-        <button
-          onClick={goToNext}
-          aria-label="Next Images"
-          disabled={currentIndex >= images.length - visibleImages}
-          className={`flex items-center justify-center p-2 hover:bg-gray-200 transition ${currentIndex >= images.length - visibleImages ? 'cursor-not-allowed opacity-50' : ''}`}
-        >
-          <ArrowRight size={24} />
-        </button>
-      </div>
+          <button
+            onClick={goToNext}
+            aria-label="Next Images"
+            disabled={currentIndex >= images.length - visibleImages} // Disable if we're on the last image
+            className={`flex items-center justify-center p-2 hover:bg-gray-200 transition ${
+              currentIndex >= images.length - visibleImages
+                ? 'cursor-not-allowed opacity-50'
+                : ''
+            }`}
+          >
+            <ArrowRight size={24} />
+          </button>
+        </div>
+      )}
     </div>
   )
 }
