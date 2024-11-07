@@ -75,7 +75,7 @@ const Imageslider: React.FC<ImageSliderProps> = ({ images }) => {
             key={index}
             src={image}
             alt={`Slide ${currentIndex + index + 1}`}
-            className="w-full sm:w-1/3 md:w-1/4 h-auto rounded-lg shadow-lg object-cover"
+            className="w-full sm:w-1/3 md:w-1/4 h-48 sm:h-64 md:h-72 object-cover rounded-lg shadow-lg"
           />
         ))}
       </div>
