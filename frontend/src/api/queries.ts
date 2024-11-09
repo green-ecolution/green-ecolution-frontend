@@ -11,6 +11,7 @@ import {
   TreeCluster,
   TreeClusterList,
   TreeList,
+  treeSensorApi,
 } from './backendApi'
 
 export const treeClusterQuery = () =>
@@ -48,6 +49,16 @@ export const treeIdQuery = (id: string) =>
         treeId: id,
       }),
   })
+
+export const treeSensorIdQuery = (id: string) =>
+  queryOptions<Tree>({
+    queryKey: ['tree', id],
+    queryFn: () =>
+      treeSensorApi.getTreeBySensorId({
+        sensorId: id,
+      }),
+  })
+
 export const regionsQuery = () =>
   queryOptions({
     queryKey: ['regions'],

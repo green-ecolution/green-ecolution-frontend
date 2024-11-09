@@ -11,6 +11,7 @@ import {
   SensorApi,
   TreeApi,
   TreeClusterApi,
+  TreeSensorApi,
   UserApi,
 } from '@green-ecolution/backend-client'
 import { redirect } from '@tanstack/react-router'
@@ -74,6 +75,7 @@ const configParams: ConfigurationParameters = {
 const config = new Configuration(configParams)
 
 export const treeApi = new TreeApi(config)
+export const treeSensorApi = new TreeSensorApi(config)
 export const clusterApi = new TreeClusterApi(config)
 export const infoApi = new InfoApi(config)
 export const userApi = new UserApi(config)

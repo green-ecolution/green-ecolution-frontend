@@ -31,9 +31,11 @@ const TreeClusterDashboard = ({ clusterId }: TreeClusterDashboardProps) => {
           </h1>
           <p className="mb-4">{treecluster.description}</p>
           <GeneralLink
-              url={`/map?lat=${treecluster.latitude}&lng=${treecluster.longitude}&zoom=16&cluster=${treecluster.id}`}
-              label="Auf der Karte anzeigen"
-            />
+            label="Auf der Karte anzeigen"
+            link={{
+              to: `/map?lat=${treecluster.latitude}&lng=${treecluster.longitude}&zoom=16&cluster=${treecluster.id}`, // Dynamic URL with query params
+            }}
+          />
         </div>
         <ButtonLink
           icon={Pencil}
