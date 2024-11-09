@@ -13,7 +13,7 @@ const SensorStatusProperties = {
   },
   [SensorStatus.SensorStatusOnline]: {
     color: 'green-light',
-    label: 'In Ordnung',
+    label: 'Online',
     description: 'Alle Sensoren sind online und können Daten senden.',
   },
 } as const

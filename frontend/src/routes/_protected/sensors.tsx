@@ -1,4 +1,10 @@
+import { sensorQuery } from '@/api/queries';
+import LoadingInfo from '@/components/general/error/LoadingInfo';
+import SensorList from '@/components/sensor/SensorList';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router'
+import { Suspense } from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
 
 export const Route = createFileRoute('/_protected/sensors')({
   component: Sensors,
@@ -12,6 +18,8 @@ export const Route = createFileRoute('/_protected/sensors')({
 
 
 function Sensors() {
+  const { data: sensorsRes } = useSuspenseQuery(sensorQuery())
+
   return (
     <div className="container mt-6">
       <article className="2xl:w-4/5">
@@ -25,6 +33,27 @@ function Sensors() {
           Magna esse proident magna dolore aliqua nulla id sunt adipisicing.
         </p>
       </article>
+      
+      <section className="mt-10">
+        <header className="hidden border-b pb-2 text-sm text-dark-800 px-8 border-b-dark-200 mb-5 lg:grid lg:grid-cols-[1fr,2fr,1.5fr,1fr] lg:gap-5 xl:px-10">
+          <p>Status</p>
+          <p>Name und Verknüpfung</p>
+          <p>Erstelldatum</p>
+        </header>
+
+        <Suspense fallback={<LoadingInfo label="Daten werden geladen" />}>
+          <ErrorBoundary
+            fallback={
+              <p className="text-center text-dark-600 mt-10">
+                Es ist ein Fehler aufgetreten. Bitte versuchen Sie es später
+                erneut.
+              </p>
+            }
+          >
+            <SensorList filteredData={sensorsRes.data} />
+          </ErrorBoundary>
+        </Suspense>
+      </section>
     </div>
   );
 }
