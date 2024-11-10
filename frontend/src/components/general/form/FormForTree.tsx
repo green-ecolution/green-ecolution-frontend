@@ -1,27 +1,29 @@
-import { TreeForm } from "@/schema/treeSchema";
-import { FormForProps } from "./FormForTreecluster";
-import Input from "./types/Input";
-import Select from "./types/Select";
-import { Sensor, TreeCluster } from "@/api/backendApi";
-import Textarea from "./types/Textarea";
-import { MapPin } from "lucide-react";
-import PrimaryButton from "../buttons/PrimaryButton";
-import useFormStore, { FormStore } from "@/store/form/useFormStore";
-import FormError from "./FormError";
+import { TreeForm } from '@/schema/treeSchema'
+import { FormForProps } from './FormForTreecluster'
+import Input from './types/Input'
+import Select from './types/Select'
+import ImageUpload from './types/ImageUpload'
+import { Sensor, TreeCluster } from '@/api/backendApi'
+import Textarea from './types/Textarea'
+import { MapPin } from 'lucide-react'
+import PrimaryButton from '../buttons/PrimaryButton'
+import useFormStore, { FormStore } from '@/store/form/useFormStore'
+import FormError from './FormError'
 
 interface FormForTreeProps extends FormForProps<TreeForm> {
-  treeClusters: TreeCluster[];
-  sensors: Sensor[];
-  onChangeLocation: () => void;
+  treeClusters: TreeCluster[]
+  sensors: Sensor[]
+  onChangeLocation: () => void
+  onUploadImage: (files: File[]) => void; 
 }
 
 const FormForTree = (props: FormForTreeProps) => {
   const { lat, lng } = useFormStore((state: FormStore<TreeForm>) => ({
     lat: state.form?.latitude ?? 0,
     lng: state.form?.longitude ?? 0,
-  }));
+  }))
 
-  const { errors, isValid } = props.formState;
+  const { errors, isValid } = props.formState
 
   return (
     <form
@@ -34,25 +36,25 @@ const FormForTree = (props: FormForTreeProps) => {
           label="Baumnummer"
           required
           error={errors.treeNumber?.message}
-          {...props.register("treeNumber")}
+          {...props.register('treeNumber')}
         />
         <Input
           placeholder="Baumart"
           label="Baumart"
           required
           error={errors.species?.message}
-          {...props.register("species")}
+          {...props.register('species')}
         />
         <Input
           placeholder="Pflanzjahr"
           label="Pflanzjahr"
           type="number"
           required
-          {...props.register("plantingYear")}
+          {...props.register('plantingYear')}
         />
         <Select
           options={[
-            { label: "Keine Bewässerungsgruppe", value: "-1" },
+            { label: 'Keine Bewässerungsgruppe', value: '-1' },
             ...props.treeClusters.map((cluster) => ({
               label: cluster.name,
               value: cluster.id.toString(),
@@ -61,11 +63,11 @@ const FormForTree = (props: FormForTreeProps) => {
           placeholder="Wählen Sie eine Bewässerungsgruppe aus"
           label="Bewässerungsgruppe"
           error={errors.treeClusterId?.message}
-          {...props.register("treeClusterId")}
+          {...props.register('treeClusterId')}
         />
         <Select
           options={[
-            { label: "Kein Sensor", value: "-1" },
+            { label: 'Kein Sensor', value: '-1' },
             ...props.sensors.map((sensor) => ({
               label: `Sensor ${sensor.id.toString()}`,
               value: sensor.id.toString(),
@@ -74,13 +76,13 @@ const FormForTree = (props: FormForTreeProps) => {
           placeholder="Wählen Sie einen Sensor aus, sofern vorhanden"
           label="Verknüpfter Sensor"
           error={errors.sensorId?.message}
-          {...props.register("sensorId")}
+          {...props.register('sensorId')}
         />
         <Textarea
           placeholder="Hier ist Platz für Notizen"
           label="Kurze Beschreibung"
           error={errors.description?.message}
-          {...props.register("description")}
+          {...props.register('description')}
         />
       </div>
 
@@ -93,7 +95,7 @@ const FormForTree = (props: FormForTreeProps) => {
             <strong className="text-dark-800">Breitengrad:</strong> {lat}
           </p>
           <p className="block mb-2.5">
-            <strong className="text-dark-800 font-semibold">Längengrad:</strong>{" "}
+            <strong className="text-dark-800 font-semibold">Längengrad:</strong>{' '}
             {lng}
           </p>
         </div>
@@ -108,6 +110,10 @@ const FormForTree = (props: FormForTreeProps) => {
         </button>
       </div>
 
+      <div>
+        <ImageUpload onUpload={props.onUploadImage} />
+      </div>
+
       <FormError
         show={props.displayError}
         error="Es ist leider ein Problem aufgetreten. Bitte probieren Sie es erneut oder wenden Sie sich an einen Systemadministrierenden."
@@ -120,7 +126,7 @@ const FormForTree = (props: FormForTreeProps) => {
         disabled={!isValid}
       />
     </form>
-  );
-};
+  )
+}
 
-export default FormForTree;
+export default FormForTree

@@ -6,9 +6,11 @@ import { Suspense } from 'react'
 import LoadingInfo from '@/components/general/error/LoadingInfo'
 import { ErrorBoundary } from 'react-error-boundary'
 import TreeUpdate from '@/components/tree/TreeUpdate'
+import ReadonlyTreeUpdate from '@/components/tree/ReadonlyTreeUpdate'
 import useToast from '@/hooks/useToast'
 import { useQueryClient } from '@tanstack/react-query'
 import { treeIdQuery } from '@/api/queries'
+import { useSuspenseQuery } from '@tanstack/react-query'
 
 export const Route = createFileRoute('/_protected/tree/_formular/$treeId/edit')(
   {
@@ -21,26 +23,27 @@ export const Route = createFileRoute('/_protected/tree/_formular/$treeId/edit')(
 )
 
 function EditTreeCluster() {
-  const showToast = useToast()
-  const treeId = Route.useParams().treeId
-  const queryClient = useQueryClient()
-  const navigate = useNavigate({ from: Route.fullPath })
+  const showToast = useToast();
+  const treeId = Route.useParams().treeId;
+  const { data: tree } = useSuspenseQuery(treeIdQuery(treeId)); // Fetch tree data here
+  const queryClient = useQueryClient();
+  const navigate = useNavigate({ from: Route.fullPath });
   const formStore = useFormStore((state: FormStore<TreeclusterSchema>) => ({
     form: state.form,
     reset: state.reset,
-  }))
+  }));
 
   const handleOnUpdateSuccess = (data: Tree) => {
-    formStore.reset()
+    formStore.reset();
     navigate({
       to: '/tree/$treeId',
       params: { treeId: data.id.toString() },
       search: { resetStore: false },
       replace: true,
-    })
-    showToast('Der Baum wurde erfolgreich editiert')
-    queryClient.invalidateQueries(treeIdQuery(treeId))
-  }
+    });
+    showToast('Der Baum wurde erfolgreich editiert');
+    queryClient.invalidateQueries(treeIdQuery(treeId));
+  };
 
   return (
     <div className="container mt-6">
@@ -53,13 +56,13 @@ function EditTreeCluster() {
             </p>
           }
         >
-          <TreeUpdate
-            treeId={treeId}
-            onUpdateSuccess={handleOnUpdateSuccess}
-            onUpdateError={console.error}
-          />
+          {tree?.readonly ? (
+            <ReadonlyTreeUpdate treeId={treeId} onUpdateSuccess={handleOnUpdateSuccess} onUpdateError={console.error} />
+          ) : (
+            <TreeUpdate treeId={treeId} onUpdateSuccess={handleOnUpdateSuccess} onUpdateError={console.error} />
+          )}
         </ErrorBoundary>
       </Suspense>
     </div>
-  )
+  );
 }
