@@ -40,11 +40,10 @@ const ImageUpload = ({ onUpload, existingImages = [] }: ImageUploadProps) => {
 
   return (
     <div>
-      <h2>Image Upload</h2>
+      <h2>Bilder:</h2>
 
       {previewUrls.length > 0 && (
         <div>
-          <p>Preview:</p>
           <ul className="space-y-3">
             {previewUrls.map((url, index) => (
               <li key={index} className="flex items-center gap-4 border-b border-gray-300 pb-3 mb-3">
@@ -84,7 +83,7 @@ const ImageUpload = ({ onUpload, existingImages = [] }: ImageUploadProps) => {
         }}
         className="mt-6 w-fit border border-green-light text-dark-800 px-5 py-2 group flex gap-x-3 rounded-xl items-center transition-all ease-in-out duration-300 hover:border-green-dark hover:text-dark"
       >
-        <span className="font-medium">Select Images</span>
+        <span className="font-medium">Bilder hinzufügen</span>
         <Plus className="text-current" />
       </button>
 
