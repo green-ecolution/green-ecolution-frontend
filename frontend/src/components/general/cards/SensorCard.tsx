@@ -1,11 +1,12 @@
 import { Sensor } from '@green-ecolution/backend-client'
-import { format } from 'date-fns'
+import { format, formatDistanceToNow } from 'date-fns'
+import { de } from 'date-fns/locale';
 import React from 'react'
 import Pill from '../Pill'
 import { getSensorStatusDetails } from '@/hooks/useDetailsForSensorStatus'
-import { useSuspenseQuery } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import { treeSensorIdQuery } from '@/api/queries'
-import GeneralLink from '../links/GeneralLink'
+import { Link } from '@tanstack/react-router'
 
 interface SensorCard {
   sensor: Sensor
@@ -13,14 +14,21 @@ interface SensorCard {
 
 const SensorCard: React.FC<SensorCard> = ({ sensor }) => {
   const sensorId = String(sensor.id)
-  const { data: treeRes } = useSuspenseQuery(treeSensorIdQuery(sensorId))
+
+  const { data: treeRes } = useQuery(treeSensorIdQuery(sensorId));
   const statusDetails = getSensorStatusDetails(sensor.status)
-  const updatedDate = sensor?.updatedAt
-    ? format(new Date(sensor?.updatedAt), 'dd.MM.yyyy')
+  const createdDate = sensor?.createdAt
+    ? format(new Date(sensor?.createdAt), 'dd.MM.yyyy')
+    : 'Keine Angabe'
+  const updatedDate = sensor?.createdAt
+    ? formatDistanceToNow(sensor?.updatedAt, { locale: de })
     : 'Keine Angabe'
 
   return (
-    <div className="bg-white border border-dark-50 p-6 rounded-xl shadow-cards flex flex-col gap-y-4 lg:grid lg:grid-cols-[1fr,2fr,1.5fr,1fr] lg:items-center lg:gap-5 lg:py-10 xl:px-10">
+    <Link
+      to={`/sensors/${sensor.id}`}
+      className="bg-white border border-dark-50 p-6 rounded-xl shadow-cards flex flex-col gap-y-4 transition-all ease-in-out duration-300 hover:bg-green-dark-50 hover:border-green-dark lg:grid lg:grid-cols-[1fr,2fr,1fr,1fr] lg:items-center lg:gap-5 lg:py-10 xl:px-10"
+    >
       <Pill label={statusDetails.label} theme={statusDetails.color} />
       <div>
         <h2 className="font-bold text-lg mb-0.5">ID: {sensor.id}</h2>
@@ -38,19 +46,12 @@ const SensorCard: React.FC<SensorCard> = ({ sensor }) => {
         )}
       </div>
       <p className="text-dark-800">
-        Erstellt am: <span className="lg:block">{updatedDate}</span>
+        Erstellt am: <span className="lg:block">{createdDate}</span>
       </p>
-      {treeRes ? (
-        <GeneralLink
-          label="Zur Verknüpfung"
-          link={{
-            to: '/tree/$treeId',
-            params: { treeId: String(treeRes.id) },
-          }}/>
-        ) : (
-          <p className="text-red">@TODO:Verknüpfung erstellen</p>
-        )}
-    </div>
+      <p className="text-dark-800">
+        Letztes Update am: <span className="lg:block">{updatedDate}</span>
+      </p>
+    </Link>
   )
 }
 
