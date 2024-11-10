@@ -116,6 +116,7 @@ function NewTree() {
 
       <section className="mt-10">
         <FormForTree
+          isReadonly={false}
           register={register}
           handleSubmit={handleSubmit}
           formState={formState}
