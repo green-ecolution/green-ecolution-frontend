@@ -2,7 +2,6 @@ import { TreeForm } from '@/schema/treeSchema'
 import { FormForProps } from './FormForTreecluster'
 import Input from './types/Input'
 import Select from './types/Select'
-import ImageUpload from './types/ImageUpload'
 import { Sensor, TreeCluster } from '@/api/backendApi'
 import Textarea from './types/Textarea'
 import { MapPin } from 'lucide-react'
@@ -108,10 +107,6 @@ const FormForTree = (props: FormForTreeProps) => {
           <span className="font-medium">Standort des Baumes anpassen</span>
           <MapPin className="text-current" />
         </button>
-      </div>
-
-      <div>
-        <ImageUpload onUpload={props.onUploadImage} />
       </div>
 
       <FormError

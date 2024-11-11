@@ -1,19 +1,16 @@
-import { TreeForm, TreeSchema } from '@/schema/treeSchema'
-import FormForTree from '../general/form/FormForTree'
-import BackLink from '../general/links/BackLink'
-import DeleteSection from '../treecluster/DeleteSection'
-import { useMutation, useSuspenseQuery } from '@tanstack/react-query'
-import {
-  Tree,
-  TreeUpdate as TreeUpdateReq,
-} from '@green-ecolution/backend-client'
-import { useInitFormQuery } from '@/hooks/form/useInitForm'
-import { sensorQuery, treeClusterQuery, treeIdQuery } from '@/api/queries'
-import { treeApi } from '@/api/backendApi'
-import { useMapStore } from '@/store/store'
-import { useNavigate } from '@tanstack/react-router'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useFormSync } from '@/hooks/form/useFormSync'
+import { TreeForm, TreeSchema } from "@/schema/treeSchema"
+import FormForTree from "../general/form/FormForTree"
+import BackLink from "../general/links/BackLink"
+import DeleteSection from "../treecluster/DeleteSection"
+import { useMutation, useSuspenseQuery } from "@tanstack/react-query"
+import { Tree, TreeUpdate as TreeUpdateReq } from "@green-ecolution/backend-client"
+import { useInitFormQuery } from "@/hooks/form/useInitForm"
+import { sensorQuery, treeClusterQuery, treeIdQuery } from "@/api/queries"
+import { treeApi } from "@/api/backendApi"
+import { useMapStore } from "@/store/store"
+import { useNavigate } from "@tanstack/react-router"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useFormSync } from "@/hooks/form/useFormSync"
 
 interface TreeUpdateProps {
   treeId: string
@@ -21,11 +18,7 @@ interface TreeUpdateProps {
   onUpdateSuccess: (data: Tree) => void
 }
 
-const TreeUpdate = ({
-  treeId,
-  onUpdateSuccess,
-  onUpdateError,
-}: TreeUpdateProps) => {
+const TreeUpdate = ({ treeId, onUpdateSuccess, onUpdateError }: TreeUpdateProps) => {
   const navigate = useNavigate()
   const { data: sensors } = useSuspenseQuery(sensorQuery())
   const { data: treeClusters } = useSuspenseQuery(treeClusterQuery())
@@ -59,22 +52,18 @@ const TreeUpdate = ({
     onError: onUpdateError,
   })
 
+
   const onSubmit = (data: TreeForm) => {
     mutate({
       ...data,
       description: data.description ?? '',
-      sensorId:
-        data.sensorId && (data.sensorId === '-1' || data.sensorId <= 0)
-          ? undefined
-          : data.sensorId,
+      sensorId: data.sensorId && (data.sensorId === '-1' || data.sensorId <= 0) ? undefined : data.sensorId,
       treeClusterId:
-        data.treeClusterId &&
-        (data.treeClusterId === '-1' || data.treeClusterId <= 0)
-          ? undefined
-          : data.treeClusterId,
+        data.treeClusterId && (data.treeClusterId === '-1' || data.treeClusterId <= 0) ? undefined : data.treeClusterId,
       readonly: false,
     })
   }
+
 
   const handleDeleteTree = () => {
     return treeApi.deleteTree({
@@ -91,12 +80,6 @@ const TreeUpdate = ({
         lng: initForm?.longitude ?? 0,
         zoom: map.zoom,
       },
-    })
-  }
-
-  const handleImageUpload = (files: File[]) => {
-    files.forEach((file) => {
-      console.log('Uploading file:', file)
     })
   }
 
@@ -125,7 +108,6 @@ const TreeUpdate = ({
           treeClusters={treeClusters.data}
           sensors={sensors.data}
           onChangeLocation={handleOnChangeLocation}
-          onUploadImage={handleImageUpload}
         />
       </section>
 

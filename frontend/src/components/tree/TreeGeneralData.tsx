@@ -1,13 +1,6 @@
 import { Tree } from '@green-ecolution/backend-client'
 import { format } from 'date-fns'
-import Imageslider from '@/components/tree/Imageslider' // Import the ImageSlider component
-
-// Import local images
-import image1 from '@/images/image1.jpg'
-import image2 from '@/images/image2.jpg'
-import image3 from '@/images/image3.jpg'
-import image4 from '@/images/image4.jpg'
-import image5 from '@/images/image5.jpg'
+import Imageslider from '@/components/tree/Imageslider'
 
 interface TreeGeneralData {
   tree?: Tree
@@ -45,7 +38,13 @@ const TreeGeneralData: React.FC<TreeGeneralData> = ({ tree }) => {
     },
   ]
 
-  const localImages = [image1, image2, image3, image4, image5]
+  const localImages = [
+    'https://minio.green-ecolution.de/api/v1/buckets/test/objects/download?prefix=path%2Fimage1.jpg',
+    'https://minio.green-ecolution.de/api/v1/buckets/test/objects/download?prefix=path%2Fimage2.jpg',
+    'https://minio.green-ecolution.de/api/v1/buckets/test/objects/download?prefix=path%2Fimage3.jpg',
+    'https://minio.green-ecolution.de/api/v1/buckets/test/objects/download?prefix=path%2Fimage4.jpg',
+    'https://minio.green-ecolution.de/api/v1/buckets/test/objects/download?prefix=path%2Fimage5.jpg',
+  ]
 
   return (
     <>

@@ -80,16 +80,18 @@ const TreeDashboard = ({ treeId }: TreeDashboardProps) => {
             )}
           </div>
         </div>
-        <ButtonLink
-          icon={Pencil}
-          iconClassName="stroke-1"
-          label="Baum bearbeiten"
-          color="grey"
-          link={{
-            to: `/tree/$treeId/edit`,
-            params: { treeId: String(tree.id) },
-          }}
-        />
+        {!tree.readonly && (
+          <ButtonLink
+            icon={Pencil}
+            iconClassName="stroke-1"
+            label="Baum bearbeiten"
+            color="grey"
+            link={{
+              to: `/tree/$treeId/edit`,
+              params: { treeId: String(tree.id) },
+            }}
+          />
+        )}
       </article>
       {tree?.sensor ? (
         <Tabs tabs={tabs} />
