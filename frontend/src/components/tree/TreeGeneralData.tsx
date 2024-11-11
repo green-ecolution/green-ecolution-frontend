@@ -38,7 +38,7 @@ const TreeGeneralData: React.FC<TreeGeneralData> = ({ tree }) => {
     },
   ]
 
-  const localImages = [
+  const images = [
     'https://minio.green-ecolution.de/api/v1/buckets/test/objects/download?prefix=path%2Fimage1.jpg',
     'https://minio.green-ecolution.de/api/v1/buckets/test/objects/download?prefix=path%2Fimage2.jpg',
     'https://minio.green-ecolution.de/api/v1/buckets/test/objects/download?prefix=path%2Fimage3.jpg',
@@ -62,7 +62,7 @@ const TreeGeneralData: React.FC<TreeGeneralData> = ({ tree }) => {
       </dl>
 
       <section className="mt-16">
-        <Imageslider images={localImages} />
+        <Imageslider images={images} />
       </section>
     </>
   )

@@ -78,7 +78,7 @@ const Imageslider: React.FC<ImageSliderProps> = ({ images }) => {
           <button
             onClick={goToPrevious}
             aria-label="Previous Images"
-            disabled={currentIndex === 0} // Disable if we're on the first image
+            disabled={currentIndex === 0}
             className={`flex items-center justify-center p-2 hover:bg-gray-200 transition ${
               currentIndex === 0 ? 'cursor-not-allowed opacity-50' : ''
             }`}
@@ -91,7 +91,7 @@ const Imageslider: React.FC<ImageSliderProps> = ({ images }) => {
           <button
             onClick={goToNext}
             aria-label="Next Images"
-            disabled={currentIndex >= images.length - visibleImages} // Disable if we're on the last image
+            disabled={currentIndex >= images.length - visibleImages}
             className={`flex items-center justify-center p-2 hover:bg-gray-200 transition ${
               currentIndex >= images.length - visibleImages
                 ? 'cursor-not-allowed opacity-50'
