@@ -23,27 +23,27 @@ export const Route = createFileRoute('/_protected/tree/_formular/$treeId/edit')(
 )
 
 function EditTreeCluster() {
-  const showToast = useToast();
-  const treeId = Route.useParams().treeId;
-  const { data: tree } = useSuspenseQuery(treeIdQuery(treeId));
-  const queryClient = useQueryClient();
-  const navigate = useNavigate({ from: Route.fullPath });
+  const showToast = useToast()
+  const treeId = Route.useParams().treeId
+  const { data: tree } = useSuspenseQuery(treeIdQuery(treeId))
+  const queryClient = useQueryClient()
+  const navigate = useNavigate({ from: Route.fullPath })
   const formStore = useFormStore((state: FormStore<TreeclusterSchema>) => ({
     form: state.form,
     reset: state.reset,
-  }));
+  }))
 
   const handleOnUpdateSuccess = (data: Tree) => {
-    formStore.reset();
+    formStore.reset()
     navigate({
       to: '/tree/$treeId',
       params: { treeId: data.id.toString() },
       search: { resetStore: false },
       replace: true,
-    });
-    showToast('Der Baum wurde erfolgreich editiert');
-    queryClient.invalidateQueries(treeIdQuery(treeId));
-  };
+    })
+    showToast('Der Baum wurde erfolgreich editiert')
+    queryClient.invalidateQueries(treeIdQuery(treeId))
+  }
 
   return (
     <div className="container mt-6">
@@ -57,12 +57,20 @@ function EditTreeCluster() {
           }
         >
           {tree?.readonly ? (
-            <ReadonlyTreeUpdate treeId={treeId} onUpdateSuccess={handleOnUpdateSuccess} onUpdateError={console.error} />
+            <ReadonlyTreeUpdate
+              treeId={treeId}
+              onUpdateSuccess={handleOnUpdateSuccess}
+              onUpdateError={console.error}
+            />
           ) : (
-            <TreeUpdate treeId={treeId} onUpdateSuccess={handleOnUpdateSuccess} onUpdateError={console.error} />
+            <TreeUpdate
+              treeId={treeId}
+              onUpdateSuccess={handleOnUpdateSuccess}
+              onUpdateError={console.error}
+            />
           )}
         </ErrorBoundary>
       </Suspense>
     </div>
-  );
+  )
 }
