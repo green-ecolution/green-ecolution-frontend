@@ -1,6 +1,6 @@
 import { Tree } from '@green-ecolution/backend-client'
 import { format } from 'date-fns'
-import Imageslider from '@/components/tree/Imageslider'
+import ImageSlider from '@/components/tree/ImageSlider'
 
 interface TreeGeneralData {
   tree?: Tree
@@ -62,7 +62,7 @@ const TreeGeneralData: React.FC<TreeGeneralData> = ({ tree }) => {
       </dl>
 
       <section className="mt-16">
-        <Imageslider images={images} />
+        <ImageSlider images={images} />
       </section>
     </>
   )
