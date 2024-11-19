@@ -13,10 +13,9 @@ const WithAllClusters = ({
   hasHighlightedCluster,
 }: WithAllClustersProps) => {
   const { data } = useSuspenseQuery(treeClusterQuery())
-  console.log(data.data)
 
   return data.data
-    .filter((cluster) => cluster.latitude !== null && cluster.longitude !== null)
+    .filter((cluster) => cluster.latitude !== null || cluster.longitude !== null)
     .map((cluster) => (
       <ClusterMarker
         cluster={cluster}
