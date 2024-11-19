@@ -30,10 +30,17 @@ const TreeClusterDashboard = ({ clusterId }: TreeClusterDashboardProps) => {
             Bewässerungsgruppe: {treecluster.name}
           </h1>
           <p className="mb-4">{treecluster.description}</p>
-          <GeneralLink
+          {treecluster.trees?.length > 0 ? (
+            <GeneralLink
               url={`/map?lat=${treecluster.latitude}&lng=${treecluster.longitude}&zoom=16&cluster=${treecluster.id}`}
               label="Auf der Karte anzeigen"
             />
+          ) : (
+            <p>
+              Diese Baumgruppe enthält keine Bäume und hat damit keinen
+              Standort. Daher kann er nicht auf der Karte angezeigt werden.
+            </p>
+          )}
         </div>
         <ButtonLink
           icon={Pencil}
