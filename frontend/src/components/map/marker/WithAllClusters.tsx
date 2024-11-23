@@ -27,4 +27,3 @@ const WithAllClusters = ({
 }
 
 export default WithAllClusters
-//.filter((cluster) => cluster.region !== undefined)

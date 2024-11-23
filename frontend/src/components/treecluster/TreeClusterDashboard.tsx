@@ -9,6 +9,7 @@ import { Pencil } from 'lucide-react'
 import { getWateringStatusDetails } from '@/hooks/useDetailsForWateringStatus'
 import { Link } from '@tanstack/react-router'
 import GeneralLink from '../general/links/GeneralLink'
+import { TriangleAlert } from 'lucide-react'
 
 interface TreeClusterDashboardProps {
   clusterId: string
@@ -36,10 +37,12 @@ const TreeClusterDashboard = ({ clusterId }: TreeClusterDashboardProps) => {
               label="Auf der Karte anzeigen"
             />
           ) : (
-            <p>
-              Diese Baumgruppe enthält keine Bäume und hat damit keinen
-              Standort. Daher kann er nicht auf der Karte angezeigt werden.
-            </p>
+            <div className="flex items-center">
+              <TriangleAlert className="text-dark-600 w-5 h-5" />
+              <p className="ml-2 text-dark-600">
+                Diese Baumgruppe enthält keine Bäume und hat daher keinen Standort.
+              </p>
+            </div>
           )}
         </div>
         <ButtonLink
