@@ -123,6 +123,7 @@ const Dialog = forwardRef(
     return (
       <div className="font-nunito-sans text-base">
         <div
+          id="filter-button"
           onClick={() => handleClose()}
           className={`bg-dark-900/90 fixed inset-0 z-[1020] ${isOpen ? 'block' : 'hidden'}`}
         ></div>

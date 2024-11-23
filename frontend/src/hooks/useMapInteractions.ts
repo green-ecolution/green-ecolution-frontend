@@ -1,4 +1,5 @@
 import { useMap } from 'react-leaflet'
+import { useEffect } from 'react'
 
 function useMapInteractions() {
   const map = useMap()
@@ -14,6 +15,23 @@ function useMapInteractions() {
     map.scrollWheelZoom.disable()
     map.doubleClickZoom.disable()
   }
+
+  useEffect(() => {
+    const handleDoubleClick = (e: MouseEvent) => {
+      if ((e.target as HTMLElement).id === "filter-button") {
+        console.log("bin drin")
+        map.doubleClickZoom.disable()
+        setTimeout(() => map.doubleClickZoom.enable(), 200)
+      }
+    }
+
+    const mapContainer = map.getContainer()
+    mapContainer.addEventListener('click', handleDoubleClick)
+
+    return () => {
+      mapContainer.removeEventListener('click', handleDoubleClick)
+    }
+  }, [map])
 
   return { enableDragging, disableDragging }
 }
