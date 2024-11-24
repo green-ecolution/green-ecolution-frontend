@@ -11,6 +11,8 @@ import {
   TreeCluster,
   TreeClusterList,
   TreeList,
+  vehicleApi,
+  VehicleList,
 } from './backendApi'
 
 export const treeClusterQuery = () =>
@@ -58,4 +60,10 @@ export const infoQuery = () =>
   queryOptions<AppInfo>({
     queryKey: ['info'],
     queryFn: () => infoApi.getAppInfo(),
+  })
+
+export const vehicleQuery = () =>
+  queryOptions<VehicleList>({
+    queryKey: ['vehicle'],
+    queryFn: () => vehicleApi.getAllVehicles(),
   })
