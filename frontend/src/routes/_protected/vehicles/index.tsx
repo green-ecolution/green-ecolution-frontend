@@ -42,8 +42,7 @@ function Vehicles() {
               {vehicleRes.data?.length === 0 ? (
                 <li className="text-center text-dark-600 mt-10">
                   <p>
-                    Es wurden keine Bewässerungsgruppen gefunden, die den
-                    Filterkriterien entsprechen.
+                    Es wurden leider keine Fahrzeuge gefunden.
                   </p>
                 </li>
               ) : (
