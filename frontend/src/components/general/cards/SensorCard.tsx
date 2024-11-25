@@ -49,7 +49,7 @@ const SensorCard: React.FC<SensorCard> = ({ sensor }) => {
         Erstellt am: <span className="lg:block">{createdDate}</span>
       </p>
       <p className="text-dark-800">
-        Letztes Update am: <span className="lg:block">{updatedDate}</span>
+        Letztes Update: <span className="lg:block">{updatedDate}</span>
       </p>
     </Link>
   )

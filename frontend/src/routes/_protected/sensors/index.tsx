@@ -52,7 +52,7 @@ function Sensors() {
               </p>
             }
           >
-            <SensorList filteredData={sensorsRes.data} />
+            <SensorList data={sensorsRes.data} />
           </ErrorBoundary>
         </Suspense>
       </section>
