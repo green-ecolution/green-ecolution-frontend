@@ -2,21 +2,20 @@ import { Sensor } from '@/api/backendApi'
 import SensorCard from '../general/cards/SensorCard';
 
 interface SensorListProps {
-  filteredData: Sensor[];
+  data: Sensor[];
 }
 
-const SensorList = ({ filteredData }: SensorListProps) => {
+const SensorList = ({ data }: SensorListProps) => {
   return (
     <ul>
-      {filteredData?.length === 0 ? (
+      {data?.length === 0 ? (
         <li className="text-center text-dark-600 mt-10">
           <p>
-            Es wurden keine Bewässerungsgruppen gefunden, die den
-            Filterkriterien entsprechen.
+            Es wurden keine Sensoren gefunden.
           </p>
         </li>
       ) : (
-        filteredData?.map((sensor, key) => (
+        data?.map((sensor, key) => (
           <li key={key} className="mb-5 last:mb-0">
             <SensorCard sensor={sensor} />
           </li>
