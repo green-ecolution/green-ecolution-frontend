@@ -51,8 +51,6 @@ const TreeGeneralData: React.FC<TreeGeneralData> = ({ tree }) => {
           </div>
         ))}
       </dl>
-
-      <section className="mt-16">@TODO: Add image slider</section>
     </>
   )
 }
