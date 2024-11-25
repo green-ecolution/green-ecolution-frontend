@@ -40,7 +40,7 @@ function Sensors() {
           <p>Status</p>
           <p>Name und Verknüpfung</p>
           <p>Erstelldatum</p>
-          <p>Letzes Datenupdate</p>
+          <p>Letztes Datenupdate</p>
         </header>
 
         <Suspense fallback={<LoadingInfo label="Daten werden geladen" />}>
