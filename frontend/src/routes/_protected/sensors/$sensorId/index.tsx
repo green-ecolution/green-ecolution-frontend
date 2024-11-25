@@ -28,7 +28,34 @@ function SingleSensor() {
       addSuffix: true,
       locale: de,
     }),
+    created_at: formatDistance(subDays(new Date(), 3), new Date(), {
+      addSuffix: true,
+      locale: de,
+    }),
   }
+
+  const generalSensorData = [
+    {
+      label: 'Anzahl verbaute Sensoren',
+      value: '3 Sensoren',
+    },
+    {
+      label: 'Erstellt am',
+      value: exampleSensor.created_at ?? 'Keine Angabe',
+    },
+    {
+      label: 'Letztes Update',
+      value: exampleSensor.updated_at ?? 'Keine Angabe',
+    },
+    {
+      label: 'Latitude',
+      value: '54.12345',
+    },
+    {
+      label: 'Longitude',
+      value: '9.12345',
+    },
+  ]
 
   return (
     <div className="container mt-6">
@@ -71,6 +98,29 @@ function SingleSensor() {
             />
           </li>
         </ul>
+      </section>
+
+      <section className="mt-16 md:grid md:gap-x-11 md:grid-cols-2">
+        <div>
+          <h2 className="text-xl font-lato font-bold mb-4">Daten zum Sensor</h2>
+          <dl className="text-lg">
+            {generalSensorData.map((data, index) => (
+              <div
+                key={index}
+                className="py-4 border-b border-b-dark-200 group md:last:border-b-transparent last:border-b-transparent"
+              >
+                <dt className="font-bold sm:inline">{data.label}:</dt>
+                <dd className="sm:inline sm:px-2">{data.value}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+        
+        <div className="h-max space-y-3 bg-dark-50 rounded-xl p-6">
+          <h2 className="text-sm text-dark-700 font-medium">Verknüpfte Vegetation</h2>
+          <p className="font-bold text-3xl">Baum XY</p>
+          <p className="text-sm">Test</p>
+        </div>
       </section>
     </div>
   )
