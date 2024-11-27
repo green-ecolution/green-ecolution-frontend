@@ -34,6 +34,7 @@ const TreeUpdate = ({ treeId, onUpdateSuccess, onUpdateError }: TreeUpdateProps)
       treeClusterId: data.treeClusterId ?? -1,
       sensorId: data.sensor?.id ?? -1,
       description: data.description,
+      readonly: data.readonly,
     })
   )
 
@@ -100,6 +101,7 @@ const TreeUpdate = ({ treeId, onUpdateSuccess, onUpdateError }: TreeUpdateProps)
 
       <section className="mt-10">
         <FormForTree
+          isReadonly={initForm?.readonly ?? false}
           register={register}
           handleSubmit={handleSubmit}
           displayError={isError}
