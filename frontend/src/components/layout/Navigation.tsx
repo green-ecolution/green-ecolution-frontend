@@ -54,7 +54,7 @@ const Navigation: React.FC<NavigationProps> = ({
       headline: "Grünflächen",
       links: [
         {
-          label: "Baumkataster",
+          label: "Karte",
           icon: <Map className="w-5 h-5" />,
           to: `/map?lat=${mapPosition.lat}&lng=${mapPosition.lng}&zoom=${mapPosition.zoom}`,
         },
