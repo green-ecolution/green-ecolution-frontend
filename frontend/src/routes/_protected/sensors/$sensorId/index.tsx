@@ -1,6 +1,7 @@
 import EntitiesStatusCard from '@/components/general/cards/EntitiesStatusCard'
 import GeneralStatusCard from '@/components/general/cards/GeneralStatusCard'
 import BackLink from '@/components/general/links/BackLink'
+import GeneralLink from '@/components/general/links/GeneralLink'
 import { getVoltageQualityDetails } from '@/hooks/useDetailsForSensorBattery'
 import { getSensorStatusDetails } from '@/hooks/useDetailsForSensorStatus'
 import { SensorStatus } from '@green-ecolution/backend-client'
@@ -20,6 +21,7 @@ export const Route = createFileRoute('/_protected/sensors/$sensorId/')({
 })
 
 function SingleSensor() {
+  // TODO: use real data
   const exampleSensor = {
     id: '12345678',
     status: SensorStatus.SensorStatusOffline,
@@ -32,6 +34,13 @@ function SingleSensor() {
       addSuffix: true,
       locale: de,
     }),
+  }
+
+  const exampleTree = {
+    id: "1",
+    treeNumber: '1234',
+    longitude: '54.12345',
+    latitude: '9.12345',
   }
 
   const generalSensorData = [
@@ -118,8 +127,15 @@ function SingleSensor() {
         
         <div className="h-max space-y-3 bg-dark-50 rounded-xl p-6">
           <h2 className="text-sm text-dark-700 font-medium">Verknüpfte Vegetation</h2>
-          <p className="font-bold text-3xl">Baum XY</p>
-          <p className="text-sm">Test</p>
+          <p className="font-bold text-3xl">Baum: {exampleTree.treeNumber}</p>
+          <p className="text-sm mb-4">Longitude: {exampleTree.longitude}, Latitude: {exampleTree.latitude}</p>
+          <GeneralLink
+            label="Zur verknüpften Vegetation"
+            link={{
+              to: '/tree/$treeId',
+              params: { treeId: exampleTree.id },
+            }}
+          />
         </div>
       </section>
     </div>
