@@ -48,7 +48,7 @@ function Vehicles() {
               ) : (
                 vehicleRes.data?.map((vehicle, key) => (
                   <li key={key} className="mb-5 last:mb-0">
-                    {vehicle.type}
+                    Fahrzeug {vehicle.id}
                   </li>
                 ))
               )}
