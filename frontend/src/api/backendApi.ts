@@ -12,6 +12,7 @@ import {
   TreeApi,
   TreeClusterApi,
   UserApi,
+  VehicleApi,
 } from '@green-ecolution/backend-client'
 import { redirect } from '@tanstack/react-router'
 
@@ -79,6 +80,7 @@ export const infoApi = new InfoApi(config)
 export const userApi = new UserApi(config)
 export const regionApi = new RegionApi(config)
 export const sensorApi = new SensorApi(config)
+export const vehicleApi = new VehicleApi(config)
 export const importApi = new FileImportApi(
   new Configuration({
     ...configParams,
