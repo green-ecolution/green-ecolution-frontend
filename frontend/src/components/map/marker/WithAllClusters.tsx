@@ -15,7 +15,7 @@ const WithAllClusters = ({
   const { data } = useSuspenseQuery(treeClusterQuery())
 
   return data.data
-    .filter((cluster) => cluster.region !== undefined)
+    .filter((cluster) => cluster.latitude !== null || cluster.longitude !== null)
     .map((cluster) => (
       <ClusterMarker
         cluster={cluster}
