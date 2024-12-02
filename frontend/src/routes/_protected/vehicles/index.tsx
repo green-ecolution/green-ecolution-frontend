@@ -34,7 +34,7 @@ function Vehicles() {
         <ButtonLink
           icon={Plus}
           label="Neues Fahrzeug erstellen"
-          link={{ to: '/treecluster/new' }}
+          link={{ to: '/_protected/vehicles/' }} // this is still missing
         />
       </article>
 
