@@ -6,28 +6,24 @@ const VehicleStatusProperties = {
         bgcolor: 'none',
         label: 'Unbekannt',
         description: 'Der Fahrzeugstatus ist unbekannt.',
-        colorHex: '#A2A2A2',
     },
     [VehicleStatus.VehicleStatusNotAvailable]: {
         color: 'red',
         bgcolor: 'none',
         label: 'Nicht Verfügbar',
         description: 'Das Fahrzeug ist nicht verfügbar.',
-        colorHex: '#E44E4D',
     },
     [VehicleStatus.VehicleStatusAvailable]: {
-        color: 'yellow',
+        color: 'green-light',
         bgcolor: 'none',
         label: 'Verfügbar',
         description: 'Das ist Fahrzeug verfügbar.',
-        colorHex: '#FFC434',
     },
     [VehicleStatus.VehicleStatusActive]: {
         color: 'green-dark',
         bgcolor: 'green-light-200',
         label: 'Im Einsatz',
         description: 'Das Fahrzeug ist im Einsatz.',
-        colorHex: '#ACB63B',
     },
 } as const
 

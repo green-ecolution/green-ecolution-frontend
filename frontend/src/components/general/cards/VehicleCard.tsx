@@ -36,8 +36,8 @@ const VehicleCard: React.FC<VehicleCard> = ({ vehicle }) => {
       </div>
 
       <p>{vehicle.waterCapacity} Liter</p>
-      <p>??</p>
-      <p>??</p>
+      <p>{vehicle.model}</p>
+      <p>{vehicle.drivingLicense}</p>
     </Link>
   )
 }
