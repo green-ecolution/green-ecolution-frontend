@@ -20,7 +20,6 @@ export const Route = createFileRoute('/_protected/vehicles/')({
 
 function Vehicles() {
   const { data: vehicleRes } = useSuspenseQuery(vehicleQuery())
-  vehicleRes.data?.map((vehicle, key) => console.log(vehicle))
 
   return (
     <div className="container mt-6">
