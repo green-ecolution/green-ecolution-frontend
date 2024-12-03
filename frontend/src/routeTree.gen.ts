@@ -594,8 +594,8 @@ export const routeTree = rootRoute.addChildren({
         ProtectedTreeFormularNewRoute,
       }),
     }),
-    ProtectedVehiclesIndexRoute,
     ProtectedSensorsIndexRoute,
+    ProtectedVehiclesIndexRoute,
     ProtectedSensorsSensorIdIndexRoute,
   }),
   LoginRoute,
@@ -635,8 +635,8 @@ export const routeTree = rootRoute.addChildren({
         "/_protected/waypoints",
         "/_protected/tree/$treeId",
         "/_protected/tree",
-        "/_protected/vehicles/"
         "/_protected/sensors/",
+        "/_protected/vehicles/",
         "/_protected/sensors/$sensorId/"
       ]
     },
