@@ -39,7 +39,7 @@ function Vehicles() {
       </article>
 
       <section className="mt-10">
-        <header className="hidden border-b pb-2 text-sm text-dark-800 px-8 border-b-dark-200 mb-5 lg:grid lg:grid-cols-[1fr,1fr,1fr,1fr,1fr] lg:gap-5 xl:px-10">
+        <header className="hidden border-b pb-2 text-sm text-dark-800 px-8 border-b-dark-200 mb-5 lg:grid lg:grid-cols-5 lg:gap-5 xl:px-10">
           <p>Status</p>
           <p>Kennzeichen</p>
           <p>Wasserkapazität</p>
