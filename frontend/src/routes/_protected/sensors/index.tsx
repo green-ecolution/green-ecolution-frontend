@@ -1,12 +1,12 @@
-import { sensorQuery } from '@/api/queries';
-import LoadingInfo from '@/components/general/error/LoadingInfo';
-import SensorList from '@/components/sensor/SensorList';
-import { useSuspenseQuery } from '@tanstack/react-query';
+import { sensorQuery } from '@/api/queries'
+import LoadingInfo from '@/components/general/error/LoadingInfo'
+import SensorList from '@/components/sensor/SensorList'
+import { useSuspenseQuery } from '@tanstack/react-query'
 import { createFileRoute } from '@tanstack/react-router'
-import { Suspense } from 'react';
-import { ErrorBoundary } from 'react-error-boundary';
+import { Suspense } from 'react'
+import { ErrorBoundary } from 'react-error-boundary'
 
-export const Route = createFileRoute('/_protected/sensors')({
+export const Route = createFileRoute('/_protected/sensors/')({
   component: Sensors,
   meta: () => [
     {
@@ -15,7 +15,6 @@ export const Route = createFileRoute('/_protected/sensors')({
     },
   ],
 })
-
 
 function Sensors() {
   const { data: sensorsRes } = useSuspenseQuery(sensorQuery())
@@ -27,13 +26,15 @@ function Sensors() {
           Auflistung aller verfügbaren Sensoren
         </h1>
         <p>
-          Eu ipsum occaecat non exercitation occaecat ea aute fugiat quis magna do veniam commodo.
-          Magna Lorem cupidatat id fugiat nostrud quis qui in quis fugiat. Irure pariatur anim cupidatat nulla ipsum Lorem irure. 
-          Est elit laborum sunt commodo officia nulla cupidatat fugiat tempor exercitation laborum. Sint irure eiusmod sunt. 
-          Magna esse proident magna dolore aliqua nulla id sunt adipisicing.
+          Eu ipsum occaecat non exercitation occaecat ea aute fugiat quis magna
+          do veniam commodo. Magna Lorem cupidatat id fugiat nostrud quis qui in
+          quis fugiat. Irure pariatur anim cupidatat nulla ipsum Lorem irure.
+          Est elit laborum sunt commodo officia nulla cupidatat fugiat tempor
+          exercitation laborum. Sint irure eiusmod sunt. Magna esse proident
+          magna dolore aliqua nulla id sunt adipisicing.
         </p>
       </article>
-      
+
       <section className="mt-10">
         <header className="hidden border-b pb-2 text-sm text-dark-800 px-8 border-b-dark-200 mb-5 lg:grid lg:grid-cols-[1fr,2fr,1fr,1fr] lg:gap-5 xl:px-10">
           <p>Status</p>
@@ -56,5 +57,5 @@ function Sensors() {
         </Suspense>
       </section>
     </div>
-  );
+  )
 }
