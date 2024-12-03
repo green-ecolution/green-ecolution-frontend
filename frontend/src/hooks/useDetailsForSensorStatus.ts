@@ -9,12 +9,12 @@ const SensorStatusProperties = {
   [SensorStatus.SensorStatusOffline]: {
     color: 'red',
     label: 'Offline',
-    description: 'Einige Sensoren haben Probleme und benötigen eine Wartung.',
+    description: 'Der Sensorbaukasten hat Probleme und benötigen eine Wartung.',
   },
   [SensorStatus.SensorStatusOnline]: {
     color: 'green-light',
-    label: 'In Ordnung',
-    description: 'Alle Sensoren sind online und können Daten senden.',
+    label: 'Online',
+    description: 'Der Sensorbaukasten kann Daten senden.',
   },
 } as const
 

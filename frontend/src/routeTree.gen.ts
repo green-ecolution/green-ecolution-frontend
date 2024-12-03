@@ -22,7 +22,6 @@ import { Route as ProtectedWaypointsImport } from './routes/_protected/waypoints
 import { Route as ProtectedTreeclusterImport } from './routes/_protected/treecluster'
 import { Route as ProtectedTeamImport } from './routes/_protected/team'
 import { Route as ProtectedSettingsImport } from './routes/_protected/settings'
-import { Route as ProtectedSensorsImport } from './routes/_protected/sensors'
 import { Route as ProtectedProfileImport } from './routes/_protected/profile'
 import { Route as ProtectedMapImport } from './routes/_protected/map'
 import { Route as ProtectedInfoImport } from './routes/_protected/info'
@@ -32,6 +31,7 @@ import { Route as ProtectedWaypointsIndexImport } from './routes/_protected/wayp
 import { Route as ProtectedVehiclesIndexImport } from './routes/_protected/vehicles/index'
 import { Route as ProtectedTreeclusterIndexImport } from './routes/_protected/treecluster/index'
 import { Route as ProtectedSettingsIndexImport } from './routes/_protected/settings/index'
+import { Route as ProtectedSensorsIndexImport } from './routes/_protected/sensors/index'
 import { Route as ProtectedMapIndexImport } from './routes/_protected/map/index'
 import { Route as ProtectedWaypointsNewImport } from './routes/_protected/waypoints/new'
 import { Route as ProtectedTreeclusterFormularImport } from './routes/_protected/treecluster/_formular'
@@ -40,6 +40,7 @@ import { Route as ProtectedTreeFormularImport } from './routes/_protected/tree/_
 import { Route as ProtectedTreeTreeIdImport } from './routes/_protected/tree/$treeId'
 import { Route as ProtectedSettingsImportImport } from './routes/_protected/settings/import'
 import { Route as ProtectedTreeclusterTreeclusterIdIndexImport } from './routes/_protected/treecluster/$treeclusterId/index'
+import { Route as ProtectedSensorsSensorIdIndexImport } from './routes/_protected/sensors/$sensorId/index'
 import { Route as ProtectedTreeclusterFormularNewImport } from './routes/_protected/treecluster/_formular/new'
 import { Route as ProtectedTreeclusterFormularTreeclusterIdImport } from './routes/_protected/treecluster/_formular/$treeclusterId'
 import { Route as ProtectedTreeFormularNewImport } from './routes/_protected/tree/_formular/new'
@@ -107,11 +108,6 @@ const ProtectedSettingsRoute = ProtectedSettingsImport.update({
   getParentRoute: () => ProtectedRoute,
 } as any)
 
-const ProtectedSensorsRoute = ProtectedSensorsImport.update({
-  path: '/sensors',
-  getParentRoute: () => ProtectedRoute,
-} as any)
-
 const ProtectedProfileRoute = ProtectedProfileImport.update({
   path: '/profile',
   getParentRoute: () => ProtectedRoute,
@@ -157,6 +153,11 @@ const ProtectedSettingsIndexRoute = ProtectedSettingsIndexImport.update({
   getParentRoute: () => ProtectedSettingsRoute,
 } as any)
 
+const ProtectedSensorsIndexRoute = ProtectedSensorsIndexImport.update({
+  path: '/sensors/',
+  getParentRoute: () => ProtectedRoute,
+} as any)
+
 const ProtectedMapIndexRoute = ProtectedMapIndexImport.update({
   path: '/',
   getParentRoute: () => ProtectedMapRoute,
@@ -198,6 +199,12 @@ const ProtectedTreeclusterTreeclusterIdIndexRoute =
   ProtectedTreeclusterTreeclusterIdIndexImport.update({
     path: '/',
     getParentRoute: () => ProtectedTreeclusterTreeclusterIdRoute,
+  } as any)
+
+const ProtectedSensorsSensorIdIndexRoute =
+  ProtectedSensorsSensorIdIndexImport.update({
+    path: '/sensors/$sensorId/',
+    getParentRoute: () => ProtectedRoute,
   } as any)
 
 const ProtectedTreeclusterFormularNewRoute =
@@ -324,13 +331,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedProfileImport
       parentRoute: typeof ProtectedImport
     }
-    '/_protected/sensors': {
-      id: '/_protected/sensors'
-      path: '/sensors'
-      fullPath: '/sensors'
-      preLoaderRoute: typeof ProtectedSensorsImport
-      parentRoute: typeof ProtectedImport
-    }
     '/_protected/settings': {
       id: '/_protected/settings'
       path: '/settings'
@@ -422,6 +422,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedMapIndexImport
       parentRoute: typeof ProtectedMapImport
     }
+    '/_protected/sensors/': {
+      id: '/_protected/sensors/'
+      path: '/sensors'
+      fullPath: '/sensors'
+      preLoaderRoute: typeof ProtectedSensorsIndexImport
+      parentRoute: typeof ProtectedImport
+    }
     '/_protected/settings/': {
       id: '/_protected/settings/'
       path: '/'
@@ -492,6 +499,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedTreeclusterFormularNewImport
       parentRoute: typeof ProtectedTreeclusterFormularImport
     }
+    '/_protected/sensors/$sensorId/': {
+      id: '/_protected/sensors/$sensorId/'
+      path: '/sensors/$sensorId'
+      fullPath: '/sensors/$sensorId'
+      preLoaderRoute: typeof ProtectedSensorsSensorIdIndexImport
+      parentRoute: typeof ProtectedImport
+    }
     '/_protected/treecluster/$treeclusterId/': {
       id: '/_protected/treecluster/$treeclusterId/'
       path: '/'
@@ -545,7 +559,6 @@ export const routeTree = rootRoute.addChildren({
       ProtectedMapTreeclusterSelectTreeRoute,
     }),
     ProtectedProfileRoute,
-    ProtectedSensorsRoute,
     ProtectedSettingsRoute: ProtectedSettingsRoute.addChildren({
       ProtectedSettingsImportRoute,
       ProtectedSettingsIndexRoute,
@@ -581,7 +594,9 @@ export const routeTree = rootRoute.addChildren({
         ProtectedTreeFormularNewRoute,
       }),
     }),
+    ProtectedSensorsIndexRoute,
     ProtectedVehiclesIndexRoute,
+    ProtectedSensorsSensorIdIndexRoute,
   }),
   LoginRoute,
   LogoutRoute,
@@ -614,14 +629,15 @@ export const routeTree = rootRoute.addChildren({
         "/_protected/info",
         "/_protected/map",
         "/_protected/profile",
-        "/_protected/sensors",
         "/_protected/settings",
         "/_protected/team",
         "/_protected/treecluster",
         "/_protected/waypoints",
         "/_protected/tree/$treeId",
         "/_protected/tree",
-        "/_protected/vehicles/"
+        "/_protected/sensors/",
+        "/_protected/vehicles/",
+        "/_protected/sensors/$sensorId/"
       ]
     },
     "/login": {
@@ -654,10 +670,6 @@ export const routeTree = rootRoute.addChildren({
     },
     "/_protected/profile": {
       "filePath": "_protected/profile.tsx",
-      "parent": "/_protected"
-    },
-    "/_protected/sensors": {
-      "filePath": "_protected/sensors.tsx",
       "parent": "/_protected"
     },
     "/_protected/settings": {
@@ -739,6 +751,10 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "_protected/map/index.tsx",
       "parent": "/_protected/map"
     },
+    "/_protected/sensors/": {
+      "filePath": "_protected/sensors/index.tsx",
+      "parent": "/_protected"
+    },
     "/_protected/settings/": {
       "filePath": "_protected/settings/index.tsx",
       "parent": "/_protected/settings"
@@ -784,6 +800,10 @@ export const routeTree = rootRoute.addChildren({
     "/_protected/treecluster/_formular/new": {
       "filePath": "_protected/treecluster/_formular/new.tsx",
       "parent": "/_protected/treecluster/_formular"
+    },
+    "/_protected/sensors/$sensorId/": {
+      "filePath": "_protected/sensors/$sensorId/index.tsx",
+      "parent": "/_protected"
     },
     "/_protected/treecluster/$treeclusterId/": {
       "filePath": "_protected/treecluster/$treeclusterId/index.tsx",
