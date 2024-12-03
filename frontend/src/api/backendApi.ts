@@ -11,6 +11,7 @@ import {
   SensorApi,
   TreeApi,
   TreeClusterApi,
+  TreeSensorApi,
   UserApi,
   VehicleApi,
 } from '@green-ecolution/backend-client'
@@ -75,6 +76,7 @@ const configParams: ConfigurationParameters = {
 const config = new Configuration(configParams)
 
 export const treeApi = new TreeApi(config)
+export const treeSensorApi = new TreeSensorApi(config)
 export const clusterApi = new TreeClusterApi(config)
 export const infoApi = new InfoApi(config)
 export const userApi = new UserApi(config)

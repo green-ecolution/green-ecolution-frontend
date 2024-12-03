@@ -69,13 +69,17 @@ const TreeDashboard = ({ treeId }: TreeDashboardProps) => {
           {tree.description && <p>{tree.description}</p>}
           <div className="flex mt-4 flex-wrap gap-x-10">
             <GeneralLink
-              url={`/map?lat=${tree.latitude}&lng=${tree.longitude}&zoom=18&tree=${tree.id}`}
               label="Auf der Karte anzeigen"
+              link={{
+                to: `/map?lat=${tree.latitude}&lng=${tree.longitude}&zoom=18&tree=${tree.id}`,
+              }}
             />
             {tree.treeClusterId && (
               <GeneralLink
-                url={`/treecluster/${tree.treeClusterId}`}
-                label="Zur Bewässerungsggruppe"
+                label="Zur Bewässerungsgruppe"
+                link={{
+                  to: `/treecluster/${tree.treeClusterId}`,
+                }}
               />
             )}
           </div>

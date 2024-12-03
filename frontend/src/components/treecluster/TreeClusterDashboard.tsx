@@ -40,7 +40,9 @@ const TreeClusterDashboard = ({ clusterId }: TreeClusterDashboardProps) => {
             </div>
           ) : (
             <GeneralLink
-              url={`/map?lat=${treecluster.latitude}&lng=${treecluster.longitude}&zoom=16&cluster=${treecluster.id}`}
+              link={{
+                to: `/map?lat=${treecluster.latitude}&lng=${treecluster.longitude}&zoom=16&cluster=${treecluster.id}`,
+              }}
               label="Auf der Karte anzeigen"
             />
           )}
