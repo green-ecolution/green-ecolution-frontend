@@ -32,7 +32,7 @@ const VehicleCard: React.FC<VehicleCard> = ({ vehicle }) => {
 
       <div>
       <span className="lg:sr-only">Kennzeichen: </span>
-        <h2 className="text-dark-600 font-bold text-lg mb-0.5">{vehicle.numberPlate}</h2>
+        <h2 className="text-dark font-bold text-lg mb-0.5">{vehicle.numberPlate}</h2>
         <p className="text-dark-600 lg:block lg:text-sm">
           {vehicleTypeMapping[vehicle.type] || vehicle.type}
         </p>
