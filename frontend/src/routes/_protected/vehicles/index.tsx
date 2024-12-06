@@ -1,19 +1,22 @@
-import { vehicleQuery } from "@/api/queries";
-import LoadingInfo from "@/components/general/error/LoadingInfo";
-import { useSuspenseQuery } from "@tanstack/react-query";
-import { createFileRoute } from "@tanstack/react-router";
-import { Suspense } from "react";
-import { ErrorBoundary } from "react-error-boundary";
+import { vehicleQuery } from '@/api/queries'
+import VehicleCard from '@/components/general/cards/VehicleCard'
+import LoadingInfo from '@/components/general/error/LoadingInfo'
+import { useSuspenseQuery } from '@tanstack/react-query'
+import { createFileRoute } from '@tanstack/react-router'
+import { Suspense } from 'react'
+import { ErrorBoundary } from 'react-error-boundary'
+import ButtonLink from '@/components/general/links/ButtonLink'
+import { Plus } from 'lucide-react'
 
-export const Route = createFileRoute("/_protected/vehicles/")({
+export const Route = createFileRoute('/_protected/vehicles/')({
   component: Vehicles,
   meta: () => [
     {
       title: 'Fahrzeuge',
       path: '/vehicles',
     },
-  ]
-});
+  ],
+})
 
 function Vehicles() {
   const { data: vehicleRes } = useSuspenseQuery(vehicleQuery())
@@ -22,14 +25,28 @@ function Vehicles() {
     <div className="container mt-6">
       <article className="mb-20 2xl:w-4/5">
         <h1 className="font-lato font-bold text-3xl mb-4 lg:text-4xl xl:text-5xl">
-          Auflistung aller Fahrzeuge
+          Alle Fahrzeuge
         </h1>
-        <p>
-          Hier finden Sie eine Übersicht aller Fahrzeuge, welche für Einsätze verwendet werden können.
+        <p className="mb-5">
+          Hier finden Sie eine Übersicht aller Fahrzeuge, welche für Einsätze
+          verwendet werden können.
         </p>
+        <ButtonLink
+          icon={Plus}
+          label="Neues Fahrzeug erstellen"
+          link={{ to: '/vehicles/' }} // this is still missing
+        />
       </article>
 
-      <Suspense fallback={<LoadingInfo label="Daten werden geladen" />}>
+      <section className="mt-10">
+        <header className="hidden border-b pb-2 text-sm text-dark-800 px-8 border-b-dark-200 mb-5 lg:grid lg:grid-cols-5 lg:gap-5 xl:px-10">
+          <p>Status</p>
+          <p>Kennzeichen</p>
+          <p>Wasserkapazität</p>
+          <p>Modell</p>
+          <p>Führerscheinklasse</p>
+        </header>
+        <Suspense fallback={<LoadingInfo label="Daten werden geladen" />}>
           <ErrorBoundary
             fallback={
               <p className="text-center text-dark-600 mt-10">
@@ -41,20 +58,19 @@ function Vehicles() {
             <ul>
               {vehicleRes.data?.length === 0 ? (
                 <li className="text-center text-dark-600 mt-10">
-                  <p>
-                    Es wurden leider keine Fahrzeuge gefunden.
-                  </p>
+                  <p>Es wurden leider keine Fahrzeuge gefunden.</p>
                 </li>
               ) : (
                 vehicleRes.data?.map((vehicle, key) => (
                   <li key={key} className="mb-5 last:mb-0">
-                    Fahrzeug {vehicle.id}
+                    <VehicleCard vehicle={vehicle} />
                   </li>
                 ))
               )}
             </ul>
           </ErrorBoundary>
         </Suspense>
+      </section>
     </div>
-  );
+  )
 }
