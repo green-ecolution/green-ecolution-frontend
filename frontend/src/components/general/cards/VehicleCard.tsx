@@ -21,27 +21,29 @@ const VehicleCard: React.FC<VehicleCard> = ({ vehicle }) => {
       <Pill label={statusDetails.label} theme={statusDetails.color}></Pill>
 
       <div>
-      <span className="lg:sr-only">Kennzeichen: </span>
-        <h2 className="text-dark font-bold text-lg mb-0.5">{vehicle.numberPlate}</h2>
-        <p className="text-dark-600 lg:block lg:text-sm">
+        <h2 className="text-dark font-bold text-lg mb-0.5">
+          <span className="lg:sr-only">Kennzeichen: </span>
+          {vehicle.numberPlate}
+        </h2>
+        <p className="text-dark-600 lg:text-sm">
           {vehicleType}
         </p>
       </div>
 
-      <div>
-        <span className="lg:sr-only">Wasserkapazität: </span>
-        <p className="text-dark-800">{vehicle.waterCapacity} Liter</p>
-      </div>
+      <p className="text-dark-800">
+        <span className="lg:sr-only">Wasserkapazität:&nbsp;</span>
+        {vehicle.waterCapacity} Liter
+      </p>
 
-      <div>
-        <span className="lg:sr-only">Modell: </span>
-        <p className="text-dark-800">{vehicle.model}</p>
-      </div>
+      <p className="text-dark-800">
+        <span className="lg:sr-only">Modell:&nbsp;</span>
+        {vehicle.model}
+      </p>
 
-      <div>
-        <span className="lg:sr-only">Benötigte Führerscheinklasse: </span>
-        <p className="text-dark-800">{vehicle.drivingLicense}</p>
-      </div>
+      <p className="text-dark-800">
+        <span className="lg:sr-only">Benötigte Führerscheinklasse:&nbsp;</span>
+        {vehicle.drivingLicense}
+      </p>
     </Link>
   )
 }
