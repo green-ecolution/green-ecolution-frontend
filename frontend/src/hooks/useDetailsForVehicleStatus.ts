@@ -2,7 +2,7 @@ import { VehicleStatus } from '@green-ecolution/backend-client'
 
 const VehicleStatusProperties = {
     [VehicleStatus.VehicleStatusUnknown]: {
-        color: 'dark-400',
+        color: 'grey',
         bgcolor: 'none',
         label: 'Unbekannt',
         description: 'Der Fahrzeugstatus ist unbekannt.',
@@ -14,13 +14,13 @@ const VehicleStatusProperties = {
         description: 'Das Fahrzeug ist nicht verfügbar.',
     },
     [VehicleStatus.VehicleStatusAvailable]: {
-        color: 'green-light',
+        color: 'green-dark',
         bgcolor: 'none',
         label: 'Verfügbar',
         description: 'Das ist Fahrzeug verfügbar.',
     },
     [VehicleStatus.VehicleStatusActive]: {
-        color: 'green-dark',
+        color: 'green-light',
         bgcolor: 'green-light-200',
         label: 'Im Einsatz',
         description: 'Das Fahrzeug ist im Einsatz.',

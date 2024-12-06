@@ -2,7 +2,7 @@ import { SensorStatus } from '@green-ecolution/backend-client'
 
 const SensorStatusProperties = {
   [SensorStatus.SensorStatusUnknown]: {
-    color: 'dark-400',
+    color: 'grey',
     label: 'Unbekannt',
     description: 'Der Status ist unbekannt.',
   },
@@ -12,7 +12,7 @@ const SensorStatusProperties = {
     description: 'Der Sensorbaukasten hat Probleme und benötigen eine Wartung.',
   },
   [SensorStatus.SensorStatusOnline]: {
-    color: 'green-light',
+    color: 'green-dark',
     label: 'Online',
     description: 'Der Sensorbaukasten kann Daten senden.',
   },
