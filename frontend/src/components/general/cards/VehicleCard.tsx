@@ -15,7 +15,7 @@ const VehicleCard: React.FC<VehicleCard> = ({ vehicle }) => {
 
   return (
     <Link
-      to={`/vehicle/${vehicle.id}`}
+      to={`/vehicles/${vehicle.id}`}
       className="bg-white border border-dark-50 p-6 rounded-xl shadow-cards flex flex-col gap-y-4 transition-all ease-in-out duration-300 hover:bg-green-dark-50 hover:border-green-dark lg:grid lg:grid-cols-5 lg:items-center lg:gap-5 lg:py-10 xl:px-10"
     >
       <Pill label={statusDetails.label} theme={statusDetails.color}></Pill>
@@ -25,9 +25,7 @@ const VehicleCard: React.FC<VehicleCard> = ({ vehicle }) => {
           <span className="lg:sr-only">Kennzeichen: </span>
           {vehicle.numberPlate}
         </h2>
-        <p className="text-dark-600 lg:text-sm">
-          {vehicleType}
-        </p>
+        <p className="text-dark-600 lg:text-sm">{vehicleType}</p>
       </div>
 
       <p className="text-dark-800">
