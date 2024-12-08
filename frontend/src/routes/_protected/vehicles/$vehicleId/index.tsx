@@ -10,7 +10,7 @@ export const Route = createFileRoute('/_protected/vehicles/$vehicleId/')({
   component: SingleVehicle,
   loader: async ({ params }) => {
     return {
-      cluster: await queryClient.ensureQueryData(
+      vehicle: await queryClient.ensureQueryData(
         vehicleIdQuery(params.vehicleId)
       ),
     }
@@ -27,7 +27,7 @@ function SingleVehicle() {
         <ErrorBoundary
           fallback={
             <p className="text-red text-lg font-semibold">
-              Ein Fahrzeug mit der Identifikationsnummer {vehicleId}{' '}
+              Ein Fahrzeug mit der Identifikationsnummer {vehicleId}
               gibt es nicht oder die Fahrzeugdaten konnten nicht
               geladen werden
             </p>

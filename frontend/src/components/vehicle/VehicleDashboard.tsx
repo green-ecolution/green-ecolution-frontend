@@ -2,12 +2,12 @@ import BackLink from '../general/links/BackLink'
 import Pill from '../general/Pill'
 import ButtonLink from '../general/links/ButtonLink'
 import { Pencil } from 'lucide-react'
-import VehicleGeneralData from './VehicleGeneralData'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { vehicleIdQuery } from '@/api/queries'
 import { getVehicleStatusDetails } from '@/hooks/useDetailsForVehicleStatus'
 import GeneralLink from '../general/links/GeneralLink'
 import { VehicleStatus } from '@green-ecolution/backend-client'
+import { getVehicleType } from '@/hooks/useDetailsForVehicleType'
 
 interface VehicleDashboardProps {
   vehicleId: string
@@ -16,6 +16,40 @@ interface VehicleDashboardProps {
 const VehicleDashboard = ({ vehicleId }: VehicleDashboardProps) => {
   const { data: vehicle } = useSuspenseQuery(vehicleIdQuery(vehicleId))
   const statusDetails = getVehicleStatusDetails(vehicle.status)
+  const vehicleType = getVehicleType(vehicle.type)
+
+  const vehicleData = [
+    {
+      label: 'Modell',
+      value: vehicle?.model ?? 'Keine Angabe',
+    },
+    {
+      label: 'Fahrzeug-Typ',
+      value: vehicleType ?? 'Keine Angabe',
+    },
+    {
+      label: 'Höhe des Fahrzeugs',
+      value:
+        vehicle?.height != null ? `${vehicle.height} Meter` : 'Keine Angabe',
+    },
+    {
+      label: 'Breite des Fahrzeugs',
+      value: vehicle?.width != null ? `${vehicle.width} Meter` : 'Keine Angabe',
+    },
+    {
+      label: 'Benötigte Führerscheinklasse',
+      value: vehicle?.drivingLicense ?? 'Keine Angabe',
+    },
+    {
+      label: 'Nummernschild',
+      value: vehicle?.numberPlate ?? 'Keine Angabe',
+    },
+    {
+      label: 'Länge des Fahrzeugs',
+      value:
+        vehicle?.length != null ? `${vehicle.length} Meter` : 'Keine Angabe',
+    },
+  ]
 
   return (
     <>
@@ -41,7 +75,7 @@ const VehicleDashboard = ({ vehicleId }: VehicleDashboardProps) => {
       </article>
       {vehicle.status == VehicleStatus.VehicleStatusActive && (
         <div className="h-full space-y-3 bg-dark-50 rounded-xl border border-green-light bg-green-light-50 p-6 mt-5">
-          <div className="flex items-center justify-between">
+          <div className="flex tems-center justify-between">
             <p className="text-xl">Dieses Fahrzeug befindet sich im Einsatz.</p>
             <GeneralLink
               label="Zum Einsatzplan"
@@ -53,7 +87,19 @@ const VehicleDashboard = ({ vehicleId }: VehicleDashboardProps) => {
         </div>
       )}
       <section className="mt-10">
-        <VehicleGeneralData vehicle={vehicle} />
+      <h2 className="font-lato font-bold text-2xl mb-4">Daten zum Fahrzeug</h2>
+      <dl className="text-lg md:columns-2 md:gap-x-11">
+        {vehicleData.map((data, index) => (
+          <div
+            key={index}
+            className={`py-4 border-b border-b-dark-200 group md:last:border-b-transparent 
+              ${vehicleData.length / 2 === index + 1 ? 'md:border-b-transparent' : ''}`}
+          >
+            <dt className="font-bold sm:inline">{data.label}:</dt>
+            <dd className="sm:inline sm:px-2">{data.value}</dd>
+          </div>
+        ))}
+      </dl>
       </section>
     </>
   )
