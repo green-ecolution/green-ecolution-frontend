@@ -46,7 +46,7 @@ const VehicleDashboard = ({ vehicleId }: VehicleDashboardProps) => {
             <GeneralLink
               label="Zum Einsatzplan"
               link={{
-                to: '/vehicles', //this is still missing
+                to: '/vehicles', //TODO
               }}
             />
           </div>
