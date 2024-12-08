@@ -21,19 +21,16 @@ function SingleVehicle() {
   const vehicleId = Route.useParams().vehicleId
   return (
     <div className="container mt-6">
-      <Suspense
-        fallback={<LoadingInfo label="Fahrzeug wird geladen …" />}
-      >
+      <Suspense fallback={<LoadingInfo label="Fahrzeug wird geladen …" />}>
         <ErrorBoundary
           fallback={
             <p className="text-red text-lg font-semibold">
               Ein Fahrzeug mit der Identifikationsnummer {vehicleId}
-              gibt es nicht oder die Fahrzeugdaten konnten nicht
-              geladen werden
+              gibt es nicht oder die Fahrzeugdaten konnten nicht geladen werden
             </p>
           }
         >
-            <VehicleDashboard vehicleId={vehicleId}/>
+          <VehicleDashboard vehicleId={vehicleId} />
         </ErrorBoundary>
       </Suspense>
     </div>

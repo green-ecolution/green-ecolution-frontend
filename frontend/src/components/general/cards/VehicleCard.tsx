@@ -25,9 +25,7 @@ const VehicleCard: React.FC<VehicleCard> = ({ vehicle }) => {
           <span className="lg:sr-only">Kennzeichen: </span>
           {vehicle.numberPlate}
         </h2>
-        <p className="text-dark-600 lg:text-sm">
-          {vehicleType}
-        </p>
+        <p className="text-dark-600 lg:text-sm">{vehicleType}</p>
       </div>
 
       <p className="text-dark-800">
