@@ -20,13 +20,13 @@ function SingleSensor() {
   return (
     <div className="container mt-6">
       <Suspense
-        fallback={<LoadingInfo label="Bewässerungsgruppe wird geladen …" />}
+        fallback={<LoadingInfo label="Sensordaten werden geladen …" />}
       >
         <ErrorBoundary
           fallback={
             <p className="text-red text-lg font-semibold">
-              Eine Bewässerungsgruppe mit der Identifikationsnummer {sensorId}
-              gibt es nicht oder die Bewässerungsgruppendaten konnten nicht
+              Einen Sensor mit der Identifikationsnummer {sensorId}{' '}
+              gibt es nicht oder die Sensordaten konnten nicht
               geladen werden
             </p>
           }

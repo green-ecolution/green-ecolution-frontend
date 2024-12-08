@@ -6,8 +6,7 @@ import BackLink from '@/components/general/links/BackLink'
 import GeneralLink from '../general/links/GeneralLink'
 import { getSensorStatusDetails } from '@/hooks/useDetailsForSensorStatus'
 import { getVoltageQualityDetails } from '@/hooks/useDetailsForSensorBattery'
-import { formatDistance, subDays } from 'date-fns'
-import { SensorStatus } from '@green-ecolution/backend-client'
+import { format, formatDistanceToNow } from 'date-fns'
 import { de } from 'date-fns/locale'
 
 interface SensorDashboardProps {
@@ -15,20 +14,18 @@ interface SensorDashboardProps {
 }
 
 const SensorDashboard = ({ sensorId }: SensorDashboardProps) => {
-    // TODO: use real data
-    const exampleSensor = {
-      id: '12345678',
-      status: SensorStatus.SensorStatusOffline,
-      battery: 3.5,
-      updated_at: formatDistance(subDays(new Date(), 3), new Date(), {
-        addSuffix: true,
-        locale: de,
-      }),
-      created_at: formatDistance(subDays(new Date(), 3), new Date(), {
-        addSuffix: true,
-        locale: de,
-      }),
-    }
+  // TODO: use real data
+  const exampleSensorData = {
+    battery: 3.1,
+  }
+  
+  const { data: sensor } = useSuspenseQuery(sensorIdQuery(sensorId))
+  const createdDate = sensor?.createdAt
+    ? format(new Date(sensor?.createdAt), 'dd.MM.yyyy')
+    : 'Keine Angabe'
+  const updatedDate = sensor?.createdAt
+    ? formatDistanceToNow(sensor?.updatedAt, { locale: de })
+    : 'Keine Angabe'
   
     const exampleTree = {
       id: "1",
@@ -44,23 +41,21 @@ const SensorDashboard = ({ sensorId }: SensorDashboardProps) => {
       },
       {
         label: 'Erstellt am',
-        value: exampleSensor.created_at ?? 'Keine Angabe',
+        value: createdDate ?? 'Keine Angabe',
       },
       {
         label: 'Letztes Update',
-        value: exampleSensor.updated_at ?? 'Keine Angabe',
+        value: updatedDate ?? 'Keine Angabe',
       },
       {
         label: 'Latitude',
-        value: '54.12345',
+        value: sensor.latitude ?? 'Keine Angabe',
       },
       {
         label: 'Longitude',
-        value: '9.12345',
+        value: sensor.longitude ?? 'Keine Angabe',
       },
     ]
-  
-  const { data: sensor } = useSuspenseQuery(sensorIdQuery(sensorId))
 
   return (
     <>
@@ -68,7 +63,7 @@ const SensorDashboard = ({ sensorId }: SensorDashboardProps) => {
       <article className="space-y-6 2xl:space-y-0 2xl:flex 2xl:items-center 2xl:space-x-10">
         <div className="2xl:w-4/5">
           <h1 className="font-lato font-bold text-3xl mb-4 flex flex-wrap items-center gap-4 lg:text-4xl xl:text-5xl">
-            Sensor ID: {exampleSensor.id}
+            Sensor ID: {sensor.id}
           </h1>
           <p>
             Jeder Sensor sollte mit einer Vegetationsform verknüpft sein. Auf
@@ -85,20 +80,20 @@ const SensorDashboard = ({ sensorId }: SensorDashboardProps) => {
         <ul className="space-y-5 md:space-y-0 md:grid md:gap-5 md:grid-cols-2 lg:grid-cols-3">
           <li>
             <EntitiesStatusCard
-              statusDetails={getSensorStatusDetails(exampleSensor.status)}
+              statusDetails={getSensorStatusDetails(sensor.status)}
               label="Status des Sensors"
             />
           </li>
           <li>
             <EntitiesStatusCard
-              statusDetails={getVoltageQualityDetails(exampleSensor.battery)}
+              statusDetails={getVoltageQualityDetails(exampleSensorData.battery)}
               label="Akkustand"
             />
           </li>
           <li>
             <GeneralStatusCard
               overline="Letzte Messung"
-              value={exampleSensor.updated_at}
+              value={updatedDate}
               description="Letzte Datenübermittlung"
             />
           </li>
