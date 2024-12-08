@@ -1,5 +1,5 @@
-import { sensorIdQuery } from '@/api/queries'
-import { useSuspenseQuery } from '@tanstack/react-query'
+import { sensorIdQuery, treeSensorIdQuery } from '@/api/queries'
+import { useQuery, useSuspenseQuery } from '@tanstack/react-query'
 import EntitiesStatusCard from '@/components/general/cards/EntitiesStatusCard'
 import GeneralStatusCard from '@/components/general/cards/GeneralStatusCard'
 import BackLink from '@/components/general/links/BackLink'
@@ -18,44 +18,39 @@ const SensorDashboard = ({ sensorId }: SensorDashboardProps) => {
   const exampleSensorData = {
     battery: 3.1,
   }
-  
+
   const { data: sensor } = useSuspenseQuery(sensorIdQuery(sensorId))
+  const { data: linkedTree } = useQuery(treeSensorIdQuery(sensorId))
+
   const createdDate = sensor?.createdAt
     ? format(new Date(sensor?.createdAt), 'dd.MM.yyyy')
     : 'Keine Angabe'
   const updatedDate = sensor?.createdAt
     ? formatDistanceToNow(sensor?.updatedAt, { locale: de })
     : 'Keine Angabe'
-  
-    const exampleTree = {
-      id: "1",
-      treeNumber: '1234',
-      longitude: '54.12345',
-      latitude: '9.12345',
-    }
-  
-    const generalSensorData = [
-      {
-        label: 'Anzahl verbaute Sensoren',
-        value: '3 Sensoren',
-      },
-      {
-        label: 'Erstellt am',
-        value: createdDate ?? 'Keine Angabe',
-      },
-      {
-        label: 'Letztes Update',
-        value: updatedDate ?? 'Keine Angabe',
-      },
-      {
-        label: 'Latitude',
-        value: sensor.latitude ?? 'Keine Angabe',
-      },
-      {
-        label: 'Longitude',
-        value: sensor.longitude ?? 'Keine Angabe',
-      },
-    ]
+
+  const generalSensorData = [
+    {
+      label: 'Anzahl verbaute Sensoren',
+      value: '3 Sensoren',
+    },
+    {
+      label: 'Erstellt am',
+      value: createdDate ?? 'Keine Angabe',
+    },
+    {
+      label: 'Letztes Update',
+      value: updatedDate ?? 'Keine Angabe',
+    },
+    {
+      label: 'Latitude',
+      value: sensor.latitude ?? 'Keine Angabe',
+    },
+    {
+      label: 'Longitude',
+      value: sensor.longitude ?? 'Keine Angabe',
+    },
+  ]
 
   return (
     <>
@@ -86,7 +81,9 @@ const SensorDashboard = ({ sensorId }: SensorDashboardProps) => {
           </li>
           <li>
             <EntitiesStatusCard
-              statusDetails={getVoltageQualityDetails(exampleSensorData.battery)}
+              statusDetails={getVoltageQualityDetails(
+                exampleSensorData.battery
+              )}
               label="Akkustand"
             />
           </li>
@@ -115,18 +112,41 @@ const SensorDashboard = ({ sensorId }: SensorDashboardProps) => {
             ))}
           </dl>
         </div>
-        
-        <div className="h-max space-y-3 bg-dark-50 rounded-xl p-6">
-          <h2 className="text-sm text-dark-700 font-medium">Verknüpfte Vegetation</h2>
-          <p className="font-bold text-3xl">Baum: {exampleTree.treeNumber}</p>
-          <p className="text-sm mb-4">Longitude: {exampleTree.longitude}, Latitude: {exampleTree.latitude}</p>
-          <GeneralLink
-            label="Zur verknüpften Vegetation"
-            link={{
-              to: '/tree/$treeId',
-              params: { treeId: exampleTree.id },
-            }}
-          />
+
+        <div className={`h-max space-y-3 rounded-xl p-6 ${linkedTree ? 'bg-dark-50' : 'bg-red-50'}`}>
+          <h2 className="text-sm text-dark-700 font-medium">
+            Verknüpfte Vegetation
+          </h2>
+          {linkedTree ? (
+            <div>
+              <p className="font-bold text-3xl">
+                Baum: {linkedTree.treeNumber}
+              </p>
+              <p className="text-sm mb-4">
+                Longitude: {linkedTree.longitude}, Latitude:{' '}
+                {linkedTree.latitude}
+              </p>
+              <GeneralLink
+                label="Zur verknüpften Vegetation"
+                link={{
+                  to: '/tree/$treeId',
+                  params: { treeId: String(linkedTree.id) },
+                }}
+              />
+            </div>
+          ) : (
+            <div>
+              <p className="font-bold text-3xl text-red">
+                Keine Verknüpfung
+              </p>
+              <p className="text-sm mb-4">
+                Es war nicht möglich anhand der GPS-Daten den Sensor einem 
+                Baum oder einem Beet zuzuweisen oder er wurde manuell
+                unverknüpft. 
+              </p>
+              {/* TODO: add link */}
+            </div>
+          )}
         </div>
       </section>
     </>
