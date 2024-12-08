@@ -26,11 +26,7 @@ const VehicleDashboard = ({ vehicleId }: VehicleDashboardProps) => {
             Fahrzeug: {vehicle.numberPlate}
             <Pill label={statusDetails.label} theme={statusDetails.color} />
           </h1>
-          <p>
-            Deserunt veniam amet nulla nulla sint excepteur aliqua voluptate
-            aliquip sit amet ipsum voluptate aliquip excepteur. Occaecat fugiat
-            in reprehenderit pariatur in voluptate nostrud enim.
-          </p>
+          <p>{vehicle.description}</p>
         </div>
         <ButtonLink
           icon={Pencil}
