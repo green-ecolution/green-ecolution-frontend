@@ -29,12 +29,11 @@ const VehicleDashboard = ({ vehicleId }: VehicleDashboardProps) => {
     },
     {
       label: 'Höhe des Fahrzeugs',
-      value:
-        vehicle?.height != null ? `${vehicle.height} Meter` : 'Keine Angabe',
+      value: vehicle?.height ? `${vehicle.height} Meter` : 'Keine Angabe',
     },
     {
       label: 'Breite des Fahrzeugs',
-      value: vehicle?.width != null ? `${vehicle.width} Meter` : 'Keine Angabe',
+      value: vehicle?.width ? `${vehicle.width} Meter` : 'Keine Angabe',
     },
     {
       label: 'Benötigte Führerscheinklasse',
@@ -46,8 +45,7 @@ const VehicleDashboard = ({ vehicleId }: VehicleDashboardProps) => {
     },
     {
       label: 'Länge des Fahrzeugs',
-      value:
-        vehicle?.length != null ? `${vehicle.length} Meter` : 'Keine Angabe',
+      value: vehicle?.length ? `${vehicle.length} Meter` : 'Keine Angabe',
     },
   ]
 
@@ -74,32 +72,34 @@ const VehicleDashboard = ({ vehicleId }: VehicleDashboardProps) => {
         />
       </article>
       {vehicle.status == VehicleStatus.VehicleStatusActive && (
-        <div className="h-full space-y-3 bg-dark-50 rounded-xl border border-green-light bg-green-light-50 p-6 mt-5">
+        <div className="h-full shadow-cards space-y-3 bg-dark-50 rounded-xl border border-green-light bg-green-light-50 p-6 mt-5">
           <div className="flex tems-center justify-between">
             <p className="text-xl">Dieses Fahrzeug befindet sich im Einsatz.</p>
             <GeneralLink
               label="Zum Einsatzplan"
               link={{
-                to: '/vehicles', //TODO
+                to: '/vehicles', //TODO Add create view
               }}
             />
           </div>
         </div>
       )}
-      <section className="mt-10">
-      <h2 className="font-lato font-bold text-2xl mb-4">Daten zum Fahrzeug</h2>
-      <dl className="text-lg md:columns-2 md:gap-x-11">
-        {vehicleData.map((data, index) => (
-          <div
-            key={index}
-            className={`py-4 border-b border-b-dark-200 group md:last:border-b-transparent 
+      <section className="mt-16">
+        <h2 className="font-lato font-bold text-2xl mb-4">
+          Daten zum Fahrzeug
+        </h2>
+        <dl className="text-lg md:columns-2 md:gap-x-11">
+          {vehicleData.map((data, index) => (
+            <div
+              key={index}
+              className={`py-4 border-b border-b-dark-200 group md:last:border-b-transparent 
               ${vehicleData.length / 2 === index + 1 ? 'md:border-b-transparent' : ''}`}
-          >
-            <dt className="font-bold sm:inline">{data.label}:</dt>
-            <dd className="sm:inline sm:px-2">{data.value}</dd>
-          </div>
-        ))}
-      </dl>
+            >
+              <dt className="font-bold sm:inline">{data.label}:</dt>
+              <dd className="sm:inline sm:px-2">{data.value}</dd>
+            </div>
+          ))}
+        </dl>
       </section>
     </>
   )
