@@ -113,7 +113,9 @@ const SensorDashboard = ({ sensorId }: SensorDashboardProps) => {
           </dl>
         </div>
 
-        <div className={`h-max space-y-3 rounded-xl p-6 ${linkedTree ? 'bg-dark-50' : 'bg-red-50'}`}>
+        <div
+          className={`h-max space-y-3 rounded-xl p-6 ${linkedTree ? 'bg-dark-50' : 'bg-red-50'}`}
+        >
           <h2 className="text-sm text-dark-700 font-medium">
             Verknüpfte Vegetation
           </h2>
@@ -136,15 +138,16 @@ const SensorDashboard = ({ sensorId }: SensorDashboardProps) => {
             </div>
           ) : (
             <div>
-              <p className="font-bold text-3xl text-red">
-                Keine Verknüpfung
-              </p>
+              <p className="font-bold text-3xl text-red">Keine Verknüpfung</p>
               <p className="text-sm mb-4">
-                Es war nicht möglich anhand der GPS-Daten den Sensor einem 
-                Baum oder einem Beet zuzuweisen oder er wurde manuell
-                unverknüpft. 
+                Es war nicht möglich anhand der GPS-Daten den Sensor einem Baum
+                oder einem Beet zuzuweisen oder er wurde manuell unverknüpft.
               </p>
-              {/* TODO: add link */}
+              <GeneralLink
+                theme="grey"
+                label="Vegetation verknüpfen"
+                link={{ to: '/map/sensor/select/tree' }}
+              />
             </div>
           )}
         </div>

@@ -2,7 +2,7 @@ import { SensorStatus } from '@green-ecolution/backend-client'
 
 const SensorStatusProperties = {
   [SensorStatus.SensorStatusUnknown]: {
-    color: 'grey',
+    color: 'dark-400',
     label: 'Unbekannt',
     description: 'Der Status ist unbekannt.',
   },

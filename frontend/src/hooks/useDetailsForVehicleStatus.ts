@@ -2,7 +2,7 @@ import { VehicleStatus } from '@green-ecolution/backend-client'
 
 const VehicleStatusProperties = {
     [VehicleStatus.VehicleStatusUnknown]: {
-        color: 'grey',
+        color: 'dark-400',
         bgcolor: 'none',
         label: 'Unbekannt',
         description: 'Der Fahrzeugstatus ist unbekannt.',
