@@ -1,6 +1,5 @@
 import { getVehicleType } from '@/hooks/useDetailsForVehicleType'
 import { Vehicle } from '@green-ecolution/backend-client'
-import { format } from 'date-fns'
 
 interface VehicleGeneralData {
   vehicle?: Vehicle
