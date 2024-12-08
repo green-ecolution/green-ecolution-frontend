@@ -13,6 +13,7 @@ import {
   TreeList,
   vehicleApi,
   VehicleList,
+  Vehicle,
   treeSensorApi,
 } from './backendApi'
 
@@ -78,3 +79,12 @@ export const vehicleQuery = () =>
     queryKey: ['vehicle'],
     queryFn: () => vehicleApi.getAllVehicles(),
   })
+
+  export const vehicleIdQuery = (id: string) =>
+    queryOptions<Vehicle>({
+      queryKey: ['vehicle', id],
+      queryFn: () =>
+        vehicleApi.getVehicleById({
+          id: id,
+        }),
+    })
