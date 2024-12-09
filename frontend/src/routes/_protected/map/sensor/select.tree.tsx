@@ -40,18 +40,18 @@ function LinkTreeToSensor() {
         disabled={!treeId}
         title="Ausgewählte Bäume:"
         content={
-          <ul className="space-y-3">
+          <>
             {!treeId || showError ? (
-              <li className="text-dark-600 font-semibold text-sm">
-                <p>Hier können Sie zugehörige Bäume verlinken.</p>
-              </li>
+              <p className="text-dark-600 font-semibold text-sm">
+                Hier können Sie die zugehörige Vegetation verlinken.
+              </p>
             ) : (
               <SelectedCard treeId={treeId} onClick={() => setTreeId(undefined)} />
             )}
-          </ul>
+          </>
         }
       />
-      <WithAllTrees selectedTrees={[]} onClick={(tree: Tree) => setTreeId(tree.id)} />
+      <WithAllTrees selectedTrees={treeId ? [treeId] : []} onClick={(tree: Tree) => setTreeId(tree.id)} />
     </>
   )
 }

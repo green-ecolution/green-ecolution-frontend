@@ -85,7 +85,7 @@ function SelectTrees() {
         disabled={treeIds.length === 0}
         title="Ausgewählte Bäume:"
         content={
-          <ul className="space-y-3">
+          <>
             {(treeIds?.length || 0) === 0 || showError ? (
               <li className="text-dark-600 font-semibold text-sm">
                 <p>Hier können Sie zugehörige Bäume verlinken.</p>
@@ -97,7 +97,7 @@ function SelectTrees() {
                 </li>
               ))
             )}
-          </ul>
+          </>
         }
       />
       <WithAllTrees

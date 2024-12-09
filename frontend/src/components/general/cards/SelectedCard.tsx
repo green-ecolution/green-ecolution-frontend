@@ -18,7 +18,7 @@ const SelectedCard: React.FC<SelectedCard> = ({ onClick, treeId }) => {
   );
 
   return (
-    <div className="flex justify-between gap-x-6 bg-white border border-dark-50 shadow-cards px-4 py-3 rounded-lg">
+    <div className="flex justify-between mb-3 gap-x-6 bg-white border border-dark-50 shadow-cards px-4 py-3 rounded-lg">
       <h3
         className={`relative font-medium pl-7 before:absolute before:w-4 before:h-4 before:rounded-full before:left-0 before:top-[0.22rem] before:bg-${statusDetails.color}`}
       >
