@@ -34,7 +34,7 @@ function LinkTreeToSensor() {
         treeId: String(treeId),
         body: tree,
       }),
-    onSuccess: () => handleOnUpdateSuccess,
+    onSuccess: () => handleOnUpdateSuccess(),
     onError: (error: Error) => {
       console.error('Error updating tree data:', error)
       setErrorMessage(
@@ -43,15 +43,9 @@ function LinkTreeToSensor() {
     },
   })
 
-  const handleOnUpdateSuccess = (data: Tree) => {
-    navigate({
-      to: '/tree/$treeId',
-      params: { treeId: data.id.toString() },
-      search: { resetStore: false },
-      replace: true,
-    })
-    showToast('Der Baum wurde erfolgreich editiert')
-    queryClient.invalidateQueries(treeIdQuery(String(treeId)))
+  const handleOnUpdateSuccess = () => {
+    handleNavigateBack()
+    showToast('Vegetation wurde erfolgreich verlinkt')
   }
 
   const handleNavigateBack = useCallback(() => {
@@ -76,8 +70,6 @@ function LinkTreeToSensor() {
         ...data,
         sensorId: sensorId,
       })
-      handleNavigateBack()
-      showToast('Vegetation wurde erfolgreich verlinkt')
     } catch (error) {
       console.error('Error fetching tree data:', error)
       setErrorMessage(
