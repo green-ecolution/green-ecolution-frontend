@@ -121,12 +121,12 @@ const SensorDashboard = ({ sensorId }: SensorDashboardProps) => {
           </h2>
           {linkedTree ? (
             <div>
-              <p className="font-bold text-3xl">
+              <p className="font-bold text-3xl mb-2">
                 Baum: {linkedTree.treeNumber}
               </p>
               <p className="text-sm mb-4">
-                Longitude: {linkedTree.longitude}, Latitude:{' '}
-                {linkedTree.latitude}
+                Longitude: {linkedTree.longitude} <br />
+                Latitude: {linkedTree.latitude}
               </p>
               <GeneralLink
                 label="Zur verknüpften Vegetation"
@@ -138,7 +138,9 @@ const SensorDashboard = ({ sensorId }: SensorDashboardProps) => {
             </div>
           ) : (
             <div>
-              <p className="font-bold text-3xl text-red">Keine Verknüpfung</p>
+              <p className="font-bold text-3xl text-red mb-2">
+                Keine Verknüpfung
+              </p>
               <p className="text-sm mb-4">
                 Es war nicht möglich anhand der GPS-Daten den Sensor einem Baum
                 oder einem Beet zuzuweisen oder er wurde manuell unverknüpft.
@@ -146,15 +148,15 @@ const SensorDashboard = ({ sensorId }: SensorDashboardProps) => {
               <GeneralLink
                 theme="grey"
                 label="Vegetation verknüpfen"
-                  link={{
-                    to: '/map/sensor/select/tree',
-                    search: {
-                      lat: sensor.latitude,
-                      lng: sensor.longitude,
-                      zoom: 17,
-                      sensorId: sensor.id,
-                    },
-                 }}
+                link={{
+                  to: '/map/sensor/select/tree',
+                  search: {
+                    lat: sensor.latitude,
+                    lng: sensor.longitude,
+                    zoom: 18,
+                    sensorId: sensor.id,
+                  },
+                }}
               />
             </div>
           )}

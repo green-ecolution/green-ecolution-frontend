@@ -3,25 +3,25 @@ import {
   Bug,
   Car,
   FolderClosed,
-  HardDrive,
   LogIn,
   LogOut,
   Map,
   PieChart,
   Settings,
   Users,
-} from "lucide-react";
-import * as React from "react";
-import NavLink from "../navigation/NavLink";
-import NavHeadline from "../navigation/NavHeadline";
-import NavHeader from "../navigation/NavHeader";
-import useStore from "@/store/store";
-import Flower from "../icons/Flower";
+} from 'lucide-react'
+import * as React from 'react'
+import NavLink from '../navigation/NavLink'
+import NavHeadline from '../navigation/NavHeadline'
+import NavHeader from '../navigation/NavHeader'
+import useStore from '@/store/store'
+import Flower from '../icons/Flower'
+import SensorIcon from '../icons/Sensor'
 
 interface NavigationProps {
-  isOpen: boolean;
-  openSidebar: () => void;
-  closeSidebar: () => void;
+  isOpen: boolean
+  openSidebar: () => void
+  closeSidebar: () => void
 }
 
 const Navigation: React.FC<NavigationProps> = ({
@@ -29,120 +29,120 @@ const Navigation: React.FC<NavigationProps> = ({
   openSidebar,
   closeSidebar,
 }) => {
-  const isLargeScreen = () => window.matchMedia("(min-width: 1024px)").matches;
-  const isLoggedIn = useStore((state) => state.auth.isAuthenticated);
+  const isLargeScreen = () => window.matchMedia('(min-width: 1024px)').matches
+  const isLoggedIn = useStore((state) => state.auth.isAuthenticated)
   const mapPosition = useStore((state) => ({
     lat: state.map.center[0],
     lng: state.map.center[1],
     zoom: state.map.zoom,
-  }));
+  }))
 
   const handleMouseOver = () => {
-    if (isLargeScreen()) openSidebar();
-  };
+    if (isLargeScreen()) openSidebar()
+  }
 
   const handleMouseOut = () => {
-    if (isLargeScreen()) closeSidebar();
-  };
+    if (isLargeScreen()) closeSidebar()
+  }
 
   const handleNavLinkClick = () => {
-    if (!isLargeScreen()) closeSidebar();
-  };
+    if (!isLargeScreen()) closeSidebar()
+  }
 
   const protectedNavLinks = [
     {
-      headline: "Grünflächen",
+      headline: 'Grünflächen',
       links: [
         {
-          label: "Karte",
+          label: 'Karte',
           icon: <Map className="w-5 h-5" />,
           to: `/map?lat=${mapPosition.lat}&lng=${mapPosition.lng}&zoom=${mapPosition.zoom}`,
         },
         {
-          label: "Bewässerungsgruppen",
+          label: 'Bewässerungsgruppen',
           icon: <FolderClosed className="w-5 h-5" />,
-          to: "/treecluster",
+          to: '/treecluster',
         },
         {
-          label: "Beete",
+          label: 'Beete',
           icon: <Flower className="w-5 h-5" />,
-          to: "/",
+          to: '/',
         },
       ],
     },
     {
-      headline: "Einsatzplanung",
+      headline: 'Einsatzplanung',
       links: [
         {
-          label: "Einsätze",
+          label: 'Einsätze',
           icon: <ArrowLeftRight className="w-5 h-5" />,
-          to: "/waypoints",
+          to: '/waypoints',
         },
         {
-          label: "Fahrzeuge",
+          label: 'Fahrzeuge',
           icon: <Car className="w-5 h-5" />,
-          to: "/vehicles",
+          to: '/vehicles',
         },
         {
-          label: "Mitarbeitende",
+          label: 'Mitarbeitende',
           icon: <Users className="w-5 h-5" />,
-          to: "/team",
+          to: '/team',
         },
       ],
     },
     {
-      headline: "Weiteres",
+      headline: 'Weiteres',
       links: [
         {
-          label: "Sensoren",
-          icon: <HardDrive className="w-5 h-5" />,
-          to: "/sensors",
+          label: 'Sensoren',
+          icon: <SensorIcon className="w-5 h-5" />,
+          to: '/sensors',
         },
         {
-          label: "Auswertungen",
+          label: 'Auswertungen',
           icon: <PieChart className="w-5 h-5" />,
-          to: "/evaluations",
+          to: '/evaluations',
         },
         {
-          label: "Einstellungen",
+          label: 'Einstellungen',
           icon: <Settings className="w-5 h-5" />,
-          to: "/settings",
+          to: '/settings',
         },
         // Hide the debug navigation entry in the production build
-        ...(process.env.NODE_ENV !== "production"
+        ...(process.env.NODE_ENV !== 'production'
           ? [
               {
-                label: "Debug",
+                label: 'Debug',
                 icon: <Bug className="w-5 h-5" />,
-                to: "/debug",
+                to: '/debug',
               },
             ]
           : []),
         {
-          label: "Ausloggen",
+          label: 'Ausloggen',
           icon: <LogOut className="w-5 h-5" />,
-          to: "/logout",
+          to: '/logout',
         },
       ],
     },
-  ];
+  ]
 
   // This is currently invisible to the user as the application is redirected directly to the login page.
   // Maybe for future use.
   const publicNavLinks = [
     {
-      headline: "",
+      headline: '',
       links: [
         {
-          label: "Anmelden",
+          label: 'Anmelden',
           icon: <LogIn className="w-5 h-5" />,
-          to: "/login",
+          to: '/login',
         },
       ],
     },
-  ];
+  ]
 
-  const navigationLinks = isLoggedIn ? protectedNavLinks : publicNavLinks;
+  const navigationLinks = isLoggedIn ? protectedNavLinks : publicNavLinks
 
   return (
     <nav
@@ -151,7 +151,7 @@ const Navigation: React.FC<NavigationProps> = ({
       onMouseOut={handleMouseOut}
       onMouseOver={handleMouseOver}
       className={`fixed inset-0 z-50 bg-dark w-screen overflow-hidden h-screen transition-all ease-in-out duration-300
-        ${isOpen ? "visible block left-0 lg:w-[17rem] lg:rounded-r-xl" : "invisible -left-full lg:visible lg:w-[5rem] lg:left-0"}`}
+        ${isOpen ? 'visible block left-0 lg:w-[17rem] lg:rounded-r-xl' : 'invisible -left-full lg:visible lg:w-[5rem] lg:left-0'}`}
     >
       <div className="relative px-4 py-5 h-full overflow-y-auto no-scrollbar">
         <NavHeader isOpen={isOpen} closeSidebar={closeSidebar} />
@@ -175,7 +175,7 @@ const Navigation: React.FC<NavigationProps> = ({
         ))}
       </div>
     </nav>
-  );
-};
+  )
+}
 
-export default Navigation;
+export default Navigation

@@ -6,7 +6,10 @@ import MapSelectTreesModal from '@/components/map/MapSelectTreesModal'
 import SensorMarker from '@/components/map/marker/SensorMarker'
 import WithAllTrees from '@/components/map/marker/WithAllTrees'
 import useToast from '@/hooks/useToast'
-import { Tree, TreeUpdate as TreeUpdateReq } from "@green-ecolution/backend-client"
+import {
+  Tree,
+  TreeUpdate as TreeUpdateReq,
+} from '@green-ecolution/backend-client'
 import { useMutation, useSuspenseQuery } from '@tanstack/react-query'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { useCallback, useState } from 'react'
@@ -19,7 +22,7 @@ export const Route = createFileRoute('/_protected/map/sensor/select/tree')({
 function LinkTreeToSensor() {
   const [treeId, setTreeId] = useState<number | undefined>()
   const [showDefault, setShowDefault] = useState(false)
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const navigate = useNavigate({ from: Route.fullPath })
   const showToast = useToast()
   const { sensorId } = Route.useSearch()
@@ -33,8 +36,10 @@ function LinkTreeToSensor() {
       }),
     onSuccess: () => handleOnUpdateSuccess,
     onError: (error: Error) => {
-      console.error('Error updating tree data:', error);
-      setErrorMessage("Es ist leider etwas schief gelaufen. Bitte probieren Sie es später erneut.");
+      console.error('Error updating tree data:', error)
+      setErrorMessage(
+        'Es ist leider etwas schief gelaufen. Bitte probieren Sie es später erneut.'
+      )
     },
   })
 
@@ -58,26 +63,28 @@ function LinkTreeToSensor() {
   }, [navigate, sensorId])
 
   const handleSave = async () => {
-    setErrorMessage(null);
+    setErrorMessage(null)
 
     if (!treeId) {
-      setShowDefault(true);
-      return;
+      setShowDefault(true)
+      return
     }
-  
+
     try {
-      const data = await queryClient.fetchQuery(treeIdQuery(String(treeId)));
+      const data = await queryClient.fetchQuery(treeIdQuery(String(treeId)))
       mutate({
         ...data,
         sensorId: sensorId,
-      });
+      })
       handleNavigateBack()
-      showToast("Vegetation wurde erfolgreich verlinkt")
+      showToast('Vegetation wurde erfolgreich verlinkt')
     } catch (error) {
-      console.error('Error fetching tree data:', error);
-      setErrorMessage("Die Baumdaten konnten nicht geladen werden. Bitte probieren Sie es später erneut.");
+      console.error('Error fetching tree data:', error)
+      setErrorMessage(
+        'Die Baumdaten konnten nicht geladen werden. Bitte probieren Sie es später erneut.'
+      )
     }
-  };
+  }
 
   return (
     <>
@@ -93,18 +100,24 @@ function LinkTreeToSensor() {
                 Hier können Sie die zugehörige Vegetation verlinken.
               </p>
             ) : (
-                <SelectedCard treeId={treeId} onClick={() => setTreeId(undefined)} />
+              <SelectedCard
+                treeId={treeId}
+                onClick={() => setTreeId(undefined)}
+              />
             )}
             {errorMessage && (
-              <p className="text-red font-semibold text-sm mt-2">{errorMessage}</p>
+              <p className="text-red font-semibold text-sm mt-2">
+                {errorMessage}
+              </p>
             )}
           </>
         }
       />
-      <WithAllTrees selectedTrees={treeId ? [treeId] : []} onClick={(tree: Tree) => setTreeId(tree.id)} />
-      <SensorMarker
-        sensor={sensor}
+      <WithAllTrees
+        selectedTrees={treeId ? [treeId] : []}
+        onClick={(tree: Tree) => setTreeId(tree.id)}
       />
+      <SensorMarker sensor={sensor} />
     </>
   )
 }
