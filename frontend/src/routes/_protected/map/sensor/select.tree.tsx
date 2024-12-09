@@ -1,7 +1,10 @@
+import { sensorIdQuery } from '@/api/queries'
 import SelectedCard from '@/components/general/cards/SelectedCard'
 import MapSelectTreesModal from '@/components/map/MapSelectTreesModal'
+import SensorMarker from '@/components/map/marker/SensorMarker'
 import WithAllTrees from '@/components/map/marker/WithAllTrees'
 import { Tree } from '@green-ecolution/backend-client'
+import { useSuspenseQuery } from '@tanstack/react-query'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { useCallback, useState } from 'react'
 
@@ -15,6 +18,7 @@ function LinkTreeToSensor() {
   const [showError, setShowError] = useState(false)
   const navigate = useNavigate({ from: Route.fullPath })
   const { sensorId } = Route.useSearch()
+  const { data: sensor } = useSuspenseQuery(sensorIdQuery(String(sensorId)))
 
   const handleNavigateBack = useCallback(() => {
     return navigate({
@@ -52,6 +56,9 @@ function LinkTreeToSensor() {
         }
       />
       <WithAllTrees selectedTrees={treeId ? [treeId] : []} onClick={(tree: Tree) => setTreeId(tree.id)} />
+      <SensorMarker
+        sensor={sensor}
+      />
     </>
   )
 }

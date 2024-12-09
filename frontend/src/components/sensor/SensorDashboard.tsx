@@ -146,7 +146,15 @@ const SensorDashboard = ({ sensorId }: SensorDashboardProps) => {
               <GeneralLink
                 theme="grey"
                 label="Vegetation verknüpfen"
-                link={{ to: '/map/sensor/select/tree' }}
+                  link={{
+                    to: '/map/sensor/select/tree',
+                    search: {
+                      lat: sensor.latitude,
+                      lng: sensor.longitude,
+                      zoom: 17,
+                      sensorId: sensor.id,
+                    },
+                 }}
               />
             </div>
           )}
