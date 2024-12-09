@@ -53,7 +53,6 @@ const TreeUpdate = ({ treeId, onUpdateSuccess, onUpdateError }: TreeUpdateProps)
     onError: onUpdateError,
   })
 
-
   const onSubmit = (data: TreeForm) => {
     mutate({
       ...data,

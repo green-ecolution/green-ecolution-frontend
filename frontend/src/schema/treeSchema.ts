@@ -36,7 +36,7 @@ export const TreeSchema = (lat: number, lng: number) => {
       .or(z.literal('-1').or(z.literal(-1))), // -1 no cluster selected
     sensorId: z
       .preprocess(
-        (value) => parseInt(value as string, 10),
+        (value) => value,
         z
           .string()
           .refine((value) => sensors.data.some((sensor) => sensor.id === value))
