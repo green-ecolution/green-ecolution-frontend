@@ -5,7 +5,11 @@ import { useInitForm } from '@/hooks/form/useInitForm'
 import { TreeForm, TreeSchema } from '@/schema/treeSchema'
 import useFormStore, { FormStore } from '@/store/form/useFormStore'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useMutation, useQueryClient, useSuspenseQuery } from '@tanstack/react-query'
+import {
+  useMutation,
+  useQueryClient,
+  useSuspenseQuery,
+} from '@tanstack/react-query'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { z } from 'zod'
 import { useMapStore } from '@/store/store'
@@ -77,16 +81,22 @@ function NewTree() {
         replace: true,
       })
       queryClient.invalidateQueries(treeQuery())
-      showToast("Der Baum wurde erfolgreich erstellt.")
+      showToast('Der Baum wurde erfolgreich erstellt.')
     },
   })
 
   const onSubmit = (data: TreeForm) => {
     mutate({
       ...data,
-      sensorId: data.sensorId && (data.sensorId === '-1' || data.sensorId <= 0) ? undefined : data.sensorId,
+      sensorId:
+        data.sensorId && (data.sensorId === '-1' || data.sensorId <= 0)
+          ? undefined
+          : data.sensorId,
       treeClusterId:
-        data.treeClusterId && (data.treeClusterId === '-1' || data.treeClusterId <= 0) ? undefined : data.treeClusterId,
+        data.treeClusterId &&
+        (data.treeClusterId === '-1' || data.treeClusterId <= 0)
+          ? undefined
+          : data.treeClusterId,
       description: data.description ?? '',
       readonly: false,
     })
@@ -110,7 +120,8 @@ function NewTree() {
           Neuen Baum erfassen
         </h1>
         <p className="mb-5">
-          Hier können Sie einen neuen Baum erstellen. Dieser wird im System als "manuell erstellt" erfasst.
+          Hier können Sie einen neuen Baum erstellen. Dieser wird im System als
+          "manuell erstellt" erfasst.
         </p>
       </article>
 

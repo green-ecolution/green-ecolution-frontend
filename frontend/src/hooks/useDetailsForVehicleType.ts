@@ -1,9 +1,21 @@
 import { VehicleType } from '@green-ecolution/backend-client';
 
-const VehicleTypeLabels = {
-    [VehicleType.VehicleTypeTrailer]: 'Anhänger',
-    [VehicleType.VehicleTypeTransporter]: 'Transporter',
-    [VehicleType.VehicleTypeUnknown]: 'Unbekannt',
-} as const;
+export const VehicleTypeOptions = [
+    {
+      value: VehicleType.VehicleTypeTrailer,
+      label: 'Anhänger',
+    },
+    {
+      value: VehicleType.VehicleTypeTransporter,
+      label: 'Transporter',
+    },
+    {
+      value: VehicleType.VehicleTypeUnknown,
+      label: 'Unbekannt',
+    },
+]
 
-export const getVehicleType = (type: VehicleType): string => VehicleTypeLabels[type];
+export const getVehicleType = (vehicleType: VehicleType) => {
+  const match = VehicleTypeOptions.find(option => option.value === vehicleType);
+  return match ? match.label : 'Unbekannt';
+};

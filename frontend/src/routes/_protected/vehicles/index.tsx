@@ -34,7 +34,7 @@ function Vehicles() {
         <ButtonLink
           icon={Plus}
           label="Neues Fahrzeug erstellen"
-          link={{ to: '/vehicles/' }} // this is still missing
+          link={{ to: '/vehicles/new' }}
         />
       </article>
 
