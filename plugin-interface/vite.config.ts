@@ -6,16 +6,19 @@ import dts from 'vite-plugin-dts'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
-    react(), 
+    react(),
     dts({
       tsconfigPath: resolve(__dirname, 'tsconfig.build.json'),
-      insertTypesEntry: true
-    })
+      insertTypesEntry: true,
+    }),
   ],
   build: {
     lib: {
       entry: resolve(__dirname, 'lib/main.ts'),
-      formats: ['es']
-    }
-  }
+      formats: ['es'],
+    },
+    rollupOptions: {
+      external: ['react', 'react-dom'],
+    },
+  },
 })

@@ -1,12 +1,12 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { lazy, Suspense, useMemo } from 'react'
-import {
-  __federation_method_getRemote,
-  __federation_method_setRemote,
-  // @ts-expect-error - This is a global variable injected by the federation plugin
-} from '__federation__'
 import { PluginProvider } from '@green-ecolution/plugin-interface'
 import useStore from '@/store/store'
+import {
+  init,
+  loadRemote,
+  registerRemotes,
+} from '@module-federation/enhanced/runtime'
 
 export const Route = createFileRoute('/_protected/settings/plugin/$pluginName')(
   {
@@ -14,6 +14,11 @@ export const Route = createFileRoute('/_protected/settings/plugin/$pluginName')(
     meta: ({ params: { pluginName } }) => [{ title: pluginName }],
   }
 )
+
+init({
+  name: 'app',
+  remotes: [],
+})
 
 function PluginView() {
   const pluginName = Route.useParams().pluginName
@@ -23,20 +28,28 @@ function PluginView() {
 
   const Plugin = useMemo(
     () =>
-      lazy(() => {
-        const { url, name, module } = {
-          url: `/api-local/v1/plugin/${pluginName}/assets/plugin.js`,
+      lazy(async () => {
+        const { url, name } = {
+          url: `/api-local/v1/plugin/${pluginName}/plugin.js`,
           name: pluginName,
-          module: './RemoteARoot',
         }
 
-        __federation_method_setRemote(name, {
-          url: () => Promise.resolve(url),
-          format: 'esm',
-          from: 'vite',
-        })
+        registerRemotes(
+          [
+            {
+              name: 'remote',
+              entry: url,
+              type: 'module',
+            },
+          ],
+          { force: true }
+        )
 
-        return __federation_method_getRemote(name, module)
+        const remote = loadRemote<{ default: any }>(`remote/${name}`, {
+          from: 'runtime',
+        }) as Promise<{ default: any }>
+
+        return remote
       }),
     [pluginName]
   )
