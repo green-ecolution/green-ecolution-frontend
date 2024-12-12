@@ -45,8 +45,10 @@ function PluginView() {
           { force: true }
         )
 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- this is a dynamic import
         const remote = loadRemote<{ default: any }>(`${name}/app`, {
           from: 'runtime',
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any -- this is a dynamic import
         }) as Promise<{ default: any }>
 
         return remote
