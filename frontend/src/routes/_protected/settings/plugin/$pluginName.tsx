@@ -37,7 +37,7 @@ function PluginView() {
         registerRemotes(
           [
             {
-              name: 'remote',
+              name,
               entry: url,
               type: 'module',
             },
@@ -45,7 +45,7 @@ function PluginView() {
           { force: true }
         )
 
-        const remote = loadRemote<{ default: any }>(`remote/${name}`, {
+        const remote = loadRemote<{ default: any }>(`${name}/app`, {
           from: 'runtime',
         }) as Promise<{ default: any }>
 

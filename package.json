@@ -9,7 +9,7 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "yarn workspace @green-ecolution/frontend dev",
-    "build": "yarn build:backend-client && yarn build:frontend",
+    "build": "yarn build:backend-client && yarn build:plugin-interface && yarn build:frontend",
     "build:frontend": "yarn workspace @green-ecolution/frontend build",
     "build:frontend:dev": "yarn workspace @green-ecolution/frontend build:dev",
     "build:frontend:stage": "yarn workspace @green-ecolution/frontend build:stage",
