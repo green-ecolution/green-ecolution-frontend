@@ -39,11 +39,11 @@ function NewVehicle() {
     type: VehicleType.VehicleTypeUnknown,
     drivingLicense: DrivingLicense.DrivingLicenseCar,
     status: VehicleStatus.VehicleStatusUnknown,
-    height: 1,
-    width: 1,
-    length: 1,
+    height: 0,
+    width: 0,
+    length: 0,
     model: '',
-    waterCapacity: 1,
+    waterCapacity: 0,
     description: '',
   })
 
