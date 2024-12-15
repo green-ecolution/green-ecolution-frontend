@@ -1,8 +1,7 @@
 import React from 'react';
 
 interface PillProps {
-  label: string;
-
+  label: string,
   theme?: 'red' | 'grey' | 'green-dark' | 'green-light',
 }
 
