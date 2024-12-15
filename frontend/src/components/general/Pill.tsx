@@ -2,7 +2,7 @@ import React from 'react';
 
 interface PillProps {
   label: string,
-  theme?: 'red' | 'grey' | 'green-dark' | 'green-light' | undefined,
+  theme?: 'red' | 'grey' | 'green-dark' | 'green-light',
 }
 
 const Pill: React.FC<PillProps> = ({ label, theme = 'grey' }) => {
