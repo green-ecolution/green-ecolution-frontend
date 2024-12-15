@@ -71,14 +71,21 @@ const TreeDashboard = ({ treeId }: TreeDashboardProps) => {
             <GeneralLink
               label="Auf der Karte anzeigen"
               link={{
-                to: `/map?lat=${tree.latitude}&lng=${tree.longitude}&zoom=18&tree=${tree.id}`,
+                to: '/map',
+                search: {
+                  lat: tree.latitude,
+                  lng: tree.longitude,
+                  zoom: 18,
+                  tree: tree.id,
+                },
               }}
             />
             {tree.treeClusterId && (
               <GeneralLink
                 label="Zur Bewässerungsgruppe"
                 link={{
-                  to: `/treecluster/${tree.treeClusterId}`,
+                  to: `/treecluster/$treeclusterId`,
+                  params: { treeclusterId: String(tree.treeClusterId) },
                 }}
               />
             )}

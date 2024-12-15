@@ -7,6 +7,7 @@ import { useMemo, useRef } from "react";
 import { Check } from "lucide-react";
 import { renderToStaticMarkup } from "react-dom/server";
 import TreeIcon from "../icons/Tree";
+import SensorIcon from "../icons/Sensor";
 
 const iconToSvg = (IconComponent: React.FC<React.SVGProps<SVGSVGElement>>) => {
   return renderToStaticMarkup(<IconComponent className="text-white w-[1.125rem] h-[1.125rem]" strokeWidth={3} />);
@@ -112,6 +113,18 @@ export const ClusterIcon = (color: string, isHighlighted: boolean, includedTrees
       `<figure style="${makerClusterWrapperStyles(isHighlighted)}">
         <span style="${markerClusterHtmlStyles(color)}">
           ${includedTrees}
+        </span>
+      </figure>`,
+  });
+
+export const SensorMarkerIcon = () =>
+  L.divIcon({
+    iconAnchor: [0, 24],
+    popupAnchor: [0, -36],
+    html:
+      `<figure style="${makerWrapperStyles(false, true)}">
+        <span style="${markerHtmlStyles("#454545")}">
+          ${iconToSvg(SensorIcon)}
         </span>
       </figure>`,
   });
