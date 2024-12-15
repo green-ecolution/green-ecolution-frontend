@@ -56,9 +56,9 @@ const VehicleDashboard = ({ vehicleId }: VehicleDashboardProps) => {
         <div className="2xl:w-4/5">
           <h1 className="font-lato font-bold text-3xl mb-4 flex flex-wrap items-center gap-4 lg:text-4xl xl:text-5xl">
             Fahrzeug: {vehicle.numberPlate}
-            <Pill label={statusDetails.label} theme={statusDetails.color} />
+            <Pill label={statusDetails?.label ?? "Keine Angabe"} theme={statusDetails?.color ?? 'grey'} />
           </h1>
-          <p>{vehicle.description}</p>
+          {vehicle.description && <p className="mb-4">{vehicle.description}</p>}
         </div>
         <ButtonLink
           icon={Pencil}
@@ -72,13 +72,13 @@ const VehicleDashboard = ({ vehicleId }: VehicleDashboardProps) => {
         />
       </article>
       {vehicle.status == VehicleStatus.VehicleStatusActive && (
-        <div className="h-full shadow-cards space-y-3 bg-dark-50 rounded-xl border border-green-light bg-green-light-50 p-6 mt-5">
+        <div className="h-full shadow-cards space-y-3 rounded-xl border border-green-light bg-green-light-50 p-6 mt-6">
           <div className="flex tems-center justify-between">
             <p className="text-xl">Dieses Fahrzeug befindet sich im Einsatz.</p>
             <GeneralLink
               label="Zum Einsatzplan"
               link={{
-                to: '/vehicles', //TODO Add create view
+                to: '/vehicles', // TODO: link to linked watering plan
               }}
             />
           </div>

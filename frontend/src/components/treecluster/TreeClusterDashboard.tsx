@@ -30,7 +30,7 @@ const TreeClusterDashboard = ({ clusterId }: TreeClusterDashboardProps) => {
           <h1 className="font-lato font-bold text-3xl mb-4 lg:text-4xl xl:text-5xl">
             Bewässerungsgruppe: {treecluster.name}
           </h1>
-          <p className="mb-4">{treecluster.description}</p>
+          {treecluster.description && <p className="mb-4">{treecluster.description}</p>}
           {treecluster.trees?.length === 0 ? (
             <div className="flex items-center gap-x-2">
               <TriangleAlert className="flex-shrink-0 text-dark-600 w-5 h-5" />
