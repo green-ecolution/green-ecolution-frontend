@@ -38,7 +38,7 @@ function Settings() {
               description={card.description}
               linkLabel={card.linkLabel}
               url={card.url}
-              isDark={key % 2 !== 0}
+              theme="white"
             />
           </li>
         ))}
