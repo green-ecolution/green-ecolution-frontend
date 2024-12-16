@@ -41,6 +41,14 @@ const FormForVehicle = (props: FormForVehicleProps) => {
         error={errors.type?.message}
         {...props.register('type')}
       />
+      <Input
+        placeholder="Wasserkapazität"
+        label="Wasserkapazität"
+        type="number"
+        required
+        error={errors.waterCapacity?.message}
+        {...props.register('waterCapacity')}
+      />
       <Select
         options={VehicleStatusOptions}
         placeholder="Aktueller Fahrzeugstatus"
@@ -56,15 +64,21 @@ const FormForVehicle = (props: FormForVehicleProps) => {
         required
         error={errors.drivingLicense?.message}
         {...props.register('drivingLicense')}
-      />
+      />     
       <Input
-        placeholder="Wasserkapazität"
-        label="Wasserkapazität"
+        placeholder="Höhe des Fahrzeugs"
+        label="Höhe des Fahrzeugs (in Metern)"
         type="number"
+        step="0.1"
         required
-        error={errors.waterCapacity?.message}
-        {...props.register('waterCapacity')}
-      />
+        error={errors.height?.message}
+        onKeyPress={(event) => {
+          if (!/[0-9,.]/.test(event.key)) {
+            event.preventDefault()
+          }
+        }}
+        {...props.register('height')}
+      /> 
       <Input
         placeholder="Breite des Fahrzeugs"
         label="Breite des Fahrzeugs (in Metern)"
@@ -72,7 +86,18 @@ const FormForVehicle = (props: FormForVehicleProps) => {
         step="0.1"
         required
         error={errors.width?.message}
+        onKeyPress={(event) => {
+          if (!/[0-9,.]/.test(event.key)) {
+            event.preventDefault()
+          }
+        }}
         {...props.register('width')}
+      />
+      <Textarea
+        placeholder="Hier ist Platz für Notizen"
+        label="Kurze Beschreibung"
+        error={errors.description?.message}
+        {...props.register('description')}
       />
       <Input
         placeholder="Länge des Fahrzeugs"
@@ -81,23 +106,14 @@ const FormForVehicle = (props: FormForVehicleProps) => {
         step="0.1"
         required
         error={errors.length?.message}
+        onKeyPress={(event) => {
+          if (!/[0-9,.]/.test(event.key)) {
+            event.preventDefault()
+          }
+        }}
         {...props.register('length')}
       />
-      <Input
-        placeholder="Höhe des Fahrzeugs"
-        label="Höhe des Fahrzeugs (in Metern)"
-        type="number"
-        step="0.1"
-        required
-        error={errors.height?.message}
-        {...props.register('height')}
-      />
-      <Textarea
-        placeholder="Hier ist Platz für Notizen"
-        label="Kurze Beschreibung"
-        error={errors.description?.message}
-        {...props.register('description')}
-      />
+      
       <FormError
         show={props.displayError}
         error="Es ist leider ein Problem aufgetreten. Bitte probieren Sie es erneut oder wenden Sie sich an einen Systemadministrierenden."

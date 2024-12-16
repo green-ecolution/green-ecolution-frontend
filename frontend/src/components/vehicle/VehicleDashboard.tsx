@@ -73,8 +73,8 @@ const VehicleDashboard = ({ vehicleId }: VehicleDashboardProps) => {
       </article>
       {vehicle.status == VehicleStatus.VehicleStatusActive && (
         <div className="h-full shadow-cards space-y-3 rounded-xl border border-green-light bg-green-light-50 p-6 mt-6">
-          <div className="flex tems-center justify-between">
-            <p className="text-xl">Dieses Fahrzeug befindet sich im Einsatz.</p>
+          <div className="flex items-center justify-between">
+            <p className="text-xl font-semibold">Dieses Fahrzeug befindet sich im Einsatz.</p>
             <GeneralLink
               label="Zum Einsatzplan"
               link={{
