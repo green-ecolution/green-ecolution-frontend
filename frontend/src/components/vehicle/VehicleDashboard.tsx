@@ -66,7 +66,7 @@ const VehicleDashboard = ({ vehicleId }: VehicleDashboardProps) => {
           label="Fahrzeug bearbeiten"
           color="grey"
           link={{
-            to: `/vehicle/$vehicleId/edit`,
+            to: `/vehicles/$vehicleId/edit`,
             params: { vehicleId: String(vehicle.id) },
           }}
         />
