@@ -1,7 +1,6 @@
-import { treeClusterIdQuery, vehicleIdQuery } from '@/api/queries'
+import { wateringPlanQuery } from '@/api/queries'
 import WateringPlanCard from '@/components/general/cards/WateringPlanCard'
 import LoadingInfo from '@/components/general/error/LoadingInfo'
-import { WateringPlanStatus } from '@green-ecolution/backend-client'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { createFileRoute } from '@tanstack/react-router'
 import { Suspense } from 'react'
@@ -12,27 +11,7 @@ export const Route = createFileRoute('/_protected/watering-plans/')({
 })
 
 function WateringPlans() {
-  //const { data: wateringPlanRes } = useSuspenseQuery(wateringPlanQuery())
-  const { data: trailer } = useSuspenseQuery(vehicleIdQuery("1"))
-  const { data: transporter } = useSuspenseQuery(vehicleIdQuery("2"))
-  const { data: cluster } = useSuspenseQuery(treeClusterIdQuery("1"))
-  const exampleDate = new Date();
-  
-
-  const exampleWateringPlan = {
-    id: 1,
-    date: "10.08.2000",
-    createdAt: exampleDate,
-    updatedAt: exampleDate,
-    description: "Dies ist eine Beschreibung",
-    wateringPlanStatus: WateringPlanStatus.WateringPlanStatusPlanned,
-    distance: 1000,
-    totalWaterRequired: 1000,
-    users: [],
-    treeCluster: [cluster],
-    transporter: transporter,
-    trailer: trailer,
-  }
+  const { data: wateringPlanRes } = useSuspenseQuery(wateringPlanQuery())
 
   return (
     <div className="container mt-6">
@@ -51,8 +30,8 @@ function WateringPlans() {
           <p>Status</p>
           <p>Datum & Fahrzeug</p>
           <p>Länge</p>
-          <p>Anzahl Mitarbeitenden</p>
-          <p>Anzahl Bewässerungsgruppen</p>
+          <p>Mitarbeitenden</p>
+          <p>Bewässerungsgruppen</p>
         </header>
         <Suspense fallback={<LoadingInfo label="Daten werden geladen" />}>
           <ErrorBoundary
@@ -64,9 +43,17 @@ function WateringPlans() {
             }
           >
             <ul>
-              <li className="mb-5 last:mb-0">
-                <WateringPlanCard wateringPlan={exampleWateringPlan} />
-              </li>
+              {wateringPlanRes.data?.length === 0 ? (
+                <li className="text-center text-dark-600 mt-10">
+                  <p>Es wurden leider keine Fahrzeuge gefunden.</p>
+                </li>
+              ) : (
+                wateringPlanRes.data?.map((wateringPlan, key) => (
+                  <li key={key} className="mb-5 last:mb-0">
+                    <WateringPlanCard wateringPlan={wateringPlan} />
+                  </li>
+                ))
+              )}
             </ul>
           </ErrorBoundary>
         </Suspense>
