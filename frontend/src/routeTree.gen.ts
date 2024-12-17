@@ -53,6 +53,7 @@ import { Route as ProtectedTreeclusterFormularTreeclusterIdEditImport } from './
 import { Route as ProtectedTreeclusterTreeclusterIdTreeTreeIdImport } from './routes/_protected/treecluster/$treeclusterId/tree/$treeId'
 import { Route as ProtectedTreeFormularTreeIdEditImport } from './routes/_protected/tree/_formular/$treeId.edit'
 import { Route as ProtectedMapTreeclusterSelectTreeImport } from './routes/_protected/map/treecluster/select.tree'
+import { Route as ProtectedMapSensorSelectTreeImport } from './routes/_protected/map/sensor/select.tree'
 
 // Create Virtual Routes
 
@@ -275,6 +276,12 @@ const ProtectedTreeFormularTreeIdEditRoute =
 const ProtectedMapTreeclusterSelectTreeRoute =
   ProtectedMapTreeclusterSelectTreeImport.update({
     path: '/treecluster/select/tree',
+    getParentRoute: () => ProtectedMapRoute,
+  } as any)
+
+const ProtectedMapSensorSelectTreeRoute =
+  ProtectedMapSensorSelectTreeImport.update({
+    path: '/sensor/select/tree',
     getParentRoute: () => ProtectedMapRoute,
   } as any)
 
@@ -541,6 +548,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedVehiclesVehicleIdIndexImport
       parentRoute: typeof ProtectedImport
     }
+    '/_protected/map/sensor/select/tree': {
+      id: '/_protected/map/sensor/select/tree'
+      path: '/sensor/select/tree'
+      fullPath: '/map/sensor/select/tree'
+      preLoaderRoute: typeof ProtectedMapSensorSelectTreeImport
+      parentRoute: typeof ProtectedMapImport
+    }
     '/_protected/map/treecluster/select/tree': {
       id: '/_protected/map/treecluster/select/tree'
       path: '/treecluster/select/tree'
@@ -584,6 +598,7 @@ export const routeTree = rootRoute.addChildren({
       ProtectedMapIndexRoute,
       ProtectedMapTreeEditRoute,
       ProtectedMapTreeNewRoute,
+      ProtectedMapSensorSelectTreeRoute,
       ProtectedMapTreeclusterSelectTreeRoute,
     }),
     ProtectedProfileRoute,
@@ -697,6 +712,7 @@ export const routeTree = rootRoute.addChildren({
         "/_protected/map/",
         "/_protected/map/tree/edit",
         "/_protected/map/tree/new",
+        "/_protected/map/sensor/select/tree",
         "/_protected/map/treecluster/select/tree"
       ]
     },
@@ -848,6 +864,10 @@ export const routeTree = rootRoute.addChildren({
     "/_protected/vehicles/$vehicleId/": {
       "filePath": "_protected/vehicles/$vehicleId/index.tsx",
       "parent": "/_protected"
+    },
+    "/_protected/map/sensor/select/tree": {
+      "filePath": "_protected/map/sensor/select.tree.tsx",
+      "parent": "/_protected/map"
     },
     "/_protected/map/treecluster/select/tree": {
       "filePath": "_protected/map/treecluster/select.tree.tsx",

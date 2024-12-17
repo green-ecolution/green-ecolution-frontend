@@ -11,7 +11,7 @@ const config = {
 	],
   safelist: [
     {
-      pattern: /^bg-(green|red|yellow|dark)(-(light|light-100|100|400))?$/,
+      pattern: /^bg-(green|red|yellow|dark)(-(light|light-100|100|400|dark))?$/,
       variants: ['before']
     },
   ],

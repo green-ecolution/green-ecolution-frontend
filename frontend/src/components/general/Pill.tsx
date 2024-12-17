@@ -5,10 +5,10 @@ interface PillProps {
   theme?: 'red' | 'grey' | 'green-dark' | 'green-light',
 }
 
-const Pill: React.FC<PillProps> = ({ label, theme = 'grey' }) => {
+const Pill: React.FC<PillProps> = ({ label, theme = 'dark-400' }) => {
   const themeClasses = {
     'red': 'border-red text-red',
-    'grey': 'border-dark-600 text-dark-600',
+    'dark-400': 'border-dark-600 text-dark-600',
     'green-dark': 'border-green-dark text-green-dark',
     'green-light': 'text-green-dark border-green-light bg-green-light-200',
   }

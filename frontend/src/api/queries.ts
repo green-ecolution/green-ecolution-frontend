@@ -15,6 +15,7 @@ import {
   VehicleList,
   Vehicle,
   treeSensorApi,
+  Sensor,
 } from './backendApi'
 
 export const treeClusterQuery = () =>
@@ -36,6 +37,15 @@ export const sensorQuery = () =>
   queryOptions<SensorList>({
     queryKey: ['sensors'],
     queryFn: () => sensorApi.getAllSensors(),
+  })
+
+export const sensorIdQuery = (id: string) =>
+  queryOptions<Sensor>({
+    queryKey: ['sensor', id],
+    queryFn: () =>
+      sensorApi.getSensorById({
+        sensorId: id,
+      }),
   })
 
 export const treeQuery = () =>
@@ -80,11 +90,11 @@ export const vehicleQuery = () =>
     queryFn: () => vehicleApi.getAllVehicles(),
   })
 
-  export const vehicleIdQuery = (id: string) =>
-    queryOptions<Vehicle>({
-      queryKey: ['vehicle', id],
-      queryFn: () =>
-        vehicleApi.getVehicleById({
-          id: id,
-        }),
-    })
+export const vehicleIdQuery = (id: string) =>
+  queryOptions<Vehicle>({
+    queryKey: ['vehicle', id],
+    queryFn: () =>
+      vehicleApi.getVehicleById({
+        id: id,
+      }),
+  })
