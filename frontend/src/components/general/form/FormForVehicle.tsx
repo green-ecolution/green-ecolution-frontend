@@ -72,11 +72,6 @@ const FormForVehicle = (props: FormForVehicleProps) => {
         step="0.1"
         required
         error={errors.height?.message}
-        onKeyPress={(event) => {
-          if (!/[0-9,.]/.test(event.key)) {
-            event.preventDefault()
-          }
-        }}
         {...props.register('height')}
       /> 
       <Input
@@ -86,11 +81,6 @@ const FormForVehicle = (props: FormForVehicleProps) => {
         step="0.1"
         required
         error={errors.width?.message}
-        onKeyPress={(event) => {
-          if (!/[0-9,.]/.test(event.key)) {
-            event.preventDefault()
-          }
-        }}
         {...props.register('width')}
       />
       <Textarea
@@ -106,11 +96,6 @@ const FormForVehicle = (props: FormForVehicleProps) => {
         step="0.1"
         required
         error={errors.length?.message}
-        onKeyPress={(event) => {
-          if (!/[0-9,.]/.test(event.key)) {
-            event.preventDefault()
-          }
-        }}
         {...props.register('length')}
       />
       
