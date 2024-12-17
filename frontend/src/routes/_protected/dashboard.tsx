@@ -29,7 +29,7 @@ function Dashboard() {
       linkLabel: 'Zu den Sensoren',
     },
     {
-      url: '/waypoints',
+      url: '/watering-plans',
       description: 'Planung eines neuen Einsatzes zur Bewässerung von Baumgruppen',
       headline: 'Einsatzplanung',
       linkLabel: 'Zur Einsatzplanung',
