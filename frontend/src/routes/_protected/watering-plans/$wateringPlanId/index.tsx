@@ -22,7 +22,7 @@ function SingleWateringPlan() {
 
   return (
     <div className="container mt-6">
-      <Suspense fallback={<LoadingInfo label="Fahrzeug wird geladen …" />}>
+      <Suspense fallback={<LoadingInfo label="Einsatzplan wird geladen …" />}>
         <ErrorBoundary
           fallback={
             <p className="text-red text-lg font-semibold">
