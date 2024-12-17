@@ -104,13 +104,13 @@ export const vehicleIdQuery = (id: string) =>
 
 export const wateringPlanQuery = () =>
   queryOptions<WateringPlanList>({
-    queryKey: ['wateringPlan'],
+    queryKey: ['watering-plan'],
     queryFn: () => wateringPlanApi.getAllWateringPlans(),
   })
 
 export const wateringPlanIdQuery = (id: string) =>
   queryOptions<WateringPlan>({
-    queryKey: ['wateringPlan'],
+    queryKey: ['watering-plan'],
     queryFn: ()=>
       wateringPlanApi.getWateringPlanById({
         id: id,
