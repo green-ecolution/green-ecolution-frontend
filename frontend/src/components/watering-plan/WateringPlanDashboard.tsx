@@ -3,8 +3,7 @@ import Pill from '../general/Pill'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { wateringPlanIdQuery } from '@/api/queries'
 import { getWateringPlanStatusDetails } from '@/hooks/useDetailsForWateringPlanStatus'
-import { format, formatDistanceToNow } from 'date-fns'
-import { de } from 'date-fns/locale'
+import { format } from 'date-fns'
 import DetailedList from '../general/DetailedList'
 
 interface WateringPlanDashboardProps {
@@ -14,15 +13,12 @@ interface WateringPlanDashboardProps {
 const WateringPlanDashboard = ({
   wateringPlanId,
 }: WateringPlanDashboardProps) => {
-  const { data: wateringPlan } = useSuspenseQuery(
-    wateringPlanIdQuery(wateringPlanId)
-  )
-  const statusDetails = getWateringPlanStatusDetails(
-    wateringPlan.wateringPlanStatus
-  )
+  const { data: wateringPlan } = useSuspenseQuery(wateringPlanIdQuery(wateringPlanId))
+  const statusDetails = getWateringPlanStatusDetails(wateringPlan.wateringPlanStatus)
+  
   const date = wateringPlan?.date
-  ? format(new Date(wateringPlan?.date), 'dd.MM.yyyy')
-  : 'Keine Angabe'
+    ? format(new Date(wateringPlan?.date), 'dd.MM.yyyy')
+    : 'Keine Angabe'
   const updatedDate = wateringPlan?.updatedAt
     ? format(new Date(wateringPlan?.updatedAt), 'dd.MM.yyyy')
     : 'Keine Angabe'
@@ -46,16 +42,20 @@ const WateringPlanDashboard = ({
     },
     {
       label: 'Transporter',
-      value: wateringPlan?.transporter.numberPlate ?? 'Keine Angabe',
+      value: wateringPlan?.transporter
+        ? wateringPlan?.transporter.numberPlate
+        : 'Keine Angabe',
     },
     {
       label: 'Zusätzlicher Anhänger',
-      value: wateringPlan?.trailer?.numberPlate ?? 'Keine Angabe',
+      value: wateringPlan?.trailer
+        ? wateringPlan?.trailer.numberPlate
+        : 'Keine Angabe',
     },
     {
       label: 'Bewässerungsgruppen',
       value: wateringPlan?.treecluster?.length
-        ? `${wateringPlan.treecluster.length} Gruppe/n`
+        ? `${wateringPlan.treecluster.length} Gruppe(n)`
         : 'Keine Angabe',
     },
     {
@@ -72,13 +72,13 @@ const WateringPlanDashboard = ({
 
   return (
     <>
-      <BackLink link={{ to: '/vehicles' }} label="Zur Fahrzeugübersicht" />
+      <BackLink link={{ to: '/watering-plans' }} label="Alle Einsatzpläne" />
       <article className="space-y-6 2xl:space-y-0 2xl:flex 2xl:items-center 2xl:space-x-10">
         <div className="2xl:w-4/5">
           <h1 className="font-lato font-bold text-3xl mb-4 flex flex-wrap items-center gap-4 lg:text-4xl xl:text-5xl">
             Einsatzplan für den {date}
             <Pill
-              label={statusDetails.label}
+              label={statusDetails?.label ?? 'Keine Angabe'}
               theme={statusDetails?.color ?? 'grey'}
             />
           </h1>
