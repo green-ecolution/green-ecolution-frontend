@@ -17,19 +17,19 @@ const WateringPlanStatusProperties = {
     description: 'Der Einsatzplan wurde abgebrochen und ist nicht fertig gestellt.',
   },
   [WateringPlanStatus.WateringPlanStatusFinished]: {
-    color: 'green-light',
-    label: 'Beende',
+    color: 'green-dark',
+    label: 'Beendet',
     description:
       'Der Einsatzplan wurde erfolgreich beendet.',
   },
   [WateringPlanStatus.WateringPlanStatusNotCompeted]: {
-    color: 'green-light',
+    color: 'dark-400',
     label: 'Nicht angetreten',
     description:
       'Der Einsatzplan wurde nicht angetreten.',
   },
   [WateringPlanStatus.WateringPlanStatusPlanned]: {
-    color: 'green-light',
+    color: 'dark-400',
     label: 'Geplant',
     description:
       'Der Einsatzplan ist geplant und kann gestartet werden.',
