@@ -53,7 +53,7 @@ const WateringPlanDashboard = ({
         : 'Keine Angabe',
     },
     {
-      label: 'Bewässerungsgruppen',
+      label: 'Anzahl der Bewässerungsgruppen',
       value: wateringPlan?.treecluster?.length
         ? `${wateringPlan.treecluster.length} Gruppe(n)`
         : 'Keine Angabe',
