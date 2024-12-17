@@ -40,6 +40,7 @@ import { Route as ProtectedTreeclusterTreeclusterIdImport } from './routes/_prot
 import { Route as ProtectedTreeFormularImport } from './routes/_protected/tree/_formular'
 import { Route as ProtectedTreeTreeIdImport } from './routes/_protected/tree/$treeId'
 import { Route as ProtectedSettingsImportImport } from './routes/_protected/settings/import'
+import { Route as ProtectedWateringPlansWateringPlanIdIndexImport } from './routes/_protected/watering-plans/$wateringPlanId/index'
 import { Route as ProtectedVehiclesVehicleIdIndexImport } from './routes/_protected/vehicles/$vehicleId/index'
 import { Route as ProtectedTreeclusterTreeclusterIdIndexImport } from './routes/_protected/treecluster/$treeclusterId/index'
 import { Route as ProtectedSettingsPluginIndexImport } from './routes/_protected/settings/plugin/index'
@@ -214,6 +215,12 @@ const ProtectedSettingsImportRoute = ProtectedSettingsImportImport.update({
   path: '/import',
   getParentRoute: () => ProtectedSettingsRoute,
 } as any)
+
+const ProtectedWateringPlansWateringPlanIdIndexRoute =
+  ProtectedWateringPlansWateringPlanIdIndexImport.update({
+    path: '/$wateringPlanId/',
+    getParentRoute: () => ProtectedWateringPlansRoute,
+  } as any)
 
 const ProtectedVehiclesVehicleIdIndexRoute =
   ProtectedVehiclesVehicleIdIndexImport.update({
@@ -624,6 +631,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedVehiclesVehicleIdIndexImport
       parentRoute: typeof ProtectedVehiclesImport
     }
+    '/_protected/watering-plans/$wateringPlanId/': {
+      id: '/_protected/watering-plans/$wateringPlanId/'
+      path: '/$wateringPlanId'
+      fullPath: '/watering-plans/$wateringPlanId'
+      preLoaderRoute: typeof ProtectedWateringPlansWateringPlanIdIndexImport
+      parentRoute: typeof ProtectedWateringPlansImport
+    }
     '/_protected/map/sensor/select/tree': {
       id: '/_protected/map/sensor/select/tree'
       path: '/sensor/select/tree'
@@ -711,6 +725,7 @@ export const routeTree = rootRoute.addChildren({
     ProtectedWateringPlansRoute: ProtectedWateringPlansRoute.addChildren({
       ProtectedWateringPlansNewRoute,
       ProtectedWateringPlansIndexRoute,
+      ProtectedWateringPlansWateringPlanIdIndexRoute,
     }),
     ProtectedTreeTreeIdRoute,
     ProtectedTreeRoute: ProtectedTreeRoute.addChildren({
@@ -840,7 +855,8 @@ export const routeTree = rootRoute.addChildren({
       "parent": "/_protected",
       "children": [
         "/_protected/watering-plans/new",
-        "/_protected/watering-plans/"
+        "/_protected/watering-plans/",
+        "/_protected/watering-plans/$wateringPlanId/"
       ]
     },
     "/auth/callback": {
@@ -990,6 +1006,10 @@ export const routeTree = rootRoute.addChildren({
     "/_protected/vehicles/$vehicleId/": {
       "filePath": "_protected/vehicles/$vehicleId/index.tsx",
       "parent": "/_protected/vehicles"
+    },
+    "/_protected/watering-plans/$wateringPlanId/": {
+      "filePath": "_protected/watering-plans/$wateringPlanId/index.tsx",
+      "parent": "/_protected/watering-plans"
     },
     "/_protected/map/sensor/select/tree": {
       "filePath": "_protected/map/sensor/select.tree.tsx",
