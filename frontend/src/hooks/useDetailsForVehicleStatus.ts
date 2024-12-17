@@ -1,36 +1,37 @@
-import { VehicleStatus } from '@green-ecolution/backend-client'
+import { VehicleStatus } from '@green-ecolution/backend-client';
 
-const VehicleStatusProperties = {
-    [VehicleStatus.VehicleStatusUnknown]: {
-        color: 'dark-400',
+export const VehicleStatusOptions = [
+    {
+        value: VehicleStatus.VehicleStatusUnknown,
+        color: 'grey',
         bgcolor: 'none',
         label: 'Unbekannt',
         description: 'Der Fahrzeugstatus ist unbekannt.',
     },
-    [VehicleStatus.VehicleStatusNotAvailable]: {
+    {
+        value: VehicleStatus.VehicleStatusNotAvailable,
         color: 'red',
         bgcolor: 'none',
         label: 'Nicht Verfügbar',
         description: 'Das Fahrzeug ist nicht verfügbar.',
     },
-    [VehicleStatus.VehicleStatusAvailable]: {
+    {
+        value: VehicleStatus.VehicleStatusAvailable,
         color: 'green-dark',
         bgcolor: 'none',
         label: 'Verfügbar',
-        description: 'Das ist Fahrzeug verfügbar.',
+        description: 'Das Fahrzeug ist verfügbar.',
     },
-    [VehicleStatus.VehicleStatusActive]: {
+    {
+        value: VehicleStatus.VehicleStatusActive,
         color: 'green-light',
         bgcolor: 'green-light-200',
         label: 'Im Einsatz',
         description: 'Das Fahrzeug ist im Einsatz.',
     },
-} as const
+];
 
-type VehicleStatusDetails = (typeof VehicleStatusProperties)[VehicleStatus]
-
-export const getVehicleStatusDetails = (
-    status: VehicleStatus
-): VehicleStatusDetails => {
-    return VehicleStatusProperties[status]
-}
+export const getVehicleStatusDetails = (status: VehicleStatus) => {
+    const match = VehicleStatusOptions.find(option => option.value === status);
+    return match || VehicleStatusOptions.find(option => option.value === VehicleStatus.VehicleStatusUnknown);
+};
