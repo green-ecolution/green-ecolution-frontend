@@ -4,7 +4,11 @@ import PrimaryButton from '@/components/general/buttons/PrimaryButton'
 import { useState } from 'react'
 import FileUpload from '@/components/general/form/types/FileUpload'
 import Modal from '@/components/general/Modal'
-import { useMutation, useQueryClient, useSuspenseQuery } from '@tanstack/react-query'
+import {
+  useMutation,
+  useQueryClient,
+  useSuspenseQuery,
+} from '@tanstack/react-query'
 import { treeQuery } from '@/api/queries'
 import { importApi } from '@/api/backendApi'
 import useToast from '@/hooks/useToast'
@@ -15,6 +19,7 @@ export const Route = createFileRoute('/_protected/settings/import')({
 })
 
 function ImportFile() {
+  const [responseColor, setResponseColor] = useState("text-yellow")
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [file, setFile] = useState<File | null>(null)
   const [message, setMessage] = useState('')
@@ -23,16 +28,18 @@ function ImportFile() {
   const showToast = useToast()
 
   const { mutate } = useMutation({
-    mutationFn: (file: File) =>
-      importApi.importTreesFromCsv({ file }),
+    mutationFn: (file: File) => importApi.importTreesFromCsv({ file }),
     onSuccess: () => {
       queryClient.invalidateQueries(treeQuery())
       setMessage('Die Bäume wurden erfolgreich importiert.')
       showToast('Die Bäume wurden erfolgreich importiert.')
+      setFile(null)
+      setResponseColor("text-green-dark")
     },
     onError: (error) => {
       console.error(error)
       setMessage('Es ist ein Fehler beim Importieren aufgetreten.')
+      setResponseColor("text-red")
     },
   })
 
@@ -49,6 +56,7 @@ function ImportFile() {
     // Firefox on windows has a different file type, that's why the excel type is also needed
     if (file.type !== 'text/csv' && file.type !== 'application/vnd.ms-excel') {
       setMessage('Es sind nur CSV-Dateien erlaubt.')
+      setResponseColor("text-red")
       return
     }
 
@@ -87,9 +95,7 @@ function ImportFile() {
         <h1 className="font-lato font-bold text-3xl mb-4 lg:text-4xl xl:text-5xl">
           Kataster neu importieren
         </h1>
-        <p>
-          Diese Funktion erlaubt Ihnen, das Baumkataster zu importieren.
-        </p>
+        <p>Diese Funktion erlaubt Ihnen, das Baumkataster zu importieren.</p>
       </article>
 
       <ul className="grid grid-cols-1 gap-5 mt-10 md:grid-cols-2 lg:grid-cols-3">
@@ -105,9 +111,7 @@ function ImportFile() {
       </ul>
 
       <div className="mt-16">
-        <h2 className="text-xl font-bold font-lato mb-4">
-          Import anstoßen:
-        </h2>
+        <h2 className="text-xl font-bold font-lato mb-4">Import anstoßen:</h2>
         <p className="block text-base text-dark-700 mb-2">
           CSV-Datei mit aktuellen Bäumen:
         </p>
@@ -117,8 +121,9 @@ function ImportFile() {
             fileType=".csv"
             message={message}
             handleFileChange={handleFileChange}
-            showDeleteButton={file !== null}
+            isFileSelected={file !== null}
             clearFileInput={() => setFile(null)}
+            color={responseColor}
           />
         </form>
 
@@ -141,3 +146,5 @@ function ImportFile() {
     </div>
   )
 }
+
+export default ImportFile
