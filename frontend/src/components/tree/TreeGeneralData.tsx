@@ -1,5 +1,6 @@
 import { Tree } from '@green-ecolution/backend-client'
 import { format } from 'date-fns'
+import DetailedList from '../general/DetailedList'
 
 interface TreeGeneralData {
   tree?: Tree
@@ -17,7 +18,7 @@ const TreeGeneralData: React.FC<TreeGeneralData> = ({ tree }) => {
     },
     {
       label: 'Pflanzjahr',
-      value: tree?.plantingYear ?? 'Keine Angabe',
+      value: `${tree?.plantingYear ?? 'Keine Angabe'}`,
     },
     {
       label: 'Art der Erstellung',
@@ -25,11 +26,11 @@ const TreeGeneralData: React.FC<TreeGeneralData> = ({ tree }) => {
     },
     {
       label: 'Latitude',
-      value: tree?.latitude ?? 'Keine Angabe',
+      value: `${tree?.latitude ?? 'Keine Angabe'}`,
     },
     {
       label: 'Longitude',
-      value: tree?.longitude ?? 'Keine Angabe',
+      value: `${tree?.longitude ?? 'Keine Angabe'}`,
     },
     {
       label: 'Letztes Update',
@@ -37,22 +38,7 @@ const TreeGeneralData: React.FC<TreeGeneralData> = ({ tree }) => {
     },
   ]
 
-  return (
-    <>
-      <dl className="text-lg md:columns-2 md:gap-x-11">
-        {treeData.map((data, index) => (
-          <div
-            key={index}
-            className={`py-4 border-b border-b-dark-200 group md:last:border-b-transparent 
-              ${treeData.length / 2 === index + 1 ? 'md:border-b-transparent' : ''}`}
-          >
-            <dt className="font-bold sm:inline">{data.label}:</dt>
-            <dd className="sm:inline sm:px-2">{data.value}</dd>
-          </div>
-        ))}
-      </dl>
-    </>
-  )
+  return <DetailedList details={treeData} />
 }
 
 export default TreeGeneralData
