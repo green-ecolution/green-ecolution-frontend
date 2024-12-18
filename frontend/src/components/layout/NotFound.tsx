@@ -21,7 +21,7 @@ function NotFound() {
           </h1>
           <p className="lg:text-center mb-10">
             Die gewünschte Seite ist nicht erreichbar, da sie entweder nicht
-            exisitert oder es zu einem Fehler gekommen ist. Error-Code: 404
+            existiert oder es zu einem Fehler gekommen ist. Error-Code: 404
           </p>
           <div className="lg:flex lg:items-center lg:justify-center">
             {isAuthenticated ? (
