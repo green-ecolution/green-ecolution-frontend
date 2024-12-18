@@ -8,6 +8,7 @@ import { getSensorStatusDetails } from '@/hooks/useDetailsForSensorStatus'
 import { getVoltageQualityDetails } from '@/hooks/useDetailsForSensorBattery'
 import { format, formatDistanceToNow } from 'date-fns'
 import { de } from 'date-fns/locale'
+import DetailedList from '../general/DetailedList'
 
 interface SensorDashboardProps {
   sensorId: string
@@ -44,11 +45,11 @@ const SensorDashboard = ({ sensorId }: SensorDashboardProps) => {
     },
     {
       label: 'Latitude',
-      value: sensor.latitude ?? 'Keine Angabe',
+      value: `${sensor?.latitude ?? 'Keine Angabe'}`,
     },
     {
       label: 'Longitude',
-      value: sensor.longitude ?? 'Keine Angabe',
+      value: `${sensor?.longitude ?? 'Keine Angabe'}`,
     },
   ]
 
@@ -99,18 +100,11 @@ const SensorDashboard = ({ sensorId }: SensorDashboardProps) => {
 
       <section className="mt-16 md:grid md:gap-x-11 md:grid-cols-2">
         <div>
-          <h2 className="text-xl font-lato font-bold mb-4">Daten zum Sensor</h2>
-          <dl className="text-lg">
-            {generalSensorData.map((data, index) => (
-              <div
-                key={index}
-                className="py-4 border-b border-b-dark-200 group md:last:border-b-transparent last:border-b-transparent"
-              >
-                <dt className="font-bold sm:inline">{data.label}:</dt>
-                <dd className="sm:inline sm:px-2">{data.value}</dd>
-              </div>
-            ))}
-          </dl>
+          <DetailedList
+            headline="Daten zum Sensor"
+            details={generalSensorData}
+            hasNoGrid
+          />
         </div>
 
         <div
