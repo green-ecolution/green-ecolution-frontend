@@ -18,7 +18,7 @@ function Header() {
   }
 
   return (
-    <header className="bg-white lg:pl-20">
+    <header className="relative z-10 bg-white lg:pl-20">
       <div className="container text-sm border-b border-dark-50 py-4 flex justify-between items-center">
         <button
           id="main-navigation-toggle"
