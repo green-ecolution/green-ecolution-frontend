@@ -58,8 +58,9 @@ function NewTree() {
     species: '',
     plantingYear: new Date().getFullYear(),
     treeClusterId: -1,
-    sensorId: -1,
+    sensorId: '-1',
     description: '',
+    readonly: false,
   })
 
   const { register, handleSubmit, formState } = useFormSync<TreeForm>(
@@ -89,9 +90,7 @@ function NewTree() {
     mutate({
       ...data,
       sensorId:
-        data.sensorId && (data.sensorId === '-1' || data.sensorId <= 0)
-          ? undefined
-          : data.sensorId,
+        data.sensorId && data.sensorId !== '-1' ? data.sensorId : undefined,
       treeClusterId:
         data.treeClusterId &&
         (data.treeClusterId === '-1' || data.treeClusterId <= 0)
