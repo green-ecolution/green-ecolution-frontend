@@ -14,7 +14,7 @@ export const Route = createFileRoute('/_protected/tree/$treeId')({
     }
   },
   meta: ({ loaderData: { tree } }) => [
-    { title: `Baum: ${tree.treeNumber}` },
+    { title: `Baum: ${tree.number}` },
   ],
 })
 

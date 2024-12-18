@@ -9,7 +9,7 @@ export const TreeSchema = (lat: number, lng: number) => {
   return z.object({
     latitude: z.number().default(lat),
     longitude: z.number().default(lng),
-    treeNumber: z.string().min(1, 'Baumnummer ist erforderlich.'),
+    number: z.string().min(1, 'Baumnummer ist erforderlich.'),
     species: z.string().min(1, 'Art ist erforderlich.'),
     readonly: z.boolean().default(false),
     plantingYear: z.preprocess(

@@ -41,13 +41,13 @@ const TreeMarker = ({tree, onClick, hasHighlightedTree, selectedTrees}: TreeMark
         click: () => onClick?.(tree),
       }}
     >
-      {tree.treeNumber && (
+      {tree.number && (
         <Tooltip
           direction="top"
           offset={[5, -40]}
           className="font-nunito-sans font-semibold"
         >
-          {tree.treeNumber}
+          {tree.number}
         </Tooltip>
       )}
     </Marker>

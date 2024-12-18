@@ -122,7 +122,7 @@ const SensorDashboard = ({ sensorId }: SensorDashboardProps) => {
           {linkedTree ? (
             <div>
               <p className="font-bold text-3xl mb-2">
-                Baum: {linkedTree.treeNumber}
+                Baum: {linkedTree.number}
               </p>
               <p className="text-sm mb-4">
                 Longitude: {linkedTree.longitude} <br />

@@ -14,7 +14,7 @@ export const Route = createFileRoute('/_protected/treecluster/$treeclusterId/tre
     }
   },
   meta: ({ loaderData: { tree } }) => [
-    { title: `Baum: ${tree.treeNumber}` },
+    { title: `Baum: ${tree.number}` },
   ],
 })
 

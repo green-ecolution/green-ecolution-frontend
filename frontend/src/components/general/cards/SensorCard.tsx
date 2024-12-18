@@ -34,10 +34,10 @@ const SensorCard: React.FC<SensorCard> = ({ sensor }) => {
         <h2 className="font-bold text-lg mb-0.5">ID: {sensor.id}</h2>
         {treeRes ? (
           <p className="text-dark-800 text-sm">
-            <span className={`${treeRes.treeNumber ? 'block' : 'hidden'}`}>
-              Baum: {treeRes.treeNumber}
+            <span className={`${treeRes.number ? 'block' : 'hidden'}`}>
+              Baum: {treeRes.number}
             </span>
-            <span className={`${treeRes.treeNumber ? 'block' : 'hidden'}`}>
+            <span className={`${treeRes.number ? 'block' : 'hidden'}`}>
               Ort: {treeRes.latitude}, {treeRes.longitude}
             </span>
           </p>
