@@ -75,10 +75,11 @@ const VehicleDashboard = ({ vehicleId }: VehicleDashboardProps) => {
           }}
         />
       </article>
+
       {vehicle.status == VehicleStatus.VehicleStatusActive && (
         <div className="h-full shadow-cards space-y-3 rounded-xl border border-green-light bg-green-light-50 p-6 mt-6">
           <div className="flex items-center justify-between">
-            <p className="text-xl font-semibold">
+            <p className="text-lg font-semibold">
               Dieses Fahrzeug befindet sich im Einsatz.
             </p>
             <GeneralLink
@@ -90,6 +91,7 @@ const VehicleDashboard = ({ vehicleId }: VehicleDashboardProps) => {
           </div>
         </div>
       )}
+
       <section className="mt-16">
         <DetailedList headline="Daten zum Fahrzeug" details={vehicleData} />
       </section>
