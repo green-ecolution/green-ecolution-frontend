@@ -54,7 +54,7 @@ function NewTree() {
   const { initForm } = useInitForm<TreeForm>({
     latitude: lat,
     longitude: lng,
-    treeNumber: '',
+    number: '',
     species: '',
     plantingYear: new Date().getFullYear(),
     treeClusterId: -1,

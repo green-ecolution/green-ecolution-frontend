@@ -35,8 +35,8 @@ const FormForTree = (props: FormForTreeProps) => {
             placeholder="Baumnummer"
             label="Baumnummer"
             required
-            error={errors.treeNumber?.message}
-            {...props.register('treeNumber')}
+            error={errors.number?.message}
+            {...props.register('number')}
           />
         )}
         {!props.isReadonly && (

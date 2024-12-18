@@ -28,7 +28,7 @@ const TreeUpdate = ({ treeId, onUpdateSuccess, onUpdateError }: TreeUpdateProps)
     (data) => ({
       latitude: data.latitude,
       longitude: data.longitude,
-      treeNumber: data.treeNumber,
+      number: data.number,
       species: data.species,
       plantingYear: data.plantingYear,
       treeClusterId: data.treeClusterId ?? -1,
@@ -90,7 +90,7 @@ const TreeUpdate = ({ treeId, onUpdateSuccess, onUpdateError }: TreeUpdateProps)
       />
       <article className="2xl:w-4/5">
         <h1 className="font-lato font-bold text-3xl mb-4 lg:text-4xl xl:text-5xl">
-          Baum {loadedData.treeNumber} bearbeiten
+          Baum {loadedData.number} bearbeiten
         </h1>
         <p className="mb-5">
           In dieser Ansicht können Sie einem Baum bearbeiten.
