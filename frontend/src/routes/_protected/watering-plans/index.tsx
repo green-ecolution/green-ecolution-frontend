@@ -26,7 +26,7 @@ function WateringPlans() {
       </article>
 
       <section className="mt-10">
-        <header className="hidden border-b pb-2 text-sm text-dark-800 px-8 border-b-dark-200 mb-5 lg:grid lg:grid-cols-[1fr,1.5fr,1fr,1.5fr,1.5fr] lg:gap-5 xl:px-10">
+        <header className="hidden border-b pb-2 text-sm text-dark-800 px-8 border-b-dark-200 mb-5 lg:grid lg:grid-cols-[1.3fr,1.5fr,1fr,1.5fr,1.5fr] lg:gap-5 xl:px-10">
           <p>Status</p>
           <p>Datum & Fahrzeug</p>
           <p>Länge</p>
