@@ -88,10 +88,12 @@ const WateringPlanDashboard = ({
         </div>
       </article>
 
-      <DetailedList
-        headline="Daten zur Einsatzplanung"
-        details={wateringPlanData}
-      />
+      <section className="mt-16">
+        <DetailedList
+          headline="Daten zur Einsatzplanung"
+          details={wateringPlanData}
+        />
+      </section>
     </>
   )
 }
