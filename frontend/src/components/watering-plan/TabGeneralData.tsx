@@ -1,6 +1,12 @@
-import { WateringPlan } from '@green-ecolution/backend-client'
+import {
+  WateringPlan,
+  WateringPlanStatus,
+} from '@green-ecolution/backend-client'
 import DetailedList from '../general/DetailedList'
 import { format } from 'date-fns'
+import GeneralStatusCard from '../general/cards/GeneralStatusCard'
+import EntitiesStatusCard from '../general/cards/EntitiesStatusCard'
+import { getWateringPlanStatusDetails } from '@/hooks/useDetailsForWateringPlanStatus'
 
 interface TabGeneralDataProps {
   wateringPlan?: WateringPlan
@@ -8,7 +14,7 @@ interface TabGeneralDataProps {
 
 const TabGeneralData: React.FC<TabGeneralDataProps> = ({ wateringPlan }) => {
   const updatedDate = wateringPlan?.updatedAt
-    ? format(new Date(wateringPlan?.updatedAt), 'dd.MM.yyyy')
+    ? format(new Date(wateringPlan.updatedAt), 'dd.MM.yyyy')
     : 'Keine Angabe'
 
   const wateringPlanData = [
@@ -31,13 +37,13 @@ const TabGeneralData: React.FC<TabGeneralDataProps> = ({ wateringPlan }) => {
     {
       label: 'Transporter',
       value: wateringPlan?.transporter
-        ? wateringPlan?.transporter.numberPlate
+        ? wateringPlan.transporter.numberPlate
         : 'Keine Angabe',
     },
     {
       label: 'Zusätzlicher Anhänger',
       value: wateringPlan?.trailer
-        ? wateringPlan?.trailer.numberPlate
+        ? wateringPlan.trailer.numberPlate
         : 'Keine Angabe',
     },
     {
@@ -54,17 +60,40 @@ const TabGeneralData: React.FC<TabGeneralDataProps> = ({ wateringPlan }) => {
     },
     {
       label: 'Zuletzt geupdated',
-      value: `${updatedDate}`,
+      value: updatedDate,
     },
   ]
-  
+
   return (
-    <section className="mt-16">
-      <DetailedList
-        headline="Daten zur Einsatzplanung"
-        details={wateringPlanData}
-      />
-    </section>
+    <>
+      <ul className="space-y-5 md:space-y-0 md:grid md:gap-5 md:grid-cols-2 lg:grid-cols-3">
+        <li>
+          <EntitiesStatusCard
+            statusDetails={getWateringPlanStatusDetails(
+              wateringPlan?.status ??
+                WateringPlanStatus.WateringPlanStatusUnknown
+            )}
+            label="Aktueller Status des Einsatzes"
+            hasPill
+          />
+        </li>
+        <li>
+          <GeneralStatusCard
+            overline="Länge der Route"
+            value={`${wateringPlan?.distance} km`}
+            isLarge
+            description="Einsatz startet in der Schleswiger Straße"
+          />
+        </li>
+      </ul>
+
+      <section className="mt-16">
+        <DetailedList
+          headline="Daten zur Einsatzplanung"
+          details={wateringPlanData}
+        />
+      </section>
+    </>
   )
 }
 
