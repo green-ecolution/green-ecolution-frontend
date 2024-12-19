@@ -75,7 +75,7 @@ const VehicleDashboard = ({ vehicleId }: VehicleDashboardProps) => {
           }}
         />
       </article>
-
+      
       {vehicle.status == VehicleStatus.VehicleStatusActive && (
         <div className="h-full shadow-cards space-y-3 rounded-xl border border-green-light bg-green-light-50 p-6 mt-6">
           <div className="flex items-center justify-between">

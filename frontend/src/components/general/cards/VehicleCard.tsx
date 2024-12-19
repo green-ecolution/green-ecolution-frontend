@@ -22,7 +22,6 @@ const VehicleCard: React.FC<VehicleCard> = ({ vehicle }) => {
         label={statusDetails?.label ?? 'Keine Angabe'}
         theme={statusDetails?.color ?? 'dark-400'}
       />
-      
       <div>
         <h2 className="text-dark font-bold text-lg mb-0.5">
           <span className="lg:sr-only">Kennzeichen: </span>

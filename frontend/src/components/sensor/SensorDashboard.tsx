@@ -45,11 +45,11 @@ const SensorDashboard = ({ sensorId }: SensorDashboardProps) => {
     },
     {
       label: 'Latitude',
-      value: `${sensor?.latitude ?? 'Keine Angabe'}`,
+      value: sensor.latitude ? `${sensor.latitude}` : 'Keine Angabe',
     },
     {
       label: 'Longitude',
-      value: `${sensor?.longitude ?? 'Keine Angabe'}`,
+      value: sensor.longitude ? `${sensor.longitude}` : 'Keine Angabe',
     },
   ]
 
@@ -103,8 +103,7 @@ const SensorDashboard = ({ sensorId }: SensorDashboardProps) => {
           <DetailedList
             headline="Daten zum Sensor"
             details={generalSensorData}
-            hasNoGrid
-          />
+            hasNoGrid />
         </div>
 
         <div
