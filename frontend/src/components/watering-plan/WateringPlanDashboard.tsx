@@ -14,7 +14,7 @@ const WateringPlanDashboard = ({
   wateringPlanId,
 }: WateringPlanDashboardProps) => {
   const { data: wateringPlan } = useSuspenseQuery(wateringPlanIdQuery(wateringPlanId))
-  const statusDetails = getWateringPlanStatusDetails(wateringPlan.wateringPlanStatus)
+  const statusDetails = getWateringPlanStatusDetails(wateringPlan.status)
   
   const date = wateringPlan?.date
     ? format(new Date(wateringPlan?.date), 'dd.MM.yyyy')
@@ -54,8 +54,8 @@ const WateringPlanDashboard = ({
     },
     {
       label: 'Anzahl der Bewässerungsgruppen',
-      value: wateringPlan?.treecluster?.length
-        ? `${wateringPlan.treecluster.length} Gruppe(n)`
+      value: wateringPlan?.treeclusters?.length
+        ? `${wateringPlan.treeclusters.length} Gruppe(n)`
         : 'Keine Angabe',
     },
     {
@@ -79,7 +79,7 @@ const WateringPlanDashboard = ({
             Einsatzplan für den {date}
             <Pill
               label={statusDetails?.label ?? 'Keine Angabe'}
-              theme={statusDetails?.color ?? 'grey'}
+              theme={statusDetails?.color ?? 'dark-400'}
             />
           </h1>
           {wateringPlan.description && (
