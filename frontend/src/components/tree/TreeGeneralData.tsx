@@ -18,7 +18,7 @@ const TreeGeneralData: React.FC<TreeGeneralData> = ({ tree }) => {
     },
     {
       label: 'Pflanzjahr',
-      value: tree?.plantingYear ? `${tree?.plantingYear}` : 'Keine Angabe',
+      value: `${tree?.plantingYear ?? 'Keine Angabe'}`,
     },
     {
       label: 'Art der Erstellung',
@@ -26,11 +26,11 @@ const TreeGeneralData: React.FC<TreeGeneralData> = ({ tree }) => {
     },
     {
       label: 'Latitude',
-      value: tree?.latitude ? `${tree?.latitude}` : 'Keine Angabe',
+      value: `${tree?.latitude ?? 'Keine Angabe'}`,
     },
     {
       label: 'Longitude',
-      value: tree?.longitude ? `${tree?.longitude}` : 'Keine Angabe',
+      value: `${tree?.longitude ?? 'Keine Angabe'}`,
     },
     {
       label: 'Letztes Update',
