@@ -2,11 +2,11 @@ import { Tree } from '@green-ecolution/backend-client'
 import { format } from 'date-fns'
 import DetailedList from '../general/DetailedList'
 
-interface TreeGeneralData {
+interface TabGeneralDataProps {
   tree?: Tree
 }
 
-const TreeGeneralData: React.FC<TreeGeneralData> = ({ tree }) => {
+const TabGeneralData: React.FC<TabGeneralDataProps> = ({ tree }) => {
   const updatedDate = tree?.updatedAt
     ? format(new Date(tree?.updatedAt), 'dd.MM.yyyy')
     : 'Keine Angabe'
@@ -41,4 +41,4 @@ const TreeGeneralData: React.FC<TreeGeneralData> = ({ tree }) => {
   return <DetailedList details={treeData} />
 }
 
-export default TreeGeneralData
+export default TabGeneralData

@@ -6,11 +6,11 @@ import { SensorStatus, Tree } from '@green-ecolution/backend-client'
 import { format } from 'date-fns'
 import GeneralLink from '../general/links/GeneralLink'
 
-interface TreeSensorData {
+interface TabSensorDataProps {
   tree?: Tree
 }
 
-const TreeSensorData: React.FC<TreeSensorData> = ({ tree }) => {
+const TabSensorData: React.FC<TabSensorDataProps> = ({ tree }) => {
   const updatedDate = tree?.sensor?.updatedAt
     ? format(new Date(tree?.sensor?.updatedAt), 'dd.MM.yyyy')
     : 'Keine Angabe'
@@ -59,4 +59,4 @@ const TreeSensorData: React.FC<TreeSensorData> = ({ tree }) => {
   )
 }
 
-export default TreeSensorData
+export default TabSensorData

@@ -96,7 +96,7 @@ function Treecluster() {
               </p>
             }
           >
-            <TreeClusterList filteredData={filteredData} />
+            <TreeClusterList data={filteredData} />
           </ErrorBoundary>
         </Suspense>
       </section>

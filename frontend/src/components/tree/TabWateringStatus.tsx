@@ -5,11 +5,11 @@ import { getWateringStatusDetails } from '@/hooks/useDetailsForWateringStatus';
 import GeneralStatusCard from '../general/cards/GeneralStatusCard';
 import EntitiesStatusCard from '../general/cards/EntitiesStatusCard';
 
-interface TreeWateringStatus {
+interface TabWateringStatusProps {
   tree?: Tree,
 }
 
-const TreeWateringStatus: React.FC<TreeWateringStatus> = ({ tree }) => {
+const TabWateringStatus: React.FC<TabWateringStatusProps> = ({ tree }) => {
   // TODO: Switch to real content
   const statusProDepth = [
     {
@@ -121,4 +121,4 @@ const TreeWateringStatus: React.FC<TreeWateringStatus> = ({ tree }) => {
   );
 }
 
-export default TreeWateringStatus;
+export default TabWateringStatus;
