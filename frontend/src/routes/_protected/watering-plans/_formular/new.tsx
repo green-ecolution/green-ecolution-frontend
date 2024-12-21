@@ -1,11 +1,9 @@
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import {
-  clusterApi,
-  SoilCondition,
-  TreeClusterCreate,
+  wateringPlanApi,
+  WateringPlanCreate,
 } from '@/api/backendApi'
 import { SubmitHandler } from 'react-hook-form'
-import { TreeclusterForm, TreeclusterSchema } from '@/schema/treeclusterSchema'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import FormForTreecluster from '@/components/general/form/FormForTreecluster'
 import useFormStore, { FormStore } from '@/store/form/useFormStore'
@@ -16,27 +14,26 @@ import useStore from '@/store/store'
 import BackLink from '@/components/general/links/BackLink'
 import useToast from '@/hooks/useToast'
 import { treeClusterQuery } from '@/api/queries'
+import { WateringPlanForm, WateringPlanSchema } from '@/schema/wateringPlanSchema'
 
-export const Route = createFileRoute('/_protected/treecluster/_formular/new')({
+export const Route = createFileRoute('/_protected/watering-plans/_formular/new')({
   beforeLoad: () => {
     useFormStore.getState().setType('new')
   },
-  component: NewTreecluster,
-  meta: () => [{ title: 'Neue Bewässerungsgruppe' }],
+  component: NewWateringPlan,
+  meta: () => [{ title: 'Neuen Einsatzplan' }],
 })
 
-function NewTreecluster() {
+function NewWateringPlan() {
   const showToast = useToast()
   const navigate = useNavigate({ from: Route.fullPath })
   const queryClient = useQueryClient()
-  const { initForm } = useInitForm<TreeclusterForm>({
-    name: '',
-    address: '',
+  const { initForm } = useInitForm<WateringPlanForm>({
+    date: new Date,
     description: '',
-    soilCondition: SoilCondition.TreeSoilConditionUnknown,
-    treeIds: [],
+    treeClusterIds: [],
   })
-  const formStore = useFormStore((state: FormStore<TreeclusterForm>) => ({
+  const formStore = useFormStore((state: FormStore<WateringPlanForm>) => ({
     form: state.form,
     reset: state.reset,
   }))
@@ -48,32 +45,32 @@ function NewTreecluster() {
   }))
 
   const { register, setValue, handleSubmit, formState } =
-    useFormSync<TreeclusterForm>(initForm, zodResolver(TreeclusterSchema))
+    useFormSync<WateringPlanForm>(initForm, zodResolver(WateringPlanSchema))
 
   const { isError, mutate } = useMutation({
-    mutationFn: (cluster: TreeClusterCreate) =>
-      clusterApi.createTreeCluster({
-        body: cluster,
+    mutationFn: (wateringPlan: WateringPlanCreate) =>
+      wateringPlanApi.createWateringPlan({
+        body: wateringPlan,
       }),
     onSuccess: (data) => {
       formStore.reset()
       navigate({
-        to: `/treecluster/${data.id}`,
+        to: `/watering-plans/${data.id}`,
         search: { resetStore: false },
         replace: true,
       })
       queryClient.invalidateQueries(treeClusterQuery())
-      showToast("Die Bewässerungsgruppe wurde erfolgreich erstellt.")
+      showToast("Der Einsatzplan wurde erfolgreich erstellt.")
     },
     onError: () => {
-      console.error('Error creating treecluster')
+      console.error('Error creating watering plan')
     },
   })
 
-  const onSubmit: SubmitHandler<TreeclusterForm> = (data) => {
+  const onSubmit: SubmitHandler<WateringPlanForm> = (data) => {
     mutate({
       ...data,
-      treeIds: formStore.form?.treeIds ?? [],
+      treeClusterIds: formStore.form?.treeClusterIds ?? [],
     })
   }
 
@@ -103,10 +100,12 @@ function NewTreecluster() {
           label="Zu allen Bewässerungsgruppen"
         />
         <h1 className="font-lato font-bold text-3xl mb-4 lg:text-4xl xl:text-5xl">
-          Neue Bewässerungsgruppe erstellen
+          Neuen Einsatzplan erstellen
         </h1>
         <p className="mb-5">
-          In dieser Ansicht können Sie eine neue Bewässerungsgruppe erstellen sowie dieser Bäume zuweisen.
+          Ein Einsatzplan bildet eine Bewässerungsroute ab, indem ihr ein Fahrzeug, einen Anhänger, Mitarbeitende und anzufahrende Bewässerungsgruppen zugewiesen werden können. 
+          Ein neu erstellter Einsatzplan wird automatisch als »geplant« eingestuft. Anhand der Bewässerungsgruppen und die Anzahl der Bäume 
+          wird berechnet, wie viel Wasser zum bewässsern benötigt wird. Ein Einsatzplan startet immer an der Hauptzentrale des TBZ in der Schleswiger Straße in Flensburg.
         </p>
       </article>
 
@@ -125,4 +124,4 @@ function NewTreecluster() {
   )
 }
 
-export default NewTreecluster
+export default NewWateringPlan

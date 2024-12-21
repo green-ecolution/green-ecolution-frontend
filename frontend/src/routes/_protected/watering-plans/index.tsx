@@ -1,8 +1,10 @@
 import { wateringPlanQuery } from '@/api/queries'
 import WateringPlanCard from '@/components/general/cards/WateringPlanCard'
 import LoadingInfo from '@/components/general/error/LoadingInfo'
+import ButtonLink from '@/components/general/links/ButtonLink'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { createFileRoute } from '@tanstack/react-router'
+import { Plus } from 'lucide-react'
 import { Suspense } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 
@@ -23,6 +25,11 @@ function WateringPlans() {
           Hier finden Sie eine Übersicht aller Einsatzpläne. Ein Einsatzplan beschreibt eine Bewässerungsfahrt 
           mehrerer Bewässerungsgruppen. Die Bewässerungsfahrten können dadurch dynamisch und schnell geplant
         </p>
+        <ButtonLink
+          icon={Plus}
+          label="Neuen Einsatzplan erstellen"
+          link={{ to: '/watering-plans/new' }}
+        />
       </article>
 
       <section className="mt-10">

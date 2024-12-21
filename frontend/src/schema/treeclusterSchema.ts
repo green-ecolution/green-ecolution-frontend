@@ -14,4 +14,4 @@ export const TreeclusterSchema = z.object({
   treeIds: z.array(z.number()).default([]),
 })
 
-export type TreeclusterSchema = z.infer<typeof TreeclusterSchema>
+export type TreeclusterForm = z.infer<typeof TreeclusterSchema>
