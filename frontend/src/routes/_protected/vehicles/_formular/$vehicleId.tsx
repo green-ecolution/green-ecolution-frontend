@@ -14,7 +14,7 @@ export const Route = createFileRoute('/_protected/vehicles/_formular/$vehicleId'
   meta: ({ loaderData: { vehicle } }) => {
     return [
       {
-        title: vehicle.numberPlate,
+        title: "Fahrzeug " + vehicle.numberPlate,
       },
     ]
   },

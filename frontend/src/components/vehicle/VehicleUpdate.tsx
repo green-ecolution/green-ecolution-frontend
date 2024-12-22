@@ -1,17 +1,21 @@
 import { useMutation } from '@tanstack/react-query'
 import BackLink from '../general/links/BackLink'
 import DeleteSection from '../treecluster/DeleteSection'
-import { Vehicle, VehicleUpdate as UpdateVehicle } from '@green-ecolution/backend-client'
+import {
+  Vehicle,
+  VehicleUpdate as UpdateVehicle,
+} from '@green-ecolution/backend-client'
 import { useInitFormQuery } from '@/hooks/form/useInitForm'
 import { vehicleIdQuery } from '@/api/queries'
 import { vehicleApi } from '@/api/backendApi'
-import { useFormSync } from '@/hooks/form/useFormSync'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SubmitHandler } from 'react-hook-form'
-import { Suspense } from 'react'
+import { Suspense, useEffect } from 'react'
 import LoadingInfo from '../general/error/LoadingInfo'
 import { VehicleForm, VehicleSchema } from '@/schema/vehicleSchema'
 import FormForVehicle from '../general/form/FormForVehicle'
+import { useFormSync } from '@/hooks/form/useFormSync'
+import useFormStore, { FormStore } from '@/store/form/useFormStore'
 
 interface VehicleUpdateProps {
   vehicleId: string
@@ -20,7 +24,7 @@ interface VehicleUpdateProps {
 }
 
 const VehicleUpdate = ({
-  vehicleId: vehicleId,
+  vehicleId,
   onUpdateError,
   onUpdateSuccess,
 }: VehicleUpdateProps) => {
@@ -39,6 +43,15 @@ const VehicleUpdate = ({
       description: data.description,
     })
   )
+
+  const formStore = useFormStore((state: FormStore<VehicleForm>) => ({
+    form: state.form,
+    reset: state.reset,
+  }))
+
+  useEffect(() => {
+    formStore.reset()
+  }, [loadedData, formStore.reset])
 
   const { register, handleSubmit, formState } = useFormSync<VehicleForm>(
     initForm,
@@ -92,9 +105,7 @@ const VehicleUpdate = ({
         />
       </section>
 
-      <Suspense
-        fallback={<LoadingInfo label="Das Fahrzeug wird gelöscht" />}
-      >
+      <Suspense fallback={<LoadingInfo label="Das Fahrzeug wird gelöscht" />}>
         <DeleteSection
           mutationFn={handleDeleteVehicle}
           entityName="das Fahrzeug"
