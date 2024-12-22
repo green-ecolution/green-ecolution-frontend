@@ -10,7 +10,7 @@ import { vehicleIdQuery } from '@/api/queries'
 import { vehicleApi } from '@/api/backendApi'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SubmitHandler } from 'react-hook-form'
-import { Suspense, useEffect } from 'react'
+import { Suspense } from 'react'
 import LoadingInfo from '../general/error/LoadingInfo'
 import { VehicleForm, VehicleSchema } from '@/schema/vehicleSchema'
 import FormForVehicle from '../general/form/FormForVehicle'
@@ -49,10 +49,6 @@ const VehicleUpdate = ({
     reset: state.reset,
   }))
   
-  useEffect(() => {
-    formStore.reset()
-  }, [])
-
   const { register, handleSubmit, formState } = useFormSync<VehicleForm>(
     initForm,
     zodResolver(VehicleSchema)
@@ -69,7 +65,7 @@ const VehicleUpdate = ({
   const onSubmit: SubmitHandler<VehicleForm> = async (data) => {
     mutate({
       ...data,
-      description: data.description ?? '',
+      description: formStore.form?.description ?? '',
     })
   }
 
@@ -90,7 +86,7 @@ const VehicleUpdate = ({
           }}
         />
         <h1 className="font-lato font-bold text-3xl mb-4 lg:text-4xl xl:text-5xl">
-          Fahrzeug {loadedData?.name} bearbeiten
+          Fahrzeug {loadedData?.numberPlate} bearbeiten
         </h1>
         <p className="mb-5">Hier können Sie das Fahrzeug bearbeiten.</p>
       </article>
