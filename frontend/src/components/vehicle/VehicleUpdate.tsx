@@ -51,7 +51,7 @@ const VehicleUpdate = ({
 
   useEffect(() => {
     formStore.reset()
-  }, [loadedData, formStore.reset])
+  }, [formStore.reset])
 
   const { register, handleSubmit, formState } = useFormSync<VehicleForm>(
     initForm,
