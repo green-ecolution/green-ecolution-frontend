@@ -14,7 +14,10 @@
   },
   "dependencies": {
     "@green-ecolution/backend-client": "*",
+    "@green-ecolution/plugin-interface": "*",
     "@hookform/resolvers": "^3.9.0",
+    "@module-federation/enhanced": "^0.8.2",
+    "@module-federation/vite": "1.1.9",
     "@splidejs/react-splide": "^0.7.12",
     "@tanstack/react-query": "^5.50.1",
     "@tanstack/react-router": "^1.43.12",
@@ -44,6 +47,7 @@
     "@typescript-eslint/eslint-plugin": "^7.13.1",
     "@typescript-eslint/parser": "^7.13.1",
     "@vitejs/plugin-react": "^4.3.1",
+    "@module-federation/vite": "1.1.9",
     "autoprefixer": "^10.4.19",
     "eslint": "^8.57.0",
     "eslint-plugin-react-hooks": "^4.6.2",
