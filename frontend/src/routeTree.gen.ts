@@ -35,6 +35,7 @@ import { Route as ProtectedSensorsIndexImport } from './routes/_protected/sensor
 import { Route as ProtectedMapIndexImport } from './routes/_protected/map/index'
 import { Route as ProtectedWateringPlansNewImport } from './routes/_protected/watering-plans/new'
 import { Route as ProtectedVehiclesFormularImport } from './routes/_protected/vehicles/_formular'
+import { Route as ProtectedWateringPlansWateringPlanIdImport } from './routes/_protected/watering-plans/$wateringPlanId'
 import { Route as ProtectedTreeclusterFormularImport } from './routes/_protected/treecluster/_formular'
 import { Route as ProtectedTreeclusterTreeclusterIdImport } from './routes/_protected/treecluster/$treeclusterId'
 import { Route as ProtectedTreeFormularImport } from './routes/_protected/tree/_formular'
@@ -188,6 +189,11 @@ const ProtectedVehiclesFormularRoute = ProtectedVehiclesFormularImport.update({
   id: '/_formular',
   getParentRoute: () => ProtectedVehiclesRoute,
 } as any)
+const ProtectedWateringPlansWateringPlanIdRoute =
+  ProtectedWateringPlansWateringPlanIdImport.update({
+    path: '/$wateringPlanId',
+    getParentRoute: () => ProtectedWateringPlansRoute,
+  } as any)
 
 const ProtectedTreeclusterFormularRoute =
   ProtectedTreeclusterFormularImport.update({
@@ -218,8 +224,8 @@ const ProtectedSettingsImportRoute = ProtectedSettingsImportImport.update({
 
 const ProtectedWateringPlansWateringPlanIdIndexRoute =
   ProtectedWateringPlansWateringPlanIdIndexImport.update({
-    path: '/$wateringPlanId/',
-    getParentRoute: () => ProtectedWateringPlansRoute,
+    path: '/',
+    getParentRoute: () => ProtectedWateringPlansWateringPlanIdRoute,
   } as any)
 
 const ProtectedVehiclesVehicleIdIndexRoute =
@@ -490,6 +496,12 @@ declare module '@tanstack/react-router' {
       fullPath: '/vehicles'
       preLoaderRoute: typeof ProtectedVehiclesFormularImport
       parentRoute: typeof ProtectedVehiclesRoute
+    '/_protected/watering-plans/$wateringPlanId': {
+      id: '/_protected/watering-plans/$wateringPlanId'
+      path: '/$wateringPlanId'
+      fullPath: '/watering-plans/$wateringPlanId'
+      preLoaderRoute: typeof ProtectedWateringPlansWateringPlanIdImport
+      parentRoute: typeof ProtectedWateringPlansImport
     }
     '/_protected/watering-plans/new': {
       id: '/_protected/watering-plans/new'
@@ -633,10 +645,10 @@ declare module '@tanstack/react-router' {
     }
     '/_protected/watering-plans/$wateringPlanId/': {
       id: '/_protected/watering-plans/$wateringPlanId/'
-      path: '/$wateringPlanId'
-      fullPath: '/watering-plans/$wateringPlanId'
+      path: '/'
+      fullPath: '/watering-plans/$wateringPlanId/'
       preLoaderRoute: typeof ProtectedWateringPlansWateringPlanIdIndexImport
-      parentRoute: typeof ProtectedWateringPlansImport
+      parentRoute: typeof ProtectedWateringPlansWateringPlanIdImport
     }
     '/_protected/map/sensor/select/tree': {
       id: '/_protected/map/sensor/select/tree'
@@ -723,9 +735,12 @@ export const routeTree = rootRoute.addChildren({
       ProtectedTreeclusterIndexRoute,
     }),
     ProtectedWateringPlansRoute: ProtectedWateringPlansRoute.addChildren({
+      ProtectedWateringPlansWateringPlanIdRoute:
+        ProtectedWateringPlansWateringPlanIdRoute.addChildren({
+          ProtectedWateringPlansWateringPlanIdIndexRoute,
+        }),
       ProtectedWateringPlansNewRoute,
       ProtectedWateringPlansIndexRoute,
-      ProtectedWateringPlansWateringPlanIdIndexRoute,
     }),
     ProtectedTreeTreeIdRoute,
     ProtectedTreeRoute: ProtectedTreeRoute.addChildren({
@@ -854,9 +869,9 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "_protected/watering-plans.tsx",
       "parent": "/_protected",
       "children": [
+        "/_protected/watering-plans/$wateringPlanId",
         "/_protected/watering-plans/new",
-        "/_protected/watering-plans/",
-        "/_protected/watering-plans/$wateringPlanId/"
+        "/_protected/watering-plans/"
       ]
     },
     "/auth/callback": {
@@ -916,6 +931,11 @@ export const routeTree = rootRoute.addChildren({
       "children": [
         "/_protected/vehicles/_formular/$vehicleId",
         "/_protected/vehicles/_formular/new"
+    "/_protected/watering-plans/$wateringPlanId": {
+      "filePath": "_protected/watering-plans/$wateringPlanId.tsx",
+      "parent": "/_protected/watering-plans",
+      "children": [
+        "/_protected/watering-plans/$wateringPlanId/"
       ]
     },
     "/_protected/watering-plans/new": {
@@ -1009,7 +1029,7 @@ export const routeTree = rootRoute.addChildren({
     },
     "/_protected/watering-plans/$wateringPlanId/": {
       "filePath": "_protected/watering-plans/$wateringPlanId/index.tsx",
-      "parent": "/_protected/watering-plans"
+      "parent": "/_protected/watering-plans/$wateringPlanId"
     },
     "/_protected/map/sensor/select/tree": {
       "filePath": "_protected/map/sensor/select.tree.tsx",
