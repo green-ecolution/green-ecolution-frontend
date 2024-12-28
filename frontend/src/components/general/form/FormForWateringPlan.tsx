@@ -4,21 +4,18 @@ import Select from "./types/Select";
 import Textarea from "./types/Textarea";
 import FormError from "./FormError";
 import { WateringPlanForm } from "@/schema/wateringPlanSchema";
-import { TreeCluster, Vehicle } from "@green-ecolution/backend-client";
+import { Vehicle } from "@green-ecolution/backend-client";
 import { FormForProps } from "./FormForTreecluster";
+import SelectEntities from "./types/SelectEntities";
 
 interface FormForWateringPlanProps extends FormForProps<WateringPlanForm> {
   transporters: Vehicle[]
   trailers: Vehicle[]
-  // treeClusters: TreeCluster[]
+  onAddCluster: () => void;
+  onDeleteCluster: (clusterId: number) => void;
 }
 
 const FormForWateringPlan = (props: FormForWateringPlanProps) => {
-  // const { lat, lng } = useFormStore((state: FormStore<WateringPlanForm>) => ({
-  //   lat: state.form?.latitude ?? 0,
-  //   lng: state.form?.longitude ?? 0,
-  // }))
-  
   const { errors, isValid } = props.formState
 
   return (
@@ -69,6 +66,14 @@ const FormForWateringPlan = (props: FormForWateringPlanProps) => {
           {...props.register("description")}
         />
       </div>
+
+      <SelectEntities
+        onDelete={props.onAddCluster}
+        entityIds={[]}
+        onAdd={props.onAddCluster}
+        type="tree"
+        label="Bewässerungsgruppen"
+      />
 
       <FormError
         show={props.displayError}

@@ -1,4 +1,3 @@
-import MapSelectTreesModal from '@/components/map/MapSelectTreesModal'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { Tree } from '@green-ecolution/backend-client'
 import { useCallback, useState } from 'react'
@@ -6,6 +5,7 @@ import SelectedCard from '@/components/general/cards/SelectedCard'
 import useFormStore, { FormStore } from '@/store/form/useFormStore'
 import { TreeclusterSchema } from '@/schema/treeclusterSchema'
 import WithAllTrees from '@/components/map/marker/WithAllTrees'
+import MapSelectEntitiesModal from '@/components/map/MapSelectEntitiesModal'
 
 export const Route = createFileRoute('/_protected/map/treecluster/select/tree')(
   {
@@ -79,7 +79,7 @@ function SelectTrees() {
 
   return (
     <>
-      <MapSelectTreesModal
+      <MapSelectEntitiesModal
         onSave={handleSave}
         onCancel={handleCancel}
         disabled={treeIds.length === 0}
@@ -93,7 +93,7 @@ function SelectTrees() {
             ) : (
               treeIds.map((treeId, key) => (
                 <li key={key}>
-                  <SelectedCard treeId={treeId} onClick={handleDeleteTree} />
+                  <SelectedCard type="tree" id={treeId} onClick={handleDeleteTree} />
                 </li>
               ))
             )}

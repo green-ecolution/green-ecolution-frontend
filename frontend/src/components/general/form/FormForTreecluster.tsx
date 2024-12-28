@@ -3,7 +3,6 @@ import PrimaryButton from "../buttons/PrimaryButton";
 import Input from "./types/Input";
 import Select from "./types/Select";
 import Textarea from "./types/Textarea";
-import SelectTrees from "./types/SelectTrees";
 import {
   FieldValues,
   FormState,
@@ -14,6 +13,7 @@ import { SoilConditionOptions } from "@/hooks/useDetailsForSoilCondition";
 import { TreeclusterSchema } from "@/schema/treeclusterSchema";
 import useFormStore, { FormStore } from "@/store/form/useFormStore";
 import FormError from "./FormError";
+import SelectEntities from "./types/SelectEntities";
 
 export type FormForProps<T extends FieldValues> = {
   displayError: boolean;
@@ -78,10 +78,12 @@ const FormForTreecluster: React.FC<FormForTreeclusterProps> = ({
         />
       </div>
 
-      <SelectTrees
+      <SelectEntities
         onDelete={onDeleteTree}
-        treeIds={treeIds ?? []}
-        onAddTrees={onAddTrees}
+        entityIds={treeIds ?? []}
+        onAdd={onAddTrees}
+        type="tree"
+        label="Bäume"
       />
 
       <FormError

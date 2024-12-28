@@ -1,5 +1,5 @@
 import { DragableMarker } from "@/components/map/MapMarker";
-import MapSelectTreesModal from "@/components/map/MapSelectTreesModal";
+import MapSelectEntitiesModal from "@/components/map/MapSelectEntitiesModal";
 import { TreeForm } from "@/schema/treeSchema";
 import useFormStore, { FormStore } from "@/store/form/useFormStore";
 import { useMapStore } from "@/store/store";
@@ -57,7 +57,7 @@ function EditTree() {
 
   return (
     <>
-      <MapSelectTreesModal
+      <MapSelectEntitiesModal
         onSave={handleSave}
         onCancel={handleNavigateBack}
         title="Baum erfassen:"

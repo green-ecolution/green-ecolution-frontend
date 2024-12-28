@@ -4,7 +4,7 @@ import SecondaryButton from '../general/buttons/SecondaryButton'
 import { MoveRight, X } from 'lucide-react'
 import useMapInteractions from '@/hooks/useMapInteractions'
 
-interface MapSelectTreesModalProps {
+interface MapSelectEntitiesModalProps {
   onSave: () => void
   onCancel: () => void
   title?: string
@@ -13,9 +13,9 @@ interface MapSelectTreesModalProps {
   disabled?: boolean
 }
 
-const MapSelectTreesModal = forwardRef<
+const MapSelectEntitiesModal = forwardRef<
   HTMLDivElement,
-  MapSelectTreesModalProps
+  MapSelectEntitiesModalProps
 >(
   (
     { onSave, onCancel, content, title, disabled = false },
@@ -97,4 +97,4 @@ const MapSelectTreesModal = forwardRef<
   }
 )
 
-export default MapSelectTreesModal
+export default MapSelectEntitiesModal

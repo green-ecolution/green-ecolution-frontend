@@ -55,6 +55,7 @@ import { Route as ProtectedMapTreeEditImport } from './routes/_protected/map/tre
 import { Route as ProtectedTreeclusterFormularTreeclusterIdEditImport } from './routes/_protected/treecluster/_formular/$treeclusterId.edit'
 import { Route as ProtectedTreeclusterTreeclusterIdTreeTreeIdImport } from './routes/_protected/treecluster/$treeclusterId/tree/$treeId'
 import { Route as ProtectedTreeFormularTreeIdEditImport } from './routes/_protected/tree/_formular/$treeId.edit'
+import { Route as ProtectedMapWateringPlanSelectClusterImport } from './routes/_protected/map/watering-plan/select.cluster'
 import { Route as ProtectedMapTreeclusterSelectTreeImport } from './routes/_protected/map/treecluster/select.tree'
 import { Route as ProtectedMapSensorSelectTreeImport } from './routes/_protected/map/sensor/select.tree'
 
@@ -294,6 +295,12 @@ const ProtectedTreeFormularTreeIdEditRoute =
   ProtectedTreeFormularTreeIdEditImport.update({
     path: '/edit',
     getParentRoute: () => ProtectedTreeFormularTreeIdRoute,
+  } as any)
+
+const ProtectedMapWateringPlanSelectClusterRoute =
+  ProtectedMapWateringPlanSelectClusterImport.update({
+    path: '/watering-plan/select/cluster',
+    getParentRoute: () => ProtectedMapRoute,
   } as any)
 
 const ProtectedMapTreeclusterSelectTreeRoute =
@@ -606,6 +613,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedMapTreeclusterSelectTreeImport
       parentRoute: typeof ProtectedMapImport
     }
+    '/_protected/map/watering-plan/select/cluster': {
+      id: '/_protected/map/watering-plan/select/cluster'
+      path: '/watering-plan/select/cluster'
+      fullPath: '/map/watering-plan/select/cluster'
+      preLoaderRoute: typeof ProtectedMapWateringPlanSelectClusterImport
+      parentRoute: typeof ProtectedMapImport
+    }
     '/_protected/tree/_formular/$treeId/edit': {
       id: '/_protected/tree/_formular/$treeId/edit'
       path: '/edit'
@@ -644,6 +658,7 @@ export const routeTree = rootRoute.addChildren({
       ProtectedMapTreeNewRoute,
       ProtectedMapSensorSelectTreeRoute,
       ProtectedMapTreeclusterSelectTreeRoute,
+      ProtectedMapWateringPlanSelectClusterRoute,
     }),
     ProtectedProfileRoute,
     ProtectedSettingsRoute: ProtectedSettingsRoute.addChildren({
@@ -762,7 +777,8 @@ export const routeTree = rootRoute.addChildren({
         "/_protected/map/tree/edit",
         "/_protected/map/tree/new",
         "/_protected/map/sensor/select/tree",
-        "/_protected/map/treecluster/select/tree"
+        "/_protected/map/treecluster/select/tree",
+        "/_protected/map/watering-plan/select/cluster"
       ]
     },
     "/_protected/profile": {
@@ -937,6 +953,10 @@ export const routeTree = rootRoute.addChildren({
     },
     "/_protected/map/treecluster/select/tree": {
       "filePath": "_protected/map/treecluster/select.tree.tsx",
+      "parent": "/_protected/map"
+    },
+    "/_protected/map/watering-plan/select/cluster": {
+      "filePath": "_protected/map/watering-plan/select.cluster.tsx",
       "parent": "/_protected/map"
     },
     "/_protected/tree/_formular/$treeId/edit": {

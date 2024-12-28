@@ -18,7 +18,9 @@ export const WateringPlanSchema = () => {
     date: z.preprocess(
       (value) => {
         if (typeof value === 'string') {
-          return new Date(value)
+          const parsedDate = new Date(value)
+          if (isNaN(parsedDate.getTime())) return undefined
+          return parsedDate
         }
         return value
       },
@@ -32,7 +34,7 @@ export const WateringPlanSchema = () => {
         })
     ),
     description: z.string().optional().default(''),
-    //treeClusterIds: z.array(z.number()).default([]),
+    treeClusterIds: z.array(z.number()).min(1, 'Bewässerungsgruppen sind erforderlich.').default([]),
     transporterId: z.preprocess(
       (value) => parseInt(value as string, 10),
       z
