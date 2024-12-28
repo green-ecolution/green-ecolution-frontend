@@ -4,8 +4,7 @@ import {
   WateringPlanCreate,
 } from '@/api/backendApi'
 import { SubmitHandler } from 'react-hook-form'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import FormForTreecluster from '@/components/general/form/FormForTreecluster'
+import { useMutation, useQueryClient, useSuspenseQuery } from '@tanstack/react-query'
 import useFormStore, { FormStore } from '@/store/form/useFormStore'
 import { useFormSync } from '@/hooks/form/useFormSync'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -13,8 +12,9 @@ import { useInitForm } from '@/hooks/form/useInitForm'
 import useStore from '@/store/store'
 import BackLink from '@/components/general/links/BackLink'
 import useToast from '@/hooks/useToast'
-import { treeClusterQuery } from '@/api/queries'
+import { treeClusterQuery, vehicleQuery } from '@/api/queries'
 import { WateringPlanForm, WateringPlanSchema } from '@/schema/wateringPlanSchema'
+import FormForWateringPlan from '@/components/general/form/FormForWateringPlan'
 
 export const Route = createFileRoute('/_protected/watering-plans/_formular/new')({
   beforeLoad: () => {
@@ -28,24 +28,27 @@ function NewWateringPlan() {
   const showToast = useToast()
   const navigate = useNavigate({ from: Route.fullPath })
   const queryClient = useQueryClient()
+  const { data: trailers } = useSuspenseQuery(vehicleQuery({
+    type: 'trailer',
+  }))
+  const { data: transporters } = useSuspenseQuery(vehicleQuery({
+    type: 'transporter',
+  }))
+
   const { initForm } = useInitForm<WateringPlanForm>({
     date: new Date,
     description: '',
-    treeClusterIds: [],
+    transporterId: -1,
+    trailerId: -1,
+    //treeClusterIds: [],
   })
   const formStore = useFormStore((state: FormStore<WateringPlanForm>) => ({
     form: state.form,
     reset: state.reset,
   }))
 
-  const mapPosition = useStore((state) => ({
-    lat: state.map.center[0],
-    lng: state.map.center[1],
-    zoom: state.map.zoom,
-  }))
-
-  const { register, setValue, handleSubmit, formState } =
-    useFormSync<WateringPlanForm>(initForm, zodResolver(WateringPlanSchema))
+  const { register, handleSubmit, formState } =
+    useFormSync<WateringPlanForm>(initForm, zodResolver(WateringPlanSchema()))
 
   const { isError, mutate } = useMutation({
     mutationFn: (wateringPlan: WateringPlanCreate) =>
@@ -70,26 +73,11 @@ function NewWateringPlan() {
   const onSubmit: SubmitHandler<WateringPlanForm> = (data) => {
     mutate({
       ...data,
-      treeClusterIds: formStore.form?.treeClusterIds ?? [],
+      date: data.date.toISOString(),
+      trailerId: data.trailerId && data.trailerId !== -1 &&  data.trailerId !== '-1' ? data.trailerId : undefined,
+      treeClusterIds: [],
+      usersIds: [],
     })
-  }
-
-  const navigateToTreeSelect = () => {
-    navigate({
-      to: '/map/treecluster/select/tree',
-      search: {
-        lat: mapPosition.lat,
-        lng: mapPosition.lng,
-        zoom: mapPosition.zoom,
-      },
-    })
-  }
-
-  const handleDeleteTree = (treeId: number) => {
-    setValue(
-      'treeIds',
-      formStore.form?.treeIds?.filter((id) => id !== treeId) ?? []
-    )
   }
 
   return (
@@ -110,14 +98,14 @@ function NewWateringPlan() {
       </article>
 
       <section className="mt-10">
-        <FormForTreecluster
+        <FormForWateringPlan
           register={register}
           handleSubmit={handleSubmit}
           displayError={isError}
           formState={formState}
           onSubmit={onSubmit}
-          onAddTrees={navigateToTreeSelect}
-          onDeleteTree={handleDeleteTree}
+          trailers={trailers.data}
+          transporters={transporters.data}
         />
       </section>
     </div>

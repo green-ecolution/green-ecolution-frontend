@@ -33,7 +33,6 @@ import { Route as ProtectedTreeclusterIndexImport } from './routes/_protected/tr
 import { Route as ProtectedSettingsIndexImport } from './routes/_protected/settings/index'
 import { Route as ProtectedSensorsIndexImport } from './routes/_protected/sensors/index'
 import { Route as ProtectedMapIndexImport } from './routes/_protected/map/index'
-import { Route as ProtectedWateringPlansNewImport } from './routes/_protected/watering-plans/new'
 import { Route as ProtectedWateringPlansFormularImport } from './routes/_protected/watering-plans/_formular'
 import { Route as ProtectedTreeclusterFormularImport } from './routes/_protected/treecluster/_formular'
 import { Route as ProtectedTreeclusterTreeclusterIdImport } from './routes/_protected/treecluster/$treeclusterId'
@@ -169,11 +168,6 @@ const ProtectedSensorsIndexRoute = ProtectedSensorsIndexImport.update({
 const ProtectedMapIndexRoute = ProtectedMapIndexImport.update({
   path: '/',
   getParentRoute: () => ProtectedMapRoute,
-} as any)
-
-const ProtectedWateringPlansNewRoute = ProtectedWateringPlansNewImport.update({
-  path: '/new',
-  getParentRoute: () => ProtectedWateringPlansRoute,
 } as any)
 
 const ProtectedWateringPlansFormularRoute =
@@ -465,13 +459,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedWateringPlansFormularImport
       parentRoute: typeof ProtectedWateringPlansImport
     }
-    '/_protected/watering-plans/new': {
-      id: '/_protected/watering-plans/new'
-      path: '/new'
-      fullPath: '/watering-plans/new'
-      preLoaderRoute: typeof ProtectedWateringPlansNewImport
-      parentRoute: typeof ProtectedWateringPlansImport
-    }
     '/_protected/map/': {
       id: '/_protected/map/'
       path: '/'
@@ -686,7 +673,6 @@ export const routeTree = rootRoute.addChildren({
           ProtectedWateringPlansFormularWateringPlanIdRoute,
           ProtectedWateringPlansFormularNewRoute,
         }),
-      ProtectedWateringPlansNewRoute,
       ProtectedWateringPlansIndexRoute,
       ProtectedWateringPlansWateringPlanIdIndexRoute,
     }),
@@ -809,7 +795,6 @@ export const routeTree = rootRoute.addChildren({
       "parent": "/_protected",
       "children": [
         "/_protected/watering-plans/_formular",
-        "/_protected/watering-plans/new",
         "/_protected/watering-plans/",
         "/_protected/watering-plans/$wateringPlanId/"
       ]
@@ -863,10 +848,6 @@ export const routeTree = rootRoute.addChildren({
         "/_protected/watering-plans/_formular/$wateringPlanId",
         "/_protected/watering-plans/_formular/new"
       ]
-    },
-    "/_protected/watering-plans/new": {
-      "filePath": "_protected/watering-plans/new.tsx",
-      "parent": "/_protected/watering-plans"
     },
     "/_protected/map/": {
       "filePath": "_protected/map/index.tsx",
