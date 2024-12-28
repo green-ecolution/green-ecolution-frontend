@@ -76,7 +76,7 @@ const Navigation: React.FC<NavigationProps> = ({
         {
           label: 'Einsätze',
           icon: <ArrowLeftRight className="w-5 h-5" />,
-          to: '/waypoints',
+          to: "/watering-plans",
         },
         {
           label: 'Fahrzeuge',
