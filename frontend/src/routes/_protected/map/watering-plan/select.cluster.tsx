@@ -15,15 +15,15 @@ export const Route = createFileRoute(
 })
 
 function SelectTrees() {
-  const { form, storeTreeIds, set, type } = useFormStore(
+  const { form, storeClusterIds, set, type } = useFormStore(
     (state: FormStore<WateringPlanForm>) => ({
       form: state.form,
-      storeTreeIds: state.form?.treeClusterIds ?? [],
+      storeClusterIds: state.form?.treeClusterIds ?? [],
       set: state.commit,
       type: state.type,
     })
   )
-  const [clusterIds, setClusterIds] = useState<number[]>(storeTreeIds)
+  const [clusterIds, setClusterIds] = useState<number[]>(storeClusterIds)
   const [showError, setShowError] = useState(false)
   const navigate = useNavigate({ from: Route.fullPath })
 
@@ -50,13 +50,11 @@ function SelectTrees() {
     form &&
       set({
         ...form,
-        clusterIds,
+        treeClusterIds:clusterIds,
       })
 
     handleNavigateBack()
   }
-
-  const handleCancel = () => handleNavigateBack()
 
   const handleDelete = (clusterId: number) => {
     setClusterIds((prev) => prev.filter((id) => id !== clusterId))
@@ -72,7 +70,7 @@ function SelectTrees() {
     <>
       <MapSelectEntitiesModal
         onSave={handleSave}
-        onCancel={handleCancel}
+        onCancel={() => handleNavigateBack()}
         disabled={clusterIds.length === 0}
         title="Ausgewählte Bewässerungsgruppen:"
         content={

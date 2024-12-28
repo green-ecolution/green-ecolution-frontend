@@ -13,7 +13,6 @@ interface FormForWateringPlanProps extends FormForProps<WateringPlanForm> {
   transporters: Vehicle[]
   trailers: Vehicle[]
   onAddCluster: () => void;
-  onDeleteCluster: (clusterId: number) => void;
 }
 
 const FormForWateringPlan = (props: FormForWateringPlanProps) => {
@@ -76,7 +75,7 @@ const FormForWateringPlan = (props: FormForWateringPlanProps) => {
         onDelete={props.onAddCluster}
         entityIds={treeClusterIds || []}
         onAdd={props.onAddCluster}
-        type="tree"
+        type="cluster"
         label="Bewässerungsgruppen"
       />
 

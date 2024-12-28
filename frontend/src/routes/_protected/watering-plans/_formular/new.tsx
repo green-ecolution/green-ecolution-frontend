@@ -40,7 +40,7 @@ function NewWateringPlan() {
     description: '',
     transporterId: -1,
     trailerId: -1,
-    //treeClusterIds: [],
+    treeClusterIds: [],
   })
   const formStore = useFormStore((state: FormStore<WateringPlanForm>) => ({
     form: state.form,
@@ -81,7 +81,7 @@ function NewWateringPlan() {
       ...data,
       date: data.date.toISOString(),
       trailerId: data.trailerId && data.trailerId !== -1 &&  data.trailerId !== '-1' ? data.trailerId : undefined,
-      treeClusterIds: [],
+      treeClusterIds: formStore.form?.treeClusterIds ?? [],
       usersIds: [],
     })
   }
@@ -95,13 +95,6 @@ function NewWateringPlan() {
         zoom: mapPosition.zoom,
       },
     })
-  }
-
-  const handleDeleteTree = (treeId: number) => {
-    setValue(
-      'treeIds',
-      formStore.form?.treeIds?.filter((id) => id !== treeId) ?? []
-    )
   }
 
   return (
@@ -131,7 +124,6 @@ function NewWateringPlan() {
           trailers={trailers.data}
           transporters={transporters.data}
           onAddCluster={navigateToClusterSelect}
-          onDeleteCluster={handleDeleteTree}
         />
       </section>
     </div>

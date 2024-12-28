@@ -39,10 +39,13 @@ export const WateringPlanSchema = () => {
       (value) => parseInt(value as string, 10),
       z
         .number()
-        .refine((value) =>
-          transporters.data.some((transporter) => transporter.id === value)
+        .refine(
+          (value) => 
+            transporters.data.some((transporter) => transporter.id === value),
+          { message: "Fahrzeug ist erforderlich."}
         )
     ),
+    
     trailerId: z
       .preprocess(
         (value) => parseInt(value as string, 10),
