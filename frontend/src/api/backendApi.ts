@@ -7,6 +7,7 @@ import {
   FileImportApi,
   HTTPHeaders,
   InfoApi,
+  PluginApi,
   RegionApi,
   SensorApi,
   TreeApi,
@@ -84,6 +85,7 @@ export const userApi = new UserApi(config)
 export const regionApi = new RegionApi(config)
 export const sensorApi = new SensorApi(config)
 export const vehicleApi = new VehicleApi(config)
+export const pluginApi = new PluginApi(config)
 export const wateringPlanApi = new WateringPlanApi(config)
 export const importApi = new FileImportApi(
   new Configuration({

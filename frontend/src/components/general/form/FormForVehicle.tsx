@@ -9,9 +9,7 @@ import { VehicleTypeOptions } from '@/hooks/useDetailsForVehicleType'
 import { DrivingLicenseOptions } from '@/hooks/useDetailsForDrivingLicense'
 import { VehicleStatusOptions } from '@/hooks/useDetailsForVehicleStatus'
 
-interface FormForVehicleProps extends FormForProps<VehicleForm> {}
-
-const FormForVehicle = (props: FormForVehicleProps) => {
+const FormForVehicle = (props: FormForProps<VehicleForm>) => {
   const { errors, isValid } = props.formState
 
   return (

@@ -1,5 +1,4 @@
-#! /bin/bash
-
+#!/usr/bin/env bash
 
 API_DOCS_SOURCE=$1
 SERVER=$2 

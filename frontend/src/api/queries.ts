@@ -114,7 +114,7 @@ export const wateringPlanQuery = () =>
 export const wateringPlanIdQuery = (id: string) =>
   queryOptions<WateringPlan>({
     queryKey: ['watering-plan'],
-    queryFn: () =>
+    queryFn: ()=>
       wateringPlanApi.getWateringPlanById({
         id: id,
       }),
