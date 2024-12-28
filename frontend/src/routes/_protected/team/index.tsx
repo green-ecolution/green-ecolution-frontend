@@ -1,8 +1,10 @@
-//import UserCard from '@/components/general/cards/UserCard'
+import UserCard from '@/components/general/cards/UserCard'
 import LoadingInfo from '@/components/general/error/LoadingInfo'
 import { createFileRoute } from '@tanstack/react-router'
 import { Suspense } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
+import { User } from '../../../components/general/User'
+import { UserStatus } from '@/hooks/useDetailsForUserStatus'
 
 export const Route = createFileRoute('/_protected/team/')({
   component: Team,
@@ -14,24 +16,24 @@ export const Route = createFileRoute('/_protected/team/')({
   ],
 })
 
-const dummyUsers = [
+const dummyUsers: User[] = [
   {
     id: 1,
     name: 'John Doe',
-    availability: 'Available',
-    role: 'Software Engineer',
+    availability: UserStatus.Available,
+    role: 'TBZ | Technische Hilfe',
   },
   {
     id: 2,
     name: 'Jane Smith',
-    availability: 'Busy',
-    role: 'Product Manager',
+    availability: UserStatus.NotAvailable,
+    role: 'TBZ | Technische Hilfe',
   },
   {
     id: 3,
     name: 'Emily Davis',
-    availability: 'On Leave',
-    role: 'Designer',
+    availability: UserStatus.OnDuty,
+    role: 'TBZ | Grünflächenpflege',
   },
 ]
 
@@ -48,7 +50,7 @@ function Team() {
       </article>
 
       <section className="mt-10">
-        <header className="hidden border-b pb-2 text-sm text-dark-800 px-8 border-b-dark-200 mb-5 lg:grid lg:grid-cols-3 lg:gap-5 xl:px-10">
+        <header className="hidden border-b pb-2 text-sm text-dark-800 px-8 border-b-dark-200 mb-5 lg:grid lg:grid-cols-4 lg:gap-5 xl:px-10">
           <p>Verfügbarkeit</p>
           <p>Name</p>
           <p>Aufgabenbereich</p>
@@ -70,7 +72,7 @@ function Team() {
               ) : (
                 dummyUsers.map((user, key) => (
                   <li key={key} className="mb-5 last:mb-0">
-                    blublub
+                    <UserCard user={user} />
                   </li>
                 ))
               )}
