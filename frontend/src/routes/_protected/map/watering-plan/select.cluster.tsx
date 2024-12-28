@@ -11,7 +11,7 @@ export const Route = createFileRoute(
   '/_protected/map/watering-plan/select/cluster'
 )({
   component: SelectTrees,
-  meta: () => [{ title: 'Bewässerungsgruppen auswählen' }],
+  meta: () => [{ title: 'Route festlegen' }],
 })
 
 function SelectTrees() {
@@ -26,7 +26,6 @@ function SelectTrees() {
   const [clusterIds, setClusterIds] = useState<number[]>(storeTreeIds)
   const [showError, setShowError] = useState(false)
   const navigate = useNavigate({ from: Route.fullPath })
-  //const { wateringPlanId } = Route.useSearch()
 
   const handleNavigateBack = useCallback(() => {
     switch (type) {
@@ -35,12 +34,6 @@ function SelectTrees() {
           to: '/watering-plans/new',
           search: { resetStore: false },
         })
-      // case 'edit':
-      //   return navigate({
-      //     to: `/watering-plans/$wateringPlanId/edit`,
-      //     params: { wateringPlanId: wateringPlanId?.toString() ?? '' },
-      //     search: { resetStore: false },
-      //   })
       default:
         return navigate({
           to: '/watering-plans/new',
@@ -70,11 +63,9 @@ function SelectTrees() {
   }
 
   const handleClick = (cluster: TreeCluster) => {
-    if (clusterIds.includes(cluster.id)) {
-      setClusterIds((prev) => prev.filter((id) => id !== cluster.id))
-    } else {
-      setClusterIds((prev) => [...prev, cluster.id])
-    }
+    clusterIds.includes(cluster.id)
+      ? setClusterIds((prev) => prev.filter((id) => id !== cluster.id))
+      : setClusterIds((prev) => [...prev, cluster.id])
   }
 
   return (
@@ -104,7 +95,7 @@ function SelectTrees() {
           </ul>
         }
       />
-      <WithAllClusters onClick={handleClick} hasHighlightedCluster={1} />
+      <WithAllClusters onClick={handleClick} highlightedClusters={clusterIds} />
     </>
   )
 }

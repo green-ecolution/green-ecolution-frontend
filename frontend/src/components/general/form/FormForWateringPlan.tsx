@@ -7,6 +7,7 @@ import { WateringPlanForm } from "@/schema/wateringPlanSchema";
 import { Vehicle } from "@green-ecolution/backend-client";
 import { FormForProps } from "./FormForTreecluster";
 import SelectEntities from "./types/SelectEntities";
+import useFormStore, { FormStore } from "@/store/form/useFormStore";
 
 interface FormForWateringPlanProps extends FormForProps<WateringPlanForm> {
   transporters: Vehicle[]
@@ -16,6 +17,10 @@ interface FormForWateringPlanProps extends FormForProps<WateringPlanForm> {
 }
 
 const FormForWateringPlan = (props: FormForWateringPlanProps) => {
+  const { treeClusterIds } = useFormStore((state: FormStore<WateringPlanForm>) => ({
+    treeClusterIds: state.form?.treeClusterIds,
+  }));
+
   const { errors, isValid } = props.formState
 
   return (
@@ -69,7 +74,7 @@ const FormForWateringPlan = (props: FormForWateringPlanProps) => {
 
       <SelectEntities
         onDelete={props.onAddCluster}
-        entityIds={[]}
+        entityIds={treeClusterIds || []}
         onAdd={props.onAddCluster}
         type="tree"
         label="Bewässerungsgruppen"

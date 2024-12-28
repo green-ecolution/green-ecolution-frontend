@@ -30,9 +30,9 @@ const SelectedCard: React.FC<SelectedCardProps> = ({ onClick, id, type }) => {
       >
         <strong className="font-semibold">
           {type === 'cluster' ? 'Bewässerungsgruppe' : 'Baum'}:
-        </strong>{' '}
-        {type === 'cluster' ? data?.name : data?.species} · {id} ·{' '}
-        {type === 'tree' && data?.plantingYear}
+        </strong>&nbsp;
+        {type === 'cluster' ? data?.name : data?.species} · {id}
+        {type === 'tree' && data?.plantingYear && ` · ${data?.plantingYear}`}
       </h3>
       <button
         type="button"
@@ -43,9 +43,8 @@ const SelectedCard: React.FC<SelectedCardProps> = ({ onClick, id, type }) => {
       >
         <Trash2 className="w-5 h-5" />
         <span className="sr-only">
-          {type === 'cluster'
-            ? 'Bewässerungsgruppe aus Auswahl löschen'
-            : 'Baum aus Auswahl löschen'}
+          {type === 'cluster' ? 'Bewässerungsgruppe' : 'Baum'}&nbsp;
+          aus Auswahl löschen
         </span>
       </button>
     </div>

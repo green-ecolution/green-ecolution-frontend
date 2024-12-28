@@ -64,7 +64,7 @@ const MapSelectEntitiesModal = forwardRef<
           onMouseEnter={disableDragging}
           onMouseLeave={enableDragging}
           aria-modal="true"
-          className={`space-y-6 absolute z-[1030] top-4 inset-x-4 lg:w-[30rem] lg:left-auto lg:right-10 bg-white border-dark-50 shadow-xl p-5 rounded-xl
+          className={`space-y-6 absolute z-[1030] top-4 inset-x-4 lg:w-[35rem] lg:left-auto lg:right-10 bg-white border-dark-50 shadow-xl p-5 rounded-xl
           ${openModal ? 'block' : 'hidden lg:block'}`}
         >
           <div className="flex justify-between gap-x-6">

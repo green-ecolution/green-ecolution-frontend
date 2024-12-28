@@ -70,11 +70,9 @@ function SelectTrees() {
   }
 
   const handleTreeClick = (tree: Tree) => {
-    if (treeIds.includes(tree.id)) {
-      setTreeIds((prev) => prev.filter((id) => id !== tree.id))
-    } else {
-      setTreeIds((prev) => [...prev, tree.id])
-    }
+    treeIds.includes(tree.id)
+      ? setTreeIds((prev) => prev.filter((id) => id !== tree.id))
+      : setTreeIds((prev) => [...prev, tree.id])
   }
 
   return (
@@ -93,17 +91,18 @@ function SelectTrees() {
             ) : (
               treeIds.map((treeId, key) => (
                 <li key={key}>
-                  <SelectedCard type="tree" id={treeId} onClick={handleDeleteTree} />
+                  <SelectedCard
+                    type="tree"
+                    id={treeId}
+                    onClick={handleDeleteTree}
+                  />
                 </li>
               ))
             )}
           </ul>
         }
       />
-      <WithAllTrees
-        selectedTrees={treeIds}
-        onClick={handleTreeClick}
-      />
+      <WithAllTrees selectedTrees={treeIds} onClick={handleTreeClick} />
     </>
   )
 }

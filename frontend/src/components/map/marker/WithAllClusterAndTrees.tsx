@@ -40,7 +40,7 @@ export const WithTreesAndClusters = ({
       ) : (
         <WithAllClusters
           onClick={onClickCluster}
-          hasHighlightedCluster={hasHighlightedCluster}
+          highlightedClusters={hasHighlightedCluster ? [hasHighlightedCluster] : []}
         />
       )}
     </>
