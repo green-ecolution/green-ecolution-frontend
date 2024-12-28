@@ -34,8 +34,8 @@ import { Route as ProtectedSettingsIndexImport } from './routes/_protected/setti
 import { Route as ProtectedSensorsIndexImport } from './routes/_protected/sensors/index'
 import { Route as ProtectedMapIndexImport } from './routes/_protected/map/index'
 import { Route as ProtectedWateringPlansNewImport } from './routes/_protected/watering-plans/new'
-import { Route as ProtectedVehiclesFormularImport } from './routes/_protected/vehicles/_formular'
 import { Route as ProtectedWateringPlansWateringPlanIdImport } from './routes/_protected/watering-plans/$wateringPlanId'
+import { Route as ProtectedVehiclesFormularImport } from './routes/_protected/vehicles/_formular'
 import { Route as ProtectedTreeclusterFormularImport } from './routes/_protected/treecluster/_formular'
 import { Route as ProtectedTreeclusterTreeclusterIdImport } from './routes/_protected/treecluster/$treeclusterId'
 import { Route as ProtectedTreeFormularImport } from './routes/_protected/tree/_formular'
@@ -185,15 +185,16 @@ const ProtectedWateringPlansNewRoute = ProtectedWateringPlansNewImport.update({
   getParentRoute: () => ProtectedWateringPlansRoute,
 } as any)
 
-const ProtectedVehiclesFormularRoute = ProtectedVehiclesFormularImport.update({
-  id: '/_formular',
-  getParentRoute: () => ProtectedVehiclesRoute,
-} as any)
 const ProtectedWateringPlansWateringPlanIdRoute =
   ProtectedWateringPlansWateringPlanIdImport.update({
     path: '/$wateringPlanId',
     getParentRoute: () => ProtectedWateringPlansRoute,
   } as any)
+
+const ProtectedVehiclesFormularRoute = ProtectedVehiclesFormularImport.update({
+  id: '/_formular',
+  getParentRoute: () => ProtectedVehiclesRoute,
+} as any)
 
 const ProtectedTreeclusterFormularRoute =
   ProtectedTreeclusterFormularImport.update({
@@ -496,6 +497,7 @@ declare module '@tanstack/react-router' {
       fullPath: '/vehicles'
       preLoaderRoute: typeof ProtectedVehiclesFormularImport
       parentRoute: typeof ProtectedVehiclesRoute
+    }
     '/_protected/watering-plans/$wateringPlanId': {
       id: '/_protected/watering-plans/$wateringPlanId'
       path: '/$wateringPlanId'
@@ -931,6 +933,8 @@ export const routeTree = rootRoute.addChildren({
       "children": [
         "/_protected/vehicles/_formular/$vehicleId",
         "/_protected/vehicles/_formular/new"
+      ]
+    },
     "/_protected/watering-plans/$wateringPlanId": {
       "filePath": "_protected/watering-plans/$wateringPlanId.tsx",
       "parent": "/_protected/watering-plans",
