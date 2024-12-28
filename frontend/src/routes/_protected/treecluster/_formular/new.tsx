@@ -5,7 +5,7 @@ import {
   TreeClusterCreate,
 } from '@/api/backendApi'
 import { SubmitHandler } from 'react-hook-form'
-import { TreeclusterForm, TreeclusterSchema } from '@/schema/treeclusterSchema'
+import { TreeclusterSchema } from '@/schema/treeclusterSchema'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import FormForTreecluster from '@/components/general/form/FormForTreecluster'
 import useFormStore, { FormStore } from '@/store/form/useFormStore'
@@ -29,14 +29,14 @@ function NewTreecluster() {
   const showToast = useToast()
   const navigate = useNavigate({ from: Route.fullPath })
   const queryClient = useQueryClient()
-  const { initForm } = useInitForm<TreeclusterForm>({
+  const { initForm } = useInitForm<TreeclusterSchema>({
     name: '',
     address: '',
     description: '',
     soilCondition: SoilCondition.TreeSoilConditionUnknown,
     treeIds: [],
   })
-  const formStore = useFormStore((state: FormStore<TreeclusterForm>) => ({
+  const formStore = useFormStore((state: FormStore<TreeclusterSchema>) => ({
     form: state.form,
     reset: state.reset,
   }))
@@ -48,7 +48,7 @@ function NewTreecluster() {
   }))
 
   const { register, setValue, handleSubmit, formState } =
-    useFormSync<TreeclusterForm>(initForm, zodResolver(TreeclusterSchema))
+    useFormSync<TreeclusterSchema>(initForm, zodResolver(TreeclusterSchema))
 
   const { isError, mutate } = useMutation({
     mutationFn: (cluster: TreeClusterCreate) =>
@@ -70,7 +70,7 @@ function NewTreecluster() {
     },
   })
 
-  const onSubmit: SubmitHandler<TreeclusterForm> = (data) => {
+  const onSubmit: SubmitHandler<TreeclusterSchema> = (data) => {
     mutate({
       ...data,
       treeIds: formStore.form?.treeIds ?? [],
