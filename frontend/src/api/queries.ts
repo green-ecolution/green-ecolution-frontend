@@ -16,6 +16,9 @@ import {
   Vehicle,
   treeSensorApi,
   Sensor,
+  WateringPlanList,
+  wateringPlanApi,
+  WateringPlan,
 } from './backendApi'
 
 export const treeClusterQuery = () =>
@@ -95,6 +98,21 @@ export const vehicleIdQuery = (id: string) =>
     queryKey: ['vehicle', id],
     queryFn: () =>
       vehicleApi.getVehicleById({
+        id: id,
+      }),
+  })
+
+export const wateringPlanQuery = () =>
+  queryOptions<WateringPlanList>({
+    queryKey: ['watering-plan'],
+    queryFn: () => wateringPlanApi.getAllWateringPlans(),
+  })
+
+export const wateringPlanIdQuery = (id: string) =>
+  queryOptions<WateringPlan>({
+    queryKey: ['watering-plan'],
+    queryFn: ()=>
+      wateringPlanApi.getWateringPlanById({
         id: id,
       }),
   })

@@ -4,14 +4,14 @@ import GeneralLink from '../general/links/GeneralLink'
 import ButtonLink from '../general/links/ButtonLink'
 import { File, Info, Pencil } from 'lucide-react'
 import Tabs from '../general/Tabs'
-import TreeGeneralData from './TreeGeneralData'
 import { useMemo } from 'react'
 import TreeIcon from '../icons/Tree'
-import TreeWateringStatus from './TreeWateringStatus'
 import SensorIcon from '../icons/Sensor'
-import TreeSensorData from './TreeSensorData'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { treeClusterIdQuery, treeIdQuery } from '@/api/queries'
+import TabWateringStatus from './TabWateringStatus'
+import TabGeneralData from './TabGeneralData'
+import TabSensorData from './TabSensorData'
 
 interface TreeDashboardProps {
   treeId: string
@@ -28,17 +28,17 @@ const TreeDashboard = ({ treeId }: TreeDashboardProps) => {
       {
         label: 'Bewässerungsdaten',
         icon: <TreeIcon className="w-5 h-5" />,
-        view: <TreeWateringStatus tree={tree} />,
+        view: <TabWateringStatus tree={tree} />,
       },
       {
         label: 'Allgemeine Daten',
         icon: <File className="w-5 h-5" />,
-        view: <TreeGeneralData tree={tree} />,
+        view: <TabGeneralData tree={tree} />,
       },
       {
         label: 'Sensordaten',
         icon: <SensorIcon className="w-5 h-5" />,
-        view: <TreeSensorData tree={tree} />,
+        view: <TabSensorData tree={tree} />,
       },
     ],
     [tree]
@@ -117,7 +117,7 @@ const TreeDashboard = ({ treeId }: TreeDashboardProps) => {
               angezeigt werden können.
             </p>
           </div>
-          <TreeGeneralData tree={tree} />
+          <TabGeneralData tree={tree} />
         </section>
       )}
     </>
