@@ -34,18 +34,20 @@ export const WateringPlanSchema = () => {
         })
     ),
     description: z.string().optional().default(''),
-    treeClusterIds: z.array(z.number()).min(1, 'Bewässerungsgruppen sind erforderlich.').default([]),
+    treeClusterIds: z
+      .array(z.number())
+      .min(1, 'Bewässerungsgruppen sind erforderlich.')
+      .default([]),
     transporterId: z.preprocess(
       (value) => parseInt(value as string, 10),
       z
         .number()
         .refine(
-          (value) => 
+          (value) =>
             transporters.data.some((transporter) => transporter.id === value),
-          { message: "Fahrzeug ist erforderlich."}
+          { message: 'Fahrzeug ist erforderlich.' }
         )
     ),
-    
     trailerId: z
       .preprocess(
         (value) => parseInt(value as string, 10),
