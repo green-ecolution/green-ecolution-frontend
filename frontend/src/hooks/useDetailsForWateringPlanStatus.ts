@@ -17,7 +17,8 @@ export const WateringPlanStatusOptions = [
     value: WateringPlanStatus.WateringPlanStatusCanceled,
     label: 'Abgebrochen',
     color: 'red',
-    description: 'Der Einsatzplan wurde abgebrochen und ist nicht fertig gestellt.',
+    description:
+      'Der Einsatzplan wurde abgebrochen und ist nicht fertig gestellt.',
   },
   {
     value: WateringPlanStatus.WateringPlanStatusFinished,
@@ -40,5 +41,8 @@ export const WateringPlanStatusOptions = [
 ]
 
 export const getWateringPlanStatusDetails = (status: WateringPlanStatus) => {
-  return WateringPlanStatusOptions.find(option => option.value === status)
+  return (
+    WateringPlanStatusOptions.find((option) => option.value === status) ||
+    WateringPlanStatusOptions[0]
+  )
 }
