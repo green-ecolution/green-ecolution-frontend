@@ -10,12 +10,19 @@ import { wateringPlanApi } from '@/api/backendApi'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SubmitHandler } from 'react-hook-form'
 import { useFormSync } from '@/hooks/form/useFormSync'
-import { WateringPlanForm, WateringPlanSchema } from '@/schema/wateringPlanSchema'
+import {
+  WateringPlanForm,
+  WateringPlanSchema,
+} from '@/schema/wateringPlanSchema'
 import { format } from 'date-fns'
 import PrimaryButton from '../general/buttons/PrimaryButton'
 import FormError from '../general/form/FormError'
 import Select from '../general/form/types/Select'
-import { WateringPlanStatusOptions } from '@/hooks/useDetailsForWateringPlanStatus'
+import {
+  getWateringPlanStatusDetails,
+  WateringPlanStatusOptions,
+} from '@/hooks/useDetailsForWateringPlanStatus'
+import Pill from '../general/Pill'
 
 interface WateringPlanStatusUpdateProps {
   wateringPlanId: string
@@ -43,6 +50,7 @@ const WateringPlanStatusUpdate = ({
   const date = loadedData?.date
     ? format(new Date(loadedData?.date), 'dd.MM.yyyy')
     : 'Keine Angabe'
+  const statusDetails = getWateringPlanStatusDetails(loadedData?.status)
 
   const { register, handleSubmit, formState } = useFormSync<WateringPlanForm>(
     initForm,
@@ -91,6 +99,14 @@ const WateringPlanStatusUpdate = ({
           Auswertung anzulegen. Sobald ein Einsatz beendet wird, kann zudem
           angegeben werden, mit wie viel Wasser die zugehörigen
           Bewässerungsgruppen bewässert wurden.
+        </p>
+
+        <p className="space-x-3">
+          <strong>Aktueller Status:</strong>
+          <Pill
+            label={statusDetails?.label ?? 'Keine Angabe'}
+            theme={statusDetails?.color ?? 'dark-400'}
+          />
         </p>
       </article>
 
