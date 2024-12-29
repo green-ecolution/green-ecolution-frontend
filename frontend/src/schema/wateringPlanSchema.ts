@@ -1,7 +1,5 @@
 import { vehicleQuery } from '@/api/queries'
-import {
-  WateringPlanStatus,
-} from '@green-ecolution/backend-client'
+import { WateringPlanStatus } from '@green-ecolution/backend-client'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { z } from 'zod'
 
@@ -43,6 +41,7 @@ export const WateringPlanSchema = () => {
       })
       .default(WateringPlanStatus.WateringPlanStatusUnknown),
     description: z.string().optional().default(''),
+    cancellationNote: z.string().optional().default(''),
     treeClusterIds: z
       .array(z.number())
       .min(1, 'Bewässerungsgruppen sind erforderlich.')
@@ -68,6 +67,16 @@ export const WateringPlanSchema = () => {
           .optional()
       )
       .or(z.literal('-1').or(z.literal(-1))),
+    evaluation: z
+      .array(
+        z.object({
+          wateringPlanId: z.number(),
+          treeClusterId: z.number(),
+          consumedWater: z.number(),
+        })
+      )
+      .optional()
+      .default([]),
   })
 }
 
