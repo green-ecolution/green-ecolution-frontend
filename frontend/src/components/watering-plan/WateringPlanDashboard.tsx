@@ -4,11 +4,13 @@ import { useSuspenseQuery } from '@tanstack/react-query'
 import { wateringPlanIdQuery } from '@/api/queries'
 import { getWateringPlanStatusDetails } from '@/hooks/useDetailsForWateringPlanStatus'
 import { format } from 'date-fns'
-import { File, FolderClosed } from 'lucide-react'
+import { File, FolderClosed, MoveRight } from 'lucide-react'
 import TabGeneralData from './TabGeneralData'
 import { useMemo } from 'react'
 import Tabs from '../general/Tabs'
 import TreeClusterList from '../treecluster/TreeClusterList'
+import { WateringPlanStatus } from '@green-ecolution/backend-client'
+import ButtonLink from '../general/links/ButtonLink'
 
 interface WateringPlanDashboardProps {
   wateringPlanId: string
@@ -42,6 +44,13 @@ const WateringPlanDashboard = ({
     [wateringPlan]
   )
 
+  const showEditStatusButton = (): boolean => {
+    return (
+      wateringPlan.status !== WateringPlanStatus.WateringPlanStatusNotCompeted &&
+      wateringPlan.status !== WateringPlanStatus.WateringPlanStatusFinished
+    )
+  }
+
   return (
     <>
       <BackLink link={{ to: '/watering-plans' }} label="Alle Einsatzpläne" />
@@ -56,6 +65,16 @@ const WateringPlanDashboard = ({
           </h1>
           {wateringPlan.description && (
             <p className="mb-4">{wateringPlan.description}</p>
+          )}
+          {showEditStatusButton() && (
+            <ButtonLink
+              link={{
+                to: '/watering-plans/$wateringPlanId/status/edit',
+                params: { wateringPlanId: wateringPlan.id.toString() },
+              }}
+              label="Status aktualisieren"
+              icon={MoveRight}
+            />
           )}
         </div>
       </article>
