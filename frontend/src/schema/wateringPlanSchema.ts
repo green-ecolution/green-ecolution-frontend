@@ -67,16 +67,6 @@ export const WateringPlanSchema = () => {
           .optional()
       )
       .or(z.literal('-1').or(z.literal(-1))),
-    evaluation: z
-      .array(
-        z.object({
-          wateringPlanId: z.number(),
-          treeClusterId: z.number(),
-          consumedWater: z.number(),
-        })
-      )
-      .optional()
-      .default([]),
   })
 }
 
