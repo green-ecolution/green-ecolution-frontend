@@ -49,11 +49,6 @@ const WateringPlanStatusUpdate = ({
     treeClusterIds: data.treeclusters.map((cluster) => cluster.id),
     status: data.status,
     cancellationNote: data.cancellationNote,
-    evaluation: data.treeclusters.map((cluster) => ({
-      treeClusterId: cluster.id,
-      wateringPlanId: Number(wateringPlanId),
-      consumedWater: 0,
-    })),
   }))
 
   const date = loadedData?.date
@@ -74,6 +69,7 @@ const WateringPlanStatusUpdate = ({
   })
 
   const onSubmit: SubmitHandler<WateringPlanForm> = async (data) => {
+    console.log(data)
     mutate({
       ...data,
       date: data.date.toISOString(),
@@ -82,8 +78,6 @@ const WateringPlanStatusUpdate = ({
           ? data.trailerId
           : undefined,
       usersIds: [],
-      cancellationNote: '',
-      evaluation: [],
     })
   }
 
@@ -138,13 +132,6 @@ const WateringPlanStatusUpdate = ({
               />
             )}
           </div>
-
-          <EvaluationInput
-            headline="Wasservergabe an Bewässerungsgruppen"
-            treeclusters={loadedData.treeclusters}
-            register={register}
-            errors={formState.errors}
-          />
 
           <FormError
             show={isError}
