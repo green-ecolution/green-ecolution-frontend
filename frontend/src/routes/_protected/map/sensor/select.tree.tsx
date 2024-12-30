@@ -2,7 +2,7 @@ import { treeApi } from '@/api/backendApi'
 import { sensorIdQuery, treeIdQuery } from '@/api/queries'
 import queryClient from '@/api/queryClient'
 import SelectedCard from '@/components/general/cards/SelectedCard'
-import MapSelectTreesModal from '@/components/map/MapSelectTreesModal'
+import MapSelectEntitiesModal from '@/components/map/MapSelectEntitiesModal'
 import SensorMarker from '@/components/map/marker/SensorMarker'
 import WithAllTrees from '@/components/map/marker/WithAllTrees'
 import useToast from '@/hooks/useToast'
@@ -80,7 +80,7 @@ function LinkTreeToSensor() {
 
   return (
     <>
-      <MapSelectTreesModal
+      <MapSelectEntitiesModal
         onSave={handleSave}
         onCancel={() => handleNavigateBack()}
         disabled={!treeId}
@@ -93,7 +93,8 @@ function LinkTreeToSensor() {
               </p>
             ) : (
               <SelectedCard
-                treeId={treeId}
+                id={treeId}
+                type="tree"
                 onClick={() => setTreeId(undefined)}
               />
             )}

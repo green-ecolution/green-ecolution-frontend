@@ -3,7 +3,7 @@ import { treeClusterIdQuery } from '@/api/queries'
 import LoadingInfo from '@/components/general/error/LoadingInfo'
 import TreeClusterUpdate from '@/components/treecluster/TreeClusterUpdate'
 import useToast from '@/hooks/useToast'
-import { TreeclusterSchema } from '@/schema/treeclusterSchema'
+import { TreeclusterForm } from '@/schema/treeclusterSchema'
 import useFormStore, { FormStore } from '@/store/form/useFormStore'
 import useStore from '@/store/store'
 import { useQueryClient } from '@tanstack/react-query'
@@ -30,7 +30,7 @@ function EditTreeCluster() {
   const showToast = useToast()
   const queryClient = useQueryClient()
 
-  const formStore = useFormStore((state: FormStore<TreeclusterSchema>) => ({
+  const formStore = useFormStore((state: FormStore<TreeclusterForm>) => ({
     form: state.form,
     reset: state.reset,
   }))

@@ -5,12 +5,12 @@ import ClusterMarker from './ClusterMarker'
 
 export interface WithAllClustersProps {
   onClick?: (tree: TreeCluster) => void
-  hasHighlightedCluster?: number
+  highlightedClusters?: number[]
 }
 
 const WithAllClusters = ({
   onClick,
-  hasHighlightedCluster,
+  highlightedClusters,
 }: WithAllClustersProps) => {
   const { data } = useSuspenseQuery(treeClusterQuery())
 
@@ -21,7 +21,7 @@ const WithAllClusters = ({
         cluster={cluster}
         key={cluster.id}
         onClick={onClick}
-        hasHighlightedCluster={hasHighlightedCluster}
+        highlightedClusters={highlightedClusters}
       />
     ))
 }

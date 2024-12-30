@@ -33,7 +33,7 @@ import { Route as ProtectedTreeclusterIndexImport } from './routes/_protected/tr
 import { Route as ProtectedSettingsIndexImport } from './routes/_protected/settings/index'
 import { Route as ProtectedSensorsIndexImport } from './routes/_protected/sensors/index'
 import { Route as ProtectedMapIndexImport } from './routes/_protected/map/index'
-import { Route as ProtectedWateringPlansNewImport } from './routes/_protected/watering-plans/new'
+import { Route as ProtectedWateringPlansFormularImport } from './routes/_protected/watering-plans/_formular'
 import { Route as ProtectedWateringPlansWateringPlanIdImport } from './routes/_protected/watering-plans/$wateringPlanId'
 import { Route as ProtectedVehiclesFormularImport } from './routes/_protected/vehicles/_formular'
 import { Route as ProtectedTreeclusterFormularImport } from './routes/_protected/treecluster/_formular'
@@ -46,6 +46,8 @@ import { Route as ProtectedVehiclesVehicleIdIndexImport } from './routes/_protec
 import { Route as ProtectedTreeclusterTreeclusterIdIndexImport } from './routes/_protected/treecluster/$treeclusterId/index'
 import { Route as ProtectedSettingsPluginIndexImport } from './routes/_protected/settings/plugin/index'
 import { Route as ProtectedSensorsSensorIdIndexImport } from './routes/_protected/sensors/$sensorId/index'
+import { Route as ProtectedWateringPlansFormularNewImport } from './routes/_protected/watering-plans/_formular/new'
+import { Route as ProtectedWateringPlansFormularWateringPlanIdImport } from './routes/_protected/watering-plans/_formular/$wateringPlanId'
 import { Route as ProtectedVehiclesFormularNewImport } from './routes/_protected/vehicles/_formular/new'
 import { Route as ProtectedVehiclesFormularVehicleIdImport } from './routes/_protected/vehicles/_formular/$vehicleId'
 import { Route as ProtectedTreeclusterFormularNewImport } from './routes/_protected/treecluster/_formular/new'
@@ -59,6 +61,7 @@ import { Route as ProtectedVehiclesFormularVehicleIdEditImport } from './routes/
 import { Route as ProtectedTreeclusterFormularTreeclusterIdEditImport } from './routes/_protected/treecluster/_formular/$treeclusterId.edit'
 import { Route as ProtectedTreeclusterTreeclusterIdTreeTreeIdImport } from './routes/_protected/treecluster/$treeclusterId/tree/$treeId'
 import { Route as ProtectedTreeFormularTreeIdEditImport } from './routes/_protected/tree/_formular/$treeId.edit'
+import { Route as ProtectedMapWateringPlanSelectClusterImport } from './routes/_protected/map/watering-plan/select.cluster'
 import { Route as ProtectedMapTreeclusterSelectTreeImport } from './routes/_protected/map/treecluster/select.tree'
 import { Route as ProtectedMapSensorSelectTreeImport } from './routes/_protected/map/sensor/select.tree'
 
@@ -180,10 +183,11 @@ const ProtectedMapIndexRoute = ProtectedMapIndexImport.update({
   getParentRoute: () => ProtectedMapRoute,
 } as any)
 
-const ProtectedWateringPlansNewRoute = ProtectedWateringPlansNewImport.update({
-  path: '/new',
-  getParentRoute: () => ProtectedWateringPlansRoute,
-} as any)
+const ProtectedWateringPlansFormularRoute =
+  ProtectedWateringPlansFormularImport.update({
+    id: '/_formular',
+    getParentRoute: () => ProtectedWateringPlansRoute,
+  } as any)
 
 const ProtectedWateringPlansWateringPlanIdRoute =
   ProtectedWateringPlansWateringPlanIdImport.update({
@@ -251,6 +255,18 @@ const ProtectedSensorsSensorIdIndexRoute =
   ProtectedSensorsSensorIdIndexImport.update({
     path: '/sensors/$sensorId/',
     getParentRoute: () => ProtectedRoute,
+  } as any)
+
+const ProtectedWateringPlansFormularNewRoute =
+  ProtectedWateringPlansFormularNewImport.update({
+    path: '/new',
+    getParentRoute: () => ProtectedWateringPlansFormularRoute,
+  } as any)
+
+const ProtectedWateringPlansFormularWateringPlanIdRoute =
+  ProtectedWateringPlansFormularWateringPlanIdImport.update({
+    path: '/$wateringPlanId',
+    getParentRoute: () => ProtectedWateringPlansFormularRoute,
   } as any)
 
 const ProtectedVehiclesFormularNewRoute =
@@ -326,6 +342,12 @@ const ProtectedTreeFormularTreeIdEditRoute =
   ProtectedTreeFormularTreeIdEditImport.update({
     path: '/edit',
     getParentRoute: () => ProtectedTreeFormularTreeIdRoute,
+  } as any)
+
+const ProtectedMapWateringPlanSelectClusterRoute =
+  ProtectedMapWateringPlanSelectClusterImport.update({
+    path: '/watering-plan/select/cluster',
+    getParentRoute: () => ProtectedMapRoute,
   } as any)
 
 const ProtectedMapTreeclusterSelectTreeRoute =
@@ -505,11 +527,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedWateringPlansWateringPlanIdImport
       parentRoute: typeof ProtectedWateringPlansImport
     }
-    '/_protected/watering-plans/new': {
-      id: '/_protected/watering-plans/new'
-      path: '/new'
-      fullPath: '/watering-plans/new'
-      preLoaderRoute: typeof ProtectedWateringPlansNewImport
+    '/_protected/watering-plans/_formular': {
+      id: '/_protected/watering-plans/_formular'
+      path: ''
+      fullPath: '/watering-plans'
+      preLoaderRoute: typeof ProtectedWateringPlansFormularImport
       parentRoute: typeof ProtectedWateringPlansImport
     }
     '/_protected/map/': {
@@ -617,6 +639,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedVehiclesFormularNewImport
       parentRoute: typeof ProtectedVehiclesFormularImport
     }
+    '/_protected/watering-plans/_formular/$wateringPlanId': {
+      id: '/_protected/watering-plans/_formular/$wateringPlanId'
+      path: '/$wateringPlanId'
+      fullPath: '/watering-plans/$wateringPlanId'
+      preLoaderRoute: typeof ProtectedWateringPlansFormularWateringPlanIdImport
+      parentRoute: typeof ProtectedWateringPlansFormularImport
+    }
+    '/_protected/watering-plans/_formular/new': {
+      id: '/_protected/watering-plans/_formular/new'
+      path: '/new'
+      fullPath: '/watering-plans/new'
+      preLoaderRoute: typeof ProtectedWateringPlansFormularNewImport
+      parentRoute: typeof ProtectedWateringPlansFormularImport
+    }
     '/_protected/sensors/$sensorId/': {
       id: '/_protected/sensors/$sensorId/'
       path: '/sensors/$sensorId'
@@ -666,6 +702,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedMapTreeclusterSelectTreeImport
       parentRoute: typeof ProtectedMapImport
     }
+    '/_protected/map/watering-plan/select/cluster': {
+      id: '/_protected/map/watering-plan/select/cluster'
+      path: '/watering-plan/select/cluster'
+      fullPath: '/map/watering-plan/select/cluster'
+      preLoaderRoute: typeof ProtectedMapWateringPlanSelectClusterImport
+      parentRoute: typeof ProtectedMapImport
+    }
     '/_protected/tree/_formular/$treeId/edit': {
       id: '/_protected/tree/_formular/$treeId/edit'
       path: '/edit'
@@ -711,6 +754,7 @@ export const routeTree = rootRoute.addChildren({
       ProtectedMapTreeNewRoute,
       ProtectedMapSensorSelectTreeRoute,
       ProtectedMapTreeclusterSelectTreeRoute,
+      ProtectedMapWateringPlanSelectClusterRoute,
     }),
     ProtectedProfileRoute,
     ProtectedSettingsRoute: ProtectedSettingsRoute.addChildren({
@@ -741,7 +785,11 @@ export const routeTree = rootRoute.addChildren({
         ProtectedWateringPlansWateringPlanIdRoute.addChildren({
           ProtectedWateringPlansWateringPlanIdIndexRoute,
         }),
-      ProtectedWateringPlansNewRoute,
+      ProtectedWateringPlansFormularRoute:
+        ProtectedWateringPlansFormularRoute.addChildren({
+          ProtectedWateringPlansFormularWateringPlanIdRoute,
+          ProtectedWateringPlansFormularNewRoute,
+        }),
       ProtectedWateringPlansIndexRoute,
     }),
     ProtectedTreeTreeIdRoute,
@@ -837,7 +885,8 @@ export const routeTree = rootRoute.addChildren({
         "/_protected/map/tree/edit",
         "/_protected/map/tree/new",
         "/_protected/map/sensor/select/tree",
-        "/_protected/map/treecluster/select/tree"
+        "/_protected/map/treecluster/select/tree",
+        "/_protected/map/watering-plan/select/cluster"
       ]
     },
     "/_protected/profile": {
@@ -872,7 +921,7 @@ export const routeTree = rootRoute.addChildren({
       "parent": "/_protected",
       "children": [
         "/_protected/watering-plans/$wateringPlanId",
-        "/_protected/watering-plans/new",
+        "/_protected/watering-plans/_formular",
         "/_protected/watering-plans/"
       ]
     },
@@ -942,9 +991,13 @@ export const routeTree = rootRoute.addChildren({
         "/_protected/watering-plans/$wateringPlanId/"
       ]
     },
-    "/_protected/watering-plans/new": {
-      "filePath": "_protected/watering-plans/new.tsx",
-      "parent": "/_protected/watering-plans"
+    "/_protected/watering-plans/_formular": {
+      "filePath": "_protected/watering-plans/_formular.tsx",
+      "parent": "/_protected/watering-plans",
+      "children": [
+        "/_protected/watering-plans/_formular/$wateringPlanId",
+        "/_protected/watering-plans/_formular/new"
+      ]
     },
     "/_protected/map/": {
       "filePath": "_protected/map/index.tsx",
@@ -1015,6 +1068,14 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "_protected/vehicles/_formular/new.tsx",
       "parent": "/_protected/vehicles/_formular"
     },
+    "/_protected/watering-plans/_formular/$wateringPlanId": {
+      "filePath": "_protected/watering-plans/_formular/$wateringPlanId.tsx",
+      "parent": "/_protected/watering-plans/_formular"
+    },
+    "/_protected/watering-plans/_formular/new": {
+      "filePath": "_protected/watering-plans/_formular/new.tsx",
+      "parent": "/_protected/watering-plans/_formular"
+    },
     "/_protected/sensors/$sensorId/": {
       "filePath": "_protected/sensors/$sensorId/index.tsx",
       "parent": "/_protected"
@@ -1041,6 +1102,10 @@ export const routeTree = rootRoute.addChildren({
     },
     "/_protected/map/treecluster/select/tree": {
       "filePath": "_protected/map/treecluster/select.tree.tsx",
+      "parent": "/_protected/map"
+    },
+    "/_protected/map/watering-plan/select/cluster": {
+      "filePath": "_protected/map/watering-plan/select.cluster.tsx",
       "parent": "/_protected/map"
     },
     "/_protected/tree/_formular/$treeId/edit": {

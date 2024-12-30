@@ -87,11 +87,14 @@ export const infoQuery = () =>
     queryFn: () => infoApi.getAppInfo(),
   })
 
-export const vehicleQuery = () =>
-  queryOptions<VehicleList>({
-    queryKey: ['vehicle'],
-    queryFn: () => vehicleApi.getAllVehicles(),
+export const vehicleQuery = (params?: { type: string }) => {
+  const queryKey = ['vehicle', params?.type ?? 'all']
+
+  return queryOptions<VehicleList>({
+    queryKey,
+    queryFn: () => vehicleApi.getAllVehicles(params),
   })
+}
 
 export const vehicleIdQuery = (id: string) =>
   queryOptions<Vehicle>({
