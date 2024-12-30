@@ -2,20 +2,17 @@ import BackLink from '../general/links/BackLink'
 import Pill from '../general/Pill'
 import ButtonLink from '../general/links/ButtonLink'
 import { Pencil } from 'lucide-react'
-import { useSuspenseQuery } from '@tanstack/react-query'
-import { vehicleIdQuery } from '@/api/queries'
 import { getVehicleStatusDetails } from '@/hooks/useDetailsForVehicleStatus'
 import GeneralLink from '../general/links/GeneralLink'
-import { VehicleStatus } from '@green-ecolution/backend-client'
+import { Vehicle, VehicleStatus } from '@green-ecolution/backend-client'
 import { getVehicleType } from '@/hooks/useDetailsForVehicleType'
 import DetailedList from '../general/DetailedList'
 
 interface VehicleDashboardProps {
-  vehicleId: string
+  vehicle: Vehicle
 }
 
-const VehicleDashboard = ({ vehicleId }: VehicleDashboardProps) => {
-  const { data: vehicle } = useSuspenseQuery(vehicleIdQuery(vehicleId))
+const VehicleDashboard = ({ vehicle }: VehicleDashboardProps) => {
   const statusDetails = getVehicleStatusDetails(vehicle.status)
   const vehicleType = getVehicleType(vehicle.type)
 

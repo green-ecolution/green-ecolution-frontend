@@ -1,5 +1,3 @@
-import { treeClusterIdQuery } from '@/api/queries'
-import { useSuspenseQuery } from '@tanstack/react-query'
 import EntitiesStatusCard from '@/components/general/cards/EntitiesStatusCard'
 import GeneralStatusCard from '@/components/general/cards/GeneralStatusCard'
 import TreeCard from '@/components/general/cards/TreeCard'
@@ -10,13 +8,13 @@ import { getWateringStatusDetails } from '@/hooks/useDetailsForWateringStatus'
 import { Link } from '@tanstack/react-router'
 import GeneralLink from '../general/links/GeneralLink'
 import { TriangleAlert } from 'lucide-react'
+import { TreeCluster } from '@green-ecolution/backend-client'
 
 interface TreeClusterDashboardProps {
-  clusterId: string
+  treecluster: TreeCluster
 }
 
-const TreeClusterDashboard = ({ clusterId }: TreeClusterDashboardProps) => {
-  const { data: treecluster } = useSuspenseQuery(treeClusterIdQuery(clusterId))
+const TreeClusterDashboard = ({ treecluster }: TreeClusterDashboardProps) => {
   const wateringStatus = getWateringStatusDetails(treecluster.wateringStatus)
 
   return (
@@ -30,18 +28,27 @@ const TreeClusterDashboard = ({ clusterId }: TreeClusterDashboardProps) => {
           <h1 className="font-lato font-bold text-3xl mb-4 lg:text-4xl xl:text-5xl">
             Bewässerungsgruppe: {treecluster.name}
           </h1>
-          {treecluster.description && <p className="mb-4">{treecluster.description}</p>}
+          {treecluster.description && (
+            <p className="mb-4">{treecluster.description}</p>
+          )}
           {treecluster.trees?.length === 0 ? (
             <div className="flex items-center gap-x-2">
               <TriangleAlert className="flex-shrink-0 text-dark-600 w-5 h-5" />
               <p className="ml-2 text-dark-600">
-                Diese Baumgruppe enthält keine Bäume und hat daher keinen Standort.
+                Diese Baumgruppe enthält keine Bäume und hat daher keinen
+                Standort.
               </p>
             </div>
           ) : (
             <GeneralLink
               link={{
-                to: `/map?lat=${treecluster.latitude}&lng=${treecluster.longitude}&zoom=16&cluster=${treecluster.id}`,
+                to: '/map',
+                search: {
+                  lat: treecluster.latitude,
+                  lng: treecluster.longitude,
+                  zoom: 16,
+                  cluster: treecluster.id,
+                },
               }}
               label="Auf der Karte anzeigen"
             />
@@ -53,8 +60,8 @@ const TreeClusterDashboard = ({ clusterId }: TreeClusterDashboardProps) => {
           label="Gruppe bearbeiten"
           color="grey"
           link={{
-            to: '/treecluster/$treecluster/edit',
-            params: { treecluster: clusterId },
+            to: '/treecluster/$treeclusterId/edit',
+            params: { treeclusterId: treecluster.id.toString() },
           }}
         />
       </article>
@@ -110,7 +117,7 @@ const TreeClusterDashboard = ({ clusterId }: TreeClusterDashboardProps) => {
                   to="/treecluster/$treeclusterId/tree/$treeId"
                   params={{
                     treeId: tree.id.toString(),
-                    treeclusterId: clusterId,
+                    treeclusterId: treecluster.id.toString(),
                   }}
                 >
                   <TreeCard tree={tree} />
