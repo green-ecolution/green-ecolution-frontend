@@ -25,7 +25,6 @@ import {
 } from '@/hooks/useDetailsForWateringPlanStatus'
 import Pill from '../general/Pill'
 import Textarea from '../general/form/types/Textarea'
-import EvaluationInput from '../general/form/types/EvaluationInput'
 
 interface WateringPlanStatusUpdateProps {
   wateringPlanId: string
@@ -69,7 +68,6 @@ const WateringPlanStatusUpdate = ({
   })
 
   const onSubmit: SubmitHandler<WateringPlanForm> = async (data) => {
-    console.log(data)
     mutate({
       ...data,
       date: data.date.toISOString(),
