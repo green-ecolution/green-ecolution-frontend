@@ -1,7 +1,7 @@
 import BackLink from '../general/links/BackLink'
 import Pill from '../general/Pill'
 import { getWateringPlanStatusDetails } from '@/hooks/useDetailsForWateringPlanStatus'
-import { format } from 'date-fns'
+import { format, isPast } from 'date-fns'
 import { File, FolderClosed, MoveRight } from 'lucide-react'
 import TabGeneralData from './TabGeneralData'
 import { useMemo } from 'react'
@@ -40,9 +40,13 @@ const WateringPlanDashboard = ({
   )
 
   const showEditStatusButton = (): boolean => {
+    const dateIsInPast = isPast(wateringPlan.date)
+
     return (
-      wateringPlan.status !== WateringPlanStatus.WateringPlanStatusNotCompeted &&
-      wateringPlan.status !== WateringPlanStatus.WateringPlanStatusFinished && 
+      !dateIsInPast &&
+      wateringPlan.status !==
+        WateringPlanStatus.WateringPlanStatusNotCompeted &&
+      wateringPlan.status !== WateringPlanStatus.WateringPlanStatusFinished &&
       wateringPlan.status !== WateringPlanStatus.WateringPlanStatusCanceled
     )
   }
