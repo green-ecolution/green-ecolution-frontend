@@ -59,14 +59,12 @@ export const WateringPlanSchema = () => {
     trailerId: z
       .preprocess(
         (value) => parseInt(value as string, 10),
-        z
-          .number()
-          .refine((value) =>
-            trailers.data.some((trailer) => trailer.id === value)
-          )
-          .optional()
+        z.number().optional().refine(
+          (value) => value === -1 || trailers.data.some((trailer) => trailer.id === value),
+          { message: 'Ungültiger Anhänger.' }
+        )
       )
-      .or(z.literal('-1').or(z.literal(-1))),
+      .optional(),
   })
 }
 

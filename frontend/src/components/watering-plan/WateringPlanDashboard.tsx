@@ -41,7 +41,7 @@ const WateringPlanDashboard = ({
 
   const showEditStatusButton = (): boolean => {
     return (
-      wateringPlan.status !== WateringPlanStatus.WateringPlanStatusActive &&
+      wateringPlan.status !== WateringPlanStatus.WateringPlanStatusNotCompeted &&
       wateringPlan.status !== WateringPlanStatus.WateringPlanStatusFinished && 
       wateringPlan.status !== WateringPlanStatus.WateringPlanStatusCanceled
     )

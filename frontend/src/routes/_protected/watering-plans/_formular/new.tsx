@@ -55,7 +55,9 @@ function NewWateringPlan() {
     trailerId: -1,
     treeClusterIds: [],
     status: WateringPlanStatus.WateringPlanStatusPlanned,
+    cancellationNote: '',
   })
+  
   const formStore = useFormStore((state: FormStore<WateringPlanForm>) => ({
     form: state.form,
     reset: state.reset,
@@ -97,7 +99,7 @@ function NewWateringPlan() {
       ...data,
       date: data.date.toISOString(),
       trailerId:
-        data.trailerId && data.trailerId !== -1 && data.trailerId !== '-1'
+        data.trailerId && data.trailerId !== -1
           ? data.trailerId
           : undefined,
       treeClusterIds: formStore.form?.treeClusterIds ?? [],
