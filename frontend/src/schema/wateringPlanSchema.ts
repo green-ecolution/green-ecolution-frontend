@@ -40,7 +40,7 @@ export const WateringPlanSchema = (isCreate: boolean) => {
         }, {
           message: 'Datum muss in der Zukunft liegen',
         })
-    ),
+    ).default(isCreate ? new Date() : undefined),
     status: z
       .nativeEnum(WateringPlanStatus)
       .refine((value) => Object.values(WateringPlanStatus).includes(value), {

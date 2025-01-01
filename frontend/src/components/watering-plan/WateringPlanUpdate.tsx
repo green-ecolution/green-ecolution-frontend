@@ -115,6 +115,7 @@ const WateringPlanUpdate = ({
           onSubmit={onSubmit}
           trailers={trailers.data}
           transporters={transporters.data}
+          defaultDate={new Date(loadedData.date).toISOString().split('T')[0]}
           onAddCluster={navigateToClusterSelect}
         />
       </section>
