@@ -4,7 +4,7 @@ import { useSuspenseQuery } from '@tanstack/react-query'
 import { wateringPlanIdQuery } from '@/api/queries'
 import { getWateringPlanStatusDetails } from '@/hooks/useDetailsForWateringPlanStatus'
 import { format } from 'date-fns'
-import { File, FolderClosed, MoveRight } from 'lucide-react'
+import { File, FolderClosed, MoveRight, Pencil } from 'lucide-react'
 import TabGeneralData from './TabGeneralData'
 import { useMemo } from 'react'
 import Tabs from '../general/Tabs'
@@ -55,8 +55,8 @@ const WateringPlanDashboard = ({
   return (
     <>
       <BackLink link={{ to: '/watering-plans' }} label="Alle Einsatzpläne" />
-      <article className="space-y-6 2xl:space-y-0 2xl:flex 2xl:items-center 2xl:space-x-10">
-        <div className="2xl:w-4/5">
+      <article className="space-y-6 xl:space-y-0 xl:flex xl:items-start xl:space-x-10">
+        <div className="xl:w-4/5">
           <h1 className="font-lato font-bold text-3xl mb-4 flex flex-wrap items-center gap-4 lg:text-4xl xl:text-5xl">
             Einsatzplan für den {date}
             <Pill
@@ -78,6 +78,16 @@ const WateringPlanDashboard = ({
             />
           )}
         </div>
+        <ButtonLink
+          icon={Pencil}
+          iconClassName="stroke-1"
+          label="Einsatz bearbeiten"
+          color="grey"
+          link={{
+            to: `/watering-plans/$wateringPlanId/edit`,
+            params: { wateringPlanId: String(wateringPlan.id) },
+          }}
+        />
       </article>
 
       <Tabs tabs={tabs} />
