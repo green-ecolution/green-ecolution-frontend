@@ -2,14 +2,13 @@ import BackLink from '../general/links/BackLink'
 import Pill from '../general/Pill'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { wateringPlanIdQuery } from '@/api/queries'
-import { getWateringPlanStatusDetails } from '@/hooks/useDetailsForWateringPlanStatus'
+import { getWateringPlanStatusDetails, showWateringPlanStatusButton } from '@/hooks/useDetailsForWateringPlanStatus'
 import { format } from 'date-fns'
 import { File, FolderClosed, MoveRight, Pencil } from 'lucide-react'
 import TabGeneralData from './TabGeneralData'
 import { useMemo } from 'react'
 import Tabs from '../general/Tabs'
 import TreeClusterList from '../treecluster/TreeClusterList'
-import { WateringPlanStatus } from '@green-ecolution/backend-client'
 import ButtonLink from '../general/links/ButtonLink'
 
 interface WateringPlanDashboardProps {
@@ -44,14 +43,6 @@ const WateringPlanDashboard = ({
     [wateringPlan]
   )
 
-  const showEditStatusButton = (): boolean => {
-    return (
-      wateringPlan.status !== WateringPlanStatus.WateringPlanStatusNotCompeted &&
-      wateringPlan.status !== WateringPlanStatus.WateringPlanStatusFinished &&
-      wateringPlan.status !== WateringPlanStatus.WateringPlanStatusCanceled
-    )
-  }
-
   return (
     <>
       <BackLink link={{ to: '/watering-plans' }} label="Alle Einsatzpläne" />
@@ -67,7 +58,7 @@ const WateringPlanDashboard = ({
           {wateringPlan.description && (
             <p className="mb-4">{wateringPlan.description}</p>
           )}
-          {showEditStatusButton() && (
+          {showWateringPlanStatusButton(wateringPlan) && (
             <ButtonLink
               link={{
                 to: '/watering-plans/$wateringPlanId/status/edit',
