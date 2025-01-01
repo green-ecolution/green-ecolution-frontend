@@ -45,12 +45,8 @@ const WateringPlanDashboard = ({
   )
 
   const showEditStatusButton = (): boolean => {
-    const dateIsInPast = isPast(wateringPlan.date)
-
     return (
-      !dateIsInPast &&
-      wateringPlan.status !==
-        WateringPlanStatus.WateringPlanStatusNotCompeted &&
+      wateringPlan.status !== WateringPlanStatus.WateringPlanStatusNotCompeted &&
       wateringPlan.status !== WateringPlanStatus.WateringPlanStatusFinished &&
       wateringPlan.status !== WateringPlanStatus.WateringPlanStatusCanceled
     )

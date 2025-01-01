@@ -56,7 +56,7 @@ const WateringPlanStatusUpdate = ({
   const statusDetails = getWateringPlanStatusDetails(loadedData?.status)
 
   const { register, handleSubmit, formState, watch } =
-    useFormSync<WateringPlanForm>(initForm, zodResolver(WateringPlanSchema()))
+    useFormSync<WateringPlanForm>(initForm, zodResolver(WateringPlanSchema(false)))
   const selectedStatus = watch('status')
 
   const { isError, mutate } = useMutation({
