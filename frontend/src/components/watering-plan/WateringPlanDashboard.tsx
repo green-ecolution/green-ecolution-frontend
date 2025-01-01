@@ -1,7 +1,7 @@
 import BackLink from '../general/links/BackLink'
 import Pill from '../general/Pill'
 import { getWateringPlanStatusDetails } from '@/hooks/useDetailsForWateringPlanStatus'
-import { format, isPast } from 'date-fns'
+import { format } from 'date-fns'
 import { File, FolderClosed, MoveRight } from 'lucide-react'
 import TabGeneralData from './TabGeneralData'
 import { useMemo } from 'react'
