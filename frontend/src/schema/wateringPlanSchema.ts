@@ -3,7 +3,7 @@ import { WateringPlanStatus } from '@green-ecolution/backend-client'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { z } from 'zod'
 
-export const WateringPlanSchema = () => {
+export const WateringPlanSchema = (isCreate: boolean) => {
   const { data: transporters } = useSuspenseQuery(
     vehicleQuery({
       type: 'transporter',
@@ -30,7 +30,14 @@ export const WateringPlanSchema = () => {
           required_error: 'Datum ist erforderlich.',
           invalid_type_error: 'Format inkorrekt.',
         })
-        .refine((data) => data > new Date(), {
+        .refine((data) => {
+          if (isCreate) {
+            const todayAtMidnight = new Date();
+            todayAtMidnight.setHours(0, 0, 0, 0);
+            return data > todayAtMidnight;
+          }
+          return true;
+        }, {
           message: 'Datum muss in der Zukunft liegen',
         })
     ),

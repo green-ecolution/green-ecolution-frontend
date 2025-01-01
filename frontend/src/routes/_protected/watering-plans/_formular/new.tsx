@@ -71,7 +71,7 @@ function NewWateringPlan() {
 
   const { register, handleSubmit, formState } = useFormSync<WateringPlanForm>(
     initForm,
-    zodResolver(WateringPlanSchema())
+    zodResolver(WateringPlanSchema(true))
   )
 
   const { isError, mutate } = useMutation({
