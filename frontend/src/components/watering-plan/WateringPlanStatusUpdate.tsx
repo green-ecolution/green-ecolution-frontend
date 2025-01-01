@@ -72,7 +72,7 @@ const WateringPlanStatusUpdate = ({
       ...data,
       date: data.date.toISOString(),
       trailerId:
-        data.trailerId && data.trailerId !== -1 && data.trailerId !== '-1'
+        data.trailerId && data.trailerId !== -1
           ? data.trailerId
           : undefined,
       usersIds: [],
