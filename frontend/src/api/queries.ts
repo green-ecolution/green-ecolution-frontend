@@ -23,13 +23,13 @@ import {
 
 export const treeClusterQuery = () =>
   queryOptions<TreeClusterList>({
-    queryKey: ['cluster'],
+    queryKey: ['treeclusters'],
     queryFn: () => clusterApi.getAllTreeClusters(),
   })
 
 export const treeClusterIdQuery = (id: string) =>
   queryOptions<TreeCluster>({
-    queryKey: ['treescluster', id],
+    queryKey: ['treecluster', id],
     queryFn: () =>
       clusterApi.getTreeClusterById({
         clusterId: id,
@@ -53,7 +53,7 @@ export const sensorIdQuery = (id: string) =>
 
 export const treeQuery = () =>
   queryOptions<TreeList>({
-    queryKey: ['tree'],
+    queryKey: ['trees'],
     queryFn: () => treeApi.getAllTrees(),
   })
 
@@ -68,7 +68,7 @@ export const treeIdQuery = (id: string) =>
 
 export const treeSensorIdQuery = (id: string) =>
   queryOptions<Tree>({
-    queryKey: ['tree', id],
+    queryKey: ['tree-sensor', id],
     queryFn: () =>
       treeSensorApi.getTreeBySensorId({
         sensorId: id,
@@ -107,13 +107,13 @@ export const vehicleIdQuery = (id: string) =>
 
 export const wateringPlanQuery = () =>
   queryOptions<WateringPlanList>({
-    queryKey: ['watering-plan'],
+    queryKey: ['watering-plans'],
     queryFn: () => wateringPlanApi.getAllWateringPlans(),
   })
 
 export const wateringPlanIdQuery = (id: string) =>
   queryOptions<WateringPlan>({
-    queryKey: ['watering-plan'],
+    queryKey: ['watering-plan', id],
     queryFn: ()=>
       wateringPlanApi.getWateringPlanById({
         id: id,

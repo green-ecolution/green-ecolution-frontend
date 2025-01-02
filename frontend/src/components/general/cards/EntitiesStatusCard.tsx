@@ -21,7 +21,7 @@ const EntitiesStatusCard: React.FC<EntitiesStatusCard> = ({
     <div className={`h-full space-y-3 bg-${backgroundColor} rounded-xl p-6`}>
       <h2 className="text-sm text-dark-700 font-medium">{label}</h2>
       <p
-        className={`relative font-bold text-xl ${hasPill ? '' : 'pl-7 before:absolute before:w-4 before:h-4 before:rounded-full before:left-0 before:top-2 before:bg-${statusDetails.color}'}`}
+        className={`relative font-bold text-xl ${hasPill ? '' : `pl-7 before:absolute before:w-4 before:h-4 before:rounded-full before:left-0 before:top-2 before:bg-${statusDetails.color}`}`}
       >
         {hasPill && (
           <Pill
