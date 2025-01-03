@@ -751,6 +751,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedVehiclesFormularVehicleIdEditImport
       parentRoute: typeof ProtectedVehiclesFormularVehicleIdImport
     }
+    '/_protected/watering-plans/_formular/$wateringPlanId/edit': {
+      id: '/_protected/watering-plans/_formular/$wateringPlanId/edit'
+      path: '/edit'
+      fullPath: '/watering-plans/$wateringPlanId/edit'
+      preLoaderRoute: typeof ProtectedWateringPlansFormularWateringPlanIdEditImport
+      parentRoute: typeof ProtectedWateringPlansFormularWateringPlanIdImport
+    }
     '/_protected/watering-plans/_formular/$wateringPlanId/status/edit': {
       id: '/_protected/watering-plans/_formular/$wateringPlanId/status/edit'
       path: '/status/edit'
@@ -810,6 +817,7 @@ export const routeTree = rootRoute.addChildren({
         ProtectedWateringPlansFormularRoute.addChildren({
           ProtectedWateringPlansFormularWateringPlanIdRoute:
             ProtectedWateringPlansFormularWateringPlanIdRoute.addChildren({
+              ProtectedWateringPlansFormularWateringPlanIdEditRoute,
               ProtectedWateringPlansFormularWateringPlanIdStatusEditRoute,
             }),
           ProtectedWateringPlansFormularNewRoute,
@@ -1096,6 +1104,7 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "_protected/watering-plans/_formular/$wateringPlanId.tsx",
       "parent": "/_protected/watering-plans/_formular",
       "children": [
+        "/_protected/watering-plans/_formular/$wateringPlanId/edit",
         "/_protected/watering-plans/_formular/$wateringPlanId/status/edit"
       ]
     },
@@ -1150,6 +1159,10 @@ export const routeTree = rootRoute.addChildren({
     "/_protected/vehicles/_formular/$vehicleId/edit": {
       "filePath": "_protected/vehicles/_formular/$vehicleId.edit.tsx",
       "parent": "/_protected/vehicles/_formular/$vehicleId"
+    },
+    "/_protected/watering-plans/_formular/$wateringPlanId/edit": {
+      "filePath": "_protected/watering-plans/_formular/$wateringPlanId.edit.tsx",
+      "parent": "/_protected/watering-plans/_formular/$wateringPlanId"
     },
     "/_protected/watering-plans/_formular/$wateringPlanId/status/edit": {
       "filePath": "_protected/watering-plans/_formular/$wateringPlanId.status.edit.tsx",
