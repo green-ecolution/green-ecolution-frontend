@@ -24,7 +24,6 @@ const FormForWateringPlan = (props: FormForWateringPlanProps) => {
 
   return (
     <form
-      key="cluster-register"
       className="space-y-6 lg:space-y-0 lg:grid lg:grid-cols-2 lg:gap-11"
       onSubmit={props.handleSubmit(props.onSubmit)}
     >

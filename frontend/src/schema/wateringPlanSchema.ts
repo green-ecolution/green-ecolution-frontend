@@ -1,4 +1,7 @@
 import { vehicleQuery } from '@/api/queries'
+import {
+  WateringPlanStatus,
+} from '@green-ecolution/backend-client'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { z } from 'zod'
 
@@ -33,6 +36,12 @@ export const WateringPlanSchema = () => {
           message: 'Datum muss in der Zukunft liegen',
         })
     ),
+    status: z
+      .nativeEnum(WateringPlanStatus)
+      .refine((value) => Object.values(WateringPlanStatus).includes(value), {
+        message: 'Kein korrekter Status.',
+      })
+      .default(WateringPlanStatus.WateringPlanStatusUnknown),
     description: z.string().optional().default(''),
     treeClusterIds: z
       .array(z.number())

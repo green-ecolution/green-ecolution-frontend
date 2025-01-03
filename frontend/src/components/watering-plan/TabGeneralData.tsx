@@ -21,7 +21,7 @@ const TabGeneralData: React.FC<TabGeneralDataProps> = ({ wateringPlan }) => {
     {
       label: 'Länge der Route',
       value: wateringPlan?.distance
-        ? `${wateringPlan.distance}`
+        ? `${wateringPlan.distance} km`
         : 'Keine Angabe',
     },
     {
