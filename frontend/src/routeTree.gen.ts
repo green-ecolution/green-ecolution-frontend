@@ -20,7 +20,6 @@ import { Route as IndexImport } from './routes/index'
 import { Route as AuthCallbackImport } from './routes/auth/callback'
 import { Route as ProtectedWateringPlansImport } from './routes/_protected/watering-plans'
 import { Route as ProtectedTreeclusterImport } from './routes/_protected/treecluster'
-import { Route as ProtectedTeamImport } from './routes/_protected/team'
 import { Route as ProtectedSettingsImport } from './routes/_protected/settings'
 import { Route as ProtectedProfileImport } from './routes/_protected/profile'
 import { Route as ProtectedMapImport } from './routes/_protected/map'
@@ -118,11 +117,6 @@ const ProtectedTreeclusterRoute = ProtectedTreeclusterImport.update({
   getParentRoute: () => ProtectedRoute,
 } as any)
 
-const ProtectedTeamRoute = ProtectedTeamImport.update({
-  path: '/team',
-  getParentRoute: () => ProtectedRoute,
-} as any)
-
 const ProtectedSettingsRoute = ProtectedSettingsImport.update({
   path: '/settings',
   getParentRoute: () => ProtectedRoute,
@@ -170,8 +164,8 @@ const ProtectedTreeclusterIndexRoute = ProtectedTreeclusterIndexImport.update({
 } as any)
 
 const ProtectedTeamIndexRoute = ProtectedTeamIndexImport.update({
-  path: '/',
-  getParentRoute: () => ProtectedTeamRoute,
+  path: '/team/',
+  getParentRoute: () => ProtectedRoute,
 } as any)
 
 const ProtectedSettingsIndexRoute = ProtectedSettingsIndexImport.update({
@@ -442,13 +436,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedSettingsImport
       parentRoute: typeof ProtectedImport
     }
-    '/_protected/team': {
-      id: '/_protected/team'
-      path: '/team'
-      fullPath: '/team'
-      preLoaderRoute: typeof ProtectedTeamImport
-      parentRoute: typeof ProtectedImport
-    }
     '/_protected/treecluster': {
       id: '/_protected/treecluster'
       path: '/treecluster'
@@ -563,10 +550,10 @@ declare module '@tanstack/react-router' {
     }
     '/_protected/team/': {
       id: '/_protected/team/'
-      path: '/'
-      fullPath: '/team/'
+      path: '/team'
+      fullPath: '/team'
       preLoaderRoute: typeof ProtectedTeamIndexImport
-      parentRoute: typeof ProtectedTeamImport
+      parentRoute: typeof ProtectedImport
     }
     '/_protected/treecluster/': {
       id: '/_protected/treecluster/'
@@ -776,9 +763,6 @@ export const routeTree = rootRoute.addChildren({
       ProtectedSettingsPluginPluginNameRoute,
       ProtectedSettingsPluginIndexRoute,
     }),
-    ProtectedTeamRoute: ProtectedTeamRoute.addChildren({
-      ProtectedTeamIndexRoute,
-    }),
     ProtectedTreeclusterRoute: ProtectedTreeclusterRoute.addChildren({
       ProtectedTreeclusterTreeclusterIdRoute:
         ProtectedTreeclusterTreeclusterIdRoute.addChildren({
@@ -830,6 +814,7 @@ export const routeTree = rootRoute.addChildren({
       ProtectedVehiclesVehicleIdIndexRoute,
     }),
     ProtectedSensorsIndexRoute,
+    ProtectedTeamIndexRoute,
     ProtectedSensorsSensorIdIndexRoute,
   }),
   LoginRoute,
@@ -864,13 +849,13 @@ export const routeTree = rootRoute.addChildren({
         "/_protected/map",
         "/_protected/profile",
         "/_protected/settings",
-        "/_protected/team",
         "/_protected/treecluster",
-        "/_protected/waypoints",
+        "/_protected/watering-plans",
         "/_protected/tree/$treeId",
         "/_protected/tree",
         "/_protected/vehicles",
         "/_protected/sensors/",
+        "/_protected/team/",
         "/_protected/sensors/$sensorId/"
       ]
     },
@@ -916,13 +901,6 @@ export const routeTree = rootRoute.addChildren({
         "/_protected/settings/",
         "/_protected/settings/plugin/$pluginName",
         "/_protected/settings/plugin/"
-      ]
-    },
-    "/_protected/team": {
-      "filePath": "_protected/team.tsx",
-      "parent": "/_protected",
-      "children": [
-        "/_protected/team/"
       ]
     },
     "/_protected/treecluster": {
@@ -1031,7 +1009,7 @@ export const routeTree = rootRoute.addChildren({
     },
     "/_protected/team/": {
       "filePath": "_protected/team/index.tsx",
-      "parent": "/_protected/team"
+      "parent": "/_protected"
     },
     "/_protected/treecluster/": {
       "filePath": "_protected/treecluster/index.tsx",

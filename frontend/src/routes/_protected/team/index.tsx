@@ -3,8 +3,8 @@ import LoadingInfo from '@/components/general/error/LoadingInfo'
 import { createFileRoute } from '@tanstack/react-router'
 import { Suspense } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
-import { User } from '../../../components/general/User'
-import { UserStatus } from '@/hooks/useDetailsForUserStatus'
+import { useSuspenseQuery } from '@tanstack/react-query'
+import { userQuery } from '@/api/queries'
 
 export const Route = createFileRoute('/_protected/team/')({
   component: Team,
@@ -16,28 +16,10 @@ export const Route = createFileRoute('/_protected/team/')({
   ],
 })
 
-const dummyUsers: User[] = [
-  {
-    id: 1,
-    name: 'John Doe',
-    availability: UserStatus.Available,
-    role: 'TBZ | Technische Hilfe',
-  },
-  {
-    id: 2,
-    name: 'Jane Smith',
-    availability: UserStatus.NotAvailable,
-    role: 'TBZ | Technische Hilfe',
-  },
-  {
-    id: 3,
-    name: 'Emily Davis',
-    availability: UserStatus.OnDuty,
-    role: 'TBZ | Grünflächenpflege',
-  },
-]
-
 function Team() {
+  // TODO: do not show all user, only user with correct user role
+  const { data: userRes } = useSuspenseQuery(userQuery())
+
   return (
     <div className="container mt-6">
       <article className="mb-20 2xl:w-4/5">
@@ -45,15 +27,17 @@ function Team() {
           Alle Mitarbeitenden
         </h1>
         <p className="mb-5">
-          Hier finden Sie eine Übersicht aller Mitarbeitenden, welche eingesetzt werden können.
+          Hier finden Sie eine Übersicht aller Mitarbeitenden und weitere Informationen zu deren Rollen und welche
+          Führerscheinklasse sie besitzen. Diese Informationen sind wichtig, wenn Personen zu einem Einsatzplan eingeteilt werden sollen.
         </p>
       </article>
 
       <section className="mt-10">
-        <header className="hidden border-b pb-2 text-sm text-dark-800 px-8 border-b-dark-200 mb-5 lg:grid lg:grid-cols-4 lg:gap-5 xl:px-10">
+        <header className="hidden border-b pb-2 text-sm text-dark-800 px-8 border-b-dark-200 mb-5 lg:grid lg:grid-cols-[1fr,1.5fr,1fr,1fr] lg:gap-5 xl:px-10">
           <p>Verfügbarkeit</p>
           <p>Name</p>
           <p>Aufgabenbereich</p>
+          <p>Führerscheinklasse</p>
         </header>
         <Suspense fallback={<LoadingInfo label="Daten werden geladen" />}>
           <ErrorBoundary
@@ -65,12 +49,12 @@ function Team() {
             }
           >
             <ul>
-              {dummyUsers.length === 0 ? (
+              {userRes.data?.length === 0 ? (
                 <li className="text-center text-dark-600 mt-10">
                   <p>Es wurden leider keine Fahrzeuge gefunden.</p>
                 </li>
               ) : (
-                dummyUsers.map((user, key) => (
+                userRes.data?.map((user, key) => (
                   <li key={key} className="mb-5 last:mb-0">
                     <UserCard user={user} />
                   </li>
