@@ -5,6 +5,7 @@ import { getSensorStatusDetails } from '@/hooks/useDetailsForSensorStatus'
 import { SensorStatus, Tree } from '@green-ecolution/backend-client'
 import { format } from 'date-fns'
 import GeneralLink from '../general/links/GeneralLink'
+import { getVoltageQualityDetails } from '@/hooks/useDetailsForSensorBattery'
 
 interface TabSensorDataProps {
   tree?: Tree
@@ -18,14 +19,6 @@ const TabSensorData: React.FC<TabSensorDataProps> = ({ tree }) => {
     ? format(new Date(tree?.sensor?.updatedAt), 'HH:mm')
     : 'Keine Angabe'
 
-  const statusCards = [
-    {
-      overline: 'Letzte Messung',
-      value: `${updatedTime} Uhr`,
-      description: `am ${updatedDate}`,
-    },
-  ]
-
   const sensorStatus = tree?.sensor?.status ?? SensorStatus.SensorStatusUnknown
 
   return (
@@ -37,16 +30,22 @@ const TabSensorData: React.FC<TabSensorDataProps> = ({ tree }) => {
             label="Status der Sensoren"
           />
         </li>
-        {statusCards.map((card, key) => (
-          <li key={key}>
-            <GeneralStatusCard
-              overline={card.overline}
-              value={card.value}
-              isLarge
-              description={card.description}
-            />
-          </li>
-        ))}
+        <li>
+          <EntitiesStatusCard
+            statusDetails={getVoltageQualityDetails(
+              tree?.sensor?.latestData?.battery ?? null
+            )}
+            label="Akkustand"
+          />
+        </li>
+        <li>
+          <GeneralStatusCard
+            overline="Letzte Messung"
+            value={`${updatedTime} Uhr`}
+            isLarge
+            description={`am ${updatedDate}`}
+          />
+        </li>
       </ul>
       <GeneralLink
         label="Zum Verknüpften Sensor"

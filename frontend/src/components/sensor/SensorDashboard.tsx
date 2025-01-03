@@ -16,11 +16,6 @@ interface SensorDashboardProps {
 }
 
 const SensorDashboard = ({ sensor }: SensorDashboardProps) => {
-  // TODO: use real data
-  const exampleSensorData = {
-    battery: 3.1,
-  }
-
   const { data: linkedTree } = useQuery(treeSensorIdQuery(sensor.id))
 
   const createdDate = sensor?.createdAt
@@ -82,15 +77,13 @@ const SensorDashboard = ({ sensor }: SensorDashboardProps) => {
           </li>
           <li>
             <EntitiesStatusCard
-              statusDetails={getVoltageQualityDetails(
-                exampleSensorData.battery
-              )}
+              statusDetails={getVoltageQualityDetails(sensor.latestData?.battery ?? null)}
               label="Akkustand"
             />
           </li>
           <li>
             <GeneralStatusCard
-              overline="Letzte Messung"
+              overline="Letztes Update"
               value={updatedDate}
               description="Letzte Datenübermittlung"
             />
