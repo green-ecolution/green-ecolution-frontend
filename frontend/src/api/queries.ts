@@ -19,6 +19,8 @@ import {
   WateringPlanList,
   wateringPlanApi,
   WateringPlan,
+  UserList,
+  userApi,
 } from './backendApi'
 
 export const treeClusterQuery = () =>
@@ -114,8 +116,14 @@ export const wateringPlanQuery = () =>
 export const wateringPlanIdQuery = (id: string) =>
   queryOptions<WateringPlan>({
     queryKey: ['watering-plan', id],
-    queryFn: ()=>
+    queryFn: () =>
       wateringPlanApi.getWateringPlanById({
         id: id,
       }),
+  })
+
+export const userQuery = () =>
+  queryOptions<UserList>({
+    queryKey: ['users'],
+    queryFn: () => userApi.getAllUsers(),
   })

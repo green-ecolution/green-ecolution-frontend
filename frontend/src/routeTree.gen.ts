@@ -20,7 +20,6 @@ import { Route as IndexImport } from './routes/index'
 import { Route as AuthCallbackImport } from './routes/auth/callback'
 import { Route as ProtectedWateringPlansImport } from './routes/_protected/watering-plans'
 import { Route as ProtectedTreeclusterImport } from './routes/_protected/treecluster'
-import { Route as ProtectedTeamImport } from './routes/_protected/team'
 import { Route as ProtectedSettingsImport } from './routes/_protected/settings'
 import { Route as ProtectedProfileImport } from './routes/_protected/profile'
 import { Route as ProtectedMapImport } from './routes/_protected/map'
@@ -30,6 +29,7 @@ import { Route as ProtectedDashboardImport } from './routes/_protected/dashboard
 import { Route as ProtectedWateringPlansIndexImport } from './routes/_protected/watering-plans/index'
 import { Route as ProtectedVehiclesIndexImport } from './routes/_protected/vehicles/index'
 import { Route as ProtectedTreeclusterIndexImport } from './routes/_protected/treecluster/index'
+import { Route as ProtectedTeamIndexImport } from './routes/_protected/team/index'
 import { Route as ProtectedSettingsIndexImport } from './routes/_protected/settings/index'
 import { Route as ProtectedSensorsIndexImport } from './routes/_protected/sensors/index'
 import { Route as ProtectedMapIndexImport } from './routes/_protected/map/index'
@@ -117,11 +117,6 @@ const ProtectedTreeclusterRoute = ProtectedTreeclusterImport.update({
   getParentRoute: () => ProtectedRoute,
 } as any)
 
-const ProtectedTeamRoute = ProtectedTeamImport.update({
-  path: '/team',
-  getParentRoute: () => ProtectedRoute,
-} as any)
-
 const ProtectedSettingsRoute = ProtectedSettingsImport.update({
   path: '/settings',
   getParentRoute: () => ProtectedRoute,
@@ -166,6 +161,11 @@ const ProtectedVehiclesIndexRoute = ProtectedVehiclesIndexImport.update({
 const ProtectedTreeclusterIndexRoute = ProtectedTreeclusterIndexImport.update({
   path: '/',
   getParentRoute: () => ProtectedTreeclusterRoute,
+} as any)
+
+const ProtectedTeamIndexRoute = ProtectedTeamIndexImport.update({
+  path: '/team/',
+  getParentRoute: () => ProtectedRoute,
 } as any)
 
 const ProtectedSettingsIndexRoute = ProtectedSettingsIndexImport.update({
@@ -436,13 +436,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedSettingsImport
       parentRoute: typeof ProtectedImport
     }
-    '/_protected/team': {
-      id: '/_protected/team'
-      path: '/team'
-      fullPath: '/team'
-      preLoaderRoute: typeof ProtectedTeamImport
-      parentRoute: typeof ProtectedImport
-    }
     '/_protected/treecluster': {
       id: '/_protected/treecluster'
       path: '/treecluster'
@@ -554,6 +547,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/settings/'
       preLoaderRoute: typeof ProtectedSettingsIndexImport
       parentRoute: typeof ProtectedSettingsImport
+    }
+    '/_protected/team/': {
+      id: '/_protected/team/'
+      path: '/team'
+      fullPath: '/team'
+      preLoaderRoute: typeof ProtectedTeamIndexImport
+      parentRoute: typeof ProtectedImport
     }
     '/_protected/treecluster/': {
       id: '/_protected/treecluster/'
@@ -763,7 +763,6 @@ export const routeTree = rootRoute.addChildren({
       ProtectedSettingsPluginPluginNameRoute,
       ProtectedSettingsPluginIndexRoute,
     }),
-    ProtectedTeamRoute,
     ProtectedTreeclusterRoute: ProtectedTreeclusterRoute.addChildren({
       ProtectedTreeclusterTreeclusterIdRoute:
         ProtectedTreeclusterTreeclusterIdRoute.addChildren({
@@ -815,6 +814,7 @@ export const routeTree = rootRoute.addChildren({
       ProtectedVehiclesVehicleIdIndexRoute,
     }),
     ProtectedSensorsIndexRoute,
+    ProtectedTeamIndexRoute,
     ProtectedSensorsSensorIdIndexRoute,
   }),
   LoginRoute,
@@ -849,13 +849,13 @@ export const routeTree = rootRoute.addChildren({
         "/_protected/map",
         "/_protected/profile",
         "/_protected/settings",
-        "/_protected/team",
         "/_protected/treecluster",
         "/_protected/watering-plans",
         "/_protected/tree/$treeId",
         "/_protected/tree",
         "/_protected/vehicles",
         "/_protected/sensors/",
+        "/_protected/team/",
         "/_protected/sensors/$sensorId/"
       ]
     },
@@ -902,10 +902,6 @@ export const routeTree = rootRoute.addChildren({
         "/_protected/settings/plugin/$pluginName",
         "/_protected/settings/plugin/"
       ]
-    },
-    "/_protected/team": {
-      "filePath": "_protected/team.tsx",
-      "parent": "/_protected"
     },
     "/_protected/treecluster": {
       "filePath": "_protected/treecluster.tsx",
@@ -1010,6 +1006,10 @@ export const routeTree = rootRoute.addChildren({
     "/_protected/settings/": {
       "filePath": "_protected/settings/index.tsx",
       "parent": "/_protected/settings"
+    },
+    "/_protected/team/": {
+      "filePath": "_protected/team/index.tsx",
+      "parent": "/_protected"
     },
     "/_protected/treecluster/": {
       "filePath": "_protected/treecluster/index.tsx",
