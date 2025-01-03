@@ -21,7 +21,7 @@ export const Route = createFileRoute(
   loader: async () => {
     if (!useStore.getState().auth.isAuthenticated) return
   },
-  meta: () => [{ title: 'Einsatzplans editieren' }],
+  meta: () => [{ title: 'Einsatzplan editieren' }],
 })
 
 function StatusEditWateringPlan() {

@@ -11,6 +11,10 @@ import useStore from '@/store/store'
 import { useWateringPlanUpdateForm } from '@/hooks/form/useWateringPlanUpdateForm'
 import GeneralLink from '../general/links/GeneralLink'
 import { showWateringPlanStatusButton } from '@/hooks/useDetailsForWateringPlanStatus'
+import LoadingInfo from '../general/error/LoadingInfo'
+import { Suspense } from 'react'
+import DeleteSection from '../treecluster/DeleteSection'
+import { wateringPlanApi } from '@/api/backendApi'
 
 interface WateringPlanUpdateProps {
   wateringPlanId: string
@@ -71,6 +75,12 @@ const WateringPlanUpdate = ({
     })
   }
 
+  const handleDeleteWateringPlan = () => {
+    return wateringPlanApi.deleteWateringPlan({
+      id: String(wateringPlanId),
+    })
+  }
+
   return (
     <>
       <article className="2xl:w-4/5">
@@ -118,6 +128,14 @@ const WateringPlanUpdate = ({
           onAddCluster={navigateToClusterSelect}
         />
       </section>
+
+      <Suspense fallback={<LoadingInfo label="Der Einsatzplan wird gelöscht" />}>
+        <DeleteSection
+          mutationFn={handleDeleteWateringPlan}
+          entityName="den Einsatzplan"
+          redirectUrl={{ to: '/watering-plans' }}
+        />
+      </Suspense>
     </>
   )
 }
