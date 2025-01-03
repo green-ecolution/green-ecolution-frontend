@@ -42,9 +42,9 @@ export const useWateringPlanUpdateForm = ({
   const onSubmit: SubmitHandler<WateringPlanForm> = async (data) => {
     mutate({
       ...data,
+      date: data.date.toISOString(),
       trailerId:
         data.trailerId && data.trailerId !== -1 ? data.trailerId : undefined,
-      date: data.date.toISOString(),
       usersIds: [], // TODO: add user ids
     })
   }

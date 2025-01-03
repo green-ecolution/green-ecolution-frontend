@@ -26,7 +26,7 @@ const WateringPlanUpdate = ({
   const { initForm, loadedData } = useInitFormQuery(
     wateringPlanIdQuery(wateringPlanId),
     (data) => ({
-      date: new Date(data.date),
+      date: new Date(data.date).toISOString().substring(0, 10),
       description: data.description,
       transporterId: data.transporter.id,
       trailerId: data.trailer?.id,

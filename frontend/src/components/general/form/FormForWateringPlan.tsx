@@ -13,7 +13,6 @@ interface FormForWateringPlanProps extends FormForProps<WateringPlanForm> {
   transporters: Vehicle[]
   trailers: Vehicle[]
   onAddCluster: () => void
-  defaultDate?: string
 }
 
 const FormForWateringPlan = (props: FormForWateringPlanProps) => {
@@ -36,7 +35,6 @@ const FormForWateringPlan = (props: FormForWateringPlanProps) => {
           error={errors.date?.message}
           required
           type="date"
-          value={props.defaultDate ?? new Date().toISOString().substring(0, 10)}
           {...props.register('date')}
         />
         <Select
