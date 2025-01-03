@@ -19,6 +19,8 @@ export const Route = createFileRoute('/_protected/vehicles/$vehicleId/')({
 
 function SingleVehicle() {
   const vehicleId = Route.useParams().vehicleId
+  const { vehicle } = Route.useLoaderData();
+  
   return (
     <div className="container mt-6">
       <Suspense fallback={<LoadingInfo label="Fahrzeug wird geladen …" />}>
@@ -30,7 +32,7 @@ function SingleVehicle() {
             </p>
           }
         >
-          <VehicleDashboard vehicleId={vehicleId} />
+          <VehicleDashboard vehicle={vehicle} />
         </ErrorBoundary>
       </Suspense>
     </div>

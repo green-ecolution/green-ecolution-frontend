@@ -1,10 +1,10 @@
 import { Marker, Tooltip } from 'react-leaflet'
-import { WateringStatus, TreeCluster } from '@green-ecolution/backend-client'
+import { WateringStatus, TreeCluster, TreeClusterInList } from '@green-ecolution/backend-client'
 import { ClusterIcon } from '../MapMarker'
 import { getWateringStatusDetails } from '@/hooks/useDetailsForWateringStatus'
 
 export interface ClusterMarkerProps {
-  cluster: TreeCluster
+  cluster: TreeClusterInList
   onClick?: (tree: TreeCluster) => void
   highlightedClusters?: number[]
 }
@@ -29,7 +29,7 @@ const ClusterMarker = ({
       icon={ClusterIcon(
         getStatusColor(cluster.wateringStatus),
         isHighlighted(cluster.id),
-        cluster.trees?.length ?? 0
+        cluster.treeIds?.length ?? 0
       )}
       position={[cluster.latitude, cluster.longitude]}
       eventHandlers={{

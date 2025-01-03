@@ -1,5 +1,5 @@
-import { sensorIdQuery, treeSensorIdQuery } from '@/api/queries'
-import { useQuery, useSuspenseQuery } from '@tanstack/react-query'
+import { treeSensorIdQuery } from '@/api/queries'
+import { useQuery } from '@tanstack/react-query'
 import EntitiesStatusCard from '@/components/general/cards/EntitiesStatusCard'
 import GeneralStatusCard from '@/components/general/cards/GeneralStatusCard'
 import BackLink from '@/components/general/links/BackLink'
@@ -9,19 +9,19 @@ import { getVoltageQualityDetails } from '@/hooks/useDetailsForSensorBattery'
 import { format, formatDistanceToNow } from 'date-fns'
 import { de } from 'date-fns/locale'
 import DetailedList from '../general/DetailedList'
+import { Sensor } from '@green-ecolution/backend-client'
 
 interface SensorDashboardProps {
-  sensorId: string
+  sensor: Sensor
 }
 
-const SensorDashboard = ({ sensorId }: SensorDashboardProps) => {
+const SensorDashboard = ({ sensor }: SensorDashboardProps) => {
   // TODO: use real data
   const exampleSensorData = {
     battery: 3.1,
   }
 
-  const { data: sensor } = useSuspenseQuery(sensorIdQuery(sensorId))
-  const { data: linkedTree } = useQuery(treeSensorIdQuery(sensorId))
+  const { data: linkedTree } = useQuery(treeSensorIdQuery(sensor.id))
 
   const createdDate = sensor?.createdAt
     ? format(new Date(sensor?.createdAt), 'dd.MM.yyyy')

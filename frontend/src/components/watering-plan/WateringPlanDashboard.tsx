@@ -1,7 +1,5 @@
 import BackLink from '../general/links/BackLink'
 import Pill from '../general/Pill'
-import { useSuspenseQuery } from '@tanstack/react-query'
-import { wateringPlanIdQuery } from '@/api/queries'
 import { getWateringPlanStatusDetails, showWateringPlanStatusButton } from '@/hooks/useDetailsForWateringPlanStatus'
 import { format } from 'date-fns'
 import { File, FolderClosed, MoveRight, Pencil } from 'lucide-react'
@@ -9,18 +7,16 @@ import TabGeneralData from './TabGeneralData'
 import { useMemo } from 'react'
 import Tabs from '../general/Tabs'
 import TreeClusterList from '../treecluster/TreeClusterList'
+import { WateringPlan } from '@green-ecolution/backend-client'
 import ButtonLink from '../general/links/ButtonLink'
 
 interface WateringPlanDashboardProps {
-  wateringPlanId: string
+  wateringPlan: WateringPlan
 }
 
 const WateringPlanDashboard = ({
-  wateringPlanId,
+  wateringPlan,
 }: WateringPlanDashboardProps) => {
-  const { data: wateringPlan } = useSuspenseQuery(
-    wateringPlanIdQuery(wateringPlanId)
-  )
   const statusDetails = getWateringPlanStatusDetails(wateringPlan.status)
 
   const date = wateringPlan?.date
