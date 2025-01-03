@@ -132,7 +132,7 @@ const WateringPlanUpdate = ({
       <Suspense fallback={<LoadingInfo label="Der Einsatzplan wird gelöscht" />}>
         <DeleteSection
           mutationFn={handleDeleteWateringPlan}
-          entityName="den Einsatzplan"
+          entityName="der Einsatzplan"
           redirectUrl={{ to: '/watering-plans' }}
         />
       </Suspense>
