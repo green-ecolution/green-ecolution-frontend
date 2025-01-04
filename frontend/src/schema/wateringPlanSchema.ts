@@ -1,8 +1,9 @@
 import { vehicleQuery } from '@/api/queries'
+import { WateringPlanStatus } from '@green-ecolution/backend-client'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { z } from 'zod'
 
-export const WateringPlanSchema = () => {
+export const WateringPlanSchema = (isCreate: boolean) => {
   const { data: transporters } = useSuspenseQuery(
     vehicleQuery({
       type: 'transporter',
@@ -29,11 +30,25 @@ export const WateringPlanSchema = () => {
           required_error: 'Datum ist erforderlich.',
           invalid_type_error: 'Format inkorrekt.',
         })
-        .refine((data) => data > new Date(), {
+        .refine((data) => {
+          if (isCreate) {
+            const todayAtMidnight = new Date();
+            todayAtMidnight.setHours(0, 0, 0, 0);
+            return data > todayAtMidnight;
+          }
+          return true;
+        }, {
           message: 'Datum muss in der Zukunft liegen',
         })
     ),
+    status: z
+      .nativeEnum(WateringPlanStatus)
+      .refine((value) => Object.values(WateringPlanStatus).includes(value), {
+        message: 'Kein korrekter Status.',
+      })
+      .default(WateringPlanStatus.WateringPlanStatusUnknown),
     description: z.string().optional().default(''),
+    cancellationNote: z.string().optional().default(''),
     treeClusterIds: z
       .array(z.number())
       .min(1, 'Bewässerungsgruppen sind erforderlich.')
@@ -51,14 +66,12 @@ export const WateringPlanSchema = () => {
     trailerId: z
       .preprocess(
         (value) => parseInt(value as string, 10),
-        z
-          .number()
-          .refine((value) =>
-            trailers.data.some((trailer) => trailer.id === value)
-          )
-          .optional()
+        z.number().optional().refine(
+          (value) => value === -1 || trailers.data.some((trailer) => trailer.id === value),
+          { message: 'Ungültiger Anhänger.' }
+        )
       )
-      .or(z.literal('-1').or(z.literal(-1))),
+      .optional(),
   })
 }
 

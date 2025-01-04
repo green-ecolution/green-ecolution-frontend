@@ -2,12 +2,13 @@ import BackLink from '../general/links/BackLink'
 import Pill from '../general/Pill'
 import { getWateringPlanStatusDetails } from '@/hooks/useDetailsForWateringPlanStatus'
 import { format } from 'date-fns'
-import { File, FolderClosed } from 'lucide-react'
+import { File, FolderClosed, MoveRight } from 'lucide-react'
 import TabGeneralData from './TabGeneralData'
 import { useMemo } from 'react'
 import Tabs from '../general/Tabs'
 import TreeClusterList from '../treecluster/TreeClusterList'
-import { WateringPlan } from '@green-ecolution/backend-client'
+import { WateringPlan, WateringPlanStatus } from '@green-ecolution/backend-client'
+import ButtonLink from '../general/links/ButtonLink'
 
 interface WateringPlanDashboardProps {
   wateringPlan: WateringPlan
@@ -38,6 +39,14 @@ const WateringPlanDashboard = ({
     [wateringPlan]
   )
 
+  const showEditStatusButton = (): boolean => {
+    return (
+      wateringPlan.status !== WateringPlanStatus.WateringPlanStatusNotCompeted &&
+      wateringPlan.status !== WateringPlanStatus.WateringPlanStatusFinished &&
+      wateringPlan.status !== WateringPlanStatus.WateringPlanStatusCanceled
+    )
+  }
+
   return (
     <>
       <BackLink link={{ to: '/watering-plans' }} label="Alle Einsatzpläne" />
@@ -52,6 +61,16 @@ const WateringPlanDashboard = ({
           </h1>
           {wateringPlan.description && (
             <p className="mb-4">{wateringPlan.description}</p>
+          )}
+          {showEditStatusButton() && (
+            <ButtonLink
+              link={{
+                to: '/watering-plans/$wateringPlanId/status/edit',
+                params: { wateringPlanId: wateringPlan.id.toString() },
+              }}
+              label="Status aktualisieren"
+              icon={MoveRight}
+            />
           )}
         </div>
       </article>

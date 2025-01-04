@@ -31,12 +31,6 @@ export const VehicleStatusOptions = [
   },
 ]
 
-export const getVehicleStatusDetails = (status: VehicleStatus) => {
-  const match = VehicleStatusOptions.find((option) => option.value === status)
-  return (
-    match ||
-    VehicleStatusOptions.find(
-      (option) => option.value === VehicleStatus.VehicleStatusUnknown
-    )
-  )
-}
+export const getVehicleStatusDetails = (status: VehicleStatus) =>
+  VehicleStatusOptions.find((option) => option.value === status) ||
+  VehicleStatusOptions[0]

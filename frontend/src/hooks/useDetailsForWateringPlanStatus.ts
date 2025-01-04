@@ -1,46 +1,48 @@
 import { WateringPlanStatus } from '@green-ecolution/backend-client'
 
-const WateringPlanStatusProperties = {
-  [WateringPlanStatus.WateringPlanStatusUnknown]: {
-    color: 'dark-400',
+export const WateringPlanStatusOptions = [
+  {
+    value: WateringPlanStatus.WateringPlanStatusUnknown,
     label: 'Unbekannt',
+    color: 'dark-400',
     description: 'Der Status der Einsatzplanung ist unbekannt.',
   },
-  [WateringPlanStatus.WateringPlanStatusActive]: {
-    color: 'green-light',
+  {
+    value: WateringPlanStatus.WateringPlanStatusActive,
     label: 'Aktiv',
+    color: 'green-light',
     description: 'Der Einsatzplan ist aktiv und wird aktuell ausgeführt.',
   },
-  [WateringPlanStatus.WateringPlanStatusCanceled]: {
-    color: 'red',
+  {
+    value: WateringPlanStatus.WateringPlanStatusCanceled,
     label: 'Abgebrochen',
-    description: 'Der Einsatzplan wurde abgebrochen und ist nicht fertig gestellt.',
+    color: 'red',
+    description:
+      'Der Einsatzplan wurde abgebrochen und ist nicht fertig gestellt.',
   },
-  [WateringPlanStatus.WateringPlanStatusFinished]: {
-    color: 'green-dark',
+  {
+    value: WateringPlanStatus.WateringPlanStatusFinished,
     label: 'Beendet',
-    description:
-      'Der Einsatzplan wurde erfolgreich beendet.',
+    color: 'green-dark',
+    description: 'Der Einsatzplan wurde erfolgreich beendet.',
   },
-  [WateringPlanStatus.WateringPlanStatusNotCompeted]: {
-    color: 'dark-400',
+  {
+    value: WateringPlanStatus.WateringPlanStatusNotCompeted,
     label: 'Nicht angetreten',
-    description:
-      'Der Einsatzplan wurde nicht angetreten.',
-  },
-  [WateringPlanStatus.WateringPlanStatusPlanned]: {
     color: 'dark-400',
-    label: 'Geplant',
-    description:
-      'Der Einsatzplan ist geplant und kann gestartet werden.',
+    description: 'Der Einsatzplan wurde nicht angetreten.',
   },
-} as const
+  {
+    value: WateringPlanStatus.WateringPlanStatusPlanned,
+    label: 'Geplant',
+    color: 'dark-400',
+    description: 'Der Einsatzplan ist geplant und kann gestartet werden.',
+  },
+]
 
-type WateringPlanStatusDetails =
-  (typeof WateringPlanStatusProperties)[WateringPlanStatus]
-
-export const getWateringPlanStatusDetails = (
-  status: WateringPlanStatus
-): WateringPlanStatusDetails => {
-  return WateringPlanStatusProperties[status]
+export const getWateringPlanStatusDetails = (status: WateringPlanStatus) => {
+  return (
+    WateringPlanStatusOptions.find((option) => option.value === status) ||
+    WateringPlanStatusOptions[0]
+  )
 }

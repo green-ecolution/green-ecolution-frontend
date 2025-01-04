@@ -21,7 +21,7 @@ const TabGeneralData: React.FC<TabGeneralDataProps> = ({ wateringPlan }) => {
     {
       label: 'Länge der Route',
       value: wateringPlan?.distance
-        ? `${wateringPlan.distance}`
+        ? `${wateringPlan.distance} km`
         : 'Keine Angabe',
     },
     {
@@ -77,6 +77,18 @@ const TabGeneralData: React.FC<TabGeneralDataProps> = ({ wateringPlan }) => {
             hasPill
           />
         </li>
+        {wateringPlan?.status ===
+          WateringPlanStatus.WateringPlanStatusCanceled &&
+          wateringPlan.cancellationNote && (
+            <li>
+              <div className="h-full space-y-3 bg-dark-50 rounded-xl p-6">
+                <h2 className="text-sm text-dark-700 font-medium">
+                  Notiz zum Abbruch
+                </h2>
+                <p className="text-sm">{wateringPlan.cancellationNote}</p>
+              </div>
+            </li>
+          )}
         <li>
           <GeneralStatusCard
             overline="Länge der Route"
