@@ -10,11 +10,11 @@ import WithAllClusters from '@/components/map/marker/WithAllClusters'
 export const Route = createFileRoute(
   '/_protected/map/watering-plan/select/cluster'
 )({
-  component: SelectTrees,
+  component: SelectCluster,
   meta: () => [{ title: 'Route festlegen' }],
 })
 
-function SelectTrees() {
+function SelectCluster() {
   const { form, storeClusterIds, set, type } = useFormStore(
     (state: FormStore<WateringPlanForm>) => ({
       form: state.form,
@@ -26,9 +26,16 @@ function SelectTrees() {
   const [clusterIds, setClusterIds] = useState<number[]>(storeClusterIds)
   const [showError, setShowError] = useState(false)
   const navigate = useNavigate({ from: Route.fullPath })
+  const { wateringPlanId } = Route.useSearch()
 
   const handleNavigateBack = useCallback(() => {
     switch (type) {
+      case 'edit':
+        return navigate({
+          to: `/watering-plans/$wateringPlanId/edit`,
+          params: { wateringPlanId: String(wateringPlanId) },
+          search: { resetStore: false },
+        })
       case 'new':
         return navigate({
           to: '/watering-plans/new',
@@ -40,7 +47,7 @@ function SelectTrees() {
           search: { resetStore: false },
         })
     }
-  }, [navigate, type])
+  }, [navigate, type, wateringPlanId])
 
   const handleSave = () => {
     if (clusterIds.length === 0) {

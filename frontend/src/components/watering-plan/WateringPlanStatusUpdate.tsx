@@ -1,20 +1,10 @@
-import { useMutation } from '@tanstack/react-query'
 import BackLink from '../general/links/BackLink'
 import {
   WateringPlan,
   WateringPlanStatus,
-  WateringPlanUpdate,
 } from '@green-ecolution/backend-client'
 import { useInitFormQuery } from '@/hooks/form/useInitForm'
 import { wateringPlanIdQuery } from '@/api/queries'
-import { wateringPlanApi } from '@/api/backendApi'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { SubmitHandler } from 'react-hook-form'
-import { useFormSync } from '@/hooks/form/useFormSync'
-import {
-  WateringPlanForm,
-  WateringPlanSchema,
-} from '@/schema/wateringPlanSchema'
 import { format } from 'date-fns'
 import PrimaryButton from '../general/buttons/PrimaryButton'
 import FormError from '../general/form/FormError'
@@ -25,6 +15,7 @@ import {
 } from '@/hooks/useDetailsForWateringPlanStatus'
 import Pill from '../general/Pill'
 import Textarea from '../general/form/types/Textarea'
+import { useWateringPlanUpdateForm } from '@/hooks/form/useWateringPlanUpdateForm'
 
 interface WateringPlanStatusUpdateProps {
   wateringPlanId: string
@@ -37,47 +28,33 @@ const WateringPlanStatusUpdate = ({
   onUpdateError,
   onUpdateSuccess,
 }: WateringPlanStatusUpdateProps) => {
-  const { initForm, loadedData } = useInitFormQuery<
-    WateringPlan,
-    WateringPlanForm
-  >(wateringPlanIdQuery(wateringPlanId), (data) => ({
-    date: new Date(data.date),
-    description: data.description,
-    transporterId: data.transporter.id,
-    trailerId: data.trailer?.id,
-    treeClusterIds: data.treeclusters.map((cluster) => cluster.id),
-    status: data.status,
-    cancellationNote: data.cancellationNote,
-  }))
+  const { initForm, loadedData } = useInitFormQuery(
+    wateringPlanIdQuery(wateringPlanId),
+    (data) => ({
+      date: new Date(data.date),
+      description: data.description,
+      transporterId: data.transporter.id,
+      trailerId: data.trailer?.id,
+      treeClusterIds: data.treeclusters.map((cluster) => cluster.id),
+      status: data.status,
+      cancellationNote: data.cancellationNote,
+    })
+  )
 
   const date = loadedData?.date
     ? format(new Date(loadedData?.date), 'dd.MM.yyyy')
     : 'Keine Angabe'
   const statusDetails = getWateringPlanStatusDetails(loadedData?.status)
 
-  const { register, handleSubmit, formState, watch } =
-    useFormSync<WateringPlanForm>(initForm, zodResolver(WateringPlanSchema(false)))
-  const selectedStatus = watch('status')
-
-  const { isError, mutate } = useMutation({
-    mutationFn: (body: WateringPlanUpdate) =>
-      wateringPlanApi.updateWateringPlan({ id: wateringPlanId, body }),
-    onSuccess: (data) => onUpdateSuccess(data),
-    onError: () => onUpdateError(),
-    throwOnError: true,
-  })
-
-  const onSubmit: SubmitHandler<WateringPlanForm> = async (data) => {
-    mutate({
-      ...data,
-      date: data.date.toISOString(),
-      trailerId:
-        data.trailerId && data.trailerId !== -1
-          ? data.trailerId
-          : undefined,
-      usersIds: [],
+  const { register, handleSubmit, formState, watch, onSubmit, isError } =
+    useWateringPlanUpdateForm({
+      wateringPlanId,
+      onUpdateSuccess,
+      onUpdateError,
+      initialFormData: initForm,
     })
-  }
+
+  const selectedStatus = watch('status')
 
   return (
     <>

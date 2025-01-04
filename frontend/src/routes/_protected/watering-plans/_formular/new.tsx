@@ -49,7 +49,7 @@ function NewWateringPlan() {
     })
   )
   const { initForm } = useInitForm<WateringPlanForm>({
-    date: new Date(),
+    date: new Date().toISOString().substring(0, 10),
     description: '',
     transporterId: -1,
     trailerId: -1,
@@ -102,7 +102,6 @@ function NewWateringPlan() {
         data.trailerId && data.trailerId !== -1
           ? data.trailerId
           : undefined,
-      treeClusterIds: formStore.form?.treeClusterIds ?? [],
       usersIds: [],
     })
   }
@@ -122,8 +121,8 @@ function NewWateringPlan() {
     <div className="container mt-6">
       <article className="2xl:w-4/5">
         <BackLink
-          link={{ to: '/treecluster' }}
-          label="Zu allen Bewässerungsgruppen"
+          link={{ to: '/watering-plans' }}
+          label="Zu allen Einsatzplänen"
         />
         <h1 className="font-lato font-bold text-3xl mb-4 lg:text-4xl xl:text-5xl">
           Neuen Einsatzplan erstellen

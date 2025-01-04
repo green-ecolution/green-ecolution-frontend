@@ -30,16 +30,19 @@ export const WateringPlanSchema = (isCreate: boolean) => {
           required_error: 'Datum ist erforderlich.',
           invalid_type_error: 'Format inkorrekt.',
         })
-        .refine((data) => {
-          if (isCreate) {
-            const todayAtMidnight = new Date();
-            todayAtMidnight.setHours(0, 0, 0, 0);
-            return data > todayAtMidnight;
+        .refine(
+          (data) => {
+            if (isCreate) {
+              const todayAtMidnight = new Date()
+              todayAtMidnight.setHours(0, 0, 0, 0)
+              return data > todayAtMidnight
+            }
+            return true
+          },
+          {
+            message: 'Datum muss in der Zukunft liegen',
           }
-          return true;
-        }, {
-          message: 'Datum muss in der Zukunft liegen',
-        })
+        )
     ),
     status: z
       .nativeEnum(WateringPlanStatus)
@@ -66,10 +69,15 @@ export const WateringPlanSchema = (isCreate: boolean) => {
     trailerId: z
       .preprocess(
         (value) => parseInt(value as string, 10),
-        z.number().optional().refine(
-          (value) => value === -1 || trailers.data.some((trailer) => trailer.id === value),
-          { message: 'Ungültiger Anhänger.' }
-        )
+        z
+          .number()
+          .optional()
+          .refine(
+            (value) =>
+              value === -1 ||
+              trailers.data.some((trailer) => trailer.id === value),
+            { message: 'Ungültiger Anhänger.' }
+          )
       )
       .optional(),
   })

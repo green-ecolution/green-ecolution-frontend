@@ -1,24 +1,26 @@
-import PrimaryButton from "../buttons/PrimaryButton";
-import Input from "./types/Input";
-import Select from "./types/Select";
-import Textarea from "./types/Textarea";
-import FormError from "./FormError";
-import { WateringPlanForm } from "@/schema/wateringPlanSchema";
-import { Vehicle } from "@green-ecolution/backend-client";
-import { FormForProps } from "./FormForTreecluster";
-import SelectEntities from "./types/SelectEntities";
-import useFormStore, { FormStore } from "@/store/form/useFormStore";
+import PrimaryButton from '../buttons/PrimaryButton'
+import Input from './types/Input'
+import Select from './types/Select'
+import Textarea from './types/Textarea'
+import FormError from './FormError'
+import { WateringPlanForm } from '@/schema/wateringPlanSchema'
+import { Vehicle } from '@green-ecolution/backend-client'
+import { FormForProps } from './FormForTreecluster'
+import SelectEntities from './types/SelectEntities'
+import useFormStore, { FormStore } from '@/store/form/useFormStore'
 
 interface FormForWateringPlanProps extends FormForProps<WateringPlanForm> {
   transporters: Vehicle[]
   trailers: Vehicle[]
-  onAddCluster: () => void;
+  onAddCluster: () => void
 }
 
 const FormForWateringPlan = (props: FormForWateringPlanProps) => {
-  const { treeClusterIds } = useFormStore((state: FormStore<WateringPlanForm>) => ({
-    treeClusterIds: state.form?.treeClusterIds,
-  }));
+  const { treeClusterIds } = useFormStore(
+    (state: FormStore<WateringPlanForm>) => ({
+      treeClusterIds: state.form?.treeClusterIds,
+    })
+  )
 
   const { errors, isValid } = props.formState
 
@@ -33,7 +35,7 @@ const FormForWateringPlan = (props: FormForWateringPlanProps) => {
           error={errors.date?.message}
           required
           type="date"
-          {...props.register("date")}
+          {...props.register('date')}
         />
         <Select
           options={[
@@ -66,7 +68,7 @@ const FormForWateringPlan = (props: FormForWateringPlanProps) => {
           placeholder="Hier ist Platz für Notizen"
           label="Kurze Beschreibung"
           error={errors.description?.message}
-          {...props.register("description")}
+          {...props.register('description')}
         />
       </div>
 
@@ -90,7 +92,7 @@ const FormForWateringPlan = (props: FormForWateringPlanProps) => {
         className="mt-10 lg:col-span-full lg:w-fit"
       />
     </form>
-  );
-};
+  )
+}
 
-export default FormForWateringPlan;
+export default FormForWateringPlan

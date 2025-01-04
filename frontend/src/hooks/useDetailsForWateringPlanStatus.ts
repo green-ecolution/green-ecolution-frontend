@@ -1,4 +1,4 @@
-import { WateringPlanStatus } from '@green-ecolution/backend-client'
+import { WateringPlan, WateringPlanStatus } from '@green-ecolution/backend-client'
 
 export const WateringPlanStatusOptions = [
   {
@@ -44,5 +44,13 @@ export const getWateringPlanStatusDetails = (status: WateringPlanStatus) => {
   return (
     WateringPlanStatusOptions.find((option) => option.value === status) ||
     WateringPlanStatusOptions[0]
+  )
+}
+
+export const showWateringPlanStatusButton = (wateringPlan: WateringPlan): boolean => {
+  return (
+    wateringPlan.status !== WateringPlanStatus.WateringPlanStatusNotCompeted &&
+    wateringPlan.status !== WateringPlanStatus.WateringPlanStatusFinished &&
+    wateringPlan.status !== WateringPlanStatus.WateringPlanStatusCanceled
   )
 }
