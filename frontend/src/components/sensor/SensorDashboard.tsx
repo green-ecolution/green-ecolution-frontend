@@ -5,7 +5,6 @@ import GeneralStatusCard from '@/components/general/cards/GeneralStatusCard'
 import BackLink from '@/components/general/links/BackLink'
 import GeneralLink from '../general/links/GeneralLink'
 import { getSensorStatusDetails } from '@/hooks/useDetailsForSensorStatus'
-import { getVoltageQualityDetails } from '@/hooks/useDetailsForSensorBattery'
 import { format, formatDistanceToNow } from 'date-fns'
 import { de } from 'date-fns/locale'
 import DetailedList from '../general/DetailedList'
@@ -76,9 +75,15 @@ const SensorDashboard = ({ sensor }: SensorDashboardProps) => {
             />
           </li>
           <li>
-            <EntitiesStatusCard
-              statusDetails={getVoltageQualityDetails(sensor.latestData?.battery ?? null)}
-              label="Akkustand"
+            <GeneralStatusCard
+              overline="Akkustand"
+              value={
+                sensor?.latestData?.battery
+                  ? `${sensor?.latestData?.battery} V`
+                  : 'Keine Angabe'
+              }
+              isLarge
+              description="Ab einem Wert von 2.8 V schaltet sich die Batterie ab."
             />
           </li>
           <li>

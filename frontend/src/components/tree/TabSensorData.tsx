@@ -5,7 +5,6 @@ import { getSensorStatusDetails } from '@/hooks/useDetailsForSensorStatus'
 import { SensorStatus, Tree } from '@green-ecolution/backend-client'
 import { format } from 'date-fns'
 import GeneralLink from '../general/links/GeneralLink'
-import { getVoltageQualityDetails } from '@/hooks/useDetailsForSensorBattery'
 
 interface TabSensorDataProps {
   tree?: Tree
@@ -31,11 +30,15 @@ const TabSensorData: React.FC<TabSensorDataProps> = ({ tree }) => {
           />
         </li>
         <li>
-          <EntitiesStatusCard
-            statusDetails={getVoltageQualityDetails(
-              tree?.sensor?.latestData?.battery ?? null
-            )}
-            label="Akkustand"
+          <GeneralStatusCard
+            overline="Akkustand"
+            value={
+              tree?.sensor?.latestData?.battery
+                ? `${tree?.sensor?.latestData?.battery} V`
+                : 'Keine Angabe'
+            }
+            isLarge
+            description="Ab einem Wert von 2.8 V schaltet sich die Batterie ab."
           />
         </li>
         <li>
