@@ -1,12 +1,12 @@
 import { getWateringPlanStatusDetails } from '@/hooks/useDetailsForWateringPlanStatus'
-import { WateringPlan } from '@green-ecolution/backend-client'
+import { WateringPlanInList } from '@green-ecolution/backend-client'
 import { Link } from '@tanstack/react-router'
 import React from 'react'
 import Pill from '../Pill'
 import { format } from 'date-fns'
 
 interface WateringPlanCard {
-  wateringPlan: WateringPlan
+  wateringPlan: WateringPlanInList
 }
 
 const WateringPlanCard: React.FC<WateringPlanCard> = ({ wateringPlan }) => {
@@ -40,7 +40,7 @@ const WateringPlanCard: React.FC<WateringPlanCard> = ({ wateringPlan }) => {
 
       <p className="text-dark-800">
         <span className="lg:sr-only">Anzahl der Mitarbeitenden:&nbsp;</span>
-        {wateringPlan.users.length} Mitarbeitende
+        {wateringPlan.userIds.length} Mitarbeitende
       </p>
 
       <p className="text-dark-800">

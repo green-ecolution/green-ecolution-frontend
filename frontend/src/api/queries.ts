@@ -122,8 +122,11 @@ export const wateringPlanIdQuery = (id: string) =>
       }),
   })
 
-export const userQuery = () =>
-  queryOptions<UserList>({
-    queryKey: ['users'],
-    queryFn: () => userApi.getAllUsers(),
+export const userQuery = (params?: { userIds: string }) => {
+  const queryKey = ['users', params?.userIds ?? 'all']
+
+  return queryOptions<UserList>({
+    queryKey,
+    queryFn: () => userApi.getAllUsers(params),
   })
+}

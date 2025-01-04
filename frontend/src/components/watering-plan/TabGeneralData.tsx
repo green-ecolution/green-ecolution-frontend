@@ -7,12 +7,17 @@ import { format } from 'date-fns'
 import GeneralStatusCard from '../general/cards/GeneralStatusCard'
 import EntitiesStatusCard from '../general/cards/EntitiesStatusCard'
 import { getWateringPlanStatusDetails } from '@/hooks/useDetailsForWateringPlanStatus'
+import { useSuspenseQuery } from '@tanstack/react-query'
+import { userQuery } from '@/api/queries'
 
 interface TabGeneralDataProps {
   wateringPlan?: WateringPlan
 }
 
 const TabGeneralData: React.FC<TabGeneralDataProps> = ({ wateringPlan }) => {
+  const userIdsString = wateringPlan?.userIds?.join(',') || ''
+  const { data: userRes } = useSuspenseQuery(userQuery({ userIds: userIdsString }))
+  
   const updatedDate = wateringPlan?.updatedAt
     ? format(new Date(wateringPlan.updatedAt), 'dd.MM.yyyy')
     : 'Keine Angabe'
@@ -54,10 +59,10 @@ const TabGeneralData: React.FC<TabGeneralDataProps> = ({ wateringPlan }) => {
     },
     {
       label: 'Eingeteilte Mitarbeitende',
-      value: wateringPlan?.users?.length
-        ? `${wateringPlan.users.length} Mitarbeitende`
-        : 'Keine Angabe', // TODO: list names
-    },
+      value: userRes?.data?.length
+        ? userRes.data.map((user) => `${user.firstName} ${user.lastName}`).join(', ')
+        : 'Keine Angabe',
+    },    
     {
       label: 'Zuletzt geupdated',
       value: updatedDate,
