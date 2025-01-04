@@ -16,6 +16,7 @@ const mapSearchParamsSchema = z.object({
   clusterId: z.number().optional(),
   sensorId: z.string().optional(),
   treeId: z.number().optional(),
+  wateringPlanId: z.number().optional(),
   zoom: z
     .number()
     .int()

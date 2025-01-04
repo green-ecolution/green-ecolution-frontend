@@ -71,6 +71,7 @@ const WateringPlanUpdate = ({
         lat: mapPosition.lat,
         lng: mapPosition.lng,
         zoom: mapPosition.zoom,
+        wateringPlanId: Number(wateringPlanId),
       },
     })
   }
