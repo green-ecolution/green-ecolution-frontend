@@ -16,7 +16,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useInitForm } from '@/hooks/form/useInitForm'
 import BackLink from '@/components/general/links/BackLink'
 import useToast from '@/hooks/useToast'
-import { treeClusterQuery, vehicleQuery } from '@/api/queries'
+import { treeClusterQuery, userQuery, vehicleQuery } from '@/api/queries'
 import {
   WateringPlanForm,
   WateringPlanSchema,
@@ -38,6 +38,7 @@ function NewWateringPlan() {
   const showToast = useToast()
   const navigate = useNavigate({ from: Route.fullPath })
   const queryClient = useQueryClient()
+  const { data: users } = useSuspenseQuery(userQuery())
   const { data: trailers } = useSuspenseQuery(
     vehicleQuery({
       type: 'trailer',
@@ -56,6 +57,7 @@ function NewWateringPlan() {
     treeClusterIds: [],
     status: WateringPlanStatus.WateringPlanStatusPlanned,
     cancellationNote: '',
+    userIds: [],
   })
   
   const formStore = useFormStore((state: FormStore<WateringPlanForm>) => ({
@@ -102,7 +104,6 @@ function NewWateringPlan() {
         data.trailerId && data.trailerId !== -1
           ? data.trailerId
           : undefined,
-      usersIds: [],
     })
   }
 
@@ -147,6 +148,7 @@ function NewWateringPlan() {
           onSubmit={onSubmit}
           trailers={trailers.data}
           transporters={transporters.data}
+          users={users.data}
           onAddCluster={navigateToClusterSelect}
         />
       </section>

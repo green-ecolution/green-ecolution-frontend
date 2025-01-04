@@ -38,6 +38,7 @@ const WateringPlanStatusUpdate = ({
       treeClusterIds: data.treeclusters.map((cluster) => cluster.id),
       status: data.status,
       cancellationNote: data.cancellationNote,
+      userIds: data.userIds,
     })
   )
 

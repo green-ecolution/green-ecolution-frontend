@@ -56,6 +56,10 @@ export const WateringPlanSchema = (isCreate: boolean) => {
       .array(z.number())
       .min(1, 'Bewässerungsgruppen sind erforderlich.')
       .default([]),
+    userIds: z
+      .array(z.string())
+      .min(1, 'Mitarbeitenden sind erforderlich.')
+      .default([]),
     transporterId: z.preprocess(
       (value) => parseInt(value as string, 10),
       z
