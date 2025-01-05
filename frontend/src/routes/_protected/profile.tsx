@@ -1,6 +1,7 @@
-import { createFileRoute, Link } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router'
 import useStore from '@/store/store'
-import { MoveRight, UserRound } from 'lucide-react'
+import { UserRound } from 'lucide-react'
+import { getUserRoleDetails, getUserStatusDetails } from '@/hooks/useDetailsForUser'
 
 export const Route = createFileRoute('/_protected/profile')({
   component: Sensors,
@@ -35,30 +36,12 @@ function Sensors() {
               {user.userRoles && user.userRoles.length > 0 && (
                 user.userRoles.map((role, key) => (
                   <li key={key} className="border w-fit border-green-light px-3 py-2 rounded-full text-dark-800 font-medium text-sm">
-                    {role}
+                    {getUserRoleDetails(role).label}
                   </li>
                 ))
               )}
             </ul>
           </div>
-        </div>
-
-        <div className="bg-dark-50 rounded-xl flex flex-col gap-y-3 p-6">
-          <span className="text-dark-700 font-semibold text-sm">
-            Deine Berechtigungen
-          </span>
-          <h3 className="text-2xl font-bold xl:text-3xl">Administrierende</h3>
-          <p>
-            Eine Beschreibung zu dieser Berechtigungsstufe finden Sie auf der
-            Übersichtsseite.
-          </p>
-          <Link
-            to="/user-roles"
-            className="font-lato font-semibold text-green-dark flex items-center gap-x-2 group"
-          >
-            Zu allen Berechtigungen
-            <MoveRight className="transition-all ease-in-out duration-300 group-hover:translate-x-2" />
-          </Link>
         </div>
       </section>
 
@@ -72,11 +55,11 @@ function Sensors() {
             <dt className="font-bold sm:inline">Vorname:</dt>
             <dd className="sm:inline sm:px-2">{user.firstName ?? 'Keine Angabe'}</dd>
           </div>
-          <div className="py-4 border-b border-b-dark-200 md:border-b-transparent">
+          <div className="py-4 border-b border-b-dark-200">
             <dt className="font-bold sm:inline">Nachname:</dt>
             <dd className="sm:inline sm:px-2">{user.lastName ?? 'Keine Angabe'}</dd>
           </div>
-          <div className="py-4 border-b border-b-dark-200">
+          <div className="py-4 border-b border-b-dark-200 md:border-b-transparent">
             <dt className="font-bold sm:inline">E-Mail:</dt>
             <dd className="sm:inline sm:px-2">{user.email ?? 'Keine Angabe'}</dd>
           </div>
@@ -85,7 +68,7 @@ function Sensors() {
         <div>
           <div className="py-4 border-b border-b-dark-200">
             <dt className="font-bold sm:inline">Verfügbarkeit:</dt>
-            <dd className="sm:inline sm:px-2">{user.status ?? 'Keine Angabe'}</dd>
+            <dd className="sm:inline sm:px-2">{getUserStatusDetails(user.status).label}</dd>
           </div>
           <div className="py-4 border-b border-b-dark-200">
             <dt className="font-bold sm:inline">Führerscheinklasse:</dt>
@@ -96,7 +79,7 @@ function Sensors() {
             <dd className="sm:inline sm:px-2">
               {user.userRoles && user.userRoles.length > 0 ? (
                 user.userRoles.map((role, key) => (
-                  <span key={key}>{role}&nbsp;</span>
+                  <span key={key}>{getUserRoleDetails(role).label}&nbsp;</span>
                 ))
               ) : (
                 <span>Keine Rollen zugewiesen</span>
