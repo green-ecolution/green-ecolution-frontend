@@ -17,9 +17,9 @@ interface FormForWateringPlanProps extends FormForProps<WateringPlanForm> {
 }
 
 const FormForWateringPlan = (props: FormForWateringPlanProps) => {
-  const { treeClusterIds } = useFormStore(
+  const { form } = useFormStore(
     (state: FormStore<WateringPlanForm>) => ({
-      treeClusterIds: state.form?.treeClusterIds,
+      form: state.form,
     })
   )
 
@@ -72,10 +72,11 @@ const FormForWateringPlan = (props: FormForWateringPlanProps) => {
               value: user.id,
             })),
           ]}
+          multiple
           placeholder="Wählen Sie Mitarbeitende aus"
           label="Verknüpfte Mitarbeitende"
+          description="Indem Sie die Taste »Shift« gedrückt halten, können Sie eine Mehrauswahl tätigen."
           required
-          multiple
           error={errors.userIds?.message}
           {...props.register('userIds')}
         />
@@ -89,7 +90,7 @@ const FormForWateringPlan = (props: FormForWateringPlanProps) => {
 
       <SelectEntities
         onDelete={props.onAddCluster}
-        entityIds={treeClusterIds || []}
+        entityIds={form?.treeClusterIds || []}
         onAdd={props.onAddCluster}
         type="cluster"
         required
