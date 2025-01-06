@@ -12,6 +12,7 @@ import ButtonLink from '../general/links/ButtonLink'
 import { useMutation } from '@tanstack/react-query'
 import useStore from '@/store/store'
 import { basePath } from '@/api/backendApi'
+import useToast from '@/hooks/useToast'
 
 interface WateringPlanDashboardProps {
   wateringPlan: WateringPlan
@@ -24,6 +25,7 @@ const WateringPlanDashboard = ({
   const { accessToken } = useStore(state => ({
     accessToken: state.auth.token?.accessToken
   }))
+  const showToast = useToast()
 
   const date = wateringPlan?.date
     ? format(new Date(wateringPlan?.date), 'dd.MM.yyyy')
@@ -54,6 +56,10 @@ const WateringPlanDashboard = ({
         }
       })
 
+      if (resp.status !== 200) {
+        throw new Error((await resp.json()).error)
+      }
+
       const blob = await resp.blob()
 
       const objUrl = window.URL.createObjectURL(blob)
@@ -64,6 +70,9 @@ const WateringPlanDashboard = ({
       a.click()
 
       window.URL.revokeObjectURL(objUrl)
+    },
+    onError: (error) => {
+      showToast(error.message + " (TODO: display error icon)")
     }
   })
 
