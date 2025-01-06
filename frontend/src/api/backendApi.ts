@@ -16,7 +16,6 @@ import {
   UserApi,
   VehicleApi,
   WateringPlanApi,
-  RouteApi
 } from '@green-ecolution/backend-client'
 import { redirect } from '@tanstack/react-router'
 
@@ -88,7 +87,6 @@ export const sensorApi = new SensorApi(config)
 export const vehicleApi = new VehicleApi(config)
 export const pluginApi = new PluginApi(config)
 export const wateringPlanApi = new WateringPlanApi(config)
-export const routeApi = new RouteApi(config)
 export const importApi = new FileImportApi(
   new Configuration({
     ...configParams,
