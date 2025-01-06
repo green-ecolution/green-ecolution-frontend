@@ -20,8 +20,8 @@ const SensorDashboard = ({ sensor }: SensorDashboardProps) => {
   const createdDate = sensor?.createdAt
     ? format(new Date(sensor?.createdAt), 'dd.MM.yyyy')
     : 'Keine Angabe'
-  const updatedDate = sensor?.createdAt
-    ? formatDistanceToNow(sensor?.updatedAt, { locale: de })
+  const updatedDate = sensor?.latestData?.createdAt
+    ? formatDistanceToNow(sensor?.latestData?.updatedAt, { locale: de })
     : 'Keine Angabe'
 
   const generalSensorData = [

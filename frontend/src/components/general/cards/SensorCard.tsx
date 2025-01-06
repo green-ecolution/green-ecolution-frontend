@@ -1,12 +1,12 @@
 import { Sensor } from '@green-ecolution/backend-client'
 import { format, formatDistanceToNow } from 'date-fns'
-import { de } from 'date-fns/locale';
 import React from 'react'
 import Pill from '../Pill'
 import { getSensorStatusDetails } from '@/hooks/useDetailsForSensorStatus'
 import { useQuery } from '@tanstack/react-query'
 import { treeSensorIdQuery } from '@/api/queries'
 import { Link } from '@tanstack/react-router'
+import { de } from 'date-fns/locale'
 
 interface SensorCard {
   sensor: Sensor
@@ -15,13 +15,13 @@ interface SensorCard {
 const SensorCard: React.FC<SensorCard> = ({ sensor }) => {
   const sensorId = String(sensor.id)
 
-  const { data: treeRes } = useQuery(treeSensorIdQuery(sensorId));
+  const { data: treeRes } = useQuery(treeSensorIdQuery(sensorId))
   const statusDetails = getSensorStatusDetails(sensor.status)
   const createdDate = sensor?.createdAt
     ? format(new Date(sensor?.createdAt), 'dd.MM.yyyy')
     : 'Keine Angabe'
-  const updatedDate = sensor?.createdAt
-    ? formatDistanceToNow(sensor?.updatedAt, { locale: de })
+  const updatedDate = sensor?.latestData?.createdAt
+    ? formatDistanceToNow(sensor?.latestData?.updatedAt, { locale: de })
     : 'Keine Angabe'
 
   return (
