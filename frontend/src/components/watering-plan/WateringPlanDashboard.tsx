@@ -9,6 +9,9 @@ import Tabs from '../general/Tabs'
 import TreeClusterList from '../treecluster/TreeClusterList'
 import { WateringPlan } from '@green-ecolution/backend-client'
 import ButtonLink from '../general/links/ButtonLink'
+import { useMutation } from '@tanstack/react-query'
+import useStore from '@/store/store'
+import { basePath } from '@/api/backendApi'
 
 interface WateringPlanDashboardProps {
   wateringPlan: WateringPlan
@@ -18,6 +21,9 @@ const WateringPlanDashboard = ({
   wateringPlan,
 }: WateringPlanDashboardProps) => {
   const statusDetails = getWateringPlanStatusDetails(wateringPlan.status)
+  const { accessToken } = useStore(state => ({
+    accessToken: state.auth.token?.accessToken
+  }))
 
   const date = wateringPlan?.date
     ? format(new Date(wateringPlan?.date), 'dd.MM.yyyy')
@@ -38,6 +44,29 @@ const WateringPlanDashboard = ({
     ],
     [wateringPlan]
   )
+
+  const { mutate } = useMutation({
+    mutationFn: async () => {
+      const resp = await fetch(`${basePath}${wateringPlan.gpxUrl}`, {
+        method: "GET",
+        headers: {
+          "Authorization": `Bearer ${accessToken}`
+        }
+      })
+
+      const blob = await resp.blob()
+
+      const objUrl = window.URL.createObjectURL(blob)
+
+      const a = document.createElement("a")
+      a.href = objUrl
+      a.download = resp.headers.get("Content-Disposition")?.split("filename=")[1] ?? "route.gpx"
+      a.click()
+
+      window.URL.revokeObjectURL(objUrl)
+    }
+  })
+
 
   return (
     <>
@@ -64,6 +93,9 @@ const WateringPlanDashboard = ({
               icon={MoveRight}
             />
           )}
+          <button
+            onClick={() => mutate()}
+          >Route herunterladen</button>
         </div>
         <ButtonLink
           icon={Pencil}
