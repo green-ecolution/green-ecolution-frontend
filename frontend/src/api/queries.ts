@@ -132,12 +132,13 @@ export const userQuery = (params?: { userIds: string }) => {
   })
 }
 
-export const routePreviewQuery = (vehicleId: number, clusterIds: number[]) =>
+export const routePreviewQuery = (transporterId: number, clusterIds: number[], trailerId?: number,) =>
   queryOptions<GeoJson>({
-    queryKey: ['route', 'preview', `vehicle:${vehicleId}`, ...clusterIds],
+    queryKey: ['route', 'preview', `transporter:${transporterId}`, ...clusterIds],
     queryFn: () => wateringPlanApi.v1WateringPlanRoutePreviewPost({
       body: {
-        vehicleId,
+        transporterId: Number(transporterId), // TODO: don't know what goes wrong here
+        trailerId: Number(trailerId),
         clusterIds
       }
     }),

@@ -102,7 +102,7 @@ function SelectCluster() {
         }
       />
       <WithAllClusters onClick={handleClick} highlightedClusters={clusterIds} />
-      {clusterIds.length > 0 && <ShowRoutePreview selectedClustersIds={clusterIds} vehicleId={1} />}
+      {(clusterIds.length > 0 && form?.transporterId && form?.transporterId != -1) && <ShowRoutePreview selectedClustersIds={clusterIds} transporterId={form?.transporterId} trailerId={form.trailerId} />}
     </>
   )
 }
