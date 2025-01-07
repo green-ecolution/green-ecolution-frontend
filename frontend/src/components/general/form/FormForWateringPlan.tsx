@@ -4,7 +4,7 @@ import Select from './types/Select'
 import Textarea from './types/Textarea'
 import FormError from './FormError'
 import { WateringPlanForm } from '@/schema/wateringPlanSchema'
-import { Vehicle } from '@green-ecolution/backend-client'
+import { User, Vehicle } from '@green-ecolution/backend-client'
 import { FormForProps } from './FormForTreecluster'
 import SelectEntities from './types/SelectEntities'
 import useFormStore, { FormStore } from '@/store/form/useFormStore'
@@ -12,13 +12,14 @@ import useFormStore, { FormStore } from '@/store/form/useFormStore'
 interface FormForWateringPlanProps extends FormForProps<WateringPlanForm> {
   transporters: Vehicle[]
   trailers: Vehicle[]
+  users: User[]
   onAddCluster: () => void
 }
 
 const FormForWateringPlan = (props: FormForWateringPlanProps) => {
-  const { treeClusterIds } = useFormStore(
+  const { form } = useFormStore(
     (state: FormStore<WateringPlanForm>) => ({
-      treeClusterIds: state.form?.treeClusterIds,
+      form: state.form,
     })
   )
 
@@ -64,6 +65,21 @@ const FormForWateringPlan = (props: FormForWateringPlanProps) => {
           error={errors.trailerId?.message}
           {...props.register('trailerId')}
         />
+        <Select
+          options={[
+            ...props.users.map((user) => ({
+              label: `${user.firstName} ${user.lastName}`,
+              value: user.id,
+            })),
+          ]}
+          multiple
+          placeholder="Wählen Sie Mitarbeitende aus"
+          label="Verknüpfte Mitarbeitende"
+          description="Indem Sie die Taste »Shift« gedrückt halten, können Sie eine Mehrauswahl tätigen."
+          required
+          error={errors.userIds?.message}
+          {...props.register('userIds')}
+        />
         <Textarea
           placeholder="Hier ist Platz für Notizen"
           label="Kurze Beschreibung"
@@ -74,9 +90,10 @@ const FormForWateringPlan = (props: FormForWateringPlanProps) => {
 
       <SelectEntities
         onDelete={props.onAddCluster}
-        entityIds={treeClusterIds || []}
+        entityIds={form?.treeClusterIds || []}
         onAdd={props.onAddCluster}
         type="cluster"
+        required
         label="Bewässerungsgruppen"
       />
 

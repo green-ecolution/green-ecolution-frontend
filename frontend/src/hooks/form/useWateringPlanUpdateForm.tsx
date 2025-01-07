@@ -45,7 +45,6 @@ export const useWateringPlanUpdateForm = ({
       date: data.date.toISOString(),
       trailerId:
         data.trailerId && data.trailerId !== -1 ? data.trailerId : undefined,
-      usersIds: [], // TODO: add user ids
     })
   }
 

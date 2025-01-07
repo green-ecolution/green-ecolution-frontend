@@ -2,7 +2,7 @@ import { useSuspenseQuery } from '@tanstack/react-query'
 import BackLink from '../general/links/BackLink'
 import { WateringPlan } from '@green-ecolution/backend-client'
 import { useInitFormQuery } from '@/hooks/form/useInitForm'
-import { vehicleQuery, wateringPlanIdQuery } from '@/api/queries'
+import { userQuery, vehicleQuery, wateringPlanIdQuery } from '@/api/queries'
 import { format } from 'date-fns'
 import FormForWateringPlan from '../general/form/FormForWateringPlan'
 import { useNavigate } from '@tanstack/react-router'
@@ -37,6 +37,7 @@ const WateringPlanUpdate = ({
       treeClusterIds: data.treeclusters.map((cluster) => cluster.id),
       status: data.status,
       cancellationNote: data.cancellationNote,
+      userIds: data.userIds,
     })
   )
 
@@ -45,6 +46,7 @@ const WateringPlanUpdate = ({
     ? format(new Date(loadedData?.date), 'dd.MM.yyyy')
     : 'Keine Angabe'
 
+  const { data: users } = useSuspenseQuery(userQuery())
   const { data: trailers } = useSuspenseQuery(vehicleQuery({ type: 'trailer' }))
   const { data: transporters } = useSuspenseQuery(
     vehicleQuery({ type: 'transporter' })
@@ -124,6 +126,7 @@ const WateringPlanUpdate = ({
           displayError={isError}
           formState={formState}
           onSubmit={onSubmit}
+          users={users.data}
           trailers={trailers.data}
           transporters={transporters.data}
           onAddCluster={navigateToClusterSelect}
