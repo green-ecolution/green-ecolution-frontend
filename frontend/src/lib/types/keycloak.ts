@@ -17,4 +17,7 @@ export type KeycloakJWT = {
   given_name: string;
   family_name: string;
   email: string;
+  driving_license: string;
+  user_roles: string[];
+  status: string;
 };
