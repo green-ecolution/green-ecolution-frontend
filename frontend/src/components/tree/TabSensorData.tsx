@@ -13,18 +13,10 @@ interface TabSensorDataProps {
 const TabSensorData: React.FC<TabSensorDataProps> = ({ tree }) => {
   const updatedDate = tree?.sensor?.updatedAt
     ? format(new Date(tree?.sensor?.updatedAt), 'dd.MM.yyyy')
-    : 'Keine Angabe'
-  const updatedTime = tree?.sensor?.updatedAt
-    ? format(new Date(tree?.sensor?.updatedAt), 'HH:mm')
-    : 'Keine Angabe'
-
-  const statusCards = [
-    {
-      overline: 'Letzte Messung',
-      value: `${updatedTime} Uhr`,
-      description: `am ${updatedDate}`,
-    },
-  ]
+    : 'Keine Angabe';
+  const updatedTime = tree?.sensor?.latestData?.updatedAt
+    ? format(new Date(tree?.sensor?.latestData?.updatedAt).getTime(), 'HH:mm')
+    : 'Keine Angabe';
 
   const sensorStatus = tree?.sensor?.status ?? SensorStatus.SensorStatusUnknown
 
@@ -37,16 +29,26 @@ const TabSensorData: React.FC<TabSensorDataProps> = ({ tree }) => {
             label="Status der Sensoren"
           />
         </li>
-        {statusCards.map((card, key) => (
-          <li key={key}>
-            <GeneralStatusCard
-              overline={card.overline}
-              value={card.value}
-              isLarge
-              description={card.description}
-            />
-          </li>
-        ))}
+        <li>
+          <GeneralStatusCard
+            overline="Akkustand"
+            value={
+              tree?.sensor?.latestData?.battery
+                ? `${tree?.sensor?.latestData?.battery} V`
+                : 'Keine Angabe'
+            }
+            isLarge
+            description="Ab einem Wert von 2.8 V schaltet sich die Batterie ab."
+          />
+        </li>
+        <li>
+          <GeneralStatusCard
+            overline="Letzte Messung"
+            value={`${updatedTime} Uhr`}
+            isLarge
+            description={`am ${updatedDate}`}
+          />
+        </li>
       </ul>
       <GeneralLink
         label="Zum Verknüpften Sensor"

@@ -5,7 +5,6 @@ import GeneralStatusCard from '@/components/general/cards/GeneralStatusCard'
 import BackLink from '@/components/general/links/BackLink'
 import GeneralLink from '../general/links/GeneralLink'
 import { getSensorStatusDetails } from '@/hooks/useDetailsForSensorStatus'
-import { getVoltageQualityDetails } from '@/hooks/useDetailsForSensorBattery'
 import { format, formatDistanceToNow } from 'date-fns'
 import { de } from 'date-fns/locale'
 import DetailedList from '../general/DetailedList'
@@ -16,18 +15,13 @@ interface SensorDashboardProps {
 }
 
 const SensorDashboard = ({ sensor }: SensorDashboardProps) => {
-  // TODO: use real data
-  const exampleSensorData = {
-    battery: 3.1,
-  }
-
   const { data: linkedTree } = useQuery(treeSensorIdQuery(sensor.id))
 
   const createdDate = sensor?.createdAt
     ? format(new Date(sensor?.createdAt), 'dd.MM.yyyy')
     : 'Keine Angabe'
-  const updatedDate = sensor?.createdAt
-    ? formatDistanceToNow(sensor?.updatedAt, { locale: de })
+  const updatedDate = sensor?.latestData?.createdAt
+    ? formatDistanceToNow(sensor?.latestData?.updatedAt, { locale: de })
     : 'Keine Angabe'
 
   const generalSensorData = [
@@ -81,16 +75,20 @@ const SensorDashboard = ({ sensor }: SensorDashboardProps) => {
             />
           </li>
           <li>
-            <EntitiesStatusCard
-              statusDetails={getVoltageQualityDetails(
-                exampleSensorData.battery
-              )}
-              label="Akkustand"
+            <GeneralStatusCard
+              overline="Akkustand"
+              value={
+                sensor?.latestData?.battery
+                  ? `${sensor?.latestData?.battery} V`
+                  : 'Keine Angabe'
+              }
+              isLarge
+              description="Ab einem Wert von 2.8 V schaltet sich die Batterie ab."
             />
           </li>
           <li>
             <GeneralStatusCard
-              overline="Letzte Messung"
+              overline="Letztes Update"
               value={updatedDate}
               description="Letzte Datenübermittlung"
             />
