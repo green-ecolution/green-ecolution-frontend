@@ -21,6 +21,7 @@ import {
   WateringPlan,
   UserList,
   userApi,
+  GeoJson,
 } from './backendApi'
 
 export const treeClusterQuery = () =>
@@ -130,3 +131,15 @@ export const userQuery = (params?: { userIds: string }) => {
     queryFn: () => userApi.getAllUsers(params),
   })
 }
+
+export const routePreviewQuery = (transporterId: number, clusterIds: number[], trailerId?: number,) =>
+  queryOptions<GeoJson>({
+    queryKey: ['route', 'preview', `transporter:${transporterId}`, ...clusterIds],
+    queryFn: () => wateringPlanApi.v1WateringPlanRoutePreviewPost({
+      body: {
+        transporterId: Number(transporterId), // TODO: don't know what goes wrong here
+        trailerId: Number(trailerId),
+        clusterIds
+      }
+    }),
+  })

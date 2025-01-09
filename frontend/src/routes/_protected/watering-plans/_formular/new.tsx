@@ -53,13 +53,13 @@ function NewWateringPlan() {
     date: new Date().toISOString().substring(0, 10),
     description: '',
     transporterId: -1,
-    trailerId: -1,
+    trailerId: -1, // TODO: why not undefined?
     treeClusterIds: [],
     status: WateringPlanStatus.WateringPlanStatusPlanned,
     cancellationNote: '',
     userIds: [],
   })
-  
+
   const formStore = useFormStore((state: FormStore<WateringPlanForm>) => ({
     form: state.form,
     reset: state.reset,

@@ -38,5 +38,5 @@ function SingleWateringPlan() {
     </div>
   )
 }
- 
+
 export default WateringPlanDashboard

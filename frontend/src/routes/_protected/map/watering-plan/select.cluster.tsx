@@ -6,6 +6,7 @@ import useFormStore, { FormStore } from '@/store/form/useFormStore'
 import { WateringPlanForm } from '@/schema/wateringPlanSchema'
 import MapSelectEntitiesModal from '@/components/map/MapSelectEntitiesModal'
 import WithAllClusters from '@/components/map/marker/WithAllClusters'
+import ShowRoutePreview from '@/components/map/marker/ShowRoutePreview'
 
 export const Route = createFileRoute(
   '/_protected/map/watering-plan/select/cluster'
@@ -57,7 +58,7 @@ function SelectCluster() {
     form &&
       set({
         ...form,
-        treeClusterIds:clusterIds,
+        treeClusterIds: clusterIds,
       })
 
     handleNavigateBack()
@@ -101,6 +102,7 @@ function SelectCluster() {
         }
       />
       <WithAllClusters onClick={handleClick} highlightedClusters={clusterIds} />
+      {(clusterIds.length > 0 && form?.transporterId && form?.transporterId != -1) && <ShowRoutePreview selectedClustersIds={clusterIds} transporterId={form?.transporterId} trailerId={form.trailerId} />}
     </>
   )
 }

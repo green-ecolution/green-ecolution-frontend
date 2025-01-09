@@ -19,7 +19,7 @@ import {
 } from '@green-ecolution/backend-client'
 import { redirect } from '@tanstack/react-router'
 
-const basePath = import.meta.env.VITE_BACKEND_BASEURL ?? '/api-local'
+export const basePath = import.meta.env.VITE_BACKEND_BASEURL ?? '/api-local'
 
 const headers: HTTPHeaders = {
   'Content-Type': 'application/json',
