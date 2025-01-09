@@ -19,16 +19,16 @@ export const Route = createFileRoute('/_protected/vehicles/$vehicleId/')({
 
 function SingleVehicle() {
   const vehicleId = Route.useParams().vehicleId
-  const { vehicle } = Route.useLoaderData();
-  
+  const { vehicle } = Route.useLoaderData()
+
   return (
     <div className="container mt-6">
       <Suspense fallback={<LoadingInfo label="Fahrzeug wird geladen …" />}>
         <ErrorBoundary
           fallback={
             <p className="text-red text-lg font-semibold">
-              Ein Fahrzeug mit der Identifikationsnummer {vehicleId}&nbsp;
-              gibt es nicht oder die Fahrzeugdaten konnten nicht geladen werden
+              Ein Fahrzeug mit der Identifikationsnummer {vehicleId}&nbsp; gibt
+              es nicht oder die Fahrzeugdaten konnten nicht geladen werden
             </p>
           }
         >

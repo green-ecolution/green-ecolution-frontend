@@ -42,6 +42,7 @@ function NewVehicle() {
     height: 1,
     width: 1,
     length: 1,
+    weight: 1,
     model: '',
     waterCapacity: 1,
     description: '',
@@ -88,9 +89,12 @@ function NewVehicle() {
           Neues Fahrzeug erstellen
         </h1>
         <p className="mb-5">
-          In dieser Ansicht können Sie ein neues Fahrzeug anlegen.
-          Bitte beachten Sie, dass jedes Fahrzeug ein eindeutiges Kennzeichen besitzen muss, da keine doppelten Kennzeichen erlaubt sind.
-          Zusätzlich müssen die Abmessungen des Fahrzeugs hinterlegt werden, damit das Navigationssystem bei einer Bewässerungsfahrt ermitteln kann, welche Strecken für das Fahrzeug befahrbar sind.
+          In dieser Ansicht können Sie ein neues Fahrzeug anlegen. Bitte
+          beachten Sie, dass jedes Fahrzeug ein eindeutiges Kennzeichen besitzen
+          muss, da keine doppelten Kennzeichen erlaubt sind. Zusätzlich müssen
+          die Abmessungen des Fahrzeugs hinterlegt werden, damit das
+          Navigationssystem bei einer Bewässerungsfahrt ermitteln kann, welche
+          Strecken für das Fahrzeug befahrbar sind.
         </p>
       </article>
 

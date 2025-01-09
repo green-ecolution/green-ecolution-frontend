@@ -38,6 +38,7 @@ const VehicleUpdate = ({
       height: data.height,
       width: data.width,
       length: data.length,
+      weight: data.weight,
       model: data.model,
       waterCapacity: data.waterCapacity,
       description: data.description,
@@ -48,7 +49,7 @@ const VehicleUpdate = ({
     form: state.form,
     reset: state.reset,
   }))
-  
+
   const { register, handleSubmit, formState } = useFormSync<VehicleForm>(
     initForm,
     zodResolver(VehicleSchema)

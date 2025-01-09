@@ -62,7 +62,7 @@ const FormForVehicle = (props: FormForProps<VehicleForm>) => {
         required
         error={errors.drivingLicense?.message}
         {...props.register('drivingLicense')}
-      />     
+      />
       <Input
         placeholder="Höhe des Fahrzeugs"
         label="Höhe des Fahrzeugs (in Metern)"
@@ -71,7 +71,7 @@ const FormForVehicle = (props: FormForProps<VehicleForm>) => {
         required
         error={errors.height?.message}
         {...props.register('height')}
-      /> 
+      />
       <Input
         placeholder="Breite des Fahrzeugs"
         label="Breite des Fahrzeugs (in Metern)"
@@ -80,12 +80,6 @@ const FormForVehicle = (props: FormForProps<VehicleForm>) => {
         required
         error={errors.width?.message}
         {...props.register('width')}
-      />
-      <Textarea
-        placeholder="Hier ist Platz für Notizen"
-        label="Kurze Beschreibung"
-        error={errors.description?.message}
-        {...props.register('description')}
       />
       <Input
         placeholder="Länge des Fahrzeugs"
@@ -96,7 +90,22 @@ const FormForVehicle = (props: FormForProps<VehicleForm>) => {
         error={errors.length?.message}
         {...props.register('length')}
       />
-      
+      <Input
+        placeholder="Gewicht des Fahrzeugs"
+        label="Gewicht des Fahrzeugs (in Kilogramm)"
+        type="number"
+        step="0.1"
+        required
+        error={errors.weight?.message}
+        {...props.register('weight')}
+      />
+      <Textarea
+        placeholder="Hier ist Platz für Notizen"
+        label="Kurze Beschreibung"
+        error={errors.description?.message}
+        {...props.register('description')}
+      />
+
       <FormError
         show={props.displayError}
         error="Es ist leider ein Problem aufgetreten. Bitte probieren Sie es erneut oder wenden Sie sich an einen Systemadministrierenden."
