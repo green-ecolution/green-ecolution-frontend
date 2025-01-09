@@ -27,8 +27,8 @@ function SingleVehicle() {
         <ErrorBoundary
           fallback={
             <p className="text-red text-lg font-semibold">
-              Ein Fahrzeug mit der Identifikationsnummer {vehicleId}&nbsp; gibt
-              es nicht oder die Fahrzeugdaten konnten nicht geladen werden
+              Ein Fahrzeug mit der Identifikationsnummer {vehicleId}&nbsp;
+              gibt es nicht oder die Fahrzeugdaten konnten nicht geladen werden
             </p>
           }
         >

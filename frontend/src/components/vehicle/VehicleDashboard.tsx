@@ -47,7 +47,7 @@ const VehicleDashboard = ({ vehicle }: VehicleDashboardProps) => {
     },
     {
       label: 'Gewicht des Fahrzeugs',
-      value: vehicle?.weight ? `${vehicle.weight} Kilogramm` : 'Keine Angabe',
+      value: vehicle?.weight ? `${vehicle.weight} Tonnen` : 'Keine Angabe',
     },
   ]
 

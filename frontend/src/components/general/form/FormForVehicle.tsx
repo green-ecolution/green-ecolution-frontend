@@ -92,7 +92,7 @@ const FormForVehicle = (props: FormForProps<VehicleForm>) => {
       />
       <Input
         placeholder="Gewicht des Fahrzeugs"
-        label="Gewicht des Fahrzeugs (in Kilogramm)"
+        label="Gewicht des Fahrzeugs (in Tonnen)"
         type="number"
         step="0.1"
         required
