@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { treeClusterIdQuery, treeClusterQuery, vehicleQuery } from '@/api/queries'
+import { treeClusterIdQuery, treeClusterQuery } from '@/api/queries'
 import useToast from '@/hooks/useToast'
 import { useNavigate } from '@tanstack/react-router'
 import { TreeCluster, TreeClusterCreate, TreeClusterUpdate } from '@green-ecolution/backend-client'

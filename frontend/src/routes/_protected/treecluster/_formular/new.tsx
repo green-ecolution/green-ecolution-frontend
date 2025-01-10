@@ -42,8 +42,6 @@ function NewTreecluster() {
     useFormSync<TreeclusterForm>(initForm, zodResolver(TreeclusterSchema))
 
   const onSubmit: SubmitHandler<TreeclusterForm> = (data) => {
-    console.log("onSubmit")
-    console.log(data)
     mutate({
       ...data,
       treeIds: formStore.form?.treeIds ?? [],
