@@ -1,6 +1,9 @@
 import BackLink from '../general/links/BackLink'
 import Pill from '../general/Pill'
-import { getWateringPlanStatusDetails, showWateringPlanStatusButton } from '@/hooks/useDetailsForWateringPlanStatus'
+import {
+  getWateringPlanStatusDetails,
+  showWateringPlanStatusButton,
+} from '@/hooks/useDetailsForWateringPlanStatus'
 import { format } from 'date-fns'
 import { File, FolderClosed, MoveRight, Pencil } from 'lucide-react'
 import TabGeneralData from './TabGeneralData'
@@ -13,6 +16,7 @@ import { useMutation } from '@tanstack/react-query'
 import useStore from '@/store/store'
 import { basePath } from '@/api/backendApi'
 import useToast from '@/hooks/useToast'
+import LinkAsButton from '../general/buttons/LinkButton'
 
 interface WateringPlanDashboardProps {
   wateringPlan: WateringPlan
@@ -22,8 +26,8 @@ const WateringPlanDashboard = ({
   wateringPlan,
 }: WateringPlanDashboardProps) => {
   const statusDetails = getWateringPlanStatusDetails(wateringPlan.status)
-  const { accessToken } = useStore(state => ({
-    accessToken: state.auth.token?.accessToken
+  const { accessToken } = useStore((state) => ({
+    accessToken: state.auth.token?.accessToken,
   }))
   const showToast = useToast()
 
@@ -50,10 +54,10 @@ const WateringPlanDashboard = ({
   const { mutate } = useMutation({
     mutationFn: async () => {
       const resp = await fetch(`${basePath}${wateringPlan.gpxUrl}`, {
-        method: "GET",
+        method: 'GET',
         headers: {
-          "Authorization": `Bearer ${accessToken}`
-        }
+          Authorization: `Bearer ${accessToken}`,
+        },
       })
 
       if (resp.status !== 200) {
@@ -64,9 +68,11 @@ const WateringPlanDashboard = ({
 
       const objUrl = window.URL.createObjectURL(blob)
 
-      const a = document.createElement("a")
+      const a = document.createElement('a')
       a.href = objUrl
-      a.download = resp.headers.get("Content-Disposition")?.split("filename=")[1] ?? "route.gpx"
+      a.download =
+        resp.headers.get('Content-Disposition')?.split('filename=')[1] ??
+        'route.gpx'
       a.click()
 
       window.URL.revokeObjectURL(objUrl)
@@ -75,7 +81,6 @@ const WateringPlanDashboard = ({
       showToast(error.message, 'error')
     }
   })
-
 
   return (
     <>
@@ -92,19 +97,22 @@ const WateringPlanDashboard = ({
           {wateringPlan.description && (
             <p className="mb-4">{wateringPlan.description}</p>
           )}
-          {showWateringPlanStatusButton(wateringPlan) && (
-            <ButtonLink
-              link={{
-                to: '/watering-plans/$wateringPlanId/status/edit',
-                params: { wateringPlanId: wateringPlan.id.toString() },
-              }}
-              label="Status aktualisieren"
-              icon={MoveRight}
+          <div className="flex flex-wrap gap-4 items-center">
+            {showWateringPlanStatusButton(wateringPlan) && (
+              <ButtonLink
+                link={{
+                  to: '/watering-plans/$wateringPlanId/status/edit',
+                  params: { wateringPlanId: wateringPlan.id.toString() },
+                }}
+                label="Status aktualisieren"
+                icon={MoveRight}
+              />
+            )}
+            <LinkAsButton
+              label="Route herunterladen"
+              onClick={() => mutate()}
             />
-          )}
-          <button
-            onClick={() => mutate()}
-          >Route herunterladen</button>
+          </div>
         </div>
         <ButtonLink
           icon={Pencil}

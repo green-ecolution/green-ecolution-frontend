@@ -56,6 +56,7 @@ export const useVehicleForm = (mutationType: 'create' | 'update', vehicleId?: st
       console.error('Error with vehicle mutation:', error)
       showToast(`Fehlermeldung: ${error.message || 'Unbekannter Fehler'}`, 'error')
     },
+    throwOnError: true,
   })
 
   return {

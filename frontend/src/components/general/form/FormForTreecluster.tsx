@@ -17,6 +17,7 @@ import SelectEntities from "./types/SelectEntities";
 
 export type FormForProps<T extends FieldValues> = {
   displayError: boolean;
+  errorMessage?: string;
   register: UseFormRegister<T>;
   onSubmit: SubmitHandler<T>;
   formState: FormState<T>;

@@ -1,9 +1,7 @@
-import { useMutation } from '@tanstack/react-query'
 import BackLink from '../general/links/BackLink'
 import DeleteSection from '../treecluster/DeleteSection'
 import {
   Vehicle,
-  VehicleUpdate as UpdateVehicle,
 } from '@green-ecolution/backend-client'
 import { useInitFormQuery } from '@/hooks/form/useInitForm'
 import { vehicleIdQuery } from '@/api/queries'
@@ -15,19 +13,16 @@ import LoadingInfo from '../general/error/LoadingInfo'
 import { VehicleForm, VehicleSchema } from '@/schema/vehicleSchema'
 import FormForVehicle from '../general/form/FormForVehicle'
 import { useFormSync } from '@/hooks/form/useFormSync'
-import useFormStore, { FormStore } from '@/store/form/useFormStore'
+import { useVehicleForm } from '@/hooks/form/useVehicleForm'
 
 interface VehicleUpdateProps {
   vehicleId: string
-  onUpdateSuccess: (data: Vehicle) => void
-  onUpdateError: () => void
 }
 
 const VehicleUpdate = ({
   vehicleId,
-  onUpdateError,
-  onUpdateSuccess,
 }: VehicleUpdateProps) => {
+  const { mutate, isError, error } = useVehicleForm('update', vehicleId)  
   const { initForm, loadedData } = useInitFormQuery<Vehicle, VehicleForm>(
     vehicleIdQuery(vehicleId),
     (data) => ({
@@ -38,35 +33,20 @@ const VehicleUpdate = ({
       height: data.height,
       width: data.width,
       length: data.length,
+      weight: data.weight,
       model: data.model,
       waterCapacity: data.waterCapacity,
       description: data.description,
     })
   )
 
-  const formStore = useFormStore((state: FormStore<VehicleForm>) => ({
-    form: state.form,
-    reset: state.reset,
-  }))
-  
   const { register, handleSubmit, formState } = useFormSync<VehicleForm>(
     initForm,
     zodResolver(VehicleSchema)
   )
 
-  const { isError, mutate } = useMutation({
-    mutationFn: (body: UpdateVehicle) =>
-      vehicleApi.updateVehicle({ id: vehicleId, body }),
-    onSuccess: (data) => onUpdateSuccess(data),
-    onError: () => onUpdateError(),
-    throwOnError: true,
-  })
-
   const onSubmit: SubmitHandler<VehicleForm> = async (data) => {
-    mutate({
-      ...data,
-      description: formStore.form?.description ?? '',
-    })
+    mutate({...data})
   }
 
   const handleDeleteVehicle = () => {
@@ -98,6 +78,7 @@ const VehicleUpdate = ({
           formState={formState}
           onSubmit={onSubmit}
           displayError={isError}
+          errorMessage={error?.message}
         />
       </section>
 
