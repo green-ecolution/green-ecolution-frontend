@@ -12,7 +12,6 @@ interface UserCard {
 const UserCard: React.FC<UserCard> = ({ user }) => {
   const statusDetails = getUserStatusDetails(user.status)
   const roleDetails = getUserRoleDetails(user.roles)
-  console.log(roleDetails)
 
   return (
     <div className="bg-white border border-dark-50 p-6 rounded-xl shadow-cards flex flex-col gap-y-4 lg:py-4 lg:grid lg:grid-cols-[1fr,1.5fr,1fr,1fr] lg:items-center lg:gap-5 xl:px-10">
