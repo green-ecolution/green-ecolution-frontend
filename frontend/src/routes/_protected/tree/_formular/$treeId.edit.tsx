@@ -1,5 +1,5 @@
 import { Tree } from '@/api/backendApi'
-import { TreeclusterSchema } from '@/schema/treeclusterSchema'
+import { TreeclusterForm } from '@/schema/treeclusterSchema'
 import useFormStore, { FormStore } from '@/store/form/useFormStore'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { Suspense } from 'react'
@@ -25,7 +25,7 @@ function EditTreeCluster() {
   const treeId = Route.useParams().treeId
   const queryClient = useQueryClient()
   const navigate = useNavigate({ from: Route.fullPath })
-  const formStore = useFormStore((state: FormStore<TreeclusterSchema>) => ({
+  const formStore = useFormStore((state: FormStore<TreeclusterForm>) => ({
     form: state.form,
     reset: state.reset,
   }))

@@ -10,7 +10,7 @@ import {
   UseFormRegister,
 } from "react-hook-form";
 import { SoilConditionOptions } from "@/hooks/useDetailsForSoilCondition";
-import { TreeclusterSchema } from "@/schema/treeclusterSchema";
+import { TreeclusterForm } from "@/schema/treeclusterSchema";
 import useFormStore, { FormStore } from "@/store/form/useFormStore";
 import FormError from "./FormError";
 import SelectEntities from "./types/SelectEntities";
@@ -26,21 +26,14 @@ export type FormForProps<T extends FieldValues> = {
   ) => (e?: React.BaseSyntheticEvent) => Promise<void>;
 };
 
-interface FormForTreeclusterProps extends FormForProps<TreeclusterSchema> {
+interface FormForTreeClusterProps extends FormForProps<TreeclusterForm> {
   onAddTrees: () => void;
   onDeleteTree: (treeId: number) => void;
 }
 
-const FormForTreecluster: React.FC<FormForTreeclusterProps> = ({
-  handleSubmit,
-  displayError,
-  register,
-  onSubmit,
-  onAddTrees,
-  onDeleteTree,
-  formState: { errors, isValid },
-}) => {
-  const { treeIds } = useFormStore((state: FormStore<TreeclusterSchema>) => ({
+const FormForTreecluster = (props: FormForTreeClusterProps) => {
+  const { errors, isValid } = props.formState
+  const { treeIds } = useFormStore((state: FormStore<TreeclusterForm>) => ({
     treeIds: state.form?.treeIds,
   }));
 
@@ -48,20 +41,20 @@ const FormForTreecluster: React.FC<FormForTreeclusterProps> = ({
     <form
       key="cluster-register"
       className="space-y-6 lg:space-y-0 lg:grid lg:grid-cols-2 lg:gap-11"
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={props.handleSubmit(props.onSubmit)}
     >
       <div className="space-y-6">
         <Input
           label="Name"
           error={errors.name?.message}
           required
-          {...register("name")}
+          {...props.register("name")}
         />
         <Input
           label="Adresse"
           required
           error={errors.address?.message}
-          {...register("address")}
+          {...props.register("address")}
         />
         <Select
           options={SoilConditionOptions}
@@ -69,27 +62,27 @@ const FormForTreecluster: React.FC<FormForTreeclusterProps> = ({
           label="Bodenbeschaffenheit"
           required
           error={errors.soilCondition?.message}
-          {...register("soilCondition")}
+          {...props.register("soilCondition")}
         />
         <Textarea
           placeholder="Hier ist Platz für Notizen"
           label="Kurze Beschreibung"
           error={errors.description?.message}
-          {...register("description")}
+          {...props.register("description")}
         />
       </div>
 
       <SelectEntities
-        onDelete={onDeleteTree}
+        onDelete={props.onDeleteTree}
         entityIds={treeIds ?? []}
-        onAdd={onAddTrees}
+        onAdd={props.onAddTrees}
         type="tree"
         label="Bäume"
       />
 
       <FormError
-        show={displayError}
-        error="Es ist leider ein Problem aufgetreten. Bitte probieren Sie es erneut oder wenden Sie sich an einen Systemadministrierenden."
+        show={props.displayError}
+        error={props.errorMessage}
       />
 
       <PrimaryButton

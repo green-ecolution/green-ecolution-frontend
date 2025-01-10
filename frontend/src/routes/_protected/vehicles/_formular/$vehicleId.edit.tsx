@@ -33,9 +33,7 @@ function EditVehicle() {
             </p>
           }
         >
-          <VehicleUpdate
-            vehicleId={vehicleId}
-          />
+          <VehicleUpdate vehicleId={vehicleId} />
         </ErrorBoundary>
       </Suspense>
     </div>
