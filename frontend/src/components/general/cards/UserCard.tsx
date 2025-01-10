@@ -1,6 +1,9 @@
 import React from 'react'
 import { User } from '@green-ecolution/backend-client'
-import { getUserRoleDetails, getUserStatusDetails } from '@/hooks/useDetailsForUser'
+import {
+  getUserRoleDetails,
+  getUserStatusDetails,
+} from '@/hooks/useDetailsForUser'
 
 interface UserCard {
   user: User
@@ -9,6 +12,7 @@ interface UserCard {
 const UserCard: React.FC<UserCard> = ({ user }) => {
   const statusDetails = getUserStatusDetails(user.status)
   const roleDetails = getUserRoleDetails(user.roles)
+  console.log(roleDetails)
 
   return (
     <div className="bg-white border border-dark-50 p-6 rounded-xl shadow-cards flex flex-col gap-y-4 lg:py-4 lg:grid lg:grid-cols-[1fr,1.5fr,1fr,1fr] lg:items-center lg:gap-5 xl:px-10">
@@ -20,7 +24,12 @@ const UserCard: React.FC<UserCard> = ({ user }) => {
 
       <p className="text-dark-800">
         <span className="lg:sr-only">Aufgabenbereich:&nbsp;</span>
-        {roleDetails.label}
+        {roleDetails.map((role, index) => (
+          <span key={index}>
+            {role.label}
+            {index < roleDetails.length - 1 ? ', ' : ''}
+          </span>
+        ))}
       </p>
 
       <p className="text-dark-800">

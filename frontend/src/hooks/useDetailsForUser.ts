@@ -41,7 +41,8 @@ type UserRoleDetails = (typeof UserRoleProperties)[UserRole | 'unknown'];
 
 export const getUserRoleDetails = (
   roles: { id: string; name: string }[]
-): UserRoleDetails => {
-  const primaryRole = roles.length > 0 ? roles[0].name : 'unknown';
-  return UserRoleProperties[primaryRole as UserRole] || UserRoleProperties.unknown;
+): UserRoleDetails[] => {
+  return roles.map(role => {
+    return UserRoleProperties[role.name as UserRole] || UserRoleProperties.unknown;
+  });
 };
