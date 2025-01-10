@@ -40,6 +40,11 @@ export const VehicleSchema = z.object({
       return parseFloat(value.replace(',', '.'))
     }
   }, z.number().min(1, 'Länge ist erforderlich.').default(1)),
+  weight: z.preprocess((value) => {
+    if (typeof value === 'string') {
+      return parseFloat(value.replace(',', '.'))
+    }
+  }, z.number().min(1, 'Gewicht ist erforderlich.').default(1)),
   model: z.string().optional().default(''),
   waterCapacity: z.preprocess(
     (value) => parseInt(value as string, 10),
