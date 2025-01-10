@@ -40,7 +40,8 @@ export const getUserStatusDetails = (
 type UserRoleDetails = (typeof UserRoleProperties)[UserRole | 'unknown'];
 
 export const getUserRoleDetails = (
-  role: UserRole | string
+  roles: { id: string; name: string }[]
 ): UserRoleDetails => {
-  return UserRoleProperties[role as UserRole] || UserRoleProperties.unknown;
+  const primaryRole = roles.length > 0 ? roles[0].name : 'unknown';
+  return UserRoleProperties[primaryRole as UserRole] || UserRoleProperties.unknown;
 };

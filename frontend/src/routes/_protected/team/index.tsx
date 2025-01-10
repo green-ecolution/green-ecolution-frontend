@@ -4,7 +4,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Suspense } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import { useSuspenseQuery } from '@tanstack/react-query'
-import { userQuery } from '@/api/queries'
+import { userRoleQuery } from '@/api/queries'
 
 export const Route = createFileRoute('/_protected/team/')({
   component: Team,
@@ -17,8 +17,7 @@ export const Route = createFileRoute('/_protected/team/')({
 })
 
 function Team() {
-  // TODO: do not show all user, only user with correct user role
-  const { data: userRes } = useSuspenseQuery(userQuery())
+  const { data: userRes } = useSuspenseQuery(userRoleQuery("tbz"))
 
   return (
     <div className="container mt-6">
@@ -51,7 +50,7 @@ function Team() {
             <ul>
               {userRes.data?.length === 0 ? (
                 <li className="text-center text-dark-600 mt-10">
-                  <p>Es wurden leider keine Fahrzeuge gefunden.</p>
+                  <p>Es wurden leider keine Mitarbeitenden gefunden.</p>
                 </li>
               ) : (
                 userRes.data?.map((user, key) => (
