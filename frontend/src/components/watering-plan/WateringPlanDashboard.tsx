@@ -72,7 +72,7 @@ const WateringPlanDashboard = ({
       window.URL.revokeObjectURL(objUrl)
     },
     onError: (error) => {
-      showToast(error.message + " (TODO: display error icon)")
+      showToast(error.message, 'error')
     }
   })
 
