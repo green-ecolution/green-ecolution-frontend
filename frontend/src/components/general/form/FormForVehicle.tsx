@@ -99,7 +99,7 @@ const FormForVehicle = (props: FormForProps<VehicleForm>) => {
       
       <FormError
         show={props.displayError}
-        error="Es ist leider ein Problem aufgetreten. Bitte probieren Sie es erneut oder wenden Sie sich an einen Systemadministrierenden."
+        error={props.errorMessage}
       />
 
       <PrimaryButton

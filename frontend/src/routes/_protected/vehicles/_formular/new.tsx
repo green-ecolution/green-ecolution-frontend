@@ -1,20 +1,17 @@
-import { vehicleApi, VehicleCreate } from '@/api/backendApi'
 import {
   VehicleType,
   DrivingLicense,
   VehicleStatus,
 } from '@green-ecolution/backend-client'
-import { vehicleQuery } from '@/api/queries'
 import FormForVehicle from '@/components/general/form/FormForVehicle'
 import BackLink from '@/components/general/links/BackLink'
 import { useFormSync } from '@/hooks/form/useFormSync'
 import { useInitForm } from '@/hooks/form/useInitForm'
-import useToast from '@/hooks/useToast'
 import { VehicleForm, VehicleSchema } from '@/schema/vehicleSchema'
-import useFormStore, { FormStore } from '@/store/form/useFormStore'
+import useFormStore from '@/store/form/useFormStore'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { createFileRoute, useNavigate } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router'
+import { useVehicleForm } from '@/hooks/form/useVehicleForm'
 
 export const Route = createFileRoute('/_protected/vehicles/_formular/new')({
   beforeLoad: () => {
@@ -25,14 +22,8 @@ export const Route = createFileRoute('/_protected/vehicles/_formular/new')({
 })
 
 function NewVehicle() {
-  const navigate = useNavigate({ from: Route.fullPath })
-  const showToast = useToast()
-  const queryClient = useQueryClient()
+ const { mutate, isError, error } = useVehicleForm('create')
 
-  const formStore = useFormStore((state: FormStore<VehicleForm>) => ({
-    form: state.form,
-    reset: state.reset,
-  }))
 
   const { initForm } = useInitForm<VehicleForm>({
     numberPlate: '',
@@ -51,27 +42,6 @@ function NewVehicle() {
     initForm,
     zodResolver(VehicleSchema)
   )
-
-  const { isError, mutate } = useMutation({
-    mutationFn: (vehicle: VehicleCreate) =>
-      vehicleApi.createVehicle({
-        body: vehicle,
-      }),
-    onSuccess: (data) => {
-      formStore.reset()
-      navigate({
-        to: '/vehicles/$vehicleId',
-        params: { vehicleId: data.id.toString() },
-        search: { resetStore: false },
-        replace: true,
-      })
-      queryClient.invalidateQueries(vehicleQuery())
-      showToast('Das Fahrzeug wurde erfolgreich erstellt.')
-    },
-    onError: (error) => {
-      console.error('Error creating vehicle:', error)
-    },
-  })
 
   const onSubmit = (data: VehicleForm) => {
     mutate({
@@ -101,6 +71,7 @@ function NewVehicle() {
           formState={formState}
           onSubmit={onSubmit}
           displayError={isError}
+          errorMessage={error?.message}
         />
       </section>
     </div>
