@@ -43,7 +43,7 @@ export const TreeSchema = (lat: number, lng: number) => {
           .optional()
       )
       .or(z.literal('-1')), // -1 no sensor selected
-    description: z.string().optional(),
+    description: z.string().optional().default(''),
   })
 }
 

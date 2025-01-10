@@ -1,8 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { vehicleQuery } from '@/api/queries'
+import { treeClusterIdQuery, treeClusterQuery, vehicleQuery } from '@/api/queries'
 import useToast from '@/hooks/useToast'
 import { useNavigate } from '@tanstack/react-router'
-import { TreeCluster, TreeClusterCreate } from '@green-ecolution/backend-client'
+import { TreeCluster, TreeClusterCreate, TreeClusterUpdate } from '@green-ecolution/backend-client'
 import { clusterApi } from '@/api/backendApi'
 import useFormStore, { FormStore } from '@/store/form/useFormStore'
 import { TreeclusterForm } from '@/schema/treeclusterSchema'
@@ -18,40 +18,33 @@ export const useTreeClusterForm = (mutationType: 'create' | 'update', clusterId?
   }))
 
   const { mutate, isError, error } = useMutation({
-    mutationFn: (cluster: TreeClusterCreate) => {
-      console.log('Mutation Request:', cluster)
+    mutationFn: (cluster: TreeClusterCreate | TreeClusterUpdate) => {
       if (mutationType === 'create') {
         return clusterApi.createTreeCluster({
-          body: cluster,
-        })
+          body: cluster as TreeClusterCreate,
+        });
       } else if (mutationType === 'update' && clusterId) {
         return clusterApi.updateTreeCluster({
           clusterId: clusterId,
-          body: cluster,
-        })
+          body: cluster as TreeClusterUpdate,
+        });
       }
       return Promise.reject('Invalid mutation type or missing clusterId for update')
     },
 
     onSuccess: (data: TreeCluster) => {
-      console.log('Mutation Success Response:', data)
       formStore.reset()
-      if (mutationType === 'create') {
-        showToast('Die Bewässerungsgruppe wurde erfolgreich erstellt.')
-        navigate({
-          to: `/treecluster/${data.id}`,
-          search: { resetStore: false },
-          replace: true,
-        })
-      } else if (mutationType === 'update') {
-        showToast('Die Bewässerungsgruppe wurde erfolgreich bearbeitet.')
-        navigate({
-          to: `/treecluster/${data.id}`,
-          search: { resetStore: false },
-          replace: true,
-        })
-      }
-      queryClient.invalidateQueries(vehicleQuery())
+      queryClient.invalidateQueries(treeClusterIdQuery(String(data.id)))
+      queryClient.invalidateQueries(treeClusterQuery())
+      navigate({
+        to: '/treecluster/$treeclusterId',
+        params: { treeclusterId: data.id.toString() },
+        search: { resetStore: false },
+        replace: true,
+      })
+      mutationType === 'create'
+        ? showToast('Die Bewässerungsgruppe wurde erfolgreich erstellt.')
+        : showToast('Die Bewässerungsgruppe wurde erfolgreich bearbeitet.');
     },
 
     onError: (error) => {
