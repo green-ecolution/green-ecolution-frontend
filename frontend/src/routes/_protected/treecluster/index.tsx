@@ -9,7 +9,7 @@ import { useSuspenseQuery } from '@tanstack/react-query'
 import LoadingInfo from '@/components/general/error/LoadingInfo'
 import FilterProvider from '@/context/FilterContext'
 import useFilter from '@/hooks/useFilter'
-import { Suspense, useState } from 'react'
+import { Suspense, useCallback, useMemo, useState } from 'react'
 import StatusFieldset from '@/components/general/filter/fieldsets/StatusFieldset'
 import RegionFieldset from '@/components/general/filter/fieldsets/RegionFieldset'
 import { ErrorBoundary } from 'react-error-boundary'
@@ -23,9 +23,13 @@ const treeclusterFilterSchema = z.object({
 
 function Treecluster() {
   const { data: clustersRes } = useSuspenseQuery(treeClusterQuery())
+  const [filteredData, setFilteredData] = useState({
+    active: false,
+    data: clustersRes.data
+  })
   const { filters } = useFilter()
 
-  const filterData = () => {
+  const filterData = useMemo(() => {
     return clustersRes.data.filter((cluster) => {
       const statusFilter =
         filters.statusTags.length === 0 ||
@@ -39,13 +43,15 @@ function Treecluster() {
 
       return statusFilter && regionFilter
     })
-  }
+  }, [clustersRes.data, filters])
 
-  const [filteredData, setFilteredData] = useState<TreeCluster[]>(filterData())
+  console.log(clustersRes)
 
   const handleFilter = () => {
-    const data = filterData();
-    setFilteredData(data);
+    setFilteredData({
+      active: true,
+      data: filterData
+    });
   }
 
   return (
@@ -73,7 +79,7 @@ function Treecluster() {
             headline="Bewässerungsgruppen filtern"
             fullUrlPath={Route.fullPath}
             onApplyFilters={() => handleFilter()}
-            onResetFilters={() => setFilteredData(clustersRes.data)}
+            onResetFilters={() => setFilteredData({ active: false, data: clustersRes.data })}
           >
             <StatusFieldset />
             <RegionFieldset />
@@ -96,7 +102,7 @@ function Treecluster() {
               </p>
             }
           >
-            <TreeClusterList data={filteredData} />
+            <TreeClusterList data={filteredData.active ? filteredData.data : clustersRes.data} />
           </ErrorBoundary>
         </Suspense>
       </section>
