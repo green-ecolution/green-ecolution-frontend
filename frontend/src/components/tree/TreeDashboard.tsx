@@ -4,7 +4,7 @@ import GeneralLink from '../general/links/GeneralLink'
 import ButtonLink from '../general/links/ButtonLink'
 import { File, Info, Pencil } from 'lucide-react'
 import Tabs from '../general/Tabs'
-import { useEffect, useMemo } from 'react'
+import { useMemo } from 'react'
 import TreeIcon from '../icons/Tree'
 import SensorIcon from '../icons/Sensor'
 import { useSuspenseQuery } from '@tanstack/react-query'
@@ -22,8 +22,6 @@ const TreeDashboard = ({ treeId }: TreeDashboardProps) => {
   const { data: treeCluster } = useSuspenseQuery(
     treeClusterIdQuery(tree.treeClusterId?.toString() ?? '')
   )
-
-  useEffect(() => { console.log(tree) }, [])
 
   const tabs = useMemo(
     () => [
