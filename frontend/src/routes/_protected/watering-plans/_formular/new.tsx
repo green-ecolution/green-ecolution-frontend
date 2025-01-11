@@ -16,7 +16,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useInitForm } from '@/hooks/form/useInitForm'
 import BackLink from '@/components/general/links/BackLink'
 import useToast from '@/hooks/useToast'
-import { treeClusterQuery, userQuery, vehicleQuery } from '@/api/queries'
+import { treeClusterQuery, userRoleQuery, vehicleQuery } from '@/api/queries'
 import {
   WateringPlanForm,
   WateringPlanSchema,
@@ -38,7 +38,7 @@ function NewWateringPlan() {
   const showToast = useToast()
   const navigate = useNavigate({ from: Route.fullPath })
   const queryClient = useQueryClient()
-  const { data: users } = useSuspenseQuery(userQuery())
+  const { data: users } = useSuspenseQuery(userRoleQuery('tbz'))
   const { data: trailers } = useSuspenseQuery(
     vehicleQuery({
       type: 'trailer',
