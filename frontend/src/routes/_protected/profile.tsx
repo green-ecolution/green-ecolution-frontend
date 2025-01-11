@@ -37,12 +37,16 @@ function Sensors() {
               {user.firstName} {user.lastName}
             </h2>
             <ul className="mt-2 flex flex-col gap-2 xl:mt-4">
-              {roleDetails.map((role, index) => (
-                <span key={index}>
-                  {role.label}
-                  {index < roleDetails.length - 1 ? ', ' : ''}
-                </span>
-              ))}
+              {roleDetails &&
+                roleDetails.length > 0 &&
+                roleDetails.map((role, index) => (
+                  <li
+                    key={index}
+                    className="border w-fit border-green-light px-3 py-2 rounded-full text-dark-800 font-medium text-sm"
+                  >
+                    {role.label}
+                  </li>
+                ))}
             </ul>
           </div>
         </div>
