@@ -22,13 +22,38 @@ const ShowRoutePreview = ({
     routePreviewQuery(transporterId, selectedClustersIds, trailerId)
   )
 
+  const sameStartAndEnd = (
+    startPoint: { latitude: number; longitude: number },
+    endPoint: { latitude: number; longitude: number }
+  ): boolean => {
+    return (
+      startPoint.latitude === endPoint.latitude &&
+      startPoint.longitude === endPoint.longitude
+    )
+  }
+
   return (
     <>
-      <RouteMarker
-        label="Start/Ende"
-        type="route"
-        position={data.metadata.startPoint}
-      />
+      {sameStartAndEnd(data.metadata.startPoint, data.metadata.endPoint) ? (
+        <RouteMarker
+          label="Start/Ende"
+          type="route"
+          position={data.metadata.startPoint}
+        />
+      ) : (
+        <>
+          <RouteMarker
+            label="Start"
+            type="route"
+            position={data.metadata.startPoint}
+          />
+          <RouteMarker
+            label="Ende"
+            type="route"
+            position={data.metadata.endPoint}
+          />
+        </>
+      )}
       <RouteMarker type="refill" position={data.metadata.wateringPoint} />
       {/* GeoJSON needs a unique key to rerender */}
       <GeoJSON

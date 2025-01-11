@@ -161,11 +161,11 @@ export const RefillIcon = () =>
     iconAnchor: [12, 12],
     html:
     `<figure style="${makerWrapperStyles(false, false)}">
-    <span style="${markerHtmlStyles("#454545")}">
-      ${iconToSvg(PaintBucket)}
-    </span>
-  </figure>`,
-  });
+      <span style="${markerHtmlStyles("#454545")}">
+        ${iconToSvg(PaintBucket)}
+      </span>
+    </figure>`,
+  })
 
 interface DragableMarkerProps {
   position: L.LatLng;
