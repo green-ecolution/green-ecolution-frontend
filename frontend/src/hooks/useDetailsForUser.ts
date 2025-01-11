@@ -3,12 +3,15 @@ export type UserStatus = 'available' | 'absent';
 const UserStatusProperties = {
   available: {
     label: 'Verfügbar',
+    color: 'green-dark',
   },
   absent: {
     label: 'Abwesend',
+    color: 'red',
   },
   unknown: {
     label: 'Unbekannt',
+    color: 'dark-400',
   },
 } as const;
 
