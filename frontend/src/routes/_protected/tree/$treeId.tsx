@@ -20,7 +20,6 @@ export const Route = createFileRoute('/_protected/tree/$treeId')({
 
 function SingleTree() {
   const treeId = Route.useParams().treeId
-  const { tree } = Route.useLoaderData();
 
   return (
     <div className="container mt-6">
@@ -33,7 +32,7 @@ function SingleTree() {
             </p>
           }
         >
-          <TreeDashboard tree={tree} />
+          <TreeDashboard treeId={treeId} />
         </ErrorBoundary>
       </Suspense>
     </div>
