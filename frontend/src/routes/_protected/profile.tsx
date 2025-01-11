@@ -1,7 +1,10 @@
 import { createFileRoute } from '@tanstack/react-router'
 import useStore from '@/store/store'
 import { UserRound } from 'lucide-react'
-import { getUserRoleDetails, getUserStatusDetails } from '@/hooks/useDetailsForUser'
+import {
+  getUserRoleDetails,
+  getUserStatusDetails,
+} from '@/hooks/useDetailsForUser'
 
 export const Route = createFileRoute('/_protected/profile')({
   component: Sensors,
@@ -10,6 +13,7 @@ export const Route = createFileRoute('/_protected/profile')({
 
 function Sensors() {
   const user = useStore((state) => state.user)
+  const roleDetails = getUserRoleDetails(user.userRoles)
 
   return (
     <div className="container mt-6">
@@ -33,13 +37,12 @@ function Sensors() {
               {user.firstName} {user.lastName}
             </h2>
             <ul className="mt-2 flex flex-col gap-2 xl:mt-4">
-              {user.userRoles && user.userRoles.length > 0 && (
-                user.userRoles.map((role, key) => (
-                  <li key={key} className="border w-fit border-green-light px-3 py-2 rounded-full text-dark-800 font-medium text-sm">
-                    {getUserRoleDetails(role).label}
-                  </li>
-                ))
-              )}
+              {roleDetails.map((role, index) => (
+                <span key={index}>
+                  {role.label}
+                  {index < roleDetails.length - 1 ? ', ' : ''}
+                </span>
+              ))}
             </ul>
           </div>
         </div>
@@ -49,41 +52,54 @@ function Sensors() {
         <div>
           <div className="pb-4 border-b border-b-dark-200">
             <dt className="font-bold inline">Username:</dt>
-            <dd className="sm:inline sm:px-2">{user.username?? 'Keine Angabe'}</dd>
+            <dd className="sm:inline sm:px-2">
+              {user.username ?? 'Keine Angabe'}
+            </dd>
           </div>
           <div className="py-4 border-b border-b-dark-200">
             <dt className="font-bold sm:inline">Vorname:</dt>
-            <dd className="sm:inline sm:px-2">{user.firstName ?? 'Keine Angabe'}</dd>
+            <dd className="sm:inline sm:px-2">
+              {user.firstName ?? 'Keine Angabe'}
+            </dd>
           </div>
           <div className="py-4 border-b border-b-dark-200">
             <dt className="font-bold sm:inline">Nachname:</dt>
-            <dd className="sm:inline sm:px-2">{user.lastName ?? 'Keine Angabe'}</dd>
+            <dd className="sm:inline sm:px-2">
+              {user.lastName ?? 'Keine Angabe'}
+            </dd>
           </div>
           <div className="py-4 border-b border-b-dark-200 md:border-b-transparent">
             <dt className="font-bold sm:inline">E-Mail:</dt>
-            <dd className="sm:inline sm:px-2">{user.email ?? 'Keine Angabe'}</dd>
+            <dd className="sm:inline sm:px-2">
+              {user.email ?? 'Keine Angabe'}
+            </dd>
           </div>
         </div>
 
         <div>
           <div className="py-4 border-b border-b-dark-200">
             <dt className="font-bold sm:inline">Verfügbarkeit:</dt>
-            <dd className="sm:inline sm:px-2">{getUserStatusDetails(user.status).label}</dd>
+            <dd className="sm:inline sm:px-2">
+              {getUserStatusDetails(user.status).label}
+            </dd>
           </div>
           <div className="py-4 border-b border-b-dark-200">
             <dt className="font-bold sm:inline">Führerscheinklasse:</dt>
-            <dd className="sm:inline sm:px-2">{user.drivingLicense ?? 'Keine Angabe'}</dd>
+            <dd className="sm:inline sm:px-2">
+              {user.drivingLicense && user.drivingLicense !== '-'
+                ? user.drivingLicense
+                : 'Keine Angabe'}
+            </dd>
           </div>
           <div className="py-4 border-b border-b-dark-200 md:border-b-transparent">
             <dt className="font-bold sm:inline">Rollen:</dt>
             <dd className="sm:inline sm:px-2">
-              {user.userRoles && user.userRoles.length > 0 ? (
-                user.userRoles.map((role, key) => (
-                  <span key={key}>{getUserRoleDetails(role).label}&nbsp;</span>
-                ))
-              ) : (
-                <span>Keine Rollen zugewiesen</span>
-              )}
+              {roleDetails.map((role, index) => (
+                <span key={index}>
+                  {role.label}
+                  {index < roleDetails.length - 1 ? ', ' : ''}
+                </span>
+              ))}
             </dd>
           </div>
         </div>
