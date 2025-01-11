@@ -4,15 +4,18 @@ import ButtonLink from '../general/links/ButtonLink'
 import { Pencil } from 'lucide-react'
 import { getVehicleStatusDetails } from '@/hooks/useDetailsForVehicleStatus'
 import GeneralLink from '../general/links/GeneralLink'
-import { Vehicle, VehicleStatus } from '@green-ecolution/backend-client'
+import { VehicleStatus } from '@green-ecolution/backend-client'
 import { getVehicleType } from '@/hooks/useDetailsForVehicleType'
 import DetailedList from '../general/DetailedList'
+import { useSuspenseQuery } from '@tanstack/react-query'
+import { vehicleIdQuery } from '@/api/queries'
 
 interface VehicleDashboardProps {
-  vehicle: Vehicle
+  vehicleId: string
 }
 
-const VehicleDashboard = ({ vehicle }: VehicleDashboardProps) => {
+const VehicleDashboard = ({ vehicleId }: VehicleDashboardProps) => {
+  const { data: vehicle } = useSuspenseQuery(vehicleIdQuery(vehicleId))
   const statusDetails = getVehicleStatusDetails(vehicle.status)
   const vehicleType = getVehicleType(vehicle.type)
 
@@ -76,7 +79,7 @@ const VehicleDashboard = ({ vehicle }: VehicleDashboardProps) => {
           }}
         />
       </article>
-      
+
       {vehicle.status == VehicleStatus.VehicleStatusActive && (
         <div className="h-full shadow-cards space-y-3 rounded-xl border border-green-light bg-green-light-50 p-6 mt-6">
           <div className="flex items-center justify-between">

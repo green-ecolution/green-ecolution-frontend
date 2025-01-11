@@ -1,5 +1,5 @@
 import { TreeCluster } from '@/api/backendApi'
-import { treeClusterIdQuery } from '@/api/queries'
+import { treeClusterIdQuery, treeClusterQuery } from '@/api/queries'
 import LoadingInfo from '@/components/general/error/LoadingInfo'
 import TreeClusterUpdate from '@/components/treecluster/TreeClusterUpdate'
 import useToast from '@/hooks/useToast'
@@ -21,7 +21,7 @@ export const Route = createFileRoute(
   loader: async () => {
     if (!useStore.getState().auth.isAuthenticated) return
   },
-  meta: () => [{title: 'Bewässerungsgruppe editieren'}],
+  meta: () => [{ title: 'Bewässerungsgruppe editieren' }],
 })
 
 function EditTreeCluster() {
@@ -45,6 +45,7 @@ function EditTreeCluster() {
       })
       showToast('Die Bewässerungsgruppe wurde erfolgreich editiert.')
       queryClient.invalidateQueries(treeClusterIdQuery(clusterId))
+      queryClient.invalidateQueries(treeClusterQuery())
     },
     [formStore, navigate, showToast, clusterId, queryClient]
   )

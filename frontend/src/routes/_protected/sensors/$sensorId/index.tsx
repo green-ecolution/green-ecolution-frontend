@@ -17,7 +17,6 @@ export const Route = createFileRoute('/_protected/sensors/$sensorId/')({
 
 function SingleSensor() {
   const sensorId = Route.useParams().sensorId
-  const { sensor } = Route.useLoaderData();
 
   return (
     <div className="container mt-6">
@@ -33,7 +32,7 @@ function SingleSensor() {
             </p>
           }
         >
-          <SensorDashboard sensor={sensor} />
+          <SensorDashboard sensorId={sensorId} />
         </ErrorBoundary>
       </Suspense>
     </div>
