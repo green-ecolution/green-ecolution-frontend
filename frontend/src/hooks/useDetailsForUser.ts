@@ -3,12 +3,15 @@ export type UserStatus = 'available' | 'absent';
 const UserStatusProperties = {
   available: {
     label: 'Verfügbar',
+    color: 'green-dark',
   },
   absent: {
     label: 'Abwesend',
+    color: 'red',
   },
   unknown: {
     label: 'Unbekannt',
+    color: 'dark-400',
   },
 } as const;
 
@@ -40,7 +43,9 @@ export const getUserStatusDetails = (
 type UserRoleDetails = (typeof UserRoleProperties)[UserRole | 'unknown'];
 
 export const getUserRoleDetails = (
-  role: UserRole | string
-): UserRoleDetails => {
-  return UserRoleProperties[role as UserRole] || UserRoleProperties.unknown;
+  roles: { id: string; name: string }[]
+): UserRoleDetails[] => {
+  return roles.map(role => {
+    return UserRoleProperties[role.name as UserRole] || UserRoleProperties.unknown;
+  });
 };
