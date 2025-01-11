@@ -8,13 +8,15 @@ import { getWateringStatusDetails } from '@/hooks/useDetailsForWateringStatus'
 import { Link } from '@tanstack/react-router'
 import GeneralLink from '../general/links/GeneralLink'
 import { TriangleAlert } from 'lucide-react'
-import { TreeCluster } from '@green-ecolution/backend-client'
+import { useSuspenseQuery } from '@tanstack/react-query'
+import { treeClusterIdQuery } from '@/api/queries'
 
 interface TreeClusterDashboardProps {
-  treecluster: TreeCluster
+  treeclusterId: string
 }
 
-const TreeClusterDashboard = ({ treecluster }: TreeClusterDashboardProps) => {
+const TreeClusterDashboard = ({ treeclusterId }: TreeClusterDashboardProps) => {
+  const { data: treecluster } = useSuspenseQuery(treeClusterIdQuery(treeclusterId))
   const wateringStatus = getWateringStatusDetails(treecluster.wateringStatus)
 
   return (
