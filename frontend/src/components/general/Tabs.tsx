@@ -12,12 +12,12 @@ const Tabs: React.FC<Tabs> = ({ tabs }) => {
     <>
       <div role="tablist" className="mt-10 mb-6 border-b border-b-dark-600 flex items-center w-max gap-x-6">
         {tabs.map((tab, key) => (
-          <button 
-            onClick={() => setShowTabIndex(key)} 
-            key={key} 
-            id={`tab-${key}`} 
-            role="tab" 
-            aria-selected={showTabIndex === key} 
+          <button
+            onClick={() => setShowTabIndex(key)}
+            key={key}
+            id={`tab-${key}`}
+            role="tab"
+            aria-selected={showTabIndex === key}
             aria-controls={`tabpanel-${key}`}
             className={`flex items-center gap-x-2 pb-2 group border-b transition-all ease-in-out duration-300 hover:text-dark-800 ${showTabIndex === key ? 'text-dark border-b-dark' : 'text-dark-600 border-b-transparent'}`}
           >
@@ -27,18 +27,20 @@ const Tabs: React.FC<Tabs> = ({ tabs }) => {
         ))}
       </div>
 
-      {tabs.map((tab, key) => (
-        <div 
-          key={key} 
-          id={`tabpanel-${key}`} 
-          role="tabpanel" 
-          tabIndex={showTabIndex === key ? 0 : -1} 
-          aria-labelledby={`tab-${key}`}
-          className={`${showTabIndex === key ? 'block': 'hidden'}`}
-        >
-          {tab.view}
-        </div>
-      ))}
+      {tabs.map((tab, key) =>
+        showTabIndex === key ? (
+          <div
+            key={key}
+            id={`tabpanel-${key}`}
+            role="tabpanel"
+            tabIndex={showTabIndex === key ? 0 : -1}
+            aria-labelledby={`tab-${key}`}
+          >
+            {tab.view}
+          </div>
+
+        ) : (<></>)
+      )}
     </>
   );
 }
