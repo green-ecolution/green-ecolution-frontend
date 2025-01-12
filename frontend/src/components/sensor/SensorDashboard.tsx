@@ -15,7 +15,7 @@ interface SensorDashboardProps {
 
 const SensorDashboard = ({ sensorId }: SensorDashboardProps) => {
   const { data: sensor } = useSuspenseQuery(sensorIdQuery(sensorId))
-  // Ensure tree query doesn't throw if it's not available since it's optional
+  // Ensure tree query doesn't throw error if it's not available since it's optional
   const { data: linkedTree } = useQuery(treeSensorIdQuery(sensor.id));
 
   const createdDate = sensor?.createdAt
