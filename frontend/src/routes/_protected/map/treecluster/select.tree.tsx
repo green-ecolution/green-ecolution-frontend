@@ -3,7 +3,7 @@ import { Tree } from '@green-ecolution/backend-client'
 import { useCallback, useState } from 'react'
 import SelectedCard from '@/components/general/cards/SelectedCard'
 import useFormStore, { FormStore } from '@/store/form/useFormStore'
-import { TreeclusterSchema } from '@/schema/treeclusterSchema'
+import { TreeclusterForm } from '@/schema/treeclusterSchema'
 import WithAllTrees from '@/components/map/marker/WithAllTrees'
 import MapSelectEntitiesModal from '@/components/map/MapSelectEntitiesModal'
 
@@ -16,7 +16,7 @@ export const Route = createFileRoute('/_protected/map/treecluster/select/tree')(
 
 function SelectTrees() {
   const { form, storeTreeIds, set, type } = useFormStore(
-    (state: FormStore<TreeclusterSchema>) => ({
+    (state: FormStore<TreeclusterForm>) => ({
       form: state.form,
       storeTreeIds: state.form?.treeIds ?? [],
       set: state.commit,

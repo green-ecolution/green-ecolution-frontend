@@ -1,14 +1,9 @@
-import { wateringPlanIdQuery } from '@/api/queries'
 import LoadingInfo from '@/components/general/error/LoadingInfo'
 import WateringPlanStatusUpdate from '@/components/watering-plan/WateringPlanStatusUpdate'
-import useToast from '@/hooks/useToast'
-import { WateringPlanForm } from '@/schema/wateringPlanSchema'
-import useFormStore, { FormStore } from '@/store/form/useFormStore'
+import useFormStore from '@/store/form/useFormStore'
 import useStore from '@/store/store'
-import { WateringPlan } from '@green-ecolution/backend-client'
-import { useQueryClient } from '@tanstack/react-query'
-import { createFileRoute, useNavigate } from '@tanstack/react-router'
-import { Suspense, useCallback } from 'react'
+import { createFileRoute } from '@tanstack/react-router'
+import { Suspense } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 
 export const Route = createFileRoute('/_protected/watering-plans/_formular/$wateringPlanId/status/edit')({
@@ -25,32 +20,6 @@ export const Route = createFileRoute('/_protected/watering-plans/_formular/$wate
 
 function StatusEditWateringPlan() {
   const wateringPlanId = Route.useParams().wateringPlanId
-  const navigate = useNavigate({ from: Route.fullPath })
-  const showToast = useToast()
-  const queryClient = useQueryClient()
-
-  const formStore = useFormStore((state: FormStore<WateringPlanForm>) => ({
-    form: state.form,
-    reset: state.reset,
-  }))
-
-  const onUpdateSuccess = useCallback(
-    (data: WateringPlan) => {
-      formStore.reset()
-      navigate({
-        to: `/watering-plans/${data.id}`,
-        search: { resetStore: false },
-        replace: true,
-      })
-      showToast('Der Status wurde erfolgreich geändert.')
-      queryClient.invalidateQueries(wateringPlanIdQuery(wateringPlanId))
-    },
-    [formStore, navigate, showToast, queryClient, wateringPlanId]
-  )
-
-  const onUpdateError = () => {
-    console.error('Error updating treecluster')
-  }
 
   return (
     <div className="container mt-6">
@@ -66,11 +35,7 @@ function StatusEditWateringPlan() {
             </p>
           }
         >
-          <WateringPlanStatusUpdate
-            wateringPlanId={wateringPlanId}
-            onUpdateSuccess={onUpdateSuccess}
-            onUpdateError={onUpdateError}
-          />
+          <WateringPlanStatusUpdate wateringPlanId={wateringPlanId} />
         </ErrorBoundary>
       </Suspense>
     </div>

@@ -1,28 +1,28 @@
-import { TreeForm, TreeSchema } from "@/schema/treeSchema"
-import FormForTree from "../general/form/FormForTree"
-import BackLink from "../general/links/BackLink"
-import DeleteSection from "../treecluster/DeleteSection"
-import { useMutation, useSuspenseQuery } from "@tanstack/react-query"
-import { Tree, TreeUpdate as TreeUpdateReq } from "@green-ecolution/backend-client"
-import { useInitFormQuery } from "@/hooks/form/useInitForm"
-import { sensorQuery, treeClusterQuery, treeIdQuery } from "@/api/queries"
-import { treeApi } from "@/api/backendApi"
-import { useMapStore } from "@/store/store"
-import { useNavigate } from "@tanstack/react-router"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useFormSync } from "@/hooks/form/useFormSync"
+import { TreeForm, TreeSchema } from '@/schema/treeSchema'
+import FormForTree from '../general/form/FormForTree'
+import BackLink from '../general/links/BackLink'
+import DeleteSection from '../treecluster/DeleteSection'
+import { useSuspenseQuery } from '@tanstack/react-query'
+import { Tree } from '@green-ecolution/backend-client'
+import { useInitFormQuery } from '@/hooks/form/useInitForm'
+import { sensorQuery, treeClusterQuery, treeIdQuery } from '@/api/queries'
+import { treeApi } from '@/api/backendApi'
+import { useMapStore } from '@/store/store'
+import { useNavigate } from '@tanstack/react-router'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useFormSync } from '@/hooks/form/useFormSync'
+import { useTreeForm } from '@/hooks/form/useTreeForm'
 
 interface TreeUpdateProps {
   treeId: string
-  onUpdateError: (err: Error) => void
-  onUpdateSuccess: (data: Tree) => void
 }
 
-const TreeUpdate = ({ treeId, onUpdateSuccess, onUpdateError }: TreeUpdateProps) => {
+const TreeUpdate = ({ treeId }: TreeUpdateProps) => {
   const navigate = useNavigate()
+  const map = useMapStore()
+  const { mutate, isError, error } = useTreeForm('update', treeId)
   const { data: sensors } = useSuspenseQuery(sensorQuery())
   const { data: treeClusters } = useSuspenseQuery(treeClusterQuery())
-  const map = useMapStore()
   const { initForm, loadedData } = useInitFormQuery<Tree, TreeForm>(
     treeIdQuery(treeId),
     (data) => ({
@@ -43,24 +43,16 @@ const TreeUpdate = ({ treeId, onUpdateSuccess, onUpdateError }: TreeUpdateProps)
     zodResolver(TreeSchema(initForm?.latitude ?? 0, initForm?.longitude ?? 0))
   )
 
-  const { isError, mutate } = useMutation({
-    mutationFn: (tree: TreeUpdateReq) =>
-      treeApi.updateTree({
-        treeId: treeId,
-        body: tree,
-      }),
-    onSuccess: onUpdateSuccess,
-    onError: onUpdateError,
-  })
-
   const onSubmit = (data: TreeForm) => {
     mutate({
       ...data,
-      description: data.description ?? '',
-      sensorId: data.sensorId && data.sensorId === '-1' ? undefined : data.sensorId,
+      sensorId:
+        data.sensorId && data.sensorId === '-1' ? undefined : data.sensorId,
       treeClusterId:
-        data.treeClusterId && (data.treeClusterId === '-1' || data.treeClusterId <= 0) ? undefined : data.treeClusterId,
-      readonly: false,
+        data.treeClusterId &&
+        (data.treeClusterId === '-1' || data.treeClusterId <= 0)
+          ? undefined
+          : data.treeClusterId,
     })
   }
 
@@ -108,6 +100,7 @@ const TreeUpdate = ({ treeId, onUpdateSuccess, onUpdateError }: TreeUpdateProps)
           treeClusters={treeClusters.data}
           sensors={sensors.data}
           onChangeLocation={handleOnChangeLocation}
+          errorMessage={error?.message}
         />
       </section>
 

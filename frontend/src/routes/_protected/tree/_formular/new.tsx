@@ -1,20 +1,15 @@
-import { treeApi, TreeCreate } from '@/api/backendApi'
 import FormForTree from '@/components/general/form/FormForTree'
 import { useFormSync } from '@/hooks/form/useFormSync'
 import { useInitForm } from '@/hooks/form/useInitForm'
 import { TreeForm, TreeSchema } from '@/schema/treeSchema'
-import useFormStore, { FormStore } from '@/store/form/useFormStore'
+import useFormStore from '@/store/form/useFormStore'
 import { zodResolver } from '@hookform/resolvers/zod'
-import {
-  useMutation,
-  useQueryClient,
-  useSuspenseQuery,
-} from '@tanstack/react-query'
+import { useSuspenseQuery } from '@tanstack/react-query'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { z } from 'zod'
 import { useMapStore } from '@/store/store'
-import useToast from '@/hooks/useToast'
-import { sensorQuery, treeClusterQuery, treeQuery } from '@/api/queries'
+import { sensorQuery, treeClusterQuery } from '@/api/queries'
+import { useTreeForm } from '@/hooks/form/useTreeForm'
 
 const newTreeSearchSchema = z.object({
   lat: z.number(),
@@ -38,18 +33,12 @@ export const Route = createFileRoute('/_protected/tree/_formular/new')({
 })
 
 function NewTree() {
+  const { mutate, isError, error, formStore } = useTreeForm('create')
   const { lat, lng } = Route.useLoaderData()
   const navigate = useNavigate({ from: Route.fullPath })
-  const showToast = useToast()
-  const queryClient = useQueryClient()
   const map = useMapStore()
   const { data: sensors } = useSuspenseQuery(sensorQuery())
   const { data: treeClusters } = useSuspenseQuery(treeClusterQuery())
-
-  const formStore = useFormStore((state: FormStore<TreeForm>) => ({
-    form: state.form,
-    reset: state.reset,
-  }))
 
   const { initForm } = useInitForm<TreeForm>({
     latitude: lat,
@@ -68,24 +57,6 @@ function NewTree() {
     zodResolver(TreeSchema(lat, lng))
   )
 
-  const { isError, mutate } = useMutation({
-    mutationFn: (tree: TreeCreate) =>
-      treeApi.createTree({
-        body: tree,
-      }),
-    onSuccess: (data) => {
-      formStore.reset()
-      navigate({
-        to: '/tree/$treeId',
-        params: { treeId: data.id.toString() },
-        search: { resetStore: false },
-        replace: true,
-      })
-      queryClient.invalidateQueries(treeQuery())
-      showToast('Der Baum wurde erfolgreich erstellt.')
-    },
-  })
-
   const onSubmit = (data: TreeForm) => {
     mutate({
       ...data,
@@ -96,8 +67,6 @@ function NewTree() {
         (data.treeClusterId === '-1' || data.treeClusterId <= 0)
           ? undefined
           : data.treeClusterId,
-      description: data.description ?? '',
-      readonly: false,
     })
   }
 
@@ -135,6 +104,7 @@ function NewTree() {
           onSubmit={onSubmit}
           displayError={isError}
           onChangeLocation={handleOnChangeLocation}
+          errorMessage={error?.message}
         />
       </section>
     </div>
