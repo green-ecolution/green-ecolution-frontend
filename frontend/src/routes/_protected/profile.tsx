@@ -37,8 +37,7 @@ function Sensors() {
               {user.firstName} {user.lastName}
             </h2>
             <ul className="mt-2 flex flex-col gap-2 xl:mt-4">
-              {roleDetails &&
-                roleDetails.length > 0 &&
+              {roleDetails?.length > 0 &&
                 roleDetails.map((role, index) => (
                   <li
                     key={index}
