@@ -52,7 +52,7 @@ const WateringPlanDashboard = ({
       {
         label: 'Route',
         icon: <Route className="w-5 h-5" />,
-        view: <WateringPlanPreviewRoute wateringPlanId={wateringPlanId} />,
+        view: <WateringPlanPreviewRoute wateringPlan={wateringPlan} />,
       },
     ],
     [wateringPlan]

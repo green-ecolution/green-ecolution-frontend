@@ -1,21 +1,19 @@
-import { useSuspenseQuery } from '@tanstack/react-query'
-import { wateringPlanIdQuery } from '@/api/queries'
 import ZoomControls from '@/components/map/ZoomControls'
 import { Suspense } from 'react'
 import LoadingInfo from '@/components/general/error/LoadingInfo'
 import ShowRoutePreview from '../map/marker/ShowRoutePreview'
 import { WithTreesAndClusters } from '../map/marker/WithAllClusterAndTrees'
-import { Tree, TreeCluster } from '@green-ecolution/backend-client'
+import { Tree, TreeCluster, WateringPlan } from '@green-ecolution/backend-client'
 import { useNavigate } from '@tanstack/react-router'
 import { MapContainer, TileLayer } from 'react-leaflet'
 import useMapStore from '@/store/store'
 
 interface WateringPlanPreviewRouteProps {
-  wateringPlanId: string
+  wateringPlan: WateringPlan
 }
 
 const WateringPlanPreviewRoute = ({
-  wateringPlanId,
+  wateringPlan,
 }: WateringPlanPreviewRouteProps) => {
   const { zoom, center, maxZoom, minZoom } = useMapStore((state) => ({
     zoom: state.map.zoom,
@@ -24,7 +22,6 @@ const WateringPlanPreviewRoute = ({
     minZoom: state.map.minZoom,
   }))
   const navigate = useNavigate({})
-  const { data: wateringPlan } = useSuspenseQuery(wateringPlanIdQuery(wateringPlanId))
 
   const handleTreeClick = (tree: Tree) => {
     navigate({ to: `/tree/$treeId`, params: { treeId: tree.id.toString() } })
