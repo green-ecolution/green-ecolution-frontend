@@ -5,7 +5,7 @@ import {
   showWateringPlanStatusButton,
 } from '@/hooks/useDetailsForWateringPlanStatus'
 import { format } from 'date-fns'
-import { File, FolderClosed, MoveRight, Pencil } from 'lucide-react'
+import { File, FolderClosed, MoveRight, Pencil, Route } from 'lucide-react'
 import TabGeneralData from './TabGeneralData'
 import { useMemo } from 'react'
 import Tabs from '../general/Tabs'
@@ -17,6 +17,7 @@ import { basePath } from '@/api/backendApi'
 import useToast from '@/hooks/useToast'
 import LinkAsButton from '../general/buttons/LinkButton'
 import { wateringPlanIdQuery } from '@/api/queries'
+import WateringPlanPreviewRoute from './WateringPlanRoutePreview'
 
 interface WateringPlanDashboardProps {
   wateringPlanId: string
@@ -47,6 +48,11 @@ const WateringPlanDashboard = ({
         label: 'Bewässerungsgruppen',
         icon: <FolderClosed className="w-5 h-5" />,
         view: <TreeClusterList data={wateringPlan.treeclusters} />,
+      },
+      {
+        label: 'Route',
+        icon: <Route className="w-5 h-5" />,
+        view: <WateringPlanPreviewRoute wateringPlanId={wateringPlanId} />,
       },
     ],
     [wateringPlan]
