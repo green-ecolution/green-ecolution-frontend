@@ -53,6 +53,7 @@ const FormForTree = (props: FormForTreeProps) => {
             placeholder="Pflanzjahr"
             label="Pflanzjahr"
             type="number"
+            error={errors.plantingYear?.message}
             required
             {...props.register('plantingYear')}
           />
