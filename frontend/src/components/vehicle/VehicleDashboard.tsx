@@ -29,6 +29,10 @@ const VehicleDashboard = ({ vehicleId }: VehicleDashboardProps) => {
       value: vehicleType ?? 'Keine Angabe',
     },
     {
+      label: 'Benötigte Führerscheinklasse',
+      value: vehicle?.drivingLicense ?? 'Keine Angabe',
+    },
+    {
       label: 'Höhe des Fahrzeugs',
       value: vehicle?.height ? `${vehicle.height} Meter` : 'Keine Angabe',
     },
@@ -37,12 +41,12 @@ const VehicleDashboard = ({ vehicleId }: VehicleDashboardProps) => {
       value: vehicle?.width ? `${vehicle.width} Meter` : 'Keine Angabe',
     },
     {
-      label: 'Benötigte Führerscheinklasse',
-      value: vehicle?.drivingLicense ?? 'Keine Angabe',
-    },
-    {
       label: 'Nummernschild',
       value: vehicle?.numberPlate ?? 'Keine Angabe',
+    },
+    {
+      label: 'Wasserkapazität',
+      value: vehicle?.waterCapacity ? `${vehicle.waterCapacity} Liter` : 'Keine Angabe',
     },
     {
       label: 'Länge des Fahrzeugs',
