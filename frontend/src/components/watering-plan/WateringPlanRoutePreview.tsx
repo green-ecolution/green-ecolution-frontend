@@ -5,8 +5,7 @@ import ShowRoutePreview from '../map/marker/ShowRoutePreview'
 import { WithTreesAndClusters } from '../map/marker/WithAllClusterAndTrees'
 import { Tree, TreeCluster, WateringPlan } from '@green-ecolution/backend-client'
 import { useNavigate } from '@tanstack/react-router'
-import { MapContainer, TileLayer } from 'react-leaflet'
-import useMapStore from '@/store/store'
+import Map from '../map/Map'
 
 interface WateringPlanPreviewRouteProps {
   wateringPlan: WateringPlan
@@ -15,12 +14,6 @@ interface WateringPlanPreviewRouteProps {
 const WateringPlanPreviewRoute = ({
   wateringPlan,
 }: WateringPlanPreviewRouteProps) => {
-  const { zoom, center, maxZoom, minZoom } = useMapStore((state) => ({
-    zoom: state.map.zoom,
-    center: state.map.center,
-    maxZoom: state.map.maxZoom,
-    minZoom: state.map.minZoom,
-  }))
   const navigate = useNavigate({})
 
   const handleTreeClick = (tree: Tree) => {
@@ -35,21 +28,7 @@ const WateringPlanPreviewRoute = ({
   }
 
   return (
-    <MapContainer
-      key={new Date().getTime()}
-      preferCanvas
-      className="z-0"
-      zoomControl={false}
-      center={center}
-      style={{ width: "100%", height: "40rem" }}
-      zoom={zoom}
-      maxZoom={maxZoom}
-      minZoom={minZoom}
-    >
-      <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
+    <Map width='100%' height='40rem'>
       <ZoomControls />
       <Suspense fallback={<LoadingInfo label='Lade Karte...' />}>
         <ShowRoutePreview
@@ -63,7 +42,7 @@ const WateringPlanPreviewRoute = ({
           onClickCluster={handleClusterClick}
         />
       </Suspense>
-    </MapContainer>
+    </Map>
   );
 }
 
