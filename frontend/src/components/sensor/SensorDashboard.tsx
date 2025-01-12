@@ -1,5 +1,5 @@
 import { sensorIdQuery, treeSensorIdQuery } from '@/api/queries'
-import { useSuspenseQuery } from '@tanstack/react-query'
+import { useQuery, useSuspenseQuery } from '@tanstack/react-query'
 import EntitiesStatusCard from '@/components/general/cards/EntitiesStatusCard'
 import GeneralStatusCard from '@/components/general/cards/GeneralStatusCard'
 import BackLink from '@/components/general/links/BackLink'
@@ -15,7 +15,8 @@ interface SensorDashboardProps {
 
 const SensorDashboard = ({ sensorId }: SensorDashboardProps) => {
   const { data: sensor } = useSuspenseQuery(sensorIdQuery(sensorId))
-  const { data: linkedTree } = useSuspenseQuery(treeSensorIdQuery(sensorId))
+  // Ensure tree query doesn't throw if it's not available since it's optional
+  const { data: linkedTree } = useQuery(treeSensorIdQuery(sensor.id));
 
   const createdDate = sensor?.createdAt
     ? format(new Date(sensor?.createdAt), 'dd.MM.yyyy')
