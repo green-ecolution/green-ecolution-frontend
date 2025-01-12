@@ -4,7 +4,7 @@ import L, { DivIcon, Icon, IconOptions } from "leaflet";
 import { Marker } from "react-leaflet";
 import { Marker as LeafletMarker } from "leaflet";
 import { useMemo, useRef } from "react";
-import { Check } from "lucide-react";
+import { Check, PaintBucket } from "lucide-react";
 import { renderToStaticMarkup } from "react-dom/server";
 import TreeIcon from "../icons/Tree";
 import SensorIcon from "../icons/Sensor";
@@ -93,6 +93,25 @@ const makerClusterWrapperStyles = (isHighlighted: boolean) => `
   box-shadow: rgba(0, 0, 0, ${isHighlighted ? '0.35' : '0'}) 0px 5px 15px;
 `;
 
+const makerRouteWrapperStyles = () => `
+  background-color: #454545;
+  width: 6rem;
+  height: 1.75rem;
+  position: absolute;
+  border-radius: 3rem;
+  left: 0.25rem;
+  top: 0.25rem;
+  border: 1px solid white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 0.875rem;
+  color: white;
+  z-index: 1500;
+  font-family: Nunito, sans-serif;
+`;
+
 export const TreeMarkerIcon = (color: string, isSelected: boolean, isHighlighted: boolean) =>
   L.divIcon({
     iconAnchor: [0, 24],
@@ -120,7 +139,6 @@ export const ClusterIcon = (color: string, isHighlighted: boolean, includedTrees
 export const SensorMarkerIcon = () =>
   L.divIcon({
     iconAnchor: [0, 24],
-    popupAnchor: [0, -36],
     html:
       `<figure style="${makerWrapperStyles(false, true)}">
         <span style="${markerHtmlStyles("#454545")}">
@@ -128,6 +146,26 @@ export const SensorMarkerIcon = () =>
         </span>
       </figure>`,
   });
+
+export const RouteIcon = (label: string) =>
+  L.divIcon({
+    iconAnchor: [12, 12],
+    html:
+    `<span style="${makerRouteWrapperStyles()}">
+      ${label}
+    </span>`,
+  })
+
+export const RefillIcon = () =>
+  L.divIcon({
+    iconAnchor: [12, 12],
+    html:
+    `<figure style="${makerWrapperStyles(false, false)}">
+      <span style="${markerHtmlStyles("#454545")}">
+        ${iconToSvg(PaintBucket)}
+      </span>
+    </figure>`,
+  })
 
 interface DragableMarkerProps {
   position: L.LatLng;

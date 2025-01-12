@@ -7,6 +7,7 @@ import { WateringPlanForm } from '@/schema/wateringPlanSchema'
 import MapSelectEntitiesModal from '@/components/map/MapSelectEntitiesModal'
 import WithAllClusters from '@/components/map/marker/WithAllClusters'
 import ShowRoutePreview from '@/components/map/marker/ShowRoutePreview'
+import { TriangleAlert } from 'lucide-react'
 
 export const Route = createFileRoute(
   '/_protected/map/watering-plan/select/cluster'
@@ -74,6 +75,10 @@ function SelectCluster() {
       : setClusterIds((prev) => [...prev, cluster.id])
   }
 
+  const showVehicleInfo = () => {
+    return !form?.transporterId || form?.transporterId === -1
+  }
+
   return (
     <>
       <MapSelectEntitiesModal
@@ -83,6 +88,17 @@ function SelectCluster() {
         title="Ausgewählte Bewässerungsgruppen:"
         content={
           <ul>
+            {showVehicleInfo() && (
+                <li className="mb-2 flex space-x-2 items-center">
+                  <figure>
+                    <TriangleAlert className="flex-shrink-0 text-red" />
+                  </figure>
+                  <p className="text-red font-semibold text-sm">
+                    Um eine Route generieren zu können, muss ein Fahrzeug
+                    ausgewählt werden.
+                  </p>
+                </li>
+              )}
             {(clusterIds?.length || 0) === 0 || showError ? (
               <li className="text-dark-600 font-semibold text-sm">
                 <p>Hier können Sie zugehörigen Gruppen verlinken.</p>
@@ -102,7 +118,15 @@ function SelectCluster() {
         }
       />
       <WithAllClusters onClick={handleClick} highlightedClusters={clusterIds} />
-      {(clusterIds.length > 0 && form?.transporterId && form?.transporterId != -1) && <ShowRoutePreview selectedClustersIds={clusterIds} transporterId={form?.transporterId} trailerId={form.trailerId} />}
+      {clusterIds.length > 0 &&
+        form?.transporterId &&
+        form?.transporterId != -1 && (
+          <ShowRoutePreview
+            selectedClustersIds={clusterIds}
+            transporterId={form?.transporterId}
+            trailerId={form.trailerId}
+          />
+        )}
     </>
   )
 }

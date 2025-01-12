@@ -19,7 +19,6 @@ export const Route = createFileRoute('/_protected/vehicles/$vehicleId/')({
 
 function SingleVehicle() {
   const vehicleId = Route.useParams().vehicleId
-  const { vehicle } = Route.useLoaderData()
 
   return (
     <div className="container mt-6">
@@ -32,7 +31,7 @@ function SingleVehicle() {
             </p>
           }
         >
-          <VehicleDashboard vehicle={vehicle} />
+          <VehicleDashboard vehicleId={vehicleId} />
         </ErrorBoundary>
       </Suspense>
     </div>

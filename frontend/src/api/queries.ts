@@ -132,6 +132,15 @@ export const userQuery = (params?: { userIds: string }) => {
   })
 }
 
+export const userRoleQuery = (role: string) =>
+  queryOptions<UserList>({
+    queryKey: ['user', role],
+    queryFn: () =>
+      userApi.getUsersByRole({
+        role: role,
+      }),
+  })
+
 export const routePreviewQuery = (transporterId: number, clusterIds: number[], trailerId?: number,) =>
   queryOptions<GeoJson>({
     queryKey: ['route', 'preview', `transporter:${transporterId}`, ...clusterIds],

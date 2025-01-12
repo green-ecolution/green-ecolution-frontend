@@ -16,7 +16,7 @@ export const Route = createFileRoute(
   loader: async () => {
     if (!useStore.getState().auth.isAuthenticated) return
   },
-  meta: () => [{title: 'Bewässerungsgruppe editieren'}],
+  meta: () => [{ title: 'Bewässerungsgruppe editieren' }],
 })
 
 function EditTreeCluster() {
