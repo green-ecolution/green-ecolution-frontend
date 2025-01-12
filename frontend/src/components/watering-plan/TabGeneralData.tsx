@@ -11,13 +11,13 @@ import { useSuspenseQuery } from '@tanstack/react-query'
 import { userQuery } from '@/api/queries'
 
 interface TabGeneralDataProps {
-  wateringPlan?: WateringPlan
+  wateringPlan: WateringPlan
 }
 
 const TabGeneralData: React.FC<TabGeneralDataProps> = ({ wateringPlan }) => {
   const userIdsString = wateringPlan?.userIds?.join(',') || ''
   const { data: userRes } = useSuspenseQuery(userQuery({ userIds: userIdsString }))
-  
+
   const updatedDate = wateringPlan?.updatedAt
     ? format(new Date(wateringPlan.updatedAt), 'dd.MM.yyyy')
     : 'Keine Angabe'
@@ -25,8 +25,8 @@ const TabGeneralData: React.FC<TabGeneralDataProps> = ({ wateringPlan }) => {
   const wateringPlanData = [
     {
       label: 'Länge der Route',
-      value: wateringPlan?.distance
-        ? `${wateringPlan.distance} km`
+      value: wateringPlan.distance
+        ? `${Math.round(wateringPlan.distance * 100) / 100} km`
         : 'Keine Angabe',
     },
     {
@@ -34,35 +34,47 @@ const TabGeneralData: React.FC<TabGeneralDataProps> = ({ wateringPlan }) => {
       value: 'Schleswiger Straße, Hauptzentrale',
     },
     {
-      label: 'Benötigte Liter Wasser',
-      value: wateringPlan?.totalWaterRequired
+      label: 'Benötigtes Wasser',
+      value: wateringPlan.totalWaterRequired
         ? `${wateringPlan.totalWaterRequired} Liter`
         : 'Keine Angabe',
     },
     {
       label: 'Transporter',
-      value: wateringPlan?.transporter
+      value: wateringPlan.transporter
         ? wateringPlan.transporter.numberPlate
         : 'Keine Angabe',
     },
     {
       label: 'Zusätzlicher Anhänger',
-      value: wateringPlan?.trailer
+      value: wateringPlan.trailer
         ? wateringPlan.trailer.numberPlate
         : 'Keine Angabe',
     },
     {
       label: 'Anzahl der Bewässerungsgruppen',
-      value: wateringPlan?.treeclusters?.length
+      value: wateringPlan.treeclusters?.length
         ? `${wateringPlan.treeclusters.length} Gruppe(n)`
         : 'Keine Angabe',
     },
     {
       label: 'Eingeteilte Mitarbeitende',
-      value: userRes?.data?.length
+      value: userRes.data?.length
         ? userRes.data.map((user) => `${user.firstName} ${user.lastName}`).join(', ')
         : 'Keine Angabe',
-    },    
+    },
+    {
+      label: 'Benötigte Nachfüllungen',
+      value: wateringPlan.refillCount
+        ? wateringPlan.refillCount
+        : 'Keine Angabe',
+    },
+    {
+      label: 'Benötigte Zeit',
+      value: wateringPlan.duration
+        ? `${Math.round(Math.exp(wateringPlan.duration) * 100) / 100} h`
+        : 'Keine Angabe',
+    },
     {
       label: 'Zuletzt geupdated',
       value: updatedDate,
@@ -76,7 +88,7 @@ const TabGeneralData: React.FC<TabGeneralDataProps> = ({ wateringPlan }) => {
           <EntitiesStatusCard
             statusDetails={getWateringPlanStatusDetails(
               wateringPlan?.status ??
-                WateringPlanStatus.WateringPlanStatusUnknown
+              WateringPlanStatus.WateringPlanStatusUnknown
             )}
             label="Aktueller Status des Einsatzes"
             hasPill
@@ -97,7 +109,7 @@ const TabGeneralData: React.FC<TabGeneralDataProps> = ({ wateringPlan }) => {
         <li>
           <GeneralStatusCard
             overline="Länge der Route"
-            value={`${wateringPlan?.distance} km`}
+            value={`${Math.round(wateringPlan.distance * 100) / 100} km`}
             isLarge
             description="Einsatz startet in der Schleswiger Straße"
           />
