@@ -3,12 +3,13 @@ import {
   WateringPlanStatus,
 } from '@green-ecolution/backend-client'
 import DetailedList from '../general/DetailedList'
-import { format } from 'date-fns'
+import { format, formatDuration, intervalToDuration } from 'date-fns'
 import GeneralStatusCard from '../general/cards/GeneralStatusCard'
 import EntitiesStatusCard from '../general/cards/EntitiesStatusCard'
 import { getWateringPlanStatusDetails } from '@/hooks/useDetailsForWateringPlanStatus'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { userQuery } from '@/api/queries'
+import { de } from 'date-fns/locale'
 
 interface TabGeneralDataProps {
   wateringPlan: WateringPlan
@@ -70,9 +71,9 @@ const TabGeneralData: React.FC<TabGeneralDataProps> = ({ wateringPlan }) => {
         : 'Keine Angabe',
     },
     {
-      label: 'Benötigte Zeit',
+      label: 'Benötigte Zeit (Fahrzeit)',
       value: wateringPlan.duration
-        ? `${Math.round(Math.exp(wateringPlan.duration) * 100) / 100} h`
+        ? `${formatDuration(intervalToDuration({ start: 0, end: wateringPlan.duration * 1000 }), { format: ['hours', 'minutes'], delimiter: ', ', locale: de })}`
         : 'Keine Angabe',
     },
     {
