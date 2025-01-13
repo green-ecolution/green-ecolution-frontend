@@ -29,25 +29,25 @@ export const VehicleSchema = z.object({
     if (typeof value === 'string' && value.trim() !== '') {
       return parseFloat(value.replace(',', '.'))
     }
-    return value;
+    return value
   }, z.number().min(1, 'Höhe ist erforderlich.').default(1)),
   width: z.preprocess((value) => {
     if (typeof value === 'string' && value.trim() !== '') {
       return parseFloat(value.replace(',', '.'))
     }
-    return value;
+    return value
   }, z.number().min(1, 'Breite ist erforderlich.').default(1)),
   length: z.preprocess((value) => {
     if (typeof value === 'string' && value.trim() !== '') {
       return parseFloat(value.replace(',', '.'))
     }
-    return value;
+    return value
   }, z.number().min(1, 'Länge ist erforderlich.').default(1)),
   weight: z.preprocess((value) => {
     if (typeof value === 'string' && value.trim() !== '') {
       return parseFloat(value.replace(',', '.'))
     }
-    return value;
+    return value
   }, z.number().min(1, 'Gewicht ist erforderlich.').default(1)),
   model: z.string().optional().default(''),
   waterCapacity: z.preprocess(
