@@ -25,13 +25,16 @@ function Sensors() {
         <h1 className="font-lato font-bold text-3xl mb-4 lg:text-4xl xl:text-5xl">
           Auflistung aller verfügbaren Sensoren
         </h1>
+        <p className="mb-4">
+          In diesem Bereich werden alle im System registrierten Sensoren angezeigt.
+          Neue Sensoren werden automatisch erstellt, sobald über das TTN (The Things Network) neue Daten empfangen werden,
+          die keinem vorhandenen Sensor zugeordnet sind. TTN ist ein globales Funknetzwerk, das auf der LoRa-Funktechnik basiert.
+          Mit dieser Technologie können die Messdaten der vergrabenen Sensoren direkt in das System übertragen werden.
+        </p>
         <p>
-          Eu ipsum occaecat non exercitation occaecat ea aute fugiat quis magna
-          do veniam commodo. Magna Lorem cupidatat id fugiat nostrud quis qui in
-          quis fugiat. Irure pariatur anim cupidatat nulla ipsum Lorem irure.
-          Est elit laborum sunt commodo officia nulla cupidatat fugiat tempor
-          exercitation laborum. Sint irure eiusmod sunt. Magna esse proident
-          magna dolore aliqua nulla id sunt adipisicing.
+          Wenn ein neuer Sensor angelegt wird, überprüft das System automatisch, ob die mitgesendeten GPS-Koordinaten
+          mit einem im System registrierten Baum übereinstimmen. Falls ein passender Baum gefunden wird,
+          wird der Sensor automatisch mit diesem Baum verknüpft. Diese Verknüpfung kann bei Bedarf auch manuell angepasst werden.
         </p>
       </article>
 
