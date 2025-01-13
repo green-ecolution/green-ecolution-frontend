@@ -14,7 +14,7 @@
   "files": [
     "dist"
   ],
-  "license": "MIT",
+  "license": "AGPL",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/green-ecolution/green-ecolution-frontend.git"
