@@ -23,10 +23,10 @@ const TreeCard: React.FC<TreeCardProps> = ({ tree }) => {
         {statusDetails.label}
       </p>
       <h3 className="text-lg font-bold font-lato">{tree.species}</h3>
-      {tree.treeNumber && (
+      {tree.number && (
         <p className="text-dark-700">
           <span className="lg:sr-only">Baumnummer: </span>
-          {tree.treeNumber}
+          {tree.number}
         </p>
       )}
 

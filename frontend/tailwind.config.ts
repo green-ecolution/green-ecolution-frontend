@@ -1,7 +1,6 @@
 import type { Config } from "tailwindcss"
 
 const config = {
-  darkMode: ["class"],
   content: [
     './pages/**/*.{ts,tsx}',
     './components/**/*.{ts,tsx}',
@@ -11,11 +10,10 @@ const config = {
 	],
   safelist: [
     {
-      pattern: /^bg-(green|red|yellow|dark)(-(light|light-100|100|400))?$/,
+      pattern: /^bg-(green|red|yellow|dark)(-(light|light-100|100|400|dark))?$/,
       variants: ['before']
     },
   ],
-  prefix: "",
   theme: {
     container: {
       center: true,
@@ -29,7 +27,6 @@ const config = {
         '2xl': '1536px',
       },
     },
-
     fontFamily: {
       'lato': ['Lato', 'sans-serif'],
       'nunito-sans': ['Nunito Sans', 'sans-serif'],
@@ -105,62 +102,13 @@ const config = {
           DEFAULT: '#ACB63B',
         },
       },
-      // colors from shadcn, please do not use
-      border: '#A2A2A2',
-      input: '#E0E5AE',
-      ring: '#D1D785',
-      background: '#FCFCFC',
-      foreground: '#171717',
-      primary: {
-        DEFAULT: '#4C7741',
-        foreground: '#FCFCFC',
-      },
-      secondary: {
-        DEFAULT: '#ACB63B',
-        foreground: '#171717',
-      },
-      destructive: {
-        DEFAULT: '#747474',
-        foreground: '#171717',
-      },
-      muted: {
-        DEFAULT: '#747474',
-        foreground: '#171717',
-      },
-      accent: {
-        DEFAULT: '#747474',
-        foreground: '#171717',
-      },
-      popover: {
-        DEFAULT: '#FCFCFC',
-        foreground: '#171717',
-      },
-      card: {
-        DEFAULT: '#FCFCFC',
-        foreground: '#171717',
-      },
     },
     extend: {
-      keyframes: {
-        "accordion-down": {
-          from: { height: "0" },
-          to: { height: "var(--radix-accordion-content-height)" },
-        },
-        "accordion-up": {
-          from: { height: "var(--radix-accordion-content-height)" },
-          to: { height: "0" },
-        },
-      },
-      animation: {
-        "accordion-down": "accordion-down 0.2s ease-out",
-        "accordion-up": "accordion-up 0.2s ease-out",
-      },
       boxShadow: {
         'cards': '0px 5px 10px 0px rgba(23, 23, 23, 5%)',
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
 } satisfies Config
 
 export default config

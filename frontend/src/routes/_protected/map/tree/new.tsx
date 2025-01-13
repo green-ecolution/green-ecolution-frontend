@@ -1,10 +1,11 @@
-import MapSelectTreesModal from '@/components/map/MapSelectTreesModal'
+
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { LatLng } from 'leaflet'
 import { useRef, useState } from 'react'
 import { useMapMouseSelect } from '@/hooks/useMapMouseSelect'
 import { DragableMarker } from '@/components/map/MapMarker'
 import { WithTreesAndClusters } from '@/components/map/marker/WithAllClusterAndTrees'
+import MapSelectEntitiesModal from '@/components/map/MapSelectEntitiesModal'
 
 export const Route = createFileRoute('/_protected/map/tree/new')({
   component: NewTree,
@@ -37,7 +38,7 @@ function NewTree() {
   return (
     <>
       <WithTreesAndClusters />
-      <MapSelectTreesModal
+      <MapSelectEntitiesModal
         ref={modalRef}
         onSave={handleSave}
         onCancel={handleCancel}

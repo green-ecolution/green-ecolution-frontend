@@ -1,11 +1,12 @@
-import { ChevronDown } from "lucide-react";
-import { forwardRef } from "react";
+import { ChevronDown } from 'lucide-react'
+import { forwardRef } from 'react'
 
 interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
-  label: string;
-  placeholder?: string;
-  options: { value: string; label: string }[];
-  error?: string;
+  label: string
+  placeholder?: string
+  options: { value: string; label: string }[]
+  error?: string
+  description?: string
 }
 
 const Select = forwardRef(
@@ -19,12 +20,14 @@ const Select = forwardRef(
           htmlFor={props.name}
           className="block font-semibold text-dark-800 mb-2.5"
         >
-          {props.label}{" "}
+          {props.label}{' '}
           {props.required ? <span className="text-red">*</span> : null}
         </label>
+        {props.description && <p className="-mt-2 text-sm text-dark-600 mb-2.5">{props.description}</p>}
         <select
           ref={ref}
           id={props.name}
+          multiple={props.multiple}
           className="w-full text-dark-800 border border-green-light rounded-lg bg-white px-4 py-3 focus:outline-green-dark"
           {...props}
         >
@@ -45,8 +48,8 @@ const Select = forwardRef(
           </span>
         )}
       </div>
-    );
-  },
-);
+    )
+  }
+)
 
-export default Select;
+export default Select

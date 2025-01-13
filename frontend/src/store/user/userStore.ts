@@ -8,6 +8,9 @@ export const userStore: SubStore<UserStore> = (set, get) => ({
   email: '',
   firstName: '',
   lastName: '',
+  drivingLicense: '',
+  userRoles: [],
+  status: '',
   setUsername: (username) =>
     set((state) => {
       state.user.username = username
@@ -24,6 +27,18 @@ export const userStore: SubStore<UserStore> = (set, get) => ({
     set((state) => {
       state.user.lastName = lastName
     }),
+  setDrivingLicense: (drivingLicense) =>
+    set((state) => {
+      state.user.drivingLicense = drivingLicense
+    }),
+  setStatus: (status) =>
+    set((state) => {
+      state.user.status = status
+    }),
+  setUserRoles: (userRoles) =>
+    set((state) => {
+      state.user.userRoles = userRoles
+    }),
   setFromJwt: (jwt) =>
     set((state) => {
       const jwtInfo = decodeJWT<KeycloakJWT>(jwt)
@@ -32,6 +47,9 @@ export const userStore: SubStore<UserStore> = (set, get) => ({
         state.user.username = jwtInfo.preferred_username
         state.user.firstName = jwtInfo.given_name
         state.user.lastName = jwtInfo.family_name
+        state.user.drivingLicense = jwtInfo.driving_license
+        state.user.userRoles = jwtInfo.user_roles
+        state.user.status = jwtInfo.status
       }
     }),
   isEmpty: () => {
@@ -39,7 +57,10 @@ export const userStore: SubStore<UserStore> = (set, get) => ({
       !get().user.username ||
       !get().user.email ||
       !get().user.firstName ||
-      !get().user.lastName
+      !get().user.lastName ||
+      !get().user.drivingLicense ||
+      !get().user.userRoles ||
+      !get().user.status
     )
   },
   clear: () =>
@@ -48,5 +69,8 @@ export const userStore: SubStore<UserStore> = (set, get) => ({
       state.user.email = ''
       state.user.firstName = ''
       state.user.lastName = ''
+      state.user.drivingLicense = ''
+      state.user.userRoles = []
+      state.user.status = ''
     }),
 })

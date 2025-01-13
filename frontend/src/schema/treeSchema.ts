@@ -9,8 +9,9 @@ export const TreeSchema = (lat: number, lng: number) => {
   return z.object({
     latitude: z.number().default(lat),
     longitude: z.number().default(lng),
-    treeNumber: z.string().min(1, 'Baumnummer ist erforderlich.'),
+    number: z.string().min(1, 'Baumnummer ist erforderlich.'),
     species: z.string().min(1, 'Art ist erforderlich.'),
+    readonly: z.boolean().default(false),
     plantingYear: z.preprocess(
       (value) => parseInt(value as string, 10),
       z
@@ -35,14 +36,14 @@ export const TreeSchema = (lat: number, lng: number) => {
       .or(z.literal('-1').or(z.literal(-1))), // -1 no cluster selected
     sensorId: z
       .preprocess(
-        (value) => parseInt(value as string, 10),
+        (value) => value,
         z
-          .number()
+          .string()
           .refine((value) => sensors.data.some((sensor) => sensor.id === value))
           .optional()
       )
-      .or(z.literal('-1').or(z.literal(-1))), // -1 no sensor selected
-    description: z.string().optional(),
+      .or(z.literal('-1')), // -1 no sensor selected
+    description: z.string().optional().default(''),
   })
 }
 

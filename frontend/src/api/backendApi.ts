@@ -7,15 +7,19 @@ import {
   FileImportApi,
   HTTPHeaders,
   InfoApi,
+  PluginApi,
   RegionApi,
   SensorApi,
   TreeApi,
   TreeClusterApi,
+  TreeSensorApi,
   UserApi,
+  VehicleApi,
+  WateringPlanApi,
 } from '@green-ecolution/backend-client'
 import { redirect } from '@tanstack/react-router'
 
-const basePath = import.meta.env.VITE_BACKEND_BASEURL ?? '/api-local'
+export const basePath = import.meta.env.VITE_BACKEND_BASEURL ?? '/api-local'
 
 const headers: HTTPHeaders = {
   'Content-Type': 'application/json',
@@ -74,11 +78,15 @@ const configParams: ConfigurationParameters = {
 const config = new Configuration(configParams)
 
 export const treeApi = new TreeApi(config)
+export const treeSensorApi = new TreeSensorApi(config)
 export const clusterApi = new TreeClusterApi(config)
 export const infoApi = new InfoApi(config)
 export const userApi = new UserApi(config)
 export const regionApi = new RegionApi(config)
 export const sensorApi = new SensorApi(config)
+export const vehicleApi = new VehicleApi(config)
+export const pluginApi = new PluginApi(config)
+export const wateringPlanApi = new WateringPlanApi(config)
 export const importApi = new FileImportApi(
   new Configuration({
     ...configParams,

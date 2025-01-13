@@ -13,8 +13,8 @@ function Dashboard() {
     {
       url: '/map',
       description: 'Alle Bäume in Flensburg im Zuständigkeitsbereich des TBZ.',
-      headline: 'Kataster',
-      linkLabel: 'Zum Kataster',
+      headline: 'Karte',
+      linkLabel: 'Zur Karte',
     },
     {
       url: '/treecluster',
@@ -29,7 +29,7 @@ function Dashboard() {
       linkLabel: 'Zu den Sensoren',
     },
     {
-      url: '/waypoints',
+      url: '/watering-plans',
       description: 'Planung eines neuen Einsatzes zur Bewässerung von Baumgruppen',
       headline: 'Einsatzplanung',
       linkLabel: 'Zur Einsatzplanung',

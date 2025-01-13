@@ -5,23 +5,23 @@ import ClusterMarker from './ClusterMarker'
 
 export interface WithAllClustersProps {
   onClick?: (tree: TreeCluster) => void
-  hasHighlightedCluster?: number
+  highlightedClusters?: number[]
 }
 
 const WithAllClusters = ({
   onClick,
-  hasHighlightedCluster,
+  highlightedClusters,
 }: WithAllClustersProps) => {
   const { data } = useSuspenseQuery(treeClusterQuery())
 
   return data.data
-    .filter((cluster) => cluster.region !== undefined)
+    .filter((cluster) => cluster.latitude !== null || cluster.longitude !== null)
     .map((cluster) => (
       <ClusterMarker
         cluster={cluster}
         key={cluster.id}
         onClick={onClick}
-        hasHighlightedCluster={hasHighlightedCluster}
+        highlightedClusters={highlightedClusters}
       />
     ))
 }

@@ -19,6 +19,7 @@ export const Route = createFileRoute('/_protected/treecluster/$treeclusterId/')(
 
 function SingleTreecluster() {
   const clusterId = Route.useParams().treeclusterId
+
   return (
     <div className="container mt-6">
       <Suspense
@@ -33,7 +34,7 @@ function SingleTreecluster() {
             </p>
           }
         >
-          <TreeClusterDashboard clusterId={clusterId} />
+          <TreeClusterDashboard treeclusterId={clusterId} />
         </ErrorBoundary>
       </Suspense>
     </div>

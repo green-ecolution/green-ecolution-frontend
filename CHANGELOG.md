@@ -4,6 +4,43 @@ All notable changes to this project will be documented in this file. The format 
 
 ## [Unreleased]
 
+## [v1.1.0] - 2024-01-13
+
+### Added
+- Route preview added (#324).
+- Preview route in dashboard (#357).
+- Overview of all users (#336).
+- Overview and single view for sensors (#261).
+- Overview and management of vehicles (#265).
+- Create, update, and delete views for watering plans (#299, #281, #311).
+- Base architecture for plugins in the frontend (#243).
+- Error page for better handling of issues (#288).
+
+### Changed
+- Show correct data in the "Own Profile" view (#320).
+- Display real sensor data on the single tree view (#314).
+- Show tree number in tooltip on hover (#180).
+- Highlight selected tree when navigating from tree view to the map (#181).
+- Add information message if no vehicle is selected during route generation (#338).
+- Add weight field to vehicle views (edit/create forms) (#326).
+- Improve design of the "Add Tree" form (#220).
+- Update view after CSV import (#235).
+- Refactor detailed lists for improved readability (#286).
+- Wording update: Renamed "Baumkataster" (#258).
+
+### Fixed
+- Single tree view error resolved (#349).
+- Tree cluster view not updating properly (#342).
+- Tree clusters without a region are now visible on the map (#252).
+- Empty tree clusters on the map no longer display as "0" (#252).
+- Double-clicking filters no longer moves the map (#218).
+- Save JWT token to prevent authentication state issues (#182).
+- CSV files recognized as MS-Excel in Windows + Firefox (#237).
+
+### Removed
+- Removed unused `shadcn` classes and updated info view (#293).
+
+
 ## [v1.0.0] - 2024-10-22
 
 ### Added
@@ -35,3 +72,4 @@ All notable changes to this project will be documented in this file. The format 
 
 [Unreleased]: https://github.com/green-ecolution/green-ecolution-frontend/compare/v1.0.0...HEAD
 [v1.0.0]: https://github.com/green-ecolution/green-ecolution-frontend/compare/c0b0e1...v1.0.0
+[v1.1.0]: https://github.com/green-ecolution/green-ecolution-frontend/compare/v1.0.0...v1.1.0

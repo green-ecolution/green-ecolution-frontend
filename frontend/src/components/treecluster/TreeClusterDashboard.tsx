@@ -1,5 +1,3 @@
-import { treeClusterIdQuery } from '@/api/queries'
-import { useSuspenseQuery } from '@tanstack/react-query'
 import EntitiesStatusCard from '@/components/general/cards/EntitiesStatusCard'
 import GeneralStatusCard from '@/components/general/cards/GeneralStatusCard'
 import TreeCard from '@/components/general/cards/TreeCard'
@@ -9,14 +7,21 @@ import { Pencil } from 'lucide-react'
 import { getWateringStatusDetails } from '@/hooks/useDetailsForWateringStatus'
 import { Link } from '@tanstack/react-router'
 import GeneralLink from '../general/links/GeneralLink'
+import { TriangleAlert } from 'lucide-react'
+import { useSuspenseQuery } from '@tanstack/react-query'
+import { treeClusterIdQuery } from '@/api/queries'
+import { format } from 'date-fns'
 
 interface TreeClusterDashboardProps {
-  clusterId: string
+  treeclusterId: string
 }
 
-const TreeClusterDashboard = ({ clusterId }: TreeClusterDashboardProps) => {
-  const { data: treecluster } = useSuspenseQuery(treeClusterIdQuery(clusterId))
+const TreeClusterDashboard = ({ treeclusterId }: TreeClusterDashboardProps) => {
+  const { data: treecluster } = useSuspenseQuery(treeClusterIdQuery(treeclusterId))
   const wateringStatus = getWateringStatusDetails(treecluster.wateringStatus)
+  const lastWateredDate = treecluster.lastWatered
+    ? format(new Date(treecluster.lastWatered), 'dd.MM.yyyy')
+    : 'Keine Angabe'
 
   return (
     <>
@@ -29,11 +34,31 @@ const TreeClusterDashboard = ({ clusterId }: TreeClusterDashboardProps) => {
           <h1 className="font-lato font-bold text-3xl mb-4 lg:text-4xl xl:text-5xl">
             Bewässerungsgruppe: {treecluster.name}
           </h1>
-          <p className="mb-4">{treecluster.description}</p>
-          <GeneralLink
-              url={`/map?lat=${treecluster.latitude}&lng=${treecluster.longitude}&zoom=16&cluster=${treecluster.id}`}
+          {treecluster.description && (
+            <p className="mb-4">{treecluster.description}</p>
+          )}
+          {treecluster.trees?.length === 0 ? (
+            <div className="flex items-center gap-x-2">
+              <TriangleAlert className="flex-shrink-0 text-dark-600 w-5 h-5" />
+              <p className="ml-2 text-dark-600">
+                Diese Baumgruppe enthält keine Bäume und hat daher keinen
+                Standort.
+              </p>
+            </div>
+          ) : (
+            <GeneralLink
+              link={{
+                to: '/map',
+                search: {
+                  lat: treecluster.latitude,
+                  lng: treecluster.longitude,
+                  zoom: 16,
+                  cluster: treecluster.id,
+                },
+              }}
               label="Auf der Karte anzeigen"
             />
+          )}
         </div>
         <ButtonLink
           icon={Pencil}
@@ -41,14 +66,14 @@ const TreeClusterDashboard = ({ clusterId }: TreeClusterDashboardProps) => {
           label="Gruppe bearbeiten"
           color="grey"
           link={{
-            to: '/treecluster/$treecluster/edit',
-            params: { treecluster: clusterId },
+            to: '/treecluster/$treeclusterId/edit',
+            params: { treeclusterId: treecluster.id.toString() },
           }}
         />
       </article>
 
       <section className="mt-10">
-        <ul className="space-y-5 md:space-y-0 md:grid md:gap-5 md:grid-cols-2 lg:grid-cols-3">
+        <ul className="space-y-5 md:space-y-0 md:grid md:gap-5 md:grid-cols-2 lg:grid-cols-4">
           <li>
             <EntitiesStatusCard
               statusDetails={wateringStatus}
@@ -70,6 +95,13 @@ const TreeClusterDashboard = ({ clusterId }: TreeClusterDashboardProps) => {
             <GeneralStatusCard
               overline="Standort der Gruppe"
               value={`${treecluster.address}, ${treecluster.region?.name ?? '-'}`}
+            />
+          </li>
+          <li>
+            <GeneralStatusCard
+              overline="Datum der letzten Bewässerung"
+              value={lastWateredDate}
+              description="Wird aktualisiert, sobald ein Einsatzplan mit dieser Gruppe als »Beendet« markiert wird."
             />
           </li>
         </ul>
@@ -98,7 +130,7 @@ const TreeClusterDashboard = ({ clusterId }: TreeClusterDashboardProps) => {
                   to="/treecluster/$treeclusterId/tree/$treeId"
                   params={{
                     treeId: tree.id.toString(),
-                    treeclusterId: clusterId,
+                    treeclusterId: treecluster.id.toString(),
                   }}
                 >
                   <TreeCard tree={tree} />

@@ -4,21 +4,21 @@ import GeneralLink from '../general/links/GeneralLink'
 import ButtonLink from '../general/links/ButtonLink'
 import { File, Info, Pencil } from 'lucide-react'
 import Tabs from '../general/Tabs'
-import TreeGeneralData from './TreeGeneralData'
 import { useMemo } from 'react'
 import TreeIcon from '../icons/Tree'
-import TreeWateringStatus from './TreeWateringStatus'
 import SensorIcon from '../icons/Sensor'
-import TreeSensorData from './TreeSensorData'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { treeClusterIdQuery, treeIdQuery } from '@/api/queries'
+import TabWateringStatus from './TabWateringStatus'
+import TabGeneralData from './TabGeneralData'
+import TabSensorData from './TabSensorData'
 
 interface TreeDashboardProps {
   treeId: string
 }
 
 const TreeDashboard = ({ treeId }: TreeDashboardProps) => {
-  const { data: tree } = useSuspenseQuery(treeIdQuery(treeId))
+  const { data: tree } = useSuspenseQuery(treeIdQuery(treeId));
   const { data: treeCluster } = useSuspenseQuery(
     treeClusterIdQuery(tree.treeClusterId?.toString() ?? '')
   )
@@ -28,17 +28,17 @@ const TreeDashboard = ({ treeId }: TreeDashboardProps) => {
       {
         label: 'Bewässerungsdaten',
         icon: <TreeIcon className="w-5 h-5" />,
-        view: <TreeWateringStatus tree={tree} />,
+        view: <TabWateringStatus tree={tree} />,
       },
       {
         label: 'Allgemeine Daten',
         icon: <File className="w-5 h-5" />,
-        view: <TreeGeneralData tree={tree} />,
+        view: <TabGeneralData tree={tree} />,
       },
       {
         label: 'Sensordaten',
         icon: <SensorIcon className="w-5 h-5" />,
-        view: <TreeSensorData tree={tree} />,
+        view: <TabSensorData tree={tree} />,
       },
     ],
     [tree]
@@ -46,12 +46,12 @@ const TreeDashboard = ({ treeId }: TreeDashboardProps) => {
 
   return (
     <>
-      <BackLink link={{ to: '/map' }} label="Zum Kataster" />
+      <BackLink link={{ to: '/map' }} label="Zur Karte" />
       <article className="space-y-6 2xl:space-y-0 2xl:flex 2xl:items-center 2xl:space-x-10">
         <div className="2xl:w-4/5">
           <h1 className="font-lato font-bold text-3xl mb-4 flex flex-wrap items-center gap-4 lg:text-4xl xl:text-5xl">
-            Baum: {tree.treeNumber}
-            {tree.readonly && <Pill label="importiert" />}
+            Baum: {tree.number}
+            {tree.readonly && <Pill label="importiert" theme="green-light" />}
           </h1>
           {tree.treeClusterId ? (
             <p className="text-dark-600 text-lg">
@@ -69,29 +69,38 @@ const TreeDashboard = ({ treeId }: TreeDashboardProps) => {
           {tree.description && <p>{tree.description}</p>}
           <div className="flex mt-4 flex-wrap gap-x-10">
             <GeneralLink
-              url={`/map?lat=${tree.latitude}&lng=${tree.longitude}&zoom=18&tree=${tree.id}`}
               label="Auf der Karte anzeigen"
+              link={{
+                to: '/map',
+                search: {
+                  lat: tree.latitude,
+                  lng: tree.longitude,
+                  zoom: 18,
+                  tree: tree.id,
+                },
+              }}
             />
             {tree.treeClusterId && (
               <GeneralLink
-                url={`/treecluster/${tree.treeClusterId}`}
-                label="Zur Bewässerungsggruppe"
+                label="Zur Bewässerungsgruppe"
+                link={{
+                  to: `/treecluster/$treeclusterId`,
+                  params: { treeclusterId: String(tree.treeClusterId) },
+                }}
               />
             )}
           </div>
         </div>
-        {!tree.readonly && (
-          <ButtonLink
-            icon={Pencil}
-            iconClassName="stroke-1"
-            label="Baum bearbeiten"
-            color="grey"
-            link={{
-              to: `/tree/$treeId/edit`,
-              params: { treeId: String(tree.id) },
-            }}
-          />
-        )}
+        <ButtonLink
+          icon={Pencil}
+          iconClassName="stroke-1"
+          label="Baum bearbeiten"
+          color="grey"
+          link={{
+            to: `/tree/$treeId/edit`,
+            params: { treeId: String(tree.id) },
+          }}
+        />
       </article>
       {tree?.sensor ? (
         <Tabs tabs={tabs} />
@@ -108,7 +117,7 @@ const TreeDashboard = ({ treeId }: TreeDashboardProps) => {
               angezeigt werden können.
             </p>
           </div>
-          <TreeGeneralData tree={tree} />
+          <TabGeneralData tree={tree} />
         </section>
       )}
     </>

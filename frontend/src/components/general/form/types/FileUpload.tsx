@@ -1,37 +1,39 @@
-import React, { useEffect, useRef } from "react";
-import { Trash2 } from "lucide-react";
+import React, { useEffect, useRef } from 'react'
+import { Trash2 } from 'lucide-react'
 
 interface FileUploadProps {
-  fileType: string;
-  name: string;
-  message?: string;
-  showDeleteButton: boolean;
-  clearFileInput: () => void;
-  handleFileChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  fileType: string
+  name: string
+  message?: string
+  isFileSelected: boolean
+  color: string
+  clearFileInput: () => void
+  handleFileChange: (event: React.ChangeEvent<HTMLInputElement>) => void
 }
 
 const FileUpload: React.FC<FileUploadProps> = ({
   fileType,
-  name = "file",
-  message = "",
+  name = 'file',
+  message = '',
   handleFileChange,
   clearFileInput,
-  showDeleteButton,
+  isFileSelected,
+  color,
 }) => {
-  const inputFileRef = useRef<HTMLInputElement | null>(null);
+  const inputFileRef = useRef<HTMLInputElement | null>(null)
 
   const handleClearInput = () => {
     if (inputFileRef.current) {
-      inputFileRef.current.value = "";
+      inputFileRef.current.value = ''
     }
-    clearFileInput();
-  };
+    clearFileInput()
+  }
 
   useEffect(() => {
     if (message && inputFileRef.current) {
-      inputFileRef.current.value = "";
+      inputFileRef.current.value = ''
     }
-  }, [message]);
+  }, [message])
 
   return (
     <>
@@ -42,26 +44,30 @@ const FileUpload: React.FC<FileUploadProps> = ({
           id={name}
           type="file"
           onChange={handleFileChange}
-          className="w-full items-center gap-4 text-dark-800 border border-green-light rounded-lg bg-white px-4 py-3 focus:outline-green-dark lg:w-1/2"
+          className="w-full lg:w-1/2 text-dark-800 border border-green-light rounded-lg bg-white px-4 py-3 focus:outline-green-dark"
         />
 
-        <button
-          type="button"
-          className={`${showDeleteButton ? 'block' : 'hidden'} `}
-          onClick={handleClearInput}
-        >
-          <Trash2 className="text-dark-600" />
-          <span className="sr-only">Datei unselektieren</span>
-        </button>
+        {isFileSelected && (
+          <button
+            type="button"
+            onClick={handleClearInput}
+            className="flex items-center"
+          >
+            <Trash2 className="text-dark-600" />
+            <span className="sr-only">Datei unselektieren</span>
+          </button>
+        )}
       </div>
 
-      {message && (
-        <div className="mt-4 text-red font-semibold text-sm">
+      {message && !isFileSelected && (
+        <div
+          className={`mt-4 font-semibold text-sm ${color}`}
+        >
           {message}
         </div>
       )}
     </>
-  );
-};
+  )
+}
 
-export default FileUpload;
+export default FileUpload
