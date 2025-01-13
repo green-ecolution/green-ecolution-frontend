@@ -1,4 +1,4 @@
-import { vehicleQuery } from '@/api/queries'
+import { userRoleQuery, vehicleQuery } from '@/api/queries'
 import { WateringPlanStatus } from '@green-ecolution/backend-client'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { z } from 'zod'
@@ -13,6 +13,9 @@ export const WateringPlanSchema = (isCreate: boolean) => {
     vehicleQuery({
       type: 'trailer',
     })
+  )
+  const { data: users } = useSuspenseQuery(
+    userRoleQuery('tbz')
   )
 
   return z.object({
@@ -59,6 +62,10 @@ export const WateringPlanSchema = (isCreate: boolean) => {
     userIds: z
       .array(z.string())
       .min(1, 'Mitarbeitenden sind erforderlich.')
+      .refine(
+        (value) => value.every((id) => users.data.some((user) => user.id === id)),
+        { message: 'Einer oder mehrere Mitarbeitende sind ungültig.' }
+      )
       .default([]),
     transporterId: z.preprocess(
       (value) => parseInt(value as string, 10),

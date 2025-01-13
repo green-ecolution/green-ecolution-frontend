@@ -1,7 +1,7 @@
 import { useSuspenseQuery } from '@tanstack/react-query'
 import BackLink from '../general/links/BackLink'
 import { useInitFormQuery } from '@/hooks/form/useInitForm'
-import { userQuery, vehicleQuery, wateringPlanIdQuery } from '@/api/queries'
+import { userRoleQuery, vehicleQuery, wateringPlanIdQuery } from '@/api/queries'
 import { format } from 'date-fns'
 import FormForWateringPlan from '../general/form/FormForWateringPlan'
 import { useNavigate } from '@tanstack/react-router'
@@ -46,7 +46,9 @@ const WateringPlanUpdate = ({ wateringPlanId }: WateringPlanUpdateProps) => {
   const date = loadedData?.date
     ? format(new Date(loadedData?.date), 'dd.MM.yyyy')
     : 'Keine Angabe'
-  const { data: users } = useSuspenseQuery(userQuery())
+
+  const { data: users } = useSuspenseQuery(userRoleQuery('tbz'))
+
   const { data: trailers } = useSuspenseQuery(vehicleQuery({ type: 'trailer' }))
   const { data: transporters } = useSuspenseQuery(
     vehicleQuery({ type: 'transporter' })
