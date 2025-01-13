@@ -53,6 +53,7 @@ const FormForTree = (props: FormForTreeProps) => {
             placeholder="Pflanzjahr"
             label="Pflanzjahr"
             type="number"
+            error={errors.plantingYear?.message}
             required
             {...props.register('plantingYear')}
           />
@@ -123,7 +124,7 @@ const FormForTree = (props: FormForTreeProps) => {
 
       <FormError
         show={props.displayError}
-        error="Es ist leider ein Problem aufgetreten. Bitte probieren Sie es erneut oder wenden Sie sich an einen Systemadministrierenden."
+        error={props.errorMessage}
       />
 
       <PrimaryButton

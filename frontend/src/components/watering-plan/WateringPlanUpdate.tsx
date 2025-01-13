@@ -1,6 +1,5 @@
 import { useSuspenseQuery } from '@tanstack/react-query'
 import BackLink from '../general/links/BackLink'
-import { WateringPlan } from '@green-ecolution/backend-client'
 import { useInitFormQuery } from '@/hooks/form/useInitForm'
 import { userRoleQuery, vehicleQuery, wateringPlanIdQuery } from '@/api/queries'
 import { format } from 'date-fns'
@@ -8,25 +7,27 @@ import FormForWateringPlan from '../general/form/FormForWateringPlan'
 import { useNavigate } from '@tanstack/react-router'
 import { Route } from '@/routes'
 import useStore from '@/store/store'
-import { useWateringPlanUpdateForm } from '@/hooks/form/useWateringPlanUpdateForm'
 import GeneralLink from '../general/links/GeneralLink'
 import { showWateringPlanStatusButton } from '@/hooks/useDetailsForWateringPlanStatus'
 import LoadingInfo from '../general/error/LoadingInfo'
 import { Suspense } from 'react'
 import DeleteSection from '../treecluster/DeleteSection'
 import { wateringPlanApi } from '@/api/backendApi'
+import { useWaterinPlanForm } from '@/hooks/form/useWateringPlanForm'
+import { useFormSync } from '@/hooks/form/useFormSync'
+import { WateringPlanForm, WateringPlanSchema } from '@/schema/wateringPlanSchema'
+import { SubmitHandler } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 interface WateringPlanUpdateProps {
   wateringPlanId: string
-  onUpdateSuccess: (data: WateringPlan) => void
-  onUpdateError: () => void
 }
 
-const WateringPlanUpdate = ({
-  wateringPlanId,
-  onUpdateError,
-  onUpdateSuccess,
-}: WateringPlanUpdateProps) => {
+const WateringPlanUpdate = ({ wateringPlanId }: WateringPlanUpdateProps) => {
+  const { mutate, isError, error } = useWaterinPlanForm(
+    'update',
+    wateringPlanId
+  )
   const { initForm, loadedData } = useInitFormQuery(
     wateringPlanIdQuery(wateringPlanId),
     (data) => ({
@@ -47,18 +48,26 @@ const WateringPlanUpdate = ({
     : 'Keine Angabe'
 
   const { data: users } = useSuspenseQuery(userRoleQuery('tbz'))
+
   const { data: trailers } = useSuspenseQuery(vehicleQuery({ type: 'trailer' }))
   const { data: transporters } = useSuspenseQuery(
     vehicleQuery({ type: 'transporter' })
   )
 
-  const { register, handleSubmit, formState, onSubmit, isError } =
-    useWateringPlanUpdateForm({
-      wateringPlanId,
-      onUpdateSuccess,
-      onUpdateError,
-      initialFormData: initForm,
+  const { register, handleSubmit, formState } =
+    useFormSync<WateringPlanForm>(
+      initForm,
+      zodResolver(WateringPlanSchema(false))
+    )
+
+  const onSubmit: SubmitHandler<WateringPlanForm> = async (data) => {
+    mutate({
+      ...data,
+      date: data.date.toISOString(),
+      trailerId:
+        data.trailerId && data.trailerId !== -1 ? data.trailerId : undefined,
     })
+  }
 
   const mapPosition = useStore((state) => ({
     lat: state.map.center[0],
@@ -130,10 +139,13 @@ const WateringPlanUpdate = ({
           trailers={trailers.data}
           transporters={transporters.data}
           onAddCluster={navigateToClusterSelect}
+          errorMessage={error?.message}
         />
       </section>
 
-      <Suspense fallback={<LoadingInfo label="Der Einsatzplan wird gelöscht" />}>
+      <Suspense
+        fallback={<LoadingInfo label="Der Einsatzplan wird gelöscht" />}
+      >
         <DeleteSection
           mutationFn={handleDeleteWateringPlan}
           entityName="der Einsatzplan"

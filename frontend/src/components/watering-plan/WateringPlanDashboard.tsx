@@ -10,21 +10,22 @@ import TabGeneralData from './TabGeneralData'
 import { useMemo } from 'react'
 import Tabs from '../general/Tabs'
 import TreeClusterList from '../treecluster/TreeClusterList'
-import { WateringPlan } from '@green-ecolution/backend-client'
 import ButtonLink from '../general/links/ButtonLink'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useSuspenseQuery } from '@tanstack/react-query'
 import useStore from '@/store/store'
 import { basePath } from '@/api/backendApi'
 import useToast from '@/hooks/useToast'
 import LinkAsButton from '../general/buttons/LinkButton'
+import { wateringPlanIdQuery } from '@/api/queries'
 
 interface WateringPlanDashboardProps {
-  wateringPlan: WateringPlan
+  wateringPlanId: string
 }
 
 const WateringPlanDashboard = ({
-  wateringPlan,
+  wateringPlanId,
 }: WateringPlanDashboardProps) => {
+  const { data: wateringPlan } = useSuspenseQuery(wateringPlanIdQuery(wateringPlanId))
   const statusDetails = getWateringPlanStatusDetails(wateringPlan.status)
   const { accessToken } = useStore((state) => ({
     accessToken: state.auth.token?.accessToken,
@@ -78,8 +79,8 @@ const WateringPlanDashboard = ({
       window.URL.revokeObjectURL(objUrl)
     },
     onError: (error) => {
-      showToast(error.message + ' (TODO: display error icon)')
-    },
+      showToast(error.message, 'error')
+    }
   })
 
   return (

@@ -19,7 +19,6 @@ export const Route = createFileRoute('/_protected/watering-plans/$wateringPlanId
 
 function SingleWateringPlan() {
   const wateringPlanId = Route.useParams().wateringPlanId
-  const { wateringPlan } = Route.useLoaderData();
 
   return (
     <div className="container mt-6">
@@ -32,7 +31,7 @@ function SingleWateringPlan() {
             </p>
           }
         >
-          <WateringPlanDashboard wateringPlan={wateringPlan} />
+          <WateringPlanDashboard wateringPlanId={wateringPlanId} />
         </ErrorBoundary>
       </Suspense>
     </div>

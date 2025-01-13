@@ -1,6 +1,5 @@
 import BackLink from '../general/links/BackLink'
 import {
-  WateringPlan,
   WateringPlanStatus,
 } from '@green-ecolution/backend-client'
 import { useInitFormQuery } from '@/hooks/form/useInitForm'
@@ -15,19 +14,26 @@ import {
 } from '@/hooks/useDetailsForWateringPlanStatus'
 import Pill from '../general/Pill'
 import Textarea from '../general/form/types/Textarea'
-import { useWateringPlanUpdateForm } from '@/hooks/form/useWateringPlanUpdateForm'
+import { useWaterinPlanForm } from '@/hooks/form/useWateringPlanForm'
+import { useFormSync } from '@/hooks/form/useFormSync'
+import {
+  WateringPlanForm,
+  WateringPlanSchema,
+} from '@/schema/wateringPlanSchema'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { SubmitHandler } from 'react-hook-form'
 
 interface WateringPlanStatusUpdateProps {
   wateringPlanId: string
-  onUpdateSuccess: (data: WateringPlan) => void
-  onUpdateError: () => void
 }
 
 const WateringPlanStatusUpdate = ({
   wateringPlanId,
-  onUpdateError,
-  onUpdateSuccess,
 }: WateringPlanStatusUpdateProps) => {
+  const { mutate, isError, error } = useWaterinPlanForm(
+    'update',
+    wateringPlanId
+  )
   const { initForm, loadedData } = useInitFormQuery(
     wateringPlanIdQuery(wateringPlanId),
     (data) => ({
@@ -47,13 +53,20 @@ const WateringPlanStatusUpdate = ({
     : 'Keine Angabe'
   const statusDetails = getWateringPlanStatusDetails(loadedData?.status)
 
-  const { register, handleSubmit, formState, watch, onSubmit, isError } =
-    useWateringPlanUpdateForm({
-      wateringPlanId,
-      onUpdateSuccess,
-      onUpdateError,
-      initialFormData: initForm,
+  const { register, handleSubmit, formState, watch } =
+    useFormSync<WateringPlanForm>(
+      initForm,
+      zodResolver(WateringPlanSchema(false))
+    )
+
+  const onSubmit: SubmitHandler<WateringPlanForm> = async (data) => {
+    mutate({
+      ...data,
+      date: data.date.toISOString(),
+      trailerId:
+        data.trailerId && data.trailerId !== -1 ? data.trailerId : undefined,
     })
+  }
 
   const selectedStatus = watch('status')
 
@@ -111,7 +124,7 @@ const WateringPlanStatusUpdate = ({
 
           <FormError
             show={isError}
-            error="Es ist leider ein Problem aufgetreten. Bitte probieren Sie es erneut oder wenden Sie sich an einen Systemadministrierenden."
+            error={error?.message}
           />
 
           <PrimaryButton

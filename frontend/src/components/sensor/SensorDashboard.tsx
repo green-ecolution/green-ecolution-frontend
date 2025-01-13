@@ -1,5 +1,5 @@
-import { treeSensorIdQuery } from '@/api/queries'
-import { useQuery } from '@tanstack/react-query'
+import { sensorIdQuery, treeSensorIdQuery } from '@/api/queries'
+import { useSuspenseQuery } from '@tanstack/react-query'
 import EntitiesStatusCard from '@/components/general/cards/EntitiesStatusCard'
 import GeneralStatusCard from '@/components/general/cards/GeneralStatusCard'
 import BackLink from '@/components/general/links/BackLink'
@@ -8,14 +8,14 @@ import { getSensorStatusDetails } from '@/hooks/useDetailsForSensorStatus'
 import { format, formatDistanceToNow } from 'date-fns'
 import { de } from 'date-fns/locale'
 import DetailedList from '../general/DetailedList'
-import { Sensor } from '@green-ecolution/backend-client'
 
 interface SensorDashboardProps {
-  sensor: Sensor
+  sensorId: string
 }
 
-const SensorDashboard = ({ sensor }: SensorDashboardProps) => {
-  const { data: linkedTree } = useQuery(treeSensorIdQuery(sensor.id))
+const SensorDashboard = ({ sensorId }: SensorDashboardProps) => {
+  const { data: sensor } = useSuspenseQuery(sensorIdQuery(sensorId))
+  const { data: linkedTree } = useSuspenseQuery(treeSensorIdQuery(sensorId))
 
   const createdDate = sensor?.createdAt
     ? format(new Date(sensor?.createdAt), 'dd.MM.yyyy')

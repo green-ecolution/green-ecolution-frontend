@@ -1,16 +1,12 @@
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import {
-  wateringPlanApi,
-  WateringPlanCreate,
   WateringPlanStatus,
 } from '@/api/backendApi'
 import { SubmitHandler } from 'react-hook-form'
 import {
-  useMutation,
-  useQueryClient,
   useSuspenseQuery,
 } from '@tanstack/react-query'
-import useFormStore, { FormStore } from '@/store/form/useFormStore'
+import useFormStore from '@/store/form/useFormStore'
 import { useFormSync } from '@/hooks/form/useFormSync'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useInitForm } from '@/hooks/form/useInitForm'
@@ -23,6 +19,7 @@ import {
 } from '@/schema/wateringPlanSchema'
 import FormForWateringPlan from '@/components/general/form/FormForWateringPlan'
 import useStore from '@/store/store'
+import { useWaterinPlanForm } from '@/hooks/form/useWateringPlanForm'
 
 export const Route = createFileRoute(
   '/_protected/watering-plans/_formular/new'
@@ -35,7 +32,7 @@ export const Route = createFileRoute(
 })
 
 function NewWateringPlan() {
-  const showToast = useToast()
+  const { mutate, isError, error } = useWaterinPlanForm('create')
   const navigate = useNavigate({ from: Route.fullPath })
   const queryClient = useQueryClient()
   const { data: users } = useSuspenseQuery(userRoleQuery('tbz'))
@@ -60,11 +57,6 @@ function NewWateringPlan() {
     userIds: [],
   })
 
-  const formStore = useFormStore((state: FormStore<WateringPlanForm>) => ({
-    form: state.form,
-    reset: state.reset,
-  }))
-
   const mapPosition = useStore((state) => ({
     lat: state.map.center[0],
     lng: state.map.center[1],
@@ -76,34 +68,14 @@ function NewWateringPlan() {
     zodResolver(WateringPlanSchema(true))
   )
 
-  const { isError, mutate } = useMutation({
-    mutationFn: (wateringPlan: WateringPlanCreate) =>
-      wateringPlanApi.createWateringPlan({
-        body: wateringPlan,
-      }),
-    onSuccess: (data) => {
-      formStore.reset()
-      navigate({
-        to: `/watering-plans/${data.id}`,
-        search: { resetStore: false },
-        replace: true,
-      })
-      queryClient.invalidateQueries(treeClusterQuery())
-      showToast('Der Einsatzplan wurde erfolgreich erstellt.')
-    },
-    onError: () => {
-      console.error('Error creating watering plan')
-    },
-  })
-
   const onSubmit: SubmitHandler<WateringPlanForm> = (data) => {
     mutate({
       ...data,
       date: data.date.toISOString(),
       trailerId:
-        data.trailerId && data.trailerId !== -1
-          ? data.trailerId
-          : undefined,
+      data.trailerId && data.trailerId !== -1
+        ? data.trailerId
+        : undefined,
     })
   }
 
@@ -150,6 +122,7 @@ function NewWateringPlan() {
           transporters={transporters.data}
           users={users.data}
           onAddCluster={navigateToClusterSelect}
+          errorMessage={error?.message}
         />
       </section>
     </div>

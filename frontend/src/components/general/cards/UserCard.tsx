@@ -37,7 +37,9 @@ const UserCard: React.FC<UserCard> = ({ user }) => {
 
       <p className="text-dark-800">
         <span className="lg:sr-only">Führerscheinklasse:&nbsp;</span>
-        {user.drivingLicense ? user.drivingLicense : 'Keine Angabe'}
+        {user.drivingLicense && user.drivingLicense !== '-'
+          ? user.drivingLicense
+          : 'Keine Angabe'}
       </p>
     </div>
   )
