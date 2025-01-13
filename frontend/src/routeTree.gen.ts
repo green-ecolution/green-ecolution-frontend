@@ -41,6 +41,7 @@ import { Route as ProtectedTreeclusterTreeclusterIdImport } from './routes/_prot
 import { Route as ProtectedTreeFormularImport } from './routes/_protected/tree/_formular'
 import { Route as ProtectedTreeTreeIdImport } from './routes/_protected/tree/$treeId'
 import { Route as ProtectedSettingsImportImport } from './routes/_protected/settings/import'
+import { Route as ProtectedSensorsSensorIdImport } from './routes/_protected/sensors/$sensorId'
 import { Route as ProtectedWateringPlansWateringPlanIdIndexImport } from './routes/_protected/watering-plans/$wateringPlanId/index'
 import { Route as ProtectedVehiclesVehicleIdIndexImport } from './routes/_protected/vehicles/$vehicleId/index'
 import { Route as ProtectedTreeclusterTreeclusterIdIndexImport } from './routes/_protected/treecluster/$treeclusterId/index'
@@ -229,6 +230,11 @@ const ProtectedSettingsImportRoute = ProtectedSettingsImportImport.update({
   getParentRoute: () => ProtectedSettingsRoute,
 } as any)
 
+const ProtectedSensorsSensorIdRoute = ProtectedSensorsSensorIdImport.update({
+  path: '/sensors/$sensorId',
+  getParentRoute: () => ProtectedRoute,
+} as any)
+
 const ProtectedWateringPlansWateringPlanIdIndexRoute =
   ProtectedWateringPlansWateringPlanIdIndexImport.update({
     path: '/',
@@ -255,8 +261,8 @@ const ProtectedSettingsPluginIndexRoute =
 
 const ProtectedSensorsSensorIdIndexRoute =
   ProtectedSensorsSensorIdIndexImport.update({
-    path: '/sensors/$sensorId/',
-    getParentRoute: () => ProtectedRoute,
+    path: '/',
+    getParentRoute: () => ProtectedSensorsSensorIdRoute,
   } as any)
 
 const ProtectedWateringPlansFormularNewRoute =
@@ -471,6 +477,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthCallbackImport
       parentRoute: typeof rootRoute
     }
+    '/_protected/sensors/$sensorId': {
+      id: '/_protected/sensors/$sensorId'
+      path: '/sensors/$sensorId'
+      fullPath: '/sensors/$sensorId'
+      preLoaderRoute: typeof ProtectedSensorsSensorIdImport
+      parentRoute: typeof ProtectedImport
+    }
     '/_protected/settings/import': {
       id: '/_protected/settings/import'
       path: '/import'
@@ -669,10 +682,10 @@ declare module '@tanstack/react-router' {
     }
     '/_protected/sensors/$sensorId/': {
       id: '/_protected/sensors/$sensorId/'
-      path: '/sensors/$sensorId'
-      fullPath: '/sensors/$sensorId'
+      path: '/'
+      fullPath: '/sensors/$sensorId/'
       preLoaderRoute: typeof ProtectedSensorsSensorIdIndexImport
-      parentRoute: typeof ProtectedImport
+      parentRoute: typeof ProtectedSensorsSensorIdImport
     }
     '/_protected/settings/plugin/': {
       id: '/_protected/settings/plugin/'
@@ -823,6 +836,9 @@ export const routeTree = rootRoute.addChildren({
         }),
       ProtectedWateringPlansIndexRoute,
     }),
+    ProtectedSensorsSensorIdRoute: ProtectedSensorsSensorIdRoute.addChildren({
+      ProtectedSensorsSensorIdIndexRoute,
+    }),
     ProtectedTreeTreeIdRoute,
     ProtectedTreeRoute: ProtectedTreeRoute.addChildren({
       ProtectedTreeFormularRoute: ProtectedTreeFormularRoute.addChildren({
@@ -847,7 +863,6 @@ export const routeTree = rootRoute.addChildren({
     }),
     ProtectedSensorsIndexRoute,
     ProtectedTeamIndexRoute,
-    ProtectedSensorsSensorIdIndexRoute,
   }),
   LoginRoute,
   LogoutRoute,
@@ -883,12 +898,12 @@ export const routeTree = rootRoute.addChildren({
         "/_protected/settings",
         "/_protected/treecluster",
         "/_protected/watering-plans",
+        "/_protected/sensors/$sensorId",
         "/_protected/tree/$treeId",
         "/_protected/tree",
         "/_protected/vehicles",
         "/_protected/sensors/",
-        "/_protected/team/",
-        "/_protected/sensors/$sensorId/"
+        "/_protected/team/"
       ]
     },
     "/login": {
@@ -955,6 +970,13 @@ export const routeTree = rootRoute.addChildren({
     },
     "/auth/callback": {
       "filePath": "auth/callback.tsx"
+    },
+    "/_protected/sensors/$sensorId": {
+      "filePath": "_protected/sensors/$sensorId.tsx",
+      "parent": "/_protected",
+      "children": [
+        "/_protected/sensors/$sensorId/"
+      ]
     },
     "/_protected/settings/import": {
       "filePath": "_protected/settings/import.tsx",
@@ -1114,7 +1136,7 @@ export const routeTree = rootRoute.addChildren({
     },
     "/_protected/sensors/$sensorId/": {
       "filePath": "_protected/sensors/$sensorId/index.tsx",
-      "parent": "/_protected"
+      "parent": "/_protected/sensors/$sensorId"
     },
     "/_protected/settings/plugin/": {
       "filePath": "_protected/settings/plugin/index.tsx",
