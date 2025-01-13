@@ -4,9 +4,9 @@ All notable changes to this project will be documented in this file. The format 
 
 ## [Unreleased]
 
-## [v2.0.0] - 2025-01-13
-
 ### Added
+- Route preview added (#324).
+- Preview route in dashboard (#357).
 - Overview of all users (#336).
 - Overview and single view for sensors (#261).
 - Overview and management of vehicles (#265).
