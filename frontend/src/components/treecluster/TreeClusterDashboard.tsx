@@ -10,6 +10,7 @@ import GeneralLink from '../general/links/GeneralLink'
 import { TriangleAlert } from 'lucide-react'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { treeClusterIdQuery } from '@/api/queries'
+import { format } from 'date-fns'
 
 interface TreeClusterDashboardProps {
   treeclusterId: string
@@ -18,6 +19,9 @@ interface TreeClusterDashboardProps {
 const TreeClusterDashboard = ({ treeclusterId }: TreeClusterDashboardProps) => {
   const { data: treecluster } = useSuspenseQuery(treeClusterIdQuery(treeclusterId))
   const wateringStatus = getWateringStatusDetails(treecluster.wateringStatus)
+  const lastWateredDate = treecluster.lastWatered
+    ? format(new Date(treecluster.lastWatered), 'dd.MM.yyyy')
+    : 'Keine Angabe'
 
   return (
     <>
@@ -69,7 +73,7 @@ const TreeClusterDashboard = ({ treeclusterId }: TreeClusterDashboardProps) => {
       </article>
 
       <section className="mt-10">
-        <ul className="space-y-5 md:space-y-0 md:grid md:gap-5 md:grid-cols-2 lg:grid-cols-3">
+        <ul className="space-y-5 md:space-y-0 md:grid md:gap-5 md:grid-cols-2 lg:grid-cols-4">
           <li>
             <EntitiesStatusCard
               statusDetails={wateringStatus}
@@ -91,6 +95,13 @@ const TreeClusterDashboard = ({ treeclusterId }: TreeClusterDashboardProps) => {
             <GeneralStatusCard
               overline="Standort der Gruppe"
               value={`${treecluster.address}, ${treecluster.region?.name ?? '-'}`}
+            />
+          </li>
+          <li>
+            <GeneralStatusCard
+              overline="Datum der letzten Bewässerung"
+              value={lastWateredDate}
+              description="Wird aktualisiert, sobald ein Einsatzplan mit dieser Gruppe als »Beendet« markiert wird."
             />
           </li>
         </ul>
