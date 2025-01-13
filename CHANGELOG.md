@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file. The format 
 
 ## [Unreleased]
 
+## [v1.1.0] - 2024-01-13
+
 ### Added
 - Route preview added (#324).
 - Preview route in dashboard (#357).
@@ -70,3 +72,4 @@ All notable changes to this project will be documented in this file. The format 
 
 [Unreleased]: https://github.com/green-ecolution/green-ecolution-frontend/compare/v1.0.0...HEAD
 [v1.0.0]: https://github.com/green-ecolution/green-ecolution-frontend/compare/c0b0e1...v1.0.0
+[v1.1.0]: https://github.com/green-ecolution/green-ecolution-frontend/compare/v1.0.0...v1.1.0
