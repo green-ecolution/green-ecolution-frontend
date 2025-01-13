@@ -19,6 +19,9 @@ const newTreeSearchSchema = z.object({
 export const Route = createFileRoute('/_protected/tree/_formular/new')({
   component: NewTree,
   validateSearch: newTreeSearchSchema,
+  beforeLoad: () => {
+    useFormStore.getState().setType('new')
+  },
   loaderDeps: ({ search: { lat, lng } }) => {
     return { lat, lng }
   },
@@ -64,7 +67,7 @@ function NewTree() {
         data.sensorId && data.sensorId !== '-1' ? data.sensorId : undefined,
       treeClusterId:
         data.treeClusterId &&
-        (data.treeClusterId === '-1' || data.treeClusterId <= 0)
+          (data.treeClusterId === '-1' || data.treeClusterId <= 0)
           ? undefined
           : data.treeClusterId,
     })

@@ -44,8 +44,6 @@ function Treecluster() {
     })
   }, [clustersRes.data, filters])
 
-  console.log(clustersRes)
-
   const handleFilter = () => {
     setFilteredData({
       active: true,

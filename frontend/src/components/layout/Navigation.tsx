@@ -66,7 +66,7 @@ const Navigation: React.FC<NavigationProps> = ({
         {
           label: 'Beete',
           icon: <Flower className="w-5 h-5" />,
-          to: '/',
+          to: '/flowerbed',
         },
       ],
     },
@@ -111,12 +111,12 @@ const Navigation: React.FC<NavigationProps> = ({
         // Hide the debug navigation entry in the production build
         ...(process.env.NODE_ENV !== 'production'
           ? [
-              {
-                label: 'Debug',
-                icon: <Bug className="w-5 h-5" />,
-                to: '/debug',
-              },
-            ]
+            {
+              label: 'Debug',
+              icon: <Bug className="w-5 h-5" />,
+              to: '/debug',
+            },
+          ]
           : []),
         {
           label: 'Ausloggen',
