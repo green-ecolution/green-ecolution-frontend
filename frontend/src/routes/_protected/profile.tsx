@@ -87,7 +87,7 @@ function Sensors() {
           <div className="py-4 border-b border-b-dark-200">
             <dt className="font-bold sm:inline">Führerscheinklasse:</dt>
             <dd className="sm:inline sm:px-2">
-              {user.drivingLicenses ? (
+              {user.drivingLicenses && user.drivingLicenses.length > 0 ? (
                 <>
                   {user.drivingLicenses.map((drivingLicense, index) => (
                     <span key={index}>
