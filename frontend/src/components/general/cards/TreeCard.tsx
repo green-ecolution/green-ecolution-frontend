@@ -1,4 +1,4 @@
-import { getWateringStatusDetails } from '@/hooks/useDetailsForWateringStatus'
+import { getWateringStatusDetails } from '@/hooks/details/useDetailsForWateringStatus'
 import { WateringStatus, Tree } from '@green-ecolution/backend-client'
 import { MoveRight } from 'lucide-react'
 import React from 'react'

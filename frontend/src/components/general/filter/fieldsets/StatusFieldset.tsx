@@ -1,5 +1,5 @@
 import Option from '../Option'
-import { getWateringStatusDetails } from '@/hooks/useDetailsForWateringStatus'
+import { getWateringStatusDetails } from '@/hooks/details/useDetailsForWateringStatus'
 import useFilter from '@/hooks/useFilter'
 import { WateringStatus } from '@green-ecolution/backend-client'
 

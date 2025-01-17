@@ -3,7 +3,7 @@ import { User } from '@green-ecolution/backend-client'
 import {
   getUserRoleDetails,
   getUserStatusDetails,
-} from '@/hooks/useDetailsForUser'
+} from '@/hooks/details/useDetailsForUser'
 import Pill from '../Pill'
 
 interface UserCard {

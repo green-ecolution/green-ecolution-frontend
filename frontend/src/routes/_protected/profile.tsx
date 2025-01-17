@@ -4,7 +4,7 @@ import { UserRound } from 'lucide-react'
 import {
   getUserRoleDetails,
   getUserStatusDetails,
-} from '@/hooks/useDetailsForUser'
+} from '@/hooks/details/useDetailsForUser'
 
 export const Route = createFileRoute('/_protected/profile')({
   component: Sensors,

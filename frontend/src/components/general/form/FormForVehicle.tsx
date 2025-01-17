@@ -5,9 +5,9 @@ import PrimaryButton from '../buttons/PrimaryButton'
 import Input from './types/Input'
 import Textarea from './types/Textarea'
 import Select from './types/Select'
-import { VehicleTypeOptions } from '@/hooks/useDetailsForVehicleType'
-import { DrivingLicenseOptions } from '@/hooks/useDetailsForDrivingLicense'
-import { VehicleStatusOptions } from '@/hooks/useDetailsForVehicleStatus'
+import { VehicleTypeOptions } from '@/hooks/details/useDetailsForVehicleType'
+import { DrivingLicenseOptions } from '@/hooks/details/useDetailsForDrivingLicense'
+import { VehicleStatusOptions } from '@/hooks/details/useDetailsForVehicleStatus'
 
 const FormForVehicle = (props: FormForProps<VehicleForm>) => {
   const { errors, isValid } = props.formState
