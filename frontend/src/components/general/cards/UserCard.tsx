@@ -40,7 +40,7 @@ const UserCard: React.FC<UserCard> = ({ user }) => {
             {user.drivingLicenses.map((drivingLicense, index) => (
               <span key={index}>
                 {getDrivingLicenseDetails(drivingLicense).label}
-                {index < user.roles.length - 1 ? ', ' : ''}
+                {index < user.drivingLicenses.length - 1 ? ', ' : ''}
               </span>
             ))}
           </>

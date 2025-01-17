@@ -3,6 +3,7 @@ import useStore from '@/store/store'
 import { UserRound } from 'lucide-react'
 import { getUserRoleDetails } from '@/hooks/details/useDetailsForUserRole'
 import { getUserStatusDetails } from '@/hooks/details/useDetailsForUserStatus'
+import { getDrivingLicenseDetails } from '@/hooks/details/useDetailsForDrivingLicense'
 
 export const Route = createFileRoute('/_protected/profile')({
   component: Sensors,
@@ -86,18 +87,27 @@ function Sensors() {
           <div className="py-4 border-b border-b-dark-200">
             <dt className="font-bold sm:inline">Führerscheinklasse:</dt>
             <dd className="sm:inline sm:px-2">
-              {user.drivingLicense && user.drivingLicense !== '-'
-                ? user.drivingLicense
-                : 'Keine Angabe'}
+              {user.drivingLicenses ? (
+                <>
+                  {user.drivingLicenses.map((drivingLicense, index) => (
+                    <span key={index}>
+                      {getDrivingLicenseDetails(drivingLicense).label}
+                      {index < user.drivingLicenses.length - 1 ? ', ' : ''}
+                    </span>
+                  ))}
+                </>
+              ) : (
+                'Keine Angabe'
+              )}
             </dd>
           </div>
           <div className="py-4 border-b border-b-dark-200 md:border-b-transparent">
             <dt className="font-bold sm:inline">Rollen:</dt>
             <dd className="sm:inline sm:px-2">
-              {roleDetails.map((role, index) => (
+              {user.userRoles.map((role, index) => (
                 <span key={index}>
-                  {role.label}
-                  {index < roleDetails.length - 1 ? ', ' : ''}
+                  {getUserRoleDetails(role).label}
+                  {index < user.userRoles.length - 1 ? ', ' : ''}
                 </span>
               ))}
             </dd>
