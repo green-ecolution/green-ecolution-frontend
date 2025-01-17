@@ -4,7 +4,7 @@ import {
   Tree,
 } from '@green-ecolution/backend-client'
 import { TreeMarkerIcon } from '../MapMarker'
-import { getWateringStatusDetails } from '@/hooks/useDetailsForWateringStatus'
+import { getWateringStatusDetails } from '@/hooks/details/useDetailsForWateringStatus'
 
 interface TreeMarkerProps {
   tree: Tree

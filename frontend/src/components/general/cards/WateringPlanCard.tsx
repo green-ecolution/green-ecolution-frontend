@@ -1,4 +1,4 @@
-import { getWateringPlanStatusDetails } from '@/hooks/useDetailsForWateringPlanStatus'
+import { getWateringPlanStatusDetails } from '@/hooks/details/useDetailsForWateringPlanStatus'
 import { WateringPlanInList } from '@green-ecolution/backend-client'
 import { Link } from '@tanstack/react-router'
 import React from 'react'

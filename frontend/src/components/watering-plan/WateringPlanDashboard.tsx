@@ -3,7 +3,7 @@ import Pill from '../general/Pill'
 import {
   getWateringPlanStatusDetails,
   showWateringPlanStatusButton,
-} from '@/hooks/useDetailsForWateringPlanStatus'
+} from '@/hooks/details/useDetailsForWateringPlanStatus'
 import { format } from 'date-fns'
 import { File, FolderClosed, MoveRight, Pencil, Route } from 'lucide-react'
 import TabGeneralData from './TabGeneralData'

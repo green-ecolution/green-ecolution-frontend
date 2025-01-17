@@ -1,7 +1,7 @@
 import React from 'react'
 import GeneralStatusCard from '../general/cards/GeneralStatusCard'
 import EntitiesStatusCard from '../general/cards/EntitiesStatusCard'
-import { getSensorStatusDetails } from '@/hooks/useDetailsForSensorStatus'
+import { getSensorStatusDetails } from '@/hooks/details/useDetailsForSensorStatus'
 import { SensorStatus, Tree } from '@green-ecolution/backend-client'
 import { format } from 'date-fns'
 import GeneralLink from '../general/links/GeneralLink'

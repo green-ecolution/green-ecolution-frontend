@@ -1,7 +1,7 @@
 import { WateringStatus, Tree } from '@green-ecolution/backend-client'
 import React from 'react'
 import { TreeDeciduous } from 'lucide-react'
-import { getWateringStatusDetails } from '@/hooks/useDetailsForWateringStatus'
+import { getWateringStatusDetails } from '@/hooks/details/useDetailsForWateringStatus'
 import GeneralStatusCard from '../general/cards/GeneralStatusCard'
 import EntitiesStatusCard from '../general/cards/EntitiesStatusCard'
 

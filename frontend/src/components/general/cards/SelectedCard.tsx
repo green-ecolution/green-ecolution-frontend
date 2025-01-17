@@ -1,6 +1,6 @@
 import { WateringStatus } from '@/api/backendApi'
 import { treeClusterIdQuery, treeIdQuery } from '@/api/queries'
-import { getWateringStatusDetails } from '@/hooks/useDetailsForWateringStatus'
+import { getWateringStatusDetails } from '@/hooks/details/useDetailsForWateringStatus'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { Trash2 } from 'lucide-react'
 import React from 'react'
