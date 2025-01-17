@@ -13,7 +13,7 @@ const UserCard: React.FC<UserCard> = ({ user }) => {
   const statusDetails = getUserStatusDetails(user.status)
 
   return (
-    <div className="bg-white border border-dark-50 p-6 rounded-xl shadow-cards flex flex-col gap-y-4 lg:py-4 lg:grid lg:grid-cols-[1fr,1.5fr,1fr,1fr] lg:items-center lg:gap-5 xl:px-10">
+    <div className="bg-white border border-dark-50 p-6 rounded-xl shadow-cards flex flex-col gap-y-4 lg:py-4 lg:grid lg:grid-cols-[1fr,1.25fr,1fr,1fr] lg:items-center lg:gap-5 xl:px-10">
       <Pill
         label={statusDetails?.label ?? 'Keine Angabe'}
         theme={statusDetails?.color ?? 'dark-400'}
@@ -24,7 +24,7 @@ const UserCard: React.FC<UserCard> = ({ user }) => {
       </h2>
 
       <p className="text-dark-800">
-        <span className="lg:sr-only">Aufgabenbereich:&nbsp;</span>
+        <span className="lg:sr-only">Organisation:&nbsp;</span>
         {user.roles.map((role, index) => (
           <span key={index}>
             {getUserRoleDetails(role).label}
@@ -35,7 +35,7 @@ const UserCard: React.FC<UserCard> = ({ user }) => {
 
       <p className="text-dark-800">
         <span className="lg:sr-only">Führerscheinklasse:&nbsp;</span>
-        {user.drivingLicenses ? (
+        {user.drivingLicenses && user.drivingLicenses.length > 0 ? (
           <>
             {user.drivingLicenses.map((drivingLicense, index) => (
               <span key={index}>
