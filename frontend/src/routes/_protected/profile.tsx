@@ -1,10 +1,8 @@
 import { createFileRoute } from '@tanstack/react-router'
 import useStore from '@/store/store'
 import { UserRound } from 'lucide-react'
-import {
-  getUserRoleDetails,
-  getUserStatusDetails,
-} from '@/hooks/details/useDetailsForUser'
+import { getUserRoleDetails } from '@/hooks/details/useDetailsForUserRole'
+import { getUserStatusDetails } from '@/hooks/details/useDetailsForUserStatus'
 
 export const Route = createFileRoute('/_protected/profile')({
   component: Sensors,
@@ -13,7 +11,6 @@ export const Route = createFileRoute('/_protected/profile')({
 
 function Sensors() {
   const user = useStore((state) => state.user)
-  const roleDetails = getUserRoleDetails(user.userRoles)
 
   return (
     <div className="container mt-6">
@@ -37,13 +34,13 @@ function Sensors() {
               {user.firstName} {user.lastName}
             </h2>
             <ul className="mt-2 flex flex-col gap-2 xl:mt-4">
-              {roleDetails?.length > 0 &&
-                roleDetails.map((role, index) => (
+              {user.userRoles?.length > 0 &&
+                user.userRoles.map((role, index) => (
                   <li
                     key={index}
                     className="border w-fit border-green-light px-3 py-2 rounded-full text-dark-800 font-medium text-sm"
                   >
-                    {role.label}
+                    {getUserRoleDetails(role).label}
                   </li>
                 ))}
             </ul>
