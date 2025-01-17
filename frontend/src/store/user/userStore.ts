@@ -2,6 +2,9 @@ import { decodeJWT } from '@/lib/utils'
 import { SubStore } from '../store'
 import { UserStore } from './types'
 import { KeycloakJWT } from '@/lib/types/keycloak'
+import { parseUserRole } from '@/hooks/details/useDetailsForUserRole'
+import { parseUserStatus } from '@/hooks/details/useDetailsForUserStatus'
+import { UserStatus } from '@green-ecolution/backend-client'
 
 export const userStore: SubStore<UserStore> = (set, get) => ({
   username: '',
@@ -10,7 +13,7 @@ export const userStore: SubStore<UserStore> = (set, get) => ({
   lastName: '',
   drivingLicense: '',
   userRoles: [],
-  status: '',
+  status: UserStatus.UserStatusUnknown,
   setUsername: (username) =>
     set((state) => {
       state.user.username = username
@@ -48,8 +51,8 @@ export const userStore: SubStore<UserStore> = (set, get) => ({
         state.user.firstName = jwtInfo.given_name
         state.user.lastName = jwtInfo.family_name
         state.user.drivingLicense = jwtInfo.driving_license
-        state.user.userRoles = jwtInfo.user_roles
-        state.user.status = jwtInfo.status
+        state.user.userRoles = jwtInfo.user_roles.map(parseUserRole)
+        state.user.status = parseUserStatus(jwtInfo.status)
       }
     }),
   isEmpty: () => {
@@ -71,6 +74,6 @@ export const userStore: SubStore<UserStore> = (set, get) => ({
       state.user.lastName = ''
       state.user.drivingLicense = ''
       state.user.userRoles = []
-      state.user.status = ''
+      state.user.status = UserStatus.UserStatusUnknown
     }),
 })
