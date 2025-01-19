@@ -30,7 +30,6 @@ function Treecluster() {
     data: clustersRes.data,
   })
 
-  // Use useCallback to memoize the filter function
   const memoizedHandleFilter = useCallback(() => {
     const data = clustersRes.data.filter((cluster) => {
       const statusFilter =
