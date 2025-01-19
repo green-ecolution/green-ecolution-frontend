@@ -8,28 +8,31 @@ import { useSuspenseQuery } from '@tanstack/react-query'
 import LoadingInfo from '@/components/general/error/LoadingInfo'
 import FilterProvider from '@/context/FilterContext'
 import useFilter from '@/hooks/useFilter'
-import { Suspense, useMemo, useState } from 'react'
+import { Suspense, useState, useEffect, useCallback } from 'react'
 import StatusFieldset from '@/components/general/filter/fieldsets/StatusFieldset'
 import RegionFieldset from '@/components/general/filter/fieldsets/RegionFieldset'
 import { ErrorBoundary } from 'react-error-boundary'
 import TreeClusterList from '@/components/treecluster/TreeClusterList'
 import { treeClusterQuery } from '@/api/queries'
+import Searchbar from '@/components/general/filter/Searchbar'
 
 const treeclusterFilterSchema = z.object({
   status: z.array(z.string()).optional(),
   region: z.array(z.string()).optional(),
+  search: z.string().optional(),
 })
 
 function Treecluster() {
   const { data: clustersRes } = useSuspenseQuery(treeClusterQuery())
+  const { filters, handleSearchChange } = useFilter()
   const [filteredData, setFilteredData] = useState({
     active: false,
-    data: clustersRes.data
+    data: clustersRes.data,
   })
-  const { filters } = useFilter()
 
-  const filterData = useMemo(() => {
-    return clustersRes.data.filter((cluster) => {
+  // Use useCallback to memoize the filter function
+  const memoizedHandleFilter = useCallback(() => {
+    const data = clustersRes.data.filter((cluster) => {
       const statusFilter =
         filters.statusTags.length === 0 ||
         filters.statusTags.includes(
@@ -40,16 +43,18 @@ function Treecluster() {
         filters.regionTags.length === 0 ||
         (cluster.region && filters.regionTags.includes(cluster.region.name))
 
-      return statusFilter && regionFilter
+      const searchFilter =
+        filters.searchTag.length === 0 ||
+        cluster.name.toLowerCase().includes(filters.searchTag.toLowerCase())
+
+      return statusFilter && regionFilter && searchFilter
     })
+    setFilteredData({ active: true, data })
   }, [clustersRes.data, filters])
 
-  const handleFilter = () => {
-    setFilteredData({
-      active: true,
-      data: filterData
-    });
-  }
+  useEffect(() => {
+    memoizedHandleFilter()
+  }, [memoizedHandleFilter])
 
   return (
     <div className="container mt-6">
@@ -58,10 +63,13 @@ function Treecluster() {
           Auflistung der Bewässerungsgruppen
         </h1>
         <p className="mb-5">
-          Hier finden Sie eine Übersicht aller Bewässerungsgruppen.
-          Eine Bewässerungsgruppe besteht aus mehreren Bäumen, welche aufgrund ihrer Nähe und Standortbedinungen in einer Gruppe zusammengefasst wurden.
-          Die Ausstattung einzelner Bäume mit Sensoren erlaubt eine Gesamtaussage über den Bewässerungszustand der vollständigen Gruppe.
-          Die Auswertung der Daten aller Sensoren einer Bewässerungsgruppe liefert Handlungsempfehlungen für diese Gruppe.
+          Hier finden Sie eine Übersicht aller Bewässerungsgruppen. Eine
+          Bewässerungsgruppe besteht aus mehreren Bäumen, welche aufgrund ihrer
+          Nähe und Standortbedinungen in einer Gruppe zusammengefasst wurden.
+          Die Ausstattung einzelner Bäume mit Sensoren erlaubt eine
+          Gesamtaussage über den Bewässerungszustand der vollständigen Gruppe.
+          Die Auswertung der Daten aller Sensoren einer Bewässerungsgruppe
+          liefert Handlungsempfehlungen für diese Gruppe.
         </p>
         <ButtonLink
           icon={Plus}
@@ -71,11 +79,20 @@ function Treecluster() {
       </article>
 
       <section className="mt-10">
-        <div className="flex justify-end mb-6 lg:mb-10">
+        <div className="flex justify-end mb-6 lg:mb-10 items-center gap-4">
+          <Searchbar
+            value={filters.searchTag}
+            onChange={handleSearchChange}
+            onClear={() =>
+              handleSearchChange({
+                target: { value: '' },
+              } as React.ChangeEvent<HTMLInputElement>)
+            }
+          />
           <Dialog
             headline="Bewässerungsgruppen filtern"
             fullUrlPath={Route.fullPath}
-            onApplyFilters={() => handleFilter()}
+            onApplyFilters={() => memoizedHandleFilter()}
             onResetFilters={() => setFilteredData({ active: false, data: clustersRes.data })}
           >
             <StatusFieldset />
@@ -99,7 +116,9 @@ function Treecluster() {
               </p>
             }
           >
-            <TreeClusterList data={filteredData.active ? filteredData.data : clustersRes.data} />
+            <TreeClusterList
+              data={filteredData.active ? filteredData.data : clustersRes.data}
+            />
           </ErrorBoundary>
         </Suspense>
       </section>
@@ -113,6 +132,7 @@ const TreeclusterWithProvider = () => {
     <FilterProvider
       initialStatus={search.status ?? []}
       initialRegions={search.region ?? []}
+      initialSearch={search.search ?? ''}
     >
       <Treecluster />
     </FilterProvider>
@@ -123,13 +143,14 @@ export const Route = createFileRoute('/_protected/treecluster/')({
   component: TreeclusterWithProvider,
   validateSearch: treeclusterFilterSchema,
 
-  loaderDeps: ({ search: { status, region } }) => ({
+  loaderDeps: ({ search: { status, region, search } }) => ({
     status: status || [],
     region: region || [],
+    search: search || '',
   }),
 
-  loader: ({ deps: { status, region } }) => {
-    return { status, region }
+  loader: ({ deps: { status, region, search } }) => {
+    return { status, region, search }
   },
 })
 

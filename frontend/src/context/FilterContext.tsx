@@ -3,6 +3,7 @@ import React, { createContext, useState, ReactNode } from 'react'
 export interface Filters {
   statusTags: string[]
   regionTags: string[]
+  searchTag: string
   hasCluster: boolean | undefined
   plantingYears: number[]
 }
@@ -11,6 +12,7 @@ interface FilterContextType {
   filters: Filters
   handleStatusChange: (event: React.ChangeEvent<HTMLInputElement>) => void
   handleRegionChange: (event: React.ChangeEvent<HTMLInputElement>) => void
+  handleSearchChange: (event: React.ChangeEvent<HTMLInputElement>) => void
   handleClusterChange: (event: React.ChangeEvent<HTMLInputElement>) => void
   handlePlantingYearChange: (event: React.ChangeEvent<HTMLInputElement>) => void
   resetFilters: () => void
@@ -24,6 +26,7 @@ export const FilterContext = createContext<FilterContextType | undefined>(
 interface FilterProviderProps {
   initialStatus?: string[]
   initialRegions?: string[]
+  initialSearch?: string;
   initialHasCluster?: boolean | undefined
   initialPlantingYears?: number[]
   children: ReactNode
@@ -32,12 +35,14 @@ interface FilterProviderProps {
 const FilterProvider: React.FC<FilterProviderProps> = ({
   initialStatus = [],
   initialRegions = [],
+  initialSearch = '',
   initialHasCluster = undefined,
   initialPlantingYears = [],
   children,
 }) => {
   const [statusTags, setStatusTags] = useState(initialStatus)
   const [regionTags, setRegionTags] = useState(initialRegions)
+  const [searchTag, setSearchTag] = useState(initialSearch);
   const [plantingYears, setPlantingYears] = useState(initialPlantingYears)
   const [hasCluster, setHasCluster] = useState(initialHasCluster)
 
@@ -54,6 +59,10 @@ const FilterProvider: React.FC<FilterProviderProps> = ({
       checked ? [...prev, value] : prev.filter((tag) => tag !== value)
     )
   }
+
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTag(event.target.value);
+  };
 
   const handleClusterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target
@@ -74,6 +83,7 @@ const FilterProvider: React.FC<FilterProviderProps> = ({
   const applyOldStateToTags = (oldValues: Filters) => {
     setStatusTags(oldValues.statusTags)
     setRegionTags(oldValues.regionTags)
+    setSearchTag(oldValues.searchTag);
     setHasCluster(oldValues.hasCluster)
     setPlantingYears(oldValues.plantingYears)
   }
@@ -81,6 +91,7 @@ const FilterProvider: React.FC<FilterProviderProps> = ({
   const resetFilters = () => {
     setStatusTags([])
     setRegionTags([])
+    setSearchTag('')
     setHasCluster(undefined)
     setPlantingYears([])
   }
@@ -88,9 +99,10 @@ const FilterProvider: React.FC<FilterProviderProps> = ({
   return (
     <FilterContext.Provider
       value={{
-        filters: { statusTags, regionTags, hasCluster, plantingYears },
+        filters: { statusTags, regionTags, searchTag, hasCluster, plantingYears },
         handleStatusChange,
         handleRegionChange,
+        handleSearchChange,
         handleClusterChange,
         handlePlantingYearChange,
         resetFilters,
