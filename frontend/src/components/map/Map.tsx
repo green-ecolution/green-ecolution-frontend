@@ -12,13 +12,17 @@ const Map = ({
   height = 'calc(100dvh - 4.563rem)',
   children,
 }: MapProps) => {
-  const { zoom, center, maxZoom, minZoom } = useMapStore((state) => ({
-    zoom: state.map.zoom,
-    center: state.map.center,
-    maxZoom: state.map.maxZoom,
-    minZoom: state.map.minZoom,
-  }))
+  const { zoom, boundaries, center, maxZoom, minZoom } = useMapStore(
+    (state) => ({
+      zoom: state.map.zoom,
+      boundaries: state.map.boundaries,
+      center: state.map.center,
+      maxZoom: state.map.maxZoom,
+      minZoom: state.map.minZoom,
+    })
+  )
   const time = useMemo(() => new Date().getTime(), [])
+    
 
   return (
     <MapContainer
@@ -31,6 +35,7 @@ const Map = ({
       zoom={zoom}
       maxZoom={maxZoom}
       minZoom={minZoom}
+      maxBounds={boundaries}
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

@@ -1,7 +1,9 @@
+import { LatLngBoundsExpression } from "leaflet";
 
 type MapState = {
   center: [number, number];
   zoom: number;
+  boundaries: LatLngBoundsExpression
   minZoom: number;
   maxZoom: number;
   showSelectModal: boolean;
