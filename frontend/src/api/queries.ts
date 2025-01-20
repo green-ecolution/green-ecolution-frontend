@@ -24,10 +24,10 @@ import {
   GeoJson,
 } from './backendApi'
 
-export const treeClusterQuery = () =>
+export const treeClusterQuery = (params?: { page?: string, limit?: string }) =>
   queryOptions<TreeClusterList>({
-    queryKey: ['treeclusters'],
-    queryFn: () => clusterApi.getAllTreeClusters(),
+    queryKey: ['treeclusters', params?.page ?? '1', params?.limit ?? 'none'],
+    queryFn: () => clusterApi.getAllTreeClusters(params),
   })
 
 export const treeClusterIdQuery = (id: string) =>
