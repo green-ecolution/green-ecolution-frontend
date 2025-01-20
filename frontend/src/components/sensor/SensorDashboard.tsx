@@ -80,7 +80,7 @@ const SensorDashboard = ({ sensorId }: SensorDashboardProps) => {
               overline="Akkustand"
               value={
                 sensor?.latestData?.battery
-                  ? `${sensor?.latestData?.battery.toFixed(3)} V`
+                  ? `${sensor?.latestData?.battery.toFixed(2)} V`
                   : 'Keine Angabe'
               }
               isLarge
