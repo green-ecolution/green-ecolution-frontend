@@ -40,19 +40,10 @@ export const treeClusterIdQuery = (id: string) =>
       }),
   })
 
-export const sensorQuery = (params?: { page?: string; limit?: string }) =>
+export const sensorQuery = (params?: { page?: string, limit?: string }) =>
   queryOptions<SensorList>({
     queryKey: ['sensors', params?.page ?? '1', params?.limit ?? 'none'],
     queryFn: () => sensorApi.getAllSensors(params),
-  })
-
-export const sensorDataQuery = (id: string) =>
-  queryOptions<SensorDataList>({
-    queryKey: ['sensor data', id],
-    queryFn: () =>
-      sensorApi.getAllSensorDataById({
-        sensorId: id
-      }),
   })
 
 export const sensorIdQuery = (id: string) =>
