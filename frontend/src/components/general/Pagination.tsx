@@ -5,9 +5,10 @@ import { ChevronLeft, ChevronRight } from 'lucide-react'
 
 interface PaginationProps {
   pagination: PaginationObject
+  url: string
 }
 
-const Pagination: React.FC<PaginationProps> = ({ pagination }) => {
+const Pagination: React.FC<PaginationProps> = ({ pagination, url }) => {
   return (
     <nav aria-label="Seiten-Paginierung" className="mt-10">
       <ul className="flex flex-wrap items-center justify-center gap-x-2">
@@ -18,7 +19,7 @@ const Pagination: React.FC<PaginationProps> = ({ pagination }) => {
             disabled={pagination.currentPage - 1 == 0}
             icon={ChevronLeft}
             link={{
-              to: '/treecluster',
+              to: url,
               search: {
                 page: pagination.currentPage - 1,
               },
@@ -32,7 +33,7 @@ const Pagination: React.FC<PaginationProps> = ({ pagination }) => {
               color="grey"
               label={1}
               link={{
-                to: '/treecluster',
+                to: url,
                 search: {
                   page: 1,
                 },
@@ -48,7 +49,7 @@ const Pagination: React.FC<PaginationProps> = ({ pagination }) => {
               color="grey"
               label={pagination.prevPage}
               link={{
-                to: '/treecluster',
+                to: url,
                 search: {
                   page: pagination.prevPage,
                 },
@@ -62,7 +63,7 @@ const Pagination: React.FC<PaginationProps> = ({ pagination }) => {
             color="green-light"
             label={pagination.currentPage}
             link={{
-              to: '/treecluster',
+              to: url,
               search: {
                 page: pagination.currentPage,
               },
@@ -76,7 +77,7 @@ const Pagination: React.FC<PaginationProps> = ({ pagination }) => {
               color="grey"
               label={pagination.nextPage}
               link={{
-                to: '/treecluster',
+                to: url,
                 search: {
                   page: pagination.nextPage,
                 },
@@ -92,7 +93,7 @@ const Pagination: React.FC<PaginationProps> = ({ pagination }) => {
               color="grey"
               label={pagination.totalPages}
               link={{
-                to: '/treecluster',
+                to: url,
                 search: {
                   page: pagination.totalPages,
                 },
@@ -107,7 +108,7 @@ const Pagination: React.FC<PaginationProps> = ({ pagination }) => {
             disabled={pagination.currentPage == pagination.totalPages}
             icon={ChevronRight}
             link={{
-              to: '/treecluster',
+              to: url,
               search: {
                 page: pagination.currentPage + 1,
               },

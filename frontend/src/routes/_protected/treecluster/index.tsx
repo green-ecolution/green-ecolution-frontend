@@ -112,7 +112,8 @@ function Treecluster() {
             />
             {/* TODO: Comment pagination in as soon as data is filtered through the backend */}
             {/* {clustersRes.pagination && (
-              <Pagination 
+              <Pagination
+                url="/treecluster"
                 pagination={clustersRes.pagination}
               />
             )} */}
