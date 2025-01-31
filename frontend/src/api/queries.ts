@@ -90,11 +90,9 @@ export const infoQuery = () =>
     queryFn: () => infoApi.getAppInfo(),
   })
 
-export const vehicleQuery = (params?: { type: string }) => {
-  const queryKey = ['vehicle', params?.type ?? 'all']
-
+export const vehicleQuery = (params?: { type?: string, page?: string, limit?: string }) => {
   return queryOptions<VehicleList>({
-    queryKey,
+    queryKey: ['vehicle', params?.type ?? '1', params?.page ?? '1', params?.limit ?? 'none'],
     queryFn: () => vehicleApi.getAllVehicles(params),
   })
 }
@@ -124,10 +122,8 @@ export const wateringPlanIdQuery = (id: string) =>
   })
 
 export const userQuery = (params?: { userIds: string }) => {
-  const queryKey = ['users', params?.userIds ?? 'all']
-
   return queryOptions<UserList>({
-    queryKey,
+    queryKey: ['users', params?.userIds ?? 'all'],
     queryFn: () => userApi.getAllUsers(params),
   })
 }

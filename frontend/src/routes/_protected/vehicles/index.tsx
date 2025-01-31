@@ -2,14 +2,25 @@ import { vehicleQuery } from '@/api/queries'
 import VehicleCard from '@/components/general/cards/VehicleCard'
 import LoadingInfo from '@/components/general/error/LoadingInfo'
 import { useSuspenseQuery } from '@tanstack/react-query'
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, useLoaderData } from '@tanstack/react-router'
 import { Suspense } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import ButtonLink from '@/components/general/links/ButtonLink'
 import { Plus } from 'lucide-react'
+import Pagination from '@/components/general/Pagination'
+import { z } from 'zod'
 
 export const Route = createFileRoute('/_protected/vehicles/')({
   component: Vehicles,
+  validateSearch: z.object({
+    page: z.number().default(1),
+  }),
+  loaderDeps: ({ search: { page } }) => ({
+    page: page || 1,
+  }),
+  loader: ({ deps: { page } }) => {
+    return { page }
+  },
   meta: () => [
     {
       title: 'Fahrzeuge',
@@ -19,7 +30,10 @@ export const Route = createFileRoute('/_protected/vehicles/')({
 })
 
 function Vehicles() {
-  const { data: vehicleRes } = useSuspenseQuery(vehicleQuery())
+  const search = useLoaderData({ from: '/_protected/vehicles/' })
+  const { data: vehicleRes } = useSuspenseQuery(
+    vehicleQuery({ page: search.page.toString(), limit: '5' })
+  )
 
   return (
     <div className="container mt-6">
@@ -68,6 +82,12 @@ function Vehicles() {
                 ))
               )}
             </ul>
+            {vehicleRes.pagination && (
+              <Pagination
+                url="/vehicles"
+                pagination={vehicleRes.pagination}
+              />
+            )}
           </ErrorBoundary>
         </Suspense>
       </section>
