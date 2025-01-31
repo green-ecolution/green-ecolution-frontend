@@ -108,10 +108,10 @@ export const vehicleIdQuery = (id: string) =>
       }),
   })
 
-export const wateringPlanQuery = () =>
+export const wateringPlanQuery = (params?: { page?: string, limit?: string }) =>
   queryOptions<WateringPlanList>({
-    queryKey: ['watering-plans'],
-    queryFn: () => wateringPlanApi.getAllWateringPlans(),
+    queryKey: ['watering-plans', params?.page ?? '1', params?.limit ?? 'none'],
+    queryFn: () => wateringPlanApi.getAllWateringPlans(params),
   })
 
 export const wateringPlanIdQuery = (id: string) =>
