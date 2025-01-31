@@ -5,7 +5,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react'
 
 interface PaginationProps {
   pagination: PaginationObject
-  url: string
+  url: string,
 }
 
 const Pagination: React.FC<PaginationProps> = ({ pagination, url }) => {
