@@ -1,6 +1,7 @@
 import BackLink from '../general/links/BackLink'
 import {
   WateringPlanStatus,
+  WateringStatus,
 } from '@green-ecolution/backend-client'
 import { useInitFormQuery } from '@/hooks/form/useInitForm'
 import { wateringPlanIdQuery } from '@/api/queries'
@@ -22,6 +23,8 @@ import {
 } from '@/schema/wateringPlanSchema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SubmitHandler } from 'react-hook-form'
+import { getWateringStatusDetails } from '@/hooks/useDetailsForWateringStatus'
+import Input from '../general/form/types/Input'
 
 interface WateringPlanStatusUpdateProps {
   wateringPlanId: string
@@ -45,6 +48,12 @@ const WateringPlanStatusUpdate = ({
       status: data.status,
       cancellationNote: data.cancellationNote,
       userIds: data.userIds,
+      evaluation: data.evaluation,
+      /* evaluation: data.treeclusters.map(cluster => ({
+        ConsumedWater: 0, // Initial value
+        treeclusterId: cluster.id,
+        wateringPlanId: wateringPlanId,
+      })), */
     })
   )
 
@@ -60,15 +69,23 @@ const WateringPlanStatusUpdate = ({
     )
 
   const onSubmit: SubmitHandler<WateringPlanForm> = async (data) => {
+    const evaluation = loadedData?.treeclusters.map((cluster, index) => ({
+      consumedWater: data.evaluation[index].consumedWater,
+      treeClusterId: cluster.id,
+      wateringPlanId: Number(wateringPlanId),
+    }))
+
     mutate({
       ...data,
       date: data.date.toISOString(),
       trailerId:
         data.trailerId && data.trailerId !== -1 ? data.trailerId : undefined,
+      evaluation: evaluation
     })
   }
 
   const selectedStatus = watch('status')
+  console.log(loadedData.evaluation)
 
   return (
     <>
@@ -113,13 +130,40 @@ const WateringPlanStatusUpdate = ({
             />
             {selectedStatus ===
               WateringPlanStatus.WateringPlanStatusCanceled && (
-              <Textarea
-                placeholder="Warum wurde der Einatz abgebrochen?"
-                label="Grund des Abbruchs"
-                error={formState.errors.cancellationNote?.message}
-                {...register('cancellationNote')}
-              />
-            )}
+                <Textarea
+                  placeholder="Warum wurde der Einsatz abgebrochen?"
+                  label="Grund des Abbruchs"
+                  error={formState.errors.cancellationNote?.message}
+                  {...register('cancellationNote')}
+                />
+              )}
+            {selectedStatus ===
+              WateringPlanStatus.WateringPlanStatusFinished && (
+                <div className="space-y-3">
+                  {loadedData?.treeclusters.map((cluster, index) => (
+                    <div key={cluster.id} className="flex items-center gap-x-4">
+                      <div className="w-full flex justify-between gap-x-6 bg-white border border-dark-50 shadow-cards px-4 py-3 rounded-lg">
+                        <h3
+                          className={`relative font-medium pl-7 before:absolute before:w-4 before:h-4 before:rounded-full before:left-0 before:top-[0.22rem] before:bg-${getWateringStatusDetails(
+                            cluster.wateringStatus ?? WateringStatus.WateringStatusUnknown,
+                          ).color}`}
+                        >
+                          <strong className="font-semibold">Bewässerungsgruppe:</strong> {cluster.name} ·{" "}
+                          {cluster.id}
+                        </h3>
+                      </div>
+                      <div className="flex items-center">
+                        <Input
+                          label="Liter"
+                          error={formState.errors.evaluation?.[index]?.message}
+                          {...register(`evaluation.${index}.consumedWater`)}
+                        />
+                        <span className="ml-2">Liter</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
           </div>
 
           <FormError
