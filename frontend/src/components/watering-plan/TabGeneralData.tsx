@@ -109,6 +109,14 @@ const TabGeneralData: React.FC<TabGeneralDataProps> = ({ wateringPlan }) => {
           )}
         <li>
           <GeneralStatusCard
+            overline="Verbrauchtes Wasser"
+            value={`${wateringPlan.evaluation.reduce((sum, item) => sum + item.consumedWater, 0)} Liter`}
+            isLarge
+            description={`bei ${wateringPlan.treeclusters.length} Bewässerungsgruppen`}
+          />
+        </li>
+        <li>
+          <GeneralStatusCard
             overline="Länge der Route"
             value={`${Math.round(wateringPlan.distance * 100) / 100} km`}
             isLarge
