@@ -1,9 +1,9 @@
-import { getVehicleStatusDetails } from '@/hooks/useDetailsForVehicleStatus'
+import { getVehicleStatusDetails } from '@/hooks/details/useDetailsForVehicleStatus'
 import { Vehicle } from '@green-ecolution/backend-client'
 import { Link } from '@tanstack/react-router'
 import Pill from '@/components/general/Pill'
 import React from 'react'
-import { getVehicleType } from '@/hooks/useDetailsForVehicleType'
+import { getVehicleType } from '@/hooks/details/useDetailsForVehicleType'
 
 interface VehicleCard {
   vehicle: Vehicle

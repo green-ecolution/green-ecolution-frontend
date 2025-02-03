@@ -11,7 +11,7 @@ import Select from '../general/form/types/Select'
 import {
   getWateringPlanStatusDetails,
   WateringPlanStatusOptions,
-} from '@/hooks/useDetailsForWateringPlanStatus'
+} from '@/hooks/details/useDetailsForWateringPlanStatus'
 import Pill from '../general/Pill'
 import Textarea from '../general/form/types/Textarea'
 import { useWaterinPlanForm } from '@/hooks/form/useWateringPlanForm'

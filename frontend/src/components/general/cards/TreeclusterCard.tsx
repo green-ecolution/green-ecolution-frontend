@@ -1,5 +1,5 @@
 import TreeIcon from "@/components/icons/Tree";
-import { getWateringStatusDetails } from "@/hooks/useDetailsForWateringStatus";
+import { getWateringStatusDetails } from "@/hooks/details/useDetailsForWateringStatus";
 import { TreeClusterInList } from "@green-ecolution/backend-client";
 import { Link } from "@tanstack/react-router";
 import { MapPin } from "lucide-react";

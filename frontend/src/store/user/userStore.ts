@@ -2,15 +2,19 @@ import { decodeJWT } from '@/lib/utils'
 import { SubStore } from '../store'
 import { UserStore } from './types'
 import { KeycloakJWT } from '@/lib/types/keycloak'
+import { parseUserRole } from '@/hooks/details/useDetailsForUserRole'
+import { parseUserStatus } from '@/hooks/details/useDetailsForUserStatus'
+import { UserStatus } from '@green-ecolution/backend-client'
+import { parseDrivingLicense } from '@/hooks/details/useDetailsForDrivingLicense'
 
 export const userStore: SubStore<UserStore> = (set, get) => ({
   username: '',
   email: '',
   firstName: '',
   lastName: '',
-  drivingLicense: '',
+  drivingLicenses: [],
   userRoles: [],
-  status: '',
+  status: UserStatus.UserStatusUnknown,
   setUsername: (username) =>
     set((state) => {
       state.user.username = username
@@ -27,9 +31,9 @@ export const userStore: SubStore<UserStore> = (set, get) => ({
     set((state) => {
       state.user.lastName = lastName
     }),
-  setDrivingLicense: (drivingLicense) =>
+  setDrivingLicenses: (drivingLicenses) =>
     set((state) => {
-      state.user.drivingLicense = drivingLicense
+      state.user.drivingLicenses = drivingLicenses
     }),
   setStatus: (status) =>
     set((state) => {
@@ -47,9 +51,9 @@ export const userStore: SubStore<UserStore> = (set, get) => ({
         state.user.username = jwtInfo.preferred_username
         state.user.firstName = jwtInfo.given_name
         state.user.lastName = jwtInfo.family_name
-        state.user.drivingLicense = jwtInfo.driving_license
-        state.user.userRoles = jwtInfo.user_roles
-        state.user.status = jwtInfo.status
+        state.user.drivingLicenses = jwtInfo.driving_licenses ? jwtInfo.driving_licenses.map(parseDrivingLicense) : []
+        state.user.userRoles = jwtInfo.user_roles ? jwtInfo.user_roles.map(parseUserRole) : []
+        state.user.status = parseUserStatus(jwtInfo.status)
       }
     }),
   isEmpty: () => {
@@ -58,7 +62,7 @@ export const userStore: SubStore<UserStore> = (set, get) => ({
       !get().user.email ||
       !get().user.firstName ||
       !get().user.lastName ||
-      !get().user.drivingLicense ||
+      !get().user.drivingLicenses ||
       !get().user.userRoles ||
       !get().user.status
     )
@@ -69,8 +73,8 @@ export const userStore: SubStore<UserStore> = (set, get) => ({
       state.user.email = ''
       state.user.firstName = ''
       state.user.lastName = ''
-      state.user.drivingLicense = ''
+      state.user.drivingLicenses = []
       state.user.userRoles = []
-      state.user.status = ''
+      state.user.status = UserStatus.UserStatusUnknown
     }),
 })

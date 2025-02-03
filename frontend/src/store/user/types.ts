@@ -1,11 +1,13 @@
+import { DrivingLicense, UserRole, UserStatus } from "@green-ecolution/backend-client";
+
 type UserState = {
   username: string;
   email: string;
   firstName: string;
   lastName: string;
-  drivingLicense: string;
-  userRoles: string[];
-  status: string;
+  drivingLicenses: DrivingLicense[];
+  userRoles: UserRole[];
+  status: UserStatus;
 };
 
 type UserActions = {
@@ -13,9 +15,9 @@ type UserActions = {
   setEmail: (email: string) => void;
   setFirstName: (firstName: string) => void;
   setLastName: (lastName: string) => void;
-  setDrivingLicense: (drivingLicense: string) => void;
-  setUserRoles: (userRoles: string[]) => void;
-  setStatus: (status: string) => void;
+  setDrivingLicenses: (drivingLicenses: DrivingLicense[]) => void;
+  setUserRoles: (userRoles: UserRole[]) => void;
+  setStatus: (status: UserStatus) => void;
   setFromJwt: (jwt: string) => void;
   isEmpty: () => boolean;
   clear: () => void;
