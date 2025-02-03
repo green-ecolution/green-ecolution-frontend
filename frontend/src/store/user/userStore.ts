@@ -51,8 +51,8 @@ export const userStore: SubStore<UserStore> = (set, get) => ({
         state.user.username = jwtInfo.preferred_username
         state.user.firstName = jwtInfo.given_name
         state.user.lastName = jwtInfo.family_name
-        state.user.drivingLicenses = jwtInfo.driving_licenses.map(parseDrivingLicense)
-        state.user.userRoles = jwtInfo.user_roles.map(parseUserRole)
+        state.user.drivingLicenses = jwtInfo.driving_licenses ? jwtInfo.driving_licenses.map(parseDrivingLicense) : []
+        state.user.userRoles = jwtInfo.user_roles ? jwtInfo.user_roles.map(parseUserRole) : []
         state.user.status = parseUserStatus(jwtInfo.status)
       }
     }),
