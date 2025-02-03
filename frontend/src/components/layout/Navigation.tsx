@@ -15,7 +15,6 @@ import NavLink from '../navigation/NavLink'
 import NavHeadline from '../navigation/NavHeadline'
 import NavHeader from '../navigation/NavHeader'
 import useStore from '@/store/store'
-import Flower from '../icons/Flower'
 import SensorIcon from '../icons/Sensor'
 
 interface NavigationProps {
@@ -62,11 +61,6 @@ const Navigation: React.FC<NavigationProps> = ({
           label: 'Bewässerungsgruppen',
           icon: <FolderClosed className="w-5 h-5" />,
           to: '/treecluster',
-        },
-        {
-          label: 'Beete',
-          icon: <Flower className="w-5 h-5" />,
-          to: '/flowerbed',
         },
       ],
     },

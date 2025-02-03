@@ -28,7 +28,6 @@ function Debug() {
       </article>
       <div className="mt-6">
         <ReactJson src={authStore} collapsed name="authStore" />
-         <ReactJson src={authStore} collapsed name="authStore" />
         <ReactJson src={userStore} collapsed name="userStore" />
         <ReactJson src={mapStore} collapsed name="mapStore" />
       </div>
