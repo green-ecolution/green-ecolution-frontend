@@ -18,13 +18,15 @@ import { treeClusterQuery } from '@/api/queries'
 const treeclusterFilterSchema = z.object({
   status: z.array(z.string()).optional(),
   region: z.array(z.string()).optional(),
+  page: z.number().default(1),
 })
 
 function Treecluster() {
   const { data: clustersRes } = useSuspenseQuery(treeClusterQuery())
+
   const [filteredData, setFilteredData] = useState({
     active: false,
-    data: clustersRes.data
+    data: clustersRes.data,
   })
   const { filters } = useFilter()
 
@@ -47,8 +49,8 @@ function Treecluster() {
   const handleFilter = () => {
     setFilteredData({
       active: true,
-      data: filterData
-    });
+      data: filterData,
+    })
   }
 
   return (
@@ -58,10 +60,13 @@ function Treecluster() {
           Auflistung der Bewässerungsgruppen
         </h1>
         <p className="mb-5">
-          Hier finden Sie eine Übersicht aller Bewässerungsgruppen.
-          Eine Bewässerungsgruppe besteht aus mehreren Bäumen, welche aufgrund ihrer Nähe und Standortbedinungen in einer Gruppe zusammengefasst wurden.
-          Die Ausstattung einzelner Bäume mit Sensoren erlaubt eine Gesamtaussage über den Bewässerungszustand der vollständigen Gruppe.
-          Die Auswertung der Daten aller Sensoren einer Bewässerungsgruppe liefert Handlungsempfehlungen für diese Gruppe.
+          Hier finden Sie eine Übersicht aller Bewässerungsgruppen. Eine
+          Bewässerungsgruppe besteht aus mehreren Bäumen, welche aufgrund ihrer
+          Nähe und Standortbedinungen in einer Gruppe zusammengefasst wurden.
+          Die Ausstattung einzelner Bäume mit Sensoren erlaubt eine
+          Gesamtaussage über den Bewässerungszustand der vollständigen Gruppe.
+          Die Auswertung der Daten aller Sensoren einer Bewässerungsgruppe
+          liefert Handlungsempfehlungen für diese Gruppe.
         </p>
         <ButtonLink
           icon={Plus}
@@ -71,12 +76,15 @@ function Treecluster() {
       </article>
 
       <section className="mt-10">
+        {/* TODO: Filter data from backend to work with pagination */}
         <div className="flex justify-end mb-6 lg:mb-10">
           <Dialog
             headline="Bewässerungsgruppen filtern"
             fullUrlPath={Route.fullPath}
             onApplyFilters={() => handleFilter()}
-            onResetFilters={() => setFilteredData({ active: false, data: clustersRes.data })}
+            onResetFilters={() =>
+              setFilteredData({ active: false, data: clustersRes.data })
+            }
           >
             <StatusFieldset />
             <RegionFieldset />
@@ -99,7 +107,16 @@ function Treecluster() {
               </p>
             }
           >
-            <TreeClusterList data={filteredData.active ? filteredData.data : clustersRes.data} />
+            <TreeClusterList
+              data={filteredData.active ? filteredData.data : clustersRes.data}
+            />
+            {/* TODO: Comment pagination in as soon as data is filtered through the backend */}
+            {/* {clustersRes.pagination && (
+              <Pagination
+                url="/treecluster"
+                pagination={clustersRes.pagination}
+              />
+            )} */}
           </ErrorBoundary>
         </Suspense>
       </section>
@@ -123,13 +140,14 @@ export const Route = createFileRoute('/_protected/treecluster/')({
   component: TreeclusterWithProvider,
   validateSearch: treeclusterFilterSchema,
 
-  loaderDeps: ({ search: { status, region } }) => ({
+  loaderDeps: ({ search: { status, region, page } }) => ({
     status: status || [],
     region: region || [],
+    page: page || 1,
   }),
 
-  loader: ({ deps: { status, region } }) => {
-    return { status, region }
+  loader: ({ deps: { status, region, page } }) => {
+    return { status, region, page }
   },
 })
 
