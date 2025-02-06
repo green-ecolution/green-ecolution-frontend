@@ -95,8 +95,8 @@ export const WateringPlanSchema = (isCreate: boolean) => {
     .array(
       z.object({
         consumedWater: z.number().min(0, 'Verbrauchtes Wasser muss positiv sein.'),
-        treeClusterId: z.number().min(1, 'Ungültige Baumcluster-ID.'),
-        wateringPlanId: z.number().min(1, 'Ungültige Bewässerungsplan-ID.'),
+        treeClusterId: z.number().min(0, 'Ungültige Baumcluster-ID.'),
+        wateringPlanId: z.number().min(0, 'Ungültige Bewässerungsplan-ID.'),
       })
     )
     .default([]),

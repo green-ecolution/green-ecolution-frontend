@@ -48,12 +48,11 @@ const WateringPlanStatusUpdate = ({
       status: data.status,
       cancellationNote: data.cancellationNote,
       userIds: data.userIds,
-      evaluation: data.evaluation,
-      /* evaluation: data.treeclusters.map(cluster => ({
-        ConsumedWater: 0, // Initial value
-        treeclusterId: cluster.id,
-        wateringPlanId: wateringPlanId,
-      })), */
+      evaluation: data.treeclusters?.map(cluster => ({
+        consumedWater: (cluster.treeIds?.length ?? 0) * 120,
+        treeClusterId: cluster.id,
+        wateringPlanId: Number(wateringPlanId),
+      })),
     })
   )
 
@@ -67,6 +66,7 @@ const WateringPlanStatusUpdate = ({
       initForm,
       zodResolver(WateringPlanSchema(false))
     )
+  console.log("initForm:", initForm);
 
   const onSubmit: SubmitHandler<WateringPlanForm> = async (data) => {
     const evaluation = loadedData?.treeclusters.map((cluster, index) => ({
@@ -85,7 +85,9 @@ const WateringPlanStatusUpdate = ({
   }
 
   const selectedStatus = watch('status')
-  console.log(loadedData.evaluation)
+
+  console.log("Treeclusters:", loadedData?.treeclusters);
+  console.log("Evaluation:", loadedData?.evaluation); // Why is this empty? Shouldnt there be something in it?
 
   return (
     <>
@@ -140,7 +142,7 @@ const WateringPlanStatusUpdate = ({
             {selectedStatus ===
               WateringPlanStatus.WateringPlanStatusFinished && (
                 <div className="space-y-3">
-                  {loadedData?.treeclusters.map((cluster, index) => (
+                  {loadedData?.treeclusters?.map((cluster, index) => (
                     <div key={cluster.id} className="flex items-center gap-x-4">
                       <div className="w-full flex justify-between gap-x-6 bg-white border border-dark-50 shadow-cards px-4 py-3 rounded-lg">
                         <h3
@@ -154,8 +156,7 @@ const WateringPlanStatusUpdate = ({
                       </div>
                       <div className="flex items-center">
                         <Input
-                          label="Liter"
-                          error={formState.errors.evaluation?.[index]?.message}
+                          error={formState.errors.evaluation?.[index]?.consumedWater?.message}
                           {...register(`evaluation.${index}.consumedWater`)}
                         />
                         <span className="ml-2">Liter</span>
