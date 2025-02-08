@@ -1,13 +1,26 @@
 import { sensorQuery } from '@/api/queries'
 import LoadingInfo from '@/components/general/error/LoadingInfo'
+import Pagination from '@/components/general/Pagination'
 import SensorList from '@/components/sensor/SensorList'
 import { useSuspenseQuery } from '@tanstack/react-query'
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, useLoaderData } from '@tanstack/react-router'
 import { Suspense } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
+import { z } from 'zod'
 
 export const Route = createFileRoute('/_protected/sensors/')({
   component: Sensors,
+  validateSearch: z.object({
+    page: z.number().default(1),
+  }),
+
+  loaderDeps: ({ search: { page } }) => ({
+    page: page || 1,
+  }),
+
+  loader: ({ deps: { page } }) => {
+    return { page }
+  },
   meta: () => [
     {
       title: 'Sensoren',
@@ -17,7 +30,10 @@ export const Route = createFileRoute('/_protected/sensors/')({
 })
 
 function Sensors() {
-  const { data: sensorsRes } = useSuspenseQuery(sensorQuery())
+  const search = useLoaderData({ from: '/_protected/sensors/' })
+  const { data: sensorsRes } = useSuspenseQuery(
+    sensorQuery({ page: search.page.toString(), limit: '5' })
+  )
 
   return (
     <div className="container mt-6">
@@ -56,6 +72,12 @@ function Sensors() {
             }
           >
             <SensorList data={sensorsRes.data} />
+            {sensorsRes.pagination && (
+              <Pagination
+                url="/sensors"
+                pagination={sensorsRes.pagination}
+              />
+            )}
           </ErrorBoundary>
         </Suspense>
       </section>
