@@ -29,7 +29,7 @@ function EditTree() {
     switch (type) {
       case "new":
         return navigate({
-          to: "/tree/new",
+          to: "/trees/new",
           search: {
             resetStore: false,
             lat: treeLatLng.lat,
@@ -38,7 +38,7 @@ function EditTree() {
         });
       case "edit":
         return navigate({
-          to: `/tree/$treeId/edit`,
+          to: `/trees/$treeId/edit`,
           params: { treeId: treeId?.toString() ?? "" },
           search: { resetStore: false },
         });

@@ -40,7 +40,7 @@ export const useTreeForm = (mutationType: 'create' | 'update', treeId?: string) 
         queryClient.invalidateQueries(treeClusterIdQuery(String(data.treeClusterId)))
       }
       navigate({
-        to: '/tree/$treeId',
+        to: '/trees/$treeId',
         params: { treeId: data.id.toString() },
         search: { resetStore: false },
         replace: true,

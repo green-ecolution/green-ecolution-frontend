@@ -5,7 +5,6 @@ import BackLink from '@/components/general/links/BackLink'
 import ButtonLink from '@/components/general/links/ButtonLink'
 import { Pencil } from 'lucide-react'
 import { getWateringStatusDetails } from '@/hooks/details/useDetailsForWateringStatus'
-import { Link } from '@tanstack/react-router'
 import GeneralLink from '../general/links/GeneralLink'
 import { TriangleAlert } from 'lucide-react'
 import { useSuspenseQuery } from '@tanstack/react-query'
@@ -17,7 +16,9 @@ interface TreeClusterDashboardProps {
 }
 
 const TreeClusterDashboard = ({ treeclusterId }: TreeClusterDashboardProps) => {
-  const { data: treecluster } = useSuspenseQuery(treeClusterIdQuery(treeclusterId))
+  const { data: treecluster } = useSuspenseQuery(
+    treeClusterIdQuery(treeclusterId)
+  )
   const wateringStatus = getWateringStatusDetails(treecluster.wateringStatus)
   const lastWateredDate = treecluster.lastWatered
     ? format(new Date(treecluster.lastWatered), 'dd.MM.yyyy')
@@ -126,15 +127,7 @@ const TreeClusterDashboard = ({ treeclusterId }: TreeClusterDashboardProps) => {
           ) : (
             treecluster.trees?.map((tree, key) => (
               <li key={key}>
-                <Link
-                  to="/treecluster/$treeclusterId/tree/$treeId"
-                  params={{
-                    treeId: tree.id.toString(),
-                    treeclusterId: treecluster.id.toString(),
-                  }}
-                >
-                  <TreeCard tree={tree} />
-                </Link>
+                <TreeCard tree={tree} />
               </li>
             ))
           )}
