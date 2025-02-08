@@ -16,7 +16,7 @@ const newTreeSearchSchema = z.object({
   lng: z.number(),
 })
 
-export const Route = createFileRoute('/_protected/tree/_formular/new')({
+export const Route = createFileRoute('/_protected/trees/_formular/new')({
   component: NewTree,
   validateSearch: newTreeSearchSchema,
   beforeLoad: () => {

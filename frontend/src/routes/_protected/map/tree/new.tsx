@@ -26,7 +26,7 @@ function NewTree() {
   const handleSave = () => {
     if (!treeLatLng) return
     navigate({
-      to: '/tree/new',
+      to: '/trees/new',
       search: { lat: treeLatLng!.lat, lng: treeLatLng!.lng, resetStore: true },
     })
   }
