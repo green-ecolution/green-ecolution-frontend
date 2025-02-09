@@ -3,19 +3,22 @@ import { BadgeCheck } from "lucide-react";
 const KeyFacts = () => {
   // TODO: add real data
   const numbers = [
-    "800+ Bäume",
-    "40+ Bewässerungsgruppen",
-    "20+ Routen",
+    "Monitoring des Bewässerungszustands",
+    "Gruppierung von Bäumen anhand von Standortbedingungen",
+    "Interpretation der Messwerte der Sensordaten in ein Ampelsystem",
+    "Vereinfachte & Digitalisierte Einsatzplanung",
+    "Dynamische Routenplanung von Bewässerungsfahrten",
+    "Langzeitauswertung von Daten",
   ];
   return (
     <section className="container mt-20 lg:mt-28">
-      <h2 className="text-sm font-semibold text-dark-800 mb-4 lg:text-center">
-        Green Ecolution in Nummern:
+      <h2 className="font-semibold text-dark-800 mb-6">
+        Wobei genau hilft Ihnen Green Ecolution?
       </h2>
-      <ul className="space-y-4 lg:space-y-0 lg:flex lg:justify-center lg:gap-x-10">
+      <ul className="grid grid-cols-1 gap-y-4 lg:grid-cols-2 lg:gap-x-10">
         {numbers.map((number, key) => (
           <li key={key} className="flex items-center gap-x-4">
-            <BadgeCheck className="text-green-light w-8 h-8" />
+            <BadgeCheck className="text-green-light w-8 h-8 shrink-0" />
             <p className="font-semibold text-lg">{number}</p>
           </li>
         ))}

@@ -1,6 +1,6 @@
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import "@splidejs/react-splide/css";
-import { MapPin, PieChart } from "lucide-react";
+import { Car, MapPin, PieChart, Route } from "lucide-react";
 import IntroductionCard from "../general/cards/IntroductionCard";
 import SensorIcon from "../icons/Sensor";
 import TreeIcon from "../icons/Tree";
@@ -21,16 +21,28 @@ const IntroductionSlider = () => {
         "Auswertung der durch Sensoren übermittelten Daten für eine bedarfsgerechte Bewässerung von Bäumen und Beeten.",
     },
     {
-      label: "Augenmerk auf Jungbäume und Beete",
+      label: "Augenmerk auf Jungbäume",
       icon: TreeIcon,
       description:
-        "Jungbäume und Blumenbeete sind besonders hitzeanfällig und daher äußerst schutzbedürftig.",
+        "Jungbäume sind besonders hitzeanfällig und daher äußerst schutzbedürftig. Aus diesem Grund werden Bäume in deren ersten drei Standjahren überwacht.",
     },
     {
       label: "Monitoring mehrerer Standorte",
       icon: MapPin,
       description:
         "Unter Verwendung des LoRaWan-Netzes können verschiedene Standorte überwacht und weitere einfach eingebunden werden.",
+    },
+    {
+      label: "Vereifachten Einsatzplanung",
+      icon: Car,
+      description:
+        "Einsatzfahrten zur Bewässerung können digital und schnell geplant werden. Dabei können Informationen wie die Mitarbeitenden und genutzte Fahrzeuge und deren Wasserkapazität hinterlegt werden.",
+    },
+    {
+      label: "Dynamische Routenplanung",
+      icon: Route,
+      description:
+        "Eine Anbindung an Valhalla (Open Source Routing System) ermöglicht uns die dynamische Berechnung von Bewässerungsrouten.",
     },
   ];
 
@@ -59,7 +71,7 @@ const IntroductionSlider = () => {
             breakpoints: breakpoints,
           }}
           aria-label="Fakten zum Grünflächenmanagement"
-          className="splide--grid md:px-2"
+          className="splide--grid-small md:px-2"
         >
           {facts.map((fact, key) => (
             <SplideSlide key={key} className="pb-10 lg:pb-0">

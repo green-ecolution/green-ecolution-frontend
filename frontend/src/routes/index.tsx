@@ -30,8 +30,8 @@ function Startpage() {
             Grünflächen&shy;management
           </h1>
           <p>
-            Dieses Projekt befasst sich mit der smarten Bewässerung von Bäumen
-            und Beeten. Mittels sensorgestützter Überwachung werden Daten über
+            Dieses Projekt befasst sich mit der smarten Bewässerung von Bäumen im urbanen Kontext.
+            Mittels sensorgestützter Überwachung werden Daten über
             das LoRaWan-Netz übermittelt und ausgewertet, sodass
             Handlungsempfehlungen für die Bewässerung abgegeben werden können.
             Anhand dieser Handlungsempfehlungen können Einsätze zu einer
