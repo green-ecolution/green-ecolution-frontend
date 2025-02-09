@@ -18,7 +18,7 @@ const IntroductionSlider = () => {
       label: "Auswertung der Messdaten",
       icon: PieChart,
       description:
-        "Auswertung der durch Sensoren übermittelten Daten für eine bedarfsgerechte Bewässerung von Bäumen und Beeten.",
+        "Auswertung der durch Sensoren übermittelten Daten für eine bedarfsgerechte Bewässerung von Bäumen.",
     },
     {
       label: "Augenmerk auf Jungbäume",
