@@ -1,15 +1,28 @@
 import { treeQuery } from '@/api/queries'
 import LoadingInfo from '@/components/general/error/LoadingInfo'
 import { useSuspenseQuery } from '@tanstack/react-query'
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, useLoaderData } from '@tanstack/react-router'
 import { Suspense } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import ButtonLink from '@/components/general/links/ButtonLink'
 import { Plus } from 'lucide-react'
 import TreeCard from '@/components/general/cards/TreeCard'
+import { z } from 'zod'
+import Pagination from '@/components/general/Pagination'
 
 export const Route = createFileRoute('/_protected/trees/')({
   component: Trees,
+    validateSearch: z.object({
+      page: z.number().default(1),
+    }),
+  
+    loaderDeps: ({ search: { page } }) => ({
+      page: page || 1,
+    }),
+  
+    loader: ({ deps: { page } }) => {
+      return { page }
+    },
   meta: () => [
     {
       title: 'Bäume',
@@ -19,7 +32,10 @@ export const Route = createFileRoute('/_protected/trees/')({
 })
 
 function Trees() {
-  const { data: treesRes } = useSuspenseQuery(treeQuery())
+  const search = useLoaderData({ from: '/_protected/trees/' })
+  const { data: treesRes } = useSuspenseQuery(
+    treeQuery({ page: search.page.toString(), limit: '10' })
+  )
 
   return (
     <div className="container mt-6">
@@ -74,6 +90,12 @@ function Trees() {
                 ))
               )}
             </ul>
+            {treesRes.pagination && (
+              <Pagination
+                url="/trees"
+                pagination={treesRes.pagination}
+              />
+            )}
           </ErrorBoundary>
         </Suspense>
       </section>

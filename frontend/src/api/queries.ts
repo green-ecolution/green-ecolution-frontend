@@ -54,10 +54,10 @@ export const sensorIdQuery = (id: string) =>
       }),
   })
 
-export const treeQuery = () =>
+export const treeQuery = (params?: { page?: string, limit?: string }) =>
   queryOptions<TreeList>({
-    queryKey: ['trees'],
-    queryFn: () => treeApi.getAllTrees(),
+    queryKey: ['trees', params?.page ?? '1', params?.limit ?? 'none'],
+    queryFn: () => treeApi.getAllTrees(params),
   })
 
 export const treeIdQuery = (id: string) =>
