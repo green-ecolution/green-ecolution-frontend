@@ -89,6 +89,7 @@ const WateringPlanStatusUpdate = ({
   console.log("Treeclusters:", loadedData?.treeclusters);
   console.log("Evaluation:", loadedData?.evaluation); // Why is this empty? Shouldnt there be something in it?
 
+  //use field array
   return (
     <>
       <article className="2xl:w-4/5">
@@ -155,11 +156,11 @@ const WateringPlanStatusUpdate = ({
                         </h3>
                       </div>
                       <div className="flex items-center">
-                        <Input
+                        <input
                           error={formState.errors.evaluation?.[index]?.consumedWater?.message}
                           {...register(`evaluation.${index}.consumedWater`)}
                         />
-                        <span className="ml-2">Liter</span>
+                        <span className="ml-2">Liter</span> 
                       </div>
                     </div>
                   ))}
