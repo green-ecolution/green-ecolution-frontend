@@ -1,4 +1,5 @@
-import { SensorData } from '@green-ecolution/backend-client'
+import { sensorDataQuery } from '@/api/queries'
+import { useSuspenseQuery } from '@tanstack/react-query'
 import { format } from 'date-fns'
 import {
   XAxis,
@@ -12,11 +13,14 @@ import {
 } from 'recharts'
 
 interface ChartSensorDataProps {
-  data: SensorData[]
+  sensorId: string
 }
 
-const ChartSensorData: React.FC<ChartSensorDataProps> = ({ data }) => {
-  const batteryData = data.map((entry) => ({
+const ChartSensorData: React.FC<ChartSensorDataProps> = ({ sensorId }) => {
+  const { data: sensorDataRes } = useSuspenseQuery(
+    sensorDataQuery(sensorId)
+  )
+  const batteryData = sensorDataRes.data.map((entry) => ({
     name: format(new Date(entry.updatedAt), 'dd.MM.yyyy'),
     battery: entry.battery,
   }))

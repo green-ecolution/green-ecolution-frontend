@@ -1,4 +1,4 @@
-import { WateringStatus, Tree, SensorData } from '@green-ecolution/backend-client'
+import { WateringStatus, Tree } from '@green-ecolution/backend-client'
 import React from 'react'
 import { TreeDeciduous } from 'lucide-react'
 import { getWateringStatusDetails } from '@/hooks/details/useDetailsForWateringStatus'
@@ -9,10 +9,9 @@ import { format } from 'date-fns'
 
 interface TabWateringStatusProps {
   tree?: Tree
-  data?: SensorData[]
 }
 
-const TabWateringStatus: React.FC<TabWateringStatusProps> = ({ tree, data }) => {
+const TabWateringStatus: React.FC<TabWateringStatusProps> = ({ tree }) => {
   const statusCards = [
     {
       overline: 'Bodenfeuchte',
@@ -136,7 +135,7 @@ const TabWateringStatus: React.FC<TabWateringStatusProps> = ({ tree, data }) => 
         </section>
       )}
 
-      {data && (
+      {tree?.sensor && (
         <section className="mt-16">
           <h2 className="font-bold font-lato text-xl mb-4">
             Messwerte im Verlaufe der Zeit
@@ -149,7 +148,7 @@ const TabWateringStatus: React.FC<TabWateringStatusProps> = ({ tree, data }) => 
             Bewässerungszustand im Laufe der Zeit geändert hat.
           </p>
 
-          <ChartWateringData data={data} />
+          <ChartWateringData sensorId={tree.sensor.id} />
         </section>
       )}
     </>
