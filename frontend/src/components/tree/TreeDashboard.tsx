@@ -22,16 +22,13 @@ const TreeDashboard = ({ treeId }: TreeDashboardProps) => {
   const { data: treeCluster } = useSuspenseQuery(
     treeClusterIdQuery(tree.treeClusterId?.toString() ?? '')
   )
-  const { data: sensorDataRes } = useSuspenseQuery(
-    sensorDataQuery(tree.sensor?.id ?? '')
-  )
 
   const tabs = useMemo(
     () => [
       {
         label: 'Bewässerungsdaten',
         icon: <TreeIcon className="w-5 h-5" />,
-        view: <TabWateringStatus tree={tree} data={sensorDataRes.data} />,
+        view: <TabWateringStatus tree={tree} />,
       },
       {
         label: 'Allgemeine Daten',
@@ -41,7 +38,7 @@ const TreeDashboard = ({ treeId }: TreeDashboardProps) => {
       {
         label: 'Sensordaten',
         icon: <SensorIcon className="w-5 h-5" />,
-        view: <TabSensorData tree={tree} data={sensorDataRes.data} />,
+        view: <TabSensorData tree={tree} />,
       },
     ],
     [tree]

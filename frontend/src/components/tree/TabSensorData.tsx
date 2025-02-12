@@ -2,17 +2,15 @@ import React from 'react'
 import GeneralStatusCard from '../general/cards/GeneralStatusCard'
 import EntitiesStatusCard from '../general/cards/EntitiesStatusCard'
 import { getSensorStatusDetails } from '@/hooks/details/useDetailsForSensorStatus'
-import { SensorData, SensorStatus, Tree } from '@green-ecolution/backend-client'
 import { format } from 'date-fns'
 import GeneralLink from '../general/links/GeneralLink'
 import ChartSensorData from './ChartSensorData'
 
 interface TabSensorDataProps {
   tree: Tree
-  data?: SensorData[]
 }
 
-const TabSensorData: React.FC<TabSensorDataProps> = ({ tree, data }) => {
+const TabSensorData: React.FC<TabSensorDataProps> = ({ tree }) => {
   const updatedDate = tree?.sensor?.updatedAt
     ? format(new Date(tree?.sensor?.updatedAt), 'dd.MM.yyyy')
     : 'Keine Angabe'
@@ -60,7 +58,7 @@ const TabSensorData: React.FC<TabSensorDataProps> = ({ tree, data }) => {
         }}
       />
 
-      {data && (
+      {tree?.sensor && (
         <section className="mt-16">
           <h2 className="font-bold font-lato text-xl mb-4">
             Akkulaufzeit im Verlaufe der Zeit
@@ -72,7 +70,7 @@ const TabSensorData: React.FC<TabSensorDataProps> = ({ tree, data }) => {
             Anhand dessen kann nachvollzogen werden, wie sich die Batterie im Laufe der Zeit entlädt.
           </p>
 
-          <ChartSensorData data={data} />
+          <ChartSensorData sensorId={tree.sensor.id} />
         </section>
       )}
     </>

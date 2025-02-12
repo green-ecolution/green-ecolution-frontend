@@ -1,4 +1,5 @@
-import { SensorData } from '@green-ecolution/backend-client'
+import { sensorDataQuery } from '@/api/queries'
+import { useSuspenseQuery } from '@tanstack/react-query'
 import { format } from 'date-fns'
 import {
   XAxis,
@@ -12,17 +13,20 @@ import {
 } from 'recharts'
 
 interface ChartWateringDataProps {
-  data: SensorData[]
+  sensorId: string
 }
 
-const ChartWateringData: React.FC<ChartWateringDataProps> = ({ data }) => {
-  const transformedDataForTemperature = data.map((entry) => ({
+const ChartWateringData: React.FC<ChartWateringDataProps> = ({ sensorId }) => {
+  const { data: sensorDataRes } = useSuspenseQuery(
+    sensorDataQuery(sensorId)
+  )
+  const transformedDataForTemperature = sensorDataRes.data.map((entry) => ({
     name: format(new Date(entry.updatedAt), 'dd.MM.yyyy'),
     temperature: entry.temperature,
     humidity: entry.humidity,
   }))
 
-  const transformedDataForWatermarks = data.map((entry) => {
+  const transformedDataForWatermarks = sensorDataRes.data.map((entry) => {
     const formattedEntry: Record<string, any> = {
       name: format(new Date(entry.updatedAt), 'dd.MM.yyyy'),
     }
