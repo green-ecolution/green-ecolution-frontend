@@ -17,8 +17,9 @@ const Map = ({
 }: MapProps) => {
   const {data: appInfo } = useSuspenseQuery(infoQuery())
 
-  const { zoom, maxZoom, minZoom } = useMapStore(
+  const { center, zoom, maxZoom, minZoom } = useMapStore(
     (state) => ({
+      center: state.map.center,
       zoom: state.map.zoom,
       maxZoom: state.map.maxZoom,
       minZoom: state.map.minZoom,
@@ -34,13 +35,13 @@ const Map = ({
       className="z-0"
       zoomControl={false}
       style={{ width, height }}
-      center={[appInfo?.map?.center.latitude, appInfo.map.center.longitude]}
+      center={center}
       zoom={zoom}
       maxZoom={maxZoom}
       minZoom={minZoom}
       maxBounds={L.latLngBounds(
-                [appInfo?.map?.boundsSouthWest.latitude, appInfo.map.boundsSouthWest.longitude],
-                [appInfo?.map?.boundsNorthEast.latitude, appInfo.map.boundsNorthEast.longitude]
+                [appInfo?.map?.bbox[0], appInfo.map.bbox[1]],
+                [appInfo?.map?.bbox[2], appInfo.map.bbox[3]]
               )}
     >
       <TileLayer
