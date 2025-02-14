@@ -5,8 +5,6 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   error?: string;
 }
-//input feld muss key haben
-//input muss id haben
 
 const Input = forwardRef(
   (props: InputProps, ref: React.ForwardedRef<HTMLInputElement>) => {
