@@ -22,7 +22,7 @@ import {
   WateringPlanSchema,
 } from '@/schema/wateringPlanSchema'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { SubmitHandler } from 'react-hook-form'
+import { SubmitHandler, useFieldArray } from 'react-hook-form'
 import { getWateringStatusDetails } from '@/hooks/useDetailsForWateringStatus'
 import Input from '../general/form/types/Input'
 
@@ -61,7 +61,7 @@ const WateringPlanStatusUpdate = ({
     : 'Keine Angabe'
   const statusDetails = getWateringPlanStatusDetails(loadedData?.status)
 
-  const { register, handleSubmit, formState, watch } =
+  const { register, handleSubmit, formState, watch, control } =
     useFormSync<WateringPlanForm>(
       initForm,
       zodResolver(WateringPlanSchema(false))
@@ -87,9 +87,15 @@ const WateringPlanStatusUpdate = ({
   const selectedStatus = watch('status')
 
   console.log("Treeclusters:", loadedData?.treeclusters);
-  console.log("Evaluation:", loadedData?.evaluation); // Why is this empty? Shouldnt there be something in it?
+  console.log("Evaluation:", loadedData?.evaluation);
 
-  //use field array
+  const { fields } = useFieldArray({
+    control,
+    name: "evaluation",
+  });
+
+  console.log("fields: ", fields)
+
   return (
     <>
       <article className="2xl:w-4/5">
@@ -143,21 +149,21 @@ const WateringPlanStatusUpdate = ({
             {selectedStatus ===
               WateringPlanStatus.WateringPlanStatusFinished && (
                 <div className="space-y-3">
-                  {loadedData?.treeclusters?.map((cluster, index) => (
-                    <div key={cluster.id} className="flex items-center gap-x-4">
+                  {fields.map((field, index) => (
+                    <div key={field.id} className="flex items-center gap-x-4">
                       <div className="w-full flex justify-between gap-x-6 bg-white border border-dark-50 shadow-cards px-4 py-3 rounded-lg">
                         <h3
                           className={`relative font-medium pl-7 before:absolute before:w-4 before:h-4 before:rounded-full before:left-0 before:top-[0.22rem] before:bg-${getWateringStatusDetails(
-                            cluster.wateringStatus ?? WateringStatus.WateringStatusUnknown,
+                            loadedData?.treeclusters[index].wateringStatus ?? WateringStatus.WateringStatusUnknown,
                           ).color}`}
                         >
-                          <strong className="font-semibold">Bewässerungsgruppe:</strong> {cluster.name} ·{" "}
-                          {cluster.id}
+                          <strong className="font-semibold">Bewässerungsgruppe:</strong> {loadedData?.treeclusters[index].name} ·{" "}
+                          {loadedData?.treeclusters[index].id}
                         </h3>
                       </div>
                       <div className="flex items-center">
                         <input
-                          error={formState.errors.evaluation?.[index]?.consumedWater?.message}
+                          key={field.id}
                           {...register(`evaluation.${index}.consumedWater`)}
                         />
                         <span className="ml-2">Liter</span> 
