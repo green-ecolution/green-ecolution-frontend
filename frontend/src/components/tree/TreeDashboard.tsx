@@ -102,6 +102,7 @@ const TreeDashboard = ({ treeId }: TreeDashboardProps) => {
           }}
         />
       </article>
+
       {tree?.sensor ? (
         <Tabs tabs={tabs} />
       ) : (
@@ -114,7 +115,8 @@ const TreeDashboard = ({ treeId }: TreeDashboardProps) => {
             <p>
               Dieser Baum wurde bisher nicht mit einem Sensor ausgestattet,
               sodass keine Informationen über den aktuellen Bewässerungszustand
-              angezeigt werden können.
+              angezeigt werden können. Aus diesem Grund wird der Bewässerungszustand
+              als unbekannt ausgezeichnet.
             </p>
           </div>
           <TabGeneralData tree={tree} />
