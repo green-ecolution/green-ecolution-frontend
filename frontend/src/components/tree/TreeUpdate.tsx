@@ -77,7 +77,7 @@ const TreeUpdate = ({ treeId }: TreeUpdateProps) => {
   return (
     <>
       <BackLink
-        link={{ to: '/tree/$treeId', params: { treeId } }}
+        link={{ to: '/trees/$treeId', params: { treeId } }}
         label="Zurück zur Übersicht"
       />
       <article className="2xl:w-4/5">

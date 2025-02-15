@@ -9,7 +9,7 @@ const treeFormularSchema = z.object({
   resetStore: z.boolean().default(true),
 })
 
-export const Route = createFileRoute('/_protected/tree/_formular')({
+export const Route = createFileRoute('/_protected/trees/_formular')({
   component: () => <Outlet />,
   validateSearch: treeFormularSchema,
   loaderDeps: ({ search: { resetStore } }) => ({

@@ -77,7 +77,7 @@ function MapView() {
   )
 
   const handleTreeClick = (tree: Tree) => {
-    navigate({ to: `/tree/$treeId`, params: { treeId: tree.id.toString() } })
+    navigate({ to: `/trees/$treeId`, params: { treeId: tree.id.toString() } })
   }
 
   const handleClusterClick = (cluster: TreeCluster) => {

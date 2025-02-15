@@ -124,7 +124,7 @@ const SensorDashboard = ({ sensorId }: SensorDashboardProps) => {
               <GeneralLink
                 label="Zur verknüpften Vegetation"
                 link={{
-                  to: '/tree/$treeId',
+                  to: '/trees/$treeId',
                   params: { treeId: String(linkedTree.id) },
                 }}
               />

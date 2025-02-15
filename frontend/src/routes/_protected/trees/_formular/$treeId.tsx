@@ -2,7 +2,7 @@ import { treeIdQuery } from '@/api/queries'
 import queryClient from '@/api/queryClient'
 import { createFileRoute, Outlet } from '@tanstack/react-router'
 
-export const Route = createFileRoute('/_protected/tree/_formular/$treeId')({
+export const Route = createFileRoute('/_protected/trees/_formular/$treeId')({
   component: () => <Outlet />,
   loader: async ({ params: { treeId } }) => {
     return {
