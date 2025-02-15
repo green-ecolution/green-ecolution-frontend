@@ -24,7 +24,7 @@ import {
 } from '@/schema/wateringPlanSchema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SubmitHandler } from 'react-hook-form'
-import { getWateringStatusDetails } from '@/hooks/useDetailsForWateringStatus'
+import { getWateringStatusDetails } from '@/hooks/details/useDetailsForWateringStatus'
 import Input from '../general/form/types/Input'
 
 interface WateringPlanStatusUpdateProps {
