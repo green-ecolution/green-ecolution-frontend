@@ -91,15 +91,6 @@ export const WateringPlanSchema = (isCreate: boolean) => {
           )
       )
       .optional(),
-    evaluation: z
-    .array(
-      z.object({
-        consumedWater: z.number().min(0, 'Verbrauchtes Wasser muss positiv sein.'),
-        treeClusterId: z.number(),
-        wateringPlanId: z.number(),
-      })
-    )
-    .default([]),
   })
 }
 
