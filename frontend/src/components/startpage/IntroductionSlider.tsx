@@ -33,16 +33,16 @@ const IntroductionSlider = () => {
         "Unter Verwendung des LoRaWan-Netzes können verschiedene Standorte überwacht und weitere einfach eingebunden werden.",
     },
     {
-      label: "Vereifachten Einsatzplanung",
+      label: "Vereifachte Einsatzplanung",
       icon: Car,
       description:
-        "Einsatzfahrten zur Bewässerung können digital und schnell geplant werden. Dabei können Informationen wie die Mitarbeitenden und genutzte Fahrzeuge und deren Wasserkapazität hinterlegt werden.",
+        "Einsatzfahrten zur Bewässerung können digital und schnell geplant werden. Dabei können Informationen wie die Mitarbeitenden sowie genutzte Fahrzeuge und deren Wasserkapazität hinterlegt werden.",
     },
     {
       label: "Dynamische Routenplanung",
       icon: Route,
       description:
-        "Eine Anbindung an Valhalla (Open Source Routing System) ermöglicht uns die dynamische Berechnung von Bewässerungsrouten.",
+        "Dynamische Berechnung von Bewässerungsrouten mithilfe von Open-Source Software (Valhalla & Vroom).",
     },
   ];
 
