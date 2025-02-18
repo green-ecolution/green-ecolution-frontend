@@ -16,7 +16,7 @@ const QuickLinks = () => {
     },
     {
       url: '/watering-plans',
-      description: 'Listenansicht aller Einsatzpläne die geplant, abgeschlossen, aktiv etc. sind.',
+      description: 'Listenansicht, aller Einsatzpläne die geplant, abgeschlossen, aktiv etc. sind.',
       headline: 'Auflistung der Einsatzpläne & Routenplanung',
       linkLabel: 'Zu den Einsatzplänen',
     },
@@ -31,7 +31,7 @@ const QuickLinks = () => {
         <p className="mb-6 lg:mb-10">
           Unser System bietet verschiedene Ansichten, um den Bewässerungszustand der Bäume zu überwachen.
           Sie können alle Bäume auf einer Karte anzeigen, die verbauten Sensoren mit Akkustand und Messwerten einsehen
-          und eine Übersicht der Einsatzpläne für geplante, aktive und abgeschlossene Bewässerungsfahrten abrufen.
+          und eine Übersicht der Einsatzpläne bisheriger und zukünftiger Bewässerungsfahrten abrufen.
         </p>
       </article>
       <ul className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
