@@ -27,7 +27,7 @@ const ChartWateringData: React.FC<ChartWateringDataProps> = ({ sensorId }) => {
   }))
 
   const transformedDataForWatermarks = sensorDataRes.data.map((entry) => {
-    const formattedEntry: Record<string, any> = {
+    const formattedEntry: Record<string, number | string> = {
       name: format(new Date(entry.updatedAt), 'dd.MM.yyyy'),
     }
 
