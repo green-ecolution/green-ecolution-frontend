@@ -1,6 +1,7 @@
 import { Tree } from '@green-ecolution/backend-client'
 import MarkerList from './MarkerList'
-import { getStatusColor, TreeMarkerIcon } from '../MapMarker'
+import { TreeMarkerIcon } from '../MapMarker'
+import { getStatusColor } from '../utils'
 
 interface WithFilterdTreesProps {
   onClick?: (tree: Tree) => void

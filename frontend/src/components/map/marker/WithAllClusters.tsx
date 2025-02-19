@@ -2,7 +2,8 @@ import { TreeClusterInList } from '@green-ecolution/backend-client'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { treeClusterQuery } from '@/api/queries'
 import MarkerList from './MarkerList'
-import { ClusterIcon, getStatusColor } from '../MapMarker'
+import { ClusterIcon } from '../MapMarker'
+import { getStatusColor } from '../utils'
 
 export interface WithAllClustersProps {
   onClick?: (tree: TreeClusterInList) => void

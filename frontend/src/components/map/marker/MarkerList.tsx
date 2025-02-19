@@ -18,7 +18,7 @@ interface MarkerListProps<T extends WithLocation> {
 
 const MarkerList = <T extends WithLocation>({ data, onClick, icon, tooltipContent, tooltipOptions }: MarkerListProps<T>) => {
   const map = useMap()
-  const markersRef = useRef<L.Marker<any>[]>([])
+  const markersRef = useRef<L.Marker[]>([])
 
   useEffect(() => {
     if (map) {
@@ -32,7 +32,7 @@ const MarkerList = <T extends WithLocation>({ data, onClick, icon, tooltipConten
         markersRef.current.forEach((m) => map.removeLayer(m))
       }
     }
-  }, [map])
+  })
 
   const renderMarkers = () => {
     if (!map) return;

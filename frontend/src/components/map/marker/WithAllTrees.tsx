@@ -1,8 +1,9 @@
 import { Tree } from '@green-ecolution/backend-client'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { treeQuery } from '@/api/queries'
-import { getStatusColor, TreeMarkerIcon } from '../MapMarker'
+import { TreeMarkerIcon } from '../MapMarker'
 import MarkerList from './MarkerList'
+import { getStatusColor } from '../utils'
 
 export interface WithAllTreesProps {
   onClick?: (tree: Tree) => void
