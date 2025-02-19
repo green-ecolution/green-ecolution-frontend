@@ -8,6 +8,8 @@ import { Check, PaintBucket } from "lucide-react";
 import { renderToStaticMarkup } from "react-dom/server";
 import TreeIcon from "../icons/Tree";
 import SensorIcon from "../icons/Sensor";
+import { WateringStatus } from "@green-ecolution/backend-client";
+import { getWateringStatusDetails } from "@/hooks/details/useDetailsForWateringStatus";
 
 const iconToSvg = (IconComponent: React.FC<React.SVGProps<SVGSVGElement>>) => {
   return renderToStaticMarkup(<IconComponent className="text-white w-[1.125rem] h-[1.125rem]" strokeWidth={3} />);
@@ -112,6 +114,13 @@ const makerRouteWrapperStyles = () => `
   font-family: Nunito, sans-serif;
 `;
 
+export const getStatusColor = (wateringStatus: WateringStatus) => {
+  const statusDetails = getWateringStatusDetails(
+    wateringStatus ?? WateringStatus.WateringStatusUnknown
+  )
+  return statusDetails.colorHex
+}
+
 export const TreeMarkerIcon = (color: string, isSelected: boolean, isHighlighted: boolean) =>
   L.divIcon({
     iconAnchor: [0, 24],
@@ -151,7 +160,7 @@ export const RouteIcon = (label: string) =>
   L.divIcon({
     iconAnchor: [12, 12],
     html:
-    `<span style="${makerRouteWrapperStyles()}">
+      `<span style="${makerRouteWrapperStyles()}">
       ${label}
     </span>`,
   })
@@ -160,7 +169,7 @@ export const RefillIcon = () =>
   L.divIcon({
     iconAnchor: [12, 12],
     html:
-    `<figure style="${makerWrapperStyles(false, false)}">
+      `<figure style="${makerWrapperStyles(false, false)}">
       <span style="${markerHtmlStyles("#454545")}">
         ${iconToSvg(PaintBucket)}
       </span>
