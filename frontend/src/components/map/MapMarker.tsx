@@ -8,8 +8,6 @@ import { Check, PaintBucket } from "lucide-react";
 import { renderToStaticMarkup } from "react-dom/server";
 import TreeIcon from "../icons/Tree";
 import SensorIcon from "../icons/Sensor";
-import { WateringStatus } from "@green-ecolution/backend-client";
-import { getWateringStatusDetails } from "@/hooks/details/useDetailsForWateringStatus";
 
 const iconToSvg = (IconComponent: React.FC<React.SVGProps<SVGSVGElement>>) => {
   return renderToStaticMarkup(<IconComponent className="text-white w-[1.125rem] h-[1.125rem]" strokeWidth={3} />);
@@ -114,12 +112,6 @@ const makerRouteWrapperStyles = () => `
   font-family: Nunito, sans-serif;
 `;
 
-export const getStatusColor = (wateringStatus: WateringStatus) => {
-  const statusDetails = getWateringStatusDetails(
-    wateringStatus ?? WateringStatus.WateringStatusUnknown
-  )
-  return statusDetails.colorHex
-}
 
 export const TreeMarkerIcon = (color: string, isSelected: boolean, isHighlighted: boolean) =>
   L.divIcon({
