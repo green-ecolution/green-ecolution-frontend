@@ -10,7 +10,7 @@ type WithLocation = {
 interface MarkerListProps<T extends WithLocation> {
   data: T[]
   onClick?: (data: T) => void
-  icon: (data: T) => L.DivIcon
+  icon: ((data: T) => L.DivIcon) | L.DivIcon
   tooltipContent?: ((data: T, layer: L.Layer) => L.Content) | L.Tooltip | L.Content
   tooltipOptions?: L.TooltipOptions
 }
@@ -42,7 +42,7 @@ const MarkerList = <T extends WithLocation>({ data, onClick, icon, tooltipConten
     markersRef.current = [];
 
     data.filter((t) => bounds.contains([t.latitude, t.longitude])).forEach((t) => {
-      const marker = L.marker([t.latitude, t.longitude], { icon: icon(t) })
+      const marker = L.marker([t.latitude, t.longitude], { icon: typeof icon === 'function' ? icon(t) : icon })
       if (tooltipContent) {
         typeof tooltipContent === 'function' ? marker.bindTooltip((m) => tooltipContent(t, m), tooltipOptions)
           : marker.bindTooltip(tooltipContent, tooltipOptions)
