@@ -3,7 +3,6 @@ import { useEffect, useRef } from "react"
 import { useMap } from "react-leaflet"
 
 type WithLocation = {
-  id: string | number,
   latitude: number,
   longitude: number,
 }
