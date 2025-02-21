@@ -7,6 +7,12 @@ const WateringStatusProperties = {
     description: 'Der Bewässerungsstatus ist unbekannt.',
     colorHex: '#A2A2A2',
   },
+  [WateringStatus.WateringStatusJustWatered]: {
+    color: 'dark-600',
+    label: 'Soeben bewässert',
+    description: 'Die Bäume wurden vor kurzem bewässert.',
+    colorHex: '#747474',
+  },
   [WateringStatus.WateringStatusBad]: {
     color: 'red',
     label: 'Sehr trocken',

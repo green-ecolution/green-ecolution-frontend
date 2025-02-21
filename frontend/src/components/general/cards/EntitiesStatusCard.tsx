@@ -13,7 +13,7 @@ const EntitiesStatusCard: React.FC<EntitiesStatusCard> = ({
   hasPill = false,
 }) => {
   const backgroundColor =
-    statusDetails.color === 'dark-400'
+    statusDetails.color === 'dark-400' ||  statusDetails.color === 'dark-600'
       ? 'dark-50'
       : `${statusDetails.color}-100`
 

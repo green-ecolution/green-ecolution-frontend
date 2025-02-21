@@ -4,6 +4,7 @@ import { TreeDeciduous } from 'lucide-react'
 import { getWateringStatusDetails } from '@/hooks/details/useDetailsForWateringStatus'
 import GeneralStatusCard from '../general/cards/GeneralStatusCard'
 import EntitiesStatusCard from '../general/cards/EntitiesStatusCard'
+import { format } from 'date-fns'
 
 interface TabWateringStatusProps {
   tree?: Tree
@@ -16,6 +17,7 @@ const TabWateringStatus: React.FC<TabWateringStatusProps> = ({ tree }) => {
       value: tree?.sensor?.latestData
         ? `${tree?.sensor?.latestData.humidity} %`
         : 'Keine Daten',
+        isLarge: true,
       description: 'Wert bezeichnet den Wassergehalt im Boden.',
     },
     {
@@ -23,13 +25,22 @@ const TabWateringStatus: React.FC<TabWateringStatusProps> = ({ tree }) => {
       value: tree?.sensor?.latestData
         ? `${tree?.sensor?.latestData.temperature} °C`
         : 'Keine Daten',
+      isLarge: true,
       description: 'Wert bezeichnet die Temperatur in der oberflächlichen Bodenschicht.',
+    },
+    {
+      overline: 'Datum der letzten Bewässerung',
+      value: tree?.lastWatered
+          ? format(new Date(tree.lastWatered), 'dd.MM.yyyy')
+        : 'Keine Angabe',
+      isLarge: false,
+      description: 'Wird aktualisiert, sobald ein Einsatzplan mit diesem Baum als »Beendet« markiert wird.',
     },
   ]
 
   return (
     <>
-      <ul className="space-y-5 md:space-y-0 md:grid md:gap-5 md:grid-cols-3">
+      <ul className="space-y-5 md:space-y-0 md:grid md:gap-5 md:grid-cols-2 lg:grid-cols-4">
         <li>
           <EntitiesStatusCard
             statusDetails={getWateringStatusDetails(
@@ -43,7 +54,7 @@ const TabWateringStatus: React.FC<TabWateringStatusProps> = ({ tree }) => {
             <GeneralStatusCard
               overline={card.overline}
               value={card.value}
-              isLarge
+              isLarge={card.isLarge}
               description={card.description}
             />
           </li>

@@ -25,6 +25,10 @@ const TabGeneralData: React.FC<TabGeneralDataProps> = ({ tree }) => {
       value: tree?.readonly ? 'importiert' : 'Manuell erstellt',
     },
     {
+      label: 'Datum der letzten Bewässerung',
+      value: tree?.lastWatered ? format(new Date(tree.lastWatered), 'dd.MM.yyyy') : 'Keine Angabe',
+    },
+    {
       label: 'Latitude',
       value: `${tree?.latitude ?? 'Keine Angabe'}`,
     },
