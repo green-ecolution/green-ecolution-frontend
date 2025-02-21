@@ -26,6 +26,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { SubmitHandler } from 'react-hook-form'
 import { getWateringStatusDetails } from '@/hooks/details/useDetailsForWateringStatus'
 import Input from '../general/form/types/Input'
+import TreeclusterCardSmall from '../general/cards/TreeclusterCardSmall'
 
 interface WateringPlanStatusUpdateProps {
   wateringPlanId: string
@@ -38,7 +39,7 @@ const WateringPlanStatusUpdate = ({
     'update',
     wateringPlanId
   )
-  
+
   const { initForm, loadedData } = useInitFormQuery(
     wateringPlanIdQuery(wateringPlanId),
     (data) => ({
@@ -99,7 +100,7 @@ const WateringPlanStatusUpdate = ({
         return newErrors
       })
     }
-  
+
     setManualEvaluation(prev =>
       prev.map((item, i) =>
         i === index ? { ...item, consumedWater: numericValue } : item
@@ -109,13 +110,16 @@ const WateringPlanStatusUpdate = ({
 
   const onSubmit: SubmitHandler<WateringPlanForm> = async (data) => {
     if (errorMessages.some(msg => msg !== "")) return;
+    const evaluationData = selectedStatus === WateringPlanStatus.WateringPlanStatusFinished
+    ? manualEvaluation
+    : [];
 
     mutate({
       ...data,
       date: data.date.toISOString(),
       trailerId:
         data.trailerId && data.trailerId !== -1 ? data.trailerId : undefined,
-      evaluation: manualEvaluation
+      evaluation: evaluationData
     })
   }
 
@@ -142,8 +146,12 @@ const WateringPlanStatusUpdate = ({
           />
         </p>
         <p>
-          Der Status eines Einsatzes beschreibt, ob er Einsatz beispielsweise
-          aktiv ausgeführt wird, beendet ist oder abgebrochen wurde.
+          Der Status eines Einsatzes beschreibt, ob der Einsatz beispielsweise
+          aktiv ausgeführt wird, beendet ist oder abgebrochen wurde. Diese
+          Angabe hilft dabei die erstellen Einsätze zu kategorisieren und eine
+          Auswertung anzulegen. Sobald ein Einsatz beendet wird, kann zudem
+          angegeben werden, mit wie viel Wasser die zugehörigen
+          Bewässerungsgruppen bewässert wurden.
         </p>
       </article>
 
@@ -170,26 +178,32 @@ const WateringPlanStatusUpdate = ({
             {selectedStatus ===
               WateringPlanStatus.WateringPlanStatusFinished && (
                 <div className="space-y-3">
-                  {manualEvaluation.map((field, index) => (
-                    <div key={field.treeClusterId} className="flex items-center gap-x-4">
-                      <div className="w-full flex justify-between gap-x-6 bg-white border border-dark-50 shadow-cards px-4 py-3 rounded-lg">
-                        <h3 className={`relative font-medium pl-7 before:absolute before:w-4 before:h-4 before:rounded-full before:left-0 before:top-[0.22rem] before:bg-${getWateringStatusDetails(
-                            loadedData.treeclusters[index].wateringStatus ?? WateringStatus.WateringStatusUnknown,
-                          ).color}`}>
-                          <strong>Bewässerungsgruppe:</strong> {loadedData?.treeclusters[index].name} ·{" "}
-                          {loadedData?.treeclusters[index].id}
-                        </h3>
-                      </div>
-                      <div className="flex items-center">
-                        <Input
-                          error={errorMessages[index]}
-                          value={field.consumedWater.toString()}
-                          onChange={(e) => handleConsumedWaterChange(index, e.target.value)}
-                        />
-                        <span className="ml-2">Liter</span> 
-                      </div>
-                    </div>
-                  ))}
+                  <p>Wasservergabe pro Bewässerungsgruppe:</p>
+
+                  <ul className='space-y-5'>
+                    {manualEvaluation.map((field, index) => (
+                      <li>
+                        <div key={field.treeClusterId} className="flex items-center gap-x-4">
+                          <TreeclusterCardSmall
+                            name={loadedData?.treeclusters[index].name}
+                            id={loadedData?.treeclusters[index].id}
+                            status={loadedData.treeclusters[index].wateringStatus}
+                          />
+                          <div className="flex items-center">
+                            <Input
+                              error={errorMessages[index]}
+                              label="Liter"
+                              hideLabel={true}
+                              value={field.consumedWater}
+                              onChange={(e) => handleConsumedWaterChange(index, e.target.value)}
+                            />
+                            <span className="ml-2">Liter</span>
+                          </div>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                  <p>Die Standardwerte ergeben sich aus 120 Litern pro Baum einer Bewässerungsgruppe.</p>
                 </div>
               )}
           </div>
