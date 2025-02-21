@@ -4,7 +4,6 @@ import {
   Configuration,
   ConfigurationParameters,
   FetchAPI,
-  FileImportApi,
   HTTPHeaders,
   InfoApi,
   PluginApi,
@@ -87,11 +86,5 @@ export const sensorApi = new SensorApi(config)
 export const vehicleApi = new VehicleApi(config)
 export const pluginApi = new PluginApi(config)
 export const wateringPlanApi = new WateringPlanApi(config)
-export const importApi = new FileImportApi(
-  new Configuration({
-    ...configParams,
-    headers: {},
-  })
-)
 
 export * from '@green-ecolution/backend-client'
