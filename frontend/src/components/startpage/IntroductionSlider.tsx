@@ -33,7 +33,7 @@ const IntroductionSlider = () => {
         "Unter Verwendung des LoRaWan-Netzes können verschiedene Standorte überwacht und weitere einfach eingebunden werden.",
     },
     {
-      label: "Vereifachte Einsatzplanung",
+      label: "Vereinfachte Einsatzplanung",
       icon: Car,
       description:
         "Einsatzfahrten zur Bewässerung können digital und schnell geplant werden. Dabei können Informationen wie die Mitarbeitenden sowie genutzte Fahrzeuge und deren Wasserkapazität hinterlegt werden.",

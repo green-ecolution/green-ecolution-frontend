@@ -10,13 +10,13 @@ const QuickLinks = () => {
     },
     {
       url: '/sensors',
-      description: 'Zeigt alle verbauten Sensoren inkl. Akkustand, Messwerte …',
+      description: 'Zeigt alle verbauten Sensoren inkl. Akkustand, Messwerte, …',
       headline: 'Liste aller verbauten Sensoren',
       linkLabel: 'Zu den Sensoren',
     },
     {
       url: '/watering-plans',
-      description: 'Listenansicht, aller Einsatzpläne die geplant, abgeschlossen, aktiv etc. sind.',
+      description: 'Listenansicht, aller Einsatzpläne, die geplant, abgeschlossen, aktiv etc. sind.',
       headline: 'Auflistung der Einsatzpläne & Routenplanung',
       linkLabel: 'Zu den Einsatzplänen',
     },
