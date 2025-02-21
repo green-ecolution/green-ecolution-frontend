@@ -2,7 +2,6 @@ import { useState } from 'react'
 import BackLink from '../general/links/BackLink'
 import {
   WateringPlanStatus,
-  WateringStatus,
 } from '@green-ecolution/backend-client'
 import { useInitFormQuery } from '@/hooks/form/useInitForm'
 import { wateringPlanIdQuery } from '@/api/queries'
@@ -24,7 +23,6 @@ import {
 } from '@/schema/wateringPlanSchema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SubmitHandler } from 'react-hook-form'
-import { getWateringStatusDetails } from '@/hooks/details/useDetailsForWateringStatus'
 import Input from '../general/form/types/Input'
 import TreeclusterCardSmall from '../general/cards/TreeclusterCardSmall'
 
