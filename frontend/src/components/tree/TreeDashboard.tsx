@@ -51,7 +51,7 @@ const TreeDashboard = ({ treeId }: TreeDashboardProps) => {
         <div className="2xl:w-4/5">
           <h1 className="font-lato font-bold text-3xl mb-4 flex flex-wrap items-center gap-4 lg:text-4xl xl:text-5xl">
             Baum: {tree.number}
-            {tree.readonly && <Pill label="importiert" theme="green-light" />}
+            <Pill label={tree.provider ? tree.provider : "manuell erstellt"} theme="green-light" />
           </h1>
           {tree.treeClusterId ? (
             <p className="text-dark-600 text-lg">
