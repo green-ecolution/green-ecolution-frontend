@@ -112,6 +112,7 @@ const makerRouteWrapperStyles = () => `
   font-family: Nunito, sans-serif;
 `;
 
+
 export const TreeMarkerIcon = (color: string, isSelected: boolean, isHighlighted: boolean) =>
   L.divIcon({
     iconAnchor: [0, 24],
@@ -151,7 +152,7 @@ export const RouteIcon = (label: string) =>
   L.divIcon({
     iconAnchor: [12, 12],
     html:
-    `<span style="${makerRouteWrapperStyles()}">
+      `<span style="${makerRouteWrapperStyles()}">
       ${label}
     </span>`,
   })
@@ -160,7 +161,7 @@ export const RefillIcon = () =>
   L.divIcon({
     iconAnchor: [12, 12],
     html:
-    `<figure style="${makerWrapperStyles(false, false)}">
+      `<figure style="${makerWrapperStyles(false, false)}">
       <span style="${markerHtmlStyles("#454545")}">
         ${iconToSvg(PaintBucket)}
       </span>

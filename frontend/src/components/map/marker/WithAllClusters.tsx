@@ -1,10 +1,12 @@
-import { TreeCluster } from '@green-ecolution/backend-client'
+import { TreeClusterInList } from '@green-ecolution/backend-client'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { treeClusterQuery } from '@/api/queries'
-import ClusterMarker from './ClusterMarker'
+import MarkerList from './MarkerList'
+import { ClusterIcon } from '../MapMarker'
+import { getStatusColor } from '../utils'
 
 export interface WithAllClustersProps {
-  onClick?: (tree: TreeCluster) => void
+  onClick?: (tree: TreeClusterInList) => void
   highlightedClusters?: number[]
 }
 
@@ -14,16 +16,21 @@ const WithAllClusters = ({
 }: WithAllClustersProps) => {
   const { data } = useSuspenseQuery(treeClusterQuery())
 
-  return data.data
-    .filter((cluster) => cluster.latitude !== null && cluster.longitude !== null && cluster.treeIds !== undefined)
-    .map((cluster) => (
-      <ClusterMarker
-        cluster={cluster}
-        key={cluster.id}
-        onClick={onClick}
-        highlightedClusters={highlightedClusters}
-      />
-    ))
+  return <MarkerList
+    data={data.data.filter((cluster) => cluster.latitude !== null && cluster.longitude !== null && cluster.treeIds !== undefined)}
+    onClick={onClick}
+    icon={(c: TreeClusterInList) => ClusterIcon(
+      getStatusColor(c.wateringStatus),
+      highlightedClusters?.includes(c.id) ?? false,
+      c.treeIds?.length ?? 0
+    )}
+    tooltipContent={(c) => c.name}
+    tooltipOptions={{
+      direction: "top",
+      offset: [5, -40],
+      className: "font-nunito-sans font-semibold",
+    }}
+  />
 }
 
 export default WithAllClusters
