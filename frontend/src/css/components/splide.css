@@ -7,6 +7,10 @@
     @apply lg:grid lg:grid-cols-2 lg:gap-x-6 lg:gap-y-8 xl:grid-cols-4 !important;
 }
 
+.splide.splide--grid-small > .splide__track > .splide__list {
+    @apply lg:grid lg:grid-cols-2 lg:gap-x-6 lg:gap-y-8 xl:grid-cols-3 !important;
+}
+
 .splide__pagination {
     @apply bottom-0 lg:-bottom-4 !important;
 }
