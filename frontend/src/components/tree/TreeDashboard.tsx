@@ -8,7 +8,7 @@ import { useMemo } from 'react'
 import TreeIcon from '../icons/Tree'
 import SensorIcon from '../icons/Sensor'
 import { useSuspenseQuery } from '@tanstack/react-query'
-import { treeClusterIdQuery, treeIdQuery } from '@/api/queries'
+import { sensorDataQuery, treeClusterIdQuery, treeIdQuery } from '@/api/queries'
 import TabWateringStatus from './TabWateringStatus'
 import TabGeneralData from './TabGeneralData'
 import TabSensorData from './TabSensorData'
@@ -22,13 +22,16 @@ const TreeDashboard = ({ treeId }: TreeDashboardProps) => {
   const { data: treeCluster } = useSuspenseQuery(
     treeClusterIdQuery(tree.treeClusterId?.toString() ?? '')
   )
+  const { data: sensorDataRes } = useSuspenseQuery(
+    sensorDataQuery(tree.sensor?.id ?? '')
+  )
 
   const tabs = useMemo(
     () => [
       {
         label: 'Bewässerungsdaten',
         icon: <TreeIcon className="w-5 h-5" />,
-        view: <TabWateringStatus tree={tree} />,
+        view: <TabWateringStatus tree={tree} data={sensorDataRes.data} />,
       },
       {
         label: 'Allgemeine Daten',
@@ -38,7 +41,7 @@ const TreeDashboard = ({ treeId }: TreeDashboardProps) => {
       {
         label: 'Sensordaten',
         icon: <SensorIcon className="w-5 h-5" />,
-        view: <TabSensorData tree={tree} />,
+        view: <TabSensorData tree={tree} data={sensorDataRes.data} />,
       },
     ],
     [tree]

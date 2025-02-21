@@ -2,22 +2,24 @@ import React from 'react'
 import GeneralStatusCard from '../general/cards/GeneralStatusCard'
 import EntitiesStatusCard from '../general/cards/EntitiesStatusCard'
 import { getSensorStatusDetails } from '@/hooks/details/useDetailsForSensorStatus'
-import { SensorStatus, Tree } from '@green-ecolution/backend-client'
+import { SensorData, SensorStatus, Tree } from '@green-ecolution/backend-client'
 import { format } from 'date-fns'
 import GeneralLink from '../general/links/GeneralLink'
+import ChartSensorData from './ChartSensorData'
 
 interface TabSensorDataProps {
-  tree?: Tree
+  tree: Tree
+  data?: SensorData[]
 }
 
-const TabSensorData: React.FC<TabSensorDataProps> = ({ tree }) => {
+const TabSensorData: React.FC<TabSensorDataProps> = ({ tree, data }) => {
   const updatedDate = tree?.sensor?.updatedAt
     ? format(new Date(tree?.sensor?.updatedAt), 'dd.MM.yyyy')
-    : 'Keine Angabe';
+    : 'Keine Angabe'
   const updatedTime = tree?.sensor?.latestData?.updatedAt
     ? format(new Date(tree?.sensor?.latestData?.updatedAt).getTime(), 'HH:mm')
-    : 'Keine Angabe';
-
+    : 'Keine Angabe'
+  
   const sensorStatus = tree?.sensor?.status ?? SensorStatus.SensorStatusUnknown
 
   return (
@@ -57,6 +59,22 @@ const TabSensorData: React.FC<TabSensorDataProps> = ({ tree }) => {
           params: { sensorId: String(tree?.sensor?.id) },
         }}
       />
+
+      {data && (
+        <section className="mt-16">
+          <h2 className="font-bold font-lato text-xl mb-4">
+            Akkulaufzeit im Verlaufe der Zeit
+          </h2>
+          <p className="mb-6">
+            In diesem Abschnitt wird die Batteriewerte in Volt ausgegeben,
+            die im System abgespeichert wurden.
+            <br />
+            Anhand dessen kann nachvollzogen werden, wie sich die Batterie im Laufe der Zeit entlädt.
+          </p>
+
+          <ChartSensorData data={data} />
+        </section>
+      )}
     </>
   )
 }
