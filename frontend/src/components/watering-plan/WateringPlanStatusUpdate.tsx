@@ -24,7 +24,7 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SubmitHandler } from 'react-hook-form'
 import Input from '../general/form/types/Input'
-import TreeclusterCardSmall from '../general/cards/TreeclusterCardSmall'
+import SelectedCard from '../general/cards/SelectedCard'
 
 interface WateringPlanStatusUpdateProps {
   wateringPlanId: string
@@ -171,13 +171,7 @@ const WateringPlanStatusUpdate = ({
                     {manualEvaluation.map((field, index) => (
                       <li>
                         <div key={field.treeClusterId} className="flex items-center gap-x-4">
-                          <div className="w-full flex justify-between gap-x-6 bg-white border border-dark-50 shadow-cards px-4 py-3 rounded-lg">
-                            <TreeclusterCardSmall
-                              name={loadedData?.treeclusters[index].name}
-                              id={loadedData?.treeclusters[index].id}
-                              status={loadedData.treeclusters[index].wateringStatus}
-                            />
-                          </div>
+                          <SelectedCard type="cluster" id={loadedData?.treeclusters[index].id} />
                           <div className="flex items-center">
                             <Input
                               error={errorMessages[index]}
