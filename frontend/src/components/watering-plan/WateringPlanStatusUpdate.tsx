@@ -172,17 +172,17 @@ const WateringPlanStatusUpdate = ({
                       type="cluster"
                       id={loadedData?.treeclusters[index].id}
                     />
-                    <div className="flex flex-wrap items-center md:mb-3 md:ml-6">
+                    <div className="relative flex flex-wrap items-center md:mb-3 md:ml-6">
                       <Input
                         error={errorMessages[index]}
                         type="number"
                         label="Liter"
-                        value={field.consumedWater}
+                        defaultValue={field.consumedWater}
                         small
                         hideLabel
                         onChange={(e) => handleConsumedWaterChange(index, Number(e.target.value))}
                       />
-                      <span className="ml-2">Liter</span>
+                      <span className="absolute left-[8.5rem] top-1/2 -translate-y-1/2 ml-2">Liter</span>
                     </div>
                   </li>
                 ))}
