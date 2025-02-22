@@ -74,12 +74,6 @@ const WateringPlanStatusUpdate = ({
   const [errorMessages, setErrorMessages] = useState<string[]>([])
 
   const handleConsumedWaterChange = (index: number, value: number) => {
-    /* const numericValue = Number(value)
-
-    if (isNaN(numericValue)) {
-      return
-    } */
-
     if (value < 0) {
       setErrorMessages(prev => {
         const newErrors = [...prev]
@@ -103,7 +97,7 @@ const WateringPlanStatusUpdate = ({
 
   const onSubmit: SubmitHandler<WateringPlanForm> = async (data) => {
     if (errorMessages.some(msg => msg !== "")) return;
-    const mutationData: any = {
+    const mutationData = {
       ...data,
       date: data.date.toISOString(),
       trailerId: data.trailerId && data.trailerId !== -1 ? data.trailerId : undefined,
