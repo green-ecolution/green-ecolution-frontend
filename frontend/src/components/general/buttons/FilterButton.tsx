@@ -18,6 +18,7 @@ const FilterButton: React.FC<FilterButtonProps> = ({
       aria-label={ariaLabel}
       id="filter-button"
       aria-selected={activeCount > 0}
+      // TODO Remove hidden when filter is working again (backend pull #396 and frontend)
       className={`relative font-nunito-sans text-base ${isOnMap ? 'z-[1000] shadow-cards' : 'hidden'} bg-white border border-green-light px-5 py-2 font-medium rounded-full flex items-center gap-x-2 transition-colors ease-in-out duration-300 ${activeCount > 0 ? 'bg-green-light-200' : ''} hover:bg-green-light-200`}
       onClick={onClick}
     >
