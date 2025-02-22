@@ -1,13 +1,17 @@
+
+// TODO: Filter import Dialog from '@/components/general/filter/Dialog'
 import { createFileRoute, useLoaderData } from '@tanstack/react-router'
 import { z } from 'zod'
 import ButtonLink from '@/components/general/links/ButtonLink'
 import { Plus } from 'lucide-react'
-import { getWateringStatusDetails } from '@/hooks/details/useDetailsForWateringStatus'
+// TODO: Filter import { getWateringStatusDetails } from '@/hooks/details/useDetailsForWateringStatus'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import LoadingInfo from '@/components/general/error/LoadingInfo'
-import FilterProvider from '@/context/FilterContext'
-import useFilter from '@/hooks/useFilter'
-import { Suspense, useMemo, useState } from 'react'
+// TODO: Filter import FilterProvider from '@/context/FilterContext'
+// TODO: Filter import useFilter from '@/hooks/useFilter'
+import { Suspense} from 'react' // TODO: Filter readd useMemo, useState
+// TODO: Filter import StatusFieldset from '@/components/general/filter/fieldsets/StatusFieldset'
+// TODO: Filter import RegionFieldset from '@/components/general/filter/fieldsets/RegionFieldset'
 import { ErrorBoundary } from 'react-error-boundary'
 import TreeClusterList from '@/components/treecluster/TreeClusterList'
 import { treeClusterQuery } from '@/api/queries'
@@ -21,6 +25,7 @@ const treeclusterFilterSchema = z.object({
 function Treecluster() {
   const { data: clustersRes } = useSuspenseQuery(treeClusterQuery())
 
+  /* TODO: Filter
   const [filteredData, setFilteredData] = useState({
     active: false,
     data: clustersRes.data,
@@ -42,6 +47,7 @@ function Treecluster() {
       return statusFilter && regionFilter
     })
   }, [clustersRes.data, filters])
+  */
 
   return (
     <div className="container mt-6">
@@ -99,7 +105,8 @@ function Treecluster() {
             }
           >
             <TreeClusterList
-              data={filteredData.active ? filteredData.data : clustersRes.data}
+              data={clustersRes.data}
+              // data={filteredData.active ? filteredData.data : clustersRes.data}
             />
             {/* TODO: Comment pagination in as soon as data is filtered through the backend */}
             {/* {clustersRes.pagination && (
@@ -116,7 +123,9 @@ function Treecluster() {
 }
 
 const TreeclusterWithProvider = () => {
-  const search = useLoaderData({ from: '/_protected/treecluster/' })
+  // TODO: Filter const search = useLoaderData({ from: '/_protected/treecluster/' })
+  return (<Treecluster />)
+  /* TODO: Filter
   return (
     <FilterProvider
       initialStatus={search.status ?? []}
@@ -125,6 +134,7 @@ const TreeclusterWithProvider = () => {
       <Treecluster />
     </FilterProvider>
   )
+    */
 }
 
 export const Route = createFileRoute('/_protected/treecluster/')({
