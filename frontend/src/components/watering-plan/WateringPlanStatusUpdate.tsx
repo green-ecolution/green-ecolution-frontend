@@ -49,11 +49,6 @@ const WateringPlanStatusUpdate = ({
       status: data.status,
       cancellationNote: data.cancellationNote,
       userIds: data.userIds,
-      evaluation: data.treeclusters?.map(cluster => ({
-        consumedWater: (cluster.treeIds?.length ?? 0) * 120,
-        treeClusterId: cluster.id,
-        wateringPlanId: Number(wateringPlanId),
-      })),
     })
   )
 
@@ -78,14 +73,14 @@ const WateringPlanStatusUpdate = ({
 
   const [errorMessages, setErrorMessages] = useState<string[]>([])
 
-  const handleConsumedWaterChange = (index: number, value: string) => {
-    const numericValue = Number(value)
+  const handleConsumedWaterChange = (index: number, value: number) => {
+    /* const numericValue = Number(value)
 
     if (isNaN(numericValue)) {
       return
-    }
+    } */
 
-    if (numericValue < 0) {
+    if (value < 0) {
       setErrorMessages(prev => {
         const newErrors = [...prev]
         newErrors[index] = "Wert darf nicht unter 0 sein"
@@ -101,24 +96,24 @@ const WateringPlanStatusUpdate = ({
 
     setManualEvaluation(prev =>
       prev.map((item, i) =>
-        i === index ? { ...item, consumedWater: numericValue } : item
+        i === index ? { ...item, consumedWater: value } : item
       )
     )
   }
 
   const onSubmit: SubmitHandler<WateringPlanForm> = async (data) => {
     if (errorMessages.some(msg => msg !== "")) return;
-    const evaluationData = selectedStatus === WateringPlanStatus.WateringPlanStatusFinished
-    ? manualEvaluation
-    : [];
-
-    mutate({
+    const mutationData: any = {
       ...data,
       date: data.date.toISOString(),
-      trailerId:
-        data.trailerId && data.trailerId !== -1 ? data.trailerId : undefined,
-      evaluation: evaluationData
-    })
+      trailerId: data.trailerId && data.trailerId !== -1 ? data.trailerId : undefined,
+    };
+
+    if (selectedStatus === WateringPlanStatus.WateringPlanStatusFinished) {
+      mutationData.evaluation = manualEvaluation;
+    }
+
+    mutate(mutationData);
   }
 
   const selectedStatus = watch('status')
@@ -175,25 +170,31 @@ const WateringPlanStatusUpdate = ({
               )}
             {selectedStatus ===
               WateringPlanStatus.WateringPlanStatusFinished && (
-                <div className="space-y-3">
-                  <p>Wasservergabe pro Bewässerungsgruppe:</p>
+                <fieldset className='space-y-1'>
+                  <strong>Wasservergabe pro Bewässerungsgruppe:</strong>
 
                   <ul className='space-y-5'>
                     {manualEvaluation.map((field, index) => (
                       <li>
                         <div key={field.treeClusterId} className="flex items-center gap-x-4">
-                          <TreeclusterCardSmall
-                            name={loadedData?.treeclusters[index].name}
-                            id={loadedData?.treeclusters[index].id}
-                            status={loadedData.treeclusters[index].wateringStatus}
-                          />
+                          <div className="w-full flex justify-between gap-x-6 bg-white border border-dark-50 shadow-cards px-4 py-3 rounded-lg">
+                            <TreeclusterCardSmall
+                              name={loadedData?.treeclusters[index].name}
+                              id={loadedData?.treeclusters[index].id}
+                              status={loadedData.treeclusters[index].wateringStatus}
+                            />
+                          </div>
                           <div className="flex items-center">
                             <Input
                               error={errorMessages[index]}
+                              type="number"
                               label="Liter"
                               hideLabel={true}
                               value={field.consumedWater}
-                              onChange={(e) => handleConsumedWaterChange(index, e.target.value)}
+                              onChange={(e) => {
+                                const numValue = e.target.value === '' ? 0 : Number(e.target.value);
+                                handleConsumedWaterChange(index, numValue);
+                              }}
                             />
                             <span className="ml-2">Liter</span>
                           </div>
@@ -202,7 +203,7 @@ const WateringPlanStatusUpdate = ({
                     ))}
                   </ul>
                   <p>Die Standardwerte ergeben sich aus 120 Litern pro Baum einer Bewässerungsgruppe.</p>
-                </div>
+                </fieldset>
               )}
           </div>
 
