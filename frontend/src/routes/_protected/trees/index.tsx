@@ -52,7 +52,7 @@ function Trees() {
           >
             Karte
           </a>
-          &nbsp;visulaisieren.
+          &nbsp;visualisieren.
         </p>
         <ButtonLink
           icon={Plus}
