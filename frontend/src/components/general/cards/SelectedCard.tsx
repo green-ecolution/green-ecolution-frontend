@@ -8,7 +8,7 @@ import React from 'react'
 interface SelectedCardProps {
   id: number
   type: 'tree' | 'cluster'
-  onClick: (id: number) => void
+  onClick?: (id: number) => void
 }
 
 const SelectedCard: React.FC<SelectedCardProps> = ({ onClick, id, type }) => {
@@ -24,29 +24,32 @@ const SelectedCard: React.FC<SelectedCardProps> = ({ onClick, id, type }) => {
   )
 
   return (
-    <div className="flex justify-between mb-3 gap-x-6 bg-white border border-dark-50 shadow-cards px-4 py-3 rounded-lg">
+    <div className="flex h-max justify-between mb-3 gap-x-6 bg-white border border-dark-50 shadow-cards px-4 py-3 rounded-lg">
       <h3
-        className={`relative font-medium pl-7 before:absolute before:w-4 before:h-4 before:rounded-full before:left-0 before:top-[0.22rem] before:bg-${statusDetails.color}`}
+        className={`relative flex flex-wrap font-medium pl-7 before:absolute before:w-4 before:h-4 before:rounded-full before:left-0 before:top-[0.22rem] before:bg-${statusDetails.color}`}
       >
         <strong className="font-semibold">
           {type === 'cluster' ? 'Bewässerungsgruppe' : 'Baum'}:
-        </strong>&nbsp;
+        </strong>
+        &nbsp;
         {type === 'cluster' ? data?.name : data?.species} · {id}
         {type === 'tree' && data?.plantingYear && ` · ${data?.plantingYear}`}
       </h3>
-      <button
-        type="button"
-        onClick={() => {
-          onClick(id)
-        }}
-        className="text-dark-600"
-      >
-        <Trash2 className="w-5 h-5" />
-        <span className="sr-only">
-          {type === 'cluster' ? 'Bewässerungsgruppe' : 'Baum'}&nbsp;
-          aus Auswahl löschen
-        </span>
-      </button>
+      {onClick && (
+        <button
+          type="button"
+          onClick={() => {
+            onClick(id)
+          }}
+          className="text-dark-600"
+        >
+          <Trash2 className="w-5 h-5" />
+          <span className="sr-only">
+            {type === 'cluster' ? 'Bewässerungsgruppe' : 'Baum'}&nbsp; aus
+            Auswahl löschen
+          </span>
+        </button>
+      )}
     </div>
   )
 }
