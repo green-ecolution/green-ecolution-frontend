@@ -2,22 +2,23 @@ import React from 'react'
 import GeneralStatusCard from '../general/cards/GeneralStatusCard'
 import EntitiesStatusCard from '../general/cards/EntitiesStatusCard'
 import { getSensorStatusDetails } from '@/hooks/details/useDetailsForSensorStatus'
-import { SensorStatus, Tree } from '@green-ecolution/backend-client'
 import { format } from 'date-fns'
 import GeneralLink from '../general/links/GeneralLink'
+import ChartSensorData from './ChartSensorData'
+import { SensorStatus, Tree } from '@green-ecolution/backend-client'
 
 interface TabSensorDataProps {
-  tree?: Tree
+  tree: Tree
 }
 
 const TabSensorData: React.FC<TabSensorDataProps> = ({ tree }) => {
   const updatedDate = tree?.sensor?.updatedAt
     ? format(new Date(tree?.sensor?.updatedAt), 'dd.MM.yyyy')
-    : 'Keine Angabe';
+    : 'Keine Angabe'
   const updatedTime = tree?.sensor?.latestData?.updatedAt
     ? format(new Date(tree?.sensor?.latestData?.updatedAt).getTime(), 'HH:mm')
-    : 'Keine Angabe';
-
+    : 'Keine Angabe'
+  
   const sensorStatus = tree?.sensor?.status ?? SensorStatus.SensorStatusUnknown
 
   return (
@@ -34,7 +35,7 @@ const TabSensorData: React.FC<TabSensorDataProps> = ({ tree }) => {
             overline="Akkustand"
             value={
               tree?.sensor?.latestData?.battery
-                ? `${tree?.sensor?.latestData?.battery} V`
+                ? `${tree?.sensor?.latestData?.battery.toFixed(2)} V`
                 : 'Keine Angabe'
             }
             isLarge
@@ -44,7 +45,7 @@ const TabSensorData: React.FC<TabSensorDataProps> = ({ tree }) => {
         <li>
           <GeneralStatusCard
             overline="Letzte Messung"
-            value={`${updatedTime} Uhr`}
+            value={tree?.sensor?.latestData?.updatedAt ? `${updatedTime} Uhr` : `Keine Angabe`}
             isLarge
             description={`am ${updatedDate}`}
           />
@@ -57,6 +58,8 @@ const TabSensorData: React.FC<TabSensorDataProps> = ({ tree }) => {
           params: { sensorId: String(tree?.sensor?.id) },
         }}
       />
+
+      {tree?.sensor && <ChartSensorData sensorId={tree.sensor.id} />}
     </>
   )
 }

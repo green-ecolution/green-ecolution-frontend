@@ -22,9 +22,10 @@ import {
   UserList,
   userApi,
   GeoJson,
+  SensorDataList,
 } from './backendApi'
 
-export const treeClusterQuery = (params?: { page?: string, limit?: string }) =>
+export const treeClusterQuery = (params?: { page?: string; limit?: string }) =>
   queryOptions<TreeClusterList>({
     queryKey: ['treeclusters', params?.page ?? '1', params?.limit ?? 'none'],
     queryFn: () => clusterApi.getAllTreeClusters(params),
@@ -39,10 +40,19 @@ export const treeClusterIdQuery = (id: string) =>
       }),
   })
 
-export const sensorQuery = (params?: { page?: string, limit?: string }) =>
+export const sensorQuery = (params?: { page?: string; limit?: string }) =>
   queryOptions<SensorList>({
     queryKey: ['sensors', params?.page ?? '1', params?.limit ?? 'none'],
     queryFn: () => sensorApi.getAllSensors(params),
+  })
+
+export const sensorDataQuery = (id: string) =>
+  queryOptions<SensorDataList>({
+    queryKey: ['sensor data', id],
+    queryFn: () =>
+      sensorApi.getAllSensorDataById({
+        sensorId: id
+      }),
   })
 
 export const sensorIdQuery = (id: string) =>
@@ -90,9 +100,18 @@ export const infoQuery = () =>
     queryFn: () => infoApi.getAppInfo(),
   })
 
-export const vehicleQuery = (params?: { type?: string, page?: string, limit?: string }) => {
+export const vehicleQuery = (params?: {
+  type?: string
+  page?: string
+  limit?: string
+}) => {
   return queryOptions<VehicleList>({
-    queryKey: ['vehicle', params?.type ?? '1', params?.page ?? '1', params?.limit ?? 'none'],
+    queryKey: [
+      'vehicle',
+      params?.type ?? '1',
+      params?.page ?? '1',
+      params?.limit ?? 'none',
+    ],
     queryFn: () => vehicleApi.getAllVehicles(params),
   })
 }
@@ -106,7 +125,7 @@ export const vehicleIdQuery = (id: string) =>
       }),
   })
 
-export const wateringPlanQuery = (params?: { page?: string, limit?: string }) =>
+export const wateringPlanQuery = (params?: { page?: string; limit?: string }) =>
   queryOptions<WateringPlanList>({
     queryKey: ['watering-plans', params?.page ?? '1', params?.limit ?? 'none'],
     queryFn: () => wateringPlanApi.getAllWateringPlans(params),
@@ -137,14 +156,24 @@ export const userRoleQuery = (role: string) =>
       }),
   })
 
-export const routePreviewQuery = (transporterId: number, clusterIds: number[], trailerId?: number,) =>
+export const routePreviewQuery = (
+  transporterId: number,
+  clusterIds: number[],
+  trailerId?: number
+) =>
   queryOptions<GeoJson>({
-    queryKey: ['route', 'preview', `transporter:${transporterId}`, ...clusterIds],
-    queryFn: () => wateringPlanApi.v1WateringPlanRoutePreviewPost({
-      body: {
-        transporterId: Number(transporterId), // TODO: don't know what goes wrong here
-        trailerId: Number(trailerId),
-        clusterIds
-      }
-    }),
+    queryKey: [
+      'route',
+      'preview',
+      `transporter:${transporterId}`,
+      ...clusterIds,
+    ],
+    queryFn: () =>
+      wateringPlanApi.v1WateringPlanRoutePreviewPost({
+        body: {
+          transporterId: Number(transporterId), // TODO: don't know what goes wrong here
+          trailerId: Number(trailerId),
+          clusterIds,
+        },
+      }),
   })
