@@ -5,6 +5,7 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string;
   hideLabel?: boolean;
   error?: string;
+  small?: boolean,
 }
 
 const Input = forwardRef(
@@ -24,7 +25,7 @@ const Input = forwardRef(
         <input
           ref={ref}
           id={props.name}
-          className="w-full text-dark-800 border border-green-light rounded-lg bg-white px-4 py-3 focus:outline-green-dark"
+          className={`w-full text-dark-800 border border-green-light rounded-lg bg-white px-4 py-3 focus:outline-green-dark ${props.small ? 'max-w-32' : ''}`}
           {...props}
         />
         {props.error && (
