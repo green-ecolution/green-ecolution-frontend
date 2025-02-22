@@ -41,7 +41,7 @@ function Trees() {
     <div className="container mt-6">
       <article className="mb-20 2xl:w-4/5">
         <h1 className="font-lato font-bold text-3xl mb-4 lg:text-4xl xl:text-5xl">
-          Alle Bäume
+          Auflistung aller Bäume
         </h1>
         <p className="mb-5">
           Hier finden Sie eine Übersicht aller Bäume in einer Listenansicht. Die

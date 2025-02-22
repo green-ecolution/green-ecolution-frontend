@@ -1,8 +1,6 @@
 import { useState } from 'react'
 import BackLink from '../general/links/BackLink'
-import {
-  WateringPlanStatus,
-} from '@green-ecolution/backend-client'
+import { WateringPlanStatus } from '@green-ecolution/backend-client'
 import { useInitFormQuery } from '@/hooks/form/useInitForm'
 import { wateringPlanIdQuery } from '@/api/queries'
 import { format } from 'date-fns'
@@ -64,7 +62,7 @@ const WateringPlanStatusUpdate = ({
     )
 
   const [manualEvaluation, setManualEvaluation] = useState(
-    loadedData?.treeclusters.map(cluster => ({
+    loadedData?.treeclusters.map((cluster) => ({
       consumedWater: (cluster.treeIds?.length ?? 0) * 120,
       treeClusterId: cluster.id,
       wateringPlanId: Number(wateringPlanId),
@@ -75,20 +73,20 @@ const WateringPlanStatusUpdate = ({
 
   const handleConsumedWaterChange = (index: number, value: number) => {
     if (value < 0) {
-      setErrorMessages(prev => {
+      setErrorMessages((prev) => {
         const newErrors = [...prev]
-        newErrors[index] = "Wert darf nicht unter 0 sein"
+        newErrors[index] = 'Wert darf nicht unter 0 sein'
         return newErrors
       })
     } else {
-      setErrorMessages(prev => {
+      setErrorMessages((prev) => {
         const newErrors = [...prev]
-        newErrors[index] = ""
+        newErrors[index] = ''
         return newErrors
       })
     }
 
-    setManualEvaluation(prev =>
+    setManualEvaluation((prev) =>
       prev.map((item, i) =>
         i === index ? { ...item, consumedWater: value } : item
       )
@@ -96,18 +94,19 @@ const WateringPlanStatusUpdate = ({
   }
 
   const onSubmit: SubmitHandler<WateringPlanForm> = async (data) => {
-    if (errorMessages.some(msg => msg !== "")) return;
+    if (errorMessages.some((msg) => msg !== '')) return
     const mutationData = {
       ...data,
       date: data.date.toISOString(),
-      trailerId: data.trailerId && data.trailerId !== -1 ? data.trailerId : undefined,
-    };
-
-    if (selectedStatus === WateringPlanStatus.WateringPlanStatusFinished) {
-      mutationData.evaluation = manualEvaluation;
+      trailerId:
+        data.trailerId && data.trailerId !== -1 ? data.trailerId : undefined,
     }
 
-    mutate(mutationData);
+    if (selectedStatus === WateringPlanStatus.WateringPlanStatusFinished) {
+      mutationData.evaluation = manualEvaluation
+    }
+
+    mutate(mutationData)
   }
 
   const selectedStatus = watch('status')
@@ -144,7 +143,7 @@ const WateringPlanStatusUpdate = ({
 
       <section className="mt-10">
         <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
-          <div className="space-y-6 lg:w-1/2">
+          <div className="space-y-6 md:w-1/2">
             <Select
               options={WateringPlanStatusOptions}
               placeholder="Wählen Sie einen Status aus"
@@ -161,46 +160,56 @@ const WateringPlanStatusUpdate = ({
                   error={formState.errors.cancellationNote?.message}
                   {...register('cancellationNote')}
                 />
-              )}
-            {selectedStatus ===
-              WateringPlanStatus.WateringPlanStatusFinished && (
-                <fieldset className='space-y-1'>
-                  <strong>Wasservergabe pro Bewässerungsgruppe:</strong>
-
-                  <ul className='space-y-5'>
-                    {manualEvaluation.map((field, index) => (
-                      <li>
-                        <div key={field.treeClusterId} className="flex items-center gap-x-4">
-                          <SelectedCard type="cluster" id={loadedData?.treeclusters[index].id} />
-                          <div className="flex items-center">
-                            <Input
-                              error={errorMessages[index]}
-                              type="number"
-                              label="Liter"
-                              hideLabel={true}
-                              value={field.consumedWater}
-                              onChange={(e) => {
-                                const numValue = e.target.value === '' ? 0 : Number(e.target.value);
-                                handleConsumedWaterChange(index, numValue);
-                              }}
-                            />
-                            <span className="ml-2">Liter</span>
-                          </div>
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
-                  <p>Die Standardwerte ergeben sich aus 120 Litern pro Baum einer Bewässerungsgruppe.</p>
-                </fieldset>
-              )}
+            )}
           </div>
+
+          {selectedStatus ===
+            WateringPlanStatus.WateringPlanStatusFinished && (
+            <fieldset className="mt-6">
+              <legend className="block font-semibold text-dark-800 mb-2.5">
+                Wasservergabe pro Bewässerungsgruppe:
+              </legend>
+              <p className="-mt-2 text-sm text-dark-600 mb-2.5">
+                Die Standardwerte ergeben sich aus 120 Litern pro Baum einer
+                Bewässerungsgruppe.
+              </p>
+              <ul className="space-y-5">
+                {manualEvaluation.map((field, index) => (
+                  <li key={field.treeClusterId} className="grid grid-cols-1 gap-y-2 md:grid-cols-2">
+                    <SelectedCard
+                      type="cluster"
+                      id={loadedData?.treeclusters[index].id}
+                    />
+                    <div className="flex flex-wrap items-center md:mb-3 md:ml-6">
+                      <Input
+                        error={errorMessages[index]}
+                        type="number"
+                        label="Liter"
+                        hideLabel={true}
+                        value={field.consumedWater}
+                        small
+                        onChange={(e) => {
+                          const numValue =
+                            e.target.value === ''
+                              ? 0
+                              : Number(e.target.value)
+                          handleConsumedWaterChange(index, numValue)
+                        }}
+                      />
+                      <span className="ml-2">Liter</span>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </fieldset>
+          )}
 
           <FormError show={isError} error={error?.message} />
 
           <PrimaryButton
             type="submit"
             label="Speichern"
-            disabled={errorMessages.some(msg => msg !== "")}
+            disabled={errorMessages.some((msg) => msg !== '')}
             className="mt-10"
           />
         </form>
