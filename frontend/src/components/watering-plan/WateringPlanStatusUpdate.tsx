@@ -72,19 +72,11 @@ const WateringPlanStatusUpdate = ({
   const [errorMessages, setErrorMessages] = useState<string[]>([])
 
   const handleConsumedWaterChange = (index: number, value: number) => {
-    if (value < 0) {
-      setErrorMessages((prev) => {
-        const newErrors = [...prev]
-        newErrors[index] = 'Wert darf nicht unter 0 sein'
-        return newErrors
-      })
-    } else {
-      setErrorMessages((prev) => {
-        const newErrors = [...prev]
-        newErrors[index] = ''
-        return newErrors
-      })
-    }
+    setErrorMessages((prev) => {
+      const newErrors = [...prev]
+      newErrors[index] = value < 0 ? 'Wert darf nicht unter 0 sein' : ''
+      return newErrors
+    })
 
     setManualEvaluation((prev) =>
       prev.map((item, i) =>
@@ -188,13 +180,7 @@ const WateringPlanStatusUpdate = ({
                         value={field.consumedWater}
                         small
                         hideLabel
-                        onChange={(e) => {
-                          const numValue =
-                            e.target.value === ''
-                              ? 0
-                              : Number(e.target.value)
-                          handleConsumedWaterChange(index, numValue)
-                        }}
+                        onChange={(e) => handleConsumedWaterChange(index, Number(e.target.value))}
                       />
                       <span className="ml-2">Liter</span>
                     </div>
