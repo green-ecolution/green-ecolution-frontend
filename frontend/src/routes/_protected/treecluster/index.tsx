@@ -1,4 +1,3 @@
-import Dialog from '@/components/general/filter/Dialog'
 import { createFileRoute, useLoaderData } from '@tanstack/react-router'
 import { z } from 'zod'
 import ButtonLink from '@/components/general/links/ButtonLink'
@@ -9,8 +8,6 @@ import LoadingInfo from '@/components/general/error/LoadingInfo'
 import FilterProvider from '@/context/FilterContext'
 import useFilter from '@/hooks/useFilter'
 import { Suspense, useMemo, useState } from 'react'
-import StatusFieldset from '@/components/general/filter/fieldsets/StatusFieldset'
-import RegionFieldset from '@/components/general/filter/fieldsets/RegionFieldset'
 import { ErrorBoundary } from 'react-error-boundary'
 import TreeClusterList from '@/components/treecluster/TreeClusterList'
 import { treeClusterQuery } from '@/api/queries'
@@ -45,13 +42,6 @@ function Treecluster() {
       return statusFilter && regionFilter
     })
   }, [clustersRes.data, filters])
-
-  const handleFilter = () => {
-    setFilteredData({
-      active: true,
-      data: filterData,
-    })
-  }
 
   return (
     <div className="container mt-6">
