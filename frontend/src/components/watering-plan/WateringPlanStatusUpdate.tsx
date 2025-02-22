@@ -185,9 +185,9 @@ const WateringPlanStatusUpdate = ({
                         error={errorMessages[index]}
                         type="number"
                         label="Liter"
-                        hideLabel={true}
                         value={field.consumedWater}
                         small
+                        hideLabel
                         onChange={(e) => {
                           const numValue =
                             e.target.value === ''
