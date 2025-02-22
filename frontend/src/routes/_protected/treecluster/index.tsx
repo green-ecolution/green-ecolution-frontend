@@ -76,7 +76,7 @@ function Treecluster() {
       </article>
 
       <section className="mt-10">
-        {/* TODO: Filter data from backend to work with pagination */}
+        {/* TODO: Readd filter when its working again (backend pull #396 and frontend)
         <div className="flex justify-end mb-6 lg:mb-10">
           <Dialog
             headline="Bewässerungsgruppen filtern"
@@ -90,6 +90,7 @@ function Treecluster() {
             <RegionFieldset />
           </Dialog>
         </div>
+        */}
 
         <header className="hidden border-b pb-2 text-sm text-dark-800 px-8 border-b-dark-200 mb-5 lg:grid lg:grid-cols-[1fr,2fr,1.5fr,1fr] lg:gap-5 xl:px-10">
           <p>Status</p>
