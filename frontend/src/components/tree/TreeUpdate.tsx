@@ -34,7 +34,6 @@ const TreeUpdate = ({ treeId }: TreeUpdateProps) => {
       treeClusterId: data.treeClusterId ?? -1,
       sensorId: data.sensor?.id ?? '-1',
       description: data.description,
-      readonly: data.readonly, // TODO: delete
       provider: data.provider,
     })
   )

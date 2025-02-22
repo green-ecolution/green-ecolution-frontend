@@ -52,7 +52,6 @@ function NewTree() {
     treeClusterId: -1,
     sensorId: '-1',
     description: '',
-    readonly: false, // TODO: delete
   })
 
   const { register, handleSubmit, formState } = useFormSync<TreeForm>(
