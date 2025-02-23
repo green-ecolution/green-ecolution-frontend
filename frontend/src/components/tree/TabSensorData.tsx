@@ -52,7 +52,7 @@ const TabSensorData: React.FC<TabSensorDataProps> = ({ tree }) => {
         </li>
       </ul>
       <GeneralLink
-        label="Zum Verknüpften Sensor"
+        label="Zum verknüpften Sensor"
         link={{
           to: '/sensors/$sensorId',
           params: { sensorId: String(tree?.sensor?.id) },

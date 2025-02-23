@@ -113,7 +113,7 @@ const TreeClusterDashboard = ({ treeclusterId }: TreeClusterDashboardProps) => {
           Alle zugehörigen Bäume
         </h2>
 
-        <header className="hidden border-b pb-2 text-sm text-dark-800 px-6 border-b-dark-200 mb-5 lg:grid lg:grid-cols-[1fr,2fr,1fr,1fr] lg:gap-5">
+        <header className="hidden border-b pb-2 text-sm text-dark-800 px-6 border-b-dark-200 mb-5 lg:grid lg:grid-cols-[1.5fr,2fr,1fr] lg:gap-5">
           <p>Status</p>
           <p>Baumart</p>
           <p>Baumnummer</p>
@@ -127,7 +127,7 @@ const TreeClusterDashboard = ({ treeclusterId }: TreeClusterDashboardProps) => {
           ) : (
             treecluster.trees?.map((tree, key) => (
               <li key={key}>
-                <TreeCard tree={tree} />
+                <TreeCard tree={tree} showTreeClusterInfo={false} />
               </li>
             ))
           )}
