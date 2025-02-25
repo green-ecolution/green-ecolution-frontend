@@ -49,8 +49,8 @@ const VehicleUpdate = ({
     mutate({...data})
   }
 
-  const handleDeleteVehicle = () => {
-    return vehicleApi.deleteVehicle({
+  const handleArchiveVehicle = () => {
+    return vehicleApi.archiveVehicle({
       id: String(vehicleId),
     })
   }
@@ -84,7 +84,8 @@ const VehicleUpdate = ({
 
       <Suspense fallback={<LoadingInfo label="Das Fahrzeug wird gelöscht" />}>
         <DeleteSection
-          mutationFn={handleDeleteVehicle}
+          mutationFn={handleArchiveVehicle}
+          type="archive"
           entityName="das Fahrzeug"
           redirectUrl={{ to: '/vehicles' }}
         />

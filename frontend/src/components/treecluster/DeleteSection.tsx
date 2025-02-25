@@ -8,12 +8,14 @@ import { LinkProps, useNavigate } from '@tanstack/react-router'
 interface DeleteSectionProps {
   mutationFn: () => Promise<unknown>
   entityName: string
+  type?: 'archive' | 'delete'
   redirectUrl: LinkProps
 }
 
 const DeleteSection: React.FC<DeleteSectionProps> = ({
   mutationFn,
   entityName,
+  type = 'delete',
   redirectUrl,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -21,12 +23,14 @@ const DeleteSection: React.FC<DeleteSectionProps> = ({
   const [displayError, setDisplayError] = useState<string | null>(null)
   const showToast = useToast()
 
+  const actionText = type === 'archive' ? 'archiviert' : 'gelöscht'
+
   const { mutate, isError } = useMutation({
     mutationFn,
     onSuccess: () => {
       setIsModalOpen(false)
       navigate(redirectUrl)
-      showToast(`${entityName.charAt(0).toUpperCase()}${entityName.slice(1)} wurde erfolgreich gelöscht.`)
+      showToast(`${entityName.charAt(0).toUpperCase()}${entityName.slice(1)} wurde erfolgreich ${actionText}.`)
     },
     onError: (error: unknown) => {
       error instanceof Error
@@ -43,7 +47,7 @@ const DeleteSection: React.FC<DeleteSectionProps> = ({
         onClick={() => setIsModalOpen(true)}
         className="mt-10 group flex items-center gap-x-2 text-red font-medium text-base mb-4"
       >
-        Löschen
+        {type === 'archive' ? 'Archivieren' : 'Löschen'}
         <MoveRight className="w-4 h-4 transition-all ease-in-out duration-300 group-hover:translate-x-1" />
       </button>
 
@@ -54,9 +58,9 @@ const DeleteSection: React.FC<DeleteSectionProps> = ({
       )}
 
       <Modal
-        title={`Soll ${entityName} wirklich gelöscht werden?`}
-        description={`Sobald ${entityName} gelöscht wurde, können die Daten nicht wieder hergestellt werden.`}
-        confirmText="Wirklich löschen"
+        title={`Soll ${entityName} wirklich ${actionText} werden?`}
+        description={`Sobald ${entityName} ${actionText} wurde, können die Daten nicht wieder hergestellt werden.`}
+        confirmText="Bestätigen"
         onConfirm={() => mutate()}
         onCancel={() => setIsModalOpen(false)}
         isOpen={isModalOpen}
