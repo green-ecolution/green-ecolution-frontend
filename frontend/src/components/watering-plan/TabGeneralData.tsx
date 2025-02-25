@@ -22,8 +22,6 @@ const TabGeneralData: React.FC<TabGeneralDataProps> = ({ wateringPlan }) => {
   const updatedDate = wateringPlan?.updatedAt
     ? format(new Date(wateringPlan.updatedAt), 'dd.MM.yyyy')
     : 'Keine Angabe'
-  
-  console.log(wateringPlan.transporter.archivedAt)
 
   const wateringPlanData = [
     {
