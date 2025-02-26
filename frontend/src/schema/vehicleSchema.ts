@@ -18,7 +18,7 @@ export const VehicleSchema = z.object({
     .refine((value) => Object.values(DrivingLicense).includes(value), {
       message: 'Keine korrekte Fahrzeugerlaubnis.',
     })
-    .default(DrivingLicense.DrivingLicenseCar),
+    .default(DrivingLicense.DrivingLicenseB),
   status: z
     .nativeEnum(VehicleStatus)
     .refine((value) => Object.values(VehicleStatus).includes(value), {

@@ -26,7 +26,7 @@ function NewVehicle() {
   const { initForm } = useInitForm<VehicleForm>({
     numberPlate: '',
     type: VehicleType.VehicleTypeUnknown,
-    drivingLicense: DrivingLicense.DrivingLicenseCar,
+    drivingLicense: DrivingLicense.DrivingLicenseB,
     status: VehicleStatus.VehicleStatusUnknown,
     height: 1,
     width: 1,
