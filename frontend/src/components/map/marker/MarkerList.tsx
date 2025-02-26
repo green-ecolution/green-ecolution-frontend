@@ -1,5 +1,5 @@
 import L from "leaflet"
-import { useEffect, useRef } from "react"
+import { useCallback, useEffect, useRef } from "react"
 import { useMap } from "react-leaflet"
 
 type WithLocation = {
@@ -19,21 +19,7 @@ const MarkerList = <T extends WithLocation>({ data, onClick, icon, tooltipConten
   const map = useMap()
   const markersRef = useRef<L.Marker[]>([])
 
-  useEffect(() => {
-    if (map) {
-      renderMarkers()
-      map.on('moveend', renderMarkers)
-    }
-
-    return () => {
-      if (map) {
-        map.off('moveend', renderMarkers)
-        markersRef.current.forEach((m) => map.removeLayer(m))
-      }
-    }
-  })
-
-  const renderMarkers = () => {
+  const renderMarkers = useCallback(() => {
     if (!map) return;
 
     const bounds = map.getBounds();
@@ -53,7 +39,21 @@ const MarkerList = <T extends WithLocation>({ data, onClick, icon, tooltipConten
 
       marker.on('click', () => onClick?.(t))
     })
-  }
+  }, [map, data, icon, onClick, tooltipContent, tooltipOptions])
+
+  useEffect(() => {
+    if (map) {
+      renderMarkers()
+      map.on('moveend', renderMarkers)
+    }
+
+    return () => {
+      if (map) {
+        map.off('moveend', renderMarkers)
+        markersRef.current.forEach((m) => map.removeLayer(m))
+      }
+    }
+  }, [data, map, renderMarkers])
 
   return null
 }
