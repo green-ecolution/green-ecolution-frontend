@@ -43,13 +43,13 @@ const TabGeneralData: React.FC<TabGeneralDataProps> = ({ wateringPlan }) => {
     {
       label: 'Transporter',
       value: wateringPlan.transporter
-        ? wateringPlan.transporter.numberPlate
+        ? `${wateringPlan.transporter.numberPlate}${wateringPlan.transporter.archivedAt ? ' (Archiviert)' : ''}`
         : 'Keine Angabe',
     },
     {
       label: 'Zusätzlicher Anhänger',
       value: wateringPlan.trailer
-        ? wateringPlan.trailer.numberPlate
+        ? `${wateringPlan.trailer.numberPlate}${wateringPlan.trailer.archivedAt ? ' (Archiviert)' : ''}`
         : 'Keine Angabe',
     },
     {
