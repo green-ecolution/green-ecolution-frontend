@@ -39,9 +39,14 @@ const Pagination: React.FC<PaginationProps> = ({ pagination, url }) => {
                 },
               }}
             />
-            <span aria-hidden="true" className="text-dark-600 font-semibold">...</span>
+            {pagination.prevPage > 2 && (
+              <span aria-hidden="true" className="text-dark-600 font-semibold">
+                ...
+              </span>
+            )}
           </li>
         )}
+
         {pagination.prevPage && (
           <li>
             <PaginationLink
@@ -87,7 +92,11 @@ const Pagination: React.FC<PaginationProps> = ({ pagination, url }) => {
         )}
         {pagination.nextPage && pagination.nextPage < pagination.totalPages && (
           <li className="flex items-end gap-x-2">
-            <span aria-hidden="true" className="text-dark-600 font-semibold">...</span>
+            {pagination.nextPage < pagination.totalPages - 1 && (
+              <span aria-hidden="true" className="text-dark-600 font-semibold">
+                ...
+              </span>
+            )}
             <PaginationLink
               aria-label="Zur letzten Seite springen"
               color="grey"
