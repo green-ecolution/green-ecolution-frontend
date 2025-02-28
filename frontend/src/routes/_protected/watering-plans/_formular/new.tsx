@@ -48,7 +48,7 @@ function NewWateringPlan() {
     date: new Date().toISOString().substring(0, 10),
     description: '',
     transporterId: -1,
-    trailerId: -1, // TODO: why not undefined?
+    trailerId: undefined,
     treeClusterIds: [],
     status: WateringPlanStatus.WateringPlanStatusPlanned,
     cancellationNote: '',
