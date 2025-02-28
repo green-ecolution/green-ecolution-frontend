@@ -56,7 +56,7 @@ const WateringPlanUpdate = ({ wateringPlanId }: WateringPlanUpdateProps) => {
   const { register, handleSubmit, formState } =
     useFormSync<WateringPlanForm>(
       initForm,
-      zodResolver(WateringPlanSchema(false))
+      zodResolver(WateringPlanSchema('update'))
     )
 
   const onSubmit: SubmitHandler<WateringPlanForm> = async (data) => {

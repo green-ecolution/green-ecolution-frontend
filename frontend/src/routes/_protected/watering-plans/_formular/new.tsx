@@ -63,7 +63,7 @@ function NewWateringPlan() {
 
   const { register, handleSubmit, formState } = useFormSync<WateringPlanForm>(
     initForm,
-    zodResolver(WateringPlanSchema(true))
+    zodResolver(WateringPlanSchema('create'))
   )
 
   const onSubmit: SubmitHandler<WateringPlanForm> = (data) => {
