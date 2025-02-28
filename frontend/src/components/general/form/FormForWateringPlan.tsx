@@ -8,6 +8,7 @@ import { User, Vehicle } from '@green-ecolution/backend-client'
 import { FormForProps } from './FormForTreecluster'
 import SelectEntities from './types/SelectEntities'
 import useFormStore, { FormStore } from '@/store/form/useFormStore'
+import { getDrivingLicenseDetails } from '@/hooks/details/useDetailsForDrivingLicense'
 
 interface FormForWateringPlanProps extends FormForProps<WateringPlanForm> {
   transporters: Vehicle[]
@@ -24,6 +25,17 @@ const FormForWateringPlan = (props: FormForWateringPlanProps) => {
   )
 
   const { errors, isValid } = props.formState
+
+  const getDrivingLicensesString = (user: User) => {
+    if (!user.drivingLicenses || user.drivingLicenses.length === 0) {
+      return 'Keinen Führerschein';
+    }
+    
+    return user.drivingLicenses
+      .map(drivingLicense => getDrivingLicenseDetails(drivingLicense).label)
+      .join(', ');
+  };
+  
 
   return (
     <form
@@ -68,7 +80,7 @@ const FormForWateringPlan = (props: FormForWateringPlanProps) => {
         <Select
           options={[
             ...props.users.map((user) => ({
-              label: `${user.firstName} ${user.lastName}`,
+              label: `${user.firstName} ${user.lastName} · ${getDrivingLicensesString(user)}`,
               value: user.id,
             })),
           ]}
