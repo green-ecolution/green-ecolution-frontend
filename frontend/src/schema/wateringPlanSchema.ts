@@ -129,3 +129,5 @@ export const WateringPlanSchema = (isCreate: boolean) => {
       }
     })
 }
+
+export type WateringPlanForm = z.infer<ReturnType<typeof WateringPlanSchema>>

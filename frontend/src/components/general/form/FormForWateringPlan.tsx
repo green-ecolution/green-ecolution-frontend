@@ -35,7 +35,6 @@ const FormForWateringPlan = (props: FormForWateringPlanProps) => {
       .map(drivingLicense => getDrivingLicenseDetails(drivingLicense).label)
       .join(', ');
   };
-  
 
   return (
     <form

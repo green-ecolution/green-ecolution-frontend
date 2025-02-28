@@ -13,7 +13,7 @@ const Select = forwardRef(
   (props: SelectProps, ref: React.ForwardedRef<HTMLSelectElement>) => {
     return (
       <div className="relative">
-        <figure aria-hidden="true" className="absolute right-4 top-[3.25rem]">
+        <figure aria-hidden="true" className={`absolute right-4 ${props.multiple ? 'top-[4.5rem]' : 'top-[3.25rem]'}`}>
           <ChevronDown className="w-4 h-4 text-dark-800" />
         </figure>
         <label

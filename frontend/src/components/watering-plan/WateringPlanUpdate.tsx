@@ -48,7 +48,6 @@ const WateringPlanUpdate = ({ wateringPlanId }: WateringPlanUpdateProps) => {
     : 'Keine Angabe'
 
   const { data: users } = useSuspenseQuery(userRoleQuery('tbz'))
-
   const { data: trailers } = useSuspenseQuery(vehicleQuery({ type: 'trailer' }))
   const { data: transporters } = useSuspenseQuery(
     vehicleQuery({ type: 'transporter' })
