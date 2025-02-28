@@ -61,7 +61,7 @@ function NewWateringPlan() {
     zoom: state.map.zoom,
   }))
 
-  const { register, handleSubmit, formState, trigger, watch } = useFormSync<WateringPlanForm>(
+  const { register, handleSubmit, formState } = useFormSync<WateringPlanForm>(
     initForm,
     zodResolver(WateringPlanSchema(true))
   )
@@ -112,8 +112,6 @@ function NewWateringPlan() {
       <section className="mt-10">
         <FormForWateringPlan
           register={register}
-          trigger={trigger}
-          watch={watch}
           handleSubmit={handleSubmit}
           displayError={isError}
           formState={formState}

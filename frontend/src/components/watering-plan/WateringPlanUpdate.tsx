@@ -53,7 +53,7 @@ const WateringPlanUpdate = ({ wateringPlanId }: WateringPlanUpdateProps) => {
     vehicleQuery({ type: 'transporter' })
   )
 
-  const { register, handleSubmit, formState, trigger } =
+  const { register, handleSubmit, formState } =
     useFormSync<WateringPlanForm>(
       initForm,
       zodResolver(WateringPlanSchema(false))
@@ -130,7 +130,6 @@ const WateringPlanUpdate = ({ wateringPlanId }: WateringPlanUpdateProps) => {
       <section className="mt-10">
         <FormForWateringPlan
           register={register}
-          trigger={trigger}
           handleSubmit={handleSubmit}
           displayError={isError}
           formState={formState}
