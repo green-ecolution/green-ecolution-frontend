@@ -9,12 +9,15 @@ import { FormForProps } from './FormForTreecluster'
 import SelectEntities from './types/SelectEntities'
 import useFormStore, { FormStore } from '@/store/form/useFormStore'
 import { getDrivingLicenseDetails } from '@/hooks/details/useDetailsForDrivingLicense'
+import { UseFormTrigger, UseFormWatch } from 'react-hook-form'
 
 interface FormForWateringPlanProps extends FormForProps<WateringPlanForm> {
   transporters: Vehicle[]
   trailers: Vehicle[]
   users: User[]
   onAddCluster: () => void
+  trigger: UseFormTrigger<WateringPlanForm>
+  watch: UseFormWatch<WateringPlanForm>
 }
 
 const FormForWateringPlan = (props: FormForWateringPlanProps) => {
@@ -36,6 +39,11 @@ const FormForWateringPlan = (props: FormForWateringPlanProps) => {
       .join(', ');
   };
 
+  console.log(isValid)
+  Object.keys(errors).forEach((field) => {
+    console.log(`${field}:`, errors[field as keyof typeof errors]);
+  });  
+
   return (
     <form
       className="space-y-6 lg:space-y-0 lg:grid lg:grid-cols-2 lg:gap-11"
@@ -55,6 +63,9 @@ const FormForWateringPlan = (props: FormForWateringPlanProps) => {
             ...props.transporters.map((transporter) => ({
               label: `${transporter.numberPlate.toString()}`,
               value: transporter.id.toString(),
+              onChange: () => {
+                props.trigger();
+              },
             })),
           ]}
           placeholder="Wählen Sie ein Fahrzeug aus"
@@ -69,6 +80,9 @@ const FormForWateringPlan = (props: FormForWateringPlanProps) => {
             ...props.trailers.map((trailer) => ({
               label: `${trailer.numberPlate.toString()}`,
               value: trailer.id.toString(),
+              onChange: () => {
+                props.trigger();
+              },
             })),
           ]}
           placeholder="Wählen Sie einen Anhänger aus, sofern vorhanden"

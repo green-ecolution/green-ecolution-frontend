@@ -10,7 +10,7 @@ import useStore from '@/store/store'
 import GeneralLink from '../general/links/GeneralLink'
 import { showWateringPlanStatusButton } from '@/hooks/details/useDetailsForWateringPlanStatus'
 import LoadingInfo from '../general/error/LoadingInfo'
-import { Suspense } from 'react'
+import { Suspense, useEffect } from 'react'
 import DeleteSection from '../treecluster/DeleteSection'
 import { wateringPlanApi } from '@/api/backendApi'
 import { useWaterinPlanForm } from '@/hooks/form/useWateringPlanForm'
@@ -53,7 +53,7 @@ const WateringPlanUpdate = ({ wateringPlanId }: WateringPlanUpdateProps) => {
     vehicleQuery({ type: 'transporter' })
   )
 
-  const { register, handleSubmit, formState } =
+  const { register, handleSubmit, formState, trigger } =
     useFormSync<WateringPlanForm>(
       initForm,
       zodResolver(WateringPlanSchema(false))
@@ -130,6 +130,7 @@ const WateringPlanUpdate = ({ wateringPlanId }: WateringPlanUpdateProps) => {
       <section className="mt-10">
         <FormForWateringPlan
           register={register}
+          trigger={trigger}
           handleSubmit={handleSubmit}
           displayError={isError}
           formState={formState}

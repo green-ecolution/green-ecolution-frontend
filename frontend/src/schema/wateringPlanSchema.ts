@@ -93,17 +93,10 @@ export const WateringPlanSchema = (isCreate: boolean) => {
       const { userIds, transporterId, trailerId } = data
     
       const transporter = transporters.data.find((t) => t.id === transporterId)
-      if (!transporter) {
-        ctx.addIssue({
-          code: 'custom',
-          path: ['transporterId'],
-          message: 'Ungültiger Transporter ausgewählt.',
-        })
-        return
-      }
+      if (!transporter) return
+
     
       const trailer = trailers.data.find((t) => t.id === trailerId)
-    
       const requiredLicenses = new Set<DrivingLicense>(
         [transporter.drivingLicense, trailer?.drivingLicense]
           .filter((license): license is DrivingLicense => license !== undefined)
@@ -124,10 +117,8 @@ export const WateringPlanSchema = (isCreate: boolean) => {
           code: 'custom',
           path: ['userIds'],
           message:
-            'Mindestens ein:e Mitarbeitender:in muss die erforderliche Führerscheinklasse besitzen.',
+            'Mindestens ein Mitarbeitender muss die erforderliche Führerscheinklasse besitzen.',
         })
       }
     })
 }
-
-export type WateringPlanForm = z.infer<ReturnType<typeof WateringPlanSchema>>
