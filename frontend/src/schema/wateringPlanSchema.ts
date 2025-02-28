@@ -91,11 +91,9 @@ export const WateringPlanSchema = (isCreate: boolean) => {
     })
     .superRefine((data, ctx) => {
       const { userIds, transporterId, trailerId } = data
-    
       const transporter = transporters.data.find((t) => t.id === transporterId)
       if (!transporter) return
 
-    
       const trailer = trailers.data.find((t) => t.id === trailerId)
       const requiredLicenses = new Set<DrivingLicense>(
         [transporter.drivingLicense, trailer?.drivingLicense]
