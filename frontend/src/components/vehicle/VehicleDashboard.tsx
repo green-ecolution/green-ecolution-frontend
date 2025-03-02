@@ -91,9 +91,9 @@ const VehicleDashboard = ({ vehicleId }: VehicleDashboardProps) => {
               Dieses Fahrzeug befindet sich im Einsatz.
             </p>
             <GeneralLink
-              label="Zum Einsatzplan"
+              label="Zu den Einsatzplänen"
               link={{
-                to: '/vehicles', // TODO: link to linked watering plan
+                to: '/watering-plans',
               }}
             />
           </div>

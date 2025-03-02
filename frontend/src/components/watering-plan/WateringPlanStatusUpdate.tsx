@@ -58,7 +58,7 @@ const WateringPlanStatusUpdate = ({
   const { register, handleSubmit, formState, watch } =
     useFormSync<WateringPlanForm>(
       initForm,
-      zodResolver(WateringPlanSchema(false))
+      zodResolver(WateringPlanSchema('statusUpdate'))
     )
 
   const [manualEvaluation, setManualEvaluation] = useState(
@@ -68,7 +68,7 @@ const WateringPlanStatusUpdate = ({
       wateringPlanId: Number(wateringPlanId),
     })) || []
   )
-
+  
   const [errorMessages, setErrorMessages] = useState<string[]>([])
 
   const handleConsumedWaterChange = (index: number, value: number) => {

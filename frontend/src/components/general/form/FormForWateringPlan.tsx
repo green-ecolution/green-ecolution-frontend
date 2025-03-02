@@ -8,6 +8,7 @@ import { User, Vehicle } from '@green-ecolution/backend-client'
 import { FormForProps } from './FormForTreecluster'
 import SelectEntities from './types/SelectEntities'
 import useFormStore, { FormStore } from '@/store/form/useFormStore'
+import { getDrivingLicenseDetails } from '@/hooks/details/useDetailsForDrivingLicense'
 
 interface FormForWateringPlanProps extends FormForProps<WateringPlanForm> {
   transporters: Vehicle[]
@@ -24,6 +25,16 @@ const FormForWateringPlan = (props: FormForWateringPlanProps) => {
   )
 
   const { errors, isValid } = props.formState
+
+  const getDrivingLicensesString = (user: User) => {
+    if (!user.drivingLicenses || user.drivingLicenses.length === 0) {
+      return 'Keinen Führerschein';
+    }
+    
+    return user.drivingLicenses
+      .map(drivingLicense => getDrivingLicenseDetails(drivingLicense).label)
+      .join(', ');
+  };
 
   return (
     <form
@@ -42,7 +53,7 @@ const FormForWateringPlan = (props: FormForWateringPlanProps) => {
           options={[
             { label: 'Kein Fahrzeug', value: '-1' },
             ...props.transporters.map((transporter) => ({
-              label: `${transporter.numberPlate.toString()}`,
+              label: `${transporter.numberPlate.toString()} · ${getDrivingLicenseDetails(transporter.drivingLicense).label}`,
               value: transporter.id.toString(),
             })),
           ]}
@@ -56,7 +67,7 @@ const FormForWateringPlan = (props: FormForWateringPlanProps) => {
           options={[
             { label: 'Keinen Anhänger', value: '-1' },
             ...props.trailers.map((trailer) => ({
-              label: `${trailer.numberPlate.toString()}`,
+              label: `${trailer.numberPlate.toString()} · ${getDrivingLicenseDetails(trailer.drivingLicense).label}`,
               value: trailer.id.toString(),
             })),
           ]}
@@ -68,7 +79,7 @@ const FormForWateringPlan = (props: FormForWateringPlanProps) => {
         <Select
           options={[
             ...props.users.map((user) => ({
-              label: `${user.firstName} ${user.lastName}`,
+              label: `${user.firstName} ${user.lastName} · ${getDrivingLicensesString(user)}`,
               value: user.id,
             })),
           ]}

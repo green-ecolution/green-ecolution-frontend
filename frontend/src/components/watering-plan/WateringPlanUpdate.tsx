@@ -48,7 +48,6 @@ const WateringPlanUpdate = ({ wateringPlanId }: WateringPlanUpdateProps) => {
     : 'Keine Angabe'
 
   const { data: users } = useSuspenseQuery(userRoleQuery('tbz'))
-
   const { data: trailers } = useSuspenseQuery(vehicleQuery({ type: 'trailer' }))
   const { data: transporters } = useSuspenseQuery(
     vehicleQuery({ type: 'transporter' })
@@ -57,7 +56,7 @@ const WateringPlanUpdate = ({ wateringPlanId }: WateringPlanUpdateProps) => {
   const { register, handleSubmit, formState } =
     useFormSync<WateringPlanForm>(
       initForm,
-      zodResolver(WateringPlanSchema(false))
+      zodResolver(WateringPlanSchema('update'))
     )
 
   const onSubmit: SubmitHandler<WateringPlanForm> = async (data) => {

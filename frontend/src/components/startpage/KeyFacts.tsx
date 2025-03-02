@@ -1,7 +1,6 @@
 import { BadgeCheck } from "lucide-react";
 
 const KeyFacts = () => {
-  // TODO: add real data
   const numbers = [
     "Monitoring des Bewässerungszustands",
     "Gruppierung von Bäumen anhand von Standortbedingungen",
