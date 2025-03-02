@@ -23,6 +23,8 @@ import {
   userApi,
   GeoJson,
   SensorDataList,
+  Evaluation,
+  evaluationApi,
 } from './backendApi'
 
 export const treeClusterQuery = (params?: { page?: string; limit?: string }) =>
@@ -98,6 +100,12 @@ export const infoQuery = () =>
   queryOptions<AppInfo>({
     queryKey: ['info'],
     queryFn: () => infoApi.getAppInfo(),
+  })
+
+export const evaluationQuery = () =>
+  queryOptions<Evaluation>({
+    queryKey: ['evaluation'],
+    queryFn: () => evaluationApi.getEvaluation(),
   })
 
 export const vehicleQuery = (params?: {

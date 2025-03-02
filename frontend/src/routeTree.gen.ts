@@ -24,6 +24,7 @@ import { Route as ProtectedSettingsImport } from './routes/_protected/settings'
 import { Route as ProtectedProfileImport } from './routes/_protected/profile'
 import { Route as ProtectedMapImport } from './routes/_protected/map'
 import { Route as ProtectedInfoImport } from './routes/_protected/info'
+import { Route as ProtectedEvaluationsImport } from './routes/_protected/evaluations'
 import { Route as ProtectedDebugImport } from './routes/_protected/debug'
 import { Route as ProtectedDashboardImport } from './routes/_protected/dashboard'
 import { Route as ProtectedWateringPlansIndexImport } from './routes/_protected/watering-plans/index'
@@ -136,6 +137,11 @@ const ProtectedMapRoute = ProtectedMapImport.update({
 
 const ProtectedInfoRoute = ProtectedInfoImport.update({
   path: '/info',
+  getParentRoute: () => ProtectedRoute,
+} as any)
+
+const ProtectedEvaluationsRoute = ProtectedEvaluationsImport.update({
+  path: '/evaluations',
   getParentRoute: () => ProtectedRoute,
 } as any)
 
@@ -419,6 +425,13 @@ declare module '@tanstack/react-router' {
       path: '/debug'
       fullPath: '/debug'
       preLoaderRoute: typeof ProtectedDebugImport
+      parentRoute: typeof ProtectedImport
+    }
+    '/_protected/evaluations': {
+      id: '/_protected/evaluations'
+      path: '/evaluations'
+      fullPath: '/evaluations'
+      preLoaderRoute: typeof ProtectedEvaluationsImport
       parentRoute: typeof ProtectedImport
     }
     '/_protected/info': {
@@ -774,6 +787,7 @@ export const routeTree = rootRoute.addChildren({
   ProtectedRoute: ProtectedRoute.addChildren({
     ProtectedDashboardRoute,
     ProtectedDebugRoute,
+    ProtectedEvaluationsRoute,
     ProtectedInfoRoute,
     ProtectedMapRoute: ProtectedMapRoute.addChildren({
       ProtectedMapIndexRoute,
@@ -877,6 +891,7 @@ export const routeTree = rootRoute.addChildren({
       "children": [
         "/_protected/dashboard",
         "/_protected/debug",
+        "/_protected/evaluations",
         "/_protected/info",
         "/_protected/map",
         "/_protected/profile",
@@ -903,6 +918,10 @@ export const routeTree = rootRoute.addChildren({
     },
     "/_protected/debug": {
       "filePath": "_protected/debug.tsx",
+      "parent": "/_protected"
+    },
+    "/_protected/evaluations": {
+      "filePath": "_protected/evaluations.tsx",
       "parent": "/_protected"
     },
     "/_protected/info": {
