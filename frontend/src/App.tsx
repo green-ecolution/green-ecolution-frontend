@@ -22,12 +22,10 @@ const TanStackRouterDevtools =
 function App() {
   useDocumentTitle()
   const location = useLocation();
-  const errorBoundaryRef = useRef<any>(null);
+  const errorBoundaryRef = useRef<ErrorBoundary>(null);
 
   useEffect(() => {
-    if (errorBoundaryRef.current) {
-      errorBoundaryRef.current.resetErrorBoundary();
-    }
+    errorBoundaryRef.current?.resetErrorBoundary();
   }, [location.pathname]);
   
   return (
