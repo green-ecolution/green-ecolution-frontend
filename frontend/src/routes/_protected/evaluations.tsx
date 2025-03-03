@@ -26,13 +26,10 @@ function Evaluation() {
               Auswertung aller Daten
             </h1>
             <p>
-              Exercitation in do elit est ad culpa anim amet veniam culpa.
-              Ipsum esse tempor Lorem est cillum cupidatat nostrud labore sit eu ad aliqua.
-              Reprehenderit exercitation do consequat velit veniam mollit non eu est est nulla.
-              Ex mollit duis cillum. Aliquip nostrud laboris officia aliquip incididunt velit labore magna consequat laborum veniam.
-              Consequat consequat laborum cupidatat labore cupidatat cillum amet qui dolore adipisicing.
-              Fugiat fugiat voluptate magna veniam enim incididunt nostrud fugiat nostrud officia proident non ea sint laborum.
-              Ex velit magna occaecat eiusmod id nulla quis culpa commodo et.
+              Diese Seite bietet eine detaillierte Auswertung aller relevanten Daten, die für die Verwaltung von Bewässerungs- und Einsatzplänen
+              sowie für die Wartung von Bäumen und Sensoren erforderlich sind. Es wird aufgezeigt, wie viele Einsatzfahrten im System hinterlegt worden sind, 
+              welche Fahrzeuge die meisten Einsatzfahrten durchführen und welche Stadtteile am meisten bewässert werden.
+              Außerdem können Sie sich darüber informieren, wie viele Bäume, Bewässerungsgruppen und Sensoren erstellt worden sind.
             </p>
           </article>
 
@@ -44,21 +41,21 @@ function Evaluation() {
               <li>
                 <GeneralStatusCard
                   overline="Anzahl an Bewässerungsgruppen"
-                  value={`${data.treeclusterCount} ${data.treeclusterCount === 1 ? "Gruppe" : "Gruppen"}`}
+                  value={`${data.treeclusterCount} ${data.treeclusterCount === 1 ? 'Gruppe' : 'Gruppen'}`}
                   description="Die Bewässerungsgruppen bilden Gruppen von Bäumen ab mit gleichen Standortbedingungen."
                 />
               </li>
               <li>
                 <GeneralStatusCard
                   overline="Anzahl an Bäumen"
-                  value={`${data.treeCount} ${data.treeCount === 1 ? "Baum" : "Bäume"}`}
+                  value={`${data.treeCount} ${data.treeCount === 1 ? 'Baum' : 'Bäume'}`}
                   description="inkl. manuell erstellte oder importierte Bäume aus anderen Systemen (z.B. Datenbank)."
                 />
               </li>
               <li>
                 <GeneralStatusCard
                   overline="Anzahl an Sensoren"
-                  value={`${data.sensorCount} ${data.sensorCount === 1 ? "Sensor" : "Sensoren"}`}
+                  value={`${data.sensorCount} ${data.sensorCount === 1 ? 'Sensor' : 'Sensoren'}`}
                   description="Es werden auch Sensoren einberechnet, die nicht mit einer Vegetation verknüpft sind.."
                 />
               </li>
@@ -73,7 +70,7 @@ function Evaluation() {
               <li>
                 <GeneralStatusCard
                   overline="Anzahl an Einsatzfahrten"
-                  value={`${data.wateringPlanCount} ${data.wateringPlanCount === 1 ? "Fahrt" : "Fahrten"}`}
+                  value={`${data.wateringPlanCount} ${data.wateringPlanCount === 1 ? 'Fahrt' : 'Fahrten'}`}
                   description="Dies beschreibt die Anzahl aller Einsatzfahrten, die aktuell im System hinterlegt sind."
                 />
               </li>
@@ -84,10 +81,76 @@ function Evaluation() {
                   description="Der Wasserverbrauch bezieht sich auf alle Einsatzfahrten, die in dem angegebenen Zeitraum durchgeführt worden sind."
                 />
               </li>
+              <li>
+                <GeneralStatusCard
+                  overline="Anzahl Mitarbeitende für Einsatzpläne"
+                  value={`${data.userWateringPlanCount} Mitarbeitende`}
+                  description="Dies beschreibt die Anzahl aller Mitarbeitenden, die zu Einsatzplänen verlinkt wurden. Dopplungen wurden nicht exkludiert."
+                />
+              </li>
             </ul>
           </section>
+
+          <EvaluationList
+            title="Anzahl an Bewässerungen pro Stadtteil:"
+            data={data.regionEvaluation.map((region) => ({
+              name: region.name,
+              wateringPlanCount: region.wateringPlanCount,
+            }))}
+            label="Stadtteil"
+          />
+
+          <EvaluationList
+            title="Nutzung der Fahrzeuge:"
+            data={data.vehicleEvaluation.map((vehicle) => ({
+              name: vehicle.numberPlate,
+              wateringPlanCount: vehicle.wateringPlanCount,
+            }))}
+            label="Fahrzeug"
+          />
         </div>
       </Suspense>
     </>
+  )
+}
+
+interface EvaluationItem {
+  name: string
+  wateringPlanCount: number
+}
+
+interface EvaluationListProps {
+  title: string
+  data: EvaluationItem[]
+  label: string
+}
+
+const EvaluationList: React.FC<EvaluationListProps> = ({
+  title,
+  data,
+  label,
+}) => {
+  return (
+    <section className="mt-16">
+      <h2 className="font-lato font-bold text-2xl mb-4">{title}</h2>
+      <header className="hidden border-b pb-2 text-sm text-dark-800 border-b-dark-200 sm:flex items-center justify-between">
+        <p>{label}</p>
+        <p>Anzahl der Bewässerungen</p>
+      </header>
+      <ul className="space-y-3 md:space-y-0">
+        {data.map((item, key) => (
+          <li
+            key={key}
+            className="flex flex-wrap justify-between gap-3 items-center border-b border-b-dark-300 pb-3 sm:py-3"
+          >
+            <h3 className="font-bold text-lg">{item.name}</h3>
+            <p>
+              {item.wateringPlanCount}{' '}
+              {item.wateringPlanCount === 1 ? 'Bewässerung' : 'Bewässerungen'}
+            </p>
+          </li>
+        ))}
+      </ul>
+    </section>
   )
 }

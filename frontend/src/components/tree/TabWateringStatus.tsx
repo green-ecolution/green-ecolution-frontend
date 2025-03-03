@@ -106,7 +106,7 @@ const TabWateringStatus: React.FC<TabWateringStatusProps> = ({ tree }) => {
               <header className="hidden border-b pb-2 text-sm text-dark-800 border-b-dark-200 lg:grid lg:grid-cols-3 lg:gap-x-5">
                 <p>Eingesetzte Tiefe</p>
                 <p>Zentibar</p>
-                <p>Ohmsche Widerstand</p>
+                <p>Ohmscher Widerstand</p>
               </header>
 
               <ul className="space-y-3 lg:space-y-0">
