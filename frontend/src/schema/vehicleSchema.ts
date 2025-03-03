@@ -52,7 +52,14 @@ export const VehicleSchema = z.object({
   model: z.string().optional().default(''),
   waterCapacity: z.preprocess(
     (value) => parseInt(value as string, 10),
-    z.number().int().min(120, 'Wasserkapazität ist erforderlich und darf nicht unter 120 Litern liegen.').default(120)
+    z
+      .number()
+      .int()
+      .min(
+        80,
+        'Wasserkapazität ist erforderlich und darf nicht unter 80 Litern liegen.'
+      )
+      .default(80)
   ),
   description: z.string().optional().default(''),
 })

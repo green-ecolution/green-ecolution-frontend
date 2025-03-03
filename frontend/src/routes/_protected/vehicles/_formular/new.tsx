@@ -33,7 +33,7 @@ function NewVehicle() {
     length: 1,
     weight: 1,
     model: '',
-    waterCapacity: 120,
+    waterCapacity: 80,
     description: '',
   })
 
