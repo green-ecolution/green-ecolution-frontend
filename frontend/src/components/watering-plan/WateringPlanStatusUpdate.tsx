@@ -63,7 +63,7 @@ const WateringPlanStatusUpdate = ({
 
   const [manualEvaluation, setManualEvaluation] = useState(
     loadedData?.treeclusters.map((cluster) => ({
-      consumedWater: (cluster.treeIds?.length ?? 0) * 120,
+      consumedWater: (cluster.treeIds?.length ?? 0) * 80,
       treeClusterId: cluster.id,
       wateringPlanId: Number(wateringPlanId),
     })) || []
@@ -162,7 +162,7 @@ const WateringPlanStatusUpdate = ({
                 Wasservergabe pro Bewässerungsgruppe:
               </legend>
               <p className="-mt-2 text-sm text-dark-600 mb-2.5">
-                Die Standardwerte ergeben sich aus 120 Litern pro Baum einer
+                Die Standardwerte ergeben sich aus 80 Litern pro Baum einer
                 Bewässerungsgruppe.
               </p>
               <ul className="space-y-5">
