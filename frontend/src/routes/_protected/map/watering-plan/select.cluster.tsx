@@ -32,13 +32,11 @@ function SelectCluster() {
   const [showError, setShowError] = useState(false)
   const navigate = useNavigate({ from: Route.fullPath })
   const { wateringPlanId } = Route.useSearch()
-  let waterCapacity = 0
-  if (form?.transporterId) {
-    const { data: vehicle } = useSuspenseQuery(vehicleIdQuery(form?.transporterId.toString()))
-    waterCapacity = vehicle.waterCapacity
-  }
+  const transporterId = form?.transporterId?.toString() || ""
+  const { data: vehicle } = useSuspenseQuery(vehicleIdQuery(transporterId))
+  const waterCapacity = vehicle?.waterCapacity ?? 0
   const [showModal, setShowModal] = useState(false)
-  const [insufficientCluster, setInsufficientCluster] = useState<TreeCluster | null>(null)
+  const [insufficientCluster] = useState<TreeCluster | null>(null)
 
   const handleNavigateBack = useCallback(() => {
     switch (type) {
