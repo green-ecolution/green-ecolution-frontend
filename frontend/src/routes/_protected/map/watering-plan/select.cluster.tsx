@@ -8,6 +8,9 @@ import MapSelectEntitiesModal from '@/components/map/MapSelectEntitiesModal'
 import WithAllClusters from '@/components/map/marker/WithAllClusters'
 import ShowRoutePreview from '@/components/map/marker/ShowRoutePreview'
 import { TriangleAlert } from 'lucide-react'
+import { useSuspenseQuery } from '@tanstack/react-query'
+import { vehicleIdQuery } from '@/api/queries'
+import Modal from '@/components/general/Modal'
 
 export const Route = createFileRoute(
   '/_protected/map/watering-plan/select/cluster'
@@ -29,6 +32,13 @@ function SelectCluster() {
   const [showError, setShowError] = useState(false)
   const navigate = useNavigate({ from: Route.fullPath })
   const { wateringPlanId } = Route.useSearch()
+  let waterCapacity = 0
+  if (form?.transporterId) {
+    const { data: vehicle } = useSuspenseQuery(vehicleIdQuery(form?.transporterId.toString()))
+    waterCapacity = vehicle.waterCapacity
+  }
+  const [showModal, setShowModal] = useState(false)
+  const [insufficientCluster, setInsufficientCluster] = useState<TreeCluster | null>(null)
 
   const handleNavigateBack = useCallback(() => {
     switch (type) {
@@ -70,6 +80,13 @@ function SelectCluster() {
   }
 
   const handleClick = (cluster: TreeCluster) => {
+    const requiredWater = cluster.treeIds.length * 120
+
+    if (requiredWater * 120 > waterCapacity) {
+      setShowModal(true)
+      return;
+    }
+
     clusterIds.includes(cluster.id)
       ? setClusterIds((prev) => prev.filter((id) => id !== cluster.id))
       : setClusterIds((prev) => [...prev, cluster.id])
@@ -81,14 +98,26 @@ function SelectCluster() {
 
   return (
     <>
-      <MapSelectEntitiesModal
-        onSave={handleSave}
-        onCancel={() => handleNavigateBack()}
-        disabled={clusterIds.length === 0}
-        title="Ausgewählte Bewässerungsgruppen:"
-        content={
-          <ul>
-            {showVehicleInfo() && (
+      <Modal
+        title="Fahrzeugkapazität überschritten"
+        description={`Das Fahrzeug hat nicht genug Wasser für die Bewässerungsgruppe ${insufficientCluster?.id}. Bitte wähle ein anderes Fahrzeug oder eine kleinere Gruppe.`}
+        confirmText="Zum Formular zurückkehren"
+        onConfirm={() => {
+          setShowModal(false);
+          handleNavigateBack();
+        }}
+        onCancel={() => setShowModal(false)}
+        isOpen={showModal}
+      />
+      {!showModal && (
+        <MapSelectEntitiesModal
+          onSave={handleSave}
+          onCancel={() => handleNavigateBack()}
+          disabled={clusterIds.length === 0}
+          title="Ausgewählte Bewässerungsgruppen:"
+          content={
+            <ul>
+              {showVehicleInfo() && (
                 <li className="mb-2 flex space-x-2 items-center">
                   <figure>
                     <TriangleAlert className="flex-shrink-0 text-red" />
@@ -99,24 +128,25 @@ function SelectCluster() {
                   </p>
                 </li>
               )}
-            {(clusterIds?.length || 0) === 0 || showError ? (
-              <li className="text-dark-600 font-semibold text-sm">
-                <p>Hier können Sie zugehörigen Gruppen verlinken.</p>
-              </li>
-            ) : (
-              clusterIds.map((clusterId, key) => (
-                <li key={key}>
-                  <SelectedCard
-                    type="cluster"
-                    id={clusterId}
-                    onClick={handleDelete}
-                  />
+              {(clusterIds?.length || 0) === 0 || showError ? (
+                <li className="text-dark-600 font-semibold text-sm">
+                  <p>Hier können Sie zugehörigen Gruppen verlinken.</p>
                 </li>
-              ))
-            )}
-          </ul>
-        }
-      />
+              ) : (
+                clusterIds.map((clusterId, key) => (
+                  <li key={key}>
+                    <SelectedCard
+                      type="cluster"
+                      id={clusterId}
+                      onClick={handleDelete}
+                    />
+                  </li>
+                ))
+              )}
+            </ul>
+          }
+        />
+      )}
       <WithAllClusters onClick={handleClick} highlightedClusters={clusterIds} />
       {clusterIds.length > 0 &&
         form?.transporterId &&
