@@ -11,7 +11,6 @@ import { TriangleAlert } from 'lucide-react'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { vehicleIdQuery } from '@/api/queries'
 import Modal from '@/components/general/Modal'
-import { Console } from 'console'
 
 export const Route = createFileRoute(
   '/_protected/map/watering-plan/select/cluster'
@@ -80,7 +79,6 @@ function SelectCluster() {
 
   const handleClick = (cluster: TreeCluster) => {
     const requiredWater = cluster.treeIds.length * 80
-    console.log(requiredWater + " " + waterCapacity)
 
     if (requiredWater > waterCapacity) {
       setShowModal(true)
