@@ -15,6 +15,8 @@ const ErrorFallback: React.FC<ErrorFallbackProps> = ({ error, resetErrorBoundary
     isAuthenticated: state.auth.isAuthenticated,
   }))
 
+  const errorCode = (error as any)?.status || (error as any)?.response?.status || "Unbekannter Fehler";
+
   return (
     <>
       <figure aria-hidden="true" className="absolute top-0 inset-x-0 z-0">
@@ -25,15 +27,18 @@ const ErrorFallback: React.FC<ErrorFallbackProps> = ({ error, resetErrorBoundary
           <h1 className="font-lato font-bold text-4xl mb-4 lg:mb-6 lg:text-5xl lg:text-center xl:text-6xl">
             Upps, hier ist etwas schief gegangen!
           </h1>
-          <p className="lg:text-center mb-10">
+          <p className="lg:text-center">
             Folgender Fehler ist passiert: {error.message}.
           </p>
-          <div className="lg:flex lg:items-center lg:justify-center lg:gap-x-4">
+          <p className="lg:text-center mb-5">
+            Fehlercode: {errorCode}
+          </p>
+          <div className="lg:flex lg:items-center lg:justify-center lg:gap-x-4 space-y-4 lg:space-y-0">
             <button
               onClick={resetErrorBoundary}
               className={'bg-green-dark hover:bg-green-light text-white w-fit px-5 py-2 group flex gap-x-3 rounded-xl items-center transition-all ease-in-out duration-300'}
             >
-              <span className="font-medium text-base">Nochmal versuchen</span>
+              <span className="font-medium text-base">Zurück</span>
               <RefreshCw/>
             </button>
             {isAuthenticated ? (
