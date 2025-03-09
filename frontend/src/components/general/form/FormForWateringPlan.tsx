@@ -9,6 +9,7 @@ import { FormForProps } from './FormForTreecluster'
 import SelectEntities from './types/SelectEntities'
 import useFormStore, { FormStore } from '@/store/form/useFormStore'
 import { getDrivingLicenseDetails } from '@/hooks/details/useDetailsForDrivingLicense'
+import { useEffect, useState } from 'react'
 
 interface FormForWateringPlanProps extends FormForProps<WateringPlanForm> {
   transporters: Vehicle[]
@@ -28,14 +29,24 @@ const FormForWateringPlan = (props: FormForWateringPlanProps) => {
 
   const getDrivingLicensesString = (user: User) => {
     if (!user.drivingLicenses || user.drivingLicenses.length === 0) {
-      return 'Keinen Führerschein';
+      return 'Keinen Führerschein'
     }
     
     return user.drivingLicenses
       .map(drivingLicense => getDrivingLicenseDetails(drivingLicense).label)
-      .join(', ');
-  };
+      .join(', ')
+  }
 
+  const [selectedTransporter, setSelectedTransporter] = useState('-1')
+
+  useEffect(() => {
+    const storedTransporter = form?.transporterId?.toString() || '-1'
+    setSelectedTransporter(storedTransporter)
+  }, [form?.transporterId])
+
+  const handleTransporterChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedTransporter(event.target.value)
+  }
   return (
     <form
       className="space-y-6 lg:space-y-0 lg:grid lg:grid-cols-2 lg:gap-11"
@@ -61,7 +72,7 @@ const FormForWateringPlan = (props: FormForWateringPlanProps) => {
           label="Verknüpftes Fahrzeug"
           required
           error={errors.transporterId?.message}
-          {...props.register('transporterId')}
+          {...props.register('transporterId', { onChange: handleTransporterChange})}
         />
         <Select
           options={[
@@ -106,6 +117,7 @@ const FormForWateringPlan = (props: FormForWateringPlanProps) => {
         type="cluster"
         required
         label="Bewässerungsgruppen"
+        isDisabled={selectedTransporter === '-1'}        
       />
 
       <FormError

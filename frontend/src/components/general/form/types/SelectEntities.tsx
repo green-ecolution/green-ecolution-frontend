@@ -9,6 +9,7 @@ interface SelectEntitiesProps {
   label: string
   type: 'tree' | 'cluster'
   required?: boolean
+  isDisabled: boolean
 }
 
 const SelectEntities: React.FC<SelectEntitiesProps> = ({
@@ -18,6 +19,7 @@ const SelectEntities: React.FC<SelectEntitiesProps> = ({
   label,
   type,
   required = false,
+  isDisabled = false
 }) => {
   return (
     <div>
@@ -46,13 +48,26 @@ const SelectEntities: React.FC<SelectEntitiesProps> = ({
         )}
       </ul>
 
+      {isDisabled && (
+        <p className="text-red mt-2 font-semibold text-sm">
+          Bitte wählen Sie zuerst ein Fahrzeug aus.
+        </p>
+      )}
+
       <button
         type="button"
         onClick={(e) => {
           e.preventDefault()
-          onAdd()
+          if (!isDisabled) {
+            onAdd()
+          }
         }}
-        className="mt-6 w-fit border border-green-light text-dark-800 px-5 py-2 group flex gap-x-3 rounded-xl items-center transition-all ease-in-out duration-300 hover:border-green-dark hover:text-dark"
+        disabled={isDisabled}
+        className={`mt-6 w-fit border border-green-light text-dark-800 px-5 py-2 group flex gap-x-3 rounded-xl items-center transition-all ease-in-out duration-300 ${
+          isDisabled
+            ? 'cursor-not-allowed opacity-50'
+            : 'hover:border-green-dark hover:text-dark'
+        }`}
       >
         <span className="font-medium">{label} hinzufügen</span>
         <Plus className="text-current" />
