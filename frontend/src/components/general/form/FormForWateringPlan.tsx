@@ -10,6 +10,8 @@ import SelectEntities from './types/SelectEntities'
 import useFormStore, { FormStore } from '@/store/form/useFormStore'
 import { getDrivingLicenseDetails } from '@/hooks/details/useDetailsForDrivingLicense'
 import { useEffect, useState } from 'react'
+import { useSuspenseQuery } from '@tanstack/react-query'
+import { treeClusterQuery } from '@/api/queries'
 
 interface FormForWateringPlanProps extends FormForProps<WateringPlanForm> {
   transporters: Vehicle[]
@@ -24,6 +26,7 @@ const FormForWateringPlan = (props: FormForWateringPlanProps) => {
       form: state.form,
     })
   )
+  const {data: treeClusters} = useSuspenseQuery(treeClusterQuery())
 
   const { errors, isValid } = props.formState
 
@@ -38,15 +41,47 @@ const FormForWateringPlan = (props: FormForWateringPlanProps) => {
   }
 
   const [selectedTransporter, setSelectedTransporter] = useState('-1')
+  const [vehicleCapacityError, setVehicleCapacityError] = useState<string | null>(null)
 
   useEffect(() => {
     const storedTransporter = form?.transporterId?.toString() || '-1'
     setSelectedTransporter(storedTransporter)
   }, [form?.transporterId])
 
-  const handleTransporterChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedTransporter(event.target.value)
+  const calculateTotalWaterNeed = () => {
+    if (!form?.treeClusterIds || form.treeClusterIds.length === 0) return 0
+    return form.treeClusterIds.reduce((total, clusterId) => {
+      const cluster = treeClusters.data.find((c) => c.id === clusterId)
+      return total + (cluster?.treeIds?.length ? cluster.treeIds.length * 80 : 0)
+    }, 0)
   }
+
+  const validateWaterCapacity = (vehicleId: string) => {
+    if (vehicleId === '-1') {
+      setVehicleCapacityError(null)
+      return
+    }
+
+    const selectedVehicle = props.transporters.find((v) => v.id.toString() === vehicleId)
+    if (!selectedVehicle) return
+
+    const totalWaterNeeded = calculateTotalWaterNeed()
+    
+    if (totalWaterNeeded > selectedVehicle.waterCapacity) {
+      setVehicleCapacityError(
+        'Dieses Fahrzeug verfügt nicht über genügend Wasserkapazität für diese Auswahl an Bewässerungsgruppen.'
+      )
+    } else {
+      setVehicleCapacityError(null)
+    }
+  }
+
+  const handleTransporterChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const newTransporterId = event.target.value
+    setSelectedTransporter(newTransporterId)
+    validateWaterCapacity(newTransporterId)
+  }
+
   return (
     <form
       className="space-y-6 lg:space-y-0 lg:grid lg:grid-cols-2 lg:gap-11"
@@ -71,8 +106,8 @@ const FormForWateringPlan = (props: FormForWateringPlanProps) => {
           placeholder="Wählen Sie ein Fahrzeug aus"
           label="Verknüpftes Fahrzeug"
           required
-          error={errors.transporterId?.message}
-          {...props.register('transporterId', { onChange: handleTransporterChange})}
+          error={errors.transporterId?.message || vehicleCapacityError || ""}
+          {...props.register('transporterId', { onChange: handleTransporterChange })}
         />
         <Select
           options={[
