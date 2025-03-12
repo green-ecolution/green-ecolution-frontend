@@ -104,7 +104,7 @@ const TreeUpdate = ({ treeId }: TreeUpdateProps) => {
         />
       </section>
 
-      {initForm?.provider == null && (
+      {!initForm?.provider && (
         <DeleteSection
           mutationFn={handleDeleteTree}
           entityName="der Baum"
