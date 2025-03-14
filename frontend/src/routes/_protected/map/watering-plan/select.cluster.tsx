@@ -9,7 +9,7 @@ import WithAllClusters from '@/components/map/marker/WithAllClusters'
 import ShowRoutePreview from '@/components/map/marker/ShowRoutePreview'
 import { TriangleAlert } from 'lucide-react'
 import { useSuspenseQuery } from '@tanstack/react-query'
-import { vehicleIdQuery } from '@/api/queries'
+import { vehicleIdQuery, vehicleQuery } from '@/api/queries'
 import Modal from '@/components/general/Modal'
 
 export const Route = createFileRoute(
@@ -34,9 +34,12 @@ function SelectCluster() {
   const { wateringPlanId } = Route.useSearch()
   const transporterId = form?.transporterId?.toString() || ""
   const { data: vehicle } = useSuspenseQuery(vehicleIdQuery(transporterId))
-  const waterCapacity = vehicle?.waterCapacity ?? 0
+  const trailerId = form?.trailerId?.toString() || ""
+  const { data: trailers } = useSuspenseQuery(vehicleQuery({ type: 'trailer' }))
   const [showModal, setShowModal] = useState(false)
-  const [insufficientCluster] = useState<TreeCluster | null>(null)
+  const [clickedCluster, setClickedCluster] = useState<TreeCluster | null>(null)
+  const trailer = trailers.data.find((t) => t.id.toString() === trailerId)
+  const waterCapacity = vehicle?.waterCapacity + (trailer?.waterCapacity ?? 0)
 
   const handleNavigateBack = useCallback(() => {
     switch (type) {
@@ -81,6 +84,7 @@ function SelectCluster() {
     const requiredWater = cluster.treeIds.length * 80
 
     if (requiredWater > waterCapacity) {
+      setClickedCluster(cluster)
       setShowModal(true)
       return;
     }
@@ -98,8 +102,8 @@ function SelectCluster() {
     <>
       <Modal
         title="Fahrzeugkapazität überschritten"
-        description={`Das Fahrzeug hat nicht genug Wasser für die Bewässerungsgruppe ${insufficientCluster?.id}. Bitte wähle ein anderes Fahrzeug oder eine kleinere Gruppe.`}
-        confirmText="Zum Formular zurückkehren"
+        description={`Das Fahrzeug hat nicht genug Wasser für die Bewässerungsgruppe ${clickedCluster?.id}. Bitte wähle ein anderes Fahrzeug oder eine kleinere Gruppe.`}
+        confirmText="Zurück"
         onConfirm={() => {
           setShowModal(false);
           handleNavigateBack();

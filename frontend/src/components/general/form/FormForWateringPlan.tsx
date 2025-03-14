@@ -41,12 +41,15 @@ const FormForWateringPlan = (props: FormForWateringPlanProps) => {
   }
 
   const [selectedTransporter, setSelectedTransporter] = useState('-1')
+  const [selectedTrailer, setSelectedTrailer] = useState('-1')
   const [vehicleCapacityError, setVehicleCapacityError] = useState<string | null>(null)
 
   useEffect(() => {
     const storedTransporter = form?.transporterId?.toString() || '-1'
+    const storedTrailer = form?.trailerId?.toString() || '-1'
     setSelectedTransporter(storedTransporter)
-  }, [form?.transporterId])
+    setSelectedTrailer(storedTrailer)
+  }, [form?.transporterId, form?.trailerId])
 
   const calculateTotalWaterNeed = () => {
     if (!form?.treeClusterIds || form.treeClusterIds.length === 0) return 0
@@ -56,20 +59,23 @@ const FormForWateringPlan = (props: FormForWateringPlanProps) => {
     }, 0)
   }
 
-  const validateWaterCapacity = (vehicleId: string) => {
+  const validateWaterCapacity = (vehicleId: string, trailerId: string) => {
     if (vehicleId === '-1') {
       setVehicleCapacityError(null)
       return
     }
 
     const selectedVehicle = props.transporters.find((v) => v.id.toString() === vehicleId)
-    if (!selectedVehicle) return
+    const selectedTrailer = props.trailers.find((t) => t.id.toString() === trailerId)
 
+    const vehicleCapacity = selectedVehicle?.waterCapacity || 0
+    const trailerCapacity = selectedTrailer?.waterCapacity || 0
+    const totalCapacity = vehicleCapacity + trailerCapacity
     const totalWaterNeeded = calculateTotalWaterNeed()
     
-    if (totalWaterNeeded > selectedVehicle.waterCapacity) {
+    if (totalWaterNeeded > totalCapacity) {
       setVehicleCapacityError(
-        'Dieses Fahrzeug verfügt nicht über genügend Wasserkapazität für diese Auswahl an Bewässerungsgruppen.'
+        'Die Gesamtwasserkapazität von Fahrzeug und Anhänger reicht nicht für die Auswahl an Bewässerungsgruppen.'
       )
     } else {
       setVehicleCapacityError(null)
@@ -79,7 +85,13 @@ const FormForWateringPlan = (props: FormForWateringPlanProps) => {
   const handleTransporterChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const newTransporterId = event.target.value
     setSelectedTransporter(newTransporterId)
-    validateWaterCapacity(newTransporterId)
+    validateWaterCapacity(newTransporterId, selectedTrailer)
+  }
+
+  const handleTrailerChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const newTrailerId = event.target.value
+    setSelectedTrailer(newTrailerId)
+    validateWaterCapacity(selectedTransporter, newTrailerId)
   }
 
   return (
@@ -120,7 +132,7 @@ const FormForWateringPlan = (props: FormForWateringPlanProps) => {
           placeholder="Wählen Sie einen Anhänger aus, sofern vorhanden"
           label="Verknüpfter Anhänger"
           error={errors.trailerId?.message}
-          {...props.register('trailerId')}
+          {...props.register('trailerId', { onChange: handleTrailerChange })}
         />
         <Select
           options={[
