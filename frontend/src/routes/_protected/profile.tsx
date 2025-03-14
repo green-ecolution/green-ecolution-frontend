@@ -6,11 +6,11 @@ import { getUserStatusDetails } from '@/hooks/details/useDetailsForUserStatus'
 import { getDrivingLicenseDetails } from '@/hooks/details/useDetailsForDrivingLicense'
 
 export const Route = createFileRoute('/_protected/profile')({
-  component: Sensors,
+  component: Profile,
   meta: () => [{ title: 'Profil' }],
 })
 
-function Sensors() {
+function Profile() {
   const user = useStore((state) => state.user)
 
   return (
