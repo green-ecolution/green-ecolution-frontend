@@ -90,7 +90,7 @@ function Trees() {
                 ))
               )}
             </ul>
-            {treesRes.pagination && (
+            {treesRes.pagination && treesRes.pagination?.totalPages > 1 && (
               <Pagination
                 url="/trees"
                 pagination={treesRes.pagination}

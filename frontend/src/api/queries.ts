@@ -35,7 +35,13 @@ import {
 
 export const treeClusterQuery = (params?: GetAllTreeClustersRequest) =>
   queryOptions<TreeClusterList>({
-    queryKey: ['treeclusters', params],
+    queryKey: [
+      'treeclusters',
+      params?.page ?? '1',
+      params?.limit ?? 'none',
+      params?.regions ?? 'none',
+      params?.wateringStatuses ?? 'none',
+    ],  
     queryFn: () => clusterApi.getAllTreeClusters(params),
   })
 
@@ -50,7 +56,7 @@ export const treeClusterIdQuery = (id: string) =>
 
 export const sensorQuery = (params?: GetAllSensorsRequest) =>
   queryOptions<SensorList>({
-    queryKey: ['sensors', params],
+    queryKey: ['sensors', params?.page ?? '1', params?.limit ?? 'none'],
     queryFn: () => sensorApi.getAllSensors(params),
   })
 
@@ -59,7 +65,7 @@ export const sensorDataQuery = (id: string) =>
     queryKey: ['sensor data', id],
     queryFn: () =>
       sensorApi.getAllSensorDataById({
-        sensorId: id
+        sensorId: id,
       }),
   })
 
@@ -74,7 +80,7 @@ export const sensorIdQuery = (id: string) =>
 
 export const treeQuery = (params?: GetAllTreesRequest) =>
   queryOptions<TreeList>({
-    queryKey: ['trees', params],
+    queryKey: ['trees', params?.page ?? '1', params?.limit ?? 'none'],
     queryFn: () => treeApi.getAllTrees(params),
   })
 
@@ -116,7 +122,12 @@ export const evaluationQuery = () =>
 
 export const vehicleQuery = (params?: GetAllVehiclesRequest) => {
   return queryOptions<VehicleList>({
-    queryKey: ['vehicle', params],
+    queryKey: [
+      'vehicle',
+      params?.type ?? '1',
+      params?.page ?? '1',
+      params?.limit ?? 'none',
+    ],
     queryFn: () => vehicleApi.getAllVehicles(params),
   })
 }
@@ -132,7 +143,7 @@ export const vehicleIdQuery = (id: string) =>
 
 export const wateringPlanQuery = (params?: GetAllWateringPlansRequest) =>
   queryOptions<WateringPlanList>({
-    queryKey: ['watering-plans', params],
+    queryKey: ['watering-plans', params?.page ?? '1', params?.limit ?? 'none'],
     queryFn: () => wateringPlanApi.getAllWateringPlans(params),
   })
 
@@ -176,7 +187,7 @@ export const routePreviewQuery = (
     queryFn: () =>
       wateringPlanApi.v1WateringPlanRoutePreviewPost({
         body: {
-          transporterId: Number(transporterId), // TODO: don't know what goes wrong here
+          transporterId: Number(transporterId),
           trailerId: Number(trailerId),
           clusterIds,
         },

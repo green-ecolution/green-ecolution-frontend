@@ -72,7 +72,7 @@ function Sensors() {
             }
           >
             <SensorList data={sensorsRes.data} />
-            {sensorsRes.pagination && (
+            {sensorsRes.pagination && sensorsRes.pagination?.totalPages > 1 && ( 
               <Pagination
                 url="/sensors"
                 pagination={sensorsRes.pagination}

@@ -11,14 +11,13 @@ const StatusFieldset = () => {
         Zustand der Bewässerung:
       </legend>
       {Object.entries(WateringStatus).map(
-        ([statusKey, statusValue]) => (
+        ([, statusValue]) => (
           <Option
-            key={statusKey}
+            key={statusValue}
+            value={statusValue}
             label={getWateringStatusDetails(statusValue).label}
-            name={statusKey}
-            checked={filters.statusTags.includes(
-              getWateringStatusDetails(statusValue).label
-            )}
+            name={statusValue}
+            checked={filters.statusTags.includes(statusValue)}
             onChange={handleStatusChange}
           >
             <div

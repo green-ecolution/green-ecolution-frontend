@@ -2,11 +2,10 @@ import { createFileRoute, useLoaderData } from '@tanstack/react-router'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import ButtonLink from '@/components/general/links/ButtonLink'
 import { Plus } from 'lucide-react'
-import { getWateringStatusDetails } from '@/hooks/details/useDetailsForWateringStatus'
 import LoadingInfo from '@/components/general/error/LoadingInfo'
 import FilterProvider from '@/context/FilterContext'
 import useFilter from '@/hooks/useFilter'
-import { Suspense, useMemo, useState } from 'react'
+import { Suspense, useEffect } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import TreeClusterList from '@/components/treecluster/TreeClusterList'
 import { treeClusterQuery } from '@/api/queries'
@@ -18,46 +17,21 @@ import RegionFieldset from '@/components/general/filter/fieldsets/RegionFieldset
 import { GetAllTreeClustersRequest } from '@green-ecolution/backend-client'
 
 function Treecluster() {
-  const search = useLoaderData({from: '/_protected/treecluster/'})
-
-  const { data: clustersRes } = useSuspenseQuery(
-    treeClusterQuery({
-      page: search.page ?? 1,
-      limit: 5,
-      wateringStatuses: search.wateringStatuses,
-      regions: search.regions,
-    })
-  )
-
-  const [filteredData, setFilteredData] = useState({
-    active: false,
-    data: clustersRes.data,
-  })
-
+  const search = useLoaderData({ from: '/_protected/treecluster/' })
   const { filters } = useFilter()
 
-  const filterData = useMemo(() => {
-    return clustersRes.data.filter((cluster) => {
-      const statusFilter =
-        filters.statusTags.length === 0 ||
-        filters.statusTags.includes(
-          getWateringStatusDetails(cluster.wateringStatus).label
-        )
-
-      const regionFilter =
-        filters.regionTags.length === 0 ||
-        (cluster.region && filters.regionTags.includes(cluster.region.name))
-
-      return statusFilter && regionFilter
-    })
-  }, [clustersRes.data, filters])
-
-  const handleFilter = () => {
-    setFilteredData({
-      active: true,
-      data: filterData,
-    })
+  const filterParams = {
+    page: search.page ?? 1,
+    limit: 5,
+    wateringStatuses: filters.statusTags,
+    regions: filters.regionTags,
   }
+
+  const { data: clustersRes, refetch } = useSuspenseQuery(treeClusterQuery(filterParams))
+
+  useEffect(() => {
+    refetch()
+  }, [search, refetch])
 
   return (
     <div className="container mt-6">
@@ -86,10 +60,6 @@ function Treecluster() {
           <Dialog
             headline="Bewässerungsgruppen filtern"
             fullUrlPath={Route.fullPath}
-            onApplyFilters={() => handleFilter()}
-            onResetFilters={() =>
-              setFilteredData({ active: false, data: clustersRes.data })
-            }
           >
             <StatusFieldset />
             <RegionFieldset />
@@ -102,7 +72,7 @@ function Treecluster() {
           <p>Standort</p>
           <p>Anzahl d. Bäume</p>
         </header>
-
+        
         <Suspense fallback={<LoadingInfo label="Daten werden geladen" />}>
           <ErrorBoundary
             fallback={
@@ -112,15 +82,14 @@ function Treecluster() {
               </p>
             }
           >
-            <TreeClusterList
-              data={filteredData.active ? filteredData.data : clustersRes.data}
-            />
-            {clustersRes.pagination && (
-              <Pagination
-                url="/treecluster"
-                pagination={clustersRes.pagination}
-              />
-            )}
+            <TreeClusterList data={clustersRes.data} />
+            {clustersRes.pagination &&
+              clustersRes.pagination?.totalPages > 1 && (
+                <Pagination
+                  url="/treecluster"
+                  pagination={clustersRes.pagination}
+                />
+              )}
           </ErrorBoundary>
         </Suspense>
       </section>
@@ -129,7 +98,7 @@ function Treecluster() {
 }
 
 const TreeclusterWithProvider = () => {
-  const search = useLoaderData({from: '/_protected/treecluster/'})
+  const search = useLoaderData({ from: '/_protected/treecluster/' })
 
   return (
     <FilterProvider
@@ -150,7 +119,11 @@ export const Route = createFileRoute('/_protected/treecluster/')({
     page: search.page || 1,
   }),
 
-  loader: ({ deps: { wateringStatuses, regions, page } }: { deps: GetAllTreeClustersRequest }) => {
+  loader: ({
+    deps: { wateringStatuses, regions, page },
+  }: {
+    deps: GetAllTreeClustersRequest
+  }) => {
     return { wateringStatuses, regions, page }
   },
 })

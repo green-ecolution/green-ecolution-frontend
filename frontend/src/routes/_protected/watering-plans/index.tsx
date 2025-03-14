@@ -76,7 +76,7 @@ function WateringPlans() {
                 ))
               )}
             </ul>
-            {wateringPlanRes.pagination && (
+            {wateringPlanRes.pagination && wateringPlanRes.pagination?.totalPages > 1 && (
               <Pagination
                 url="/watering-plans"
                 pagination={wateringPlanRes.pagination}
