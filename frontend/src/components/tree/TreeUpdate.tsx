@@ -50,7 +50,7 @@ const TreeUpdate = ({ treeId }: TreeUpdateProps) => {
         data.sensorId && data.sensorId === '-1' ? undefined : data.sensorId,
       treeClusterId:
         data.treeClusterId &&
-        (data.treeClusterId === '-1' || data.treeClusterId <= 0)
+          (data.treeClusterId === '-1' || data.treeClusterId <= 0)
           ? undefined
           : data.treeClusterId,
     })
@@ -104,11 +104,13 @@ const TreeUpdate = ({ treeId }: TreeUpdateProps) => {
         />
       </section>
 
-      <DeleteSection
-        mutationFn={handleDeleteTree}
-        entityName="der Baum"
-        redirectUrl={{ to: '/map' }}
-      />
+      {!initForm?.provider && (
+        <DeleteSection
+          mutationFn={handleDeleteTree}
+          entityName="der Baum"
+          redirectUrl={{ to: '/map' }}
+        />
+      )}
     </>
   )
 }
