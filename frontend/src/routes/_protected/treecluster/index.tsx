@@ -4,8 +4,7 @@ import ButtonLink from '@/components/general/links/ButtonLink'
 import { Plus } from 'lucide-react'
 import LoadingInfo from '@/components/general/error/LoadingInfo'
 import FilterProvider from '@/context/FilterContext'
-import useFilter from '@/hooks/useFilter'
-import { Suspense, useEffect } from 'react'
+import { Suspense } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import TreeClusterList from '@/components/treecluster/TreeClusterList'
 import { treeClusterQuery } from '@/api/queries'
@@ -18,20 +17,13 @@ import { GetAllTreeClustersRequest } from '@green-ecolution/backend-client'
 
 function Treecluster() {
   const search = useLoaderData({ from: '/_protected/treecluster/' })
-  const { filters } = useFilter()
 
-  const filterParams = {
+  const { data: clustersRes } = useSuspenseQuery(treeClusterQuery({
     page: search.page ?? 1,
     limit: 5,
-    wateringStatuses: filters.statusTags,
-    regions: filters.regionTags,
-  }
-
-  const { data: clustersRes, refetch } = useSuspenseQuery(treeClusterQuery(filterParams))
-
-  useEffect(() => {
-    refetch()
-  }, [search, refetch])
+    wateringStatuses: search.wateringStatuses,
+    regions: search.regions,
+  }))
 
   return (
     <div className="container mt-6">
@@ -72,7 +64,7 @@ function Treecluster() {
           <p>Standort</p>
           <p>Anzahl d. Bäume</p>
         </header>
-        
+
         <Suspense fallback={<LoadingInfo label="Daten werden geladen" />}>
           <ErrorBoundary
             fallback={
@@ -82,14 +74,15 @@ function Treecluster() {
               </p>
             }
           >
-            <TreeClusterList data={clustersRes.data} />
-            {clustersRes.pagination &&
-              clustersRes.pagination?.totalPages > 1 && (
-                <Pagination
-                  url="/treecluster"
-                  pagination={clustersRes.pagination}
-                />
-              )}
+            <TreeClusterList
+              data={clustersRes.data}
+            />
+            {clustersRes.pagination && clustersRes.pagination?.totalPages > 1 && (
+              <Pagination
+                url="/treecluster"
+                pagination={clustersRes.pagination}
+              />
+            )}
           </ErrorBoundary>
         </Suspense>
       </section>
@@ -98,7 +91,7 @@ function Treecluster() {
 }
 
 const TreeclusterWithProvider = () => {
-  const search = useLoaderData({ from: '/_protected/treecluster/' })
+  const search = useLoaderData({from: '/_protected/treecluster/'})
 
   return (
     <FilterProvider
@@ -119,11 +112,7 @@ export const Route = createFileRoute('/_protected/treecluster/')({
     page: search.page || 1,
   }),
 
-  loader: ({
-    deps: { wateringStatuses, regions, page },
-  }: {
-    deps: GetAllTreeClustersRequest
-  }) => {
+  loader: ({ deps: { wateringStatuses, regions, page } }: { deps: GetAllTreeClustersRequest }) => {
     return { wateringStatuses, regions, page }
   },
 })

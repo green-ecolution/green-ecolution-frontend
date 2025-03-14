@@ -57,9 +57,9 @@ const Dialog = forwardRef(
           lat: isOnMap ? mapPosition.lat : undefined,
           lng: isOnMap ? mapPosition.lng : undefined,
           zoom: isOnMap ? mapPosition.zoom : undefined,
-          status:
+          wateringStatuses:
             filters.statusTags.length > 0 ? filters.statusTags : undefined,
-          region:
+          regions:
             filters.regionTags.length > 0 ? filters.regionTags : undefined,
           hasCluster: filters.hasCluster ?? undefined,
           plantingYears:
