@@ -35,7 +35,7 @@ import {
 
 export const treeClusterQuery = (params?: GetAllTreeClustersRequest) =>
   queryOptions<TreeClusterList>({
-    queryKey: ['treeclusters', params?.page ?? '1', params?.limit ?? 'none'],
+    queryKey: ['treeclusters', params],
     queryFn: () => clusterApi.getAllTreeClusters(params),
   })
 
@@ -50,7 +50,7 @@ export const treeClusterIdQuery = (id: string) =>
 
 export const sensorQuery = (params?: GetAllSensorsRequest) =>
   queryOptions<SensorList>({
-    queryKey: ['sensors', params?.page ?? '1', params?.limit ?? 'none'],
+    queryKey: ['sensors', params],
     queryFn: () => sensorApi.getAllSensors(params),
   })
 
@@ -74,7 +74,7 @@ export const sensorIdQuery = (id: string) =>
 
 export const treeQuery = (params?: GetAllTreesRequest) =>
   queryOptions<TreeList>({
-    queryKey: ['trees', params?.page ?? '1', params?.limit ?? 'none'],
+    queryKey: ['trees', params],
     queryFn: () => treeApi.getAllTrees(params),
   })
 
@@ -116,12 +116,7 @@ export const evaluationQuery = () =>
 
 export const vehicleQuery = (params?: GetAllVehiclesRequest) => {
   return queryOptions<VehicleList>({
-    queryKey: [
-      'vehicle',
-      params?.type ?? '1',
-      params?.page ?? '1',
-      params?.limit ?? 'none',
-    ],
+    queryKey: ['vehicle', params],
     queryFn: () => vehicleApi.getAllVehicles(params),
   })
 }
@@ -137,7 +132,7 @@ export const vehicleIdQuery = (id: string) =>
 
 export const wateringPlanQuery = (params?: GetAllWateringPlansRequest) =>
   queryOptions<WateringPlanList>({
-    queryKey: ['watering-plans', params?.page ?? '1', params?.limit ?? 'none'],
+    queryKey: ['watering-plans', params],
     queryFn: () => wateringPlanApi.getAllWateringPlans(params),
   })
 
@@ -152,7 +147,7 @@ export const wateringPlanIdQuery = (id: string) =>
 
 export const userQuery = (params?: GetAllUsersRequest) => {
   return queryOptions<UserList>({
-    queryKey: ['users', params?.userIds ?? 'all'],
+    queryKey: ['users', params],
     queryFn: () => userApi.getAllUsers(params),
   })
 }
