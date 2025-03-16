@@ -8,11 +8,13 @@ import { getStatusColor } from '../utils'
 export interface WithAllClustersProps {
   onClick?: (tree: TreeClusterInList) => void
   highlightedClusters?: number[]
+  disabledClusters?: number[]
 }
 
 const WithAllClusters = ({
   onClick,
   highlightedClusters,
+  disabledClusters,
 }: WithAllClustersProps) => {
   const { data } = useSuspenseQuery(treeClusterQuery())
 
@@ -22,6 +24,7 @@ const WithAllClusters = ({
     icon={(c: TreeClusterInList) => ClusterIcon(
       getStatusColor(c.wateringStatus),
       highlightedClusters?.includes(c.id) ?? false,
+      disabledClusters?.includes(c.id) ?? false,
       c.treeIds?.length ?? 0
     )}
     tooltipContent={(c) => c.name}
