@@ -134,7 +134,7 @@ function SelectCluster() {
         content={
           <ul>
             {showNotice && (
-              <li className="bg-red-100 p-4 rounded-3xl mb-4 flex space-x-4 items-center">
+              <li className="bg-red-100 p-4 rounded-2xl mb-4 flex space-x-4 items-center">
                 <figure>
                   <TriangleAlert className="flex-shrink-0 text-red" />
                 </figure>
