@@ -7,9 +7,9 @@ import { WateringPlanForm } from '@/schema/wateringPlanSchema'
 import MapSelectEntitiesModal from '@/components/map/MapSelectEntitiesModal'
 import WithAllClusters from '@/components/map/marker/WithAllClusters'
 import ShowRoutePreview from '@/components/map/marker/ShowRoutePreview'
-import { TriangleAlert } from 'lucide-react'
 import { useQuery, useSuspenseQuery } from '@tanstack/react-query'
 import { treeClusterQuery, vehicleIdQuery } from '@/api/queries'
+import Notice from '@/components/general/Notice'
 
 export const Route = createFileRoute(
   '/_protected/map/watering-plan/select/cluster'
@@ -122,7 +122,7 @@ function SelectCluster() {
       showNotice: errors.length > 0,
       notice: errors,
     }
-  }, [form?.transporterId, disabledClusters]);
+  }, [form?.transporterId, disabledClusters])
 
   return (
     <>
@@ -134,14 +134,7 @@ function SelectCluster() {
         content={
           <ul>
             {showNotice && (
-              <li className="bg-red-100 p-4 rounded-2xl mb-4 flex space-x-4 items-center">
-                <figure>
-                  <TriangleAlert className="flex-shrink-0 text-red" />
-                </figure>
-                <p className="text-red font-semibold text-sm">
-                  {notice.join(' ')}
-                </p>
-              </li>
+              <Notice classes="mb-4" description={notice.join(' ')} />
             )}
             {(clusterIds?.length || 0) === 0 || showError ? (
               <li className="text-dark-600 font-semibold text-sm">
