@@ -85,7 +85,7 @@ function Treecluster() {
             />
             {clustersRes.pagination && clustersRes.pagination?.totalPages > 1 && (
               <Pagination
-                url="/treecluster"
+                route="/_protected/treecluster/"
                 pagination={clustersRes.pagination}
               />
             )}

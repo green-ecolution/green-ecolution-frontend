@@ -84,7 +84,7 @@ function Vehicles() {
             </ul>
             {vehicleRes.pagination && vehicleRes.pagination?.totalPages > 1 && (
               <Pagination
-                url="/vehicles"
+                route="/_protected/vehicles/"
                 pagination={vehicleRes.pagination}
               />
             )}

@@ -74,7 +74,7 @@ function Sensors() {
             <SensorList data={sensorsRes.data} />
             {sensorsRes.pagination && sensorsRes.pagination?.totalPages > 1 && ( 
               <Pagination
-                url="/sensors"
+                route="/_protected/sensors/"
                 pagination={sensorsRes.pagination}
               />
             )}

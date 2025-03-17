@@ -78,7 +78,7 @@ function WateringPlans() {
             </ul>
             {wateringPlanRes.pagination && wateringPlanRes.pagination?.totalPages > 1 && (
               <Pagination
-                url="/watering-plans"
+                route="/_protected/watering-plans/"
                 pagination={wateringPlanRes.pagination}
               />
             )}

@@ -9,33 +9,28 @@ import { Plus } from 'lucide-react'
 import TreeCard from '@/components/general/cards/TreeCard'
 import { z } from 'zod'
 import Pagination from '@/components/general/Pagination'
+import { GetAllTreesRequest } from '@green-ecolution/backend-client'
+import Dialog from '@/components/general/filter/Dialog'
+import StatusFieldset from '@/components/general/filter/fieldsets/StatusFieldset'
+import ClusterFieldset from '@/components/general/filter/fieldsets/ClusterFieldset'
+import PlantingYearFieldset from '@/components/general/filter/fieldsets/PlantingYearFieldset'
+import FilterProvider from '@/context/FilterContext'
 
-export const Route = createFileRoute('/_protected/trees/')({
-  component: Trees,
-    validateSearch: z.object({
-      page: z.number().default(1),
-    }),
-  
-    loaderDeps: ({ search: { page } }) => ({
-      page: page || 1,
-    }),
-  
-    loader: ({ deps: { page } }) => {
-      return { page }
-    },
-  meta: () => [
-    {
-      title: 'Bäume',
-      path: '/trees',
-    },
-  ],
+const treeFilterSchema = z.object({
+  wateringStatuses: z.array(z.string()).optional(),
+  hasCluster: z.boolean().optional(),
+  plantingYears: z.array(z.number()).optional(),
 })
 
 function Trees() {
   const search = useLoaderData({ from: '/_protected/trees/' })
-  const { data: treesRes } = useSuspenseQuery(
-    treeQuery({ page: search.page, limit: 10 })
-  )
+  const { data: treesRes } = useSuspenseQuery(treeQuery({
+    page: search.page ?? 1,
+    wateringStatuses: search.wateringStatuses,
+    hasCluster: search.hasCluster,
+    plantingYears: search.plantingYears,
+    limit: 10,
+  }))
 
   return (
     <div className="container mt-6">
@@ -62,7 +57,17 @@ function Trees() {
       </article>
 
       <section className="mt-10">
-      <header className="hidden border-b pb-2 text-sm text-dark-800 px-6 border-b-dark-200 mb-5 lg:grid lg:grid-cols-[1fr,1.5fr,1fr,1fr] lg:gap-5 lg:px-10">
+        <div className="flex justify-end mb-6 lg:mb-10">
+          <Dialog
+            headline="Bäume filtern"
+            fullUrlPath={Route.fullPath}
+          >
+            <StatusFieldset />
+            <ClusterFieldset />
+            <PlantingYearFieldset />
+          </Dialog>
+        </div>
+        <header className="hidden border-b pb-2 text-sm text-dark-800 px-6 border-b-dark-200 mb-5 lg:grid lg:grid-cols-[1fr,1.5fr,1fr,1fr] lg:gap-5 lg:px-10">
           <p>Status</p>
           <p>Baumart</p>
           <p>Baumnummer</p>
@@ -92,7 +97,7 @@ function Trees() {
             </ul>
             {treesRes.pagination && treesRes.pagination?.totalPages > 1 && (
               <Pagination
-                url="/trees"
+                route="/_protected/trees/"
                 pagination={treesRes.pagination}
               />
             )}
@@ -102,3 +107,43 @@ function Trees() {
     </div>
   )
 }
+
+const TreesWithProvider = () => {
+  const search = useLoaderData({from: '/_protected/trees/'})
+
+  return (
+    <FilterProvider
+      initialStatus={search.wateringStatuses}
+      initialHasCluster={search.hasCluster}
+      initialPlantingYears={search.plantingYears}
+    >
+      <Trees />
+    </FilterProvider>
+  )
+}
+
+export const Route = createFileRoute('/_protected/trees/')({
+  component: TreesWithProvider,
+  validateSearch: treeFilterSchema,
+
+  loaderDeps: ({ search }: { search: GetAllTreesRequest }) => ({
+    wateringStatuses: search.wateringStatuses ?? undefined,
+    hasCluster: search.hasCluster ?? undefined,
+    plantingYears: search.plantingYears ?? undefined,
+    page: search.page ?? 1,
+  }),
+
+  loader: ({
+    deps: { page, wateringStatuses, hasCluster, plantingYears },
+  }: {
+    deps: GetAllTreesRequest
+  }) => {
+    return { page, wateringStatuses, hasCluster, plantingYears }
+  },
+  meta: () => [
+    {
+      title: 'Bäume',
+      path: '/trees',
+    },
+  ],
+})
