@@ -32,7 +32,7 @@ export const Route = createFileRoute('/_protected/sensors/')({
 function Sensors() {
   const search = useLoaderData({ from: '/_protected/sensors/' })
   const { data: sensorsRes } = useSuspenseQuery(
-    sensorQuery({ page: search.page.toString(), limit: '5' })
+    sensorQuery({ page: search.page, limit: 5 })
   )
 
   return (

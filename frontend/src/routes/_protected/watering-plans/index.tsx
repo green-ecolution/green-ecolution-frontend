@@ -15,12 +15,10 @@ export const Route = createFileRoute('/_protected/watering-plans/')({
   validateSearch: z.object({
     page: z.number().default(1),
   }),
-
   loaderDeps: ({ search: { page } }) => ({
     page: page || 1,
   }),
-
-  loader: ({ deps: { page } }) => {
+  loader: ({ deps: { page } }): { page: number } => {
     return { page }
   },
 })
@@ -28,7 +26,7 @@ export const Route = createFileRoute('/_protected/watering-plans/')({
 function WateringPlans() {
   const search = useLoaderData({ from: '/_protected/watering-plans/' })
   const { data: wateringPlanRes } = useSuspenseQuery(
-    wateringPlanQuery({ page: search.page.toString(), limit: '5' })
+    wateringPlanQuery({ page: search.page, limit: 5 })
   )
 
   return (

@@ -34,7 +34,7 @@ export const Route = createFileRoute('/_protected/trees/')({
 function Trees() {
   const search = useLoaderData({ from: '/_protected/trees/' })
   const { data: treesRes } = useSuspenseQuery(
-    treeQuery({ page: search.page.toString(), limit: '10' })
+    treeQuery({ page: search.page, limit: 10 })
   )
 
   return (

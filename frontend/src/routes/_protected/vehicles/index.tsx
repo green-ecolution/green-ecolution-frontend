@@ -32,7 +32,7 @@ export const Route = createFileRoute('/_protected/vehicles/')({
 function Vehicles() {
   const search = useLoaderData({ from: '/_protected/vehicles/' })
   const { data: vehicleRes } = useSuspenseQuery(
-    vehicleQuery({ page: search.page.toString(), limit: '5' })
+    vehicleQuery({ page: search.page, limit: 5 })
   )
 
   return (
