@@ -22,7 +22,7 @@ const ClusterFieldset = () => {
           <Option
             key={key}
             label={type.label}
-            name={type.label}
+            name={type.value.toString()}
             value={String(type.value)}
             checked={filters.hasCluster === type.value}
             onChange={handleClusterChange}

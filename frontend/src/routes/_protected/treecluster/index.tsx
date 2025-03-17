@@ -12,8 +12,14 @@ import Pagination from '@/components/general/Pagination'
 import Dialog from '@/components/general/filter/Dialog'
 import StatusFieldset from '@/components/general/filter/fieldsets/StatusFieldset'
 import RegionFieldset from '@/components/general/filter/fieldsets/RegionFieldset'
-
 import { GetAllTreeClustersRequest } from '@green-ecolution/backend-client'
+import { z } from 'zod'
+
+const treeclusterFilterSchema = z.object({
+  wateringStatuses: z.array(z.string()).optional(),
+  regions: z.array(z.string()).optional(),
+  page: z.number().default(1),
+})
 
 function Treecluster() {
   const search = useLoaderData({ from: '/_protected/treecluster/' })
@@ -105,10 +111,19 @@ const TreeclusterWithProvider = () => {
 
 export const Route = createFileRoute('/_protected/treecluster/')({
   component: TreeclusterWithProvider,
+  validateSearch: treeclusterFilterSchema,
 
   loaderDeps: ({ search }: { search: GetAllTreeClustersRequest }) => ({
-    wateringStatuses: search.wateringStatuses || [],
-    regions: search.regions || [],
+    wateringStatuses:
+      search.wateringStatuses && search.wateringStatuses.length > 0
+        ? search.wateringStatuses
+        : undefined,
+  
+    regions:
+      search.regions && search.regions.length > 0
+        ? search.regions
+        : undefined,
+  
     page: search.page || 1,
   }),
 
