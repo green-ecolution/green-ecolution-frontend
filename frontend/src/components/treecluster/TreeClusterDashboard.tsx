@@ -6,10 +6,10 @@ import ButtonLink from '@/components/general/links/ButtonLink'
 import { Pencil } from 'lucide-react'
 import { getWateringStatusDetails } from '@/hooks/details/useDetailsForWateringStatus'
 import GeneralLink from '../general/links/GeneralLink'
-import { TriangleAlert } from 'lucide-react'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { treeClusterIdQuery } from '@/api/queries'
 import { format } from 'date-fns'
+import Notice from '../general/Notice'
 
 interface TreeClusterDashboardProps {
   treeclusterId: string
@@ -39,13 +39,10 @@ const TreeClusterDashboard = ({ treeclusterId }: TreeClusterDashboardProps) => {
             <p className="mb-4">{treecluster.description}</p>
           )}
           {treecluster.trees?.length === 0 ? (
-            <div className="flex items-center gap-x-2">
-              <TriangleAlert className="flex-shrink-0 text-dark-600 w-5 h-5" />
-              <p className="ml-2 text-dark-600">
-                Diese Baumgruppe enthält keine Bäume und hat daher keinen
-                Standort.
-              </p>
-            </div>
+            <Notice
+              description="Diese Baumgruppe enthält keine Bäume und hat daher keinen
+                Standort."
+            />
           ) : (
             <GeneralLink
               link={{
