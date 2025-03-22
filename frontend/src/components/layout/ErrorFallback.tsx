@@ -1,6 +1,6 @@
 import Lottie from "lottie-react";
 import cableAnimation from '../../animations/cableAnimation.json'
-import React, { useMemo } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import ButtonLink from "../general/links/ButtonLink";
 import { MoveRight, RefreshCw } from "lucide-react";
 import useStore from "@/store/store";
@@ -12,15 +12,28 @@ interface ErrorFallbackProps {
 }
 
 const ErrorFallback: React.FC<ErrorFallbackProps> = ({ error, resetErrorBoundary }) => {
+  const [errorMessage, setErrorMessage] = useState(error.message);
+  const [errorCode] = useState(() => {
+    if (error instanceof ResponseError) {
+      return error.response.status
+    }
+  })
+
   const { isAuthenticated } = useStore((state) => ({
     isAuthenticated: state.auth.isAuthenticated,
   }))
 
-  const errorCode = useMemo(() => {
+  const checkResponseErrorMessage = useCallback(async () => {
     if (error instanceof ResponseError) {
-      return error.response.status
+      const json = await error.response.clone().json()
+      setErrorMessage(json.error as string)
     }
   }, [error])
+
+
+  useEffect(() => {
+    checkResponseErrorMessage()
+  }, [checkResponseErrorMessage])
 
   return (
     <>
@@ -33,7 +46,7 @@ const ErrorFallback: React.FC<ErrorFallbackProps> = ({ error, resetErrorBoundary
             Upps, hier ist etwas schief gegangen!
           </h1>
           <p className="lg:text-center">
-            Folgender Fehler ist aufgetreten: {error.message}.
+            Folgender Fehler ist aufgetreten: {errorMessage}.
           </p>
           {errorCode &&
             <p className="lg:text-center mb-5">
