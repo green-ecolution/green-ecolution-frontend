@@ -1,9 +1,10 @@
 import Lottie from "lottie-react";
 import cableAnimation from '../../animations/cableAnimation.json'
-import React from "react";
+import React, { useMemo } from "react";
 import ButtonLink from "../general/links/ButtonLink";
 import { MoveRight, RefreshCw } from "lucide-react";
 import useStore from "@/store/store";
+import { ResponseError } from "@green-ecolution/backend-client";
 
 interface ErrorFallbackProps {
   error: Error;
@@ -15,7 +16,11 @@ const ErrorFallback: React.FC<ErrorFallbackProps> = ({ error, resetErrorBoundary
     isAuthenticated: state.auth.isAuthenticated,
   }))
 
-  const errorCode = (error as any)?.status || (error as any)?.response?.status || "Unbekannter Fehler";
+  const errorCode = useMemo(() => {
+    if (error instanceof ResponseError) {
+      return error.response.status
+    }
+  }, [error])
 
   return (
     <>
@@ -28,18 +33,20 @@ const ErrorFallback: React.FC<ErrorFallbackProps> = ({ error, resetErrorBoundary
             Upps, hier ist etwas schief gegangen!
           </h1>
           <p className="lg:text-center">
-            Folgender Fehler ist passiert: {error.message}.
+            Folgender Fehler ist aufgetreten: {error.message}.
           </p>
-          <p className="lg:text-center mb-5">
-            Fehlercode: {errorCode}
-          </p>
+          {errorCode &&
+            <p className="lg:text-center mb-5">
+              Fehlercode: {errorCode}
+            </p>
+          }
           <div className="lg:flex lg:items-center lg:justify-center lg:gap-x-4 space-y-4 lg:space-y-0">
             <button
               onClick={resetErrorBoundary}
               className={'bg-green-dark hover:bg-green-light text-white w-fit px-5 py-2 group flex gap-x-3 rounded-xl items-center transition-all ease-in-out duration-300'}
             >
               <span className="font-medium text-base">Zurück</span>
-              <RefreshCw/>
+              <RefreshCw />
             </button>
             {isAuthenticated ? (
               <ButtonLink
