@@ -17,6 +17,7 @@ interface FilterContextType {
   applyOldStateToTags: (oldValues: Filters) => void
 }
 
+/* eslint-disable-next-line react-refresh/only-export-components */
 export const FilterContext = createContext<FilterContextType | undefined>(
   undefined
 )

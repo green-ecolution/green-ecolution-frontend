@@ -18,8 +18,6 @@ interface DialogProps {
   fullUrlPath: string
   children?: React.ReactNode
   isOnMap?: boolean
-  onApplyFilters: () => void
-  onResetFilters: () => void
   onToggleOpen?: (isOpen: boolean) => void
 }
 
@@ -28,8 +26,6 @@ const Dialog = forwardRef(
     {
       headline,
       fullUrlPath,
-      onApplyFilters,
-      onResetFilters,
       children,
       isOnMap = false,
       onToggleOpen,
@@ -54,7 +50,6 @@ const Dialog = forwardRef(
     const { filters, resetFilters, applyOldStateToTags } = useFilter()
 
     const handleSubmit = () => {
-      onApplyFilters()
       setIsOpen(false)
       setIsOpen(false)
       navigate({
@@ -62,9 +57,9 @@ const Dialog = forwardRef(
           lat: isOnMap ? mapPosition.lat : undefined,
           lng: isOnMap ? mapPosition.lng : undefined,
           zoom: isOnMap ? mapPosition.zoom : undefined,
-          status:
+          wateringStatuses:
             filters.statusTags.length > 0 ? filters.statusTags : undefined,
-          region:
+          regions:
             filters.regionTags.length > 0 ? filters.regionTags : undefined,
           hasCluster: filters.hasCluster ?? undefined,
           plantingYears:
@@ -76,7 +71,6 @@ const Dialog = forwardRef(
     }
 
     const handleReset = () => {
-      onResetFilters()
       applyOldStateToTags({
         statusTags: [],
         regionTags: [],

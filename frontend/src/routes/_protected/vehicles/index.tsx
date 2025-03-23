@@ -32,7 +32,7 @@ export const Route = createFileRoute('/_protected/vehicles/')({
 function Vehicles() {
   const search = useLoaderData({ from: '/_protected/vehicles/' })
   const { data: vehicleRes } = useSuspenseQuery(
-    vehicleQuery({ page: search.page.toString(), limit: '5' })
+    vehicleQuery({ page: search.page, limit: 5 })
   )
 
   return (
@@ -82,9 +82,9 @@ function Vehicles() {
                 ))
               )}
             </ul>
-            {vehicleRes.pagination && (
+            {vehicleRes.pagination && vehicleRes.pagination?.totalPages > 1 && (
               <Pagination
-                url="/vehicles"
+                route="/_protected/vehicles/"
                 pagination={vehicleRes.pagination}
               />
             )}

@@ -1,57 +1,35 @@
-import Dialog from '@/components/general/filter/Dialog'
 import { createFileRoute, useLoaderData } from '@tanstack/react-router'
-import { z } from 'zod'
+import { useSuspenseQuery } from '@tanstack/react-query'
 import ButtonLink from '@/components/general/links/ButtonLink'
 import { Plus } from 'lucide-react'
-import { getWateringStatusDetails } from '@/hooks/details/useDetailsForWateringStatus'
-import { useSuspenseQuery } from '@tanstack/react-query'
 import LoadingInfo from '@/components/general/error/LoadingInfo'
 import FilterProvider from '@/context/FilterContext'
-import useFilter from '@/hooks/useFilter'
-import { Suspense, useMemo, useState } from 'react'
-import StatusFieldset from '@/components/general/filter/fieldsets/StatusFieldset'
-import RegionFieldset from '@/components/general/filter/fieldsets/RegionFieldset'
+import { Suspense } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import TreeClusterList from '@/components/treecluster/TreeClusterList'
 import { treeClusterQuery } from '@/api/queries'
+import Pagination from '@/components/general/Pagination'
+import Dialog from '@/components/general/filter/Dialog'
+import StatusFieldset from '@/components/general/filter/fieldsets/StatusFieldset'
+import RegionFieldset from '@/components/general/filter/fieldsets/RegionFieldset'
+import { GetAllTreeClustersRequest } from '@green-ecolution/backend-client'
+import { z } from 'zod'
 
 const treeclusterFilterSchema = z.object({
-  status: z.array(z.string()).optional(),
-  region: z.array(z.string()).optional(),
+  wateringStatuses: z.array(z.string()).optional(),
+  regions: z.array(z.string()).optional(),
   page: z.number().default(1),
 })
 
 function Treecluster() {
-  const { data: clustersRes } = useSuspenseQuery(treeClusterQuery())
+  const search = useLoaderData({ from: '/_protected/treecluster/' })
 
-  const [filteredData, setFilteredData] = useState({
-    active: false,
-    data: clustersRes.data,
-  })
-  const { filters } = useFilter()
-
-  const filterData = useMemo(() => {
-    return clustersRes.data.filter((cluster) => {
-      const statusFilter =
-        filters.statusTags.length === 0 ||
-        filters.statusTags.includes(
-          getWateringStatusDetails(cluster.wateringStatus).label
-        )
-
-      const regionFilter =
-        filters.regionTags.length === 0 ||
-        (cluster.region && filters.regionTags.includes(cluster.region.name))
-
-      return statusFilter && regionFilter
-    })
-  }, [clustersRes.data, filters])
-
-  const handleFilter = () => {
-    setFilteredData({
-      active: true,
-      data: filterData,
-    })
-  }
+  const { data: clustersRes } = useSuspenseQuery(treeClusterQuery({
+    page: search.page ?? 1,
+    limit: 5,
+    wateringStatuses: search.wateringStatuses,
+    regions: search.regions,
+  }))
 
   return (
     <div className="container mt-6">
@@ -76,15 +54,10 @@ function Treecluster() {
       </article>
 
       <section className="mt-10">
-        {/* TODO: Filter data from backend to work with pagination */}
         <div className="flex justify-end mb-6 lg:mb-10">
           <Dialog
             headline="Bewässerungsgruppen filtern"
             fullUrlPath={Route.fullPath}
-            onApplyFilters={() => handleFilter()}
-            onResetFilters={() =>
-              setFilteredData({ active: false, data: clustersRes.data })
-            }
           >
             <StatusFieldset />
             <RegionFieldset />
@@ -108,15 +81,14 @@ function Treecluster() {
             }
           >
             <TreeClusterList
-              data={filteredData.active ? filteredData.data : clustersRes.data}
+              data={clustersRes.data}
             />
-            {/* TODO: Comment pagination in as soon as data is filtered through the backend */}
-            {/* {clustersRes.pagination && (
+            {clustersRes.pagination && clustersRes.pagination?.totalPages > 1 && (
               <Pagination
-                url="/treecluster"
+                route="/_protected/treecluster/"
                 pagination={clustersRes.pagination}
               />
-            )} */}
+            )}
           </ErrorBoundary>
         </Suspense>
       </section>
@@ -125,11 +97,12 @@ function Treecluster() {
 }
 
 const TreeclusterWithProvider = () => {
-  const search = useLoaderData({ from: '/_protected/treecluster/' })
+  const search = useLoaderData({from: '/_protected/treecluster/'})
+
   return (
     <FilterProvider
-      initialStatus={search.status ?? []}
-      initialRegions={search.region ?? []}
+      initialStatus={search.wateringStatuses ?? []}
+      initialRegions={search.regions ?? []}
     >
       <Treecluster />
     </FilterProvider>
@@ -140,14 +113,22 @@ export const Route = createFileRoute('/_protected/treecluster/')({
   component: TreeclusterWithProvider,
   validateSearch: treeclusterFilterSchema,
 
-  loaderDeps: ({ search: { status, region, page } }) => ({
-    status: status || [],
-    region: region || [],
-    page: page || 1,
+  loaderDeps: ({ search }: { search: GetAllTreeClustersRequest }) => ({
+    wateringStatuses:
+      search.wateringStatuses && search.wateringStatuses.length > 0
+        ? search.wateringStatuses
+        : undefined,
+  
+    regions:
+      search.regions && search.regions.length > 0
+        ? search.regions
+        : undefined,
+  
+    page: search.page || 1,
   }),
 
-  loader: ({ deps: { status, region, page } }) => {
-    return { status, region, page }
+  loader: ({ deps: { wateringStatuses, regions, page } }: { deps: GetAllTreeClustersRequest }) => {
+    return { wateringStatuses, regions, page }
   },
 })
 

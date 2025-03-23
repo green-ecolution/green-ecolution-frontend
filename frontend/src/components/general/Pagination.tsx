@@ -2,13 +2,17 @@ import { Pagination as PaginationObject } from '@green-ecolution/backend-client'
 import React from 'react'
 import PaginationLink from './links/PaginationLink'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { useSearch } from '@tanstack/react-router'
 
 interface PaginationProps {
   pagination: PaginationObject
-  url: string
+  route: string
 }
 
-const Pagination: React.FC<PaginationProps> = ({ pagination, url }) => {
+const Pagination: React.FC<PaginationProps> = ({ pagination, route }) => {
+  const search = useSearch({ from: route });
+  const url = route.replace('/_protected', '');
+
   return (
     <nav aria-label="Seiten-Paginierung" className="mt-10">
       <ul className="flex flex-wrap items-center justify-center gap-x-2">
@@ -21,6 +25,7 @@ const Pagination: React.FC<PaginationProps> = ({ pagination, url }) => {
             link={{
               to: url,
               search: {
+                ...search,
                 page: pagination.currentPage - 1,
               },
             }}
@@ -35,6 +40,7 @@ const Pagination: React.FC<PaginationProps> = ({ pagination, url }) => {
               link={{
                 to: url,
                 search: {
+                  ...search,
                   page: 1,
                 },
               }}
@@ -56,6 +62,7 @@ const Pagination: React.FC<PaginationProps> = ({ pagination, url }) => {
               link={{
                 to: url,
                 search: {
+                  ...search,
                   page: pagination.prevPage,
                 },
               }}
@@ -70,6 +77,7 @@ const Pagination: React.FC<PaginationProps> = ({ pagination, url }) => {
             link={{
               to: url,
               search: {
+                ...search,
                 page: pagination.currentPage,
               },
             }}
@@ -84,6 +92,7 @@ const Pagination: React.FC<PaginationProps> = ({ pagination, url }) => {
               link={{
                 to: url,
                 search: {
+                  ...search,
                   page: pagination.nextPage,
                 },
               }}
@@ -104,6 +113,7 @@ const Pagination: React.FC<PaginationProps> = ({ pagination, url }) => {
               link={{
                 to: url,
                 search: {
+                  ...search,
                   page: pagination.totalPages,
                 },
               }}
@@ -119,6 +129,7 @@ const Pagination: React.FC<PaginationProps> = ({ pagination, url }) => {
             link={{
               to: url,
               search: {
+                ...search,
                 page: pagination.currentPage + 1,
               },
             }}
