@@ -85,7 +85,7 @@ function Trees() {
             <ul>
               {treesRes.data?.length === 0 ? (
                 <li className="text-center text-dark-600 mt-10">
-                  <p>Es wurden leider keine Fahrzeuge gefunden.</p>
+                  <p>Es wurden leider keine Bäume gefunden.</p>
                 </li>
               ) : (
                 treesRes.data?.map((tree, key) => (

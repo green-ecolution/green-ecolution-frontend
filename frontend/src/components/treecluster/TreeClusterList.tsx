@@ -1,8 +1,8 @@
 import TreeclusterCard from '../general/cards/TreeclusterCard'
-import { TreeClusterInList } from '@/api/backendApi'
+import { TreeClusterInList, TreeCluster } from '@/api/backendApi'
 
 interface TreeClusterListProps {
-  data: TreeClusterInList[];
+  data: TreeClusterInList[] | TreeCluster[];
 }
 
 const TreeClusterList = ({ data }: TreeClusterListProps) => {

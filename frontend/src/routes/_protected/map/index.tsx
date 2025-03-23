@@ -4,7 +4,7 @@ import {
   useNavigate,
 } from '@tanstack/react-router'
 import MapButtons from '@/components/map/MapButtons'
-import { GetAllTreesRequest, Tree, TreeCluster } from '@green-ecolution/backend-client'
+import { Tree, TreeCluster } from '@green-ecolution/backend-client'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { treeQuery } from '@/api/queries'
 import { useRef } from 'react'
@@ -113,10 +113,12 @@ export const Route = createFileRoute('/_protected/map/')({
   component: MapViewWithProvider,
   validateSearch: mapFilterSchema,
 
-  loaderDeps: ({ search, tree, cluster }: { search : GetAllTreesRequest, tree: number, cluster: number }) => ({
-    wateringStatuses: search.wateringStatuses ?? undefined,
-    hasCluster: search.hasCluster ?? undefined,
-    plantingYears: search.plantingYears ?? undefined,
+  loaderDeps: ({
+    search: { wateringStatuses, hasCluster, plantingYears, tree, cluster },
+  }) => ({
+    wateringStatuses: wateringStatuses ?? undefined,
+    hasCluster: hasCluster ?? undefined,
+    plantingYears: plantingYears ?? undefined,
     tree: tree ?? undefined,
     cluster: cluster ?? undefined,
   }),

@@ -1,6 +1,7 @@
 import {
   Tree,
   TreeClusterInList,
+  TreeCluster
 } from '@green-ecolution/backend-client'
 import useStore from '@/store/store'
 import WithAllTrees from './WithAllTrees'
@@ -8,7 +9,7 @@ import WithAllClusters from './WithAllClusters'
 
 interface WithTreesAndClustersProps {
   onClickTree?: (tree: Tree) => void
-  onClickCluster?: (cluster: TreeClusterInList) => void
+  onClickCluster?: (cluster: TreeClusterInList | TreeCluster) => void
   selectedTrees?: number[]
   zoomThreshold?: number
   activeFilter?: boolean
