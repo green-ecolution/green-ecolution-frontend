@@ -87,10 +87,7 @@ function Trees() {
             )}
           </ul>
           {treesRes.pagination && treesRes.pagination?.totalPages > 1 && (
-            <Pagination
-              route="/_protected/trees/"
-              pagination={treesRes.pagination}
-            />
+            <Pagination pagination={treesRes.pagination} />
           )}
         </Suspense>
       </section>

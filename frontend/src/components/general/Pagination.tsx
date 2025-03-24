@@ -2,17 +2,12 @@ import { Pagination as PaginationObject } from '@green-ecolution/backend-client'
 import React from 'react'
 import PaginationLink from './links/PaginationLink'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
-import { useSearch } from '@tanstack/react-router'
 
 interface PaginationProps {
   pagination: PaginationObject
-  route: string
 }
 
-const Pagination: React.FC<PaginationProps> = ({ pagination, route }) => {
-  const search = useSearch({ from: route });
-  const url = route.replace('/_protected', '');
-
+const Pagination: React.FC<PaginationProps> = ({ pagination }) => {
   return (
     <nav aria-label="Seiten-Paginierung" className="mt-10">
       <ul className="flex flex-wrap items-center justify-center gap-x-2">
@@ -23,11 +18,10 @@ const Pagination: React.FC<PaginationProps> = ({ pagination, route }) => {
             disabled={pagination.currentPage - 1 == 0}
             icon={ChevronLeft}
             link={{
-              to: url,
-              search: {
-                ...search,
+              search: (prev) => ({
+                ...prev,
                 page: pagination.currentPage - 1,
-              },
+              }),
             }}
           />
         </li>
@@ -38,11 +32,10 @@ const Pagination: React.FC<PaginationProps> = ({ pagination, route }) => {
               color="grey"
               label={1}
               link={{
-                to: url,
-                search: {
-                  ...search,
+                search: (prev) => ({
+                  ...prev,
                   page: 1,
-                },
+                }),
               }}
             />
             {pagination.prevPage > 2 && (
@@ -60,11 +53,10 @@ const Pagination: React.FC<PaginationProps> = ({ pagination, route }) => {
               color="grey"
               label={pagination.prevPage}
               link={{
-                to: url,
-                search: {
-                  ...search,
+                search: (prev) => ({
+                  ...prev,
                   page: pagination.prevPage,
-                },
+                }),
               }}
             />
           </li>
@@ -75,11 +67,10 @@ const Pagination: React.FC<PaginationProps> = ({ pagination, route }) => {
             color="green-light"
             label={pagination.currentPage}
             link={{
-              to: url,
-              search: {
-                ...search,
+              search: (prev) => ({
+                ...prev,
                 page: pagination.currentPage,
-              },
+              }),
             }}
           />
         </li>
@@ -90,11 +81,10 @@ const Pagination: React.FC<PaginationProps> = ({ pagination, route }) => {
               color="grey"
               label={pagination.nextPage}
               link={{
-                to: url,
-                search: {
-                  ...search,
+                search: (prev) => ({
+                  ...prev,
                   page: pagination.nextPage,
-                },
+                }),
               }}
             />
           </li>
@@ -111,11 +101,10 @@ const Pagination: React.FC<PaginationProps> = ({ pagination, route }) => {
               color="grey"
               label={pagination.totalPages}
               link={{
-                to: url,
-                search: {
-                  ...search,
+                search: (prev) => ({
+                  ...prev,
                   page: pagination.totalPages,
-                },
+                }),
               }}
             />
           </li>
@@ -127,11 +116,10 @@ const Pagination: React.FC<PaginationProps> = ({ pagination, route }) => {
             disabled={pagination.currentPage == pagination.totalPages}
             icon={ChevronRight}
             link={{
-              to: url,
-              search: {
-                ...search,
+              search: (prev) => ({
+                ...prev,
                 page: pagination.currentPage + 1,
-              },
+              }),
             }}
           />
         </li>

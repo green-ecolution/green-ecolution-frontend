@@ -64,10 +64,7 @@ function Sensors() {
         <Suspense fallback={<LoadingInfo label="Daten werden geladen" />}>
           <SensorList data={sensorsRes.data} />
           {sensorsRes.pagination && sensorsRes.pagination?.totalPages > 1 && (
-            <Pagination
-              route="/_protected/sensors/"
-              pagination={sensorsRes.pagination}
-            />
+            <Pagination pagination={sensorsRes.pagination} />
           )}
         </Suspense>
       </section>
