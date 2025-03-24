@@ -42,7 +42,7 @@ const WateringPlanStatusUpdate = ({
       date: new Date(data.date),
       description: data.description,
       transporterId: data.transporter.id,
-      trailerId: data.trailer?.id,
+      trailerId: data.trailer?.id ?? -1,
       treeClusterIds: data.treeclusters.map((cluster) => cluster.id),
       status: data.status,
       cancellationNote: data.cancellationNote,
@@ -134,7 +134,7 @@ const WateringPlanStatusUpdate = ({
       </article>
 
       <section className="mt-10">
-        <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
+      <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
           <div className="space-y-6 md:w-1/2">
             <Select
               options={WateringPlanStatusOptions}
