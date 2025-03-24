@@ -40,7 +40,7 @@ const Dialog = forwardRef(
       plantingYears: [],
     })
     const [count, setCount] = useState(0)
-    const navigate = useNavigate({ from: fullUrlPath })
+    const navigate = useNavigate()
     const mapPosition = useStore((state) => ({
       lat: state.map.center[0],
       lng: state.map.center[1],
@@ -53,6 +53,7 @@ const Dialog = forwardRef(
       setIsOpen(false)
       setIsOpen(false)
       navigate({
+        to: fullUrlPath,
         search: () => ({
           lat: isOnMap ? mapPosition.lat : undefined,
           lng: isOnMap ? mapPosition.lng : undefined,
@@ -81,13 +82,17 @@ const Dialog = forwardRef(
       setIsOpen(false)
       isOnMap
         ? navigate({
+          to: fullUrlPath,
           search: {
             lat: mapPosition.lat,
             lng: mapPosition.lng,
             zoom: mapPosition.zoom,
           },
         })
-        : navigate({ search: () => ({}) })
+        : navigate({
+          to: fullUrlPath,
+          replace: true,
+        })
     }
 
     const handleClose = () => {
