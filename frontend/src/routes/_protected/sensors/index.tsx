@@ -5,7 +5,6 @@ import SensorList from '@/components/sensor/SensorList'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { createFileRoute, useLoaderData } from '@tanstack/react-router'
 import { Suspense } from 'react'
-import { ErrorBoundary } from 'react-error-boundary'
 import { z } from 'zod'
 
 export const Route = createFileRoute('/_protected/sensors/')({
@@ -63,22 +62,13 @@ function Sensors() {
         </header>
 
         <Suspense fallback={<LoadingInfo label="Daten werden geladen" />}>
-          <ErrorBoundary
-            fallback={
-              <p className="text-center text-dark-600 mt-10">
-                Es ist ein Fehler aufgetreten. Bitte versuchen Sie es später
-                erneut.
-              </p>
-            }
-          >
-            <SensorList data={sensorsRes.data} />
-            {sensorsRes.pagination && sensorsRes.pagination?.totalPages > 1 && ( 
-              <Pagination
-                route="/_protected/sensors/"
-                pagination={sensorsRes.pagination}
-              />
-            )}
-          </ErrorBoundary>
+          <SensorList data={sensorsRes.data} />
+          {sensorsRes.pagination && sensorsRes.pagination?.totalPages > 1 && (
+            <Pagination
+              route="/_protected/sensors/"
+              pagination={sensorsRes.pagination}
+            />
+          )}
         </Suspense>
       </section>
     </div>

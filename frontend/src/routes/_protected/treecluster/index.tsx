@@ -5,7 +5,6 @@ import { Plus } from 'lucide-react'
 import LoadingInfo from '@/components/general/error/LoadingInfo'
 import FilterProvider from '@/context/FilterContext'
 import { Suspense } from 'react'
-import { ErrorBoundary } from 'react-error-boundary'
 import TreeClusterList from '@/components/treecluster/TreeClusterList'
 import { treeClusterQuery } from '@/api/queries'
 import Pagination from '@/components/general/Pagination'
@@ -72,24 +71,15 @@ function Treecluster() {
         </header>
 
         <Suspense fallback={<LoadingInfo label="Daten werden geladen" />}>
-          <ErrorBoundary
-            fallback={
-              <p className="text-center text-dark-600 mt-10">
-                Es ist ein Fehler aufgetreten. Bitte versuchen Sie es später
-                erneut.
-              </p>
-            }
-          >
-            <TreeClusterList
-              data={clustersRes.data}
+          <TreeClusterList
+            data={clustersRes.data}
+          />
+          {clustersRes.pagination && clustersRes.pagination?.totalPages > 1 && (
+            <Pagination
+              route="/_protected/treecluster/"
+              pagination={clustersRes.pagination}
             />
-            {clustersRes.pagination && clustersRes.pagination?.totalPages > 1 && (
-              <Pagination
-                route="/_protected/treecluster/"
-                pagination={clustersRes.pagination}
-              />
-            )}
-          </ErrorBoundary>
+          )}
         </Suspense>
       </section>
     </div>
@@ -97,7 +87,7 @@ function Treecluster() {
 }
 
 const TreeclusterWithProvider = () => {
-  const search = useLoaderData({from: '/_protected/treecluster/'})
+  const search = useLoaderData({ from: '/_protected/treecluster/' })
 
   return (
     <FilterProvider
@@ -118,12 +108,12 @@ export const Route = createFileRoute('/_protected/treecluster/')({
       search.wateringStatuses && search.wateringStatuses.length > 0
         ? search.wateringStatuses
         : undefined,
-  
+
     regions:
       search.regions && search.regions.length > 0
         ? search.regions
         : undefined,
-  
+
     page: search.page || 1,
   }),
 

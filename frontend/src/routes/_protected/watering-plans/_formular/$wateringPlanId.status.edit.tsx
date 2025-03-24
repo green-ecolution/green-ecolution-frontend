@@ -4,7 +4,6 @@ import useFormStore from '@/store/form/useFormStore'
 import useStore from '@/store/store'
 import { createFileRoute } from '@tanstack/react-router'
 import { Suspense } from 'react'
-import { ErrorBoundary } from 'react-error-boundary'
 
 export const Route = createFileRoute('/_protected/watering-plans/_formular/$wateringPlanId/status/edit')({
   component: StatusEditWateringPlan,
@@ -14,7 +13,7 @@ export const Route = createFileRoute('/_protected/watering-plans/_formular/$wate
   loader: async () => {
     if (!useStore.getState().auth.isAuthenticated) return
   },
-  meta: () => [{title: 'Status des Einsatzplans ändern'}],
+  meta: () => [{ title: 'Status des Einsatzplans ändern' }],
 })
 
 
@@ -26,17 +25,7 @@ function StatusEditWateringPlan() {
       <Suspense
         fallback={<LoadingInfo label="Einsatzplan wird geladen …" />}
       >
-        <ErrorBoundary
-          fallback={
-            <p className="text-red text-lg font-semibold">
-              Eine Bewässerungsgruppe mit der Nummer {wateringPlanId} gibt es nicht
-              oder die Daten zur Bewässerungsgruppe konnten nicht geladen
-              werden.
-            </p>
-          }
-        >
-          <WateringPlanStatusUpdate wateringPlanId={wateringPlanId} />
-        </ErrorBoundary>
+        <WateringPlanStatusUpdate wateringPlanId={wateringPlanId} />
       </Suspense>
     </div>
   )

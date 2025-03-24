@@ -37,25 +37,25 @@ const PluginList = () => {
 
   return (
     <>
-    <ul className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
-      {pluginList?.plugins.map((plugin, key) => (
-        <li key={key}>
-          <DashboardCard
-            headline={plugin.name}
-            description={plugin.description}
-            linkLabel={`${plugin.name} starten`}
-            url={`/settings/plugin/${plugin.slug}`}
-            theme={key % 2 ? "dark" : "light"}
-          />
-        </li>
-      ))}
-    </ul>
+      <ul className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+        {pluginList?.plugins.map((plugin, key) => (
+          <li key={key}>
+            <DashboardCard
+              headline={plugin.name}
+              description={plugin.description}
+              linkLabel={`${plugin.name} starten`}
+              url={`/settings/plugin/${plugin.slug}`}
+              theme={key % 2 ? "dark" : "light"}
+            />
+          </li>
+        ))}
+      </ul>
 
       {!pluginList || pluginList.plugins.length === 0 && (
         <div className="text-center mt-6">
           <p className="text-dark-500">Zur Zeit sind keine Plugins registriert.</p>
         </div>
       )}
-  </>
+    </>
   );
 };
