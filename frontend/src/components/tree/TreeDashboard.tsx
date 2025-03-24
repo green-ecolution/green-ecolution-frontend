@@ -80,7 +80,7 @@ const TreeDashboard = ({ treeId }: TreeDashboardProps) => {
                 },
               }}
             />
-            {tree.treeClusterId && (
+            {tree.treeClusterId && treeCluster && (
               <GeneralLink
                 label="Zur Bewässerungsgruppe"
                 link={{
