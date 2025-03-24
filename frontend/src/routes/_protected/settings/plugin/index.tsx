@@ -16,16 +16,13 @@ function PluginView() {
           Übersicht der Plugins
         </h1>
         <p>
-          Eu ipsum occaecat non exercitation occaecat ea aute fugiat quis magna
-          do veniam commodo. Magna Lorem cupidatat id fugiat nostrud quis qui in
-          quis fugiat. Irure pariatur anim cupidatat nulla ipsum Lorem irure.
-          Est elit laborum sunt commodo officia nulla cupidatat fugiat tempor
-          exercitation laborum. Sint irure eiusmod sunt. Magna esse proident
-          magna dolore aliqua nulla id sunt adipisicing.
+          Hier finden Sie eine Übersicht aller installierten Plugins.
+          Diese Plugins erweitern die Funktionalität der Anwendung und können eine Vielzahl nützlicher Features bieten.
+          Klicken Sie auf eines der Plugins, um mehr darüber zu erfahren.
         </p>
       </article>
 
-      <Suspense fallback={<div>Loading plugins...</div>}>
+      <Suspense fallback={<div>Laden von Plugins...</div>}>
         <PluginList />
       </Suspense>
     </div>
@@ -48,7 +45,7 @@ const PluginList = () => {
             description={plugin.description}
             linkLabel={`${plugin.name} starten`}
             url={`/settings/plugin/${plugin.slug}`}
-            isDark={key % 2 !== 0}
+            theme={key % 2 ? "dark" : "light"}
           />
         </li>
       ))}
