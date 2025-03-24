@@ -7,7 +7,7 @@ import Tabs from '../general/Tabs'
 import { useMemo } from 'react'
 import TreeIcon from '../icons/Tree'
 import SensorIcon from '../icons/Sensor'
-import { useQuery, useSuspenseQuery } from '@tanstack/react-query'
+import { useSuspenseQuery } from '@tanstack/react-query'
 import { treeClusterIdQuery, treeIdQuery } from '@/api/queries'
 import TabWateringStatus from './TabWateringStatus'
 import TabGeneralData from './TabGeneralData'
@@ -19,7 +19,7 @@ interface TreeDashboardProps {
 
 const TreeDashboard = ({ treeId }: TreeDashboardProps) => {
   const { data: tree } = useSuspenseQuery(treeIdQuery(treeId));
-  const { data: treeCluster } = useQuery(
+  const { data: treeCluster } = useSuspenseQuery(
     treeClusterIdQuery(tree.treeClusterId?.toString() ?? '')
   )
 

@@ -58,7 +58,7 @@ const TreeUpdate = ({ treeId }: TreeUpdateProps) => {
 
   const handleDeleteTree = () => {
     return treeApi.deleteTree({
-      treeId: String(treeId),
+      treeId: Number(treeId),
     })
   }
 
