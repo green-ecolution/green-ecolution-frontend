@@ -1,6 +1,6 @@
 import { WateringPlan, WateringPlanStatus } from '@green-ecolution/backend-client'
 
-export type StatusColor = 'red' | 'dark-400' | 'green-dark' | 'green-light';
+export type StatusColor = 'red' | 'dark-400' | 'dark-600' | 'green-dark' | 'green-light';
 
 export const WateringPlanStatusOptions: {
   value: WateringPlanStatus,
