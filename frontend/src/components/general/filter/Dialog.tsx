@@ -81,12 +81,12 @@ const Dialog = forwardRef(
       setIsOpen(false)
       isOnMap
         ? navigate({
-            search: {
-              lat: mapPosition.lat,
-              lng: mapPosition.lng,
-              zoom: mapPosition.zoom,
-            },
-          })
+          search: {
+            lat: mapPosition.lat,
+            lng: mapPosition.lng,
+            zoom: mapPosition.zoom,
+          },
+        })
         : navigate({ search: () => ({}) })
     }
 
@@ -103,9 +103,9 @@ const Dialog = forwardRef(
     useEffect(() => {
       setCount(
         filters.statusTags.length +
-          filters.regionTags.length +
-          (filters.hasCluster !== undefined ? 1 : 0) +
-          filters.plantingYears.length
+        filters.regionTags.length +
+        (filters.hasCluster !== undefined ? 1 : 0) +
+        filters.plantingYears.length
       )
     }, [filters])
 
