@@ -39,10 +39,10 @@ const Map = ({
       zoom={zoom}
       maxZoom={maxZoom}
       minZoom={minZoom}
-      maxBounds={L.latLngBounds(
-        [appInfo?.map?.bbox[0], appInfo.map.bbox[1]],
-        [appInfo?.map?.bbox[2], appInfo.map.bbox[3]]
-      )}
+      // maxBounds={L.latLngBounds(
+      //   [appInfo?.map?.bbox[0], appInfo.map.bbox[1]],
+      //   [appInfo?.map?.bbox[2], appInfo.map.bbox[3]]
+      // )}
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
