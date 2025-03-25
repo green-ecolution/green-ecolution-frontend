@@ -53,7 +53,7 @@ const TreeDashboard = ({ treeId }: TreeDashboardProps) => {
             Baum: {tree.number}
             <Pill label={tree.provider ? tree.provider : "manuell erstellt"} theme="green-light" />
           </h1>
-          {tree.treeClusterId ? (
+          {tree.treeClusterId && treeCluster ? (
             <p className="text-dark-600 text-lg">
               <span>Bewässerungsgruppe: {treeCluster.name}</span>
               {', '}
@@ -80,7 +80,7 @@ const TreeDashboard = ({ treeId }: TreeDashboardProps) => {
                 },
               }}
             />
-            {tree.treeClusterId && (
+            {tree.treeClusterId && treeCluster && (
               <GeneralLink
                 label="Zur Bewässerungsgruppe"
                 link={{
