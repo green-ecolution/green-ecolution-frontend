@@ -8,10 +8,9 @@ import {
   registerRemotes,
 } from '@module-federation/enhanced/runtime'
 
-export const Route = createFileRoute('/_protected/settings/plugin/$pluginName')(
+export const Route = createFileRoute('/_protected/settings/plugin/$pluginName/')(
   {
     component: PluginView,
-    meta: ({ params: { pluginName } }) => [{ title: pluginName }],
   }
 )
 
