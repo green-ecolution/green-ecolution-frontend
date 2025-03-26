@@ -8,20 +8,10 @@ export const Route = createFileRoute(
 )({
   component: () => <Outlet />,
   loader: async ({ params }) => {
+    const wateringPlan = await queryClient.ensureQueryData(wateringPlanIdQuery(params.wateringPlanId))
+    const title = wateringPlan?.date ? `Einsatz: ${format(new Date(wateringPlan?.date), 'dd.MM.yyyy')}` : `Einsatz: ${wateringPlan.id}`
     return {
-      wateringPlan: await queryClient.ensureQueryData(
-        wateringPlanIdQuery(params.wateringPlanId)
-      ),
+      crumb: { title }
     }
-  },
-  meta: ({ loaderData: { wateringPlan } }) => {
-    const date = wateringPlan?.date
-      ? format(new Date(wateringPlan?.date), 'dd.MM.yyyy')
-      : 'Keine Angabe'
-    return [
-      {
-        title: `Einsatzplan: ${date}`,
-      },
-    ]
   },
 })

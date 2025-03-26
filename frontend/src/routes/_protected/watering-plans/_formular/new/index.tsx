@@ -21,13 +21,12 @@ import useStore from '@/store/store'
 import { useWaterinPlanForm } from '@/hooks/form/useWateringPlanForm'
 
 export const Route = createFileRoute(
-  '/_protected/watering-plans/_formular/new'
+  '/_protected/watering-plans/_formular/new/'
 )({
   beforeLoad: () => {
     useFormStore.getState().setType('new')
   },
   component: NewWateringPlan,
-  meta: () => [{ title: 'Neuen Einsatzplan' }],
 })
 
 function NewWateringPlan() {

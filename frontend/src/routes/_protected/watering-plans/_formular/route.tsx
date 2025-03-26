@@ -14,7 +14,6 @@ export const Route = createFileRoute("/_protected/watering-plans/_formular")({
   }),
   loader: ({ deps: { resetStore } }) => {
     if (resetStore) {
-      console.info("Resetting form store");
       useFormStore.getState().reset();
     }
   },

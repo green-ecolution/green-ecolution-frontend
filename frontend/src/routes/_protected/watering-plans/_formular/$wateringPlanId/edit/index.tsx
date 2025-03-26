@@ -1,11 +1,13 @@
 import LoadingInfo from '@/components/general/error/LoadingInfo'
-import WateringPlanStatusUpdate from '@/components/watering-plan/WateringPlanStatusUpdate'
+import WateringPlanUpdate from '@/components/watering-plan/WateringPlanUpdate'
 import useFormStore from '@/store/form/useFormStore'
 import useStore from '@/store/store'
 import { createFileRoute } from '@tanstack/react-router'
 import { Suspense } from 'react'
 
-export const Route = createFileRoute('/_protected/watering-plans/_formular/$wateringPlanId/status/edit')({
+export const Route = createFileRoute(
+  '/_protected/watering-plans/_formular/$wateringPlanId/edit/'
+)({
   component: StatusEditWateringPlan,
   beforeLoad: () => {
     useFormStore.getState().setType('edit')
@@ -13,19 +15,15 @@ export const Route = createFileRoute('/_protected/watering-plans/_formular/$wate
   loader: async () => {
     if (!useStore.getState().auth.isAuthenticated) return
   },
-  meta: () => [{ title: 'Status des Einsatzplans ändern' }],
 })
-
 
 function StatusEditWateringPlan() {
   const wateringPlanId = Route.useParams().wateringPlanId
 
   return (
     <div className="container mt-6">
-      <Suspense
-        fallback={<LoadingInfo label="Einsatzplan wird geladen …" />}
-      >
-        <WateringPlanStatusUpdate wateringPlanId={wateringPlanId} />
+      <Suspense fallback={<LoadingInfo label="Einsatzplan wird geladen …" />}>
+        <WateringPlanUpdate wateringPlanId={wateringPlanId} />
       </Suspense>
     </div>
   )
