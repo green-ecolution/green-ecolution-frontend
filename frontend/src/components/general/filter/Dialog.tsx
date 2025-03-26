@@ -9,8 +9,7 @@ import PrimaryButton from '../buttons/PrimaryButton'
 import SecondaryButton from '../buttons/SecondaryButton'
 import { X } from 'lucide-react'
 import { useNavigate } from '@tanstack/react-router'
-import useFilter from '@/hooks/useFilter'
-import { Filters } from '@/context/FilterContext'
+import { useFilter, Filters } from '@/context/FilterContext'
 import useStore from '@/store/store'
 
 interface DialogProps {
