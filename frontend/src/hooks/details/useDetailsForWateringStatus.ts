@@ -1,6 +1,14 @@
 import { WateringStatus } from '@green-ecolution/backend-client'
+import { StatusColor } from './useDetailsForWateringPlanStatus'
 
-const WateringStatusProperties = {
+const WateringStatusProperties: {
+  [key in WateringStatus]: {
+    color: StatusColor,
+    label: string,
+    description: string,
+    colorHex: string
+  }
+} = {
   [WateringStatus.WateringStatusUnknown]: {
     color: 'dark-400',
     label: 'Unbekannt',
