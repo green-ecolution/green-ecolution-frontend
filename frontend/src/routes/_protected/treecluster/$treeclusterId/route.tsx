@@ -5,18 +5,12 @@ import { createFileRoute, Outlet } from '@tanstack/react-router'
 export const Route = createFileRoute('/_protected/treecluster/$treeclusterId')({
   component: () => <Outlet />,
   loader: async ({ params }) => {
+    const cluster = await queryClient.ensureQueryData(treeClusterIdQuery(params.treeclusterId))
     return {
-      cluster: await queryClient.ensureQueryData(
-        treeClusterIdQuery(params.treeclusterId)
-      ),
-    }
-  },
-  meta: ({ loaderData: {cluster} }) => {
-    return [
-      {
+      crumb: {
         title: cluster.name,
-      },
-    ]
+      }
+    }
   },
 })
 

@@ -13,12 +13,11 @@ import useStore from '@/store/store'
 import BackLink from '@/components/general/links/BackLink'
 import { useTreeClusterForm } from '@/hooks/form/useTreeClusterForm'
 
-export const Route = createFileRoute('/_protected/treecluster/_formular/new')({
+export const Route = createFileRoute('/_protected/treecluster/_formular/new/')({
   beforeLoad: () => {
     useFormStore.getState().setType('new')
   },
   component: NewTreecluster,
-  meta: () => [{ title: 'Neue Bewässerungsgruppe' }],
 })
 
 function NewTreecluster() {

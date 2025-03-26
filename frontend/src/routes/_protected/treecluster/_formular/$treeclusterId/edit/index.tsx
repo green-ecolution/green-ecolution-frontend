@@ -6,7 +6,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Suspense } from 'react'
 
 export const Route = createFileRoute(
-  '/_protected/treecluster/_formular/$treeclusterId/edit'
+  '/_protected/treecluster/_formular/$treeclusterId/edit/'
 )({
   component: EditTreeCluster,
   beforeLoad: () => {
@@ -15,7 +15,6 @@ export const Route = createFileRoute(
   loader: async () => {
     if (!useStore.getState().auth.isAuthenticated) return
   },
-  meta: () => [{ title: 'Bewässerungsgruppe editieren' }],
 })
 
 function EditTreeCluster() {
