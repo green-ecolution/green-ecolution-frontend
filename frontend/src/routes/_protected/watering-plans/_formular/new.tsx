@@ -45,7 +45,7 @@ function NewWateringPlan() {
     })
   )
   const { initForm } = useInitForm<WateringPlanForm>({
-    date: new Date().toISOString().substring(0, 10),
+    date: new Date(),// .toISOString().substring(0, 10),
     description: '',
     transporterId: -1,
     trailerId: undefined,
@@ -53,6 +53,7 @@ function NewWateringPlan() {
     status: WateringPlanStatus.WateringPlanStatusPlanned,
     cancellationNote: '',
     userIds: [],
+    evaluation: [],
   })
 
   const mapPosition = useStore((state) => ({
@@ -71,9 +72,9 @@ function NewWateringPlan() {
       ...data,
       date: data.date.toISOString(),
       trailerId:
-      data.trailerId && data.trailerId !== -1
-        ? data.trailerId
-        : undefined,
+        data.trailerId && data.trailerId !== -1
+          ? data.trailerId
+          : undefined,
     })
   }
 
