@@ -1,5 +1,4 @@
 import { Splide, SplideSlide } from "@splidejs/react-splide";
-import "@splidejs/react-splide/css";
 import { Car, MapPin, PieChart, Route } from "lucide-react";
 import IntroductionCard from "../general/cards/IntroductionCard";
 import SensorIcon from "../icons/Sensor";
