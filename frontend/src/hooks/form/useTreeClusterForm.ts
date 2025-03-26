@@ -25,7 +25,7 @@ export const useTreeClusterForm = (mutationType: 'create' | 'update', clusterId?
         });
       } else if (mutationType === 'update' && clusterId) {
         return clusterApi.updateTreeCluster({
-          clusterId: clusterId,
+          clusterId: Number(clusterId),
           body: cluster as TreeClusterUpdate,
         });
       }

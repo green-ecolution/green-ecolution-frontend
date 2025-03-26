@@ -1,5 +1,3 @@
-import { vehicleIdQuery } from '@/api/queries'
-import queryClient from '@/api/queryClient'
 import LoadingInfo from '@/components/general/error/LoadingInfo'
 import VehicleDashboard from '@/components/vehicle/VehicleDashboard'
 import { createFileRoute } from '@tanstack/react-router'
