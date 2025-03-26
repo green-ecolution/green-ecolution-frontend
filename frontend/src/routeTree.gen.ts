@@ -27,6 +27,7 @@ import { Route as ProtectedEvaluationsImport } from './routes/_protected/evaluat
 import { Route as ProtectedDebugImport } from './routes/_protected/debug'
 import { Route as ProtectedDashboardImport } from './routes/_protected/dashboard'
 import { Route as ProtectedTreesRouteImport } from './routes/_protected/trees/route'
+import { Route as ProtectedTeamRouteImport } from './routes/_protected/team/route'
 import { Route as ProtectedSensorsRouteImport } from './routes/_protected/sensors/route'
 import { Route as ProtectedMapRouteImport } from './routes/_protected/map/route'
 import { Route as ProtectedWateringPlansIndexImport } from './routes/_protected/watering-plans/index'
@@ -174,6 +175,12 @@ const ProtectedTreesRouteRoute = ProtectedTreesRouteImport.update({
   getParentRoute: () => ProtectedRoute,
 } as any)
 
+const ProtectedTeamRouteRoute = ProtectedTeamRouteImport.update({
+  id: '/team',
+  path: '/team',
+  getParentRoute: () => ProtectedRoute,
+} as any)
+
 const ProtectedSensorsRouteRoute = ProtectedSensorsRouteImport.update({
   id: '/sensors',
   path: '/sensors',
@@ -212,9 +219,9 @@ const ProtectedTreeclusterIndexRoute = ProtectedTreeclusterIndexImport.update({
 } as any)
 
 const ProtectedTeamIndexRoute = ProtectedTeamIndexImport.update({
-  id: '/team/',
-  path: '/team/',
-  getParentRoute: () => ProtectedRoute,
+  id: '/',
+  path: '/',
+  getParentRoute: () => ProtectedTeamRouteRoute,
 } as any)
 
 const ProtectedSettingsIndexRoute = ProtectedSettingsIndexImport.update({
@@ -556,6 +563,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedSensorsRouteImport
       parentRoute: typeof ProtectedImport
     }
+    '/_protected/team': {
+      id: '/_protected/team'
+      path: '/team'
+      fullPath: '/team'
+      preLoaderRoute: typeof ProtectedTeamRouteImport
+      parentRoute: typeof ProtectedImport
+    }
     '/_protected/trees': {
       id: '/_protected/trees'
       path: '/trees'
@@ -712,10 +726,10 @@ declare module '@tanstack/react-router' {
     }
     '/_protected/team/': {
       id: '/_protected/team/'
-      path: '/team'
-      fullPath: '/team'
+      path: '/'
+      fullPath: '/team/'
       preLoaderRoute: typeof ProtectedTeamIndexImport
-      parentRoute: typeof ProtectedImport
+      parentRoute: typeof ProtectedTeamRouteImport
     }
     '/_protected/treecluster/': {
       id: '/_protected/treecluster/'
@@ -1108,6 +1122,17 @@ const ProtectedSensorsRouteRouteWithChildren =
     ProtectedSensorsRouteRouteChildren,
   )
 
+interface ProtectedTeamRouteRouteChildren {
+  ProtectedTeamIndexRoute: typeof ProtectedTeamIndexRoute
+}
+
+const ProtectedTeamRouteRouteChildren: ProtectedTeamRouteRouteChildren = {
+  ProtectedTeamIndexRoute: ProtectedTeamIndexRoute,
+}
+
+const ProtectedTeamRouteRouteWithChildren =
+  ProtectedTeamRouteRoute._addFileChildren(ProtectedTeamRouteRouteChildren)
+
 interface ProtectedTreesTreeIdRouteRouteChildren {
   ProtectedTreesTreeIdIndexRoute: typeof ProtectedTreesTreeIdIndexRoute
 }
@@ -1415,6 +1440,7 @@ const ProtectedVehiclesRouteWithChildren =
 interface ProtectedRouteChildren {
   ProtectedMapRouteRoute: typeof ProtectedMapRouteRouteWithChildren
   ProtectedSensorsRouteRoute: typeof ProtectedSensorsRouteRouteWithChildren
+  ProtectedTeamRouteRoute: typeof ProtectedTeamRouteRouteWithChildren
   ProtectedTreesRouteRoute: typeof ProtectedTreesRouteRouteWithChildren
   ProtectedDashboardRoute: typeof ProtectedDashboardRoute
   ProtectedDebugRoute: typeof ProtectedDebugRoute
@@ -1425,12 +1451,12 @@ interface ProtectedRouteChildren {
   ProtectedTreeclusterRoute: typeof ProtectedTreeclusterRouteWithChildren
   ProtectedWateringPlansRoute: typeof ProtectedWateringPlansRouteWithChildren
   ProtectedVehiclesRoute: typeof ProtectedVehiclesRouteWithChildren
-  ProtectedTeamIndexRoute: typeof ProtectedTeamIndexRoute
 }
 
 const ProtectedRouteChildren: ProtectedRouteChildren = {
   ProtectedMapRouteRoute: ProtectedMapRouteRouteWithChildren,
   ProtectedSensorsRouteRoute: ProtectedSensorsRouteRouteWithChildren,
+  ProtectedTeamRouteRoute: ProtectedTeamRouteRouteWithChildren,
   ProtectedTreesRouteRoute: ProtectedTreesRouteRouteWithChildren,
   ProtectedDashboardRoute: ProtectedDashboardRoute,
   ProtectedDebugRoute: ProtectedDebugRoute,
@@ -1441,7 +1467,6 @@ const ProtectedRouteChildren: ProtectedRouteChildren = {
   ProtectedTreeclusterRoute: ProtectedTreeclusterRouteWithChildren,
   ProtectedWateringPlansRoute: ProtectedWateringPlansRouteWithChildren,
   ProtectedVehiclesRoute: ProtectedVehiclesRouteWithChildren,
-  ProtectedTeamIndexRoute: ProtectedTeamIndexRoute,
 }
 
 const ProtectedRouteWithChildren = ProtectedRoute._addFileChildren(
@@ -1455,6 +1480,7 @@ export interface FileRoutesByFullPath {
   '/logout': typeof LogoutRoute
   '/map': typeof ProtectedMapRouteRouteWithChildren
   '/sensors': typeof ProtectedSensorsRouteRouteWithChildren
+  '/team': typeof ProtectedTeamRouteRouteWithChildren
   '/trees': typeof ProtectedTreesFormularRouteWithChildren
   '/dashboard': typeof ProtectedDashboardRoute
   '/debug': typeof ProtectedDebugRoute
@@ -1473,7 +1499,7 @@ export interface FileRoutesByFullPath {
   '/map/': typeof ProtectedMapIndexRoute
   '/sensors/': typeof ProtectedSensorsIndexRoute
   '/settings/': typeof ProtectedSettingsIndexRoute
-  '/team': typeof ProtectedTeamIndexRoute
+  '/team/': typeof ProtectedTeamIndexRoute
   '/treecluster/': typeof ProtectedTreeclusterIndexRoute
   '/trees/': typeof ProtectedTreesIndexRoute
   '/vehicles/': typeof ProtectedVehiclesIndexRoute
@@ -1559,6 +1585,7 @@ export interface FileRoutesById {
   '/logout': typeof LogoutRoute
   '/_protected/map': typeof ProtectedMapRouteRouteWithChildren
   '/_protected/sensors': typeof ProtectedSensorsRouteRouteWithChildren
+  '/_protected/team': typeof ProtectedTeamRouteRouteWithChildren
   '/_protected/trees': typeof ProtectedTreesRouteRouteWithChildren
   '/_protected/dashboard': typeof ProtectedDashboardRoute
   '/_protected/debug': typeof ProtectedDebugRoute
@@ -1630,6 +1657,7 @@ export interface FileRouteTypes {
     | '/logout'
     | '/map'
     | '/sensors'
+    | '/team'
     | '/trees'
     | '/dashboard'
     | '/debug'
@@ -1648,7 +1676,7 @@ export interface FileRouteTypes {
     | '/map/'
     | '/sensors/'
     | '/settings/'
-    | '/team'
+    | '/team/'
     | '/treecluster/'
     | '/trees/'
     | '/vehicles/'
@@ -1731,6 +1759,7 @@ export interface FileRouteTypes {
     | '/logout'
     | '/_protected/map'
     | '/_protected/sensors'
+    | '/_protected/team'
     | '/_protected/trees'
     | '/_protected/dashboard'
     | '/_protected/debug'
@@ -1835,6 +1864,7 @@ export const routeTree = rootRoute
       "children": [
         "/_protected/map",
         "/_protected/sensors",
+        "/_protected/team",
         "/_protected/trees",
         "/_protected/dashboard",
         "/_protected/debug",
@@ -1844,8 +1874,7 @@ export const routeTree = rootRoute
         "/_protected/settings",
         "/_protected/treecluster",
         "/_protected/watering-plans",
-        "/_protected/vehicles",
-        "/_protected/team/"
+        "/_protected/vehicles"
       ]
     },
     "/login": {
@@ -1872,6 +1901,13 @@ export const routeTree = rootRoute
       "children": [
         "/_protected/sensors/$sensorId",
         "/_protected/sensors/"
+      ]
+    },
+    "/_protected/team": {
+      "filePath": "_protected/team/route.tsx",
+      "parent": "/_protected",
+      "children": [
+        "/_protected/team/"
       ]
     },
     "/_protected/trees": {
@@ -2016,7 +2052,7 @@ export const routeTree = rootRoute
     },
     "/_protected/team/": {
       "filePath": "_protected/team/index.tsx",
-      "parent": "/_protected"
+      "parent": "/_protected/team"
     },
     "/_protected/treecluster/": {
       "filePath": "_protected/treecluster/index.tsx",

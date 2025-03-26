@@ -7,12 +7,6 @@ import { userRoleQuery } from '@/api/queries'
 
 export const Route = createFileRoute('/_protected/team/')({
   component: Team,
-  meta: () => [
-    {
-      title: 'Mitarbeitende',
-      path: '/team',
-    },
-  ],
 })
 
 function Team() {
