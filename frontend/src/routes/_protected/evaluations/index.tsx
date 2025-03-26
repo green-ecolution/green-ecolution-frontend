@@ -6,9 +6,8 @@ import { useSuspenseQuery } from '@tanstack/react-query'
 import { createFileRoute } from '@tanstack/react-router'
 import { Suspense } from 'react'
 
-export const Route = createFileRoute('/_protected/evaluations')({
+export const Route = createFileRoute('/_protected/evaluations/')({
   component: Evaluation,
-  meta: () => [{ title: 'Auswertungen' }],
   loader: () => {
     return queryClient.ensureQueryData(evaluationQuery())
   },
@@ -27,7 +26,7 @@ function Evaluation() {
             </h1>
             <p>
               Diese Seite bietet eine detaillierte Auswertung aller relevanten Daten, die für die Verwaltung von Bewässerungs- und Einsatzplänen
-              sowie für die Wartung von Bäumen und Sensoren erforderlich sind. Es wird aufgezeigt, wie viele Einsatzfahrten im System hinterlegt worden sind, 
+              sowie für die Wartung von Bäumen und Sensoren erforderlich sind. Es wird aufgezeigt, wie viele Einsatzfahrten im System hinterlegt worden sind,
               welche Fahrzeuge die meisten Einsatzfahrten durchführen und welche Stadtteile am meisten bewässert werden.
               Außerdem können Sie sich darüber informieren, wie viele Bäume, Bewässerungsgruppen und Sensoren erstellt worden sind.
             </p>

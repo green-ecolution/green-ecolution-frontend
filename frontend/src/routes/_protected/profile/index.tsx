@@ -5,9 +5,8 @@ import { getUserRoleDetails } from '@/hooks/details/useDetailsForUserRole'
 import { getUserStatusDetails } from '@/hooks/details/useDetailsForUserStatus'
 import { getDrivingLicenseDetails } from '@/hooks/details/useDetailsForDrivingLicense'
 
-export const Route = createFileRoute('/_protected/profile')({
+export const Route = createFileRoute('/_protected/profile/')({
   component: Profile,
-  meta: () => [{ title: 'Profil' }],
 })
 
 function Profile() {

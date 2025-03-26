@@ -2,13 +2,8 @@ import { useAuthStore, useMapStore, useUserStore } from '@/store/store'
 import { createFileRoute } from '@tanstack/react-router'
 import ReactJson from 'react-json-view'
 
-export const Route = createFileRoute('/_protected/debug')({
+export const Route = createFileRoute('/_protected/debug/')({
   component: Debug,
-  meta: () => [
-    {
-      title: 'Debugging',
-    },
-  ],
 })
 
 function Debug() {
