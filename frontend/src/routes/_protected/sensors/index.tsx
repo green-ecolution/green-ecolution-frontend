@@ -20,12 +20,6 @@ export const Route = createFileRoute('/_protected/sensors/')({
   loader: ({ deps: { page } }) => {
     return { page }
   },
-  meta: () => [
-    {
-      title: 'Sensoren',
-      path: '/sensors',
-    },
-  ],
 })
 
 function Sensors() {

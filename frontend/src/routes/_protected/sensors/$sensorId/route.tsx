@@ -7,17 +7,11 @@ export const Route = createFileRoute(
 )({
   component: () => <Outlet />,
   loader: async ({ params }) => {
+    const sensor = await queryClient.ensureQueryData(sensorIdQuery(params.sensorId))
     return {
-      sensor: await queryClient.ensureQueryData(
-        sensorIdQuery(params.sensorId)
-      ),
-    }
-  },
-  meta: ({ loaderData: { sensor } }) => {
-    return [
-      {
+      crumb: {
         title: `Sensor ID: ${sensor.id}`,
-      },
-    ]
+      }
+    }
   },
 })
