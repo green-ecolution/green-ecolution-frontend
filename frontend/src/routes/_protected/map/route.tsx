@@ -40,9 +40,9 @@ export const Route = createFileRoute('/_protected/map')({
     return {
       cluster: queryClient.ensureQueryData(treeClusterQuery()),
       tree: queryClient.ensureQueryData(treeQuery()),
+      crumb: { title: "Karte" }
     }
   },
-  meta: () => [{ title: 'Karte' }],
 })
 
 function MapRoot() {

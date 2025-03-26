@@ -14,9 +14,8 @@ import { useMutation, useSuspenseQuery } from '@tanstack/react-query'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { useCallback, useState } from 'react'
 
-export const Route = createFileRoute('/_protected/map/sensor/select/tree')({
+export const Route = createFileRoute('/_protected/map/sensor/select/tree/')({
   component: LinkTreeToSensor,
-  meta: () => [{ title: 'Vegetation verlinken' }],
 })
 
 function LinkTreeToSensor() {
@@ -31,7 +30,7 @@ function LinkTreeToSensor() {
   const { mutate } = useMutation({
     mutationFn: (tree: TreeUpdateReq) =>
       treeApi.updateTree({
-        treeId: String(treeId),
+        treeId: Number(treeId),
         body: tree,
       }),
     onSuccess: () => handleOnUpdateSuccess(),

@@ -12,10 +12,9 @@ import Notice from '@/components/general/Notice'
 import SelectedCard from '@/components/general/cards/SelectedCard'
 
 export const Route = createFileRoute(
-  '/_protected/map/watering-plan/select/cluster'
+  '/_protected/map/watering-plan/select/cluster/'
 )({
   component: SelectCluster,
-  meta: () => [{ title: 'Route festlegen' }],
 })
 
 function SelectCluster() {

@@ -7,10 +7,9 @@ import { TreeclusterForm } from '@/schema/treeclusterSchema'
 import WithAllTrees from '@/components/map/marker/WithAllTrees'
 import MapSelectEntitiesModal from '@/components/map/MapSelectEntitiesModal'
 
-export const Route = createFileRoute('/_protected/map/treecluster/select/tree')(
+export const Route = createFileRoute('/_protected/map/treecluster/select/tree/')(
   {
     component: SelectTrees,
-    meta: () => [{ title: 'Bäume auswählen' }],
   }
 )
 

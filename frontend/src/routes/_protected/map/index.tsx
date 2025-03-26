@@ -39,7 +39,7 @@ function MapView() {
       ? true
       : false
   }
-  
+
   const { data: treesRes } = useSuspenseQuery(treeQuery({
     wateringStatuses: search.wateringStatuses,
     hasCluster: search.hasCluster,
@@ -100,7 +100,7 @@ const MapViewWithProvider = () => {
   const search = useLoaderData({ from: '/_protected/map/' })
   return (
     <FilterProvider
-      initialStatus={search.status ?? []}
+      initialStatus={search.wateringStatuses ?? []}
       initialHasCluster={search.hasCluster ?? undefined}
       initialPlantingYears={search.plantingYears ?? []}
     >
