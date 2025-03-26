@@ -7,9 +7,8 @@ import { DragableMarker } from '@/components/map/MapMarker'
 import { WithTreesAndClusters } from '@/components/map/marker/WithAllClusterAndTrees'
 import MapSelectEntitiesModal from '@/components/map/MapSelectEntitiesModal'
 
-export const Route = createFileRoute('/_protected/map/tree/new')({
+export const Route = createFileRoute('/_protected/map/tree/new/')({
   component: NewTree,
-  meta: () => [{ title: 'Neuer Baum' }],
 })
 
 function NewTree() {

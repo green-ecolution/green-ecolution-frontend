@@ -7,9 +7,8 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { LatLng } from "leaflet";
 import { useCallback, useState } from "react";
 
-export const Route = createFileRoute("/_protected/map/tree/edit")({
+export const Route = createFileRoute("/_protected/map/tree/edit/")({
   component: EditTree,
-  meta: () => [{ title: "Baum bearbeiten" }],
 });
 
 function EditTree() {

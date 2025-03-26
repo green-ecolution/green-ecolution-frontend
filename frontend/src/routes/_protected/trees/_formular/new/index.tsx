@@ -16,7 +16,7 @@ const newTreeSearchSchema = z.object({
   lng: z.number(),
 })
 
-export const Route = createFileRoute('/_protected/trees/_formular/new')({
+export const Route = createFileRoute('/_protected/trees/_formular/new/')({
   component: NewTree,
   validateSearch: newTreeSearchSchema,
   beforeLoad: () => {
@@ -32,7 +32,6 @@ export const Route = createFileRoute('/_protected/trees/_formular/new')({
       lng: storeNotInit ? lng : useFormStore.getState().form.longitude,
     }
   },
-  meta: () => [{ title: 'Neuer Baum' }],
 })
 
 function NewTree() {

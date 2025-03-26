@@ -4,13 +4,12 @@ import { Suspense } from 'react'
 import LoadingInfo from '@/components/general/error/LoadingInfo'
 import TreeUpdate from '@/components/tree/TreeUpdate'
 
-export const Route = createFileRoute('/_protected/trees/_formular/$treeId/edit')(
+export const Route = createFileRoute('/_protected/trees/_formular/$treeId/edit/')(
   {
     component: EditTree,
     beforeLoad: () => {
       useFormStore.getState().setType('edit')
     },
-    meta: () => [{ title: `Baum editieren` }],
   }
 )
 

@@ -23,6 +23,14 @@ declare module "@tanstack/react-router" {
   interface Register {
     router: typeof router;
   }
+
+  interface Breadcrumb {
+    title: string
+  }
+
+  interface StaticDataRouteOption {
+    crumb?: Breadcrumb
+  }
 }
 
 ReactDOM.createRoot(document.getElementById("root")!).render(

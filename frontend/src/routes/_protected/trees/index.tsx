@@ -127,10 +127,5 @@ export const Route = createFileRoute('/_protected/trees/')({
   }) => {
     return { page, wateringStatuses, hasCluster, plantingYears }
   },
-  meta: () => [
-    {
-      title: 'Bäume',
-      path: '/trees',
-    },
-  ],
 })
+

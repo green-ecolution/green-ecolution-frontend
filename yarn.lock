@@ -1029,12 +1029,12 @@
   dependencies:
     "@tanstack/query-core" "5.68.0"
 
-"@tanstack/react-router-devtools@^1.114.21":
-  version "1.114.21"
-  resolved "https://registry.yarnpkg.com/@tanstack/react-router-devtools/-/react-router-devtools-1.114.21.tgz#beee6b710ef9a275d1b750b0a67790c865d3d04d"
-  integrity sha512-umwT6OnrrRaB6W42X0gt6iemd0bJDFpi9vFysvdyQhm4FOpDOAUsYgt0oz7JexrHGLu8M1mx+vN6UgmVWJdpww==
+"@tanstack/react-router-devtools@^1.114.27":
+  version "1.114.27"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-router-devtools/-/react-router-devtools-1.114.27.tgz#e579d01fb1453c13b254231c31384808eead79a2"
+  integrity sha512-DKgMeFMgVdWiNADSemtYfOMR0dQ8xTtShfgRybDGffDe4iOQgnmeFWW1N4oBJylcj7kFRVm3yVOpDC9G6/zW4w==
   dependencies:
-    "@tanstack/router-devtools-core" "^1.114.20"
+    "@tanstack/router-devtools-core" "^1.114.25"
     solid-js "^1.9.5"
 
 "@tanstack/react-router@^1.43.12":
@@ -1065,20 +1065,11 @@
     "@tanstack/history" "1.114.12"
     "@tanstack/store" "^0.7.0"
 
-"@tanstack/router-devtools-core@^1.114.20":
-  version "1.114.20"
-  resolved "https://registry.yarnpkg.com/@tanstack/router-devtools-core/-/router-devtools-core-1.114.20.tgz#a89fd31c2141cf06d05c95a5a08a71555fcb640a"
-  integrity sha512-FJuV6PaGePefcQ/zN8/6vsEZ9OXy4LtdRpuOaYNRgFGJe76Z43TmN/yAjdPtNlczqUjL8Nl8siZ66uH5EJ+boQ==
+"@tanstack/router-devtools-core@^1.114.25":
+  version "1.114.25"
+  resolved "https://registry.yarnpkg.com/@tanstack/router-devtools-core/-/router-devtools-core-1.114.25.tgz#782411d536f95fc72d50d3498a06ca419bd5c746"
+  integrity sha512-3KFAAytAV6nWcXLTe3nWNaiRPV8AyM3jx5aa2UpB+RLDgDbO+GkVMnv3C7fnGCM6j2nw2/1boAvTvHcoKKO5UA==
   dependencies:
-    clsx "^2.1.1"
-    goober "^2.1.16"
-
-"@tanstack/router-devtools@^1.43.12":
-  version "1.114.21"
-  resolved "https://registry.yarnpkg.com/@tanstack/router-devtools/-/router-devtools-1.114.21.tgz#47296e8b16e540b4904545d4698da9d773c72e52"
-  integrity sha512-pQ+Wxgm3KKyay9/5WfnpRmwe0pzOqMYB8BfAuTQiTDrYPpfREOkUnOiVIGrIeLqFw/2aoyXVppKPQO9IcxVQjA==
-  dependencies:
-    "@tanstack/react-router-devtools" "^1.114.21"
     clsx "^2.1.1"
     goober "^2.1.16"
 
