@@ -7,13 +7,6 @@ import { Suspense } from 'react'
 
 export const Route = createFileRoute('/_protected/vehicles/$vehicleId/')({
   component: SingleVehicle,
-  loader: async ({ params }) => {
-    return {
-      vehicle: await queryClient.ensureQueryData(
-        vehicleIdQuery(params.vehicleId)
-      ),
-    }
-  },
 })
 
 function SingleVehicle() {

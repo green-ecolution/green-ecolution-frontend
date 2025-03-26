@@ -20,12 +20,6 @@ export const Route = createFileRoute('/_protected/vehicles/')({
   loader: ({ deps: { page } }) => {
     return { page }
   },
-  meta: () => [
-    {
-      title: 'Fahrzeuge',
-      path: '/vehicles',
-    },
-  ],
 })
 
 function Vehicles() {

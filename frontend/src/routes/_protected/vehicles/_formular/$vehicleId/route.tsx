@@ -5,17 +5,11 @@ import { createFileRoute, Outlet } from '@tanstack/react-router'
 export const Route = createFileRoute('/_protected/vehicles/_formular/$vehicleId')({
   component: () => <Outlet />,
   loader: async ({ params }) => {
+    const vehicle = await queryClient.ensureQueryData(vehicleIdQuery(params.vehicleId))
     return {
-      vehicle: await queryClient.ensureQueryData(
-        vehicleIdQuery(params.vehicleId)
-      ),
-    }
-  },
-  meta: ({ loaderData: { vehicle } }) => {
-    return [
-      {
+      crumb: {
         title: "Fahrzeug " + vehicle.numberPlate,
-      },
-    ]
+      }
+    }
   },
 })

@@ -13,12 +13,11 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { createFileRoute } from '@tanstack/react-router'
 import { useVehicleForm } from '@/hooks/form/useVehicleForm'
 
-export const Route = createFileRoute('/_protected/vehicles/_formular/new')({
+export const Route = createFileRoute('/_protected/vehicles/_formular/new/')({
   beforeLoad: () => {
     useFormStore.getState().setType('new')
   },
   component: NewVehicle,
-  meta: () => [{ title: 'Neues Fahrzeug' }],
 })
 
 function NewVehicle() {
@@ -43,7 +42,7 @@ function NewVehicle() {
   )
 
   const onSubmit = (data: VehicleForm) => {
-    mutate({...data})
+    mutate({ ...data })
   }
 
   return (

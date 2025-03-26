@@ -6,7 +6,7 @@ import { Suspense } from 'react'
 import VehicleUpdate from '@/components/vehicle/VehicleUpdate'
 
 export const Route = createFileRoute(
-  '/_protected/vehicles/_formular/$vehicleId/edit'
+  '/_protected/vehicles/_formular/$vehicleId/edit/'
 )({
   component: EditVehicle,
   beforeLoad: () => {
@@ -15,7 +15,6 @@ export const Route = createFileRoute(
   loader: async () => {
     if (!useStore.getState().auth.isAuthenticated) return
   },
-  meta: () => [{ title: 'Fahrzeug editieren' }],
 })
 
 function EditVehicle() {
