@@ -4,7 +4,6 @@ import { useBreadcrumbs } from '@/hooks/useBreadcrumb';
 
 function Breadcrumb() {
   const breadcrumbs = useBreadcrumbs();
-  console.log(breadcrumbs)
 
   const rootBreadcrumb = {
     title: 'Dashboard',
