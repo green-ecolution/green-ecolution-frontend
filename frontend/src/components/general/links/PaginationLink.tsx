@@ -25,6 +25,7 @@ const PaginationLink: React.FC<PaginationLinkProps> = ({ color = 'grey', link, l
       {label && <span>{label}</span>}
       {Icon && <Icon className="size-4" />}
     </Link>
-  )};
+  )
+};
 
 export default PaginationLink;

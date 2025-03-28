@@ -23,64 +23,67 @@ const TabGeneralData: React.FC<TabGeneralDataProps> = ({ wateringPlan }) => {
     ? format(new Date(wateringPlan.updatedAt), 'dd.MM.yyyy')
     : 'Keine Angabe'
 
-  const wateringPlanData = [
-    {
-      label: 'Länge der Route',
-      value: wateringPlan.distance
-        ? `${Math.round(wateringPlan.distance * 100) / 100} km`
-        : 'Keine Angabe',
-    },
-    {
-      label: 'Startpunkt',
-      value: 'Schleswiger Straße, Hauptzentrale',
-    },
-    {
-      label: 'Benötigtes Wasser',
-      value: wateringPlan.totalWaterRequired
-        ? `${wateringPlan.totalWaterRequired} Liter`
-        : 'Keine Angabe',
-    },
-    {
-      label: 'Transporter',
-      value: wateringPlan.transporter
-        ? `${wateringPlan.transporter.numberPlate}${wateringPlan.transporter.archivedAt ? ' (Archiviert)' : ''}`
-        : 'Keine Angabe',
-    },
-    {
-      label: 'Zusätzlicher Anhänger',
-      value: wateringPlan.trailer
-        ? `${wateringPlan.trailer.numberPlate}${wateringPlan.trailer.archivedAt ? ' (Archiviert)' : ''}`
-        : 'Keine Angabe',
-    },
-    {
-      label: 'Anzahl der Bewässerungsgruppen',
-      value: wateringPlan.treeclusters?.length
-        ? `${wateringPlan.treeclusters.length} Gruppe(n)`
-        : 'Keine Angabe',
-    },
-    {
-      label: 'Eingeteilte Mitarbeitende',
-      value: userRes.data?.length
-        ? userRes.data.map((user) => `${user.firstName} ${user.lastName}`).join(', ')
-        : 'Keine Angabe',
-    },
-    {
-      label: 'Benötigte Nachfüllungen',
-      value: wateringPlan.refillCount
-        ? wateringPlan.refillCount
-        : 'Keine Angabe',
-    },
-    {
-      label: 'Benötigte Zeit (Fahrzeit)',
-      value: wateringPlan.duration
-        ? `${formatDuration(intervalToDuration({ start: 0, end: wateringPlan.duration * 1000 }), { format: ['hours', 'minutes'], delimiter: ', ', locale: de })}`
-        : 'Keine Angabe',
-    },
-    {
-      label: 'Zuletzt geupdated',
-      value: updatedDate,
-    },
-  ]
+  const wateringPlanData: {
+    label: string,
+    value: string,
+  }[] = [
+      {
+        label: 'Länge der Route',
+        value: wateringPlan.distance
+          ? `${Math.round(wateringPlan.distance * 100) / 100} km`
+          : 'Keine Angabe',
+      },
+      {
+        label: 'Startpunkt',
+        value: 'Schleswiger Straße, Hauptzentrale',
+      },
+      {
+        label: 'Benötigtes Wasser',
+        value: wateringPlan.totalWaterRequired
+          ? `${wateringPlan.totalWaterRequired} Liter`
+          : 'Keine Angabe',
+      },
+      {
+        label: 'Transporter',
+        value: wateringPlan.transporter
+          ? `${wateringPlan.transporter.numberPlate}${wateringPlan.transporter.archivedAt ? ' (Archiviert)' : ''}`
+          : 'Keine Angabe',
+      },
+      {
+        label: 'Zusätzlicher Anhänger',
+        value: wateringPlan.trailer
+          ? `${wateringPlan.trailer.numberPlate}${wateringPlan.trailer.archivedAt ? ' (Archiviert)' : ''}`
+          : 'Keine Angabe',
+      },
+      {
+        label: 'Anzahl der Bewässerungsgruppen',
+        value: wateringPlan.treeclusters?.length
+          ? `${wateringPlan.treeclusters.length} Gruppe(n)`
+          : 'Keine Angabe',
+      },
+      {
+        label: 'Eingeteilte Mitarbeitende',
+        value: userRes.data?.length
+          ? userRes.data.map((user) => `${user.firstName} ${user.lastName}`).join(', ')
+          : 'Keine Angabe',
+      },
+      {
+        label: 'Benötigte Nachfüllungen',
+        value: wateringPlan.refillCount
+          ? wateringPlan.refillCount.toString()
+          : 'Keine Angabe',
+      },
+      {
+        label: 'Benötigte Zeit (Fahrzeit)',
+        value: wateringPlan.duration
+          ? `${formatDuration(intervalToDuration({ start: 0, end: wateringPlan.duration * 1000 }), { format: ['hours', 'minutes'], delimiter: ', ', locale: de })}`
+          : 'Keine Angabe',
+      },
+      {
+        label: 'Zuletzt geupdated',
+        value: updatedDate,
+      },
+    ]
 
   return (
     <>

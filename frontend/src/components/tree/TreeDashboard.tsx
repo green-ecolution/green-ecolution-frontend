@@ -19,9 +19,10 @@ interface TreeDashboardProps {
 
 const TreeDashboard = ({ treeId }: TreeDashboardProps) => {
   const { data: tree } = useSuspenseQuery(treeIdQuery(treeId));
-  const { data: treeCluster } = useQuery(
-    treeClusterIdQuery(tree.treeClusterId?.toString() ?? '')
-  )
+  const { data: treeCluster } = useQuery({
+    ...treeClusterIdQuery(tree.treeClusterId?.toString() ?? ''),
+    enabled: tree.treeClusterId !== undefined
+  })
 
   const tabs = useMemo(
     () => [
@@ -55,10 +56,10 @@ const TreeDashboard = ({ treeId }: TreeDashboardProps) => {
           </h1>
           {tree.treeClusterId && treeCluster ? (
             <p className="text-dark-600 text-lg">
-              <span>Bewässerungsgruppe: {treeCluster.name}</span>
+              <span>Bewässerungsgruppe: {treeCluster?.name}</span>
               {', '}
               <span>
-                Standort: {treeCluster.address}, {treeCluster.region?.name}
+                Standort: {treeCluster?.address}, {treeCluster?.region?.name}
               </span>
             </p>
           ) : (

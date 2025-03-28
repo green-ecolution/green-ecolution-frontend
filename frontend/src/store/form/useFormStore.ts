@@ -17,7 +17,9 @@ type FormStoreActions<Form> = {
 
 export type FormStore<T> = FormStoreState<T> & FormStoreActions<T>;
 
-const useFormStore = create<FormStore<unknown>>()(
+// TODO: find better solution
+/* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+const useFormStore = create<FormStore<any>>()(
   devtools(
     immer((set, get) => ({
       form: undefined,

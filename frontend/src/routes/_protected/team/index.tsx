@@ -2,18 +2,11 @@ import UserCard from '@/components/general/cards/UserCard'
 import LoadingInfo from '@/components/general/error/LoadingInfo'
 import { createFileRoute } from '@tanstack/react-router'
 import { Suspense } from 'react'
-import { ErrorBoundary } from 'react-error-boundary'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { userRoleQuery } from '@/api/queries'
 
 export const Route = createFileRoute('/_protected/team/')({
   component: Team,
-  meta: () => [
-    {
-      title: 'Mitarbeitende',
-      path: '/team',
-    },
-  ],
 })
 
 function Team() {
@@ -39,28 +32,19 @@ function Team() {
           <p>Führerscheinklasse</p>
         </header>
         <Suspense fallback={<LoadingInfo label="Daten werden geladen" />}>
-          <ErrorBoundary
-            fallback={
-              <p className="text-center text-dark-600 mt-10">
-                Es ist ein Fehler aufgetreten. Bitte versuchen Sie es später
-                erneut.
-              </p>
-            }
-          >
-            <ul>
-              {userRes.data?.length === 0 ? (
-                <li className="text-center text-dark-600 mt-10">
-                  <p>Es wurden leider keine Mitarbeitenden gefunden.</p>
+          <ul>
+            {userRes.data?.length === 0 ? (
+              <li className="text-center text-dark-600 mt-10">
+                <p>Es wurden leider keine Mitarbeitenden gefunden.</p>
+              </li>
+            ) : (
+              userRes.data?.map((user, key) => (
+                <li key={key} className="mb-5 last:mb-0">
+                  <UserCard user={user} />
                 </li>
-              ) : (
-                userRes.data?.map((user, key) => (
-                  <li key={key} className="mb-5 last:mb-0">
-                    <UserCard user={user} />
-                  </li>
-                ))
-              )}
-            </ul>
-          </ErrorBoundary>
+              ))
+            )}
+          </ul>
         </Suspense>
       </section>
     </div>

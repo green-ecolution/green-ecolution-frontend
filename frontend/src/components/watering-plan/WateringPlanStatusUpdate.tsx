@@ -68,7 +68,7 @@ const WateringPlanStatusUpdate = ({
       wateringPlanId: Number(wateringPlanId),
     })) || []
   )
-  
+
   const [errorMessages, setErrorMessages] = useState<string[]>([])
 
   const handleConsumedWaterChange = (index: number, value: number) => {
@@ -134,7 +134,7 @@ const WateringPlanStatusUpdate = ({
       </article>
 
       <section className="mt-10">
-      <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
+        <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
           <div className="space-y-6 md:w-1/2">
             <Select
               options={WateringPlanStatusOptions}
@@ -152,43 +152,43 @@ const WateringPlanStatusUpdate = ({
                   error={formState.errors.cancellationNote?.message}
                   {...register('cancellationNote')}
                 />
-            )}
+              )}
           </div>
 
           {selectedStatus ===
             WateringPlanStatus.WateringPlanStatusFinished && (
-            <fieldset className="mt-6">
-              <legend className="block font-semibold text-dark-800 mb-2.5">
-                Wasservergabe pro Bewässerungsgruppe:
-              </legend>
-              <p className="-mt-2 text-sm text-dark-600 mb-2.5">
-                Die Standardwerte ergeben sich aus 80 Litern pro Baum einer
-                Bewässerungsgruppe.
-              </p>
-              <ul className="space-y-5">
-                {manualEvaluation.map((field, index) => (
-                  <li key={field.treeClusterId} className="grid grid-cols-1 gap-y-2 md:grid-cols-2">
-                    <SelectedCard
-                      type="cluster"
-                      id={loadedData?.treeclusters[index].id}
-                    />
-                    <div className="relative flex flex-wrap items-center md:mb-3 md:ml-6">
-                      <Input
-                        error={errorMessages[index]}
-                        type="number"
-                        label="Liter"
-                        defaultValue={field.consumedWater}
-                        small
-                        hideLabel
-                        onChange={(e) => handleConsumedWaterChange(index, Number(e.target.value))}
+              <fieldset className="mt-6">
+                <legend className="block font-semibold text-dark-800 mb-2.5">
+                  Wasservergabe pro Bewässerungsgruppe:
+                </legend>
+                <p className="-mt-2 text-sm text-dark-600 mb-2.5">
+                  Die Standardwerte ergeben sich aus 80 Litern pro Baum einer
+                  Bewässerungsgruppe.
+                </p>
+                <ul className="space-y-5">
+                  {manualEvaluation.map((field, index) => (
+                    <li key={field.treeClusterId} className="grid grid-cols-1 gap-y-2 md:grid-cols-2">
+                      <SelectedCard
+                        type="cluster"
+                        id={loadedData?.treeclusters[index].id}
                       />
-                      <span className="absolute left-[8.5rem] top-1/2 -translate-y-1/2 ml-2">Liter</span>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </fieldset>
-          )}
+                      <div className="relative flex flex-wrap items-center md:mb-3 md:ml-6">
+                        <Input
+                          error={errorMessages[index]}
+                          type="number"
+                          label="Liter"
+                          defaultValue={field.consumedWater}
+                          small
+                          hideLabel
+                          onChange={(e) => handleConsumedWaterChange(index, Number(e.target.value))}
+                        />
+                        <span className="absolute left-[8.5rem] top-1/2 -translate-y-1/2 ml-2">Liter</span>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </fieldset>
+            )}
 
           <FormError show={isError} error={error?.message} />
 

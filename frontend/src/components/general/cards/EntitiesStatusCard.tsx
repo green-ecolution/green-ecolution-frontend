@@ -1,8 +1,9 @@
 import React from 'react'
 import Pill from '../Pill'
+import { StatusColor } from '@/hooks/details/useDetailsForWateringPlanStatus';
 
 interface EntitiesStatusCard {
-  statusDetails: { label: string; color: string; description: string }
+  statusDetails: { label: string; color: StatusColor; description: string }
   label: string
   hasPill?: boolean
 }
@@ -13,7 +14,7 @@ const EntitiesStatusCard: React.FC<EntitiesStatusCard> = ({
   hasPill = false,
 }) => {
   const backgroundColor =
-    statusDetails.color === 'dark-400' ||  statusDetails.color === 'dark-600'
+    statusDetails.color === 'dark-400' || statusDetails.color === 'dark-600'
       ? 'dark-50'
       : `${statusDetails.color}-100`
 

@@ -4,7 +4,6 @@ import LoadingInfo from '@/components/general/error/LoadingInfo'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { createFileRoute, useLoaderData } from '@tanstack/react-router'
 import { Suspense } from 'react'
-import { ErrorBoundary } from 'react-error-boundary'
 import ButtonLink from '@/components/general/links/ButtonLink'
 import { Plus } from 'lucide-react'
 import Pagination from '@/components/general/Pagination'
@@ -21,12 +20,6 @@ export const Route = createFileRoute('/_protected/vehicles/')({
   loader: ({ deps: { page } }) => {
     return { page }
   },
-  meta: () => [
-    {
-      title: 'Fahrzeuge',
-      path: '/vehicles',
-    },
-  ],
 })
 
 function Vehicles() {
@@ -61,34 +54,22 @@ function Vehicles() {
           <p>Führerscheinklasse</p>
         </header>
         <Suspense fallback={<LoadingInfo label="Daten werden geladen" />}>
-          <ErrorBoundary
-            fallback={
-              <p className="text-center text-dark-600 mt-10">
-                Es ist ein Fehler aufgetreten. Bitte versuchen Sie es später
-                erneut.
-              </p>
-            }
-          >
-            <ul>
-              {vehicleRes.data?.length === 0 ? (
-                <li className="text-center text-dark-600 mt-10">
-                  <p>Es wurden leider keine Fahrzeuge gefunden.</p>
+          <ul>
+            {vehicleRes.data?.length === 0 ? (
+              <li className="text-center text-dark-600 mt-10">
+                <p>Es wurden leider keine Fahrzeuge gefunden.</p>
+              </li>
+            ) : (
+              vehicleRes.data?.map((vehicle, key) => (
+                <li key={key} className="mb-5 last:mb-0">
+                  <VehicleCard vehicle={vehicle} />
                 </li>
-              ) : (
-                vehicleRes.data?.map((vehicle, key) => (
-                  <li key={key} className="mb-5 last:mb-0">
-                    <VehicleCard vehicle={vehicle} />
-                  </li>
-                ))
-              )}
-            </ul>
-            {vehicleRes.pagination && vehicleRes.pagination?.totalPages > 1 && (
-              <Pagination
-                route="/_protected/vehicles/"
-                pagination={vehicleRes.pagination}
-              />
+              ))
             )}
-          </ErrorBoundary>
+          </ul>
+          {vehicleRes.pagination && vehicleRes.pagination?.totalPages > 1 && (
+            <Pagination pagination={vehicleRes.pagination} />
+          )}
         </Suspense>
       </section>
     </div>

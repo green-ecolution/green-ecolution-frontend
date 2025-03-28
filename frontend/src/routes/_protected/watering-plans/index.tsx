@@ -7,7 +7,6 @@ import { useSuspenseQuery } from '@tanstack/react-query'
 import { createFileRoute, useLoaderData } from '@tanstack/react-router'
 import { Plus } from 'lucide-react'
 import { Suspense } from 'react'
-import { ErrorBoundary } from 'react-error-boundary'
 import { z } from 'zod'
 
 export const Route = createFileRoute('/_protected/watering-plans/')({
@@ -55,34 +54,22 @@ function WateringPlans() {
           <p>Bewässerungsgruppen</p>
         </header>
         <Suspense fallback={<LoadingInfo label="Daten werden geladen" />}>
-          <ErrorBoundary
-            fallback={
-              <p className="text-center text-dark-600 mt-10">
-                Es ist ein Fehler aufgetreten. Bitte versuchen Sie es später
-                erneut.
-              </p>
-            }
-          >
-            <ul>
-              {wateringPlanRes.data?.length === 0 ? (
-                <li className="text-center text-dark-600 mt-10">
-                  <p>Es wurden leider keine Einsatzpläne gefunden.</p>
+          <ul>
+            {wateringPlanRes.data?.length === 0 ? (
+              <li className="text-center text-dark-600 mt-10">
+                <p>Es wurden leider keine Einsatzpläne gefunden.</p>
+              </li>
+            ) : (
+              wateringPlanRes.data?.map((wateringPlan, key) => (
+                <li key={key} className="mb-5 last:mb-0">
+                  <WateringPlanCard wateringPlan={wateringPlan} />
                 </li>
-              ) : (
-                wateringPlanRes.data?.map((wateringPlan, key) => (
-                  <li key={key} className="mb-5 last:mb-0">
-                    <WateringPlanCard wateringPlan={wateringPlan} />
-                  </li>
-                ))
-              )}
-            </ul>
-            {wateringPlanRes.pagination && wateringPlanRes.pagination?.totalPages > 1 && (
-              <Pagination
-                route="/_protected/watering-plans/"
-                pagination={wateringPlanRes.pagination}
-              />
+              ))
             )}
-          </ErrorBoundary>
+          </ul>
+          {wateringPlanRes.pagination && wateringPlanRes.pagination?.totalPages > 1 && (
+            <Pagination pagination={wateringPlanRes.pagination} />
+          )}
         </Suspense>
       </section>
     </div>

@@ -56,7 +56,7 @@ const TreeClusterUpdate = ({ clusterId }: TreeClusterUpdateProps) => {
 
   const handleDeleteTreeCluster = () => {
     return clusterApi.deleteTreeCluster({
-      clusterId: String(clusterId),
+      clusterId: Number(clusterId),
     })
   }
 

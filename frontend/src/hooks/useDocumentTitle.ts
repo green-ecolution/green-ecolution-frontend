@@ -5,7 +5,7 @@ function useDocumentTitle() {
   const title = useRouterState({
     select: (state) => {
       return state.matches
-        .map((match) => match.meta?.find((tag) => tag.title)?.title)
+        .map((match) => match.meta?.find((tag) => tag?.title)?.title)
         .filter((title) => Boolean(title))
         .reverse()
         .join(' | ')

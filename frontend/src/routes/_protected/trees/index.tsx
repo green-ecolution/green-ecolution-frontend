@@ -3,7 +3,6 @@ import LoadingInfo from '@/components/general/error/LoadingInfo'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { createFileRoute, useLoaderData } from '@tanstack/react-router'
 import { Suspense } from 'react'
-import { ErrorBoundary } from 'react-error-boundary'
 import ButtonLink from '@/components/general/links/ButtonLink'
 import { Plus } from 'lucide-react'
 import TreeCard from '@/components/general/cards/TreeCard'
@@ -74,34 +73,22 @@ function Trees() {
           <p>Bewässerungsgruppe</p>
         </header>
         <Suspense fallback={<LoadingInfo label="Daten werden geladen" />}>
-          <ErrorBoundary
-            fallback={
-              <p className="text-center text-dark-600 mt-10">
-                Es ist ein Fehler aufgetreten. Bitte versuchen Sie es später
-                erneut.
-              </p>
-            }
-          >
-            <ul>
-              {treesRes.data?.length === 0 ? (
-                <li className="text-center text-dark-600 mt-10">
-                  <p>Es wurden leider keine Bäume gefunden.</p>
+          <ul>
+            {treesRes.data?.length === 0 ? (
+              <li className="text-center text-dark-600 mt-10">
+                <p>Es wurden leider keine Bäume gefunden.</p>
+              </li>
+            ) : (
+              treesRes.data?.map((tree, key) => (
+                <li key={key} className="mb-5 last:mb-0">
+                  <TreeCard tree={tree} />
                 </li>
-              ) : (
-                treesRes.data?.map((tree, key) => (
-                  <li key={key} className="mb-5 last:mb-0">
-                    <TreeCard tree={tree} />
-                  </li>
-                ))
-              )}
-            </ul>
-            {treesRes.pagination && treesRes.pagination?.totalPages > 1 && (
-              <Pagination
-                route="/_protected/trees/"
-                pagination={treesRes.pagination}
-              />
+              ))
             )}
-          </ErrorBoundary>
+          </ul>
+          {treesRes.pagination && treesRes.pagination?.totalPages > 1 && (
+            <Pagination pagination={treesRes.pagination} />
+          )}
         </Suspense>
       </section>
     </div>
@@ -109,7 +96,7 @@ function Trees() {
 }
 
 const TreesWithProvider = () => {
-  const search = useLoaderData({from: '/_protected/trees/'})
+  const search = useLoaderData({ from: '/_protected/trees/' })
 
   return (
     <FilterProvider
@@ -140,10 +127,5 @@ export const Route = createFileRoute('/_protected/trees/')({
   }) => {
     return { page, wateringStatuses, hasCluster, plantingYears }
   },
-  meta: () => [
-    {
-      title: 'Bäume',
-      path: '/trees',
-    },
-  ],
 })
+

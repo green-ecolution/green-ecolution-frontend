@@ -4,7 +4,6 @@ import LoadingInfo from '@/components/general/error/LoadingInfo'
 import TreeClusterDashboard from '@/components/treecluster/TreeClusterDashboard'
 import { createFileRoute } from '@tanstack/react-router'
 import { Suspense } from 'react'
-import { ErrorBoundary } from 'react-error-boundary'
 
 export const Route = createFileRoute('/_protected/treecluster/$treeclusterId/')({
   component: SingleTreecluster,
@@ -25,17 +24,7 @@ function SingleTreecluster() {
       <Suspense
         fallback={<LoadingInfo label="Bewässerungsgruppe wird geladen …" />}
       >
-        <ErrorBoundary
-          fallback={
-            <p className="text-red text-lg font-semibold">
-              Eine Bewässerungsgruppe mit der Identifikationsnummer {clusterId}{' '}
-              gibt es nicht oder die Bewässerungsgruppendaten konnten nicht
-              geladen werden
-            </p>
-          }
-        >
-          <TreeClusterDashboard treeclusterId={clusterId} />
-        </ErrorBoundary>
+        <TreeClusterDashboard treeclusterId={clusterId} />
       </Suspense>
     </div>
   )

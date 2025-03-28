@@ -25,7 +25,7 @@ export const useTreeForm = (mutationType: 'create' | 'update', treeId?: string) 
         })
       } else if (mutationType === 'update' && treeId) {
         return treeApi.updateTree({
-          treeId: treeId,
+          treeId: Number(treeId),
           body: tree as TreeUpdate,
         })
       }

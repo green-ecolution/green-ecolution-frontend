@@ -1,7 +1,7 @@
 import Option from '../Option'
-import useFilter from '@/hooks/useFilter'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { regionsQuery } from '@/api/queries'
+import { useFilter } from '@/context/FilterContext'
 
 const RegionFieldset = () => {
   const { filters, handleRegionChange } = useFilter()

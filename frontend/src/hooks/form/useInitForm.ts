@@ -1,12 +1,12 @@
 import { useEffect, useRef } from "react";
 import {
-  UseQueryOptions,
   useSuspenseQuery,
+  UseSuspenseQueryOptions,
 } from "@tanstack/react-query";
 import useFormStore, { FormStore } from "@/store/form/useFormStore";
 
 export const useInitFormQuery = <TData, TSchema>(
-  queryOptions: UseQueryOptions<TData>,
+  queryOptions: UseSuspenseQueryOptions<TData>,
   handler: (v: TData) => TSchema,
 ) => {
   const { init, isEmpty, form } = useFormStore((state: FormStore<TSchema>) => ({
@@ -40,7 +40,7 @@ export const useInitForm = <T>(defaulForm: T) => {
     if (isEmpty()) {
       initForm.current = defaulForm;
       init(initForm.current);
-    } 
+    }
   }, [defaulForm, init, isEmpty]);
 
   return { initForm: initForm.current };

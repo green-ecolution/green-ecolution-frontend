@@ -18,7 +18,7 @@ const TabWateringStatus: React.FC<TabWateringStatusProps> = ({ tree }) => {
       value: tree?.sensor?.latestData
         ? `${tree?.sensor?.latestData.humidity} %`
         : 'Keine Daten',
-        isLarge: true,
+      isLarge: true,
       description: 'Wert bezeichnet den Wassergehalt im Boden.',
     },
     {
@@ -33,7 +33,7 @@ const TabWateringStatus: React.FC<TabWateringStatusProps> = ({ tree }) => {
     {
       overline: 'Datum der letzten Bewässerung',
       value: tree?.lastWatered
-          ? format(new Date(tree.lastWatered), 'dd.MM.yyyy')
+        ? format(new Date(tree.lastWatered), 'dd.MM.yyyy')
         : 'Keine Angabe',
       isLarge: false,
       description: 'Wird aktualisiert, sobald ein Einsatzplan mit diesem Baum als »Beendet« markiert wird.',

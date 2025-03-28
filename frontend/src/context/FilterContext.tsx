@@ -1,4 +1,4 @@
-import React, { createContext, useState, ReactNode } from 'react'
+import React, { createContext, useState, ReactNode, useContext } from 'react'
 
 export interface Filters {
   statusTags: string[]
@@ -101,6 +101,15 @@ const FilterProvider: React.FC<FilterProviderProps> = ({
       {children}
     </FilterContext.Provider>
   )
+}
+
+/* eslint-disable-next-line react-refresh/only-export-components */
+export const useFilter = () => {
+  const context = useContext(FilterContext)
+  if (context === undefined) {
+    throw new Error('useFilter must be used within a FilterProvider')
+  }
+  return context
 }
 
 export default FilterProvider
