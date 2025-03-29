@@ -3,10 +3,9 @@ import { useMapEvents } from "react-leaflet/hooks";
 import useMapStore from "@/store/store";
 
 export interface MapConrollerProps {
-  path: string;
 }
 
-const MapConroller = ({ path }: MapConrollerProps) => {
+const MapConroller = () => {
   const navigate = useNavigate();
   const { setCenter, setZoom } = useMapStore((state) => ({
     setCenter: state.map.setCenter,
@@ -19,7 +18,7 @@ const MapConroller = ({ path }: MapConrollerProps) => {
       setCenter([center.lat, center.lng]);
       setZoom(zoom);
       navigate({
-        to: path,
+        to: ".",
         search: (prev) => ({ ...prev, lat: center.lat, lng: center.lng, zoom }),
         replace: true,
       });
