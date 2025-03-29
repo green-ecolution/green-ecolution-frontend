@@ -49,7 +49,7 @@ function MapRoot() {
   return (
     <div className="relative">
       <Map>
-        <MapConroller path={Route.fullPath} />
+        <MapConroller />
         <ZoomControls />
         <Suspense fallback={<LoadingInfo label='Lade Karte...' />}>
           <Outlet />
