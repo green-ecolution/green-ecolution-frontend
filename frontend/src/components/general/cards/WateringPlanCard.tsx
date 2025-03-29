@@ -5,11 +5,11 @@ import React from 'react'
 import Pill from '../Pill'
 import { format } from 'date-fns'
 
-interface WateringPlanCard {
+interface WateringPlanCardProps {
   wateringPlan: WateringPlanInList
 }
 
-const WateringPlanCard: React.FC<WateringPlanCard> = ({ wateringPlan }) => {
+const WateringPlanCard: React.FC<WateringPlanCardProps> = ({ wateringPlan }) => {
   const statusDetails = getWateringPlanStatusDetails(wateringPlan.status)
   const date = wateringPlan?.date
     ? format(new Date(wateringPlan?.date), 'dd.MM.yyyy')
@@ -38,7 +38,7 @@ const WateringPlanCard: React.FC<WateringPlanCard> = ({ wateringPlan }) => {
 
       <p className="text-dark-800">
         <span className="lg:sr-only">Länge:&nbsp;</span>
-        {wateringPlan.distance} km
+        {`${Math.round(wateringPlan.distance * 100) / 100} km`}
       </p>
 
       <p className="text-dark-800">
