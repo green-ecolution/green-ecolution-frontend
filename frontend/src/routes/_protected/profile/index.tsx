@@ -20,7 +20,7 @@ function Profile() {
         </h1>
         <p>
           Dies ist Ihre persönliche Profilseite. Auf dieser Seite finden Sie
-          Ihre persönlichen Daten sowie Ihre Berechtigungsstufe.{' '}
+          Ihre persönlichen Daten.{' '}
         </p>
       </article>
 
