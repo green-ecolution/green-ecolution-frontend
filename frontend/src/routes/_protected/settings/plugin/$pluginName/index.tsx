@@ -7,6 +7,7 @@ import {
   loadRemote,
   registerRemotes,
 } from '@module-federation/enhanced/runtime'
+import { basePath } from '@/api/backendApi'
 
 export const Route = createFileRoute('/_protected/settings/plugin/$pluginName/')(
   {
@@ -29,7 +30,7 @@ function PluginView() {
     () =>
       lazy(async () => {
         const { url, name } = {
-          url: `/api-local/v1/plugin/${pluginName}/plugin.js`,
+          url: `${basePath}/v1/plugin/${pluginName}/plugin.js`,
           name: pluginName,
         }
 
