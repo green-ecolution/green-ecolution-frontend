@@ -2,14 +2,20 @@
 
 Smart irrigation is needed to save water, staff and costs. This project is the user-interface for Green Ecolution. For Backend please refer to [Green Ecolution Frontend](https://github.com/green-ecolution/green-ecolution-backend)
 The user-interface allows users to connect to the backend and interact with it's database. Interactions are possible with:
+
 - trees
 - tree clusters
-- flower beds
 - sensors
+- watering plans
+- vehicles
+- users
 
-While the project is created in collaboration with the local green space management (TBZ Flensburg) this software aims to be applicable for other cities.
+While the project is created in collaboration with the local green space management (TBZ Flensburg), this software aims to be applicable to other cities. It was initially developed at the University of Applied Sciences Flensburg as a research project within the Applied Computer Science masters degree program.
 
-- [Roadmap](https://github.com/orgs/green-ecolution/projects/5/views/3)
+For more information please refer to:
+- [Project website](https://green-ecolution.de/)
+- [University of Applied Sciences Flensburg](https://hs-flensburg.de/en)
+- [Try it out | Demo](https://demo.green-ecolution.de)
 
 This project makes use of React working in Vite with HMR and .ESLint rules.
 For further information refer to [React + TypeScript + Vite](https://github.com/fresh-app/fresh-vite-app-react-ts)
