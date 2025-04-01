@@ -37,11 +37,11 @@ export const treeClusterQuery = (params?: GetAllTreeClustersRequest) =>
   queryOptions<TreeClusterList>({
     queryKey: [
       'treeclusters',
-      params?.page ?? '1',
-      params?.limit ?? 'none',
-      params?.regions ?? 'none',
-      params?.wateringStatuses ?? 'none',
-    ],  
+      params?.page,
+      params?.limit,
+      params?.regions,
+      params?.wateringStatuses,
+    ].filter(e => e != undefined || e != null),
     queryFn: () => clusterApi.getAllTreeClusters(params),
   })
 
@@ -82,12 +82,11 @@ export const treeQuery = (params?: GetAllTreesRequest) =>
   queryOptions<TreeList>({
     queryKey: [
       'trees',
-      params?.page ?? '1',
-      params?.limit ?? 'none',
-      params?.hasCluster ?? 'none',
-      params?.wateringStatuses ?? 'none',
-      params?.plantingYears ?? 'none',
-    ],
+      params?.page,
+      params?.limit,
+      params?.wateringStatuses,
+      params?.plantingYears,
+    ].filter(e => e != undefined || e != null),
     queryFn: () => treeApi.getAllTrees(params),
   })
 
@@ -131,10 +130,10 @@ export const vehicleQuery = (params?: GetAllVehiclesRequest) => {
   return queryOptions<VehicleList>({
     queryKey: [
       'vehicle',
-      params?.type ?? '1',
-      params?.page ?? '1',
-      params?.limit ?? 'none',
-    ],
+      params?.type,
+      params?.page,
+      params?.limit,
+    ].filter(e => e != undefined || e != null),
     queryFn: () => vehicleApi.getAllVehicles(params),
   })
 }

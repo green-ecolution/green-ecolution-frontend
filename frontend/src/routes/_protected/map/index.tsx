@@ -5,7 +5,7 @@ import {
 } from '@tanstack/react-router'
 import MapButtons from '@/components/map/MapButtons'
 import { Tree, TreeCluster } from '@green-ecolution/backend-client'
-import { useSuspenseQuery } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import { treeQuery } from '@/api/queries'
 import { useRef } from 'react'
 import Dialog from '@/components/general/filter/Dialog'
@@ -40,11 +40,14 @@ function MapView() {
       : false
   }
 
-  const { data: treesRes } = useSuspenseQuery(treeQuery({
-    wateringStatuses: search.wateringStatuses,
-    hasCluster: search.hasCluster,
-    plantingYears: search.plantingYears,
-  }))
+  const { data: treesRes } = useQuery({
+    enabled: search.wateringStatuses !== undefined || search.hasCluster !== undefined || search.plantingYears !== undefined,
+    ...treeQuery({
+      wateringStatuses: search.wateringStatuses,
+      hasCluster: search.hasCluster,
+      plantingYears: search.plantingYears,
+    })
+  })
 
   const handleTreeClick = (tree: Tree) => {
     navigate({ to: `/trees/$treeId`, params: { treeId: tree.id.toString() } })
@@ -82,7 +85,7 @@ function MapView() {
           onClick={handleTreeClick}
           selectedTrees={search.tree ? [search.tree] : []}
           hasHighlightedTree={search.tree}
-          filterdTrees={treesRes.data}
+          filterdTrees={treesRes?.data ?? []}
         />
       ) : (
         <WithTreesAndClusters

@@ -43,6 +43,7 @@ export const Route = createFileRoute('/_protected/map')({
       crumb: { title: "Karte" }
     }
   },
+  pendingComponent: () => <LoadingInfo label='Lade Karte...' />
 })
 
 function MapRoot() {
