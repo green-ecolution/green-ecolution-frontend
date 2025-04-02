@@ -6,6 +6,7 @@ import GeneralStatusCard from '../general/cards/GeneralStatusCard'
 import EntitiesStatusCard from '../general/cards/EntitiesStatusCard'
 import ChartWateringData from './ChartWateringData'
 import { format } from 'date-fns'
+import { roundTo } from '@/lib/utils'
 
 interface TabWateringStatusProps {
   tree?: Tree
@@ -16,7 +17,7 @@ const TabWateringStatus: React.FC<TabWateringStatusProps> = ({ tree }) => {
     {
       overline: 'Bodenfeuchte',
       value: tree?.sensor?.latestData
-        ? `${tree?.sensor?.latestData.humidity} %`
+        ? `${roundTo(tree.sensor.latestData.humidity, 2)} %`
         : 'Keine Daten',
       isLarge: true,
       description: 'Wert bezeichnet den Wassergehalt im Boden.',
@@ -24,7 +25,7 @@ const TabWateringStatus: React.FC<TabWateringStatusProps> = ({ tree }) => {
     {
       overline: 'Bodentemperatur',
       value: tree?.sensor?.latestData
-        ? `${tree?.sensor?.latestData.temperature} °C`
+        ? `${roundTo(tree?.sensor?.latestData.temperature, 2)} °C`
         : 'Keine Daten',
       isLarge: true,
       description:
