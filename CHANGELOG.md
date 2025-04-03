@@ -4,9 +4,33 @@ All notable changes to this project will be documented in this file. The format 
 
 ## [Unreleased]
 
+## [v1.2.0] - 2025-04-03
+
+### Added
+
+- Pagination (#380)
+- Expand watering status with value "just watered" (#405)
+- Add graphs for watering status values and sensor values (#406)
+- Add watering plan evaluation (#408)
+- Show origin of tree (#419)
+- Add map bounderies (#425)
+- Add error page (#457)
+
+### Changed
+
+- Update content on startpage (#402)
+- Improve map performance (#412)
+- Use backend filtering (#464)
+
+### Fixed
+
+- Do not show empty treecluster (#403)
+- cleanup tsc compiling error (#478)
+
 ## [v1.1.0] - 2024-01-13
 
 ### Added
+
 - Route preview added (#324).
 - Preview route in dashboard (#357).
 - Overview of all users (#336).
@@ -17,6 +41,7 @@ All notable changes to this project will be documented in this file. The format 
 - Error page for better handling of issues (#288).
 
 ### Changed
+
 - Show correct data in the "Own Profile" view (#320).
 - Display real sensor data on the single tree view (#314).
 - Show tree number in tooltip on hover (#180).
@@ -29,6 +54,7 @@ All notable changes to this project will be documented in this file. The format 
 - Wording update: Renamed "Baumkataster" (#258).
 
 ### Fixed
+
 - Single tree view error resolved (#349).
 - Tree cluster view not updating properly (#342).
 - Tree clusters without a region are now visible on the map (#252).
@@ -38,8 +64,8 @@ All notable changes to this project will be documented in this file. The format 
 - CSV files recognized as MS-Excel in Windows + Firefox (#237).
 
 ### Removed
-- Removed unused `shadcn` classes and updated info view (#293).
 
+- Removed unused `shadcn` classes and updated info view (#293).
 
 ## [v1.0.0] - 2024-10-22
 
@@ -73,3 +99,4 @@ All notable changes to this project will be documented in this file. The format 
 [Unreleased]: https://github.com/green-ecolution/green-ecolution-frontend/compare/v1.0.0...HEAD
 [v1.0.0]: https://github.com/green-ecolution/green-ecolution-frontend/compare/c0b0e1...v1.0.0
 [v1.1.0]: https://github.com/green-ecolution/green-ecolution-frontend/compare/v1.0.0...v1.1.0
+[v1.2.0]: https://github.com/green-ecolution/green-ecolution-frontend/compare/v1.1.0...v1.2.0
