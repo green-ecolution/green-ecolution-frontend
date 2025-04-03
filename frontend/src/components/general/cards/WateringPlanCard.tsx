@@ -4,6 +4,7 @@ import { Link } from '@tanstack/react-router'
 import React from 'react'
 import Pill from '../Pill'
 import { format } from 'date-fns'
+import { roundTo } from '@/lib/utils'
 
 interface WateringPlanCardProps {
   wateringPlan: WateringPlanInList
@@ -38,7 +39,7 @@ const WateringPlanCard: React.FC<WateringPlanCardProps> = ({ wateringPlan }) => 
 
       <p className="text-dark-800">
         <span className="lg:sr-only">Länge:&nbsp;</span>
-        {`${Math.round(wateringPlan.distance * 100) / 100} km`}
+        {`${roundTo(wateringPlan.distance, 2)} km`}
       </p>
 
       <p className="text-dark-800">
