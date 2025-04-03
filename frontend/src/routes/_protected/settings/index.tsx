@@ -22,13 +22,10 @@ function Settings() {
           Ihre persönlichen Einstellungen
         </h1>
         <p>
-          In diesem Bereich können Sie Einstellungen ändern sowie einen Re-Import des Baumkatasters anstoßen.
+          In diesem Bereich können Sie die Systemeinstellungen einsehen.
+          Dazu gehört unter anderem eine Übersicht darüber, welche Plugins bzw. Erweiterungen für das System freigeschaltet sind.
         </p>
       </article>
-
-      <h2 className="text-sm font-semibold text-dark-800 mb-4">
-        Schnellverweise
-      </h2>
 
       <ul className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
         {cards.map((card, key) => (

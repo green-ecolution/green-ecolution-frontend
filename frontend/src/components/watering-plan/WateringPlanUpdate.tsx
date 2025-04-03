@@ -8,7 +8,7 @@ import { useNavigate } from '@tanstack/react-router'
 import { Route } from '@/routes'
 import useStore from '@/store/store'
 import GeneralLink from '../general/links/GeneralLink'
-import { showWateringPlanStatusButton } from '@/hooks/useDetailsForWateringPlanStatus'
+import { showWateringPlanStatusButton } from '@/hooks/details/useDetailsForWateringPlanStatus'
 import LoadingInfo from '../general/error/LoadingInfo'
 import { Suspense } from 'react'
 import DeleteSection from '../treecluster/DeleteSection'
@@ -31,7 +31,7 @@ const WateringPlanUpdate = ({ wateringPlanId }: WateringPlanUpdateProps) => {
   const { initForm, loadedData } = useInitFormQuery(
     wateringPlanIdQuery(wateringPlanId),
     (data) => ({
-      date: new Date(data.date).toISOString().substring(0, 10),
+      date: new Date(data.date), //.toISOString().substring(0, 10),
       description: data.description,
       transporterId: data.transporter.id,
       trailerId: data.trailer?.id,
@@ -48,7 +48,6 @@ const WateringPlanUpdate = ({ wateringPlanId }: WateringPlanUpdateProps) => {
     : 'Keine Angabe'
 
   const { data: users } = useSuspenseQuery(userRoleQuery('tbz'))
-
   const { data: trailers } = useSuspenseQuery(vehicleQuery({ type: 'trailer' }))
   const { data: transporters } = useSuspenseQuery(
     vehicleQuery({ type: 'transporter' })
@@ -57,7 +56,7 @@ const WateringPlanUpdate = ({ wateringPlanId }: WateringPlanUpdateProps) => {
   const { register, handleSubmit, formState } =
     useFormSync<WateringPlanForm>(
       initForm,
-      zodResolver(WateringPlanSchema(false))
+      zodResolver(WateringPlanSchema('update'))
     )
 
   const onSubmit: SubmitHandler<WateringPlanForm> = async (data) => {
@@ -89,7 +88,7 @@ const WateringPlanUpdate = ({ wateringPlanId }: WateringPlanUpdateProps) => {
 
   const handleDeleteWateringPlan = () => {
     return wateringPlanApi.deleteWateringPlan({
-      id: String(wateringPlanId),
+      id: Number(wateringPlanId),
     })
   }
 

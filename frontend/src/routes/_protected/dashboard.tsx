@@ -38,7 +38,7 @@ function Dashboard() {
       url: '/settings',
       description: 'Hier können Sie Einstellungen vornehmen, da Sie Administrator sind.',
       headline: 'Einstellungen',
-      linkLabel: 'Zur Einsatzplanung',
+      linkLabel: 'Zu den Einstellungen',
     },
     {
       url: '/profile',
@@ -66,7 +66,7 @@ function Dashboard() {
       <ul className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
         {cards.map((card, key) => (
           <li key={key}>
-            <DashboardCard 
+            <DashboardCard
               headline={card.headline}
               description={card.description}
               linkLabel={card.linkLabel}

@@ -5,6 +5,7 @@ interface ToastContext {
   showToast: (message: string, type?: 'success' | 'error') => void
 }
 
+/* eslint-disable-next-line react-refresh/only-export-components */
 export const ToastContext = createContext<ToastContext | undefined>(undefined)
 
 interface ToastProviderProps extends React.PropsWithChildren {}

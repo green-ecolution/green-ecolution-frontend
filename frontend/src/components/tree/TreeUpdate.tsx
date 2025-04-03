@@ -34,7 +34,7 @@ const TreeUpdate = ({ treeId }: TreeUpdateProps) => {
       treeClusterId: data.treeClusterId ?? -1,
       sensorId: data.sensor?.id ?? '-1',
       description: data.description,
-      readonly: data.readonly,
+      provider: data.provider,
     })
   )
 
@@ -50,7 +50,7 @@ const TreeUpdate = ({ treeId }: TreeUpdateProps) => {
         data.sensorId && data.sensorId === '-1' ? undefined : data.sensorId,
       treeClusterId:
         data.treeClusterId &&
-        (data.treeClusterId === '-1' || data.treeClusterId <= 0)
+          (data.treeClusterId === '-1' || data.treeClusterId <= 0)
           ? undefined
           : data.treeClusterId,
     })
@@ -58,7 +58,7 @@ const TreeUpdate = ({ treeId }: TreeUpdateProps) => {
 
   const handleDeleteTree = () => {
     return treeApi.deleteTree({
-      treeId: String(treeId),
+      treeId: Number(treeId),
     })
   }
 
@@ -77,7 +77,7 @@ const TreeUpdate = ({ treeId }: TreeUpdateProps) => {
   return (
     <>
       <BackLink
-        link={{ to: '/tree/$treeId', params: { treeId } }}
+        link={{ to: '/trees/$treeId', params: { treeId } }}
         label="Zurück zur Übersicht"
       />
       <article className="2xl:w-4/5">
@@ -91,7 +91,7 @@ const TreeUpdate = ({ treeId }: TreeUpdateProps) => {
 
       <section className="mt-10">
         <FormForTree
-          isReadonly={initForm?.readonly ?? false}
+          isReadonly={!!initForm?.provider}
           register={register}
           handleSubmit={handleSubmit}
           displayError={isError}
@@ -104,11 +104,13 @@ const TreeUpdate = ({ treeId }: TreeUpdateProps) => {
         />
       </section>
 
-      <DeleteSection
-        mutationFn={handleDeleteTree}
-        entityName="der Baum"
-        redirectUrl={{ to: '/map' }}
-      />
+      {!initForm?.provider && (
+        <DeleteSection
+          mutationFn={handleDeleteTree}
+          entityName="der Baum"
+          redirectUrl={{ to: '/map' }}
+        />
+      )}
     </>
   )
 }

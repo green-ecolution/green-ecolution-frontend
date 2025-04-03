@@ -9,8 +9,7 @@ import PrimaryButton from '../buttons/PrimaryButton'
 import SecondaryButton from '../buttons/SecondaryButton'
 import { X } from 'lucide-react'
 import { useNavigate } from '@tanstack/react-router'
-import useFilter from '@/hooks/useFilter'
-import { Filters } from '@/context/FilterContext'
+import { useFilter, Filters } from '@/context/FilterContext'
 import useStore from '@/store/store'
 
 interface DialogProps {
@@ -18,8 +17,6 @@ interface DialogProps {
   fullUrlPath: string
   children?: React.ReactNode
   isOnMap?: boolean
-  onApplyFilters: () => void
-  onResetFilters: () => void
   onToggleOpen?: (isOpen: boolean) => void
 }
 
@@ -28,8 +25,6 @@ const Dialog = forwardRef(
     {
       headline,
       fullUrlPath,
-      onApplyFilters,
-      onResetFilters,
       children,
       isOnMap = false,
       onToggleOpen,
@@ -44,7 +39,7 @@ const Dialog = forwardRef(
       plantingYears: [],
     })
     const [count, setCount] = useState(0)
-    const navigate = useNavigate({ from: fullUrlPath })
+    const navigate = useNavigate()
     const mapPosition = useStore((state) => ({
       lat: state.map.center[0],
       lng: state.map.center[1],
@@ -54,17 +49,17 @@ const Dialog = forwardRef(
     const { filters, resetFilters, applyOldStateToTags } = useFilter()
 
     const handleSubmit = () => {
-      onApplyFilters()
       setIsOpen(false)
       setIsOpen(false)
       navigate({
+        to: fullUrlPath,
         search: () => ({
           lat: isOnMap ? mapPosition.lat : undefined,
           lng: isOnMap ? mapPosition.lng : undefined,
           zoom: isOnMap ? mapPosition.zoom : undefined,
-          status:
+          wateringStatuses:
             filters.statusTags.length > 0 ? filters.statusTags : undefined,
-          region:
+          regions:
             filters.regionTags.length > 0 ? filters.regionTags : undefined,
           hasCluster: filters.hasCluster ?? undefined,
           plantingYears:
@@ -76,7 +71,6 @@ const Dialog = forwardRef(
     }
 
     const handleReset = () => {
-      onResetFilters()
       applyOldStateToTags({
         statusTags: [],
         regionTags: [],
@@ -87,13 +81,17 @@ const Dialog = forwardRef(
       setIsOpen(false)
       isOnMap
         ? navigate({
-            search: {
-              lat: mapPosition.lat,
-              lng: mapPosition.lng,
-              zoom: mapPosition.zoom,
-            },
-          })
-        : navigate({ search: () => ({}) })
+          to: fullUrlPath,
+          search: {
+            lat: mapPosition.lat,
+            lng: mapPosition.lng,
+            zoom: mapPosition.zoom,
+          },
+        })
+        : navigate({
+          to: fullUrlPath,
+          replace: true,
+        })
     }
 
     const handleClose = () => {
@@ -109,9 +107,9 @@ const Dialog = forwardRef(
     useEffect(() => {
       setCount(
         filters.statusTags.length +
-          filters.regionTags.length +
-          (filters.hasCluster !== undefined ? 1 : 0) +
-          filters.plantingYears.length
+        filters.regionTags.length +
+        (filters.hasCluster !== undefined ? 1 : 0) +
+        filters.plantingYears.length
       )
     }, [filters])
 

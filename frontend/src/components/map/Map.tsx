@@ -1,6 +1,9 @@
 import { MapContainer, TileLayer } from 'react-leaflet'
 import React, { useMemo } from 'react'
 import useMapStore from '@/store/store'
+import { useSuspenseQuery } from '@tanstack/react-query'
+import { infoQuery } from '@/api/queries'
+import L from 'leaflet'
 
 export interface MapProps extends React.PropsWithChildren {
   width?: string
@@ -12,12 +15,17 @@ const Map = ({
   height = 'calc(100dvh - 4.563rem)',
   children,
 }: MapProps) => {
-  const { zoom, center, maxZoom, minZoom } = useMapStore((state) => ({
-    zoom: state.map.zoom,
-    center: state.map.center,
-    maxZoom: state.map.maxZoom,
-    minZoom: state.map.minZoom,
-  }))
+  const {data: appInfo } = useSuspenseQuery(infoQuery())
+
+  const { center, zoom, maxZoom, minZoom } = useMapStore(
+    (state) => ({
+      center: state.map.center,
+      zoom: state.map.zoom,
+      maxZoom: state.map.maxZoom,
+      minZoom: state.map.minZoom,
+    })
+  )
+
   const time = useMemo(() => new Date().getTime(), [])
 
   return (
@@ -31,6 +39,10 @@ const Map = ({
       zoom={zoom}
       maxZoom={maxZoom}
       minZoom={minZoom}
+      maxBounds={L.latLngBounds(
+        [appInfo?.map?.bbox[0], appInfo.map.bbox[1]],
+        [appInfo?.map?.bbox[2], appInfo.map.bbox[3]]
+      )}
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

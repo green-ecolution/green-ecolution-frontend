@@ -7,16 +7,7 @@ export const mapStore: SubStore<MapStore> = (set) => ({
   minZoom: 13,
   maxZoom: 18,
   showSelectModal: false,
-  setCenter: (center) =>
-    set((state) => {
-      state.map.center = center;
-    }),
-  setZoom: (zoom) =>
-    set((state) => {
-      state.map.zoom = zoom;
-    }),
-  setShowSelectModal: (showSelectModal) =>
-    set((state) => {
-      state.map.showSelectModal = showSelectModal;
-    }),
-});
+  setCenter: (center) => set((state) => { state.map.center = center; }),
+  setZoom: (zoom) => set((state) => { state.map.zoom = zoom; }),
+  setShowSelectModal: (showSelectModal) => set((state) => { state.map.showSelectModal = showSelectModal; }),
+})

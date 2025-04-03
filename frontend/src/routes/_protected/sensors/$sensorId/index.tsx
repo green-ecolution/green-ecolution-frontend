@@ -4,7 +4,6 @@ import LoadingInfo from '@/components/general/error/LoadingInfo'
 import SensorDashboard from '@/components/sensor/SensorDashboard'
 import { createFileRoute } from '@tanstack/react-router'
 import { Suspense } from 'react'
-import { ErrorBoundary } from 'react-error-boundary'
 
 export const Route = createFileRoute('/_protected/sensors/$sensorId/')({
   component: SingleSensor,
@@ -23,17 +22,7 @@ function SingleSensor() {
       <Suspense
         fallback={<LoadingInfo label="Sensordaten werden geladen …" />}
       >
-        <ErrorBoundary
-          fallback={
-            <p className="text-red text-lg font-semibold">
-              Einen Sensor mit der Identifikationsnummer {sensorId}{' '}
-              gibt es nicht oder die Sensordaten konnten nicht
-              geladen werden
-            </p>
-          }
-        >
-          <SensorDashboard sensorId={sensorId} />
-        </ErrorBoundary>
+        <SensorDashboard sensorId={sensorId} />
       </Suspense>
     </div>
   )

@@ -3,8 +3,8 @@ import {
   ClientTokenFromJSON,
   Configuration,
   ConfigurationParameters,
+  EvaluationApi,
   FetchAPI,
-  FileImportApi,
   HTTPHeaders,
   InfoApi,
   PluginApi,
@@ -81,17 +81,12 @@ export const treeApi = new TreeApi(config)
 export const treeSensorApi = new TreeSensorApi(config)
 export const clusterApi = new TreeClusterApi(config)
 export const infoApi = new InfoApi(config)
+export const evaluationApi = new EvaluationApi(config)
 export const userApi = new UserApi(config)
 export const regionApi = new RegionApi(config)
 export const sensorApi = new SensorApi(config)
 export const vehicleApi = new VehicleApi(config)
 export const pluginApi = new PluginApi(config)
 export const wateringPlanApi = new WateringPlanApi(config)
-export const importApi = new FileImportApi(
-  new Configuration({
-    ...configParams,
-    headers: {},
-  })
-)
 
 export * from '@green-ecolution/backend-client'

@@ -1,7 +1,7 @@
 import Option from '../Option'
-import useFilter from '@/hooks/useFilter'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { regionsQuery } from '@/api/queries'
+import { useFilter } from '@/context/FilterContext'
 
 const RegionFieldset = () => {
   const { filters, handleRegionChange } = useFilter()
@@ -12,7 +12,7 @@ const RegionFieldset = () => {
       <legend className="font-lato font-semibold text-dark-600 mb-2">
         Stadtteil in Flensburg:
       </legend>
-      {regionRes?.regions.map((region) => (
+      {regionRes?.data.map((region) => (
         <Option
           key={region.id}
           label={region.name}

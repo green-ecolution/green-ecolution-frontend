@@ -1,6 +1,6 @@
+import { useFilter } from '@/context/FilterContext'
 import Option from '../Option'
-import { getWateringStatusDetails } from '@/hooks/useDetailsForWateringStatus'
-import useFilter from '@/hooks/useFilter'
+import { getWateringStatusDetails } from '@/hooks/details/useDetailsForWateringStatus'
 import { WateringStatus } from '@green-ecolution/backend-client'
 
 const StatusFieldset = () => {
@@ -11,14 +11,13 @@ const StatusFieldset = () => {
         Zustand der Bewässerung:
       </legend>
       {Object.entries(WateringStatus).map(
-        ([statusKey, statusValue]) => (
+        ([, statusValue]) => (
           <Option
-            key={statusKey}
+            key={statusValue}
+            value={statusValue}
             label={getWateringStatusDetails(statusValue).label}
-            name={statusKey}
-            checked={filters.statusTags.includes(
-              getWateringStatusDetails(statusValue).label
-            )}
+            name={statusValue}
+            checked={filters.statusTags.includes(statusValue)}
             onChange={handleStatusChange}
           >
             <div

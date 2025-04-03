@@ -4,7 +4,7 @@ import EntitiesStatusCard from '@/components/general/cards/EntitiesStatusCard'
 import GeneralStatusCard from '@/components/general/cards/GeneralStatusCard'
 import BackLink from '@/components/general/links/BackLink'
 import GeneralLink from '../general/links/GeneralLink'
-import { getSensorStatusDetails } from '@/hooks/useDetailsForSensorStatus'
+import { getSensorStatusDetails } from '@/hooks/details/useDetailsForSensorStatus'
 import { format, formatDistanceToNow } from 'date-fns'
 import { de } from 'date-fns/locale'
 import DetailedList from '../general/DetailedList'
@@ -80,7 +80,7 @@ const SensorDashboard = ({ sensorId }: SensorDashboardProps) => {
               overline="Akkustand"
               value={
                 sensor?.latestData?.battery
-                  ? `${sensor?.latestData?.battery} V`
+                  ? `${sensor?.latestData?.battery.toFixed(2)} V`
                   : 'Keine Angabe'
               }
               isLarge
@@ -124,7 +124,7 @@ const SensorDashboard = ({ sensorId }: SensorDashboardProps) => {
               <GeneralLink
                 label="Zur verknüpften Vegetation"
                 link={{
-                  to: '/tree/$treeId',
+                  to: '/trees/$treeId',
                   params: { treeId: String(linkedTree.id) },
                 }}
               />

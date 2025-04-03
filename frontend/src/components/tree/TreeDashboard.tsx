@@ -7,7 +7,7 @@ import Tabs from '../general/Tabs'
 import { useMemo } from 'react'
 import TreeIcon from '../icons/Tree'
 import SensorIcon from '../icons/Sensor'
-import { useSuspenseQuery } from '@tanstack/react-query'
+import { useQuery, useSuspenseQuery } from '@tanstack/react-query'
 import { treeClusterIdQuery, treeIdQuery } from '@/api/queries'
 import TabWateringStatus from './TabWateringStatus'
 import TabGeneralData from './TabGeneralData'
@@ -19,9 +19,10 @@ interface TreeDashboardProps {
 
 const TreeDashboard = ({ treeId }: TreeDashboardProps) => {
   const { data: tree } = useSuspenseQuery(treeIdQuery(treeId));
-  const { data: treeCluster } = useSuspenseQuery(
-    treeClusterIdQuery(tree.treeClusterId?.toString() ?? '')
-  )
+  const { data: treeCluster } = useQuery({
+    ...treeClusterIdQuery(tree.treeClusterId?.toString() ?? ''),
+    enabled: tree.treeClusterId !== undefined
+  })
 
   const tabs = useMemo(
     () => [
@@ -46,19 +47,19 @@ const TreeDashboard = ({ treeId }: TreeDashboardProps) => {
 
   return (
     <>
-      <BackLink link={{ to: '/map' }} label="Zur Karte" />
+      <BackLink link={{ to: '/trees' }} label="Zu allen Bäumen" />
       <article className="space-y-6 2xl:space-y-0 2xl:flex 2xl:items-center 2xl:space-x-10">
         <div className="2xl:w-4/5">
           <h1 className="font-lato font-bold text-3xl mb-4 flex flex-wrap items-center gap-4 lg:text-4xl xl:text-5xl">
             Baum: {tree.number}
-            {tree.readonly && <Pill label="importiert" theme="green-light" />}
+            <Pill label={tree.provider ? tree.provider : "manuell erstellt"} theme="green-light" />
           </h1>
-          {tree.treeClusterId ? (
+          {tree.treeClusterId && treeCluster ? (
             <p className="text-dark-600 text-lg">
-              <span>Bewässerungsgruppe: {treeCluster.name}</span>
+              <span>Bewässerungsgruppe: {treeCluster?.name}</span>
               {', '}
               <span>
-                Standort: {treeCluster.address}, {treeCluster.region?.name}
+                Standort: {treeCluster?.address}, {treeCluster?.region?.name}
               </span>
             </p>
           ) : (
@@ -80,7 +81,7 @@ const TreeDashboard = ({ treeId }: TreeDashboardProps) => {
                 },
               }}
             />
-            {tree.treeClusterId && (
+            {tree.treeClusterId && treeCluster && (
               <GeneralLink
                 label="Zur Bewässerungsgruppe"
                 link={{
@@ -97,11 +98,12 @@ const TreeDashboard = ({ treeId }: TreeDashboardProps) => {
           label="Baum bearbeiten"
           color="grey"
           link={{
-            to: `/tree/$treeId/edit`,
+            to: `/trees/$treeId/edit`,
             params: { treeId: String(tree.id) },
           }}
         />
       </article>
+
       {tree?.sensor ? (
         <Tabs tabs={tabs} />
       ) : (
@@ -114,7 +116,8 @@ const TreeDashboard = ({ treeId }: TreeDashboardProps) => {
             <p>
               Dieser Baum wurde bisher nicht mit einem Sensor ausgestattet,
               sodass keine Informationen über den aktuellen Bewässerungszustand
-              angezeigt werden können.
+              angezeigt werden können. Aus diesem Grund wird der Bewässerungszustand
+              als unbekannt ausgezeichnet.
             </p>
           </div>
           <TabGeneralData tree={tree} />

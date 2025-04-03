@@ -2,18 +2,31 @@ import { wateringPlanQuery } from '@/api/queries'
 import WateringPlanCard from '@/components/general/cards/WateringPlanCard'
 import LoadingInfo from '@/components/general/error/LoadingInfo'
 import ButtonLink from '@/components/general/links/ButtonLink'
+import Pagination from '@/components/general/Pagination'
 import { useSuspenseQuery } from '@tanstack/react-query'
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, useLoaderData } from '@tanstack/react-router'
 import { Plus } from 'lucide-react'
 import { Suspense } from 'react'
-import { ErrorBoundary } from 'react-error-boundary'
+import { z } from 'zod'
 
 export const Route = createFileRoute('/_protected/watering-plans/')({
   component: WateringPlans,
+  validateSearch: z.object({
+    page: z.number().default(1),
+  }),
+  loaderDeps: ({ search: { page } }) => ({
+    page: page || 1,
+  }),
+  loader: ({ deps: { page } }): { page: number } => {
+    return { page }
+  },
 })
 
 function WateringPlans() {
-  const { data: wateringPlanRes } = useSuspenseQuery(wateringPlanQuery())
+  const search = useLoaderData({ from: '/_protected/watering-plans/' })
+  const { data: wateringPlanRes } = useSuspenseQuery(
+    wateringPlanQuery({ page: search.page, limit: 5 })
+  )
 
   return (
     <div className="container mt-6">
@@ -41,28 +54,22 @@ function WateringPlans() {
           <p>Bewässerungsgruppen</p>
         </header>
         <Suspense fallback={<LoadingInfo label="Daten werden geladen" />}>
-          <ErrorBoundary
-            fallback={
-              <p className="text-center text-dark-600 mt-10">
-                Es ist ein Fehler aufgetreten. Bitte versuchen Sie es später
-                erneut.
-              </p>
-            }
-          >
-            <ul>
-              {wateringPlanRes.data?.length === 0 ? (
-                <li className="text-center text-dark-600 mt-10">
-                  <p>Es wurden leider keine Fahrzeuge gefunden.</p>
+          <ul>
+            {wateringPlanRes.data?.length === 0 ? (
+              <li className="text-center text-dark-600 mt-10">
+                <p>Es wurden leider keine Einsatzpläne gefunden.</p>
+              </li>
+            ) : (
+              wateringPlanRes.data?.map((wateringPlan, key) => (
+                <li key={key} className="mb-5 last:mb-0">
+                  <WateringPlanCard wateringPlan={wateringPlan} />
                 </li>
-              ) : (
-                wateringPlanRes.data?.map((wateringPlan, key) => (
-                  <li key={key} className="mb-5 last:mb-0">
-                    <WateringPlanCard wateringPlan={wateringPlan} />
-                  </li>
-                ))
-              )}
-            </ul>
-          </ErrorBoundary>
+              ))
+            )}
+          </ul>
+          {wateringPlanRes.pagination && wateringPlanRes.pagination?.totalPages > 1 && (
+            <Pagination pagination={wateringPlanRes.pagination} />
+          )}
         </Suspense>
       </section>
     </div>

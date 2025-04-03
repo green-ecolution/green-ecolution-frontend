@@ -2,17 +2,17 @@ import { Sensor } from '@green-ecolution/backend-client'
 import { format, formatDistanceToNow } from 'date-fns'
 import React from 'react'
 import Pill from '../Pill'
-import { getSensorStatusDetails } from '@/hooks/useDetailsForSensorStatus'
+import { getSensorStatusDetails } from '@/hooks/details/useDetailsForSensorStatus'
 import { useQuery } from '@tanstack/react-query'
 import { treeSensorIdQuery } from '@/api/queries'
 import { Link } from '@tanstack/react-router'
 import { de } from 'date-fns/locale'
 
-interface SensorCard {
+interface SensorCardProps {
   sensor: Sensor
 }
 
-const SensorCard: React.FC<SensorCard> = ({ sensor }) => {
+const SensorCard: React.FC<SensorCardProps> = ({ sensor }) => {
   const sensorId = String(sensor.id)
 
   const { data: treeRes } = useQuery(treeSensorIdQuery(sensorId))
@@ -26,7 +26,10 @@ const SensorCard: React.FC<SensorCard> = ({ sensor }) => {
 
   return (
     <Link
-      to={`/sensors/${sensor.id}`}
+      to={`/sensors/$sensorId`}
+      params={{
+        sensorId: sensor.id
+      }}
       className="bg-white border border-dark-50 p-6 rounded-xl shadow-cards flex flex-col gap-y-4 transition-all ease-in-out duration-300 hover:bg-green-dark-50 hover:border-green-dark lg:grid lg:grid-cols-[1fr,2fr,1fr,1fr] lg:items-center lg:gap-5 lg:py-10 xl:px-10"
     >
       <Pill label={statusDetails.label} theme={statusDetails.color} />
@@ -53,7 +56,7 @@ const SensorCard: React.FC<SensorCard> = ({ sensor }) => {
         <span className="lg:sr-only">Letztes Update:&nbsp;</span>
         {updatedDate}
       </p>
-    </Link>
+    </Link >
   )
 }
 

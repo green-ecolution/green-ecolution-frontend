@@ -1,15 +1,21 @@
-import { useRouterState } from '@tanstack/react-router'
+import { isMatch, useMatches } from '@tanstack/react-router'
 
-export function useBreadcrumbs() {
-  const breadcrumbs = useRouterState({
-    select: (state) => {
-      return state.matches
-        .map((match) => ({
-          title: match.meta?.find((tag) => tag.title)!.title as string,
-          path: match.pathname,
-        }))
-        .filter((crumb) => Boolean(crumb.title))
-    },
-  })
+export interface Breadcrumbs {
+  title: string
+  path: string
+}
+
+export function useBreadcrumbs(): Breadcrumbs[] {
+  const matches = useMatches();
+
+  const breadcrumbs = matches.map((match) => {
+    if (isMatch(match, 'loaderData.crumb') && match.loaderData?.crumb) {
+      return {
+        title: match.loaderData.crumb.title,
+        path: match.pathname,
+      }
+    }
+  }).filter((b): b is Breadcrumbs => !!b)
+
   return breadcrumbs
 }

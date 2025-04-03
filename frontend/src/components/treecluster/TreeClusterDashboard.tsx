@@ -4,20 +4,21 @@ import TreeCard from '@/components/general/cards/TreeCard'
 import BackLink from '@/components/general/links/BackLink'
 import ButtonLink from '@/components/general/links/ButtonLink'
 import { Pencil } from 'lucide-react'
-import { getWateringStatusDetails } from '@/hooks/useDetailsForWateringStatus'
-import { Link } from '@tanstack/react-router'
+import { getWateringStatusDetails } from '@/hooks/details/useDetailsForWateringStatus'
 import GeneralLink from '../general/links/GeneralLink'
-import { TriangleAlert } from 'lucide-react'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { treeClusterIdQuery } from '@/api/queries'
 import { format } from 'date-fns'
+import Notice from '../general/Notice'
 
 interface TreeClusterDashboardProps {
   treeclusterId: string
 }
 
 const TreeClusterDashboard = ({ treeclusterId }: TreeClusterDashboardProps) => {
-  const { data: treecluster } = useSuspenseQuery(treeClusterIdQuery(treeclusterId))
+  const { data: treecluster } = useSuspenseQuery(
+    treeClusterIdQuery(treeclusterId)
+  )
   const wateringStatus = getWateringStatusDetails(treecluster.wateringStatus)
   const lastWateredDate = treecluster.lastWatered
     ? format(new Date(treecluster.lastWatered), 'dd.MM.yyyy')
@@ -38,13 +39,10 @@ const TreeClusterDashboard = ({ treeclusterId }: TreeClusterDashboardProps) => {
             <p className="mb-4">{treecluster.description}</p>
           )}
           {treecluster.trees?.length === 0 ? (
-            <div className="flex items-center gap-x-2">
-              <TriangleAlert className="flex-shrink-0 text-dark-600 w-5 h-5" />
-              <p className="ml-2 text-dark-600">
-                Diese Baumgruppe enthält keine Bäume und hat daher keinen
-                Standort.
-              </p>
-            </div>
+            <Notice
+              description="Diese Baumgruppe enthält keine Bäume und hat daher keinen
+                Standort."
+            />
           ) : (
             <GeneralLink
               link={{
@@ -112,7 +110,7 @@ const TreeClusterDashboard = ({ treeclusterId }: TreeClusterDashboardProps) => {
           Alle zugehörigen Bäume
         </h2>
 
-        <header className="hidden border-b pb-2 text-sm text-dark-800 px-6 border-b-dark-200 mb-5 lg:grid lg:grid-cols-[1fr,2fr,1fr,1fr] lg:gap-5">
+        <header className="hidden border-b pb-2 text-sm text-dark-800 px-6 border-b-dark-200 mb-5 lg:grid lg:grid-cols-[1.5fr,2fr,1fr] lg:gap-5">
           <p>Status</p>
           <p>Baumart</p>
           <p>Baumnummer</p>
@@ -126,15 +124,7 @@ const TreeClusterDashboard = ({ treeclusterId }: TreeClusterDashboardProps) => {
           ) : (
             treecluster.trees?.map((tree, key) => (
               <li key={key}>
-                <Link
-                  to="/treecluster/$treeclusterId/tree/$treeId"
-                  params={{
-                    treeId: tree.id.toString(),
-                    treeclusterId: treecluster.id.toString(),
-                  }}
-                >
-                  <TreeCard tree={tree} />
-                </Link>
+                <TreeCard tree={tree} showTreeClusterInfo={false} />
               </li>
             ))
           )}

@@ -1,7 +1,9 @@
 import { Tree } from '@green-ecolution/backend-client'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { treeQuery } from '@/api/queries'
-import TreeMarker from './TreeMarker'
+import { TreeMarkerIcon } from '../MapMarker'
+import MarkerList from './MarkerList'
+import { getStatusColor } from '../utils'
 
 export interface WithAllTreesProps {
   onClick?: (tree: Tree) => void
@@ -16,15 +18,25 @@ const WithAllTrees = ({
 }: WithAllTreesProps) => {
   const { data } = useSuspenseQuery(treeQuery())
 
-  return data.data.map((tree) => (
-    <TreeMarker
-      tree={tree}
-      key={tree.id}
-      onClick={onClick}
-      hasHighlightedTree={hasHighlightedTree}
-      selectedTrees={selectedTrees}
-    />
-  ))
+  const defineIcon = (t: Tree) => {
+    return TreeMarkerIcon(
+      getStatusColor(t.wateringStatus),
+      selectedTrees?.includes(t.id) ?? false,
+      hasHighlightedTree === t.id
+    )
+  }
+
+  return <MarkerList
+    data={data.data}
+    onClick={onClick}
+    icon={defineIcon}
+    tooltipContent={(t) => t.number}
+    tooltipOptions={{
+      direction: "top",
+      offset: [5, -40],
+      className: "font-nunito-sans font-semibold",
+    }}
+  />
 }
 
 export default WithAllTrees

@@ -1,5 +1,5 @@
+import { useFilter } from '@/context/FilterContext'
 import Option from '../Option'
-import useFilter from '@/hooks/useFilter'
 
 const ClusterFieldset = () => {
   const { filters, handleClusterChange } = useFilter()
@@ -19,16 +19,16 @@ const ClusterFieldset = () => {
         Zugehörigkeit einer Bewässerungsgruppe:
       </legend>
       {treeClusterOptions.map((type, key) => (
-          <Option
-            key={key}
-            label={type.label}
-            name={type.label}
-            value={String(type.value)}
-            checked={filters.hasCluster === type.value}
-            onChange={handleClusterChange}
-          />
-        )
-      )} 
+        <Option
+          key={key}
+          label={type.label}
+          name={type.value.toString()}
+          value={String(type.value)}
+          checked={filters.hasCluster === type.value}
+          onChange={handleClusterChange}
+        />
+      )
+      )}
     </fieldset>
   )
 }

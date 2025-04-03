@@ -2,10 +2,10 @@ import BackLink from '../general/links/BackLink'
 import Pill from '../general/Pill'
 import ButtonLink from '../general/links/ButtonLink'
 import { Pencil } from 'lucide-react'
-import { getVehicleStatusDetails } from '@/hooks/useDetailsForVehicleStatus'
+import { getVehicleStatusDetails } from '@/hooks/details/useDetailsForVehicleStatus'
 import GeneralLink from '../general/links/GeneralLink'
 import { VehicleStatus } from '@green-ecolution/backend-client'
-import { getVehicleType } from '@/hooks/useDetailsForVehicleType'
+import { getVehicleType } from '@/hooks/details/useDetailsForVehicleType'
 import DetailedList from '../general/DetailedList'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { vehicleIdQuery } from '@/api/queries'
@@ -91,9 +91,9 @@ const VehicleDashboard = ({ vehicleId }: VehicleDashboardProps) => {
               Dieses Fahrzeug befindet sich im Einsatz.
             </p>
             <GeneralLink
-              label="Zum Einsatzplan"
+              label="Zu den Einsatzplänen"
               link={{
-                to: '/vehicles', // TODO: link to linked watering plan
+                to: '/watering-plans',
               }}
             />
           </div>

@@ -18,7 +18,7 @@ export const VehicleSchema = z.object({
     .refine((value) => Object.values(DrivingLicense).includes(value), {
       message: 'Keine korrekte Fahrzeugerlaubnis.',
     })
-    .default(DrivingLicense.DrivingLicenseCar),
+    .default(DrivingLicense.DrivingLicenseB),
   status: z
     .nativeEnum(VehicleStatus)
     .refine((value) => Object.values(VehicleStatus).includes(value), {
@@ -52,7 +52,14 @@ export const VehicleSchema = z.object({
   model: z.string().optional().default(''),
   waterCapacity: z.preprocess(
     (value) => parseInt(value as string, 10),
-    z.number().int().min(0, 'Wasserkapazität ist erforderlich').default(1)
+    z
+      .number()
+      .int()
+      .min(
+        80,
+        'Wasserkapazität ist erforderlich und darf nicht unter 80 Litern liegen.'
+      )
+      .default(80)
   ),
   description: z.string().optional().default(''),
 })

@@ -22,12 +22,27 @@ import {
   UserList,
   userApi,
   GeoJson,
+  SensorDataList,
+  Evaluation,
+  evaluationApi,
+  GetAllTreeClustersRequest,
+  GetAllSensorsRequest,
+  GetAllTreesRequest,
+  GetAllVehiclesRequest,
+  GetAllWateringPlansRequest,
+  GetAllUsersRequest,
 } from './backendApi'
 
-export const treeClusterQuery = () =>
+export const treeClusterQuery = (params?: GetAllTreeClustersRequest) =>
   queryOptions<TreeClusterList>({
-    queryKey: ['treeclusters'],
-    queryFn: () => clusterApi.getAllTreeClusters(),
+    queryKey: [
+      'treeclusters',
+      params?.page,
+      params?.limit,
+      params?.regions,
+      params?.wateringStatuses,
+    ].filter(e => e != undefined || e != null),
+    queryFn: () => clusterApi.getAllTreeClusters(params),
   })
 
 export const treeClusterIdQuery = (id: string) =>
@@ -35,14 +50,23 @@ export const treeClusterIdQuery = (id: string) =>
     queryKey: ['treecluster', id],
     queryFn: () =>
       clusterApi.getTreeClusterById({
-        clusterId: id,
+        clusterId: Number(id),
       }),
   })
 
-export const sensorQuery = () =>
+export const sensorQuery = (params?: GetAllSensorsRequest) =>
   queryOptions<SensorList>({
-    queryKey: ['sensors'],
-    queryFn: () => sensorApi.getAllSensors(),
+    queryKey: ['sensors', params?.page ?? '1', params?.limit ?? 'none'],
+    queryFn: () => sensorApi.getAllSensors(params),
+  })
+
+export const sensorDataQuery = (id: string) =>
+  queryOptions<SensorDataList>({
+    queryKey: ['sensor data', id],
+    queryFn: () =>
+      sensorApi.getAllSensorDataById({
+        sensorId: id,
+      }),
   })
 
 export const sensorIdQuery = (id: string) =>
@@ -54,10 +78,16 @@ export const sensorIdQuery = (id: string) =>
       }),
   })
 
-export const treeQuery = () =>
+export const treeQuery = (params?: GetAllTreesRequest) =>
   queryOptions<TreeList>({
-    queryKey: ['trees'],
-    queryFn: () => treeApi.getAllTrees(),
+    queryKey: [
+      'trees',
+      params?.page,
+      params?.limit,
+      params?.wateringStatuses,
+      params?.plantingYears,
+    ].filter(e => e != undefined || e != null),
+    queryFn: () => treeApi.getAllTrees(params),
   })
 
 export const treeIdQuery = (id: string) =>
@@ -65,7 +95,7 @@ export const treeIdQuery = (id: string) =>
     queryKey: ['tree', id],
     queryFn: () =>
       treeApi.getTrees({
-        treeId: id,
+        treeId: Number(id),
       }),
   })
 
@@ -90,11 +120,20 @@ export const infoQuery = () =>
     queryFn: () => infoApi.getAppInfo(),
   })
 
-export const vehicleQuery = (params?: { type: string }) => {
-  const queryKey = ['vehicle', params?.type ?? 'all']
+export const evaluationQuery = () =>
+  queryOptions<Evaluation>({
+    queryKey: ['evaluation'],
+    queryFn: () => evaluationApi.getEvaluation(),
+  })
 
+export const vehicleQuery = (params?: GetAllVehiclesRequest) => {
   return queryOptions<VehicleList>({
-    queryKey,
+    queryKey: [
+      'vehicle',
+      params?.type,
+      params?.page,
+      params?.limit,
+    ].filter(e => e != undefined || e != null),
     queryFn: () => vehicleApi.getAllVehicles(params),
   })
 }
@@ -104,14 +143,14 @@ export const vehicleIdQuery = (id: string) =>
     queryKey: ['vehicle', id],
     queryFn: () =>
       vehicleApi.getVehicleById({
-        id: id,
+        id: Number(id),
       }),
   })
 
-export const wateringPlanQuery = () =>
+export const wateringPlanQuery = (params?: GetAllWateringPlansRequest) =>
   queryOptions<WateringPlanList>({
-    queryKey: ['watering-plans'],
-    queryFn: () => wateringPlanApi.getAllWateringPlans(),
+    queryKey: ['watering-plans', params?.page ?? '1', params?.limit ?? 'none'],
+    queryFn: () => wateringPlanApi.getAllWateringPlans(params),
   })
 
 export const wateringPlanIdQuery = (id: string) =>
@@ -119,15 +158,13 @@ export const wateringPlanIdQuery = (id: string) =>
     queryKey: ['watering-plan', id],
     queryFn: () =>
       wateringPlanApi.getWateringPlanById({
-        id: id,
+        id: Number(id),
       }),
   })
 
-export const userQuery = (params?: { userIds: string }) => {
-  const queryKey = ['users', params?.userIds ?? 'all']
-
+export const userQuery = (params?: GetAllUsersRequest) => {
   return queryOptions<UserList>({
-    queryKey,
+    queryKey: ['users', params],
     queryFn: () => userApi.getAllUsers(params),
   })
 }
@@ -141,14 +178,24 @@ export const userRoleQuery = (role: string) =>
       }),
   })
 
-export const routePreviewQuery = (transporterId: number, clusterIds: number[], trailerId?: number,) =>
+export const routePreviewQuery = (
+  transporterId: number,
+  clusterIds: number[],
+  trailerId?: number
+) =>
   queryOptions<GeoJson>({
-    queryKey: ['route', 'preview', `transporter:${transporterId}`, ...clusterIds],
-    queryFn: () => wateringPlanApi.v1WateringPlanRoutePreviewPost({
-      body: {
-        transporterId: Number(transporterId), // TODO: don't know what goes wrong here
-        trailerId: Number(trailerId),
-        clusterIds
-      }
-    }),
+    queryKey: [
+      'route',
+      'preview',
+      `transporter:${transporterId}`,
+      ...clusterIds,
+    ],
+    queryFn: () =>
+      wateringPlanApi.v1WateringPlanRoutePreviewPost({
+        body: {
+          transporterId: Number(transporterId),
+          trailerId: Number(trailerId),
+          clusterIds,
+        },
+      }),
   })

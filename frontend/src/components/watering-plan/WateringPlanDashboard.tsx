@@ -3,7 +3,7 @@ import Pill from '../general/Pill'
 import {
   getWateringPlanStatusDetails,
   showWateringPlanStatusButton,
-} from '@/hooks/useDetailsForWateringPlanStatus'
+} from '@/hooks/details/useDetailsForWateringPlanStatus'
 import { format } from 'date-fns'
 import { File, FolderClosed, MoveRight, Pencil, Route } from 'lucide-react'
 import TabGeneralData from './TabGeneralData'
@@ -18,6 +18,7 @@ import useToast from '@/hooks/useToast'
 import LinkAsButton from '../general/buttons/LinkButton'
 import { wateringPlanIdQuery } from '@/api/queries'
 import WateringPlanPreviewRoute from './WateringPlanRoutePreview'
+import Notice from '../general/Notice'
 
 interface WateringPlanDashboardProps {
   wateringPlanId: string
@@ -26,7 +27,9 @@ interface WateringPlanDashboardProps {
 const WateringPlanDashboard = ({
   wateringPlanId,
 }: WateringPlanDashboardProps) => {
-  const { data: wateringPlan } = useSuspenseQuery(wateringPlanIdQuery(wateringPlanId))
+  const { data: wateringPlan } = useSuspenseQuery(
+    wateringPlanIdQuery(wateringPlanId)
+  )
   const statusDetails = getWateringPlanStatusDetails(wateringPlan.status)
   const { accessToken } = useStore((state) => ({
     accessToken: state.auth.token?.accessToken,
@@ -49,11 +52,15 @@ const WateringPlanDashboard = ({
         icon: <FolderClosed className="w-5 h-5" />,
         view: <TreeClusterList data={wateringPlan.treeclusters} />,
       },
-      {
-        label: 'Route',
-        icon: <Route className="w-5 h-5" />,
-        view: <WateringPlanPreviewRoute wateringPlan={wateringPlan} />,
-      },
+      ...(wateringPlan.distance > 0
+        ? [
+            {
+              label: 'Route',
+              icon: <Route className="w-5 h-5" />,
+              view: <WateringPlanPreviewRoute wateringPlan={wateringPlan} />,
+            },
+          ]
+        : []),
     ],
     [wateringPlan]
   )
@@ -86,7 +93,7 @@ const WateringPlanDashboard = ({
     },
     onError: (error) => {
       showToast(error.message, 'error')
-    }
+    },
   })
 
   return (
@@ -120,6 +127,13 @@ const WateringPlanDashboard = ({
               onClick={() => mutate()}
             />
           </div>
+          {wateringPlan.distance == 0 && (
+            <Notice
+              classes="mt-6"
+              description="Die Route für diesen Einsatzplan konnte nicht berechnet werden.
+                Bitte überprüfen Sie, ob das ausgewählte Fahrzeug über ausreichend Wasserkapazität
+                für die gewählten Bewässerungsgruppen verfügt." />
+          )}
         </div>
         <ButtonLink
           icon={Pencil}

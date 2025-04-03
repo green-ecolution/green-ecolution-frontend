@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { treeIdQuery, treeQuery } from '@/api/queries'
+import { treeClusterIdQuery, treeIdQuery, treeQuery } from '@/api/queries'
 import useToast from '@/hooks/useToast'
 import { useNavigate } from '@tanstack/react-router'
 import { Tree, TreeCreate, TreeUpdate } from '@green-ecolution/backend-client'
@@ -25,7 +25,7 @@ export const useTreeForm = (mutationType: 'create' | 'update', treeId?: string) 
         })
       } else if (mutationType === 'update' && treeId) {
         return treeApi.updateTree({
-          treeId: treeId,
+          treeId: Number(treeId),
           body: tree as TreeUpdate,
         })
       }
@@ -36,8 +36,11 @@ export const useTreeForm = (mutationType: 'create' | 'update', treeId?: string) 
       formStore.reset()
       queryClient.invalidateQueries(treeIdQuery(String(data.id)))
       queryClient.invalidateQueries(treeQuery())
+      if (data.treeClusterId) {
+        queryClient.invalidateQueries(treeClusterIdQuery(String(data.treeClusterId)))
+      }
       navigate({
-        to: '/tree/$treeId',
+        to: '/trees/$treeId',
         params: { treeId: data.id.toString() },
         search: { resetStore: false },
         replace: true,

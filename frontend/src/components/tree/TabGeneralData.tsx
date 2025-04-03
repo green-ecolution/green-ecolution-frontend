@@ -21,8 +21,12 @@ const TabGeneralData: React.FC<TabGeneralDataProps> = ({ tree }) => {
       value: `${tree?.plantingYear ?? 'Keine Angabe'}`,
     },
     {
-      label: 'Art der Erstellung',
-      value: tree?.readonly ? 'importiert' : 'Manuell erstellt',
+      label: 'Ursprung der Daten',
+      value: `${tree?.provider ?? 'Manuell erstellter Baum'}`,
+    },
+    {
+      label: 'Datum der letzten Bewässerung',
+      value: tree?.lastWatered ? format(new Date(tree.lastWatered), 'dd.MM.yyyy') : 'Keine Angabe',
     },
     {
       label: 'Latitude',

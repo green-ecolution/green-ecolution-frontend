@@ -1,5 +1,7 @@
 import { Tree } from '@green-ecolution/backend-client'
-import TreeMarker from './TreeMarker'
+import MarkerList from './MarkerList'
+import { TreeMarkerIcon } from '../MapMarker'
+import { getStatusColor } from '../utils'
 
 interface WithFilterdTreesProps {
   onClick?: (tree: Tree) => void
@@ -14,15 +16,21 @@ const WithFilterdTrees = ({
   hasHighlightedTree,
   filterdTrees,
 }: WithFilterdTreesProps) => {
-  return filterdTrees.map((tree) => (
-    <TreeMarker
-      tree={tree}
-      key={tree.id}
-      selectedTrees={selectedTrees}
-      hasHighlightedTree={hasHighlightedTree}
-      onClick={onClick}
-    />
-  ))
+  return <MarkerList
+    data={filterdTrees}
+    onClick={onClick}
+    icon={(t) => TreeMarkerIcon(
+      getStatusColor(t.wateringStatus),
+      selectedTrees?.includes(t.id) ?? false,
+      hasHighlightedTree === t.id
+    )}
+    tooltipContent={(t) => t.number}
+    tooltipOptions={{
+      direction: "top",
+      offset: [5, -40],
+      className: "font-nunito-sans font-semibold",
+    }}
+  />
 }
 
 export default WithFilterdTrees

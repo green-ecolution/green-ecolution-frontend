@@ -22,7 +22,7 @@ interface VehicleUpdateProps {
 const VehicleUpdate = ({
   vehicleId,
 }: VehicleUpdateProps) => {
-  const { mutate, isError, error } = useVehicleForm('update', vehicleId)  
+  const { mutate, isError, error } = useVehicleForm('update', vehicleId)
   const { initForm, loadedData } = useInitFormQuery<Vehicle, VehicleForm>(
     vehicleIdQuery(vehicleId),
     (data) => ({
@@ -46,12 +46,12 @@ const VehicleUpdate = ({
   )
 
   const onSubmit: SubmitHandler<VehicleForm> = async (data) => {
-    mutate({...data})
+    mutate({ ...data })
   }
 
-  const handleDeleteVehicle = () => {
-    return vehicleApi.deleteVehicle({
-      id: String(vehicleId),
+  const handleArchiveVehicle = () => {
+    return vehicleApi.archiveVehicle({
+      id: Number(vehicleId),
     })
   }
 
@@ -84,7 +84,8 @@ const VehicleUpdate = ({
 
       <Suspense fallback={<LoadingInfo label="Das Fahrzeug wird gelöscht" />}>
         <DeleteSection
-          mutationFn={handleDeleteVehicle}
+          mutationFn={handleArchiveVehicle}
+          type="archive"
           entityName="das Fahrzeug"
           redirectUrl={{ to: '/vehicles' }}
         />

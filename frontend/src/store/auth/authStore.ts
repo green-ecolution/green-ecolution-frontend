@@ -10,6 +10,7 @@ export const authStore: SubStore<AuthStore> = (set) => ({
     sessionState: "",
     scope: "",
     expiresIn: 0,
+    expiry: "",
     idToken: "",
     notBeforePolicy: 0,
     refreshExpiresIn: 0,

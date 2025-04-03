@@ -53,14 +53,16 @@ const markerHtmlStyles = (color: string) => `
   justify-content: center;
 `;
 
-const markerClusterHtmlStyles = (color: string) => `
+const markerClusterHtmlStyles = (color: string, isDisabled: boolean) => `
   background-color: ${color};
+  opacity: ${isDisabled ? '0.6' : '1'};
+  cursor: ${isDisabled ? 'not-allowed' : 'pointer'};
   width: 2.25rem;
   height: 2.25rem;
   position: absolute;
   border-radius: 3rem;
-  left: 0.25rem;
-  top: 0.25rem;
+  left: ${isDisabled ? '0;' : '0.25rem'};
+  top: ${isDisabled ? '0;' : '0.25rem'};
   border: 1px solid white;
   display: flex;
   align-items: center;
@@ -82,14 +84,14 @@ const makerWrapperStyles = (isSelected: boolean, isHighlighted: boolean) => `
   box-shadow: rgba(0, 0, 0, ${isSelected || isHighlighted ? '0.35' : '0'}) 0px 5px 15px;
 `;
 
-const makerClusterWrapperStyles = (isHighlighted: boolean) => `
-  background-color: ${isHighlighted ? 'white' : ''};
-  width: 2.75rem;
-  height: 2.75rem;
+const makerClusterWrapperStyles = (isHighlighted: boolean, isDisabled: boolean) => `
+  background-color: ${isHighlighted ? 'white' : (isDisabled ? '#E8E8E8' : '')};
+  width: ${isDisabled ? '2.25rem;' : '2.75rem'};
+  height: ${isDisabled ? '2.25rem;' : '2.75rem'};
   border-radius: 3rem;
   position: relative;
-  left: -1.25rem;
-  top: -1.25rem;
+  left: ${isDisabled ? '-1rem;' : '-1.25rem'};
+  top: ${isDisabled ? '-1rem;' : '-1.25rem'};
   box-shadow: rgba(0, 0, 0, ${isHighlighted ? '0.35' : '0'}) 0px 5px 15px;
 `;
 
@@ -112,6 +114,7 @@ const makerRouteWrapperStyles = () => `
   font-family: Nunito, sans-serif;
 `;
 
+
 export const TreeMarkerIcon = (color: string, isSelected: boolean, isHighlighted: boolean) =>
   L.divIcon({
     iconAnchor: [0, 24],
@@ -124,13 +127,13 @@ export const TreeMarkerIcon = (color: string, isSelected: boolean, isHighlighted
       </figure>`,
   });
 
-export const ClusterIcon = (color: string, isHighlighted: boolean, includedTrees: number) =>
+export const ClusterIcon = (color: string, isHighlighted: boolean, isDisabled: boolean, includedTrees: number) =>
   L.divIcon({
     iconAnchor: [0, 24],
     popupAnchor: [0, -36],
     html:
-      `<figure style="${makerClusterWrapperStyles(isHighlighted)}">
-        <span style="${markerClusterHtmlStyles(color)}">
+      `<figure style="${makerClusterWrapperStyles(isHighlighted, isDisabled)}">
+        <span style="${markerClusterHtmlStyles(color, isDisabled)}">
           ${includedTrees}
         </span>
       </figure>`,
@@ -151,7 +154,7 @@ export const RouteIcon = (label: string) =>
   L.divIcon({
     iconAnchor: [12, 12],
     html:
-    `<span style="${makerRouteWrapperStyles()}">
+      `<span style="${makerRouteWrapperStyles()}">
       ${label}
     </span>`,
   })
@@ -160,7 +163,7 @@ export const RefillIcon = () =>
   L.divIcon({
     iconAnchor: [12, 12],
     html:
-    `<figure style="${makerWrapperStyles(false, false)}">
+      `<figure style="${makerWrapperStyles(false, false)}">
       <span style="${markerHtmlStyles("#454545")}">
         ${iconToSvg(PaintBucket)}
       </span>

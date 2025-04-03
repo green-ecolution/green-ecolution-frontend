@@ -6,8 +6,8 @@
   ],
   "name": "green-ecolution-frontend",
   "private": true,
-  "version": "1.1.0",
-  "license": "AGPL",
+  "version": "1.2.0",
+  "license": "AGPL-3.0-only",
   "scripts": {
     "dev": "yarn workspace @green-ecolution/frontend dev",
     "build": "yarn build:backend-client && yarn build:plugin-interface && yarn build:frontend",

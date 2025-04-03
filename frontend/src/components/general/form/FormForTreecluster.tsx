@@ -9,7 +9,7 @@ import {
   SubmitHandler,
   UseFormRegister,
 } from "react-hook-form";
-import { SoilConditionOptions } from "@/hooks/useDetailsForSoilCondition";
+import { SoilConditionOptions } from "@/hooks/details/useDetailsForSoilCondition";
 import { TreeclusterForm } from "@/schema/treeclusterSchema";
 import useFormStore, { FormStore } from "@/store/form/useFormStore";
 import FormError from "./FormError";

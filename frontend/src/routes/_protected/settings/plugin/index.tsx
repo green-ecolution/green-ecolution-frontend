@@ -16,16 +16,13 @@ function PluginView() {
           Übersicht der Plugins
         </h1>
         <p>
-          Eu ipsum occaecat non exercitation occaecat ea aute fugiat quis magna
-          do veniam commodo. Magna Lorem cupidatat id fugiat nostrud quis qui in
-          quis fugiat. Irure pariatur anim cupidatat nulla ipsum Lorem irure.
-          Est elit laborum sunt commodo officia nulla cupidatat fugiat tempor
-          exercitation laborum. Sint irure eiusmod sunt. Magna esse proident
-          magna dolore aliqua nulla id sunt adipisicing.
+          Hier finden Sie eine Übersicht aller installierten Plugins.
+          Diese Plugins erweitern die Funktionalität der Anwendung und können eine Vielzahl nützlicher Features bieten.
+          Klicken Sie auf eines der Plugins, um mehr darüber zu erfahren.
         </p>
       </article>
 
-      <Suspense fallback={<div>Loading plugins...</div>}>
+      <Suspense fallback={<div>Laden von Plugins...</div>}>
         <PluginList />
       </Suspense>
     </div>
@@ -40,25 +37,25 @@ const PluginList = () => {
 
   return (
     <>
-    <ul className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
-      {pluginList?.plugins.map((plugin, key) => (
-        <li key={key}>
-          <DashboardCard
-            headline={plugin.name}
-            description={plugin.description}
-            linkLabel={`${plugin.name} starten`}
-            url={`/settings/plugin/${plugin.slug}`}
-            isDark={key % 2 !== 0}
-          />
-        </li>
-      ))}
-    </ul>
+      <ul className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+        {pluginList?.plugins.map((plugin, key) => (
+          <li key={key}>
+            <DashboardCard
+              headline={plugin.name}
+              description={plugin.description}
+              linkLabel={`${plugin.name} starten`}
+              url={`/settings/plugin/${plugin.slug}`}
+              theme={key % 2 ? "dark" : "light"}
+            />
+          </li>
+        ))}
+      </ul>
 
       {!pluginList || pluginList.plugins.length === 0 && (
         <div className="text-center mt-6">
           <p className="text-dark-500">Zur Zeit sind keine Plugins registriert.</p>
         </div>
       )}
-  </>
+    </>
   );
 };

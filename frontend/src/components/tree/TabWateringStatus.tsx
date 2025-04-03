@@ -1,9 +1,12 @@
 import { WateringStatus, Tree } from '@green-ecolution/backend-client'
 import React from 'react'
 import { TreeDeciduous } from 'lucide-react'
-import { getWateringStatusDetails } from '@/hooks/useDetailsForWateringStatus'
+import { getWateringStatusDetails } from '@/hooks/details/useDetailsForWateringStatus'
 import GeneralStatusCard from '../general/cards/GeneralStatusCard'
 import EntitiesStatusCard from '../general/cards/EntitiesStatusCard'
+import ChartWateringData from './ChartWateringData'
+import { format } from 'date-fns'
+import { roundTo } from '@/lib/utils'
 
 interface TabWateringStatusProps {
   tree?: Tree
@@ -14,22 +17,33 @@ const TabWateringStatus: React.FC<TabWateringStatusProps> = ({ tree }) => {
     {
       overline: 'Bodenfeuchte',
       value: tree?.sensor?.latestData
-        ? `${tree?.sensor?.latestData.humidity} %`
+        ? `${roundTo(tree.sensor.latestData.humidity, 2)} %`
         : 'Keine Daten',
+      isLarge: true,
       description: 'Wert bezeichnet den Wassergehalt im Boden.',
     },
     {
       overline: 'Bodentemperatur',
       value: tree?.sensor?.latestData
-        ? `${tree?.sensor?.latestData.temperature} °C`
+        ? `${roundTo(tree?.sensor?.latestData.temperature, 2)} °C`
         : 'Keine Daten',
-      description: 'Wert bezeichnet die Temperatur in der oberflächlichen Bodenschicht.',
+      isLarge: true,
+      description:
+        'Wert bezeichnet die Temperatur in der oberflächlichen Bodenschicht.',
+    },
+    {
+      overline: 'Datum der letzten Bewässerung',
+      value: tree?.lastWatered
+        ? format(new Date(tree.lastWatered), 'dd.MM.yyyy')
+        : 'Keine Angabe',
+      isLarge: false,
+      description: 'Wird aktualisiert, sobald ein Einsatzplan mit diesem Baum als »Beendet« markiert wird.',
     },
   ]
 
   return (
     <>
-      <ul className="space-y-5 md:space-y-0 md:grid md:gap-5 md:grid-cols-3">
+      <ul className="space-y-5 md:space-y-0 md:grid md:gap-5 md:grid-cols-2 lg:grid-cols-4">
         <li>
           <EntitiesStatusCard
             statusDetails={getWateringStatusDetails(
@@ -43,7 +57,7 @@ const TabWateringStatus: React.FC<TabWateringStatusProps> = ({ tree }) => {
             <GeneralStatusCard
               overline={card.overline}
               value={card.value}
-              isLarge
+              isLarge={card.isLarge}
               description={card.description}
             />
           </li>
@@ -53,12 +67,14 @@ const TabWateringStatus: React.FC<TabWateringStatusProps> = ({ tree }) => {
       {tree?.sensor?.latestData && (
         <section className="mt-16">
           <h2 className="font-bold font-lato text-xl mb-4">
-            Bewässerungszustand pro Bodentiefe
+            Aktuelle Bewässerungszustand pro Bodentiefe
           </h2>
           <p className="mb-6 lg:mb-0">
-            Es werden drei Sensoren in 30 cm, 60 cm und 90 cm Tiefe in der Nähe des Wurzelballens angebracht.
-            Diese Sensoren messen in jeder Tiefe das Bodenwasserpotential, das in Zentibar (cb) angegeben wird.
-            Je besser der Baum bewässert ist, desto geringer ist der Aufwand, den er betreiben muss, um Wasser aus dem Boden aufzunehmen.
+            Es werden drei Sensoren in 30 cm, 60 cm und 90 cm Tiefe in der Nähe
+            des Wurzelballens angebracht. Diese Sensoren messen in jeder Tiefe
+            das Bodenwasserpotential, das in Zentibar (cb) angegeben wird. Je
+            besser der Baum bewässert ist, desto geringer ist der Aufwand, den
+            er betreiben muss, um Wasser aus dem Boden aufzunehmen.
           </p>
 
           <div className="lg:grid lg:grid-cols-[auto,15rem] lg:items-end lg:gap-x-10 xl:gap-x-20 xl:grid-cols-[auto,20rem]">
@@ -91,7 +107,7 @@ const TabWateringStatus: React.FC<TabWateringStatusProps> = ({ tree }) => {
               <header className="hidden border-b pb-2 text-sm text-dark-800 border-b-dark-200 lg:grid lg:grid-cols-3 lg:gap-x-5">
                 <p>Eingesetzte Tiefe</p>
                 <p>Zentibar</p>
-                <p>Ohmsche Widerstand</p>
+                <p>Ohmscher Widerstand</p>
               </header>
 
               <ul className="space-y-3 lg:space-y-0">
@@ -117,6 +133,23 @@ const TabWateringStatus: React.FC<TabWateringStatusProps> = ({ tree }) => {
               </ul>
             </div>
           </div>
+        </section>
+      )}
+
+      {tree?.sensor && (
+        <section className="mt-16">
+          <h2 className="font-bold font-lato text-xl mb-4">
+            Messwerte im Verlaufe der Zeit
+          </h2>
+          <p className="mb-6">
+            In diesem Abschnitt werden alle gemessenen Sensorwerte ausgegeben,
+            die im System abgespeichert wurden.
+            <br />
+            Anhand dessen kann nachvollzogen werden, wie sich der
+            Bewässerungszustand im Laufe der Zeit geändert hat.
+          </p>
+
+          <ChartWateringData sensorId={tree.sensor.id} />
         </section>
       )}
     </>
