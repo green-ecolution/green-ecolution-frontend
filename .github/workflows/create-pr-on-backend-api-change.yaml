@@ -52,7 +52,7 @@ jobs:
           base: develop
           title: Update Backend API Client
           body: |
-            API Docs have been updated in the backend green-ecolution/green-ecolution-backend@${{ github.event.client_payload.hash }}. Please review if the changes are compatible with the frontend.
+            API Docs have been updated in the backend green-ecolution/backend@${{ github.event.client_payload.hash }}. Please review if the changes are compatible with the frontend.
           labels: api-docs-update
           draft: true
 

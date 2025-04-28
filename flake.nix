@@ -1,15 +1,20 @@
 {
   description = "Development shell for green ecolution frontend";
 
-   inputs = {
+  inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
     pre-commit-hooks.url = "github:cachix/git-hooks.nix";
   };
 
-  outputs = { self, nixpkgs, flake-utils, ... }@inputs: 
-    (flake-utils.lib.eachDefaultSystem
-      (system: let
+  outputs = {
+    self,
+    nixpkgs,
+    flake-utils,
+    ...
+  } @ inputs: (flake-utils.lib.eachDefaultSystem
+    (
+      system: let
         pkgs = nixpkgs.legacyPackages.${system};
         pre-commit-check = inputs.pre-commit-hooks.lib.${system}.run {
           src = ./.;
@@ -38,23 +43,23 @@
           };
         };
       in {
-      # devShells."x86_64-linux".default = import ./shell.nix { inherit pkgs; };
-      devShells.default = pkgs.mkShell {
-        nativeBuildInputs = with pkgs; [
+        # devShells."x86_64-linux".default = import ./shell.nix { inherit pkgs; };
+        devShells.default = pkgs.mkShell {
+          nativeBuildInputs = with pkgs; [
             nodejs_22
             yarn
             eslint
             prettierd
             docker
-        ];
+          ];
 
-      shellHook = ''
-        yarn install
-        yarn generate # generate from app.dev.green-ecolution.de/api/v1/swagger
-        yarn rebuild # rebuild all other local dependencies
-        ${pre-commit-check.shellHook}
-      '';
-      };
-    }
-  ));
+          shellHook = ''
+            yarn install
+            yarn generate # generate from app.stage.green-ecolution.de/api/v1/swagger
+            yarn rebuild # rebuild all other local dependencies
+            ${pre-commit-check.shellHook}
+          '';
+        };
+      }
+    ));
 }

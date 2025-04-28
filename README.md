@@ -1,6 +1,6 @@
 # Green Ecolution Frontend
 
-Smart irrigation is needed to save water, staff and costs. This project is the user-interface for Green Ecolution. For Backend please refer to [Green Ecolution Frontend](https://github.com/green-ecolution/green-ecolution-backend)
+Smart irrigation is needed to save water, staff and costs. This project is the user-interface for Green Ecolution. For Backend please refer to [Green Ecolution Backend](https://github.com/green-ecolution/backend)
 The user-interface allows users to connect to the backend and interact with it's database. Interactions are possible with:
 
 - trees
@@ -13,6 +13,7 @@ The user-interface allows users to connect to the backend and interact with it's
 While the project is created in collaboration with the local green space management (TBZ Flensburg), this software aims to be applicable to other cities. It was initially developed at the University of Applied Sciences Flensburg as a research project within the Applied Computer Science masters degree program.
 
 For more information please refer to:
+
 - [Project website](https://green-ecolution.de/)
 - [University of Applied Sciences Flensburg](https://hs-flensburg.de/en)
 - [Try it out | Demo](https://demo.green-ecolution.de)
@@ -26,6 +27,7 @@ For further information refer to [Gitflow workflow](https://www.atlassian.com/gi
 ## Local development
 
 ### Requirements
+
 - [node](https://github.com/nodejs/node) JavaScript runtime environment
 - [yarn](https://github.com/yarnpkg) Dependency management for JavaScript
 - [fnm](https://github.com/Schniz/fnm) Fast and simple Node.js version manager
@@ -35,10 +37,13 @@ For further information refer to [Gitflow workflow](https://www.atlassian.com/gi
 fnm is used download node and npm to install yarn.
 
 Download node
+
 ```bash
 fnm use
 ```
+
 Install yarn
+
 ```bash
 npm install --global yarn
 ```
@@ -46,11 +51,13 @@ npm install --global yarn
 ### Build
 
 Download dependencies
+
 ```bash
 yarn
 ```
 
 Build and start backend-client
+
 ```bash
 yarn generate:local
 yarn rebuild
@@ -58,8 +65,9 @@ yarn dev
 ```
 
 If you not want use the deployed backend the environment variable VITE_BACKEND_BASEURL needs to be changed.
+
 ```bash
-VITE_BACKEND_BASEURL=/api-dev yarn dev
+VITE_BACKEND_BASEURL=/api-stage yarn dev
 ```
 
 ### How to contribute

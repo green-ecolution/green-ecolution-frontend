@@ -17,7 +17,7 @@
   "license": "AGPL-3.0-only",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/green-ecolution/green-ecolution-frontend.git"
+    "url": "git+https://github.com/green-ecolution/frontend.git"
   },
   "peerDependencies": {
     "react": "^18.3.1",
