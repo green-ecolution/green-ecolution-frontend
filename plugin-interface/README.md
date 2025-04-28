@@ -1,6 +1,6 @@
 # Green Ecolution - Plugin Interface
 
-This is a plugin interface for the Green Ecolution project. The interface is designed to be used by developers to create plugins that can be used by the Green Ecolution project. 
+This is a plugin interface for the Green Ecolution project. The interface is designed to be used by developers to create plugins that can be used by the Green Ecolution project.
 
 ## Getting Started
 

@@ -96,7 +96,7 @@ All notable changes to this project will be documented in this file. The format 
 
 ### Changed
 
-[Unreleased]: https://github.com/green-ecolution/green-ecolution-frontend/compare/v1.0.0...HEAD
-[v1.0.0]: https://github.com/green-ecolution/green-ecolution-frontend/compare/c0b0e1...v1.0.0
-[v1.1.0]: https://github.com/green-ecolution/green-ecolution-frontend/compare/v1.0.0...v1.1.0
-[v1.2.0]: https://github.com/green-ecolution/green-ecolution-frontend/compare/v1.1.0...v1.2.0
+[Unreleased]: https://github.com/green-ecolution/frontend/compare/v1.0.0...HEAD
+[v1.0.0]: https://github.com/green-ecolution/frontend/compare/c0b0e1...v1.0.0
+[v1.1.0]: https://github.com/green-ecolution/frontend/compare/v1.0.0...v1.1.0
+[v1.2.0]: https://github.com/green-ecolution/frontend/compare/v1.1.0...v1.2.0
