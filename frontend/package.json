@@ -39,7 +39,7 @@
   "devDependencies": {
     "@module-federation/vite": "1.1.9",
     "@tanstack/react-query-devtools": "^5.50.1",
-    "@tanstack/react-router-devtools": "^1.114.27",
+    "@tanstack/react-router-devtools": "^1.119.1",
     "@tanstack/router-plugin": "^1.39.11",
     "@types/leaflet": "^1.9.12",
     "@types/node": "^20.14.10",
