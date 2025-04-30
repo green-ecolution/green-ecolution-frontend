@@ -95,7 +95,7 @@ jobs:
           mv api-docs.json ./backend-client/api-docs.json
 
       - name: Build and push
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: .
           build-args: |
