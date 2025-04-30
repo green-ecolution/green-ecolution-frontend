@@ -16,7 +16,7 @@ RUN ./openapi-generator.sh local
 #############################################
 # Builder web
 #############################################
-FROM node:22-alpine AS builder-web
+FROM node:23-alpine AS builder-web
 
 ENV VITE_BACKEND_BASEURL=/api
 WORKDIR /app/build
