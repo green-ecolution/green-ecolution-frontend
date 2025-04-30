@@ -6,6 +6,12 @@ name: Build and Push Docker Image Staging
         description: "The release version"
         required: true
   push:
+    paths:
+      - 'frontend/**'
+      - 'plugin-interface/**'
+      - 'backend-client/**'
+      - 'packages.json'
+      - 'yarn.lock'
     branches:
       - release/*
       - hotfix/*
