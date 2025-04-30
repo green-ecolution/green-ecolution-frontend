@@ -46,7 +46,7 @@
         # devShells."x86_64-linux".default = import ./shell.nix { inherit pkgs; };
         devShells.default = pkgs.mkShell {
           nativeBuildInputs = with pkgs; [
-            nodejs_22
+            nodejs_23
             yarn
             eslint
             prettierd
@@ -55,8 +55,6 @@
 
           shellHook = ''
             yarn install
-            yarn generate # generate from app.stage.green-ecolution.de/api/v1/swagger
-            yarn rebuild # rebuild all other local dependencies
             ${pre-commit-check.shellHook}
           '';
         };
