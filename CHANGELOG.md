@@ -4,6 +4,21 @@ All notable changes to this project will be documented in this file. The format 
 
 ## [Unreleased]
 
+### Added
+
+- Configure Dependabot (#495)
+- Issue templates (#496)
+- CI/CD: release pipeline
+
+### Changed
+
+- CI/CD: only run workflows when necessary (#494)
+- Rename repository from `github.com/green-ecolution/green-ecolution-frontend` to `github.com/green-ecolution/frontend`
+- Remove dev deploy environment (`stage` will be used to deploy the develop branch, while `dev` is used to run it locally)
+- Dependency updates from dependabot
+- Use Node.js version `v23.2.0`
+- Update README.md
+
 ## [v1.2.0] - 2025-04-03
 
 ### Added
