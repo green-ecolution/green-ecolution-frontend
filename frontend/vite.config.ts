@@ -29,11 +29,6 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api-local/, '/api'),
       },
-      '/api-dev': {
-        target: 'https://app.dev.green-ecolution.de',
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api-dev/, '/api'),
-      },
       '/api-stage': {
         target: 'https://app.stage.green-ecolution.de',
         changeOrigin: true,

@@ -1,21 +1,21 @@
 {
   "name": "@green-ecolution/backend-client",
   "version": "1.2.0",
-  "description": "Client for the Green Ecolution backend",
+  "description": "api client for the Green Ecolution backend",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "module": "dist/index",
   "main:src": "src/index",
   "license": "AGPL-3.0-only",
   "scripts": {
-    "generate": "./openapi-generator.sh remote https://app.dev.green-ecolution.de/api/v1",
+    "generate": "./openapi-generator.sh remote https://app.stage.green-ecolution.de/api/v1",
     "generate:ci": "./openapi-generator.sh local",
     "generate:local": "./openapi-generator.sh remote http://localhost:3000/api/v1",
-    "generate:dev": "./openapi-generator.sh remote https://app.dev.green-ecolution.de/api/v1",
+    "generate:stage": "./openapi-generator.sh remote https://app.stage.green-ecolution.de/api/v1",
     "build": "tsc"
   },
   "devDependencies": {
-    "@openapitools/openapi-generator-cli": "^2.7.0",
+    "@openapitools/openapi-generator-cli": "^2.20.0",
     "@types/node": "^18.15.11",
     "ts-node": "^10.9.1",
     "tsc": "^2.0.4",

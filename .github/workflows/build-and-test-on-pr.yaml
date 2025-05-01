@@ -2,6 +2,12 @@ name: "Build and test project on PR"
 
 on:
   pull_request:
+    paths:
+      - 'frontend/**'
+      - 'plugin-interface/**'
+      - 'backend-client/**'
+      - 'packages.json'
+      - 'yarn.lock'
     branches:
       - develop
       - release/*
@@ -24,7 +30,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GREEN_ECOLUTION_PAT }}
         run: |
-          gh run download -R green-ecolution/green-ecolution-backend -n api-docs.json 
+          gh run download -R green-ecolution/backend -n api-docs.json 
           mv api-docs.json ./backend-client/api-docs.json
 
       - name: Install Dependencies
