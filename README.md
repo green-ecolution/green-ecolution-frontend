@@ -1,77 +1,104 @@
-# Green Ecolution Frontend
+<p>
+  <a href="https://github.com/green-ecolution/frontend/releases">
+    <img alt="GitHub Release" src="https://img.shields.io/github/v/release/green-ecolution/frontend"/>
+  </a>
+  <a href=""><img alt="License" src="https://img.shields.io/github/license/green-ecolution/frontend.svg"/></a>
+  <a href=""><img alt="Maintained yes" src="https://img.shields.io/badge/Maintained%3F-yes-green.svg"/></a>
+</p>
 
-Smart irrigation is needed to save water, staff and costs. This project is the user-interface for Green Ecolution. For Backend please refer to [Green Ecolution Frontend](https://github.com/green-ecolution/green-ecolution-backend)
-The user-interface allows users to connect to the backend and interact with it's database. Interactions are possible with:
+# Green Ecolution Frontend 🌿
 
-- trees
-- tree clusters
-- sensors
-- watering plans
-- vehicles
-- users
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/4ea25141-135a-493c-b9f6-e1cbc7a7aa41"/>
+</p>
 
-While the project is created in collaboration with the local green space management (TBZ Flensburg), this software aims to be applicable to other cities. It was initially developed at the University of Applied Sciences Flensburg as a research project within the Applied Computer Science masters degree program.
+Smart irrigation is essential to saving water, reducing staff workload, and cutting costs. This project provides the user interface for Green Ecolution — a digital system to manage urban greenery efficiently.
 
-For more information please refer to:
-- [Project website](https://green-ecolution.de/)
-- [University of Applied Sciences Flensburg](https://hs-flensburg.de/en)
-- [Try it out | Demo](https://demo.green-ecolution.de)
+👉 For the backend implementation, visit the [Green Ecolution Backend.](https://github.com/green-ecolution/backend)
 
-This project makes use of React working in Vite with HMR and .ESLint rules.
-For further information refer to [React + TypeScript + Vite](https://github.com/fresh-app/fresh-vite-app-react-ts)
+The frontend connects to the backend and enables users to interact with:
 
-This project also uses Git-Flow. The main branch stores the official release history while the develop branch serves as an integration branch for features and fixes.
-For further information refer to [Gitflow workflow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)
+- 🌳 Trees
+- 🌿 Tree clusters
+- 📡 Sensors
+- 🗺️ Watering plans
+- 🚛 Vehicles
+- 👤 Users
 
-## Local development
+Developed in collaboration with **TBZ Flensburg**, this software is designed to be adaptable for other cities. It originated as a research project within the **Applied Computer Science Master's program** at the **University of Applied Sciences Flensburg**.
+
+For further information, visit:
+
+- [🌐 Project website](https://green-ecolution.de/)
+- [🎓 University of Applied Sciences Flensburg](https://hs-flensburg.de/en)
+- [🖥️ Live demo](https://demo.green-ecolution.de)
+
+## Technologies Used ⚙️
+
+- [React](https://react.dev/)
+- [Vite](https://vitejs.dev/) for fast development and HMR
+- [TypeScript](https://www.typescriptlang.org/)
+- [ESLint](https://eslint.org/) for code linting
+- [Yarn](https://yarnpkg.com/) for dependency management
+- [fnm](https://github.com/Schniz/fnm) for Node.js version management
+
+## Local development 💻
 
 ### Requirements
-- [node](https://github.com/nodejs/node) JavaScript runtime environment
-- [yarn](https://github.com/yarnpkg) Dependency management for JavaScript
-- [fnm](https://github.com/Schniz/fnm) Fast and simple Node.js version manager
 
-### Setup
+- [Node.js](https://github.com/nodejs/node)
+- [Yarn](https://github.com/yarnpkg)
+- [fnm](https://github.com/Schniz/fnm)
 
-fnm is used download node and npm to install yarn.
+### Initial Setup ⚙️
 
-Download node
+Install the required Node.js version:
+
 ```bash
 fnm use
 ```
-Install yarn
+
+Install Yarn globally:
+
 ```bash
 npm install --global yarn
 ```
 
-### Build
+Install dependencies:
 
-Download dependencies
 ```bash
 yarn
 ```
 
-Build and start backend-client
+## Running the Project ▶️
+
+Build the local backend-client and start the frontend:
+
 ```bash
 yarn generate:local
 yarn rebuild
 yarn dev
 ```
 
-If you not want use the deployed backend the environment variable VITE_BACKEND_BASEURL needs to be changed.
+By default, the app connects to the local running backend `localhost:3000`. If you want to use the deployed stage backend instance instead, adjust the `VITE_BACKEND_BASEURL` environment variable:
+
 ```bash
-VITE_BACKEND_BASEURL=/api-dev yarn dev
+VITE_BACKEND_BASEURL=/api-stage yarn dev
 ```
 
-### How to contribute
+### How to Contribute 🤝
 
-If you want to contribute to the project please follow this guideline:
+We welcome contributions! Please follow these guidelines:
 
-- Fork the project.
-- Create a topic branch from develop.
-- Make some commits to improve the project.
-- Push this branch to your GitHub project.
-- Open a Pull Request on GitHub.
-- Discuss, and optionally continue committing.
-- The project owner merges or closes the Pull Request.
+1. Fork this repository.
+1. Create a topic branch off develop.
+1. Commit your changes.
+1. Push your branch to your fork.
+1. Open a Pull Request.
 
-Please refer to naming conventions for branches [Medium Article](https://medium.com/@abhay.pixolo/naming-conventions-for-git-branches-a-cheatsheet-8549feca2534).
+This project follows:
+
+- [Git-Flow Workflow](https://danielkummer.github.io/git-flow-cheatsheet/) for branching and releases.
+- [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit messages.
+
+Thank you for helping us improve Green Ecolution! 🌿

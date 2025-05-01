@@ -6,9 +6,17 @@ name: Build and Push Docker Image Staging
         description: "The release version"
         required: true
   push:
+    paths:
+      - '.docker/**'
+      - 'frontend/**'
+      - 'plugin-interface/**'
+      - 'backend-client/**'
+      - 'packages.json'
+      - 'yarn.lock'
     branches:
       - release/*
       - hotfix/*
+      - develop
 
 jobs:
   build_and_deploy_stage:
@@ -20,6 +28,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+            fetch-depth: 0
+            fetch-tags: true
 
       - name: Set commit sha
         run: |
@@ -35,7 +46,6 @@ jobs:
         run: |
           BRANCH_NAME="${{ steps.extract_branch.outputs.branch }}"
           VERSION=${BRANCH_NAME#release/}
-
           echo "RELEASE_VERSION=$VERSION" >> $GITHUB_ENV
 
       - name: Extract version from branch name (for hotfix branches)
@@ -43,7 +53,13 @@ jobs:
         run: |
           BRANCH_NAME="${{ steps.extract_branch.outputs.branch }}"
           VERSION=${BRANCH_NAME#hotfix/}
+          echo "RELEASE_VERSION=$VERSION" >> $GITHUB_ENV
 
+      - name: Extract version from branch name (for develop branche)
+        if: startsWith(steps.extract_branch.outputs.branch, 'develop')
+        run: |
+          BRANCH_NAME="${{ steps.extract_branch.outputs.branch }}"
+          VERSION=$(git describe --tags --always)
           echo "RELEASE_VERSION=$VERSION" >> $GITHUB_ENV
 
       - name: Extract version from input (for manual workflow dispatch)
@@ -75,29 +91,29 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GREEN_ECOLUTION_PAT }}
         run: |
-          gh run download -R green-ecolution/green-ecolution-backend -n api-docs-stage.json 
-          mv api-docs-stage.json ./backend-client/api-docs.json
+          gh run download -R green-ecolution/backend -n api-docs.json 
+          mv api-docs.json ./backend-client/api-docs.json
 
       - name: Build and push
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: .
           build-args: |
-            APP_VERSION="${{env.RELEASE_VERSION}}-stage"
-            APP_GIT_COMMIT=${{env.COMMIT_SHA}}
-            APP_GIT_BRANCH=${{steps.extract_branch.outputs.branch}}
-            APP_BUILD_TIME=${{env.BUILD_TIME}}
-            APP_GIT_REPOSITORY=${{github.repository}}
+            VITE_APP_VERSION="${{env.RELEASE_VERSION}}-stage"
+            VITE_APP_GIT_COMMIT=${{env.COMMIT_SHA}}
+            VITE_APP_GIT_BRANCH=${{steps.extract_branch.outputs.branch}}
+            VITE_APP_BUILD_TIME=${{env.BUILD_TIME}}
+            VITE_APP_GIT_REPOSITORY=${{github.repository}}
           file: ./.docker/Dockerfile.stage
           platforms: linux/amd64 #,linux/arm64
           push: true
-          tags: ghcr.io/${{ env.REPO_LC }}-stage:${{ env.RELEASE_VERSION }}-stage,ghcr.io/${{ env.REPO_LC }}-stage:${{ env.RELEASE_VERSION }}-preview, ghcr.io/${{ env.REPO_LC }}-stage:latest, ghcr.io/${{ env.REPO_LC }}-stage:${{ env.COMMIT_SHA }}
+          tags: ghcr.io/${{ env.REPO_LC }}:${{ env.RELEASE_VERSION }}-stage,ghcr.io/${{ env.REPO_LC }}:${{ env.COMMIT_SHA }}-stage
 
       - name: Notify management repo to update submodules
         uses: peter-evans/repository-dispatch@v3
         with:
           token: ${{ secrets.GREEN_ECOLUTION_PAT }}
-          repository: green-ecolution/green-ecolution-management
-          event-type: "update-submodules-staging"
+          repository: green-ecolution/green-ecolution
+          event-type: "update-submodules-stage"
           client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ env.COMMIT_SHA }}", "version": "${{ env.RELEASE_VERSION }}", "from": "frontend"}'
 

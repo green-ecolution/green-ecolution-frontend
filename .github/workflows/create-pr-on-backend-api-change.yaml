@@ -44,7 +44,7 @@ jobs:
         run: git push origin feature/update-backend-client-${{ github.event.client_payload.hash }}
 
       - name: Create pull request
-        uses: thomaseizinger/create-pull-request@1.0.0
+        uses: thomaseizinger/create-pull-request@1.4.0
         env:
           GITHUB_TOKEN: ${{ secrets.GREEN_ECOLUTION_PAT }}
         with:
@@ -52,7 +52,7 @@ jobs:
           base: develop
           title: Update Backend API Client
           body: |
-            API Docs have been updated in the backend green-ecolution/green-ecolution-backend@${{ github.event.client_payload.hash }}. Please review if the changes are compatible with the frontend.
+            API Docs have been updated in the backend green-ecolution/backend@${{ github.event.client_payload.hash }}. Please review if the changes are compatible with the frontend.
           labels: api-docs-update
           draft: true
 
