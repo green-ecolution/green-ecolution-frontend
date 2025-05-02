@@ -1,6 +1,5 @@
 import { useAuthStore, useMapStore, useUserStore } from '@/store/store'
 import { createFileRoute } from '@tanstack/react-router'
-import ReactJson from 'react-json-view'
 
 export const Route = createFileRoute('/_protected/debug/')({
   component: Debug,
@@ -22,9 +21,9 @@ function Debug() {
         </p>
       </article>
       <div className="mt-6">
-        <ReactJson src={authStore} collapsed name="authStore" />
-        <ReactJson src={userStore} collapsed name="userStore" />
-        <ReactJson src={mapStore} collapsed name="mapStore" />
+        {JSON.stringify(authStore)}
+        {JSON.stringify(mapStore)}
+        {JSON.stringify(userStore)}
       </div>
     </div>
   )
