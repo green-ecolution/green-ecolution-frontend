@@ -16,7 +16,7 @@
     "@green-ecolution/backend-client": "*",
     "@green-ecolution/plugin-interface": "*",
     "@hookform/resolvers": "^5.0.1",
-    "@module-federation/enhanced": "^0.8.2",
+    "@module-federation/enhanced": "^0.13.1",
     "@module-federation/vite": "1.1.9",
     "@splidejs/react-splide": "^0.7.12",
     "@tanstack/react-query": "^5.50.1",
