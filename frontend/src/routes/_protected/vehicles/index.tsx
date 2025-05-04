@@ -1,33 +1,31 @@
-import { vehicleQuery } from '@/api/queries'
 import VehicleCard from '@/components/general/cards/VehicleCard'
 import LoadingInfo from '@/components/general/error/LoadingInfo'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { createFileRoute, useLoaderData } from '@tanstack/react-router'
-import { Suspense } from 'react'
 import ButtonLink from '@/components/general/links/ButtonLink'
 import { Plus } from 'lucide-react'
 import Pagination from '@/components/general/Pagination'
 import { z } from 'zod'
+import { vehicleQuery } from '@/api/queries'
 
 export const Route = createFileRoute('/_protected/vehicles/')({
   component: Vehicles,
+  pendingComponent: () => <LoadingInfo label="Fahrzeuge wird geladen …" />,
   validateSearch: z.object({
     page: z.number().default(1),
   }),
   loaderDeps: ({ search: { page } }) => ({
     page: page || 1,
   }),
-  loader: ({ deps: { page } }) => {
+  loader: ({ context: { queryClient }, deps: { page } }) => {
+    queryClient.prefetchQuery(vehicleQuery({ page, limit: 5 }))
     return { page }
   },
 })
 
 function Vehicles() {
   const search = useLoaderData({ from: '/_protected/vehicles/' })
-  const { data: vehicleRes } = useSuspenseQuery(
-    vehicleQuery({ page: search.page, limit: 5 })
-  )
-
+  const { data: vehicleRes } = useSuspenseQuery(vehicleQuery({ page: search.page, limit: 5 }))
   return (
     <div className="container mt-6">
       <article className="mb-20 2xl:w-4/5">
@@ -53,24 +51,22 @@ function Vehicles() {
           <p>Modell</p>
           <p>Führerscheinklasse</p>
         </header>
-        <Suspense fallback={<LoadingInfo label="Daten werden geladen" />}>
-          <ul>
-            {vehicleRes.data?.length === 0 ? (
-              <li className="text-center text-dark-600 mt-10">
-                <p>Es wurden leider keine Fahrzeuge gefunden.</p>
+        <ul>
+          {vehicleRes.data?.length === 0 ? (
+            <li className="text-center text-dark-600 mt-10">
+              <p>Es wurden leider keine Fahrzeuge gefunden.</p>
+            </li>
+          ) : (
+            vehicleRes.data?.map((vehicle, key) => (
+              <li key={key} className="mb-5 last:mb-0">
+                <VehicleCard vehicle={vehicle} />
               </li>
-            ) : (
-              vehicleRes.data?.map((vehicle, key) => (
-                <li key={key} className="mb-5 last:mb-0">
-                  <VehicleCard vehicle={vehicle} />
-                </li>
-              ))
-            )}
-          </ul>
-          {vehicleRes.pagination && vehicleRes.pagination?.totalPages > 1 && (
-            <Pagination pagination={vehicleRes.pagination} />
+            ))
           )}
-        </Suspense>
+        </ul>
+        {vehicleRes.pagination && vehicleRes.pagination?.totalPages > 1 && (
+          <Pagination pagination={vehicleRes.pagination} />
+        )}
       </section>
     </div>
   )

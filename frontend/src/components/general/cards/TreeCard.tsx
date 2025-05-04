@@ -14,7 +14,7 @@ const TreeCard: React.FC<TreeCardProps> = ({ tree, showTreeClusterInfo = true })
   const clusterId = tree.treeClusterId ? String(tree.treeClusterId) : null
   const { data: clusterRes } = useQuery({
     ...treeClusterIdQuery(clusterId!),
-    enabled: Boolean(clusterId),
+    enabled: clusterId !== null,
   })
   const statusDetails = getWateringStatusDetails(
     tree.wateringStatus ?? WateringStatus.WateringStatusUnknown
@@ -28,7 +28,7 @@ const TreeCard: React.FC<TreeCardProps> = ({ tree, showTreeClusterInfo = true })
       params={{
         treeId: tree.id.toString(),
       }}
-      className={`transition-all ease-in-out duration-300 hover:bg-green-dark-50 hover:border-green-dark ${wrapperClasses} ${showTreeClusterInfo ? 'lg:grid-cols-[1fr,1.5fr,1fr,1fr]' :  'lg:grid-cols-[1.5fr,2fr,1fr]'}`}
+      className={`transition-all ease-in-out duration-300 hover:bg-green-dark-50 hover:border-green-dark ${wrapperClasses} ${showTreeClusterInfo ? 'lg:grid-cols-[1fr,1.5fr,1fr,1fr]' : 'lg:grid-cols-[1.5fr,2fr,1fr]'}`}
     >
       <p
         className={`relative font-medium pl-7 before:absolute before:w-4 before:h-4 before:rounded-full before:left-0 before:top-[0.22rem] 

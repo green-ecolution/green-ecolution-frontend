@@ -2,10 +2,9 @@ import { TreeForm, TreeSchema } from '@/schema/treeSchema'
 import FormForTree from '../general/form/FormForTree'
 import BackLink from '../general/links/BackLink'
 import DeleteSection from '../treecluster/DeleteSection'
-import { useSuspenseQuery } from '@tanstack/react-query'
-import { Tree } from '@green-ecolution/backend-client'
+import { Sensor, Tree, TreeCluster } from '@green-ecolution/backend-client'
 import { useInitFormQuery } from '@/hooks/form/useInitForm'
-import { sensorQuery, treeClusterQuery, treeIdQuery } from '@/api/queries'
+import { treeIdQuery } from '@/api/queries'
 import { treeApi } from '@/api/backendApi'
 import { useMapStore } from '@/store/store'
 import { useNavigate } from '@tanstack/react-router'
@@ -15,14 +14,14 @@ import { useTreeForm } from '@/hooks/form/useTreeForm'
 
 interface TreeUpdateProps {
   treeId: string
+  clusters: TreeCluster[]
+  sensors: Sensor[]
 }
 
-const TreeUpdate = ({ treeId }: TreeUpdateProps) => {
+const TreeUpdate = ({ treeId, clusters, sensors }: TreeUpdateProps) => {
   const navigate = useNavigate()
   const map = useMapStore()
   const { mutate, isError, error } = useTreeForm('update', treeId)
-  const { data: sensors } = useSuspenseQuery(sensorQuery())
-  const { data: treeClusters } = useSuspenseQuery(treeClusterQuery())
   const { initForm, loadedData } = useInitFormQuery<Tree, TreeForm>(
     treeIdQuery(treeId),
     (data) => ({
@@ -97,8 +96,8 @@ const TreeUpdate = ({ treeId }: TreeUpdateProps) => {
           displayError={isError}
           formState={formState}
           onSubmit={onSubmit}
-          treeClusters={treeClusters.data}
-          sensors={sensors.data}
+          treeClusters={clusters}
+          sensors={sensors}
           onChangeLocation={handleOnChangeLocation}
           errorMessage={error?.message}
         />

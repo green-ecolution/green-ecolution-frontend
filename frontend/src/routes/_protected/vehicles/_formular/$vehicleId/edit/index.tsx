@@ -2,13 +2,13 @@ import LoadingInfo from '@/components/general/error/LoadingInfo'
 import useFormStore from '@/store/form/useFormStore'
 import useStore from '@/store/store'
 import { createFileRoute } from '@tanstack/react-router'
-import { Suspense } from 'react'
 import VehicleUpdate from '@/components/vehicle/VehicleUpdate'
 
 export const Route = createFileRoute(
   '/_protected/vehicles/_formular/$vehicleId/edit/'
 )({
   component: EditVehicle,
+  pendingComponent: () => <LoadingInfo label="Fahrzeug wird geladen …" />,
   beforeLoad: () => {
     useFormStore.getState().setType('edit')
   },
@@ -22,9 +22,7 @@ function EditVehicle() {
 
   return (
     <div className="container mt-6">
-      <Suspense fallback={<LoadingInfo label="Fahrzeug wird geladen …" />}>
-        <VehicleUpdate vehicleId={vehicleId} />
-      </Suspense>
+      <VehicleUpdate vehicleId={vehicleId} />
     </div>
   )
 }

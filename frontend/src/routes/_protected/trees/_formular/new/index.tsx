@@ -25,7 +25,10 @@ export const Route = createFileRoute('/_protected/trees/_formular/new/')({
   loaderDeps: ({ search: { lat, lng } }) => {
     return { lat, lng }
   },
-  loader: ({ deps: { lat, lng } }) => {
+  loader: ({ context: { queryClient }, deps: { lat, lng } }) => {
+    queryClient.prefetchQuery(sensorQuery())
+    queryClient.prefetchQuery(treeClusterQuery())
+
     const storeNotInit = useFormStore.getState().isEmpty()
     return {
       lat: storeNotInit ? lat : useFormStore.getState().form.latitude,

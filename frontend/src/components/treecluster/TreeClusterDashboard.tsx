@@ -6,19 +6,15 @@ import ButtonLink from '@/components/general/links/ButtonLink'
 import { Pencil } from 'lucide-react'
 import { getWateringStatusDetails } from '@/hooks/details/useDetailsForWateringStatus'
 import GeneralLink from '../general/links/GeneralLink'
-import { useSuspenseQuery } from '@tanstack/react-query'
-import { treeClusterIdQuery } from '@/api/queries'
 import { format } from 'date-fns'
 import Notice from '../general/Notice'
+import { TreeCluster } from '@green-ecolution/backend-client'
 
 interface TreeClusterDashboardProps {
-  treeclusterId: string
+  treecluster: TreeCluster
 }
 
-const TreeClusterDashboard = ({ treeclusterId }: TreeClusterDashboardProps) => {
-  const { data: treecluster } = useSuspenseQuery(
-    treeClusterIdQuery(treeclusterId)
-  )
+const TreeClusterDashboard = ({ treecluster }: TreeClusterDashboardProps) => {
   const wateringStatus = getWateringStatusDetails(treecluster.wateringStatus)
   const lastWateredDate = treecluster.lastWatered
     ? format(new Date(treecluster.lastWatered), 'dd.MM.yyyy')

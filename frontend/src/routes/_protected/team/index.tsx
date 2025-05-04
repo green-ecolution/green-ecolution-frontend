@@ -1,12 +1,13 @@
 import UserCard from '@/components/general/cards/UserCard'
 import LoadingInfo from '@/components/general/error/LoadingInfo'
 import { createFileRoute } from '@tanstack/react-router'
-import { Suspense } from 'react'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { userRoleQuery } from '@/api/queries'
 
 export const Route = createFileRoute('/_protected/team/')({
   component: Team,
+  pendingComponent: () => <LoadingInfo label="Daten werden geladen" />,
+  loader: ({ context: { queryClient } }) => queryClient.prefetchQuery(userRoleQuery("tbz"))
 })
 
 function Team() {
@@ -31,21 +32,19 @@ function Team() {
           <p>Organisation</p>
           <p>Führerscheinklasse</p>
         </header>
-        <Suspense fallback={<LoadingInfo label="Daten werden geladen" />}>
-          <ul>
-            {userRes.data?.length === 0 ? (
-              <li className="text-center text-dark-600 mt-10">
-                <p>Es wurden leider keine Mitarbeitenden gefunden.</p>
+        <ul>
+          {userRes.data.length === 0 ? (
+            <li className="text-center text-dark-600 mt-10">
+              <p>Es wurden leider keine Mitarbeitenden gefunden.</p>
+            </li>
+          ) : (
+            userRes.data.map((user, key) => (
+              <li key={key} className="mb-5 last:mb-0">
+                <UserCard user={user} />
               </li>
-            ) : (
-              userRes.data?.map((user, key) => (
-                <li key={key} className="mb-5 last:mb-0">
-                  <UserCard user={user} />
-                </li>
-              ))
-            )}
-          </ul>
-        </Suspense>
+            ))
+          )}
+        </ul>
       </section>
     </div>
   )

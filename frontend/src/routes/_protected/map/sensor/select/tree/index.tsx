@@ -1,6 +1,5 @@
 import { treeApi } from '@/api/backendApi'
 import { sensorIdQuery, treeIdQuery } from '@/api/queries'
-import queryClient from '@/api/queryClient'
 import SelectedCard from '@/components/general/cards/SelectedCard'
 import MapSelectEntitiesModal from '@/components/map/MapSelectEntitiesModal'
 import SensorMarker from '@/components/map/marker/SensorMarker'
@@ -10,15 +9,23 @@ import {
   Tree,
   TreeUpdate as TreeUpdateReq,
 } from '@green-ecolution/backend-client'
-import { useMutation, useSuspenseQuery } from '@tanstack/react-query'
+import { useMutation, useQueryClient, useSuspenseQuery } from '@tanstack/react-query'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { useCallback, useState } from 'react'
 
 export const Route = createFileRoute('/_protected/map/sensor/select/tree/')({
   component: LinkTreeToSensor,
+  beforeLoad: ({ search }) => {
+    search as {
+      sensorId: string
+    }
+  },
+  loaderDeps: ({ search: { sensorId } }) => ({ sensorId }),
+  loader: ({ context: { queryClient }, deps: { sensorId } }) => queryClient.prefetchQuery(sensorIdQuery(String(sensorId)))
 })
 
 function LinkTreeToSensor() {
+  const queryClient = useQueryClient()
   const [treeId, setTreeId] = useState<number | undefined>()
   const [showDefault, setShowDefault] = useState(false)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
