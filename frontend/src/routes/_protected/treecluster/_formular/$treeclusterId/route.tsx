@@ -6,7 +6,7 @@ export const Route = createFileRoute(
 )({
   component: () => <Outlet />,
   loader: async ({ context: { queryClient }, params }) => {
-    const cluster = await queryClient.ensureQueryData(treeClusterIdQuery(params.treeclusterId))
+    const cluster = await queryClient.fetchQuery(treeClusterIdQuery(params.treeclusterId))
     return {
       crumb: {
         title: cluster.name,
