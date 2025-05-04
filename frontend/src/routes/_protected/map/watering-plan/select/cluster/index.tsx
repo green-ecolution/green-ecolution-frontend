@@ -15,6 +15,9 @@ export const Route = createFileRoute(
   '/_protected/map/watering-plan/select/cluster/'
 )({
   component: SelectCluster,
+  loader: ({ context: { queryClient } }) => {
+    return queryClient.prefetchQuery(treeClusterQuery())
+  }
 })
 
 function SelectCluster() {

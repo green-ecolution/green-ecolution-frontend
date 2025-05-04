@@ -1,8 +1,6 @@
-import { treeQuery } from '@/api/queries'
 import LoadingInfo from '@/components/general/error/LoadingInfo'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { createFileRoute, useLoaderData } from '@tanstack/react-router'
-import { Suspense } from 'react'
 import ButtonLink from '@/components/general/links/ButtonLink'
 import { Plus } from 'lucide-react'
 import TreeCard from '@/components/general/cards/TreeCard'
@@ -14,6 +12,7 @@ import StatusFieldset from '@/components/general/filter/fieldsets/StatusFieldset
 import ClusterFieldset from '@/components/general/filter/fieldsets/ClusterFieldset'
 import PlantingYearFieldset from '@/components/general/filter/fieldsets/PlantingYearFieldset'
 import FilterProvider from '@/context/FilterContext'
+import { treeQuery } from '@/api/queries'
 
 const treeFilterSchema = z.object({
   wateringStatuses: z.array(z.string()).optional(),
@@ -22,12 +21,12 @@ const treeFilterSchema = z.object({
 })
 
 function Trees() {
-  const search = useLoaderData({ from: '/_protected/trees/' })
+  const { wateringStatuses, hasCluster, plantingYears, page } = useLoaderData({ from: '/_protected/trees/' })
   const { data: treesRes } = useSuspenseQuery(treeQuery({
-    page: search.page ?? 1,
-    wateringStatuses: search.wateringStatuses,
-    hasCluster: search.hasCluster,
-    plantingYears: search.plantingYears,
+    page: page ?? 1,
+    wateringStatuses,
+    hasCluster,
+    plantingYears,
     limit: 10,
   }))
 
@@ -72,24 +71,22 @@ function Trees() {
           <p>Baumnummer</p>
           <p>Bewässerungsgruppe</p>
         </header>
-        <Suspense fallback={<LoadingInfo label="Daten werden geladen" />}>
-          <ul>
-            {treesRes.data?.length === 0 ? (
-              <li className="text-center text-dark-600 mt-10">
-                <p>Es wurden leider keine Bäume gefunden.</p>
+        <ul>
+          {treesRes.data?.length === 0 ? (
+            <li className="text-center text-dark-600 mt-10">
+              <p>Es wurden leider keine Bäume gefunden.</p>
+            </li>
+          ) : (
+            treesRes.data?.map((tree, key) => (
+              <li key={key} className="mb-5 last:mb-0">
+                <TreeCard tree={tree} />
               </li>
-            ) : (
-              treesRes.data?.map((tree, key) => (
-                <li key={key} className="mb-5 last:mb-0">
-                  <TreeCard tree={tree} />
-                </li>
-              ))
-            )}
-          </ul>
-          {treesRes.pagination && treesRes.pagination?.totalPages > 1 && (
-            <Pagination pagination={treesRes.pagination} />
+            ))
           )}
-        </Suspense>
+        </ul>
+        {treesRes.pagination && treesRes.pagination?.totalPages > 1 && (
+          <Pagination pagination={treesRes.pagination} />
+        )}
       </section>
     </div>
   )
@@ -112,20 +109,23 @@ const TreesWithProvider = () => {
 export const Route = createFileRoute('/_protected/trees/')({
   component: TreesWithProvider,
   validateSearch: treeFilterSchema,
-
+  pendingComponent: () => <LoadingInfo label="Daten werden geladen" />,
   loaderDeps: ({ search }: { search: GetAllTreesRequest }) => ({
     wateringStatuses: search.wateringStatuses ?? undefined,
     hasCluster: search.hasCluster ?? undefined,
     plantingYears: search.plantingYears ?? undefined,
     page: search.page ?? 1,
   }),
+  loader: ({ deps: { page, wateringStatuses, hasCluster, plantingYears }, context: { queryClient } }) => {
+    const query = queryClient.prefetchQuery(treeQuery({
+      page,
+      wateringStatuses,
+      hasCluster,
+      plantingYears,
+      limit: 10,
+    }))
 
-  loader: ({
-    deps: { page, wateringStatuses, hasCluster, plantingYears },
-  }: {
-    deps: GetAllTreesRequest
-  }) => {
-    return { page, wateringStatuses, hasCluster, plantingYears }
+    return { page, wateringStatuses, hasCluster, plantingYears, query }
   },
 })
 

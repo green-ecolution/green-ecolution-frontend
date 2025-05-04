@@ -4,10 +4,9 @@ import { z } from 'zod'
 import Map from '@/components/map/Map'
 import MapConroller from '@/components/map/MapController'
 import ZoomControls from '@/components/map/ZoomControls'
-import queryClient from '@/api/queryClient'
-import { Suspense } from 'react'
 import { treeClusterQuery, treeQuery } from '@/api/queries'
 import LoadingInfo from '@/components/general/error/LoadingInfo'
+import { Suspense } from 'react'
 
 const mapSearchParamsSchema = z.object({
   selected: z.string().optional(),
@@ -33,13 +32,15 @@ export const Route = createFileRoute('/_protected/map')({
     lng,
     zoom,
   }),
-  loader: ({ deps: { lat, lng, zoom } }) => {
+  loader: ({ context: { queryClient }, deps: { lat, lng, zoom } }) => {
+    queryClient.prefetchQuery(treeClusterQuery())
+    queryClient.prefetchQuery(treeQuery())
+
     useMapStore.setState((state) => ({
       map: { ...state.map, center: [lat, lng], zoom },
     }))
+
     return {
-      cluster: queryClient.ensureQueryData(treeClusterQuery()),
-      tree: queryClient.ensureQueryData(treeQuery()),
       crumb: { title: "Karte" }
     }
   },

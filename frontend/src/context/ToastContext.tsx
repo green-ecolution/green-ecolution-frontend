@@ -8,7 +8,7 @@ interface ToastContext {
 /* eslint-disable-next-line react-refresh/only-export-components */
 export const ToastContext = createContext<ToastContext | undefined>(undefined)
 
-interface ToastProviderProps extends React.PropsWithChildren { }
+interface ToastProviderProps extends React.PropsWithChildren {}
 
 const ToastProvider = ({ children }: ToastProviderProps) => {
   const [isVisible, setIsVisible] = useState(false)
@@ -40,15 +40,17 @@ const ToastProvider = ({ children }: ToastProviderProps) => {
   return (
     <ToastContext.Provider value={{ showToast }}>
       <div
-        className={`z-[1000] fixed inset-x-4 mx-auto bottom-10 bg-dark text-white rounded-[1.875rem] grid grid-cols-[1.5fr,auto] items-center gap-x-2.5 pr-4 pl-2.5 py-2.5 w-fit transition-all ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
-          } duration-300 ease-in-out`}
+        className={`z-[1000] fixed inset-x-4 mx-auto bottom-10 bg-dark text-white rounded-[1.875rem] grid grid-cols-[1.5fr,auto] items-center gap-x-2.5 pr-4 pl-2.5 py-2.5 w-fit transition-all ${
+          isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
+        } duration-300 ease-in-out`}
       >
         <figure
           aria-hidden="true"
-          className={`relative w-6 h-6 rounded-full flex items-center justify-center before:w-8 before:h-8 before:absolute before:rounded-full before:-z-10 ${type === 'success'
-            ? 'bg-green-light before:bg-green-light/50'
-            : 'bg-red before:bg-red/50'
-            }`}
+          className={`relative w-6 h-6 rounded-full flex items-center justify-center before:w-8 before:h-8 before:absolute before:rounded-full before:-z-10 ${
+            type === 'success'
+              ? 'bg-green-light before:bg-green-light/50'
+              : 'bg-red before:bg-red/50'
+          }`}
         >
           {type === 'success' ? (
             <Check className="w-4 h-4" />

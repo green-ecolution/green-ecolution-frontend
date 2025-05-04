@@ -4,18 +4,15 @@ import ButtonLink from '../general/links/ButtonLink'
 import { Pencil } from 'lucide-react'
 import { getVehicleStatusDetails } from '@/hooks/details/useDetailsForVehicleStatus'
 import GeneralLink from '../general/links/GeneralLink'
-import { VehicleStatus } from '@green-ecolution/backend-client'
+import { Vehicle, VehicleStatus } from '@green-ecolution/backend-client'
 import { getVehicleType } from '@/hooks/details/useDetailsForVehicleType'
 import DetailedList from '../general/DetailedList'
-import { useSuspenseQuery } from '@tanstack/react-query'
-import { vehicleIdQuery } from '@/api/queries'
 
 interface VehicleDashboardProps {
-  vehicleId: string
+  vehicle: Vehicle
 }
 
-const VehicleDashboard = ({ vehicleId }: VehicleDashboardProps) => {
-  const { data: vehicle } = useSuspenseQuery(vehicleIdQuery(vehicleId))
+const VehicleDashboard = ({ vehicle }: VehicleDashboardProps) => {
   const statusDetails = getVehicleStatusDetails(vehicle.status)
   const vehicleType = getVehicleType(vehicle.type)
 

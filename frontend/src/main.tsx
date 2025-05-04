@@ -8,15 +8,17 @@ import { createRouter, RouterProvider } from "@tanstack/react-router";
 import { routeTree } from "./routeTree.gen";
 import NotFound from "./components/layout/NotFound";
 import ErrorFallback from "./components/layout/ErrorFallback";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient()
 
 const router = createRouter({
   routeTree,
-  defaultErrorComponent: ({ error, reset }) => <ErrorFallback error={error} resetErrorBoundary={reset} />,
-  defaultNotFoundComponent: () => {
-    return (
-      <NotFound />
-    )
+  context: {
+    queryClient
   },
+  defaultErrorComponent: ({ error, reset }) => <ErrorFallback error={error} resetErrorBoundary={reset} />,
+  defaultNotFoundComponent: () => <NotFound />
 })
 
 declare module "@tanstack/react-router" {
@@ -35,6 +37,8 @@ declare module "@tanstack/react-router" {
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+    </QueryClientProvider>
   </React.StrictMode>,
 );

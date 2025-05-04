@@ -15,5 +15,5 @@ export function decodeJWT<T>(token: string): T {
 }
 
 export function roundTo(n: number, digits: number) {
-  return Number(Math.round(Number(n + 'e' + digits)) + 'e-' + digits);
+  return Number(Math.round(Number(n + 'e' + digits)) + 'e-' + digits)
 }

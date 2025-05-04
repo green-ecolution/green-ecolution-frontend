@@ -7,23 +7,18 @@ import Tabs from '../general/Tabs'
 import { useMemo } from 'react'
 import TreeIcon from '../icons/Tree'
 import SensorIcon from '../icons/Sensor'
-import { useQuery, useSuspenseQuery } from '@tanstack/react-query'
-import { treeClusterIdQuery, treeIdQuery } from '@/api/queries'
 import TabWateringStatus from './TabWateringStatus'
 import TabGeneralData from './TabGeneralData'
 import TabSensorData from './TabSensorData'
+import { Tree, TreeCluster } from '@green-ecolution/backend-client'
+
 
 interface TreeDashboardProps {
-  treeId: string
+  tree: Tree,
+  treeCluster?: TreeCluster
 }
 
-const TreeDashboard = ({ treeId }: TreeDashboardProps) => {
-  const { data: tree } = useSuspenseQuery(treeIdQuery(treeId));
-  const { data: treeCluster } = useQuery({
-    ...treeClusterIdQuery(tree.treeClusterId?.toString() ?? ''),
-    enabled: tree.treeClusterId !== undefined
-  })
-
+const TreeDashboard = ({ tree, treeCluster }: TreeDashboardProps) => {
   const tabs = useMemo(
     () => [
       {

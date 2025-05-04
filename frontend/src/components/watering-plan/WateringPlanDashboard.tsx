@@ -11,25 +11,21 @@ import { useMemo } from 'react'
 import Tabs from '../general/Tabs'
 import TreeClusterList from '../treecluster/TreeClusterList'
 import ButtonLink from '../general/links/ButtonLink'
-import { useMutation, useSuspenseQuery } from '@tanstack/react-query'
+import { useMutation } from '@tanstack/react-query'
 import useStore from '@/store/store'
-import { basePath } from '@/api/backendApi'
+import { basePath, WateringPlan } from '@/api/backendApi'
 import useToast from '@/hooks/useToast'
 import LinkAsButton from '../general/buttons/LinkButton'
-import { wateringPlanIdQuery } from '@/api/queries'
 import WateringPlanPreviewRoute from './WateringPlanRoutePreview'
 import Notice from '../general/Notice'
 
 interface WateringPlanDashboardProps {
-  wateringPlanId: string
+  wateringPlan: WateringPlan
 }
 
 const WateringPlanDashboard = ({
-  wateringPlanId,
+  wateringPlan,
 }: WateringPlanDashboardProps) => {
-  const { data: wateringPlan } = useSuspenseQuery(
-    wateringPlanIdQuery(wateringPlanId)
-  )
   const statusDetails = getWateringPlanStatusDetails(wateringPlan.status)
   const { accessToken } = useStore((state) => ({
     accessToken: state.auth.token?.accessToken,
@@ -54,12 +50,12 @@ const WateringPlanDashboard = ({
       },
       ...(wateringPlan.distance > 0
         ? [
-            {
-              label: 'Route',
-              icon: <Route className="w-5 h-5" />,
-              view: <WateringPlanPreviewRoute wateringPlan={wateringPlan} />,
-            },
-          ]
+          {
+            label: 'Route',
+            icon: <Route className="w-5 h-5" />,
+            view: <WateringPlanPreviewRoute wateringPlan={wateringPlan} />,
+          },
+        ]
         : []),
     ],
     [wateringPlan]

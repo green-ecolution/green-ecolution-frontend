@@ -4,28 +4,27 @@ import Pagination from '@/components/general/Pagination'
 import SensorList from '@/components/sensor/SensorList'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { createFileRoute, useLoaderData } from '@tanstack/react-router'
-import { Suspense } from 'react'
 import { z } from 'zod'
 
 export const Route = createFileRoute('/_protected/sensors/')({
   component: Sensors,
+  pendingComponent: () => <LoadingInfo label="Sensoren werden geladen" />,
   validateSearch: z.object({
-    page: z.number().default(1),
+    page: z.number().catch(1),
   }),
-
   loaderDeps: ({ search: { page } }) => ({
-    page: page || 1,
+    page,
   }),
-
-  loader: ({ deps: { page } }) => {
+  loader: ({ context: { queryClient }, deps: { page } }) => {
+    queryClient.prefetchQuery(sensorQuery({ page, limit: 5 }))
     return { page }
   },
 })
 
 function Sensors() {
-  const search = useLoaderData({ from: '/_protected/sensors/' })
+  const { page } = useLoaderData({ from: '/_protected/sensors/' })
   const { data: sensorsRes } = useSuspenseQuery(
-    sensorQuery({ page: search.page, limit: 5 })
+    sensorQuery({ page, limit: 5 })
   )
 
   return (
@@ -55,12 +54,10 @@ function Sensors() {
           <p>Letztes Datenupdate</p>
         </header>
 
-        <Suspense fallback={<LoadingInfo label="Daten werden geladen" />}>
-          <SensorList data={sensorsRes.data} />
-          {sensorsRes.pagination && sensorsRes.pagination?.totalPages > 1 && (
-            <Pagination pagination={sensorsRes.pagination} />
-          )}
-        </Suspense>
+        <SensorList data={sensorsRes.data} />
+        {sensorsRes.pagination && sensorsRes.pagination?.totalPages > 1 && (
+          <Pagination pagination={sensorsRes.pagination} />
+        )}
       </section>
     </div>
   )

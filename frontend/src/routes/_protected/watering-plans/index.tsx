@@ -6,27 +6,26 @@ import Pagination from '@/components/general/Pagination'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { createFileRoute, useLoaderData } from '@tanstack/react-router'
 import { Plus } from 'lucide-react'
-import { Suspense } from 'react'
 import { z } from 'zod'
 
 export const Route = createFileRoute('/_protected/watering-plans/')({
   component: WateringPlans,
+  pendingComponent: () => <LoadingInfo label="Daten werden geladen" />,
   validateSearch: z.object({
     page: z.number().default(1),
   }),
   loaderDeps: ({ search: { page } }) => ({
     page: page || 1,
   }),
-  loader: ({ deps: { page } }): { page: number } => {
+  loader: ({ context: { queryClient }, deps: { page } }) => {
+    queryClient.prefetchQuery(wateringPlanQuery({ page: page, limit: 5 }))
     return { page }
   },
 })
 
 function WateringPlans() {
   const search = useLoaderData({ from: '/_protected/watering-plans/' })
-  const { data: wateringPlanRes } = useSuspenseQuery(
-    wateringPlanQuery({ page: search.page, limit: 5 })
-  )
+  const { data: wateringPlanRes } = useSuspenseQuery(wateringPlanQuery({ page: search.page, limit: 5 }))
 
   return (
     <div className="container mt-6">
@@ -53,24 +52,22 @@ function WateringPlans() {
           <p>Mitarbeitenden</p>
           <p>Bewässerungsgruppen</p>
         </header>
-        <Suspense fallback={<LoadingInfo label="Daten werden geladen" />}>
-          <ul>
-            {wateringPlanRes.data?.length === 0 ? (
-              <li className="text-center text-dark-600 mt-10">
-                <p>Es wurden leider keine Einsatzpläne gefunden.</p>
+        <ul>
+          {wateringPlanRes.data?.length === 0 ? (
+            <li className="text-center text-dark-600 mt-10">
+              <p>Es wurden leider keine Einsatzpläne gefunden.</p>
+            </li>
+          ) : (
+            wateringPlanRes.data?.map((wateringPlan, key) => (
+              <li key={key} className="mb-5 last:mb-0">
+                <WateringPlanCard wateringPlan={wateringPlan} />
               </li>
-            ) : (
-              wateringPlanRes.data?.map((wateringPlan, key) => (
-                <li key={key} className="mb-5 last:mb-0">
-                  <WateringPlanCard wateringPlan={wateringPlan} />
-                </li>
-              ))
-            )}
-          </ul>
-          {wateringPlanRes.pagination && wateringPlanRes.pagination?.totalPages > 1 && (
-            <Pagination pagination={wateringPlanRes.pagination} />
+            ))
           )}
-        </Suspense>
+        </ul>
+        {wateringPlanRes.pagination && wateringPlanRes.pagination?.totalPages > 1 && (
+          <Pagination pagination={wateringPlanRes.pagination} />
+        )}
       </section>
     </div>
   )

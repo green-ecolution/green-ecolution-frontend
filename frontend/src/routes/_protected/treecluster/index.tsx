@@ -4,30 +4,28 @@ import ButtonLink from '@/components/general/links/ButtonLink'
 import { Plus } from 'lucide-react'
 import LoadingInfo from '@/components/general/error/LoadingInfo'
 import FilterProvider from '@/context/FilterContext'
-import { Suspense } from 'react'
 import TreeClusterList from '@/components/treecluster/TreeClusterList'
-import { treeClusterQuery } from '@/api/queries'
 import Pagination from '@/components/general/Pagination'
 import Dialog from '@/components/general/filter/Dialog'
 import StatusFieldset from '@/components/general/filter/fieldsets/StatusFieldset'
 import RegionFieldset from '@/components/general/filter/fieldsets/RegionFieldset'
 import { GetAllTreeClustersRequest } from '@green-ecolution/backend-client'
 import { z } from 'zod'
+import { treeClusterQuery } from '@/api/queries'
 
 const treeclusterFilterSchema = z.object({
   wateringStatuses: z.array(z.string()).optional(),
   regions: z.array(z.string()).optional(),
-  page: z.number().default(1),
+  page: z.number().catch(1),
 })
 
 function Treecluster() {
-  const search = useLoaderData({ from: '/_protected/treecluster/' })
-
+  const { page, wateringStatuses, regions } = useLoaderData({ from: '/_protected/treecluster/' })
   const { data: clustersRes } = useSuspenseQuery(treeClusterQuery({
-    page: search.page ?? 1,
+    page: page,
     limit: 5,
-    wateringStatuses: search.wateringStatuses,
-    regions: search.regions,
+    wateringStatuses,
+    regions,
   }))
 
   return (
@@ -70,14 +68,12 @@ function Treecluster() {
           <p>Anzahl d. Bäume</p>
         </header>
 
-        <Suspense fallback={<LoadingInfo label="Daten werden geladen" />}>
-          <TreeClusterList
-            data={clustersRes.data}
-          />
-          {clustersRes.pagination && clustersRes.pagination?.totalPages > 1 && (
-            <Pagination pagination={clustersRes.pagination} />
-          )}
-        </Suspense>
+        <TreeClusterList
+          data={clustersRes.data}
+        />
+        {clustersRes.pagination && clustersRes.pagination?.totalPages > 1 && (
+          <Pagination pagination={clustersRes.pagination} />
+        )}
       </section>
     </div>
   )
@@ -99,7 +95,7 @@ const TreeclusterWithProvider = () => {
 export const Route = createFileRoute('/_protected/treecluster/')({
   component: TreeclusterWithProvider,
   validateSearch: treeclusterFilterSchema,
-
+  pendingComponent: () => <LoadingInfo label="Daten werden geladen" />,
   loaderDeps: ({ search }: { search: GetAllTreeClustersRequest }) => ({
     wateringStatuses:
       search.wateringStatuses && search.wateringStatuses.length > 0
@@ -111,10 +107,16 @@ export const Route = createFileRoute('/_protected/treecluster/')({
         ? search.regions
         : undefined,
 
-    page: search.page || 1,
+    page: search.page,
   }),
+  loader: ({ context: { queryClient }, deps: { wateringStatuses, regions, page } }) => {
+    queryClient.prefetchQuery(treeClusterQuery({
+      page,
+      limit: 5,
+      wateringStatuses,
+      regions,
+    }))
 
-  loader: ({ deps: { wateringStatuses, regions, page } }: { deps: GetAllTreeClustersRequest }) => {
     return { wateringStatuses, regions, page }
   },
 })

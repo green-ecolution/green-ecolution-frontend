@@ -1,26 +1,32 @@
 import useFormStore from '@/store/form/useFormStore'
 import { createFileRoute } from '@tanstack/react-router'
-import { Suspense } from 'react'
 import LoadingInfo from '@/components/general/error/LoadingInfo'
 import TreeUpdate from '@/components/tree/TreeUpdate'
+import { sensorQuery, treeClusterQuery } from '@/api/queries'
+import { useSuspenseQuery } from '@tanstack/react-query'
 
 export const Route = createFileRoute('/_protected/trees/_formular/$treeId/edit/')(
   {
     component: EditTree,
+    pendingComponent: () => <LoadingInfo label="Baumdaten werden geladen …" />,
     beforeLoad: () => {
       useFormStore.getState().setType('edit')
     },
+    loader: ({ context: { queryClient } }) => {
+      queryClient.prefetchQuery(sensorQuery())
+      queryClient.prefetchQuery(treeClusterQuery())
+    }
   }
 )
 
 function EditTree() {
   const treeId = Route.useParams().treeId
+  const { data: sensors } = useSuspenseQuery(sensorQuery())
+  const { data: treeClusters } = useSuspenseQuery(treeClusterQuery())
 
   return (
     <div className="container mt-6">
-      <Suspense fallback={<LoadingInfo label="Baumdaten werden geladen …" />}>
-        <TreeUpdate treeId={treeId} />
-      </Suspense>
+      <TreeUpdate treeId={treeId} clusters={treeClusters.data} sensors={sensors.data} />
     </div>
   )
 }
