@@ -1,4 +1,4 @@
-import React, { createContext, useState, ReactNode, useContext } from 'react'
+import React, { createContext, useState, ReactNode, use, useMemo } from 'react'
 
 export interface Filters {
   statusTags: string[]
@@ -30,11 +30,15 @@ interface FilterProviderProps {
   children: ReactNode
 }
 
+const defaultInitStatus: string[] = []
+const defaultInitRegions: string[] = []
+const defaultInitPlantingYears: number[] = []
+
 const FilterProvider: React.FC<FilterProviderProps> = ({
-  initialStatus = [],
-  initialRegions = [],
+  initialStatus = defaultInitStatus,
+  initialRegions = defaultInitRegions,
   initialHasCluster = undefined,
-  initialPlantingYears = [],
+  initialPlantingYears = defaultInitPlantingYears,
   children,
 }) => {
   const [statusTags, setStatusTags] = useState(initialStatus)
@@ -86,26 +90,25 @@ const FilterProvider: React.FC<FilterProviderProps> = ({
     setPlantingYears([])
   }
 
-  return (
-    <FilterContext.Provider
-      value={{
-        filters: { statusTags, regionTags, hasCluster, plantingYears },
-        handleStatusChange,
-        handleRegionChange,
-        handleClusterChange,
-        handlePlantingYearChange,
-        resetFilters,
-        applyOldStateToTags,
-      }}
-    >
-      {children}
-    </FilterContext.Provider>
+  const context = useMemo(
+    () => ({
+      filters: { statusTags, regionTags, hasCluster, plantingYears },
+      handleStatusChange,
+      handleRegionChange,
+      handleClusterChange,
+      handlePlantingYearChange,
+      resetFilters,
+      applyOldStateToTags,
+    }),
+    [hasCluster, plantingYears, regionTags, statusTags],
   )
+
+  return <FilterContext value={context}>{children}</FilterContext>
 }
 
 /* eslint-disable-next-line react-refresh/only-export-components */
 export const useFilter = () => {
-  const context = useContext(FilterContext)
+  const context = use(FilterContext)
   if (context === undefined) {
     throw new Error('useFilter must be used within a FilterProvider')
   }

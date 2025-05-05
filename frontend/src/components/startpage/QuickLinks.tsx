@@ -3,18 +3,21 @@ import DashboardCard from "../general/cards/DashboardCard";
 const QuickLinks = () => {
   const cards = [
     {
+      id: 1,
       url: '/map',
       description: 'Alle Bewässerungsgruppen & Bäume auf der Karte anzeigen lassen',
       headline: 'Karte inkl. Verortung aller Bäume',
       linkLabel: 'Zur Karte',
     },
     {
+      id: 2,
       url: '/sensors',
       description: 'Zeigt alle verbauten Sensoren inkl. Akkustand, Messwerte, …',
       headline: 'Liste aller verbauten Sensoren',
       linkLabel: 'Zu den Sensoren',
     },
     {
+      id: 3,
       url: '/watering-plans',
       description: 'Listenansicht, aller Einsatzpläne, die geplant, abgeschlossen, aktiv etc. sind.',
       headline: 'Auflistung der Einsatzpläne & Routenplanung',
@@ -36,8 +39,8 @@ const QuickLinks = () => {
       </article>
       <ul className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
         {cards.map((card, key) => (
-          <li key={key}>
-            <DashboardCard 
+          <li key={card.id}>
+            <DashboardCard
               headline={card.headline}
               description={card.description}
               linkLabel={card.linkLabel}

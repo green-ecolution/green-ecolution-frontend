@@ -18,13 +18,14 @@ const WateringPlanPreviewRoute = ({
 
   const handleTreeClick = (tree: Tree) => {
     navigate({ to: `/trees/$treeId`, params: { treeId: tree.id.toString() } })
+      .catch((error) => console.error('Navigation failed:', error));
   }
 
   const handleClusterClick = (cluster: TreeCluster) => {
     navigate({
       to: `/treecluster/$treeclusterId`,
       params: { treeclusterId: cluster.id.toString() },
-    })
+    }).catch((error) => console.error('Navigation failed:', error));
   }
 
   return (

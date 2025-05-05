@@ -13,8 +13,8 @@ export const Route = createFileRoute('/_protected/trees/_formular/$treeId/edit/'
       useFormStore.getState().setType('edit')
     },
     loader: ({ context: { queryClient } }) => {
-      queryClient.prefetchQuery(sensorQuery())
-      queryClient.prefetchQuery(treeClusterQuery())
+      queryClient.prefetchQuery(sensorQuery()).catch((error) => console.error('Prefetching "sensorQuery" failed:', error))
+      queryClient.prefetchQuery(treeClusterQuery()).catch((error) => console.error('Prefetching "treeClusterQuery" failed:', error))
     }
   }
 )

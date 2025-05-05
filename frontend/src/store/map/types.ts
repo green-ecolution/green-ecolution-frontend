@@ -1,4 +1,4 @@
-type MapState = {
+interface MapState {
   center: [number, number]
   zoom: number
   minZoom: number
@@ -6,10 +6,10 @@ type MapState = {
   showSelectModal: boolean
 }
 
-type MapActions = {
+interface MapActions {
   setCenter: (center: [number, number]) => void
   setZoom: (zoom: number) => void
   setShowSelectModal: (showSelectModal: boolean) => void
-};
+}
 
 export type MapStore = MapState & MapActions

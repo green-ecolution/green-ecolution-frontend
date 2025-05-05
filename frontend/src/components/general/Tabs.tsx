@@ -17,7 +17,8 @@ const Tabs: React.FC<Tabs> = ({ tabs }) => {
         {tabs.map((tab, key) => (
           <button
             onClick={() => setShowTabIndex(key)}
-            key={key}
+            type='button'
+            key={tab.label}
             id={`tab-${key}`}
             role="tab"
             aria-selected={showTabIndex === key}
@@ -36,7 +37,7 @@ const Tabs: React.FC<Tabs> = ({ tabs }) => {
         (tab, key) =>
           showTabIndex === key ? (
             <div
-              key={key}
+              key={tab.label}
               id={`tabpanel-${key}`}
               role="tabpanel"
               tabIndex={0}

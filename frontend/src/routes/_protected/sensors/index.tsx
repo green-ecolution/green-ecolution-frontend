@@ -16,7 +16,7 @@ export const Route = createFileRoute('/_protected/sensors/')({
     page,
   }),
   loader: ({ context: { queryClient }, deps: { page } }) => {
-    queryClient.prefetchQuery(sensorQuery({ page, limit: 5 }))
+    queryClient.prefetchQuery(sensorQuery({ page, limit: 5 })).catch((error) => console.error('Prefetching "sensorQuery" failed:', error))
     return { page }
   },
 })

@@ -33,8 +33,8 @@ export const Route = createFileRoute('/_protected/map')({
     zoom,
   }),
   loader: ({ context: { queryClient }, deps: { lat, lng, zoom } }) => {
-    queryClient.prefetchQuery(treeClusterQuery())
-    queryClient.prefetchQuery(treeQuery())
+    queryClient.prefetchQuery(treeClusterQuery()).catch((error) => console.error('Prefetching "treeClusterQuery" failed:', error))
+    queryClient.prefetchQuery(treeQuery()).catch((error) => console.error('Prefetching "treeQuery" failed:', error))
 
     useMapStore.setState((state) => ({
       map: { ...state.map, center: [lat, lng], zoom },

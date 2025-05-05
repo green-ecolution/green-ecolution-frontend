@@ -1,15 +1,15 @@
 import { ClientToken } from "@green-ecolution/backend-client";
 
-type AuthState = {
+interface AuthState {
   isAuthenticated: boolean;
   token: ClientToken | null;
-};
+}
 
-type AuthActions = {
+interface AuthActions {
   setIsAuthenticated: (auth: boolean) => void;
   setToken: (token: ClientToken) => void;
   clear: () => void;
-};
+}
 
 export type AuthStore = AuthState & AuthActions;
 

@@ -59,7 +59,7 @@ const WateringPlanUpdate = ({ wateringPlanId }: WateringPlanUpdateProps) => {
       zodResolver(WateringPlanSchema('update'))
     )
 
-  const onSubmit: SubmitHandler<WateringPlanForm> = async (data) => {
+  const onSubmit: SubmitHandler<WateringPlanForm> = (data) => {
     mutate({
       ...data,
       date: data.date.toISOString(),
@@ -83,7 +83,7 @@ const WateringPlanUpdate = ({ wateringPlanId }: WateringPlanUpdateProps) => {
         zoom: mapPosition.zoom,
         wateringPlanId: Number(wateringPlanId),
       },
-    })
+    }).catch((error) => console.error('Navigation failed:', error));
   }
 
   const handleDeleteWateringPlan = () => {

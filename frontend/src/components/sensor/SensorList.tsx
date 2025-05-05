@@ -15,8 +15,8 @@ const SensorList = ({ data }: SensorListProps) => {
           </p>
         </li>
       ) : (
-        data?.map((sensor, key) => (
-          <li key={key} className="mb-5 last:mb-0">
+        data?.map((sensor) => (
+          <li key={sensor.id} className="mb-5 last:mb-0">
             <SensorCard sensor={sensor} />
           </li>
         ))

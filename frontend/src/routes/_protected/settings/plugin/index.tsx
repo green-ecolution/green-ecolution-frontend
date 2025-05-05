@@ -39,7 +39,7 @@ const PluginList = () => {
     <>
       <ul className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
         {pluginList?.plugins.map((plugin, key) => (
-          <li key={key}>
+          <li key={plugin.slug}>
             <DashboardCard
               headline={plugin.name}
               description={plugin.description}

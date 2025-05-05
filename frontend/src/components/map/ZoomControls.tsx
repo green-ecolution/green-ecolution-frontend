@@ -36,18 +36,18 @@ const ZoomControls = () => {
   return (
     <div className="absolute z-[1000] space-y-2 bottom-6 right-4 lg:right-10 lg:bottom-10">
       <button
-        className={`bg-white shadow-cards w-10 h-10 rounded-full flex items-center justify-center transition-all ease-in-out duration-300 ${
-          !canZoomIn ? "bg-dark-200 cursor-not-allowed" : ""
-        }`}
+        type="button"
+        className={`bg-white shadow-cards w-10 h-10 rounded-full flex items-center justify-center transition-all ease-in-out duration-300 ${!canZoomIn ? "bg-dark-200 cursor-not-allowed" : ""
+          }`}
         onClick={handleZoomIn}
         disabled={!canZoomIn}
       >
         <Plus className="w-6 h-6 text-dark-800" />
       </button>
       <button
-        className={`bg-white shadow-cards w-10 h-10 rounded-full flex items-center justify-center transition-all ease-in-out duration-300 ${
-          !canZoomOut ? "bg-dark-200 cursor-not-allowed" : ""
-        }`}
+        type="button"
+        className={`bg-white shadow-cards w-10 h-10 rounded-full flex items-center justify-center transition-all ease-in-out duration-300 ${!canZoomOut ? "bg-dark-200 cursor-not-allowed" : ""
+          }`}
         onClick={handleZoomOut}
         disabled={!canZoomOut}
       >

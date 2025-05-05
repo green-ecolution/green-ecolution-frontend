@@ -30,7 +30,7 @@ const FormForWateringPlan = (props: FormForWateringPlanProps) => {
     if (!user.drivingLicenses || user.drivingLicenses.length === 0) {
       return 'Keinen Führerschein';
     }
-    
+
     return user.drivingLicenses
       .map(drivingLicense => getDrivingLicenseDetails(drivingLicense).label)
       .join(', ');
@@ -39,7 +39,7 @@ const FormForWateringPlan = (props: FormForWateringPlanProps) => {
   return (
     <form
       className="space-y-6 lg:space-y-0 lg:grid lg:grid-cols-2 lg:gap-11"
-      onSubmit={props.handleSubmit(props.onSubmit)}
+      onSubmit={() => void props.handleSubmit(props.onSubmit)}
     >
       <div className="space-y-6">
         <Input
@@ -101,7 +101,7 @@ const FormForWateringPlan = (props: FormForWateringPlanProps) => {
 
       <SelectEntities
         onDelete={props.onAddCluster}
-        entityIds={form?.treeClusterIds || []}
+        entityIds={form?.treeClusterIds ?? []}
         onAdd={props.onAddCluster}
         type="cluster"
         required

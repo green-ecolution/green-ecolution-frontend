@@ -23,12 +23,8 @@ export const UserStatusOptions: {
     },
   ]
 
-export const getUserStatusDetails = (userStatus: UserStatus) => {
-  return (
-    UserStatusOptions.find((option) => option.value === userStatus) ||
-    UserStatusOptions[0]
-  );
-};
+export const getUserStatusDetails = (userStatus: UserStatus) =>
+  UserStatusOptions.find((option) => option.value === userStatus) ?? UserStatusOptions[0]
 
 export const parseUserStatus = (status: string): UserStatus => {
   switch (status.toLowerCase()) {

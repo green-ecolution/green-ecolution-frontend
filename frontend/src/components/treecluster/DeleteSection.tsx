@@ -20,22 +20,26 @@ const DeleteSection: React.FC<DeleteSectionProps> = ({
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const navigate = useNavigate()
-  const [displayError, setDisplayError] = useState<string | null>(null)
   const showToast = useToast()
 
   const actionText = type === 'archive' ? 'archiviert' : 'gelöscht'
 
-  const { mutate, isError } = useMutation({
+  const { mutate } = useMutation({
     mutationFn,
     onSuccess: () => {
       setIsModalOpen(false)
       navigate(redirectUrl)
-      showToast(`${entityName.charAt(0).toUpperCase()}${entityName.slice(1)} wurde erfolgreich ${actionText}.`)
+        .then(() =>
+          showToast(`${entityName.charAt(0).toUpperCase()}${entityName.slice(1)} wurde erfolgreich ${actionText}.`, "success")
+        ).catch(() => showToast("Ein fehler is aufgetreten", 'error'))
     },
     onError: (error: unknown) => {
-      error instanceof Error
-        ? setDisplayError(error.message)
-        : setDisplayError('Leider ist ein Fehler aufgetreten')
+      if (error instanceof Error) {
+        showToast(error.message, "error")
+      } else {
+        showToast('Leider ist ein Fehler eim löschen des Baumes aufgetreten. Versuche es später erneut.', "error")
+      }
+
       console.error(error)
       setIsModalOpen(false)
     },
@@ -44,18 +48,13 @@ const DeleteSection: React.FC<DeleteSectionProps> = ({
   return (
     <>
       <button
+        type='submit'
         onClick={() => setIsModalOpen(true)}
         className="mt-10 group flex items-center gap-x-2 text-red font-medium text-base mb-4"
       >
         {type === 'archive' ? 'Archivieren' : 'Löschen'}
         <MoveRight className="w-4 h-4 transition-all ease-in-out duration-300 group-hover:translate-x-1" />
       </button>
-
-      {isError && (
-        <p className="text-red mt-2 font-semibold text-sm">
-          {displayError || 'Es ist leider ein Fehler aufgetreten.'}
-        </p>
-      )}
 
       <Modal
         title={`Soll ${entityName} wirklich ${actionText} werden?`}

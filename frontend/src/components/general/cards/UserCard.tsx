@@ -26,7 +26,7 @@ const UserCard: React.FC<UserCard> = ({ user }) => {
       <p className="text-dark-800">
         <span className="lg:sr-only">Organisation:&nbsp;</span>
         {user.roles.map((role, index) => (
-          <span key={index}>
+          <span key={getUserRoleDetails(role).label}>
             {getUserRoleDetails(role).label}
             {index < user.roles.length - 1 ? ', ' : ''}
           </span>
@@ -38,7 +38,7 @@ const UserCard: React.FC<UserCard> = ({ user }) => {
         {user.drivingLicenses && user.drivingLicenses.length > 0 ? (
           <>
             {user.drivingLicenses.map((drivingLicense, index) => (
-              <span key={index}>
+              <span key={getDrivingLicenseDetails(drivingLicense).label}>
                 {getDrivingLicenseDetails(drivingLicense).label}
                 {index < user.drivingLicenses.length - 1 ? ', ' : ''}
               </span>

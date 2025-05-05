@@ -85,7 +85,7 @@ const WateringPlanStatusUpdate = ({
     )
   }
 
-  const onSubmit: SubmitHandler<WateringPlanForm> = async (data) => {
+  const onSubmit: SubmitHandler<WateringPlanForm> = (data) => {
     if (errorMessages.some((msg) => msg !== '')) return
     const mutationData = {
       ...data,
@@ -134,7 +134,7 @@ const WateringPlanStatusUpdate = ({
       </article>
 
       <section className="mt-10">
-        <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
+        <form className="space-y-6" onSubmit={void handleSubmit(onSubmit)}>
           <div className="space-y-6 md:w-1/2">
             <Select
               options={WateringPlanStatusOptions}

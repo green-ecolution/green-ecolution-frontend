@@ -20,8 +20,7 @@ export const DrivingLicenseOptions = [
 ]
 
 export const getDrivingLicenseDetails = (drivingLicense: DrivingLicense) =>
-  DrivingLicenseOptions.find((option) => option.value === drivingLicense) ||
-  DrivingLicenseOptions[0]
+  DrivingLicenseOptions.find((option) => option.value === drivingLicense) ?? DrivingLicenseOptions[0]
 
 export const parseDrivingLicense = (drivingLicense: string): DrivingLicense => {
   switch (drivingLicense) {

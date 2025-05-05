@@ -4,7 +4,7 @@ import { AuthStore } from "./types";
 export const authStore: SubStore<AuthStore> = (set) => ({
   isAuthenticated: !!localStorage.getItem("refreshToken"),
   token: {
-    refreshToken: localStorage.getItem("refreshToken") || "",
+    refreshToken: localStorage.getItem("refreshToken") ?? "",
     accessToken: "",
     tokenType: "",
     sessionState: "",

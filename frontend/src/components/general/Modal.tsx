@@ -41,6 +41,7 @@ const Modal: React.FC<ModalProps> = ({
             aria-label="Close Dialog"
             className="text-dark-400 hover:text-dark-600 stroke-1"
             onClick={onCancel}
+            type='button'
           >
             <X />
           </button>

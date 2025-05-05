@@ -35,9 +35,9 @@ function Profile() {
             </h2>
             <ul className="mt-2 flex flex-col gap-2 xl:mt-4">
               {user.userRoles?.length > 0 &&
-                user.userRoles.map((role, index) => (
+                user.userRoles.map((role) => (
                   <li
-                    key={index}
+                    key={getUserRoleDetails(role).label}
                     className="border w-fit border-green-light px-3 py-2 rounded-full text-dark-800 font-medium text-sm"
                   >
                     {getUserRoleDetails(role).label}
@@ -89,7 +89,7 @@ function Profile() {
               {user.drivingLicenses && user.drivingLicenses.length > 0 ? (
                 <>
                   {user.drivingLicenses.map((drivingLicense, index) => (
-                    <span key={index}>
+                    <span key={getDrivingLicenseDetails(drivingLicense).label}>
                       {getDrivingLicenseDetails(drivingLicense).label}
                       {index < user.drivingLicenses.length - 1 ? ', ' : ''}
                     </span>
@@ -104,7 +104,7 @@ function Profile() {
             <dt className="font-bold sm:inline">Rollen:</dt>
             <dd className="sm:inline sm:px-2">
               {user.userRoles.map((role, index) => (
-                <span key={index}>
+                <span key={getUserRoleDetails(role).label}>
                   {getUserRoleDetails(role).label}
                   {index < user.userRoles.length - 1 ? ', ' : ''}
                 </span>

@@ -115,7 +115,7 @@ export const Route = createFileRoute('/_protected/treecluster/')({
       limit: 5,
       wateringStatuses,
       regions,
-    }))
+    })).catch((error) => console.error('Prefetching "treeClusterQuery" failed:', error))
 
     return { wateringStatuses, regions, page }
   },

@@ -58,7 +58,7 @@ function PluginView() {
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <PluginProvider authToken={authToken?.accessToken || ''}>
+      <PluginProvider authToken={authToken?.accessToken ?? ''}>
         <Plugin />
       </PluginProvider>
     </Suspense>

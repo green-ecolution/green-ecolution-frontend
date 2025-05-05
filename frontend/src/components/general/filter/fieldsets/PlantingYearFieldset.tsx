@@ -11,9 +11,9 @@ const PlantingYearFieldset = () => {
       <legend className="font-lato font-semibold text-dark-600 mb-2">
         Pflanzjahr:
       </legend>
-      {years.map((year, key) => (
+      {years.map((year) => (
         <Option
-          key={key}
+          key={year}
           label={String(year)}
           name={String(year)}
           checked={filters.plantingYears.includes(year)}

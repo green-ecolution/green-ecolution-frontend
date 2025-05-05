@@ -30,7 +30,7 @@ export const Route = createRootRouteWithContext<RouterContext>()({
     }
     const token = await userApi.v1UserTokenRefreshPost({
       body: {
-        refreshToken: useStore.getState().auth.token?.refreshToken || '',
+        refreshToken: useStore.getState().auth.token?.refreshToken ?? '',
       },
     })
     if (!token) {

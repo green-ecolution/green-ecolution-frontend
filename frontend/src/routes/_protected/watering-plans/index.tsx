@@ -18,7 +18,7 @@ export const Route = createFileRoute('/_protected/watering-plans/')({
     page: page || 1,
   }),
   loader: ({ context: { queryClient }, deps: { page } }) => {
-    queryClient.prefetchQuery(wateringPlanQuery({ page: page, limit: 5 }))
+    queryClient.prefetchQuery(wateringPlanQuery({ page: page, limit: 5 })).catch(error => console.error('Prefetching "wateringPlanQuery" failed', error))
     return { page }
   },
 })
@@ -58,8 +58,8 @@ function WateringPlans() {
               <p>Es wurden leider keine Einsatzpläne gefunden.</p>
             </li>
           ) : (
-            wateringPlanRes.data?.map((wateringPlan, key) => (
-              <li key={key} className="mb-5 last:mb-0">
+            wateringPlanRes.data?.map((wateringPlan) => (
+              <li key={wateringPlan.id} className="mb-5 last:mb-0">
                 <WateringPlanCard wateringPlan={wateringPlan} />
               </li>
             ))

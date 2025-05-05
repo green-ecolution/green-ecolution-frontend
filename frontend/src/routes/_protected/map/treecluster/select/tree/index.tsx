@@ -53,13 +53,14 @@ function SelectTrees() {
       setShowError(true)
       return
     }
-    form &&
+    if (form) {
       set({
         ...form,
         treeIds,
       })
+    }
 
-    handleNavigateBack()
+    handleNavigateBack().catch((error) => console.error('Navigation failed:', error))
   }
 
   const handleCancel = () => handleNavigateBack()
@@ -69,16 +70,17 @@ function SelectTrees() {
   }
 
   const handleTreeClick = (tree: Tree) => {
-    treeIds.includes(tree.id)
-      ? setTreeIds((prev) => prev.filter((id) => id !== tree.id))
-      : setTreeIds((prev) => [...prev, tree.id])
+    if (treeIds.includes(tree.id))
+      setTreeIds((prev) => prev.filter((id) => id !== tree.id))
+    else
+      setTreeIds((prev) => [...prev, tree.id])
   }
 
   return (
     <>
       <MapSelectEntitiesModal
         onSave={handleSave}
-        onCancel={handleCancel}
+        onCancel={() => void handleCancel()}
         disabled={treeIds.length === 0}
         title="Ausgewählte Bäume:"
         content={
@@ -88,8 +90,8 @@ function SelectTrees() {
                 <p>Hier können Sie zugehörige Bäume verlinken.</p>
               </li>
             ) : (
-              treeIds.map((treeId, key) => (
-                <li key={key}>
+              treeIds.map((treeId) => (
+                <li key={treeId}>
                   <SelectedCard
                     type="tree"
                     id={treeId}

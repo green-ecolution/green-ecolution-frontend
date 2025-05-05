@@ -26,12 +26,12 @@ function NewTree() {
     if (!treeLatLng) return
     navigate({
       to: '/trees/new',
-      search: { lat: treeLatLng!.lat, lng: treeLatLng!.lng, resetStore: true },
-    })
+      search: { lat: treeLatLng.lat, lng: treeLatLng.lng, resetStore: true },
+    }).catch((error) => console.error('Navigation failed:', error))
   }
 
   const handleCancel = () => {
-    navigate({ to: '/map', search: (prev) => prev })
+    navigate({ to: '/map', search: (prev) => prev }).catch((error) => console.error('Navigation failed:', error))
   }
 
   return (

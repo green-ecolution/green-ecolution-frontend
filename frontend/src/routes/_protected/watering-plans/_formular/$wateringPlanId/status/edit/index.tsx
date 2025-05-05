@@ -10,7 +10,7 @@ export const Route = createFileRoute('/_protected/watering-plans/_formular/$wate
   beforeLoad: () => {
     useFormStore.getState().setType('edit')
   },
-  loader: async () => {
+  loader: () => {
     if (!useStore.getState().auth.isAuthenticated) return
   },
 })

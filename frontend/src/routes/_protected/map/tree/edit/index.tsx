@@ -51,14 +51,14 @@ function EditTree() {
 
   const handleSave = () => {
     commit({ ...form, latitude: treeLatLng.lat, longitude: treeLatLng.lng });
-    handleNavigateBack();
+    handleNavigateBack().catch((error) => console.error('Navigation failed:', error));
   };
 
   return (
     <>
       <MapSelectEntitiesModal
         onSave={handleSave}
-        onCancel={handleNavigateBack}
+        onCancel={() => void handleNavigateBack()}
         title="Baum erfassen:"
         content={
           <ul className="space-y-3">
@@ -66,7 +66,7 @@ function EditTree() {
               {treeLatLng ? (
                 <>
                   <p>Neuer Baum an folgendem Standort:</p>
-                  {treeLatLng!.lat}, {treeLatLng!.lng}
+                  {treeLatLng.lat}, {treeLatLng.lng}
                 </>
               ) : (
                 <p>Bitte wähle einen Standort für den neuen Baum.</p>

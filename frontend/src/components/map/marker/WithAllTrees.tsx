@@ -5,15 +5,17 @@ import { TreeMarkerIcon } from '../MapMarker'
 import MarkerList from './MarkerList'
 import { getStatusColor } from '../utils'
 
+const defaultSelectedTrees: number[] = [];
+
 export interface WithAllTreesProps {
   onClick?: (tree: Tree) => void
-  selectedTrees?: number[]
+  selectedTrees: number[]
   hasHighlightedTree?: number
 }
 
 const WithAllTrees = ({
   onClick,
-  selectedTrees = [],
+  selectedTrees = defaultSelectedTrees,
   hasHighlightedTree,
 }: WithAllTreesProps) => {
   const { data } = useSuspenseQuery(treeQuery())

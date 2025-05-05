@@ -18,13 +18,18 @@ export const Route = createFileRoute('/logout')({
     await userApi
       .v1UserLogoutPost({
         body: {
-          refreshToken: store.auth.token?.refreshToken || '',
+          refreshToken: store.auth.token?.refreshToken ?? '',
         },
       })
       .then(logout)
       .catch((err) => {
-        console.error(err)
-        throw new Error(err.message)
+        if (err instanceof Error) {
+          console.error(err.message)
+          throw new Error(err.message)
+        } else {
+          console.error('An unknown error occurred', err)
+          throw new Error('An unknown error occurred')
+        }
       })
 
     throw redirect({ to: '/', replace: true })

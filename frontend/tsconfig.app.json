@@ -32,6 +32,7 @@
     }
   },
   "include": [
-    "src"
+    "src",
+    "tailwind.config.ts"
   ]
 }
