@@ -18,7 +18,7 @@ const TabSensorData: React.FC<TabSensorDataProps> = ({ tree }) => {
   const updatedTime = tree?.sensor?.latestData?.updatedAt
     ? format(new Date(tree?.sensor?.latestData?.updatedAt).getTime(), 'HH:mm')
     : 'Keine Angabe'
-  
+
   const sensorStatus = tree?.sensor?.status ?? SensorStatus.SensorStatusUnknown
 
   return (

@@ -5,19 +5,21 @@ import TreeUpdate from '@/components/tree/TreeUpdate'
 import { sensorQuery, treeClusterQuery } from '@/api/queries'
 import { useSuspenseQuery } from '@tanstack/react-query'
 
-export const Route = createFileRoute('/_protected/trees/_formular/$treeId/edit/')(
-  {
-    component: EditTree,
-    pendingComponent: () => <LoadingInfo label="Baumdaten werden geladen …" />,
-    beforeLoad: () => {
-      useFormStore.getState().setType('edit')
-    },
-    loader: ({ context: { queryClient } }) => {
-      queryClient.prefetchQuery(sensorQuery()).catch((error) => console.error('Prefetching "sensorQuery" failed:', error))
-      queryClient.prefetchQuery(treeClusterQuery()).catch((error) => console.error('Prefetching "treeClusterQuery" failed:', error))
-    }
-  }
-)
+export const Route = createFileRoute('/_protected/trees/_formular/$treeId/edit/')({
+  component: EditTree,
+  pendingComponent: () => <LoadingInfo label="Baumdaten werden geladen …" />,
+  beforeLoad: () => {
+    useFormStore.getState().setType('edit')
+  },
+  loader: ({ context: { queryClient } }) => {
+    queryClient
+      .prefetchQuery(sensorQuery())
+      .catch((error) => console.error('Prefetching "sensorQuery" failed:', error))
+    queryClient
+      .prefetchQuery(treeClusterQuery())
+      .catch((error) => console.error('Prefetching "treeClusterQuery" failed:', error))
+  },
+})
 
 function EditTree() {
   const treeId = Route.useParams().treeId

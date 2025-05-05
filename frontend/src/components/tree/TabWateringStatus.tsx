@@ -30,17 +30,15 @@ const TabWateringStatus: React.FC<TabWateringStatusProps> = ({ tree }) => {
         ? `${roundTo(tree?.sensor?.latestData.temperature, 2)} °C`
         : 'Keine Daten',
       isLarge: true,
-      description:
-        'Wert bezeichnet die Temperatur in der oberflächlichen Bodenschicht.',
+      description: 'Wert bezeichnet die Temperatur in der oberflächlichen Bodenschicht.',
     },
     {
       id: 3,
       overline: 'Datum der letzten Bewässerung',
-      value: tree?.lastWatered
-        ? format(new Date(tree.lastWatered), 'dd.MM.yyyy')
-        : 'Keine Angabe',
+      value: tree?.lastWatered ? format(new Date(tree.lastWatered), 'dd.MM.yyyy') : 'Keine Angabe',
       isLarge: false,
-      description: 'Wird aktualisiert, sobald ein Einsatzplan mit diesem Baum als »Beendet« markiert wird.',
+      description:
+        'Wird aktualisiert, sobald ein Einsatzplan mit diesem Baum als »Beendet« markiert wird.',
     },
   ]
 
@@ -50,7 +48,7 @@ const TabWateringStatus: React.FC<TabWateringStatusProps> = ({ tree }) => {
         <li>
           <EntitiesStatusCard
             statusDetails={getWateringStatusDetails(
-              tree?.wateringStatus ?? WateringStatus.WateringStatusUnknown
+              tree?.wateringStatus ?? WateringStatus.WateringStatusUnknown,
             )}
             label="Bewässerungszustand (ø)"
           />
@@ -73,29 +71,20 @@ const TabWateringStatus: React.FC<TabWateringStatusProps> = ({ tree }) => {
             Aktuelle Bewässerungszustand pro Bodentiefe
           </h2>
           <p className="mb-6 lg:mb-0">
-            Es werden drei Sensoren in 30 cm, 60 cm und 90 cm Tiefe in der Nähe
-            des Wurzelballens angebracht. Diese Sensoren messen in jeder Tiefe
-            das Bodenwasserpotential, das in Zentibar (cb) angegeben wird. Je
-            besser der Baum bewässert ist, desto geringer ist der Aufwand, den
-            er betreiben muss, um Wasser aus dem Boden aufzunehmen.
+            Es werden drei Sensoren in 30 cm, 60 cm und 90 cm Tiefe in der Nähe des Wurzelballens
+            angebracht. Diese Sensoren messen in jeder Tiefe das Bodenwasserpotential, das in
+            Zentibar (cb) angegeben wird. Je besser der Baum bewässert ist, desto geringer ist der
+            Aufwand, den er betreiben muss, um Wasser aus dem Boden aufzunehmen.
           </p>
 
           <div className="lg:grid lg:grid-cols-[auto,15rem] lg:items-end lg:gap-x-10 xl:gap-x-20 xl:grid-cols-[auto,20rem]">
-            <div
-              aria-hidden="true"
-              className="mb-10 lg:mb-0 lg:w-60 lg:col-start-2 xl:w-80"
-            >
+            <div aria-hidden="true" className="mb-10 lg:mb-0 lg:w-60 lg:col-start-2 xl:w-80">
               <TreeDeciduous className="w-11 h-11 mx-auto mb-4" />
               <ul className="space-y-3">
                 {tree?.sensor.latestData.watermarks.map((watermark) => (
-                  <li
-                    key={watermark.depth}
-                    className={`rounded-xl text-center py-3 bg-dark-50`}
-                  >
+                  <li key={watermark.depth} className={`rounded-xl text-center py-3 bg-dark-50`}>
                     <p className={`inline relative pl-8`}>
-                      <span className="font-semibold">
-                        {watermark.centibar} Zentibar
-                      </span>
+                      <span className="font-semibold">{watermark.centibar} Zentibar</span>
                       <span className="text-dark-800 font-normal">
                         &nbsp;·&nbsp;
                         {watermark.depth} cm
@@ -141,15 +130,13 @@ const TabWateringStatus: React.FC<TabWateringStatusProps> = ({ tree }) => {
 
       {tree?.sensor && (
         <section className="mt-16">
-          <h2 className="font-bold font-lato text-xl mb-4">
-            Messwerte im Verlaufe der Zeit
-          </h2>
+          <h2 className="font-bold font-lato text-xl mb-4">Messwerte im Verlaufe der Zeit</h2>
           <p className="mb-6">
-            In diesem Abschnitt werden alle gemessenen Sensorwerte ausgegeben,
-            die im System abgespeichert wurden.
+            In diesem Abschnitt werden alle gemessenen Sensorwerte ausgegeben, die im System
+            abgespeichert wurden.
             <br />
-            Anhand dessen kann nachvollzogen werden, wie sich der
-            Bewässerungszustand im Laufe der Zeit geändert hat.
+            Anhand dessen kann nachvollzogen werden, wie sich der Bewässerungszustand im Laufe der
+            Zeit geändert hat.
           </p>
 
           <ChartWateringData sensorId={tree.sensor.id} />

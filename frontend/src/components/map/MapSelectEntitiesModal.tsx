@@ -14,7 +14,14 @@ interface MapSelectEntitiesModalProps {
   ref?: Ref<HTMLDivElement>
 }
 
-const MapSelectEntitiesModal = ({ onSave, onCancel, content, title, ref, disabled = false }: MapSelectEntitiesModalProps) => {
+const MapSelectEntitiesModal = ({
+  onSave,
+  onCancel,
+  content,
+  title,
+  ref,
+  disabled = false,
+}: MapSelectEntitiesModalProps) => {
   const [openModal, setOpenModal] = useState(false)
   const { enableDragging, disableDragging } = useMapInteractions()
 
@@ -35,7 +42,11 @@ const MapSelectEntitiesModal = ({ onSave, onCancel, content, title, ref, disable
   }, [enableDragging])
 
   useEffect(() => {
-    if (openModal) { disableDragging() } else { enableDragging() }
+    if (openModal) {
+      disableDragging()
+    } else {
+      enableDragging()
+    }
   }, [disableDragging, enableDragging, openModal])
 
   return (
@@ -45,7 +56,7 @@ const MapSelectEntitiesModal = ({ onSave, onCancel, content, title, ref, disable
         className={`bg-dark-900/90 fixed inset-0 z-[1020] lg:hidden ${openModal ? 'block' : 'hidden'}`}
       ></div>
       <button
-        type='button'
+        type="button"
         onClick={() => setOpenModal(true)}
         className={`bg-white absolute flex items-center group gap-x-3 rounded-xl px-5 py-2 z-[1000] left-4 bottom-6 transition-all ease-in-out duration-300 hover:bg-dark-100 lg:hidden
           ${openModal ? 'hidden' : ''}`}
@@ -63,13 +74,11 @@ const MapSelectEntitiesModal = ({ onSave, onCancel, content, title, ref, disable
           ${openModal ? 'block' : 'hidden lg:block'}`}
       >
         <div className="flex justify-between gap-x-6">
-          <h2 className="text-lg font-lato font-semibold lg:text-xl">
-            {title}
-          </h2>
+          <h2 className="text-lg font-lato font-semibold lg:text-xl">{title}</h2>
           <button
             aria-label="Dialog schließen"
             className="text-dark-400 hover:text-dark-600 stroke-1 lg:hidden"
-            type='button'
+            type="button"
             onClick={() => setOpenModal(false)}
           >
             <X />
@@ -79,12 +88,7 @@ const MapSelectEntitiesModal = ({ onSave, onCancel, content, title, ref, disable
         <div className="max-h-[40vh] overflow-y-auto">{content}</div>
 
         <div className="flex flex-wrap gap-5">
-          <PrimaryButton
-            type="submit"
-            label="Speichern"
-            onClick={onSave}
-            disabled={disabled}
-          />
+          <PrimaryButton type="submit" label="Speichern" onClick={onSave} disabled={disabled} />
           <SecondaryButton label="Zurück" onClick={onCancel} />
         </div>
       </div>

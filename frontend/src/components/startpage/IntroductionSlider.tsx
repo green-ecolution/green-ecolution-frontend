@@ -1,55 +1,55 @@
-import { Splide, SplideSlide } from "@splidejs/react-splide";
-import { Car, MapPin, PieChart, Route } from "lucide-react";
-import IntroductionCard from "../general/cards/IntroductionCard";
-import SensorIcon from "../icons/Sensor";
-import TreeIcon from "../icons/Tree";
-import { i18nTranslated } from "../../lib/sliderTranslations";
+import { Splide, SplideSlide } from '@splidejs/react-splide'
+import { Car, MapPin, PieChart, Route } from 'lucide-react'
+import IntroductionCard from '../general/cards/IntroductionCard'
+import SensorIcon from '../icons/Sensor'
+import TreeIcon from '../icons/Tree'
+import { i18nTranslated } from '../../lib/sliderTranslations'
 
 const IntroductionSlider = () => {
   const facts = [
     {
       id: 1,
-      label: "Entwicklung einer Sensorlösung",
+      label: 'Entwicklung einer Sensorlösung',
       icon: SensorIcon,
       description:
-        "Daten zur Bodenfeuchte werden mithilfe von in unterschiedlicher Tiefe platzierten Sensoren geliefert.",
+        'Daten zur Bodenfeuchte werden mithilfe von in unterschiedlicher Tiefe platzierten Sensoren geliefert.',
     },
     {
       id: 2,
-      label: "Auswertung der Messdaten",
+      label: 'Auswertung der Messdaten',
       icon: PieChart,
       description:
-        "Auswertung der durch Sensoren übermittelten Daten für eine bedarfsgerechte Bewässerung von Bäumen.",
+        'Auswertung der durch Sensoren übermittelten Daten für eine bedarfsgerechte Bewässerung von Bäumen.',
     },
     {
       id: 3,
-      label: "Augenmerk auf Jungbäume",
+      label: 'Augenmerk auf Jungbäume',
       icon: TreeIcon,
       description:
-        "Jungbäume sind besonders hitzeanfällig und daher äußerst schutzbedürftig. Aus diesem Grund werden Bäume in deren ersten drei Standjahren überwacht.",
+        'Jungbäume sind besonders hitzeanfällig und daher äußerst schutzbedürftig. Aus diesem Grund werden Bäume in deren ersten drei Standjahren überwacht.',
     },
     {
       id: 4,
-      label: "Monitoring mehrerer Standorte",
+      label: 'Monitoring mehrerer Standorte',
       icon: MapPin,
       description:
-        "Unter Verwendung des LoRaWan-Netzes können verschiedene Standorte überwacht und weitere einfach eingebunden werden.",
+        'Unter Verwendung des LoRaWan-Netzes können verschiedene Standorte überwacht und weitere einfach eingebunden werden.',
     },
     {
       id: 5,
-      label: "Vereinfachte Einsatzplanung",
+      label: 'Vereinfachte Einsatzplanung',
       icon: Car,
       description:
-        "Einsatzfahrten zur Bewässerung können digital und schnell geplant werden. Dabei können Informationen wie die Mitarbeitenden sowie genutzte Fahrzeuge und deren Wasserkapazität hinterlegt werden.",
+        'Einsatzfahrten zur Bewässerung können digital und schnell geplant werden. Dabei können Informationen wie die Mitarbeitenden sowie genutzte Fahrzeuge und deren Wasserkapazität hinterlegt werden.',
     },
     {
       id: 6,
-      label: "Dynamische Routenplanung",
+      label: 'Dynamische Routenplanung',
       icon: Route,
       description:
-        "Dynamische Berechnung von Bewässerungsrouten mithilfe von Open-Source Software (Valhalla & Vroom).",
+        'Dynamische Berechnung von Bewässerungsrouten mithilfe von Open-Source Software (Valhalla & Vroom).',
     },
-  ];
+  ]
 
   const breakpoints = {
     640: {
@@ -58,7 +58,7 @@ const IntroductionSlider = () => {
     1024: {
       destroy: true,
     },
-  };
+  }
 
   return (
     <section className="container my-20 lg:my-28">
@@ -71,8 +71,8 @@ const IntroductionSlider = () => {
             rewind: true,
             arrows: false,
             i18n: i18nTranslated,
-            mediaQuery: "min",
-            gap: "1rem",
+            mediaQuery: 'min',
+            gap: '1rem',
             breakpoints: breakpoints,
           }}
           aria-label="Fakten zum Grünflächenmanagement"
@@ -83,13 +83,14 @@ const IntroductionSlider = () => {
               <IntroductionCard
                 label={fact.label}
                 icon={fact.icon}
-                description={fact.description} />
+                description={fact.description}
+              />
             </SplideSlide>
           ))}
         </Splide>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default IntroductionSlider;
+export default IntroductionSlider

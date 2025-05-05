@@ -7,8 +7,8 @@ export const Route = createFileRoute('/_protected/vehicles/$vehicleId')({
     const vehicle = await queryClient.fetchQuery(vehicleIdQuery(params.vehicleId))
     return {
       crumb: {
-        title: `Fahrzeug: ${vehicle.numberPlate}`
-      }
+        title: `Fahrzeug: ${vehicle.numberPlate}`,
+      },
     }
-  }
+  },
 })

@@ -8,11 +8,7 @@ interface GeneralLink {
   theme?: 'grey' | 'green'
 }
 
-const GeneralLink: React.FC<GeneralLink> = ({
-  label,
-  link,
-  theme = 'green',
-}) => {
+const GeneralLink: React.FC<GeneralLink> = ({ label, link, theme = 'green' }) => {
   return (
     <Link
       {...link}

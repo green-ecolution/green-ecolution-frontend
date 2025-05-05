@@ -1,4 +1,3 @@
-
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { LatLng } from 'leaflet'
 import { useRef, useState } from 'react'
@@ -31,7 +30,9 @@ function NewTree() {
   }
 
   const handleCancel = () => {
-    navigate({ to: '/map', search: (prev) => prev }).catch((error) => console.error('Navigation failed:', error))
+    navigate({ to: '/map', search: (prev) => prev }).catch((error) =>
+      console.error('Navigation failed:', error),
+    )
   }
 
   return (
@@ -60,10 +61,7 @@ function NewTree() {
       />
 
       {treeLatLng && (
-        <DragableMarker
-          position={treeLatLng}
-          onMove={(latlng) => setTreeLatLng(latlng)}
-        />
+        <DragableMarker position={treeLatLng} onMove={(latlng) => setTreeLatLng(latlng)} />
       )}
     </>
   )

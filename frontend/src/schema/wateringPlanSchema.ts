@@ -1,17 +1,10 @@
 import { userRoleQuery, vehicleQuery } from '@/api/queries'
-import {
-  DrivingLicense,
-  WateringPlanStatus,
-} from '@green-ecolution/backend-client'
+import { DrivingLicense, WateringPlanStatus } from '@green-ecolution/backend-client'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { z } from 'zod'
 
-export const WateringPlanSchema = (
-  actionType: 'create' | 'update' | 'statusUpdate'
-) => {
-  const { data: transporters } = useSuspenseQuery(
-    vehicleQuery({ type: 'transporter' })
-  )
+export const WateringPlanSchema = (actionType: 'create' | 'update' | 'statusUpdate') => {
+  const { data: transporters } = useSuspenseQuery(vehicleQuery({ type: 'transporter' }))
   const { data: trailers } = useSuspenseQuery(vehicleQuery({ type: 'trailer' }))
   const { data: users } = useSuspenseQuery(userRoleQuery('tbz'))
 
@@ -40,8 +33,8 @@ export const WateringPlanSchema = (
               }
               return true
             },
-            { message: 'Datum muss in der Zukunft liegen' }
-          )
+            { message: 'Datum muss in der Zukunft liegen' },
+          ),
       ),
       status: z
         .nativeEnum(WateringPlanStatus)
@@ -64,12 +57,10 @@ export const WateringPlanSchema = (
               // skip validation on status update because archived vehicles are allowed
               return true
             }
-            return transporters.data.some(
-              (transporter) => transporter.id === value
-            )
+            return transporters.data.some((transporter) => transporter.id === value)
           },
-          { message: 'Fahrzeug ist erforderlich.' }
-        )
+          { message: 'Fahrzeug ist erforderlich.' },
+        ),
       ),
       trailerId: z.preprocess(
         (value) => parseInt(value as string, 10),
@@ -82,23 +73,18 @@ export const WateringPlanSchema = (
                 // skip validation on status update because archived vehicles are allowed
                 return true
               }
-              return (
-                value === -1 ||
-                trailers.data.some((trailer) => trailer.id === value)
-              )
+              return value === -1 || trailers.data.some((trailer) => trailer.id === value)
             },
-            { message: 'Ungültiger Anhänger.' }
-          )
+            { message: 'Ungültiger Anhänger.' },
+          ),
       ),
       evaluation: z
         .array(
           z.object({
-            consumedWater: z
-              .number()
-              .min(0, 'Verbrauchtes Wasser muss positiv sein.'),
+            consumedWater: z.number().min(0, 'Verbrauchtes Wasser muss positiv sein.'),
             treeClusterId: z.number().min(1, 'Ungültige Baumcluster-ID.'),
             wateringPlanId: z.number().min(1, 'Ungültige Bewässerungsplan-ID.'),
-          })
+          }),
         )
         .default([]),
     })
@@ -110,17 +96,14 @@ export const WateringPlanSchema = (
       const trailer = trailers.data.find((t) => t.id === trailerId)
       const requiredLicenses = new Set<DrivingLicense>(
         [transporter.drivingLicense, trailer?.drivingLicense].filter(
-          (license): license is DrivingLicense => license !== undefined
-        )
+          (license): license is DrivingLicense => license !== undefined,
+        ),
       )
 
       const hasValidDriver = userIds.some((userId) => {
         const user = users.data.find((u) => u.id === userId)
         return (
-          user &&
-          [...requiredLicenses].every((license) =>
-            user.drivingLicenses.includes(license)
-          )
+          user && [...requiredLicenses].every((license) => user.drivingLicenses.includes(license))
         )
       })
 

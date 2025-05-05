@@ -1,4 +1,4 @@
-import type { Config } from "tailwindcss"
+import type { Config } from 'tailwindcss'
 
 const config = {
   content: [
@@ -7,11 +7,11 @@ const config = {
     './app/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}',
     '*.html',
-	],
+  ],
   safelist: [
     {
       pattern: /^bg-(green|red|yellow|dark)(-(light|light-100|100|400|600|dark))?$/,
-      variants: ['before']
+      variants: ['before'],
     },
   ],
   theme: {
@@ -22,22 +22,22 @@ const config = {
         lg: '2rem',
       },
       screens: {
-        'lg': '1024px',
-        'xl': '1280px',
+        lg: '1024px',
+        xl: '1280px',
         '2xl': '1536px',
       },
     },
     fontFamily: {
-      'lato': ['Lato', 'sans-serif'],
+      lato: ['Lato', 'sans-serif'],
       'nunito-sans': ['Nunito Sans', 'sans-serif'],
     },
     fontSize: {
       '2xs': ['0.625rem', '1'], // 10px
-      'xs': ['0.75rem', '1.2'], // 12px
-      'sm': ['0.875rem', '1.4'], // 14px
-      'base': ['1rem', '1.5'], // 16px
-      'lg': ['1.125rem', '1.55'], // 18px
-      'xl': ['1.25rem', '1.55'], // 20px
+      xs: ['0.75rem', '1.2'], // 12px
+      sm: ['0.875rem', '1.4'], // 14px
+      base: ['1rem', '1.5'], // 16px
+      lg: ['1.125rem', '1.55'], // 18px
+      xl: ['1.25rem', '1.55'], // 20px
       '2xl': ['1.5rem', '1.35'], // 24px
       '3xl': ['1.75rem', '1.43'], // 28px
       '4xl': ['2rem', '1.33'], // 32px
@@ -105,7 +105,7 @@ const config = {
     },
     extend: {
       boxShadow: {
-        'cards': '0px 5px 10px 0px rgba(23, 23, 23, 5%)',
+        cards: '0px 5px 10px 0px rgba(23, 23, 23, 5%)',
       },
     },
   },

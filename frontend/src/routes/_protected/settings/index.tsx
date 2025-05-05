@@ -1,19 +1,19 @@
-import DashboardCard from "@/components/general/cards/DashboardCard";
-import { createFileRoute } from "@tanstack/react-router";
+import DashboardCard from '@/components/general/cards/DashboardCard'
+import { createFileRoute } from '@tanstack/react-router'
 
-export const Route = createFileRoute("/_protected/settings/")({
+export const Route = createFileRoute('/_protected/settings/')({
   component: Settings,
-});
+})
 
 const cards = [
   {
     id: 1,
-    url: "/settings/plugin",
-    description: "Alle Plugins, die in der Anwendung installiert sind.",
-    headline: "Plugins",
-    linkLabel: "Zu den Plugins",
+    url: '/settings/plugin',
+    description: 'Alle Plugins, die in der Anwendung installiert sind.',
+    headline: 'Plugins',
+    linkLabel: 'Zu den Plugins',
   },
-];
+]
 
 function Settings() {
   return (
@@ -23,8 +23,9 @@ function Settings() {
           Ihre persönlichen Einstellungen
         </h1>
         <p>
-          In diesem Bereich können Sie die Systemeinstellungen einsehen.
-          Dazu gehört unter anderem eine Übersicht darüber, welche Plugins bzw. Erweiterungen für das System freigeschaltet sind.
+          In diesem Bereich können Sie die Systemeinstellungen einsehen. Dazu gehört unter anderem
+          eine Übersicht darüber, welche Plugins bzw. Erweiterungen für das System freigeschaltet
+          sind.
         </p>
       </article>
 
@@ -36,11 +37,11 @@ function Settings() {
               description={card.description}
               linkLabel={card.linkLabel}
               url={card.url}
-              theme={key % 2 ? "dark" : "light"}
+              theme={key % 2 ? 'dark' : 'light'}
             />
           </li>
         ))}
       </ul>
     </div>
-  );
+  )
 }

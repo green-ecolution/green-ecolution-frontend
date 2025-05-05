@@ -1,35 +1,34 @@
 version: 2
 updates:
-  - package-ecosystem: "npm"
-    directory: "/"
+  - package-ecosystem: 'npm'
+    directory: '/'
     schedule:
       interval: daily
     open-pull-requests-limit: 5
     labels:
-      - "dependencies"
-      - "javascript"
+      - 'dependencies'
+      - 'javascript'
     reviewers:
-      - "green-ecolution/frontend-maintainers"
+      - 'green-ecolution/frontend-maintainers'
 
-  - package-ecosystem: "github-actions"
-    directory: "/"
+  - package-ecosystem: 'github-actions'
+    directory: '/'
     schedule:
       interval: daily
     open-pull-requests-limit: 5
     labels:
-      - "ci"
-      - "github-actions"
+      - 'ci'
+      - 'github-actions'
     reviewers:
-      - "green-ecolution/devops"
+      - 'green-ecolution/devops'
 
-  - package-ecosystem: "docker"
-    directory: ".docker"
+  - package-ecosystem: 'docker'
+    directory: '.docker'
     schedule:
       interval: daily
     open-pull-requests-limit: 5
     labels:
-      - "dependencies"
-      - "docker"
+      - 'dependencies'
+      - 'docker'
     reviewers:
-      - "green-ecolution/devops"
-
+      - 'green-ecolution/devops'

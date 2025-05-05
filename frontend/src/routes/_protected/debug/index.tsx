@@ -13,9 +13,7 @@ function Debug() {
   return (
     <div className="container mt-6">
       <article className="2xl:w-4/5">
-        <h1 className="font-lato font-bold text3xl mb-4 lg:text-4xl xl:text-5xl">
-          Debugging
-        </h1>
+        <h1 className="font-lato font-bold text3xl mb-4 lg:text-4xl xl:text-5xl">Debugging</h1>
         <p>
           Diese Ansicht liefert debugging Informationen zu den aktuellen React-Stores im Frontend.
         </p>

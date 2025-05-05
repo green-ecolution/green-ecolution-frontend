@@ -1,7 +1,4 @@
-import {
-  WateringPlan,
-  WateringPlanStatus,
-} from '@green-ecolution/backend-client'
+import { WateringPlan, WateringPlanStatus } from '@green-ecolution/backend-client'
 import DetailedList from '../general/DetailedList'
 import { format, formatDuration, intervalToDuration } from 'date-fns'
 import GeneralStatusCard from '../general/cards/GeneralStatusCard'
@@ -25,66 +22,62 @@ const TabGeneralData: React.FC<TabGeneralDataProps> = ({ wateringPlan }) => {
     : 'Keine Angabe'
 
   const wateringPlanData: {
-    label: string,
-    value: string,
+    label: string
+    value: string
   }[] = [
-      {
-        label: 'Länge der Route',
-        value: wateringPlan.distance
-          ? `${roundTo(wateringPlan.distance, 2)} km`
-          : 'Keine Angabe',
-      },
-      {
-        label: 'Startpunkt',
-        value: 'Schleswiger Straße, Hauptzentrale',
-      },
-      {
-        label: 'Benötigtes Wasser',
-        value: wateringPlan.totalWaterRequired
-          ? `${wateringPlan.totalWaterRequired} Liter`
-          : 'Keine Angabe',
-      },
-      {
-        label: 'Transporter',
-        value: wateringPlan.transporter
-          ? `${wateringPlan.transporter.numberPlate}${wateringPlan.transporter.archivedAt ? ' (Archiviert)' : ''}`
-          : 'Keine Angabe',
-      },
-      {
-        label: 'Zusätzlicher Anhänger',
-        value: wateringPlan.trailer
-          ? `${wateringPlan.trailer.numberPlate}${wateringPlan.trailer.archivedAt ? ' (Archiviert)' : ''}`
-          : 'Keine Angabe',
-      },
-      {
-        label: 'Anzahl der Bewässerungsgruppen',
-        value: wateringPlan.treeclusters?.length
-          ? `${wateringPlan.treeclusters.length} Gruppe(n)`
-          : 'Keine Angabe',
-      },
-      {
-        label: 'Eingeteilte Mitarbeitende',
-        value: userRes.data?.length
-          ? userRes.data.map((user) => `${user.firstName} ${user.lastName}`).join(', ')
-          : 'Keine Angabe',
-      },
-      {
-        label: 'Benötigte Nachfüllungen',
-        value: wateringPlan.refillCount
-          ? wateringPlan.refillCount.toString()
-          : 'Keine Angabe',
-      },
-      {
-        label: 'Benötigte Zeit (Fahrzeit)',
-        value: wateringPlan.duration
-          ? `${formatDuration(intervalToDuration({ start: 0, end: wateringPlan.duration * 1000 }), { format: ['hours', 'minutes'], delimiter: ', ', locale: de })}`
-          : 'Keine Angabe',
-      },
-      {
-        label: 'Zuletzt geupdated',
-        value: updatedDate,
-      },
-    ]
+    {
+      label: 'Länge der Route',
+      value: wateringPlan.distance ? `${roundTo(wateringPlan.distance, 2)} km` : 'Keine Angabe',
+    },
+    {
+      label: 'Startpunkt',
+      value: 'Schleswiger Straße, Hauptzentrale',
+    },
+    {
+      label: 'Benötigtes Wasser',
+      value: wateringPlan.totalWaterRequired
+        ? `${wateringPlan.totalWaterRequired} Liter`
+        : 'Keine Angabe',
+    },
+    {
+      label: 'Transporter',
+      value: wateringPlan.transporter
+        ? `${wateringPlan.transporter.numberPlate}${wateringPlan.transporter.archivedAt ? ' (Archiviert)' : ''}`
+        : 'Keine Angabe',
+    },
+    {
+      label: 'Zusätzlicher Anhänger',
+      value: wateringPlan.trailer
+        ? `${wateringPlan.trailer.numberPlate}${wateringPlan.trailer.archivedAt ? ' (Archiviert)' : ''}`
+        : 'Keine Angabe',
+    },
+    {
+      label: 'Anzahl der Bewässerungsgruppen',
+      value: wateringPlan.treeclusters?.length
+        ? `${wateringPlan.treeclusters.length} Gruppe(n)`
+        : 'Keine Angabe',
+    },
+    {
+      label: 'Eingeteilte Mitarbeitende',
+      value: userRes.data?.length
+        ? userRes.data.map((user) => `${user.firstName} ${user.lastName}`).join(', ')
+        : 'Keine Angabe',
+    },
+    {
+      label: 'Benötigte Nachfüllungen',
+      value: wateringPlan.refillCount ? wateringPlan.refillCount.toString() : 'Keine Angabe',
+    },
+    {
+      label: 'Benötigte Zeit (Fahrzeit)',
+      value: wateringPlan.duration
+        ? `${formatDuration(intervalToDuration({ start: 0, end: wateringPlan.duration * 1000 }), { format: ['hours', 'minutes'], delimiter: ', ', locale: de })}`
+        : 'Keine Angabe',
+    },
+    {
+      label: 'Zuletzt geupdated',
+      value: updatedDate,
+    },
+  ]
 
   return (
     <>
@@ -92,21 +85,17 @@ const TabGeneralData: React.FC<TabGeneralDataProps> = ({ wateringPlan }) => {
         <li>
           <EntitiesStatusCard
             statusDetails={getWateringPlanStatusDetails(
-              wateringPlan?.status ??
-              WateringPlanStatus.WateringPlanStatusUnknown
+              wateringPlan?.status ?? WateringPlanStatus.WateringPlanStatusUnknown,
             )}
             label="Aktueller Status des Einsatzes"
             hasPill
           />
         </li>
-        {wateringPlan?.status ===
-          WateringPlanStatus.WateringPlanStatusCanceled &&
+        {wateringPlan?.status === WateringPlanStatus.WateringPlanStatusCanceled &&
           wateringPlan.cancellationNote && (
             <li>
               <div className="h-full space-y-3 bg-dark-50 rounded-xl p-6">
-                <h2 className="text-sm text-dark-700 font-medium">
-                  Notiz zum Abbruch
-                </h2>
+                <h2 className="text-sm text-dark-700 font-medium">Notiz zum Abbruch</h2>
                 <p className="text-sm">{wateringPlan.cancellationNote}</p>
               </div>
             </li>
@@ -132,10 +121,7 @@ const TabGeneralData: React.FC<TabGeneralDataProps> = ({ wateringPlan }) => {
       </ul>
 
       <section className="mt-16">
-        <DetailedList
-          headline="Daten zur Einsatzplanung"
-          details={wateringPlanData}
-        />
+        <DetailedList headline="Daten zur Einsatzplanung" details={wateringPlanData} />
       </section>
     </>
   )

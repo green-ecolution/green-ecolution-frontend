@@ -13,17 +13,11 @@ interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
 const Select = ({ ref, ...props }: SelectProps) => {
   return (
     <div>
-      <label
-        htmlFor={props.name}
-        className="block font-semibold text-dark-800 mb-2.5"
-      >
-        {props.label}{' '}
-        {props.required ? <span className="text-red">*</span> : null}
+      <label htmlFor={props.name} className="block font-semibold text-dark-800 mb-2.5">
+        {props.label} {props.required ? <span className="text-red">*</span> : null}
       </label>
       {props.description && (
-        <p className="-mt-2 text-sm text-dark-600 mb-2.5">
-          {props.description}
-        </p>
+        <p className="-mt-2 text-sm text-dark-600 mb-2.5">{props.description}</p>
       )}
       <div className="relative">
         <select
@@ -44,17 +38,12 @@ const Select = ({ ref, ...props }: SelectProps) => {
             </option>
           ))}
         </select>
-        <figure
-          aria-hidden="true"
-          className="absolute right-4 top-[1.125rem]"
-        >
+        <figure aria-hidden="true" className="absolute right-4 top-[1.125rem]">
           <ChevronDown className="w-4 h-4 text-dark-800" />
         </figure>
       </div>
       {props.error && (
-        <span className="block text-red mt-2 font-semibold text-sm">
-          {props.error}
-        </span>
+        <span className="block text-red mt-2 font-semibold text-sm">{props.error}</span>
       )}
     </div>
   )

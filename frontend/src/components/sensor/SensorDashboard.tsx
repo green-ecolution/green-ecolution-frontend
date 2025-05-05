@@ -53,11 +53,10 @@ const SensorDashboard = ({ sensor, sensorTree: linkedTree }: SensorDashboardProp
             Sensor ID: {sensor.id}
           </h1>
           <p>
-            Jeder Sensor sollte mit einer Vegetationsform verknüpft sein. Auf
-            dieser Untersichtsseite wird veranschaulicht, ob der aktuelle Sensor
-            Daten liefern kann, wann der Sensor das letzte Mal Daten geliefert
-            hat und wie der aktuelle Akkustand des Sensors ist. Falls der Sensor
-            zu keinem Baum oder Beet hinzugefügt worden ist, kann hier die
+            Jeder Sensor sollte mit einer Vegetationsform verknüpft sein. Auf dieser
+            Untersichtsseite wird veranschaulicht, ob der aktuelle Sensor Daten liefern kann, wann
+            der Sensor das letzte Mal Daten geliefert hat und wie der aktuelle Akkustand des Sensors
+            ist. Falls der Sensor zu keinem Baum oder Beet hinzugefügt worden ist, kann hier die
             Verknüpfung manuell hergestellt werden.
           </p>
         </div>
@@ -95,24 +94,16 @@ const SensorDashboard = ({ sensor, sensorTree: linkedTree }: SensorDashboardProp
 
       <section className="mt-16 md:grid md:gap-x-11 md:grid-cols-2">
         <div>
-          <DetailedList
-            headline="Daten zum Sensor"
-            details={generalSensorData}
-            hasNoGrid
-          />
+          <DetailedList headline="Daten zum Sensor" details={generalSensorData} hasNoGrid />
         </div>
 
         <div
           className={`h-max space-y-3 rounded-xl p-6 ${linkedTree ? 'bg-dark-50' : 'bg-red-50'}`}
         >
-          <h2 className="text-sm text-dark-700 font-medium">
-            Verknüpfte Vegetation
-          </h2>
+          <h2 className="text-sm text-dark-700 font-medium">Verknüpfte Vegetation</h2>
           {linkedTree ? (
             <div>
-              <p className="font-bold text-3xl mb-2">
-                Baum: {linkedTree.number}
-              </p>
+              <p className="font-bold text-3xl mb-2">Baum: {linkedTree.number}</p>
               <p className="text-sm mb-4">
                 Longitude: {linkedTree.longitude} <br />
                 Latitude: {linkedTree.latitude}
@@ -127,12 +118,10 @@ const SensorDashboard = ({ sensor, sensorTree: linkedTree }: SensorDashboardProp
             </div>
           ) : (
             <div>
-              <p className="font-bold text-3xl text-red mb-2">
-                Keine Verknüpfung
-              </p>
+              <p className="font-bold text-3xl text-red mb-2">Keine Verknüpfung</p>
               <p className="text-sm mb-4">
-                Es war nicht möglich anhand der GPS-Daten den Sensor einem Baum
-                oder einem Beet zuzuweisen oder er wurde manuell unverknüpft.
+                Es war nicht möglich anhand der GPS-Daten den Sensor einem Baum oder einem Beet
+                zuzuweisen oder er wurde manuell unverknüpft.
               </p>
               <GeneralLink
                 theme="grey"

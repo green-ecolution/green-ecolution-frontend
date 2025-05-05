@@ -21,35 +21,24 @@ function Startpage() {
     <>
       <article className="container my-20 lg:my-24 xl:grid xl:grid-cols-2 xl:gap-x-16 xl:items-center">
         <div>
-          <p className="text-green-dark mb-4 text-lg font-semibold">
-            Green Ecolution
-          </p>
+          <p className="text-green-dark mb-4 text-lg font-semibold">Green Ecolution</p>
           <h1 className="font-lato font-bold text-4xl mb-4 lg:text-5xl xl:text-6xl">
             Willkommen beim smarten
             <br />
             Grünflächen&shy;management
           </h1>
           <p>
-            Dieses Projekt befasst sich mit der smarten Bewässerung von Bäumen
-            im urbanen Kontext. Mittels sensorgestützter Überwachung werden
-            Daten über das LoRaWan-Netz übermittelt und ausgewertet, sodass
-            Handlungsempfehlungen für die Bewässerung abgegeben werden können.
-            Anhand dieser Handlungsempfehlungen können Einsätze zu einer
-            Bewässerungstour erstellt werden.
+            Dieses Projekt befasst sich mit der smarten Bewässerung von Bäumen im urbanen Kontext.
+            Mittels sensorgestützter Überwachung werden Daten über das LoRaWan-Netz übermittelt und
+            ausgewertet, sodass Handlungsempfehlungen für die Bewässerung abgegeben werden können.
+            Anhand dieser Handlungsempfehlungen können Einsätze zu einer Bewässerungstour erstellt
+            werden.
           </p>
           <div className="flex flex-wrap justify-center items-center gap-6 mt-10 xl:justify-start">
             {isAuthenticated ? (
-              <ButtonLink
-                link={{ to: '/dashboard' }}
-                label="Zum Dashboard"
-                icon={MoveRight}
-              />
+              <ButtonLink link={{ to: '/dashboard' }} label="Zum Dashboard" icon={MoveRight} />
             ) : (
-              <ButtonLink
-                link={{ to: '/login' }}
-                label="Anmelden"
-                icon={MoveRight}
-              />
+              <ButtonLink link={{ to: '/login' }} label="Anmelden" icon={MoveRight} />
             )}
             <a
               href="mailto:info@green-ecolution.de"

@@ -15,10 +15,7 @@ import Pill from '../general/Pill'
 import Textarea from '../general/form/types/Textarea'
 import { useWaterinPlanForm } from '@/hooks/form/useWateringPlanForm'
 import { useFormSync } from '@/hooks/form/useFormSync'
-import {
-  WateringPlanForm,
-  WateringPlanSchema,
-} from '@/schema/wateringPlanSchema'
+import { WateringPlanForm, WateringPlanSchema } from '@/schema/wateringPlanSchema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SubmitHandler } from 'react-hook-form'
 import Input from '../general/form/types/Input'
@@ -28,13 +25,8 @@ interface WateringPlanStatusUpdateProps {
   wateringPlanId: string
 }
 
-const WateringPlanStatusUpdate = ({
-  wateringPlanId,
-}: WateringPlanStatusUpdateProps) => {
-  const { mutate, isError, error } = useWaterinPlanForm(
-    'update',
-    wateringPlanId
-  )
+const WateringPlanStatusUpdate = ({ wateringPlanId }: WateringPlanStatusUpdateProps) => {
+  const { mutate, isError, error } = useWaterinPlanForm('update', wateringPlanId)
 
   const { initForm, loadedData } = useInitFormQuery(
     wateringPlanIdQuery(wateringPlanId),
@@ -47,26 +39,23 @@ const WateringPlanStatusUpdate = ({
       status: data.status,
       cancellationNote: data.cancellationNote,
       userIds: data.userIds,
-    })
+    }),
   )
 
-  const date = loadedData?.date
-    ? format(new Date(loadedData?.date), 'dd.MM.yyyy')
-    : 'Keine Angabe'
+  const date = loadedData?.date ? format(new Date(loadedData?.date), 'dd.MM.yyyy') : 'Keine Angabe'
   const statusDetails = getWateringPlanStatusDetails(loadedData?.status)
 
-  const { register, handleSubmit, formState, watch } =
-    useFormSync<WateringPlanForm>(
-      initForm,
-      zodResolver(WateringPlanSchema('statusUpdate'))
-    )
+  const { register, handleSubmit, formState, watch } = useFormSync<WateringPlanForm>(
+    initForm,
+    zodResolver(WateringPlanSchema('statusUpdate')),
+  )
 
   const [manualEvaluation, setManualEvaluation] = useState(
     loadedData?.treeclusters.map((cluster) => ({
       consumedWater: (cluster.treeIds?.length ?? 0) * 80,
       treeClusterId: cluster.id,
       wateringPlanId: Number(wateringPlanId),
-    })) || []
+    })) || [],
   )
 
   const [errorMessages, setErrorMessages] = useState<string[]>([])
@@ -79,9 +68,7 @@ const WateringPlanStatusUpdate = ({
     })
 
     setManualEvaluation((prev) =>
-      prev.map((item, i) =>
-        i === index ? { ...item, consumedWater: value } : item
-      )
+      prev.map((item, i) => (i === index ? { ...item, consumedWater: value } : item)),
     )
   }
 
@@ -90,8 +77,7 @@ const WateringPlanStatusUpdate = ({
     const mutationData = {
       ...data,
       date: data.date.toISOString(),
-      trailerId:
-        data.trailerId && data.trailerId !== -1 ? data.trailerId : undefined,
+      trailerId: data.trailerId && data.trailerId !== -1 ? data.trailerId : undefined,
     }
 
     if (selectedStatus === WateringPlanStatus.WateringPlanStatusFinished) {
@@ -124,12 +110,11 @@ const WateringPlanStatusUpdate = ({
           />
         </p>
         <p>
-          Der Status eines Einsatzes beschreibt, ob der Einsatz beispielsweise
-          aktiv ausgeführt wird, beendet ist oder abgebrochen wurde. Diese
-          Angabe hilft dabei die erstellen Einsätze zu kategorisieren und eine
-          Auswertung anzulegen. Sobald ein Einsatz beendet wird, kann zudem
-          angegeben werden, mit wie viel Wasser die zugehörigen
-          Bewässerungsgruppen bewässert wurden.
+          Der Status eines Einsatzes beschreibt, ob der Einsatz beispielsweise aktiv ausgeführt
+          wird, beendet ist oder abgebrochen wurde. Diese Angabe hilft dabei die erstellen Einsätze
+          zu kategorisieren und eine Auswertung anzulegen. Sobald ein Einsatz beendet wird, kann
+          zudem angegeben werden, mit wie viel Wasser die zugehörigen Bewässerungsgruppen bewässert
+          wurden.
         </p>
       </article>
 
@@ -144,51 +129,47 @@ const WateringPlanStatusUpdate = ({
               error={formState.errors.status?.message}
               {...register('status')}
             />
-            {selectedStatus ===
-              WateringPlanStatus.WateringPlanStatusCanceled && (
-                <Textarea
-                  placeholder="Warum wurde der Einsatz abgebrochen?"
-                  label="Grund des Abbruchs"
-                  error={formState.errors.cancellationNote?.message}
-                  {...register('cancellationNote')}
-                />
-              )}
+            {selectedStatus === WateringPlanStatus.WateringPlanStatusCanceled && (
+              <Textarea
+                placeholder="Warum wurde der Einsatz abgebrochen?"
+                label="Grund des Abbruchs"
+                error={formState.errors.cancellationNote?.message}
+                {...register('cancellationNote')}
+              />
+            )}
           </div>
 
-          {selectedStatus ===
-            WateringPlanStatus.WateringPlanStatusFinished && (
-              <fieldset className="mt-6">
-                <legend className="block font-semibold text-dark-800 mb-2.5">
-                  Wasservergabe pro Bewässerungsgruppe:
-                </legend>
-                <p className="-mt-2 text-sm text-dark-600 mb-2.5">
-                  Die Standardwerte ergeben sich aus 80 Litern pro Baum einer
-                  Bewässerungsgruppe.
-                </p>
-                <ul className="space-y-5">
-                  {manualEvaluation.map((field, index) => (
-                    <li key={field.treeClusterId} className="grid grid-cols-1 gap-y-2 md:grid-cols-2">
-                      <SelectedCard
-                        type="cluster"
-                        id={loadedData?.treeclusters[index].id}
+          {selectedStatus === WateringPlanStatus.WateringPlanStatusFinished && (
+            <fieldset className="mt-6">
+              <legend className="block font-semibold text-dark-800 mb-2.5">
+                Wasservergabe pro Bewässerungsgruppe:
+              </legend>
+              <p className="-mt-2 text-sm text-dark-600 mb-2.5">
+                Die Standardwerte ergeben sich aus 80 Litern pro Baum einer Bewässerungsgruppe.
+              </p>
+              <ul className="space-y-5">
+                {manualEvaluation.map((field, index) => (
+                  <li key={field.treeClusterId} className="grid grid-cols-1 gap-y-2 md:grid-cols-2">
+                    <SelectedCard type="cluster" id={loadedData?.treeclusters[index].id} />
+                    <div className="relative flex flex-wrap items-center md:mb-3 md:ml-6">
+                      <Input
+                        error={errorMessages[index]}
+                        type="number"
+                        label="Liter"
+                        defaultValue={field.consumedWater}
+                        small
+                        hideLabel
+                        onChange={(e) => handleConsumedWaterChange(index, Number(e.target.value))}
                       />
-                      <div className="relative flex flex-wrap items-center md:mb-3 md:ml-6">
-                        <Input
-                          error={errorMessages[index]}
-                          type="number"
-                          label="Liter"
-                          defaultValue={field.consumedWater}
-                          small
-                          hideLabel
-                          onChange={(e) => handleConsumedWaterChange(index, Number(e.target.value))}
-                        />
-                        <span className="absolute left-[8.5rem] top-1/2 -translate-y-1/2 ml-2">Liter</span>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              </fieldset>
-            )}
+                      <span className="absolute left-[8.5rem] top-1/2 -translate-y-1/2 ml-2">
+                        Liter
+                      </span>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </fieldset>
+          )}
 
           <FormError show={isError} error={error?.message} />
 

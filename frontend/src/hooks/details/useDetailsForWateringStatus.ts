@@ -1,12 +1,15 @@
 import { WateringStatus } from '@green-ecolution/backend-client'
 import { StatusColor } from './useDetailsForWateringPlanStatus'
 
-const WateringStatusProperties: Record<WateringStatus, {
-    color: StatusColor,
-    label: string,
-    description: string,
+const WateringStatusProperties: Record<
+  WateringStatus,
+  {
+    color: StatusColor
+    label: string
+    description: string
     colorHex: string
-  }> = {
+  }
+> = {
   [WateringStatus.WateringStatusUnknown]: {
     color: 'dark-400',
     label: 'Unbekannt',
@@ -34,16 +37,13 @@ const WateringStatusProperties: Record<WateringStatus, {
   [WateringStatus.WateringStatusGood]: {
     color: 'green-light',
     label: 'In Ordnung',
-    description:
-      'Die Bewässerung ist ausreichend, keine Maßnahmen erforderlich.',
+    description: 'Die Bewässerung ist ausreichend, keine Maßnahmen erforderlich.',
     colorHex: '#ACB63B',
   },
 } as const
 
 type WateringStatusDetails = (typeof WateringStatusProperties)[WateringStatus]
 
-export const getWateringStatusDetails = (
-  status: WateringStatus
-): WateringStatusDetails => {
+export const getWateringStatusDetails = (status: WateringStatus): WateringStatusDetails => {
   return WateringStatusProperties[status]
 }

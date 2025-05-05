@@ -1,13 +1,18 @@
-import { MoveRight } from 'lucide-react';
-import React from 'react';
+import { MoveRight } from 'lucide-react'
+import React from 'react'
 
 interface PrimaryButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  label: string;
-  isDanger?: boolean;
-  type?: "submit" | "reset" | "button"
+  label: string
+  isDanger?: boolean
+  type?: 'submit' | 'reset' | 'button'
 }
 
-const PrimaryButton: React.FC<PrimaryButtonProps> = ({ label, type = "button", isDanger = false, ...props }) => (
+const PrimaryButton: React.FC<PrimaryButtonProps> = ({
+  label,
+  type = 'button',
+  isDanger = false,
+  ...props
+}) => (
   <button
     type={type}
     {...props}
@@ -16,6 +21,6 @@ const PrimaryButton: React.FC<PrimaryButtonProps> = ({ label, type = "button", i
     <span className="font-medium text-base">{label}</span>
     <MoveRight className="transition-all ease-in-out duration-300 group-hover:translate-x-2 group-disabled:translate-x-0" />
   </button>
-);
+)
 
-export default PrimaryButton;
+export default PrimaryButton

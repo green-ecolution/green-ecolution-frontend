@@ -21,14 +21,18 @@ const treeFilterSchema = z.object({
 })
 
 function Trees() {
-  const { wateringStatuses, hasCluster, plantingYears, page } = useLoaderData({ from: '/_protected/trees/' })
-  const { data: treesRes } = useSuspenseQuery(treeQuery({
-    page: page ?? 1,
-    wateringStatuses,
-    hasCluster,
-    plantingYears,
-    limit: 10,
-  }))
+  const { wateringStatuses, hasCluster, plantingYears, page } = useLoaderData({
+    from: '/_protected/trees/',
+  })
+  const { data: treesRes } = useSuspenseQuery(
+    treeQuery({
+      page: page ?? 1,
+      wateringStatuses,
+      hasCluster,
+      plantingYears,
+      limit: 10,
+    }),
+  )
 
   return (
     <div className="container mt-6">
@@ -37,8 +41,8 @@ function Trees() {
           Auflistung aller Bäume
         </h1>
         <p className="mb-5">
-          Hier finden Sie eine Übersicht aller Bäume in einer Listenansicht. Die
-          Bäume lassen sich allerdings auch auf einer{' '}
+          Hier finden Sie eine Übersicht aller Bäume in einer Listenansicht. Die Bäume lassen sich
+          allerdings auch auf einer{' '}
           <a
             href="/map"
             className="text-green underline hover:text-green-light focus:text-green-light-50"
@@ -47,19 +51,12 @@ function Trees() {
           </a>
           &nbsp;visualisieren.
         </p>
-        <ButtonLink
-          icon={Plus}
-          label="Neuen Baum erstellen"
-          link={{ to: '/map/tree/new' }}
-        />
+        <ButtonLink icon={Plus} label="Neuen Baum erstellen" link={{ to: '/map/tree/new' }} />
       </article>
 
       <section className="mt-10">
         <div className="flex justify-end mb-6 lg:mb-10">
-          <Dialog
-            headline="Bäume filtern"
-            fullUrlPath={Route.fullPath}
-          >
+          <Dialog headline="Bäume filtern" fullUrlPath={Route.fullPath}>
             <StatusFieldset />
             <ClusterFieldset />
             <PlantingYearFieldset />
@@ -116,16 +113,20 @@ export const Route = createFileRoute('/_protected/trees/')({
     plantingYears: search.plantingYears ?? undefined,
     page: search.page ?? 1,
   }),
-  loader: ({ deps: { page, wateringStatuses, hasCluster, plantingYears }, context: { queryClient } }) => {
-    const query = queryClient.prefetchQuery(treeQuery({
-      page,
-      wateringStatuses,
-      hasCluster,
-      plantingYears,
-      limit: 10,
-    }))
+  loader: ({
+    deps: { page, wateringStatuses, hasCluster, plantingYears },
+    context: { queryClient },
+  }) => {
+    const query = queryClient.prefetchQuery(
+      treeQuery({
+        page,
+        wateringStatuses,
+        hasCluster,
+        plantingYears,
+        limit: 10,
+      }),
+    )
 
     return { page, wateringStatuses, hasCluster, plantingYears, query }
   },
 })
-

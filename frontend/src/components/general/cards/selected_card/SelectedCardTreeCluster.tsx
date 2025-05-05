@@ -1,10 +1,10 @@
-import { treeClusterIdQuery } from "@/api/queries"
-import { SelectedCardProps } from "../SelectedCard"
-import { useSuspenseQuery } from "@tanstack/react-query"
-import { getWateringStatusDetails } from "@/hooks/details/useDetailsForWateringStatus"
-import { Trash2 } from "lucide-react"
+import { treeClusterIdQuery } from '@/api/queries'
+import { SelectedCardProps } from '../SelectedCard'
+import { useSuspenseQuery } from '@tanstack/react-query'
+import { getWateringStatusDetails } from '@/hooks/details/useDetailsForWateringStatus'
+import { Trash2 } from 'lucide-react'
 
-interface SelectedCardClusterProps extends Omit<SelectedCardProps, 'type'> { }
+interface SelectedCardClusterProps extends Omit<SelectedCardProps, 'type'> {}
 
 const SelectedCardCluster = ({ onClick, id }: SelectedCardClusterProps) => {
   const { data } = useSuspenseQuery(treeClusterIdQuery(String(id)))
@@ -28,10 +28,7 @@ const SelectedCardCluster = ({ onClick, id }: SelectedCardClusterProps) => {
           className="text-dark-600"
         >
           <Trash2 className="w-5 h-5" />
-          <span className="sr-only">
-            {'Bewässerungsgruppe'}&nbsp; aus
-            Auswahl löschen
-          </span>
+          <span className="sr-only">{'Bewässerungsgruppe'}&nbsp; aus Auswahl löschen</span>
         </button>
       )}
     </div>

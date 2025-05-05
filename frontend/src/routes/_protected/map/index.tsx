@@ -1,8 +1,4 @@
-import {
-  createFileRoute,
-  useLoaderData,
-  useNavigate,
-} from '@tanstack/react-router'
+import { createFileRoute, useLoaderData, useNavigate } from '@tanstack/react-router'
 import MapButtons from '@/components/map/MapButtons'
 import { Tree, TreeCluster } from '@green-ecolution/backend-client'
 import { useQuery } from '@tanstack/react-query'
@@ -33,24 +29,27 @@ function MapView() {
   const dialogRef = useRef<HTMLDivElement>(null)
 
   const hasActiveFilter = () => {
-    return search.wateringStatuses ||
-      search.hasCluster !== undefined ||
-      search.plantingYears
+    return search.wateringStatuses || search.hasCluster !== undefined || search.plantingYears
       ? true
       : false
   }
 
   const { data: treesRes } = useQuery({
-    enabled: search.wateringStatuses !== undefined || search.hasCluster !== undefined || search.plantingYears !== undefined,
+    enabled:
+      search.wateringStatuses !== undefined ||
+      search.hasCluster !== undefined ||
+      search.plantingYears !== undefined,
     ...treeQuery({
       wateringStatuses: search.wateringStatuses,
       hasCluster: search.hasCluster,
       plantingYears: search.plantingYears,
-    })
+    }),
   })
 
   const handleTreeClick = (tree: Tree) => {
-    navigate({ to: `/trees/$treeId`, params: { treeId: tree.id.toString() } }).catch((error) => console.error('Navigation failed:', error))
+    navigate({ to: `/trees/$treeId`, params: { treeId: tree.id.toString() } }).catch((error) =>
+      console.error('Navigation failed:', error),
+    )
   }
 
   const handleClusterClick = (cluster: TreeCluster) => {
@@ -61,7 +60,11 @@ function MapView() {
   }
 
   const handleMapInteractions = (isOpen: boolean) => {
-    if (isOpen) { disableDragging() } else { enableDragging() }
+    if (isOpen) {
+      disableDragging()
+    } else {
+      enableDragging()
+    }
   }
 
   return (
@@ -116,9 +119,7 @@ export const Route = createFileRoute('/_protected/map/')({
   component: MapViewWithProvider,
   validateSearch: mapFilterSchema,
 
-  loaderDeps: ({
-    search: { wateringStatuses, hasCluster, plantingYears, tree, cluster },
-  }) => ({
+  loaderDeps: ({ search: { wateringStatuses, hasCluster, plantingYears, tree, cluster } }) => ({
     wateringStatuses: wateringStatuses ?? undefined,
     hasCluster: hasCluster ?? undefined,
     plantingYears: plantingYears ?? undefined,

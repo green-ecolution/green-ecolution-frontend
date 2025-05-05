@@ -29,21 +29,16 @@ const ChartSensorData: React.FC<ChartSensorDataProps> = ({ sensorId }) => {
     <>
       {sensorDataRes.data.length > 1 && (
         <section className="mt-16">
-          <h2 className="font-bold font-lato text-xl mb-4">
-            Akkulaufzeit im Verlaufe der Zeit
-          </h2>
+          <h2 className="font-bold font-lato text-xl mb-4">Akkulaufzeit im Verlaufe der Zeit</h2>
           <p className="mb-6">
-            In diesem Abschnitt wird die Batteriewerte in Volt ausgegeben, die
-            im System abgespeichert wurden.
+            In diesem Abschnitt wird die Batteriewerte in Volt ausgegeben, die im System
+            abgespeichert wurden.
             <br />
-            Anhand dessen kann nachvollzogen werden, wie sich die Batterie im
-            Laufe der Zeit entlädt.
+            Anhand dessen kann nachvollzogen werden, wie sich die Batterie im Laufe der Zeit
+            entlädt.
           </p>
           <ResponsiveContainer height={400} width="100%">
-            <AreaChart
-              data={batteryData}
-              margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
-            >
+            <AreaChart data={batteryData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="name" />
               <YAxis />

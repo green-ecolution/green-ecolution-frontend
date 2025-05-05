@@ -9,7 +9,7 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   ref?: Ref<HTMLInputElement>
 }
 
-const Input = ({ hideLabel, error, small, label, ref, ...props }: InputProps,) => {
+const Input = ({ hideLabel, error, small, label, ref, ...props }: InputProps) => {
   return (
     <div>
       {label && (
@@ -17,8 +17,7 @@ const Input = ({ hideLabel, error, small, label, ref, ...props }: InputProps,) =
           htmlFor={props.name}
           className={`block font-semibold text-dark-800 mb-2.5 ${hideLabel ? 'sr-only' : ''}`}
         >
-          {label}{' '}
-          {props.required ? <span className="text-red">*</span> : null}
+          {label} {props.required ? <span className="text-red">*</span> : null}
         </label>
       )}
 
@@ -28,11 +27,7 @@ const Input = ({ hideLabel, error, small, label, ref, ...props }: InputProps,) =
         className={`w-full text-dark-800 border border-green-light rounded-lg bg-white px-4 py-3 focus:outline-green-dark ${small ? 'max-w-32' : ''}`}
         {...props}
       />
-      {error && (
-        <span className="block text-red mt-2 font-semibold text-sm">
-          {error}
-        </span>
-      )}
+      {error && <span className="block text-red mt-2 font-semibold text-sm">{error}</span>}
     </div>
   )
 }

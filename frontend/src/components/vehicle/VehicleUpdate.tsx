@@ -1,8 +1,6 @@
 import BackLink from '../general/links/BackLink'
 import DeleteSection from '../treecluster/DeleteSection'
-import {
-  Vehicle,
-} from '@green-ecolution/backend-client'
+import { Vehicle } from '@green-ecolution/backend-client'
 import { useInitFormQuery } from '@/hooks/form/useInitForm'
 import { vehicleIdQuery } from '@/api/queries'
 import { vehicleApi } from '@/api/backendApi'
@@ -19,9 +17,7 @@ interface VehicleUpdateProps {
   vehicleId: string
 }
 
-const VehicleUpdate = ({
-  vehicleId,
-}: VehicleUpdateProps) => {
+const VehicleUpdate = ({ vehicleId }: VehicleUpdateProps) => {
   const { mutate, isError, error } = useVehicleForm('update', vehicleId)
   const { initForm, loadedData } = useInitFormQuery<Vehicle, VehicleForm>(
     vehicleIdQuery(vehicleId),
@@ -37,12 +33,12 @@ const VehicleUpdate = ({
       model: data.model,
       waterCapacity: data.waterCapacity,
       description: data.description,
-    })
+    }),
   )
 
   const { register, handleSubmit, formState } = useFormSync<VehicleForm>(
     initForm,
-    zodResolver(VehicleSchema)
+    zodResolver(VehicleSchema),
   )
 
   const onSubmit: SubmitHandler<VehicleForm> = (data) => {

@@ -12,7 +12,7 @@ const TanStackRouterDevtools =
     : React.lazy(() =>
         import('@tanstack/react-router-devtools').then((res) => ({
           default: res.TanStackRouterDevtools,
-        }))
+        })),
       )
 
 interface RouterContext {
@@ -22,10 +22,7 @@ interface RouterContext {
 export const Route = createRootRouteWithContext<RouterContext>()({
   component: Root,
   beforeLoad: async () => {
-    if (
-      !useStore.getState().auth.isAuthenticated ||
-      !useStore.getState().user.isEmpty()
-    ) {
+    if (!useStore.getState().auth.isAuthenticated || !useStore.getState().user.isEmpty()) {
       return
     }
     const token = await userApi.v1UserTokenRefreshPost({

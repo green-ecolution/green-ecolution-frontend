@@ -1,9 +1,7 @@
 import FormForTreecluster from '../general/form/FormForTreecluster'
 import BackLink from '../general/links/BackLink'
 import DeleteSection from './DeleteSection'
-import {
-  TreeCluster,
-} from '@green-ecolution/backend-client'
+import { TreeCluster } from '@green-ecolution/backend-client'
 import { TreeclusterForm, TreeclusterSchema } from '@/schema/treeclusterSchema'
 import { useInitFormQuery } from '@/hooks/form/useInitForm'
 import { treeClusterIdQuery } from '@/api/queries'
@@ -23,20 +21,17 @@ interface TreeClusterUpdateProps {
 
 const TreeClusterUpdate = ({ clusterId }: TreeClusterUpdateProps) => {
   const navigate = useNavigate()
-  const { mutate, isError, error, formStore } = useTreeClusterForm(
-    'update',
-    clusterId
+  const { mutate, isError, error, formStore } = useTreeClusterForm('update', clusterId)
+  const { initForm, loadedData } = useInitFormQuery<TreeCluster, TreeclusterForm>(
+    treeClusterIdQuery(clusterId),
+    (data) => ({
+      name: data.name,
+      address: data.address,
+      description: data.description,
+      soilCondition: data.soilCondition,
+      treeIds: data.trees?.map((tree) => tree.id) ?? [],
+    }),
   )
-  const { initForm, loadedData } = useInitFormQuery<
-    TreeCluster,
-    TreeclusterForm
-  >(treeClusterIdQuery(clusterId), (data) => ({
-    name: data.name,
-    address: data.address,
-    description: data.description,
-    soilCondition: data.soilCondition,
-    treeIds: data.trees?.map((tree) => tree.id) ?? [],
-  }))
 
   const mapPosition = useStore((state) => ({
     lat: state.map.center[0],
@@ -44,8 +39,10 @@ const TreeClusterUpdate = ({ clusterId }: TreeClusterUpdateProps) => {
     zoom: state.map.zoom,
   }))
 
-  const { register, setValue, handleSubmit, formState } =
-    useFormSync<TreeclusterForm>(initForm, zodResolver(TreeclusterSchema))
+  const { register, setValue, handleSubmit, formState } = useFormSync<TreeclusterForm>(
+    initForm,
+    zodResolver(TreeclusterSchema),
+  )
 
   const onSubmit: SubmitHandler<TreeclusterForm> = (data) => {
     mutate({
@@ -69,14 +66,11 @@ const TreeClusterUpdate = ({ clusterId }: TreeClusterUpdateProps) => {
         zoom: mapPosition.zoom,
         clusterId: Number(clusterId),
       },
-    }).catch((error) => console.error('Navigation failed:', error));
+    }).catch((error) => console.error('Navigation failed:', error))
   }
 
   const handleDeleteTree = (treeId: number) => {
-    setValue(
-      'treeIds',
-      formStore.form?.treeIds?.filter((id) => id !== treeId) ?? []
-    )
+    setValue('treeIds', formStore.form?.treeIds?.filter((id) => id !== treeId) ?? [])
   }
 
   return (
@@ -93,8 +87,8 @@ const TreeClusterUpdate = ({ clusterId }: TreeClusterUpdateProps) => {
           Bewässerungsgruppe {loadedData?.name} bearbeiten
         </h1>
         <p className="mb-5">
-          Hier können Sie Bäume der aktuell ausgewählten Bewässerungsgruppe
-          zuweisen oder entfernen sowie auch Name und Adresse angeben.
+          Hier können Sie Bäume der aktuell ausgewählten Bewässerungsgruppe zuweisen oder entfernen
+          sowie auch Name und Adresse angeben.
         </p>
       </article>
 
@@ -111,9 +105,7 @@ const TreeClusterUpdate = ({ clusterId }: TreeClusterUpdateProps) => {
         />
       </section>
 
-      <Suspense
-        fallback={<LoadingInfo label="Die Bewässerungsgruppe wird gelöscht" />}
-      >
+      <Suspense fallback={<LoadingInfo label="Die Bewässerungsgruppe wird gelöscht" />}>
         <DeleteSection
           mutationFn={handleDeleteTreeCluster}
           entityName="die Bewässerungsgruppe"

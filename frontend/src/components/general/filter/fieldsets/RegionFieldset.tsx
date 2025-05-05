@@ -5,7 +5,7 @@ import { useFilter } from '@/context/FilterContext'
 
 const RegionFieldset = () => {
   const { filters, handleRegionChange } = useFilter()
-  const { data: regionRes } = useSuspenseQuery(regionsQuery());
+  const { data: regionRes } = useSuspenseQuery(regionsQuery())
 
   return (
     <fieldset className="mt-6">

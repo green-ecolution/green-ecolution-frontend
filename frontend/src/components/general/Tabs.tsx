@@ -17,7 +17,7 @@ const Tabs: React.FC<Tabs> = ({ tabs }) => {
         {tabs.map((tab, key) => (
           <button
             onClick={() => setShowTabIndex(key)}
-            type='button'
+            type="button"
             key={tab.label}
             id={`tab-${key}`}
             role="tab"
@@ -26,26 +26,23 @@ const Tabs: React.FC<Tabs> = ({ tabs }) => {
             className={`flex items-center gap-x-2 pb-2 group border-b transition-all ease-in-out duration-300 hover:text-dark-800 ${showTabIndex === key ? 'text-dark border-b-dark' : 'text-dark-600 border-b-transparent'}`}
           >
             {tab.icon}
-            <span className="hidden group-aria-selected:block lg:block">
-              {tab.label}
-            </span>
+            <span className="hidden group-aria-selected:block lg:block">{tab.label}</span>
           </button>
         ))}
       </div>
 
-      {tabs.map(
-        (tab, key) =>
-          showTabIndex === key ? (
-            <div
-              key={tab.label}
-              id={`tabpanel-${key}`}
-              role="tabpanel"
-              tabIndex={0}
-              aria-labelledby={`tab-${key}`}
-            >
-              {tab.view}
-            </div>
-          ) : null
+      {tabs.map((tab, key) =>
+        showTabIndex === key ? (
+          <div
+            key={tab.label}
+            id={`tabpanel-${key}`}
+            role="tabpanel"
+            tabIndex={0}
+            aria-labelledby={`tab-${key}`}
+          >
+            {tab.view}
+          </div>
+        ) : null,
       )}
     </>
   )

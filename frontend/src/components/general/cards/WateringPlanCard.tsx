@@ -20,7 +20,7 @@ const WateringPlanCard: React.FC<WateringPlanCardProps> = ({ wateringPlan }) => 
     <Link
       to={`/watering-plans/$wateringPlanId`}
       params={{
-        wateringPlanId: wateringPlan.id.toString()
+        wateringPlanId: wateringPlan.id.toString(),
       }}
       className="bg-white border border-dark-50 p-6 rounded-xl shadow-cards flex flex-col gap-y-4 transition-all ease-in-out duration-300 hover:bg-green-dark-50 hover:border-green-dark lg:grid lg:grid-cols-[1.3fr,1.5fr,1fr,1.5fr,1.5fr] lg:items-center lg:gap-5 lg:py-10 xl:px-10"
     >

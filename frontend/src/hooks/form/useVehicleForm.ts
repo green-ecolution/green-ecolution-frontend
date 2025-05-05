@@ -34,8 +34,12 @@ export const useVehicleForm = (mutationType: 'create' | 'update', vehicleId?: st
 
     onSuccess: (data: Vehicle) => {
       formStore.reset()
-      queryClient.invalidateQueries(vehicleIdQuery(String(data.id))).catch((error) => console.error('Invalidate "vehicleIdQuery" failed:', error))
-      queryClient.invalidateQueries(vehicleQuery()).catch((error) => console.error('Invalidate "vehicleQuery" failed', error))
+      queryClient
+        .invalidateQueries(vehicleIdQuery(String(data.id)))
+        .catch((error) => console.error('Invalidate "vehicleIdQuery" failed:', error))
+      queryClient
+        .invalidateQueries(vehicleQuery())
+        .catch((error) => console.error('Invalidate "vehicleQuery" failed', error))
 
       navigate({
         to: `/vehicles/$vehicleId`,
@@ -44,10 +48,8 @@ export const useVehicleForm = (mutationType: 'create' | 'update', vehicleId?: st
         replace: true,
       }).catch((error) => console.error('Navigation failed:', error))
 
-      if (mutationType === 'create')
-        showToast('Das Fahrzeug wurde erfolgreich erstellt.')
-      else
-        showToast('Das Fahrzeug wurde erfolgreich bearbeitet.')
+      if (mutationType === 'create') showToast('Das Fahrzeug wurde erfolgreich erstellt.')
+      else showToast('Das Fahrzeug wurde erfolgreich bearbeitet.')
     },
 
     onError: (error) => {

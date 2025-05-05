@@ -1,4 +1,4 @@
-name: "Draft New Release"
+name: 'Draft New Release'
 
 on:
   repository_dispatch:
@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: "The release version"
+        description: 'The release version'
         required: true
 
 jobs:
@@ -25,7 +25,7 @@ jobs:
       - name: Setup yq
         uses: dcarbone/install-yq-action@v1.3.1
         with:
-          version: "v4.42.1"
+          version: 'v4.42.1'
           force: true
 
       - name: Initialize mandatory git config
@@ -48,12 +48,12 @@ jobs:
 
       - name: Bump version in package.json
         run: yarn version --new-version ${{ env.RELEASE_VERSION }} --no-git-tag-version
- 
+
       - name: Bump version in frontend/package.json
         working-directory: frontend
         run: yarn version --new-version ${{ env.RELEASE_VERSION }} --no-git-tag-version
 
-      - name : Bump version in CITATION.cff
+      - name: Bump version in CITATION.cff
         run: |
           yq -i '.version="${{ env.RELEASE_VERSION }}"' CITATION.cff
 
@@ -85,5 +85,3 @@ jobs:
             Merging this PR will create a GitHub release and upload any assets that are created as part of the release build.
 
             **NOTE:** Please make sure to merge the [backend](https://github.com/green-ecolution/backend) release first!
-
-

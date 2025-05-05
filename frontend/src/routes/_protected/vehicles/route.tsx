@@ -5,8 +5,8 @@ export const Route = createFileRoute('/_protected/vehicles')({
   loader: () => {
     return {
       crumb: {
-        title: "Fahrzeuge"
-      }
+        title: 'Fahrzeuge',
+      },
     }
-  }
+  },
 })

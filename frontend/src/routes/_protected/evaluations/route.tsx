@@ -5,8 +5,8 @@ export const Route = createFileRoute('/_protected/evaluations')({
   loader: () => {
     return {
       crumb: {
-        title: "Auswertungen"
-      }
+        title: 'Auswertungen',
+      },
     }
-  }
+  },
 })

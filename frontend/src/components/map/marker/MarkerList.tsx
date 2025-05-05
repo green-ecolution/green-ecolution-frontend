@@ -1,10 +1,10 @@
-import L from "leaflet"
-import { useCallback, useEffect, useRef } from "react"
-import { useMap } from "react-leaflet"
+import L from 'leaflet'
+import { useCallback, useEffect, useRef } from 'react'
+import { useMap } from 'react-leaflet'
 
 interface WithLocation {
-  latitude: number,
-  longitude: number,
+  latitude: number
+  longitude: number
 }
 
 interface MarkerListProps<T extends WithLocation> {
@@ -15,33 +15,43 @@ interface MarkerListProps<T extends WithLocation> {
   tooltipOptions?: L.TooltipOptions
 }
 
-const MarkerList = <T extends WithLocation>({ data, onClick, icon, tooltipContent, tooltipOptions }: MarkerListProps<T>) => {
+const MarkerList = <T extends WithLocation>({
+  data,
+  onClick,
+  icon,
+  tooltipContent,
+  tooltipOptions,
+}: MarkerListProps<T>) => {
   const map = useMap()
   const markersRef = useRef<L.Marker[]>([])
 
   const renderMarkers = useCallback(() => {
-    if (!map) return;
+    if (!map) return
 
-    const bounds = map.getBounds();
+    const bounds = map.getBounds()
 
     markersRef.current.forEach((m) => map.removeLayer(m))
-    markersRef.current = [];
+    markersRef.current = []
 
-    data.filter((t) => bounds.contains([t.latitude, t.longitude])).forEach((t) => {
-      const marker = L.marker([t.latitude, t.longitude], { icon: typeof icon === 'function' ? icon(t) : icon })
-      if (tooltipContent) {
-        if (typeof tooltipContent === 'function') {
-          marker.bindTooltip((m) => tooltipContent(t, m), tooltipOptions)
-        } else {
-          marker.bindTooltip(tooltipContent, tooltipOptions)
+    data
+      .filter((t) => bounds.contains([t.latitude, t.longitude]))
+      .forEach((t) => {
+        const marker = L.marker([t.latitude, t.longitude], {
+          icon: typeof icon === 'function' ? icon(t) : icon,
+        })
+        if (tooltipContent) {
+          if (typeof tooltipContent === 'function') {
+            marker.bindTooltip((m) => tooltipContent(t, m), tooltipOptions)
+          } else {
+            marker.bindTooltip(tooltipContent, tooltipOptions)
+          }
         }
-      }
 
-      marker.addTo(map)
-      markersRef.current.push(marker)
+        marker.addTo(map)
+        markersRef.current.push(marker)
 
-      marker.on('click', () => onClick?.(t))
-    })
+        marker.on('click', () => onClick?.(t))
+      })
   }, [map, data, icon, onClick, tooltipContent, tooltipOptions])
 
   useEffect(() => {

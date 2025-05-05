@@ -1,6 +1,6 @@
 import React from 'react'
 import Pill from '../Pill'
-import { StatusColor } from '@/hooks/details/useDetailsForWateringPlanStatus';
+import { StatusColor } from '@/hooks/details/useDetailsForWateringPlanStatus'
 
 interface EntitiesStatusCard {
   statusDetails: { label: string; color: StatusColor; description: string }
@@ -24,12 +24,7 @@ const EntitiesStatusCard: React.FC<EntitiesStatusCard> = ({
       <p
         className={`relative font-bold text-xl ${hasPill ? '' : `pl-7 before:absolute before:w-4 before:h-4 before:rounded-full before:left-0 before:top-2 before:bg-${statusDetails.color}`}`}
       >
-        {hasPill && (
-          <Pill
-            label={statusDetails.label}
-            theme={statusDetails.color ?? 'dark-400'}
-          />
-        )}
+        {hasPill && <Pill label={statusDetails.label} theme={statusDetails.color ?? 'dark-400'} />}
         <span className={hasPill ? 'sr-only' : ''}>{statusDetails.label}</span>
       </p>
       <p className="text-sm">{statusDetails.description}</p>

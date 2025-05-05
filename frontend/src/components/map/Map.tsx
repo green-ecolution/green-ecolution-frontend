@@ -10,21 +10,15 @@ export interface MapProps extends React.PropsWithChildren {
   height?: string
 }
 
-const Map = ({
-  width = '100%',
-  height = 'calc(100dvh - 4.563rem)',
-  children,
-}: MapProps) => {
-  const {data: appInfo } = useSuspenseQuery(infoQuery())
+const Map = ({ width = '100%', height = 'calc(100dvh - 4.563rem)', children }: MapProps) => {
+  const { data: appInfo } = useSuspenseQuery(infoQuery())
 
-  const { center, zoom, maxZoom, minZoom } = useMapStore(
-    (state) => ({
-      center: state.map.center,
-      zoom: state.map.zoom,
-      maxZoom: state.map.maxZoom,
-      minZoom: state.map.minZoom,
-    })
-  )
+  const { center, zoom, maxZoom, minZoom } = useMapStore((state) => ({
+    center: state.map.center,
+    zoom: state.map.zoom,
+    maxZoom: state.map.maxZoom,
+    minZoom: state.map.minZoom,
+  }))
 
   const time = useMemo(() => new Date().getTime(), [])
 
@@ -41,7 +35,7 @@ const Map = ({
       minZoom={minZoom}
       maxBounds={L.latLngBounds(
         [appInfo?.map?.bbox[0], appInfo.map.bbox[1]],
-        [appInfo?.map?.bbox[2], appInfo.map.bbox[3]]
+        [appInfo?.map?.bbox[2], appInfo.map.bbox[3]],
       )}
     >
       <TileLayer

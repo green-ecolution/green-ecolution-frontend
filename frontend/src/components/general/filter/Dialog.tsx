@@ -1,8 +1,4 @@
-import {
-  Ref,
-  useEffect,
-  useState,
-} from 'react'
+import { Ref, useEffect, useState } from 'react'
 import FilterButton from '../buttons/FilterButton'
 import PrimaryButton from '../buttons/PrimaryButton'
 import SecondaryButton from '../buttons/SecondaryButton'
@@ -20,16 +16,14 @@ interface DialogProps {
   ref?: Ref<HTMLDivElement>
 }
 
-const Dialog = (
-  {
-    headline,
-    fullUrlPath,
-    children,
-    isOnMap = false,
-    ref,
-    onToggleOpen,
-  }: DialogProps,
-) => {
+const Dialog = ({
+  headline,
+  fullUrlPath,
+  children,
+  isOnMap = false,
+  ref,
+  onToggleOpen,
+}: DialogProps) => {
   const [isOpen, setIsOpen] = useState(false)
   const [oldValues, setOldValues] = useState<Filters>({
     statusTags: [],
@@ -56,15 +50,10 @@ const Dialog = (
         lat: isOnMap ? mapPosition.lat : undefined,
         lng: isOnMap ? mapPosition.lng : undefined,
         zoom: isOnMap ? mapPosition.zoom : undefined,
-        wateringStatuses:
-          filters.statusTags.length > 0 ? filters.statusTags : undefined,
-        regions:
-          filters.regionTags.length > 0 ? filters.regionTags : undefined,
+        wateringStatuses: filters.statusTags.length > 0 ? filters.statusTags : undefined,
+        regions: filters.regionTags.length > 0 ? filters.regionTags : undefined,
         hasCluster: filters.hasCluster ?? undefined,
-        plantingYears:
-          filters.plantingYears.length > 0
-            ? filters.plantingYears
-            : undefined,
+        plantingYears: filters.plantingYears.length > 0 ? filters.plantingYears : undefined,
       }),
     }).catch((error) => console.error('Navigation failed:', error))
   }
@@ -109,9 +98,9 @@ const Dialog = (
   useEffect(() => {
     setCount(
       filters.statusTags.length +
-      filters.regionTags.length +
-      (filters.hasCluster !== undefined ? 1 : 0) +
-      filters.plantingYears.length
+        filters.regionTags.length +
+        (filters.hasCluster !== undefined ? 1 : 0) +
+        filters.plantingYears.length,
     )
   }, [filters])
 
@@ -132,7 +121,11 @@ const Dialog = (
         ariaLabel={headline}
         isOnMap={isOnMap}
         onClick={() => {
-          if (isOpen) { handleClose() } else { handleOpen() }
+          if (isOpen) {
+            handleClose()
+          } else {
+            handleOpen()
+          }
         }}
       />
 
@@ -146,7 +139,7 @@ const Dialog = (
           <h2 className="text-xl font-lato font-semibold">{headline}</h2>
           <button
             aria-label="Close Dialog"
-            type='reset'
+            type="reset"
             className="text-dark-400 hover:text-dark-600 stroke-1"
             onClick={handleClose}
           >
@@ -157,11 +150,7 @@ const Dialog = (
         {children}
 
         <div className="flex flex-wrap gap-5 mt-6">
-          <PrimaryButton
-            label="Anwenden"
-            type="button"
-            onClick={handleSubmit}
-          />
+          <PrimaryButton label="Anwenden" type="button" onClick={handleSubmit} />
           <SecondaryButton label="Zurücksetzen" onClick={handleReset} />
         </div>
       </section>

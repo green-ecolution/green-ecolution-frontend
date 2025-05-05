@@ -24,11 +24,7 @@ interface NavigationProps {
   closeSidebar: () => void
 }
 
-const Navigation: React.FC<NavigationProps> = ({
-  isOpen,
-  openSidebar,
-  closeSidebar,
-}) => {
+const Navigation: React.FC<NavigationProps> = ({ isOpen, openSidebar, closeSidebar }) => {
   const isLargeScreen = () => window.matchMedia('(min-width: 1024px)').matches
   const isLoggedIn = useStore((state) => state.auth.isAuthenticated)
   const mapPosition = useStore((state) => ({
@@ -78,7 +74,7 @@ const Navigation: React.FC<NavigationProps> = ({
         {
           label: 'Einsätze',
           icon: <ArrowLeftRight className="w-5 h-5" />,
-          to: "/watering-plans",
+          to: '/watering-plans',
         },
         {
           label: 'Fahrzeuge',
@@ -114,12 +110,12 @@ const Navigation: React.FC<NavigationProps> = ({
         // Hide the debug navigation entry in the production build
         ...(process.env.NODE_ENV !== 'production'
           ? [
-            {
-              label: 'Debug',
-              icon: <Bug className="w-5 h-5" />,
-              to: '/debug',
-            },
-          ]
+              {
+                label: 'Debug',
+                icon: <Bug className="w-5 h-5" />,
+                to: '/debug',
+              },
+            ]
           : []),
         {
           label: 'Ausloggen',

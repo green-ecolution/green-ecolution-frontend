@@ -1,7 +1,7 @@
 import { treeIdQuery } from '@/api/queries'
 import { createFileRoute, Outlet } from '@tanstack/react-router'
 
-const RouteComponent = () => <Outlet />;
+const RouteComponent = () => <Outlet />
 
 export const Route = createFileRoute('/_protected/trees/$treeId')({
   component: RouteComponent,
@@ -10,7 +10,7 @@ export const Route = createFileRoute('/_protected/trees/$treeId')({
     return {
       crumb: {
         title: `Baum: ${tree.number}`,
-      }
+      },
     }
   },
 })

@@ -7,21 +7,17 @@ import { TreeclusterForm } from '@/schema/treeclusterSchema'
 import WithAllTrees from '@/components/map/marker/WithAllTrees'
 import MapSelectEntitiesModal from '@/components/map/MapSelectEntitiesModal'
 
-export const Route = createFileRoute('/_protected/map/treecluster/select/tree/')(
-  {
-    component: SelectTrees,
-  }
-)
+export const Route = createFileRoute('/_protected/map/treecluster/select/tree/')({
+  component: SelectTrees,
+})
 
 function SelectTrees() {
-  const { form, storeTreeIds, set, type } = useFormStore(
-    (state: FormStore<TreeclusterForm>) => ({
-      form: state.form,
-      storeTreeIds: state.form?.treeIds ?? [],
-      set: state.commit,
-      type: state.type,
-    })
-  )
+  const { form, storeTreeIds, set, type } = useFormStore((state: FormStore<TreeclusterForm>) => ({
+    form: state.form,
+    storeTreeIds: state.form?.treeIds ?? [],
+    set: state.commit,
+    type: state.type,
+  }))
   const [treeIds, setTreeIds] = useState<number[]>(storeTreeIds)
   const [showError, setShowError] = useState(false)
   const navigate = useNavigate({ from: Route.fullPath })
@@ -70,10 +66,8 @@ function SelectTrees() {
   }
 
   const handleTreeClick = (tree: Tree) => {
-    if (treeIds.includes(tree.id))
-      setTreeIds((prev) => prev.filter((id) => id !== tree.id))
-    else
-      setTreeIds((prev) => [...prev, tree.id])
+    if (treeIds.includes(tree.id)) setTreeIds((prev) => prev.filter((id) => id !== tree.id))
+    else setTreeIds((prev) => [...prev, tree.id])
   }
 
   return (
@@ -92,11 +86,7 @@ function SelectTrees() {
             ) : (
               treeIds.map((treeId) => (
                 <li key={treeId}>
-                  <SelectedCard
-                    type="tree"
-                    id={treeId}
-                    onClick={handleDeleteTree}
-                  />
+                  <SelectedCard type="tree" id={treeId} onClick={handleDeleteTree} />
                 </li>
               ))
             )}

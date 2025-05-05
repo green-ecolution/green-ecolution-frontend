@@ -8,8 +8,8 @@ import { federation } from '@module-federation/vite'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
+    TanStackRouterVite({ target: 'react', autoCodeSplitting: true, quoteStyle: 'single' }),
     react(),
-    TanStackRouterVite(),
     federation({
       name: 'app',
       remotes: {

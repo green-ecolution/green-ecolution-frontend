@@ -24,10 +24,7 @@ interface WateringPlanUpdateProps {
 }
 
 const WateringPlanUpdate = ({ wateringPlanId }: WateringPlanUpdateProps) => {
-  const { mutate, isError, error } = useWaterinPlanForm(
-    'update',
-    wateringPlanId
-  )
+  const { mutate, isError, error } = useWaterinPlanForm('update', wateringPlanId)
   const { initForm, loadedData } = useInitFormQuery(
     wateringPlanIdQuery(wateringPlanId),
     (data) => ({
@@ -39,32 +36,26 @@ const WateringPlanUpdate = ({ wateringPlanId }: WateringPlanUpdateProps) => {
       status: data.status,
       cancellationNote: data.cancellationNote,
       userIds: data.userIds,
-    })
+    }),
   )
 
   const navigate = useNavigate({ from: Route.fullPath })
-  const date = loadedData?.date
-    ? format(new Date(loadedData?.date), 'dd.MM.yyyy')
-    : 'Keine Angabe'
+  const date = loadedData?.date ? format(new Date(loadedData?.date), 'dd.MM.yyyy') : 'Keine Angabe'
 
   const { data: users } = useSuspenseQuery(userRoleQuery('tbz'))
   const { data: trailers } = useSuspenseQuery(vehicleQuery({ type: 'trailer' }))
-  const { data: transporters } = useSuspenseQuery(
-    vehicleQuery({ type: 'transporter' })
-  )
+  const { data: transporters } = useSuspenseQuery(vehicleQuery({ type: 'transporter' }))
 
-  const { register, handleSubmit, formState } =
-    useFormSync<WateringPlanForm>(
-      initForm,
-      zodResolver(WateringPlanSchema('update'))
-    )
+  const { register, handleSubmit, formState } = useFormSync<WateringPlanForm>(
+    initForm,
+    zodResolver(WateringPlanSchema('update')),
+  )
 
   const onSubmit: SubmitHandler<WateringPlanForm> = (data) => {
     mutate({
       ...data,
       date: data.date.toISOString(),
-      trailerId:
-        data.trailerId && data.trailerId !== -1 ? data.trailerId : undefined,
+      trailerId: data.trailerId && data.trailerId !== -1 ? data.trailerId : undefined,
     })
   }
 
@@ -83,7 +74,7 @@ const WateringPlanUpdate = ({ wateringPlanId }: WateringPlanUpdateProps) => {
         zoom: mapPosition.zoom,
         wateringPlanId: Number(wateringPlanId),
       },
-    }).catch((error) => console.error('Navigation failed:', error));
+    }).catch((error) => console.error('Navigation failed:', error))
   }
 
   const handleDeleteWateringPlan = () => {
@@ -106,12 +97,11 @@ const WateringPlanUpdate = ({ wateringPlanId }: WateringPlanUpdateProps) => {
           Einsatzplan für den {date} bearbeiten
         </h1>
         <p>
-          Der Einsatzplan kann in dieser Ansicht editiert werden, falls
-          bestimmte Daten nicht mehr stimmen oder z. B. bestimmte Informationen
-          zusätzlich hinterlegt werden müssen. Ein Einsatzplan erfordert immer
-          mindestens eine Bewässerungsgruppe, die angefahren werden soll und
-          mindestens eine:n Mitarbeiter:in, die den Einatz durchführen soll.
-          Zudem muss ein Fahrzeug hinterlegt werden.
+          Der Einsatzplan kann in dieser Ansicht editiert werden, falls bestimmte Daten nicht mehr
+          stimmen oder z. B. bestimmte Informationen zusätzlich hinterlegt werden müssen. Ein
+          Einsatzplan erfordert immer mindestens eine Bewässerungsgruppe, die angefahren werden soll
+          und mindestens eine:n Mitarbeiter:in, die den Einatz durchführen soll. Zudem muss ein
+          Fahrzeug hinterlegt werden.
         </p>
         {showWateringPlanStatusButton(loadedData) && (
           <p className="mt-5 flex flex-wrap gap-x-4">
@@ -142,9 +132,7 @@ const WateringPlanUpdate = ({ wateringPlanId }: WateringPlanUpdateProps) => {
         />
       </section>
 
-      <Suspense
-        fallback={<LoadingInfo label="Der Einsatzplan wird gelöscht" />}
-      >
+      <Suspense fallback={<LoadingInfo label="Der Einsatzplan wird gelöscht" />}>
         <DeleteSection
           mutationFn={handleDeleteWateringPlan}
           entityName="der Einsatzplan"

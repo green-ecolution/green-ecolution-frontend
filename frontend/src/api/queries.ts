@@ -35,12 +35,9 @@ import {
 
 export const treeClusterQuery = (params?: GetAllTreeClustersRequest) =>
   queryOptions<TreeClusterList>({
-    queryKey: [
-      'treeclusters',
-      params?.page,
-      params?.regions,
-      params?.wateringStatuses,
-    ].filter((e) => e != undefined || e != null),
+    queryKey: ['treeclusters', params?.page, params?.regions, params?.wateringStatuses].filter(
+      (e) => e != undefined || e != null,
+    ),
     queryFn: () => clusterApi.getAllTreeClusters(params),
   })
 
@@ -79,12 +76,9 @@ export const sensorIdQuery = (id: string) =>
 
 export const treeQuery = (params?: GetAllTreesRequest) =>
   queryOptions<TreeList>({
-    queryKey: [
-      'trees',
-      params?.page,
-      params?.wateringStatuses,
-      params?.plantingYears,
-    ].filter((e) => e != undefined || e != null),
+    queryKey: ['trees', params?.page, params?.wateringStatuses, params?.plantingYears].filter(
+      (e) => e != undefined || e != null,
+    ),
     queryFn: () => treeApi.getAllTrees(params),
   })
 
@@ -126,9 +120,7 @@ export const evaluationQuery = () =>
 
 export const vehicleQuery = (params?: GetAllVehiclesRequest) => {
   return queryOptions<VehicleList>({
-    queryKey: ['vehicle', params?.type, params?.page].filter(
-      (e) => e != undefined || e != null
-    ),
+    queryKey: ['vehicle', params?.type, params?.page].filter((e) => e != undefined || e != null),
     queryFn: () => vehicleApi.getAllVehicles(params),
   })
 }
@@ -176,15 +168,10 @@ export const userRoleQuery = (role: string) =>
 export const routePreviewQuery = (
   transporterId: number,
   clusterIds: number[],
-  trailerId?: number
+  trailerId?: number,
 ) =>
   queryOptions<GeoJson>({
-    queryKey: [
-      'route',
-      'preview',
-      `transporter:${transporterId}`,
-      ...clusterIds,
-    ],
+    queryKey: ['route', 'preview', `transporter:${transporterId}`, ...clusterIds],
     queryFn: () =>
       wateringPlanApi.v1WateringPlanRoutePreviewPost({
         body: {

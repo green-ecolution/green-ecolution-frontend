@@ -11,13 +11,11 @@ import { treeClusterQuery, vehicleIdQuery } from '@/api/queries'
 import Notice from '@/components/general/Notice'
 import SelectedCard from '@/components/general/cards/SelectedCard'
 
-export const Route = createFileRoute(
-  '/_protected/map/watering-plan/select/cluster/'
-)({
+export const Route = createFileRoute('/_protected/map/watering-plan/select/cluster/')({
   component: SelectCluster,
   loader: ({ context: { queryClient } }) => {
     return queryClient.prefetchQuery(treeClusterQuery())
-  }
+  },
 })
 
 function SelectCluster() {
@@ -27,7 +25,7 @@ function SelectCluster() {
       storeClusterIds: state.form?.treeClusterIds ?? [],
       set: state.commit,
       type: state.type,
-    })
+    }),
   )
   const [clusterIds, setClusterIds] = useState<number[]>(storeClusterIds)
   const [showError, setShowError] = useState(false)
@@ -89,8 +87,7 @@ function SelectCluster() {
 
     if (clusterIds.includes(cluster.id))
       setClusterIds((prev) => prev.filter((id) => id !== cluster.id))
-    else
-      setClusterIds((prev) => [...prev, cluster.id])
+    else setClusterIds((prev) => [...prev, cluster.id])
   }
 
   const disabledClusters = useMemo(() => {
@@ -112,14 +109,12 @@ function SelectCluster() {
     const errors = []
 
     if (!form?.transporterId || form?.transporterId === -1) {
-      errors.push(
-        'Um eine Route generieren zu können, muss ein Fahrzeug ausgewählt werden.'
-      )
+      errors.push('Um eine Route generieren zu können, muss ein Fahrzeug ausgewählt werden.')
     }
 
     if (disabledClusters.length > 0) {
       errors.push(
-        'Ausgegraute Bewässerungsgruppen sind ausgeschlossen, da das Fahrzeug nicht genügend Wasserkapazität hat.'
+        'Ausgegraute Bewässerungsgruppen sind ausgeschlossen, da das Fahrzeug nicht genügend Wasserkapazität hat.',
       )
     }
 
@@ -138,9 +133,7 @@ function SelectCluster() {
         title="Ausgewählte Bewässerungsgruppen:"
         content={
           <ul>
-            {showNotice && (
-              <Notice classes="mb-4" description={notice.join(' ')} />
-            )}
+            {showNotice && <Notice classes="mb-4" description={notice.join(' ')} />}
             {(clusterIds?.length || 0) === 0 || showError ? (
               <li className="text-dark-600 font-semibold text-sm">
                 <p>Hier können Sie zugehörigen Gruppen verlinken.</p>
@@ -148,11 +141,7 @@ function SelectCluster() {
             ) : (
               clusterIds.map((clusterId) => (
                 <li key={clusterId}>
-                  <SelectedCard
-                    type="cluster"
-                    id={clusterId}
-                    onClick={handleDelete}
-                  />
+                  <SelectedCard type="cluster" id={clusterId} onClick={handleDelete} />
                 </li>
               ))
             )}
@@ -165,15 +154,13 @@ function SelectCluster() {
         disabledClusters={disabledClusters}
       />
 
-      {clusterIds.length > 0 &&
-        form?.transporterId &&
-        form?.transporterId != -1 && (
-          <ShowRoutePreview
-            selectedClustersIds={clusterIds}
-            transporterId={form?.transporterId}
-            trailerId={form.trailerId}
-          />
-        )}
+      {clusterIds.length > 0 && form?.transporterId && form?.transporterId != -1 && (
+        <ShowRoutePreview
+          selectedClustersIds={clusterIds}
+          transporterId={form?.transporterId}
+          trailerId={form.trailerId}
+        />
+      )}
     </>
   )
 }

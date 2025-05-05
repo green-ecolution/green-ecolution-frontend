@@ -18,20 +18,13 @@ export const TreeSchema = (lat: number, lng: number) => {
         .number()
         .int()
         .min(2020, 'Pflanzjahr vor 2020 ist nicht möglich.')
-        .max(
-          new Date().getFullYear(),
-          'Pflanzjahr kann nicht in der Zukunft liegen.'
-        )
-        .default(() => new Date().getFullYear())
+        .max(new Date().getFullYear(), 'Pflanzjahr kann nicht in der Zukunft liegen.')
+        .default(() => new Date().getFullYear()),
     ),
     treeClusterId: z
       .preprocess(
         (value) => parseInt(value as string, 10),
-        z
-          .number()
-          .refine((value) =>
-            treeClusters.data.some((cluster) => cluster.id === value)
-          )
+        z.number().refine((value) => treeClusters.data.some((cluster) => cluster.id === value)),
       )
       .or(z.literal('-1').or(z.literal(-1))), // -1 no cluster selected
     sensorId: z
@@ -40,7 +33,7 @@ export const TreeSchema = (lat: number, lng: number) => {
         z
           .string()
           .refine((value) => sensors.data.some((sensor) => sensor.id === value))
-          .optional()
+          .optional(),
       )
       .or(z.literal('-1')), // -1 no sensor selected
     description: z.string().optional().default(''),

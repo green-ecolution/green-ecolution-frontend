@@ -5,7 +5,7 @@ import { TreeMarkerIcon } from '../MapMarker'
 import MarkerList from './MarkerList'
 import { getStatusColor } from '../utils'
 
-const defaultSelectedTrees: number[] = [];
+const defaultSelectedTrees: number[] = []
 
 export interface WithAllTreesProps {
   onClick?: (tree: Tree) => void
@@ -24,21 +24,23 @@ const WithAllTrees = ({
     return TreeMarkerIcon(
       getStatusColor(t.wateringStatus),
       selectedTrees?.includes(t.id) ?? false,
-      hasHighlightedTree === t.id
+      hasHighlightedTree === t.id,
     )
   }
 
-  return <MarkerList
-    data={data.data}
-    onClick={onClick}
-    icon={defineIcon}
-    tooltipContent={(t) => t.number}
-    tooltipOptions={{
-      direction: "top",
-      offset: [5, -40],
-      className: "font-nunito-sans font-semibold",
-    }}
-  />
+  return (
+    <MarkerList
+      data={data.data}
+      onClick={onClick}
+      icon={defineIcon}
+      tooltipContent={(t) => t.number}
+      tooltipOptions={{
+        direction: 'top',
+        offset: [5, -40],
+        className: 'font-nunito-sans font-semibold',
+      }}
+    />
+  )
 }
 
 export default WithAllTrees

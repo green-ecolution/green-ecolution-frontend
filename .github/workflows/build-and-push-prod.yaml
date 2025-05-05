@@ -76,7 +76,7 @@ jobs:
         run: |
           echo "REPO_LC=${REPO,,}" >>${GITHUB_ENV}
         env:
-          REPO: "${{ github.repository }}"
+          REPO: '${{ github.repository }}'
 
       - name: get build time
         run: |
@@ -109,6 +109,5 @@ jobs:
         with:
           token: ${{ secrets.GREEN_ECOLUTION_PAT }}
           repository: green-ecolution/green-ecolution
-          event-type: "update-submodules-production"
+          event-type: 'update-submodules-production'
           client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ env.COMMIT_SHA }}", "version": "${{ env.RELEASE_VERSION }}", "from": "frontend"}'
-

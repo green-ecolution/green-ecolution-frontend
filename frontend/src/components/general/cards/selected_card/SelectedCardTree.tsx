@@ -1,10 +1,10 @@
-import { useSuspenseQuery } from "@tanstack/react-query"
-import { SelectedCardProps } from "../SelectedCard"
-import { treeIdQuery } from "@/api/queries"
-import { getWateringStatusDetails } from "@/hooks/details/useDetailsForWateringStatus"
-import { Trash2 } from "lucide-react"
+import { useSuspenseQuery } from '@tanstack/react-query'
+import { SelectedCardProps } from '../SelectedCard'
+import { treeIdQuery } from '@/api/queries'
+import { getWateringStatusDetails } from '@/hooks/details/useDetailsForWateringStatus'
+import { Trash2 } from 'lucide-react'
 
-interface SelectedCardTreeProps extends Omit<SelectedCardProps, 'type'> { }
+interface SelectedCardTreeProps extends Omit<SelectedCardProps, 'type'> {}
 
 const SelectedCardTree = ({ onClick, id }: SelectedCardTreeProps) => {
   const { data } = useSuspenseQuery(treeIdQuery(String(id)))
@@ -29,10 +29,7 @@ const SelectedCardTree = ({ onClick, id }: SelectedCardTreeProps) => {
           className="text-dark-600"
         >
           <Trash2 className="w-5 h-5" />
-          <span className="sr-only">
-            {'Baum'}&nbsp; aus
-            Auswahl löschen
-          </span>
+          <span className="sr-only">{'Baum'}&nbsp; aus Auswahl löschen</span>
         </button>
       )}
     </div>

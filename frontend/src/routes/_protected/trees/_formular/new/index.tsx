@@ -26,8 +26,12 @@ export const Route = createFileRoute('/_protected/trees/_formular/new/')({
     return { lat, lng }
   },
   loader: ({ context: { queryClient }, deps: { lat, lng } }) => {
-    queryClient.prefetchQuery(sensorQuery()).catch((error) => console.error('Prefetching "sensorQuery" failed:', error))
-    queryClient.prefetchQuery(treeClusterQuery()).catch((error) => console.error('Prefetching "treeClusterQuery" failed:', error))
+    queryClient
+      .prefetchQuery(sensorQuery())
+      .catch((error) => console.error('Prefetching "sensorQuery" failed:', error))
+    queryClient
+      .prefetchQuery(treeClusterQuery())
+      .catch((error) => console.error('Prefetching "treeClusterQuery" failed:', error))
 
     const storeNotInit = useFormStore.getState().isEmpty()
     return {
@@ -58,17 +62,15 @@ function NewTree() {
 
   const { register, handleSubmit, formState } = useFormSync<TreeForm>(
     initForm,
-    zodResolver(TreeSchema(lat, lng))
+    zodResolver(TreeSchema(lat, lng)),
   )
 
   const onSubmit = (data: TreeForm) => {
     mutate({
       ...data,
-      sensorId:
-        data.sensorId && data.sensorId !== '-1' ? data.sensorId : undefined,
+      sensorId: data.sensorId && data.sensorId !== '-1' ? data.sensorId : undefined,
       treeClusterId:
-        data.treeClusterId &&
-          (data.treeClusterId === '-1' || data.treeClusterId <= 0)
+        data.treeClusterId && (data.treeClusterId === '-1' || data.treeClusterId <= 0)
           ? undefined
           : data.treeClusterId,
     })
@@ -92,8 +94,8 @@ function NewTree() {
           Neuen Baum erfassen
         </h1>
         <p className="mb-5">
-          Hier können Sie einen neuen Baum erstellen. Dieser wird im System als
-          "manuell erstellt" erfasst.
+          Hier können Sie einen neuen Baum erstellen. Dieser wird im System als "manuell erstellt"
+          erfasst.
         </p>
       </article>
 

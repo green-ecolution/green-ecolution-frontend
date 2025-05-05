@@ -7,7 +7,7 @@ import { createFileRoute } from '@tanstack/react-router'
 export const Route = createFileRoute('/_protected/evaluations/')({
   component: Evaluation,
   pendingComponent: () => <LoadingInfo label="Auswertungen werden geladen" />,
-  loader: ({ context: { queryClient } }) => queryClient.prefetchQuery(evaluationQuery())
+  loader: ({ context: { queryClient } }) => queryClient.prefetchQuery(evaluationQuery()),
 })
 
 function Evaluation() {
@@ -21,10 +21,12 @@ function Evaluation() {
             Auswertung aller Daten
           </h1>
           <p>
-            Diese Seite bietet eine detaillierte Auswertung aller relevanten Daten, die für die Verwaltung von Bewässerungs- und Einsatzplänen
-            sowie für die Wartung von Bäumen und Sensoren erforderlich sind. Es wird aufgezeigt, wie viele Einsatzfahrten im System hinterlegt worden sind,
-            welche Fahrzeuge die meisten Einsatzfahrten durchführen und welche Stadtteile am meisten bewässert werden.
-            Außerdem können Sie sich darüber informieren, wie viele Bäume, Bewässerungsgruppen und Sensoren erstellt worden sind.
+            Diese Seite bietet eine detaillierte Auswertung aller relevanten Daten, die für die
+            Verwaltung von Bewässerungs- und Einsatzplänen sowie für die Wartung von Bäumen und
+            Sensoren erforderlich sind. Es wird aufgezeigt, wie viele Einsatzfahrten im System
+            hinterlegt worden sind, welche Fahrzeuge die meisten Einsatzfahrten durchführen und
+            welche Stadtteile am meisten bewässert werden. Außerdem können Sie sich darüber
+            informieren, wie viele Bäume, Bewässerungsgruppen und Sensoren erstellt worden sind.
           </p>
         </article>
 
@@ -119,11 +121,7 @@ interface EvaluationListProps {
   label: string
 }
 
-const EvaluationList: React.FC<EvaluationListProps> = ({
-  title,
-  data,
-  label,
-}) => {
+const EvaluationList: React.FC<EvaluationListProps> = ({ title, data, label }) => {
   return (
     <section className="mt-16">
       <h2 className="font-lato font-bold text-2xl mb-4">{title}</h2>

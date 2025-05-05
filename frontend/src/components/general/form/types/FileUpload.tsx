@@ -48,11 +48,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
         />
 
         {isFileSelected && (
-          <button
-            type="button"
-            onClick={handleClearInput}
-            className="flex items-center"
-          >
+          <button type="button" onClick={handleClearInput} className="flex items-center">
             <Trash2 className="text-dark-600" />
             <span className="sr-only">Datei unselektieren</span>
           </button>
@@ -60,11 +56,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
       </div>
 
       {message && !isFileSelected && (
-        <div
-          className={`mt-4 font-semibold text-sm ${color}`}
-        >
-          {message}
-        </div>
+        <div className={`mt-4 font-semibold text-sm ${color}`}>{message}</div>
       )}
     </>
   )

@@ -4,7 +4,7 @@ export const Route = createFileRoute('/_protected/map/tree/new')({
   component: () => <Outlet />,
   loader: () => {
     return {
-      crumb: { title: "Baum Standort erfassen" }
+      crumb: { title: 'Baum Standort erfassen' },
     }
-  }
+  },
 })

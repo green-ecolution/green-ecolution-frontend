@@ -5,9 +5,8 @@ export const Route = createFileRoute('/_protected/map/sensor/select/tree')({
   loader: () => {
     return {
       crumb: {
-        title: "Vegetation verlinken"
-      }
+        title: 'Vegetation verlinken',
+      },
     }
-  }
+  },
 })
-

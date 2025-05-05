@@ -6,7 +6,7 @@ import { createFileRoute } from '@tanstack/react-router'
 export const Route = createFileRoute('/_protected/info')({
   component: Info,
   pendingComponent: () => <LoadingInfo label="Loading App Info" />,
-  loader: ({ context: { queryClient } }) => queryClient.prefetchQuery(infoQuery())
+  loader: ({ context: { queryClient } }) => queryClient.prefetchQuery(infoQuery()),
 })
 
 function Info() {

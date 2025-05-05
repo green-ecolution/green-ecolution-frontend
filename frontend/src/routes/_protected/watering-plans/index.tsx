@@ -18,14 +18,18 @@ export const Route = createFileRoute('/_protected/watering-plans/')({
     page: page || 1,
   }),
   loader: ({ context: { queryClient }, deps: { page } }) => {
-    queryClient.prefetchQuery(wateringPlanQuery({ page: page, limit: 5 })).catch(error => console.error('Prefetching "wateringPlanQuery" failed', error))
+    queryClient
+      .prefetchQuery(wateringPlanQuery({ page: page, limit: 5 }))
+      .catch((error) => console.error('Prefetching "wateringPlanQuery" failed', error))
     return { page }
   },
 })
 
 function WateringPlans() {
   const search = useLoaderData({ from: '/_protected/watering-plans/' })
-  const { data: wateringPlanRes } = useSuspenseQuery(wateringPlanQuery({ page: search.page, limit: 5 }))
+  const { data: wateringPlanRes } = useSuspenseQuery(
+    wateringPlanQuery({ page: search.page, limit: 5 }),
+  )
 
   return (
     <div className="container mt-6">
@@ -34,8 +38,9 @@ function WateringPlans() {
           Alle Einsatzpläne
         </h1>
         <p className="mb-5">
-          Hier finden Sie eine Übersicht aller Einsatzpläne. Ein Einsatzplan beschreibt eine Bewässerungsfahrt
-          mehrerer Bewässerungsgruppen. Die Bewässerungsfahrten können dadurch dynamisch und schnell geplant
+          Hier finden Sie eine Übersicht aller Einsatzpläne. Ein Einsatzplan beschreibt eine
+          Bewässerungsfahrt mehrerer Bewässerungsgruppen. Die Bewässerungsfahrten können dadurch
+          dynamisch und schnell geplant
         </p>
         <ButtonLink
           icon={Plus}

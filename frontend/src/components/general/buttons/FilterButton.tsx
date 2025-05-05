@@ -15,7 +15,7 @@ const FilterButton: React.FC<FilterButtonProps> = ({
 }) => {
   return (
     <button
-      type='button'
+      type="button"
       aria-label={ariaLabel}
       id="filter-button"
       aria-selected={activeCount > 0}
@@ -23,9 +23,7 @@ const FilterButton: React.FC<FilterButtonProps> = ({
       onClick={onClick}
     >
       Filter
-      <span className="block bg-green-dark/20 w-6 h-6 rounded-full">
-        {activeCount}
-      </span>
+      <span className="block bg-green-dark/20 w-6 h-6 rounded-full">{activeCount}</span>
     </button>
   )
 }

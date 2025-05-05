@@ -33,18 +33,22 @@ export const Route = createFileRoute('/_protected/map')({
     zoom,
   }),
   loader: ({ context: { queryClient }, deps: { lat, lng, zoom } }) => {
-    queryClient.prefetchQuery(treeClusterQuery()).catch((error) => console.error('Prefetching "treeClusterQuery" failed:', error))
-    queryClient.prefetchQuery(treeQuery()).catch((error) => console.error('Prefetching "treeQuery" failed:', error))
+    queryClient
+      .prefetchQuery(treeClusterQuery())
+      .catch((error) => console.error('Prefetching "treeClusterQuery" failed:', error))
+    queryClient
+      .prefetchQuery(treeQuery())
+      .catch((error) => console.error('Prefetching "treeQuery" failed:', error))
 
     useMapStore.setState((state) => ({
       map: { ...state.map, center: [lat, lng], zoom },
     }))
 
     return {
-      crumb: { title: "Karte" }
+      crumb: { title: 'Karte' },
     }
   },
-  pendingComponent: () => <LoadingInfo label='Lade Karte...' />
+  pendingComponent: () => <LoadingInfo label="Lade Karte..." />,
 })
 
 function MapRoot() {
@@ -53,7 +57,7 @@ function MapRoot() {
       <Map>
         <MapConroller />
         <ZoomControls />
-        <Suspense fallback={<LoadingInfo label='Lade Karte...' />}>
+        <Suspense fallback={<LoadingInfo label="Lade Karte..." />}>
           <Outlet />
         </Suspense>
       </Map>

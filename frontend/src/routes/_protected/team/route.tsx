@@ -6,8 +6,7 @@ export const Route = createFileRoute('/_protected/team')({
     return {
       crumb: {
         title: 'Mitarbeitende',
-      }
+      },
     }
-  }
+  },
 })
-

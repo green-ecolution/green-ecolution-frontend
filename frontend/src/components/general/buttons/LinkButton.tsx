@@ -7,13 +7,9 @@ interface LinkButtonProps {
   color?: 'green' | 'red'
 }
 
-const LinkAsButton: React.FC<LinkButtonProps> = ({
-  label,
-  onClick,
-  color = 'green',
-}) => (
+const LinkAsButton: React.FC<LinkButtonProps> = ({ label, onClick, color = 'green' }) => (
   <button
-    type='button'
+    type="button"
     onClick={onClick}
     className={`group flex items-center gap-x-2 font-medium text-base ${color === 'green' ? 'text-green-dark' : 'text-red'}`}
   >

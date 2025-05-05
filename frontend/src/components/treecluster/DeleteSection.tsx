@@ -30,14 +30,21 @@ const DeleteSection: React.FC<DeleteSectionProps> = ({
       setIsModalOpen(false)
       navigate(redirectUrl)
         .then(() =>
-          showToast(`${entityName.charAt(0).toUpperCase()}${entityName.slice(1)} wurde erfolgreich ${actionText}.`, "success")
-        ).catch(() => showToast("Ein fehler is aufgetreten", 'error'))
+          showToast(
+            `${entityName.charAt(0).toUpperCase()}${entityName.slice(1)} wurde erfolgreich ${actionText}.`,
+            'success',
+          ),
+        )
+        .catch(() => showToast('Ein fehler is aufgetreten', 'error'))
     },
     onError: (error: unknown) => {
       if (error instanceof Error) {
-        showToast(error.message, "error")
+        showToast(error.message, 'error')
       } else {
-        showToast('Leider ist ein Fehler eim löschen des Baumes aufgetreten. Versuche es später erneut.', "error")
+        showToast(
+          'Leider ist ein Fehler eim löschen des Baumes aufgetreten. Versuche es später erneut.',
+          'error',
+        )
       }
 
       console.error(error)
@@ -48,7 +55,7 @@ const DeleteSection: React.FC<DeleteSectionProps> = ({
   return (
     <>
       <button
-        type='submit'
+        type="submit"
         onClick={() => setIsModalOpen(true)}
         className="mt-10 group flex items-center gap-x-2 text-red font-medium text-base mb-4"
       >

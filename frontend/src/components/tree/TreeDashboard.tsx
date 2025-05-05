@@ -12,9 +12,8 @@ import TabGeneralData from './TabGeneralData'
 import TabSensorData from './TabSensorData'
 import { Tree, TreeCluster } from '@green-ecolution/backend-client'
 
-
 interface TreeDashboardProps {
-  tree: Tree,
+  tree: Tree
   treeCluster?: TreeCluster
 }
 
@@ -37,7 +36,7 @@ const TreeDashboard = ({ tree, treeCluster }: TreeDashboardProps) => {
         view: <TabSensorData tree={tree} />,
       },
     ],
-    [tree]
+    [tree],
   )
 
   return (
@@ -47,7 +46,7 @@ const TreeDashboard = ({ tree, treeCluster }: TreeDashboardProps) => {
         <div className="2xl:w-4/5">
           <h1 className="font-lato font-bold text-3xl mb-4 flex flex-wrap items-center gap-4 lg:text-4xl xl:text-5xl">
             Baum: {tree.number}
-            <Pill label={tree.provider ? tree.provider : "manuell erstellt"} theme="green-light" />
+            <Pill label={tree.provider ? tree.provider : 'manuell erstellt'} theme="green-light" />
           </h1>
           {tree.treeClusterId && treeCluster ? (
             <p className="text-dark-600 text-lg">
@@ -109,10 +108,9 @@ const TreeDashboard = ({ tree, treeCluster }: TreeDashboardProps) => {
               Hinweis: Dieser Baum ist nicht mit einem Sensor ausgestattet.
             </h3>
             <p>
-              Dieser Baum wurde bisher nicht mit einem Sensor ausgestattet,
-              sodass keine Informationen über den aktuellen Bewässerungszustand
-              angezeigt werden können. Aus diesem Grund wird der Bewässerungszustand
-              als unbekannt ausgezeichnet.
+              Dieser Baum wurde bisher nicht mit einem Sensor ausgestattet, sodass keine
+              Informationen über den aktuellen Bewässerungszustand angezeigt werden können. Aus
+              diesem Grund wird der Bewässerungszustand als unbekannt ausgezeichnet.
             </p>
           </div>
           <TabGeneralData tree={tree} />

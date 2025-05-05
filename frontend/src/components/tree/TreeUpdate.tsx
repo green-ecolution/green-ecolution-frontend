@@ -34,22 +34,20 @@ const TreeUpdate = ({ treeId, clusters, sensors }: TreeUpdateProps) => {
       sensorId: data.sensor?.id ?? '-1',
       description: data.description,
       provider: data.provider,
-    })
+    }),
   )
 
   const { register, handleSubmit, formState } = useFormSync<TreeForm>(
     initForm,
-    zodResolver(TreeSchema(initForm?.latitude ?? 0, initForm?.longitude ?? 0))
+    zodResolver(TreeSchema(initForm?.latitude ?? 0, initForm?.longitude ?? 0)),
   )
 
   const onSubmit = (data: TreeForm) => {
     mutate({
       ...data,
-      sensorId:
-        data.sensorId && data.sensorId === '-1' ? undefined : data.sensorId,
+      sensorId: data.sensorId && data.sensorId === '-1' ? undefined : data.sensorId,
       treeClusterId:
-        data.treeClusterId &&
-          (data.treeClusterId === '-1' || data.treeClusterId <= 0)
+        data.treeClusterId && (data.treeClusterId === '-1' || data.treeClusterId <= 0)
           ? undefined
           : data.treeClusterId,
     })
@@ -70,22 +68,17 @@ const TreeUpdate = ({ treeId, clusters, sensors }: TreeUpdateProps) => {
         lng: initForm?.longitude ?? 0,
         zoom: map.zoom,
       },
-    }).catch((error) => console.error('Navigation failed:', error));
+    }).catch((error) => console.error('Navigation failed:', error))
   }
 
   return (
     <>
-      <BackLink
-        link={{ to: '/trees/$treeId', params: { treeId } }}
-        label="Zurück zur Übersicht"
-      />
+      <BackLink link={{ to: '/trees/$treeId', params: { treeId } }} label="Zurück zur Übersicht" />
       <article className="2xl:w-4/5">
         <h1 className="font-lato font-bold text-3xl mb-4 lg:text-4xl xl:text-5xl">
           Baum {loadedData.number} bearbeiten
         </h1>
-        <p className="mb-5">
-          In dieser Ansicht können Sie einem Baum bearbeiten.
-        </p>
+        <p className="mb-5">In dieser Ansicht können Sie einem Baum bearbeiten.</p>
       </article>
 
       <section className="mt-10">
