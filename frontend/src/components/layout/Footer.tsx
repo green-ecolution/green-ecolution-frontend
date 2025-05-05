@@ -27,8 +27,8 @@ function Footer() {
         </p>
         <nav aria-label="Fußnavigation">
           <ul className="flex flex-wrap gap-x-4">
-            {navItems.map((navItem, key) => (
-              <li key={key}>
+            {navItems.map((navItem) => (
+              <li key={navItem.url}>
                 <a href={navItem.url} target="_blank" className="text-dark-600 transition-all ease-in-out hover:text-dark-800">
                   {navItem.label}
                 </a>

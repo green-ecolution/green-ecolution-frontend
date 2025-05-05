@@ -38,8 +38,8 @@ const SelectEntities: React.FC<SelectEntitiesProps> = ({
             )}
           </li>
         ) : (
-          entityIds.map((entityId, key) => (
-            <li key={key}>
+          entityIds.map((entityId) => (
+            <li key={entityId}>
               <SelectedCard type={type} id={entityId} onClick={onDelete} />
             </li>
           ))

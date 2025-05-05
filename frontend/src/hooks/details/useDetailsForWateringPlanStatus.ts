@@ -47,12 +47,8 @@ export const WateringPlanStatusOptions: {
     },
   ]
 
-export const getWateringPlanStatusDetails = (status: WateringPlanStatus) => {
-  return (
-    WateringPlanStatusOptions.find((option) => option.value === status) ||
-    WateringPlanStatusOptions[0]
-  )
-}
+export const getWateringPlanStatusDetails = (status: WateringPlanStatus) =>
+  WateringPlanStatusOptions.find((option) => option.value === status) ?? WateringPlanStatusOptions[0]
 
 export const showWateringPlanStatusButton = (wateringPlan: WateringPlan): boolean => {
   return (

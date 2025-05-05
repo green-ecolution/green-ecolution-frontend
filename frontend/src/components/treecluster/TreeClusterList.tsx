@@ -15,8 +15,8 @@ const TreeClusterList = ({ data }: TreeClusterListProps) => {
           </p>
         </li>
       ) : (
-        data?.map((cluster, key) => (
-          <li key={key} className="mb-5 last:mb-0">
+        data?.map((cluster) => (
+          <li key={cluster.id} className="mb-5 last:mb-0">
             <TreeclusterCard treecluster={cluster} />
           </li>
         ))

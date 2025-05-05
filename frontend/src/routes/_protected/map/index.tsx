@@ -50,18 +50,18 @@ function MapView() {
   })
 
   const handleTreeClick = (tree: Tree) => {
-    navigate({ to: `/trees/$treeId`, params: { treeId: tree.id.toString() } })
+    navigate({ to: `/trees/$treeId`, params: { treeId: tree.id.toString() } }).catch((error) => console.error('Navigation failed:', error))
   }
 
   const handleClusterClick = (cluster: TreeCluster) => {
     navigate({
       to: `/treecluster/$treeclusterId`,
       params: { treeclusterId: cluster.id.toString() },
-    })
+    }).catch((error) => console.error('Navigation failed:', error))
   }
 
   const handleMapInteractions = (isOpen: boolean) => {
-    isOpen ? disableDragging() : enableDragging()
+    if (isOpen) { disableDragging() } else { enableDragging() }
   }
 
   return (

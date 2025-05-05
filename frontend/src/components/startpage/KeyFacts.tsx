@@ -15,8 +15,8 @@ const KeyFacts = () => {
         Wobei genau hilft Ihnen Green Ecolution?
       </h2>
       <ul className="grid grid-cols-1 gap-y-4 lg:grid-cols-2 lg:gap-x-10">
-        {numbers.map((number, key) => (
-          <li key={key} className="flex items-center gap-x-4">
+        {numbers.map((number) => (
+          <li key={number} className="flex items-center gap-x-4">
             <BadgeCheck className="text-green-light w-8 h-8 shrink-0" />
             <p className="font-semibold text-lg">{number}</p>
           </li>

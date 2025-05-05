@@ -29,22 +29,25 @@ export const useWaterinPlanForm = (mutationType: 'create' | 'update', wateringPl
           body: wateringPlan as WateringPlanUpdate,
         })
       }
-      return Promise.reject('Invalid mutation type or missing wateringPlanId for update')
+      return Promise.reject(Error('Invalid mutation type or missing wateringPlanId for update'))
     },
 
     onSuccess: (data: WateringPlan) => {
       formStore.reset()
-      queryClient.invalidateQueries(wateringPlanIdQuery(String(data.id)))
-      queryClient.invalidateQueries(wateringPlanQuery())
+      queryClient.invalidateQueries(wateringPlanIdQuery(String(data.id))).catch((error) => console.error('Invalidate "waterinPlanIdQuery" failed', error))
+      queryClient.invalidateQueries(wateringPlanQuery()).catch((error) => console.error('Invalidate "wateringPlanQuery" failed:', error))
+
       navigate({
         to: `/watering-plans/$wateringPlanId`,
         params: { wateringPlanId: data.id.toString() },
         search: { resetStore: false },
         replace: true,
-      })
-      mutationType === 'create'
-        ? showToast('Der Einsatzplan wurde erfolgreich erstellt.')
-        : showToast('Der Einsatzplan wurde erfolgreich bearbeitet.');
+      }).catch((error) => console.error('Navigation failed:', error))
+
+      if (mutationType === 'create')
+        showToast('Der Einsatzplan wurde erfolgreich erstellt.')
+      else
+        showToast('Der Einsatzplan wurde erfolgreich bearbeitet.')
     },
 
     onError: (error) => {

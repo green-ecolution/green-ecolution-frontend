@@ -8,36 +8,42 @@ import { i18nTranslated } from "../../lib/sliderTranslations";
 const IntroductionSlider = () => {
   const facts = [
     {
+      id: 1,
       label: "Entwicklung einer Sensorlösung",
       icon: SensorIcon,
       description:
         "Daten zur Bodenfeuchte werden mithilfe von in unterschiedlicher Tiefe platzierten Sensoren geliefert.",
     },
     {
+      id: 2,
       label: "Auswertung der Messdaten",
       icon: PieChart,
       description:
         "Auswertung der durch Sensoren übermittelten Daten für eine bedarfsgerechte Bewässerung von Bäumen.",
     },
     {
+      id: 3,
       label: "Augenmerk auf Jungbäume",
       icon: TreeIcon,
       description:
         "Jungbäume sind besonders hitzeanfällig und daher äußerst schutzbedürftig. Aus diesem Grund werden Bäume in deren ersten drei Standjahren überwacht.",
     },
     {
+      id: 4,
       label: "Monitoring mehrerer Standorte",
       icon: MapPin,
       description:
         "Unter Verwendung des LoRaWan-Netzes können verschiedene Standorte überwacht und weitere einfach eingebunden werden.",
     },
     {
+      id: 5,
       label: "Vereinfachte Einsatzplanung",
       icon: Car,
       description:
         "Einsatzfahrten zur Bewässerung können digital und schnell geplant werden. Dabei können Informationen wie die Mitarbeitenden sowie genutzte Fahrzeuge und deren Wasserkapazität hinterlegt werden.",
     },
     {
+      id: 6,
       label: "Dynamische Routenplanung",
       icon: Route,
       description:
@@ -72,8 +78,8 @@ const IntroductionSlider = () => {
           aria-label="Fakten zum Grünflächenmanagement"
           className="splide--grid-small md:px-2"
         >
-          {facts.map((fact, key) => (
-            <SplideSlide key={key} className="pb-10 lg:pb-0">
+          {facts.map((fact) => (
+            <SplideSlide key={fact.id} className="pb-10 lg:pb-0">
               <IntroductionCard
                 label={fact.label}
                 icon={fact.icon}

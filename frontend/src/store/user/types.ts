@@ -1,6 +1,6 @@
 import { DrivingLicense, UserRole, UserStatus } from "@green-ecolution/backend-client";
 
-type UserState = {
+interface UserState {
   username: string;
   email: string;
   firstName: string;
@@ -8,9 +8,9 @@ type UserState = {
   drivingLicenses: DrivingLicense[];
   userRoles: UserRole[];
   status: UserStatus;
-};
+}
 
-type UserActions = {
+interface UserActions {
   setUsername: (username: string) => void;
   setEmail: (email: string) => void;
   setFirstName: (firstName: string) => void;
@@ -21,7 +21,7 @@ type UserActions = {
   setFromJwt: (jwt: string) => void;
   isEmpty: () => boolean;
   clear: () => void;
-};
+}
 
 export type UserStore = UserState & UserActions;
 

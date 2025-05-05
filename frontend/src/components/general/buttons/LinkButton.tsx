@@ -13,6 +13,7 @@ const LinkAsButton: React.FC<LinkButtonProps> = ({
   color = 'green',
 }) => (
   <button
+    type='button'
     onClick={onClick}
     className={`group flex items-center gap-x-2 font-medium text-base ${color === 'green' ? 'text-green-dark' : 'text-red'}`}
   >

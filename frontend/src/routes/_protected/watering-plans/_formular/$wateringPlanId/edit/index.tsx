@@ -12,7 +12,7 @@ export const Route = createFileRoute(
   beforeLoad: () => {
     useFormStore.getState().setType('edit')
   },
-  loader: async () => {
+  loader: () => {
     if (!useStore.getState().auth.isAuthenticated) return
   },
 })

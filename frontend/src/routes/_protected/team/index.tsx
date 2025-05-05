@@ -38,8 +38,8 @@ function Team() {
               <p>Es wurden leider keine Mitarbeitenden gefunden.</p>
             </li>
           ) : (
-            userRes.data.map((user, key) => (
-              <li key={key} className="mb-5 last:mb-0">
+            userRes.data.map((user) => (
+              <li key={user.email} className="mb-5 last:mb-0">
                 <UserCard user={user} />
               </li>
             ))

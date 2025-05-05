@@ -7,6 +7,7 @@ export const Route = createFileRoute("/_protected/settings/")({
 
 const cards = [
   {
+    id: 1,
     url: "/settings/plugin",
     description: "Alle Plugins, die in der Anwendung installiert sind.",
     headline: "Plugins",
@@ -29,13 +30,13 @@ function Settings() {
 
       <ul className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
         {cards.map((card, key) => (
-          <li key={key}>
+          <li key={card.id}>
             <DashboardCard
               headline={card.headline}
               description={card.description}
               linkLabel={card.linkLabel}
               url={card.url}
-              theme="white"
+              theme={key % 2 ? "dark" : "light"}
             />
           </li>
         ))}

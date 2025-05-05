@@ -18,7 +18,7 @@ export const Route = createFileRoute('/_protected/vehicles/')({
     page: page || 1,
   }),
   loader: ({ context: { queryClient }, deps: { page } }) => {
-    queryClient.prefetchQuery(vehicleQuery({ page, limit: 5 }))
+    queryClient.prefetchQuery(vehicleQuery({ page, limit: 5 })).catch(console.log)
     return { page }
   },
 })
@@ -57,8 +57,8 @@ function Vehicles() {
               <p>Es wurden leider keine Fahrzeuge gefunden.</p>
             </li>
           ) : (
-            vehicleRes.data?.map((vehicle, key) => (
-              <li key={key} className="mb-5 last:mb-0">
+            vehicleRes.data?.map((vehicle) => (
+              <li key={vehicle.id} className="mb-5 last:mb-0">
                 <VehicleCard vehicle={vehicle} />
               </li>
             ))

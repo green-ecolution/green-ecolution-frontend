@@ -51,6 +51,7 @@ const Navigation: React.FC<NavigationProps> = ({
 
   const protectedNavLinks = [
     {
+      id: 1,
       headline: 'Grünflächen',
       links: [
         {
@@ -71,6 +72,7 @@ const Navigation: React.FC<NavigationProps> = ({
       ],
     },
     {
+      id: 2,
       headline: 'Einsatzplanung',
       links: [
         {
@@ -91,6 +93,7 @@ const Navigation: React.FC<NavigationProps> = ({
       ],
     },
     {
+      id: 3,
       headline: 'Weiteres',
       links: [
         {
@@ -131,6 +134,7 @@ const Navigation: React.FC<NavigationProps> = ({
   // Maybe for future use.
   const publicNavLinks = [
     {
+      id: 1,
       headline: '',
       links: [
         {
@@ -156,13 +160,13 @@ const Navigation: React.FC<NavigationProps> = ({
       <div className="relative px-4 py-5 h-full overflow-y-auto no-scrollbar">
         <NavHeader isOpen={isOpen} closeSidebar={closeSidebar} />
 
-        {navigationLinks.map((section, index) => (
-          <React.Fragment key={index}>
+        {navigationLinks.map((section) => (
+          <React.Fragment key={section.id}>
             <NavHeadline label={section.headline} navIsOpen={isOpen} />
             <ul className="mb-10">
-              {section.links.map((link, key) => (
+              {section.links.map((link) => (
                 <NavLink
-                  key={key}
+                  key={link.label}
                   label={link.label}
                   icon={link.icon}
                   url={link.to}

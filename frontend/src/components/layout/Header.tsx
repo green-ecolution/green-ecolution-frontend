@@ -12,9 +12,7 @@ function Header() {
     setOpen(state);
 
     if (window.matchMedia('(min-width: 1024px)')) return;
-    state
-    ? document.body.classList.add('overflow-y-hidden')
-    : document.body.classList.remove('overflow-y-hidden');
+    if (state) { document.body.classList.add('overflow-y-hidden') } else { document.body.classList.remove('overflow-y-hidden') }
   }
 
   return (
@@ -22,6 +20,7 @@ function Header() {
       <div className="container text-sm border-b border-dark-50 py-4 flex justify-between items-center">
         <button
           id="main-navigation-toggle"
+          type='button'
           aria-expanded={open}
           aria-controls="main-navigation"
           aria-haspopup="menu"
@@ -35,9 +34,9 @@ function Header() {
         <ProfileButton />
       </div>
 
-      <Navigation 
-        isOpen={open} 
-        openSidebar={() => toggleSidebar(true)} 
+      <Navigation
+        isOpen={open}
+        openSidebar={() => toggleSidebar(true)}
         closeSidebar={() => toggleSidebar(false)} />
     </header>
   );

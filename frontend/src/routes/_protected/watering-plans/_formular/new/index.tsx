@@ -85,7 +85,7 @@ function NewWateringPlan() {
         lng: mapPosition.lng,
         zoom: mapPosition.zoom,
       },
-    })
+    }).catch((error) => console.error('Navigation failed:', error));
   }
 
   return (

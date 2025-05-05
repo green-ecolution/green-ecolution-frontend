@@ -1,5 +1,5 @@
 
-export type KeycloakJWT = {
+export interface KeycloakJWT {
   jti: string;
   exp: number;
   nbf: number;
@@ -20,4 +20,4 @@ export type KeycloakJWT = {
   driving_licenses: string[];
   user_roles: string[];
   status: string;
-};
+}

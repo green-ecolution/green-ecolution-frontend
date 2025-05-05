@@ -25,8 +25,13 @@ export const Route = createFileRoute("/auth/callback")({
         },
       })
       .catch((err) => {
-        console.error(err);
-        throw new Error(err.message);
+        if (err instanceof Error) {
+          console.error(err.message);
+          throw new Error(err.message);
+        } else {
+          console.error('An unknown error occurred', err);
+          throw new Error('An unknown error occurred');
+        }
       });
 
     if (!token) {

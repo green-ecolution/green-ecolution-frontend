@@ -45,7 +45,7 @@ const VehicleUpdate = ({
     zodResolver(VehicleSchema)
   )
 
-  const onSubmit: SubmitHandler<VehicleForm> = async (data) => {
+  const onSubmit: SubmitHandler<VehicleForm> = (data) => {
     mutate({ ...data })
   }
 

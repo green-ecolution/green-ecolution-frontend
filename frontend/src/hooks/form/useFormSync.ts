@@ -17,7 +17,7 @@ export const useFormSync = <T extends FieldValues>(
   });
 
   useEffect(() => {
-    defaultValues && form.reset(defaultValues);
+    if (defaultValues) form.reset(defaultValues);
   }, [defaultValues, form]);
 
   useEffect(() => {

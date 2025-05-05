@@ -47,7 +47,7 @@ const TreeClusterUpdate = ({ clusterId }: TreeClusterUpdateProps) => {
   const { register, setValue, handleSubmit, formState } =
     useFormSync<TreeclusterForm>(initForm, zodResolver(TreeclusterSchema))
 
-  const onSubmit: SubmitHandler<TreeclusterForm> = async (data) => {
+  const onSubmit: SubmitHandler<TreeclusterForm> = (data) => {
     mutate({
       ...data,
       treeIds: formStore.form?.treeIds ?? [],
@@ -69,7 +69,7 @@ const TreeClusterUpdate = ({ clusterId }: TreeClusterUpdateProps) => {
         zoom: mapPosition.zoom,
         clusterId: Number(clusterId),
       },
-    })
+    }).catch((error) => console.error('Navigation failed:', error));
   }
 
   const handleDeleteTree = (treeId: number) => {

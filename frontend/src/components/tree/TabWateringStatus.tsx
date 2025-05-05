@@ -15,6 +15,7 @@ interface TabWateringStatusProps {
 const TabWateringStatus: React.FC<TabWateringStatusProps> = ({ tree }) => {
   const statusCards = [
     {
+      id: 1,
       overline: 'Bodenfeuchte',
       value: tree?.sensor?.latestData
         ? `${roundTo(tree.sensor.latestData.humidity, 2)} %`
@@ -23,6 +24,7 @@ const TabWateringStatus: React.FC<TabWateringStatusProps> = ({ tree }) => {
       description: 'Wert bezeichnet den Wassergehalt im Boden.',
     },
     {
+      id: 2,
       overline: 'Bodentemperatur',
       value: tree?.sensor?.latestData
         ? `${roundTo(tree?.sensor?.latestData.temperature, 2)} °C`
@@ -32,6 +34,7 @@ const TabWateringStatus: React.FC<TabWateringStatusProps> = ({ tree }) => {
         'Wert bezeichnet die Temperatur in der oberflächlichen Bodenschicht.',
     },
     {
+      id: 3,
       overline: 'Datum der letzten Bewässerung',
       value: tree?.lastWatered
         ? format(new Date(tree.lastWatered), 'dd.MM.yyyy')
@@ -52,8 +55,8 @@ const TabWateringStatus: React.FC<TabWateringStatusProps> = ({ tree }) => {
             label="Bewässerungszustand (ø)"
           />
         </li>
-        {statusCards.map((card, key) => (
-          <li key={key}>
+        {statusCards.map((card) => (
+          <li key={card.id}>
             <GeneralStatusCard
               overline={card.overline}
               value={card.value}
@@ -84,9 +87,9 @@ const TabWateringStatus: React.FC<TabWateringStatusProps> = ({ tree }) => {
             >
               <TreeDeciduous className="w-11 h-11 mx-auto mb-4" />
               <ul className="space-y-3">
-                {tree?.sensor.latestData.watermarks.map((watermark, key) => (
+                {tree?.sensor.latestData.watermarks.map((watermark) => (
                   <li
-                    key={key}
+                    key={watermark.depth}
                     className={`rounded-xl text-center py-3 bg-dark-50`}
                   >
                     <p className={`inline relative pl-8`}>
@@ -111,9 +114,9 @@ const TabWateringStatus: React.FC<TabWateringStatusProps> = ({ tree }) => {
               </header>
 
               <ul className="space-y-3 lg:space-y-0">
-                {tree?.sensor.latestData.watermarks.map((watermark, key) => (
+                {tree?.sensor.latestData.watermarks.map((watermark) => (
                   <li
-                    key={key}
+                    key={watermark.depth}
                     className="space-y-3 border-b border-b-dark-300 pb-3 lg:py-3 lg:space-y-0 lg:grid lg:grid-cols-3 lg:gap-5"
                   >
                     <h3 className="font-medium text-lg">

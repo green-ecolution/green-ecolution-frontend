@@ -69,13 +69,15 @@ function SelectCluster() {
       setShowError(true)
       return
     }
-    form &&
+
+    if (form) {
       set({
         ...form,
         treeClusterIds: clusterIds,
       })
 
-    handleNavigateBack()
+      handleNavigateBack().catch((error) => console.error('Navigation failed:', error))
+    }
   }
 
   const handleDelete = (clusterId: number) => {
@@ -85,9 +87,10 @@ function SelectCluster() {
   const handleClick = (cluster: TreeCluster) => {
     if (disabledClusters.includes(cluster.id)) return
 
-    clusterIds.includes(cluster.id)
-      ? setClusterIds((prev) => prev.filter((id) => id !== cluster.id))
-      : setClusterIds((prev) => [...prev, cluster.id])
+    if (clusterIds.includes(cluster.id))
+      setClusterIds((prev) => prev.filter((id) => id !== cluster.id))
+    else
+      setClusterIds((prev) => [...prev, cluster.id])
   }
 
   const disabledClusters = useMemo(() => {
@@ -130,7 +133,7 @@ function SelectCluster() {
     <>
       <MapSelectEntitiesModal
         onSave={handleSave}
-        onCancel={() => handleNavigateBack()}
+        onCancel={() => void handleNavigateBack()}
         disabled={clusterIds.length === 0}
         title="Ausgewählte Bewässerungsgruppen:"
         content={
@@ -143,8 +146,8 @@ function SelectCluster() {
                 <p>Hier können Sie zugehörigen Gruppen verlinken.</p>
               </li>
             ) : (
-              clusterIds.map((clusterId, key) => (
-                <li key={key}>
+              clusterIds.map((clusterId) => (
+                <li key={clusterId}>
                   <SelectedCard
                     type="cluster"
                     id={clusterId}

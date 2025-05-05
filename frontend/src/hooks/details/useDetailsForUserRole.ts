@@ -20,8 +20,7 @@ export const UserRoleOptions = [
 ]
 
 export const getUserRoleDetails = (userRole: UserRole) =>
-  UserRoleOptions.find((option) => option.value === userRole) ||
-  UserRoleOptions[0]
+  UserRoleOptions.find((option) => option.value === userRole) ?? UserRoleOptions[0]
 
 export const parseUserRole = (role: string): UserRole => {
   switch (role) {

@@ -36,7 +36,7 @@ const backendFetch: FetchAPI = async (...args) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        refresh_token: useStore.getState().auth.token?.refreshToken || '',
+        refresh_token: useStore.getState().auth.token?.refreshToken ?? '',
       }),
     }
     const res = await fetch(`${basePath}/v1/user/token/refresh`, params)

@@ -29,22 +29,25 @@ export const useVehicleForm = (mutationType: 'create' | 'update', vehicleId?: st
           body: vehicle as VehicleUpdate,
         })
       }
-      return Promise.reject('Invalid mutation type or missing vehicleId for update')
+      return Promise.reject(Error('Invalid mutation type or missing vehicleId for update'))
     },
 
     onSuccess: (data: Vehicle) => {
       formStore.reset()
-      queryClient.invalidateQueries(vehicleIdQuery(String(data.id)))
-      queryClient.invalidateQueries(vehicleQuery())
+      queryClient.invalidateQueries(vehicleIdQuery(String(data.id))).catch((error) => console.error('Invalidate "vehicleIdQuery" failed:', error))
+      queryClient.invalidateQueries(vehicleQuery()).catch((error) => console.error('Invalidate "vehicleQuery" failed', error))
+
       navigate({
         to: `/vehicles/$vehicleId`,
         params: { vehicleId: data.id.toString() },
         search: { resetStore: false },
         replace: true,
-      })
-      mutationType === 'create'
-        ? showToast('Das Fahrzeug wurde erfolgreich erstellt.')
-        : showToast('Das Fahrzeug wurde erfolgreich bearbeitet.');
+      }).catch((error) => console.error('Navigation failed:', error))
+
+      if (mutationType === 'create')
+        showToast('Das Fahrzeug wurde erfolgreich erstellt.')
+      else
+        showToast('Das Fahrzeug wurde erfolgreich bearbeitet.')
     },
 
     onError: (error) => {

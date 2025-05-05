@@ -26,13 +26,13 @@ export const Route = createFileRoute('/_protected/trees/_formular/new/')({
     return { lat, lng }
   },
   loader: ({ context: { queryClient }, deps: { lat, lng } }) => {
-    queryClient.prefetchQuery(sensorQuery())
-    queryClient.prefetchQuery(treeClusterQuery())
+    queryClient.prefetchQuery(sensorQuery()).catch((error) => console.error('Prefetching "sensorQuery" failed:', error))
+    queryClient.prefetchQuery(treeClusterQuery()).catch((error) => console.error('Prefetching "treeClusterQuery" failed:', error))
 
     const storeNotInit = useFormStore.getState().isEmpty()
     return {
-      lat: storeNotInit ? lat : useFormStore.getState().form.latitude,
-      lng: storeNotInit ? lng : useFormStore.getState().form.longitude,
+      lat: storeNotInit ? lat : (useFormStore.getState().form as TreeForm).latitude,
+      lng: storeNotInit ? lng : (useFormStore.getState().form as TreeForm).longitude,
     }
   },
 })
@@ -82,7 +82,7 @@ function NewTree() {
         lng: formStore.form?.longitude ?? 0,
         zoom: map.zoom,
       },
-    })
+    }).catch((error) => console.error('Navigation failed:', error))
   }
 
   return (

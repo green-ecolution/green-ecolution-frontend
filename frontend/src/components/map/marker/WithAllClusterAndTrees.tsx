@@ -7,10 +7,12 @@ import useStore from '@/store/store'
 import WithAllTrees from './WithAllTrees'
 import WithAllClusters from './WithAllClusters'
 
+const defaultSelectedTrees: number[] = [];
+
 interface WithTreesAndClustersProps {
   onClickTree?: (tree: Tree) => void
   onClickCluster?: (cluster: TreeClusterInList | TreeCluster) => void
-  selectedTrees?: number[]
+  selectedTrees: number[]
   zoomThreshold?: number
   activeFilter?: boolean
   hasHighlightedTree?: number
@@ -20,7 +22,7 @@ interface WithTreesAndClustersProps {
 export const WithTreesAndClusters = ({
   onClickTree,
   onClickCluster,
-  selectedTrees = [],
+  selectedTrees = defaultSelectedTrees,
   zoomThreshold = 17,
   activeFilter = false,
   hasHighlightedTree,

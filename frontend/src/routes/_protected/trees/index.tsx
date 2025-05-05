@@ -77,8 +77,8 @@ function Trees() {
               <p>Es wurden leider keine Bäume gefunden.</p>
             </li>
           ) : (
-            treesRes.data?.map((tree, key) => (
-              <li key={key} className="mb-5 last:mb-0">
+            treesRes.data?.map((tree) => (
+              <li key={tree.id} className="mb-5 last:mb-0">
                 <TreeCard tree={tree} />
               </li>
             ))

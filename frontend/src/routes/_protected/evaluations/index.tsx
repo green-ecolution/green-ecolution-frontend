@@ -132,9 +132,9 @@ const EvaluationList: React.FC<EvaluationListProps> = ({
         <p>Anzahl der Bewässerungen</p>
       </header>
       <ul className="space-y-3 md:space-y-0">
-        {data.map((item, key) => (
+        {data.map((item) => (
           <li
-            key={key}
+            key={item.name}
             className="flex flex-wrap justify-between gap-3 items-center border-b border-b-dark-300 pb-3 sm:py-3"
           >
             <h3 className="font-bold text-lg">{item.name}</h3>

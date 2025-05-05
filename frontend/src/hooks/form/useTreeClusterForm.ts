@@ -29,22 +29,24 @@ export const useTreeClusterForm = (mutationType: 'create' | 'update', clusterId?
           body: cluster as TreeClusterUpdate,
         });
       }
-      return Promise.reject('Invalid mutation type or missing clusterId for update')
+      return Promise.reject(Error('Invalid mutation type or missing clusterId for update'))
     },
 
     onSuccess: (data: TreeCluster) => {
       formStore.reset()
-      queryClient.invalidateQueries(treeClusterIdQuery(String(data.id)))
-      queryClient.invalidateQueries(treeClusterQuery())
+      queryClient.invalidateQueries(treeClusterIdQuery(String(data.id))).catch((error) => console.error('Invalidate "treeClusterIdQuery" failed:', error));
+      queryClient.invalidateQueries(treeClusterQuery()).catch((error) => console.error('Invalidate "treeClusterQuery" failed:', error));
       navigate({
         to: '/treecluster/$treeclusterId',
         params: { treeclusterId: data.id.toString() },
         search: { resetStore: false },
         replace: true,
-      })
-      mutationType === 'create'
-        ? showToast('Die Bewässerungsgruppe wurde erfolgreich erstellt.')
-        : showToast('Die Bewässerungsgruppe wurde erfolgreich bearbeitet.');
+      }).catch((error) => console.error('Navigation failed:', error));
+
+      if (mutationType === 'create')
+        showToast('Die Bewässerungsgruppe wurde erfolgreich erstellt.')
+      else
+        showToast('Die Bewässerungsgruppe wurde erfolgreich bearbeitet.');
     },
 
     onError: (error) => {

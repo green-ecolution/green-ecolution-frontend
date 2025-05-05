@@ -16,7 +16,7 @@ import { useCallback, useState } from 'react'
 export const Route = createFileRoute('/_protected/map/sensor/select/tree/')({
   component: LinkTreeToSensor,
   beforeLoad: ({ search }) => {
-    search as {
+    return search as {
       sensorId: string
     }
   },
@@ -51,7 +51,8 @@ function LinkTreeToSensor() {
 
   const handleOnUpdateSuccess = () => {
     handleNavigateBack()
-    showToast('Vegetation wurde erfolgreich verlinkt')
+      .then(() => showToast('Vegetation wurde erfolgreich verlinkt'))
+      .catch(console.log)
   }
 
   const handleNavigateBack = useCallback(() => {
@@ -87,8 +88,8 @@ function LinkTreeToSensor() {
   return (
     <>
       <MapSelectEntitiesModal
-        onSave={handleSave}
-        onCancel={() => handleNavigateBack()}
+        onSave={() => void handleSave()}
+        onCancel={() => void handleNavigateBack()}
         disabled={!treeId}
         title="Ausgewählte Bäume:"
         content={

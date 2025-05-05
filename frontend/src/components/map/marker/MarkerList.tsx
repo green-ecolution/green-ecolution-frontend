@@ -2,7 +2,7 @@ import L from "leaflet"
 import { useCallback, useEffect, useRef } from "react"
 import { useMap } from "react-leaflet"
 
-type WithLocation = {
+interface WithLocation {
   latitude: number,
   longitude: number,
 }
@@ -30,8 +30,11 @@ const MarkerList = <T extends WithLocation>({ data, onClick, icon, tooltipConten
     data.filter((t) => bounds.contains([t.latitude, t.longitude])).forEach((t) => {
       const marker = L.marker([t.latitude, t.longitude], { icon: typeof icon === 'function' ? icon(t) : icon })
       if (tooltipContent) {
-        typeof tooltipContent === 'function' ? marker.bindTooltip((m) => tooltipContent(t, m), tooltipOptions)
-          : marker.bindTooltip(tooltipContent, tooltipOptions)
+        if (typeof tooltipContent === 'function') {
+          marker.bindTooltip((m) => tooltipContent(t, m), tooltipOptions)
+        } else {
+          marker.bindTooltip(tooltipContent, tooltipOptions)
+        }
       }
 
       marker.addTo(map)

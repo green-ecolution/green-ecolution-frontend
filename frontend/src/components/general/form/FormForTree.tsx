@@ -27,7 +27,7 @@ const FormForTree = (props: FormForTreeProps) => {
   return (
     <form
       className="space-y-6 lg:space-y-0 lg:grid lg:grid-cols-2 lg:gap-11"
-      onSubmit={props.handleSubmit(props.onSubmit)}
+      onSubmit={() => void props.handleSubmit(props.onSubmit)}
     >
       <div className="space-y-6">
         {!props.isReadonly && (

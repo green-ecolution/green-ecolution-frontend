@@ -43,6 +43,7 @@ function ProfileButton() {
   return (
     <div className="relative ml-auto" ref={overlayRef}>
       <button
+        type="button"
         aria-label="Profilinformationen anzeigen"
         aria-expanded={open}
         aria-controls="profile-informations"
@@ -55,7 +56,7 @@ function ProfileButton() {
           {isAuthenticated ? (
             <span>{userInitials}</span>
           ) : (
-            <UserRound className="stroke-2"/>
+            <UserRound className="stroke-2" />
           )}
         </p>
         <ChevronDown className={`w-5 h-5 text-dark transition-all ease-in-out duration-300 ${open ? 'rotate-180' : ''}`} />
@@ -75,9 +76,9 @@ function ProfileButton() {
         </p>
 
         <ul className="py-2">
-          {links.map((link, key) => (
+          {links.map((link) => (
             <NavLink
-              key={key}
+              key={link.label}
               label={link.label}
               icon={link.icon}
               url={link.to}

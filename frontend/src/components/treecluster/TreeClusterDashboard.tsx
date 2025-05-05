@@ -118,8 +118,8 @@ const TreeClusterDashboard = ({ treecluster }: TreeClusterDashboardProps) => {
               <p>Der Bewässerungsgruppe wurden keine Bäume hinzugefügt.</p>
             </li>
           ) : (
-            treecluster.trees?.map((tree, key) => (
-              <li key={key}>
+            treecluster.trees?.map((tree) => (
+              <li key={tree.id}>
                 <TreeCard tree={tree} showTreeClusterInfo={false} />
               </li>
             ))

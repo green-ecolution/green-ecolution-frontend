@@ -18,9 +18,9 @@ const ClusterFieldset = () => {
       <legend className="font-lato font-semibold text-dark-600 mb-2">
         Zugehörigkeit einer Bewässerungsgruppe:
       </legend>
-      {treeClusterOptions.map((type, key) => (
+      {treeClusterOptions.map((type) => (
         <Option
-          key={key}
+          key={type.label}
           label={type.label}
           name={type.value.toString()}
           value={String(type.value)}

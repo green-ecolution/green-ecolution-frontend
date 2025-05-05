@@ -3,16 +3,18 @@ import MarkerList from './MarkerList'
 import { TreeMarkerIcon } from '../MapMarker'
 import { getStatusColor } from '../utils'
 
+const defaultSelectedTrees: number[] = [];
+
 interface WithFilterdTreesProps {
   onClick?: (tree: Tree) => void
-  selectedTrees?: number[]
+  selectedTrees: number[]
   hasHighlightedTree?: number
   filterdTrees: Tree[]
 }
 
 const WithFilterdTrees = ({
   onClick,
-  selectedTrees = [],
+  selectedTrees = defaultSelectedTrees,
   hasHighlightedTree,
   filterdTrees,
 }: WithFilterdTreesProps) => {

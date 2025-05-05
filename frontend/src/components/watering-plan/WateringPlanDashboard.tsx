@@ -18,6 +18,7 @@ import useToast from '@/hooks/useToast'
 import LinkAsButton from '../general/buttons/LinkButton'
 import WateringPlanPreviewRoute from './WateringPlanRoutePreview'
 import Notice from '../general/Notice'
+import { isHTTPError } from '@/lib/utils'
 
 interface WateringPlanDashboardProps {
   wateringPlan: WateringPlan
@@ -71,7 +72,9 @@ const WateringPlanDashboard = ({
       })
 
       if (resp.status !== 200) {
-        throw new Error((await resp.json()).error)
+        const json: unknown = await resp.json()
+        const errorMsg = isHTTPError(json) ? json.error : "Unbekannter Fehler"
+        throw new Error(errorMsg)
       }
 
       const blob = await resp.blob()

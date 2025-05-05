@@ -5,6 +5,7 @@ import ButtonLink from "../general/links/ButtonLink";
 import { MoveRight, RefreshCw } from "lucide-react";
 import useStore from "@/store/store";
 import { ResponseError } from "@green-ecolution/backend-client";
+import { isHTTPError } from "@/lib/utils";
 
 interface ErrorFallbackProps {
   error: Error;
@@ -25,14 +26,18 @@ const ErrorFallback: React.FC<ErrorFallbackProps> = ({ error, resetErrorBoundary
 
   const checkResponseErrorMessage = useCallback(async () => {
     if (error instanceof ResponseError) {
-      const json = await error.response.clone().json()
-      setErrorMessage(json.error as string)
+      const json: unknown = await error.response.clone().json()
+      if (isHTTPError(json)) {
+        setErrorMessage(json.error);
+      } else {
+        setErrorMessage("Unbekannter Fehler");
+      }
     }
   }, [error])
 
 
   useEffect(() => {
-    checkResponseErrorMessage()
+    checkResponseErrorMessage().catch(e => setErrorMessage(String(e)))
   }, [checkResponseErrorMessage])
 
   return (
@@ -55,6 +60,7 @@ const ErrorFallback: React.FC<ErrorFallbackProps> = ({ error, resetErrorBoundary
           }
           <div className="lg:flex lg:items-center lg:justify-center lg:gap-x-4 space-y-4 lg:space-y-0">
             <button
+              type="button"
               onClick={resetErrorBoundary}
               className={'bg-green-dark hover:bg-green-light text-white w-fit px-5 py-2 group flex gap-x-3 rounded-xl items-center transition-all ease-in-out duration-300'}
             >

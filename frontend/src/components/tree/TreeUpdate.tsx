@@ -70,7 +70,7 @@ const TreeUpdate = ({ treeId, clusters, sensors }: TreeUpdateProps) => {
         lng: initForm?.longitude ?? 0,
         zoom: map.zoom,
       },
-    })
+    }).catch((error) => console.error('Navigation failed:', error));
   }
 
   return (
