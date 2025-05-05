@@ -1,5 +1,5 @@
-import { Link, LinkProps } from '@tanstack/react-router';
-import React from 'react';
+import { Link, LinkProps } from '@tanstack/react-router'
+import React from 'react'
 
 interface PaginationLinkProps {
   color?: 'green-light' | 'grey' | 'green-dark'
@@ -9,12 +9,19 @@ interface PaginationLinkProps {
   icon?: React.ComponentType<React.SVGProps<SVGSVGElement>>
 }
 
-const PaginationLink: React.FC<PaginationLinkProps> = ({ color = 'grey', link, label, icon: Icon, disabled = false }) => {
+const PaginationLink: React.FC<PaginationLinkProps> = ({
+  color = 'grey',
+  link,
+  label,
+  icon: Icon,
+  disabled = false,
+}) => {
   const colorClasses = {
     'green-light': 'bg-green-light/20 border border-green-light text-green-dark',
-    'green-dark': 'border border-green-dark text-green-dark aria-disabled:border-dark-200 aria-disabled:text-dark-400',
-    'grey': 'bg-dark-50 text-dark-600 hover:bg-dark-100',
-  };
+    'green-dark':
+      'border border-green-dark text-green-dark aria-disabled:border-dark-200 aria-disabled:text-dark-400',
+    grey: 'bg-dark-50 text-dark-600 hover:bg-dark-100',
+  }
 
   return (
     <Link
@@ -26,6 +33,6 @@ const PaginationLink: React.FC<PaginationLinkProps> = ({ color = 'grey', link, l
       {Icon && <Icon className="size-4" />}
     </Link>
   )
-};
+}
 
-export default PaginationLink;
+export default PaginationLink

@@ -5,9 +5,8 @@ export const Route = createFileRoute('/_protected/trees')({
   loader: () => {
     return {
       crumb: {
-        title: "Bäume",
-      }
+        title: 'Bäume',
+      },
     }
-  }
+  },
 })
-

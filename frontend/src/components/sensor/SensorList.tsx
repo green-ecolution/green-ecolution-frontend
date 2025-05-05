@@ -1,8 +1,8 @@
 import { Sensor } from '@/api/backendApi'
-import SensorCard from '../general/cards/SensorCard';
+import SensorCard from '../general/cards/SensorCard'
 
 interface SensorListProps {
-  data: Sensor[];
+  data: Sensor[]
 }
 
 const SensorList = ({ data }: SensorListProps) => {
@@ -10,9 +10,7 @@ const SensorList = ({ data }: SensorListProps) => {
     <ul>
       {data?.length === 0 ? (
         <li className="text-center text-dark-600 mt-10">
-          <p>
-            Es wurden keine Sensoren gefunden.
-          </p>
+          <p>Es wurden keine Sensoren gefunden.</p>
         </li>
       ) : (
         data?.map((sensor) => (

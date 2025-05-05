@@ -34,22 +34,28 @@ export const useTreeForm = (mutationType: 'create' | 'update', treeId?: string) 
 
     onSuccess: (data: Tree) => {
       formStore.reset()
-      queryClient.invalidateQueries(treeIdQuery(String(data.id))).catch((error) => console.error('Invalidate "treeIdQuery" failed:', error))
-      queryClient.invalidateQueries(treeQuery()).catch((error) => console.error('Invalidate "treeQuery" failed:', error))
+      queryClient
+        .invalidateQueries(treeIdQuery(String(data.id)))
+        .catch((error) => console.error('Invalidate "treeIdQuery" failed:', error))
+      queryClient
+        .invalidateQueries(treeQuery())
+        .catch((error) => console.error('Invalidate "treeQuery" failed:', error))
       if (data.treeClusterId) {
-        queryClient.invalidateQueries(treeClusterIdQuery(String(data.treeClusterId)))
-          .catch((error) => console.error('Invalidate "treeClusterIdQuery" failed:', error));
+        queryClient
+          .invalidateQueries(treeClusterIdQuery(String(data.treeClusterId)))
+          .catch((error) => console.error('Invalidate "treeClusterIdQuery" failed:', error))
       }
       navigate({
         to: '/trees/$treeId',
         params: { treeId: data.id.toString() },
         search: { resetStore: false },
         replace: true,
-      }).catch((error) => console.error('Navigation failed:', error));
+      }).catch((error) => console.error('Navigation failed:', error))
 
-      const msg = mutationType === 'create'
-        ? 'Der Baum wurde erfolgreich erstellt.'
-        : 'Der Baum wurde erfolgreich bearbeitet.'
+      const msg =
+        mutationType === 'create'
+          ? 'Der Baum wurde erfolgreich erstellt.'
+          : 'Der Baum wurde erfolgreich bearbeitet.'
       showToast(msg)
     },
 

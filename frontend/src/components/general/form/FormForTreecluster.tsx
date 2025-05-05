@@ -1,41 +1,34 @@
-import React from "react";
-import PrimaryButton from "../buttons/PrimaryButton";
-import Input from "./types/Input";
-import Select from "./types/Select";
-import Textarea from "./types/Textarea";
-import {
-  FieldValues,
-  FormState,
-  SubmitHandler,
-  UseFormRegister,
-} from "react-hook-form";
-import { SoilConditionOptions } from "@/hooks/details/useDetailsForSoilCondition";
-import { TreeclusterForm } from "@/schema/treeclusterSchema";
-import useFormStore, { FormStore } from "@/store/form/useFormStore";
-import FormError from "./FormError";
-import SelectEntities from "./types/SelectEntities";
+import React from 'react'
+import PrimaryButton from '../buttons/PrimaryButton'
+import Input from './types/Input'
+import Select from './types/Select'
+import Textarea from './types/Textarea'
+import { FieldValues, FormState, SubmitHandler, UseFormRegister } from 'react-hook-form'
+import { SoilConditionOptions } from '@/hooks/details/useDetailsForSoilCondition'
+import { TreeclusterForm } from '@/schema/treeclusterSchema'
+import useFormStore, { FormStore } from '@/store/form/useFormStore'
+import FormError from './FormError'
+import SelectEntities from './types/SelectEntities'
 
 export interface FormForProps<T extends FieldValues> {
-  displayError: boolean;
-  errorMessage?: string;
-  register: UseFormRegister<T>;
-  onSubmit: SubmitHandler<T>;
-  formState: FormState<T>;
-  handleSubmit: (
-    onSubmit: SubmitHandler<T>,
-  ) => (e?: React.BaseSyntheticEvent) => Promise<void>;
-};
+  displayError: boolean
+  errorMessage?: string
+  register: UseFormRegister<T>
+  onSubmit: SubmitHandler<T>
+  formState: FormState<T>
+  handleSubmit: (onSubmit: SubmitHandler<T>) => (e?: React.BaseSyntheticEvent) => Promise<void>
+}
 
 interface FormForTreeClusterProps extends FormForProps<TreeclusterForm> {
-  onAddTrees: () => void;
-  onDeleteTree: (treeId: number) => void;
+  onAddTrees: () => void
+  onDeleteTree: (treeId: number) => void
 }
 
 const FormForTreecluster = (props: FormForTreeClusterProps) => {
   const { errors, isValid } = props.formState
   const { treeIds } = useFormStore((state: FormStore<TreeclusterForm>) => ({
     treeIds: state.form?.treeIds,
-  }));
+  }))
 
   return (
     <form
@@ -44,17 +37,12 @@ const FormForTreecluster = (props: FormForTreeClusterProps) => {
       onSubmit={() => void props.handleSubmit(props.onSubmit)}
     >
       <div className="space-y-6">
-        <Input
-          label="Name"
-          error={errors.name?.message}
-          required
-          {...props.register("name")}
-        />
+        <Input label="Name" error={errors.name?.message} required {...props.register('name')} />
         <Input
           label="Adresse"
           required
           error={errors.address?.message}
-          {...props.register("address")}
+          {...props.register('address')}
         />
         <Select
           options={SoilConditionOptions}
@@ -62,13 +50,13 @@ const FormForTreecluster = (props: FormForTreeClusterProps) => {
           label="Bodenbeschaffenheit"
           required
           error={errors.soilCondition?.message}
-          {...props.register("soilCondition")}
+          {...props.register('soilCondition')}
         />
         <Textarea
           placeholder="Hier ist Platz für Notizen"
           label="Kurze Beschreibung"
           error={errors.description?.message}
-          {...props.register("description")}
+          {...props.register('description')}
         />
       </div>
 
@@ -80,10 +68,7 @@ const FormForTreecluster = (props: FormForTreeClusterProps) => {
         label="Bäume"
       />
 
-      <FormError
-        show={props.displayError}
-        error={props.errorMessage}
-      />
+      <FormError show={props.displayError} error={props.errorMessage} />
 
       <PrimaryButton
         type="submit"
@@ -92,7 +77,7 @@ const FormForTreecluster = (props: FormForTreeClusterProps) => {
         className="mt-10 lg:col-span-full lg:w-fit"
       />
     </form>
-  );
-};
+  )
+}
 
-export default FormForTreecluster;
+export default FormForTreecluster

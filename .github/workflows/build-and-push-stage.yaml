@@ -1,9 +1,9 @@
 name: Build and Push Docker Image Staging
-"on":
+'on':
   workflow_dispatch:
     inputs:
       version:
-        description: "The release version"
+        description: 'The release version'
         required: true
   push:
     paths:
@@ -29,8 +29,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-            fetch-depth: 0
-            fetch-tags: true
+          fetch-depth: 0
+          fetch-tags: true
 
       - name: Set commit sha
         run: |
@@ -81,7 +81,7 @@ jobs:
         run: |
           echo "REPO_LC=${REPO,,}" >>${GITHUB_ENV}
         env:
-          REPO: "${{ github.repository }}"
+          REPO: '${{ github.repository }}'
 
       - name: get build time
         run: |
@@ -114,6 +114,5 @@ jobs:
         with:
           token: ${{ secrets.GREEN_ECOLUTION_PAT }}
           repository: green-ecolution/green-ecolution
-          event-type: "update-submodules-stage"
+          event-type: 'update-submodules-stage'
           client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ env.COMMIT_SHA }}", "version": "${{ env.RELEASE_VERSION }}", "from": "frontend"}'
-

@@ -1,4 +1,4 @@
-name: "Create PR on backend API change"
+name: 'Create PR on backend API change'
 
 on:
   repository_dispatch:
@@ -55,4 +55,3 @@ jobs:
             API Docs have been updated in the backend green-ecolution/backend@${{ github.event.client_payload.hash }}. Please review if the changes are compatible with the frontend.
           labels: api-docs-update
           draft: true
-

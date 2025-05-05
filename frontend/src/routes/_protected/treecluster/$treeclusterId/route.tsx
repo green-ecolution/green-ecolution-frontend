@@ -8,8 +8,7 @@ export const Route = createFileRoute('/_protected/treecluster/$treeclusterId')({
     return {
       crumb: {
         title: cluster.name,
-      }
+      },
     }
   },
 })
-

@@ -20,8 +20,6 @@ const SensorStatusProperties = {
 
 type SensorStatusDetails = (typeof SensorStatusProperties)[SensorStatus]
 
-export const getSensorStatusDetails = (
-  status: SensorStatus
-): SensorStatusDetails => {
+export const getSensorStatusDetails = (status: SensorStatus): SensorStatusDetails => {
   return SensorStatusProperties[status]
 }

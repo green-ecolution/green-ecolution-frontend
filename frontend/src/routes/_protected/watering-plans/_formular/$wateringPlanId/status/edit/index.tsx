@@ -4,7 +4,9 @@ import useFormStore from '@/store/form/useFormStore'
 import useStore from '@/store/store'
 import { createFileRoute } from '@tanstack/react-router'
 
-export const Route = createFileRoute('/_protected/watering-plans/_formular/$wateringPlanId/status/edit/')({
+export const Route = createFileRoute(
+  '/_protected/watering-plans/_formular/$wateringPlanId/status/edit/',
+)({
   component: StatusEditWateringPlan,
   pendingComponent: () => <LoadingInfo label="Einsatzplan wird geladen …" />,
   beforeLoad: () => {
@@ -14,7 +16,6 @@ export const Route = createFileRoute('/_protected/watering-plans/_formular/$wate
     if (!useStore.getState().auth.isAuthenticated) return
   },
 })
-
 
 function StatusEditWateringPlan() {
   const wateringPlanId = Route.useParams().wateringPlanId

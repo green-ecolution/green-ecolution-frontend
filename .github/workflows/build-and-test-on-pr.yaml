@@ -1,4 +1,4 @@
-name: "Build and test project on PR"
+name: 'Build and test project on PR'
 
 on:
   pull_request:
@@ -38,7 +38,7 @@ jobs:
           yarn install --frozen-lockfile
           yarn ci
 
-      - name: Build 
+      - name: Build
         run: |
           yarn build
 
@@ -50,4 +50,3 @@ jobs:
       - name: Test
         run: |
           yarn test
-

@@ -21,12 +21,14 @@ const treeclusterFilterSchema = z.object({
 
 function Treecluster() {
   const { page, wateringStatuses, regions } = useLoaderData({ from: '/_protected/treecluster/' })
-  const { data: clustersRes } = useSuspenseQuery(treeClusterQuery({
-    page: page,
-    limit: 5,
-    wateringStatuses,
-    regions,
-  }))
+  const { data: clustersRes } = useSuspenseQuery(
+    treeClusterQuery({
+      page: page,
+      limit: 5,
+      wateringStatuses,
+      regions,
+    }),
+  )
 
   return (
     <div className="container mt-6">
@@ -35,27 +37,19 @@ function Treecluster() {
           Auflistung der Bewässerungsgruppen
         </h1>
         <p className="mb-5">
-          Hier finden Sie eine Übersicht aller Bewässerungsgruppen. Eine
-          Bewässerungsgruppe besteht aus mehreren Bäumen, welche aufgrund ihrer
-          Nähe und Standortbedinungen in einer Gruppe zusammengefasst wurden.
-          Die Ausstattung einzelner Bäume mit Sensoren erlaubt eine
-          Gesamtaussage über den Bewässerungszustand der vollständigen Gruppe.
-          Die Auswertung der Daten aller Sensoren einer Bewässerungsgruppe
-          liefert Handlungsempfehlungen für diese Gruppe.
+          Hier finden Sie eine Übersicht aller Bewässerungsgruppen. Eine Bewässerungsgruppe besteht
+          aus mehreren Bäumen, welche aufgrund ihrer Nähe und Standortbedinungen in einer Gruppe
+          zusammengefasst wurden. Die Ausstattung einzelner Bäume mit Sensoren erlaubt eine
+          Gesamtaussage über den Bewässerungszustand der vollständigen Gruppe. Die Auswertung der
+          Daten aller Sensoren einer Bewässerungsgruppe liefert Handlungsempfehlungen für diese
+          Gruppe.
         </p>
-        <ButtonLink
-          icon={Plus}
-          label="Neue Gruppe erstellen"
-          link={{ to: '/treecluster/new' }}
-        />
+        <ButtonLink icon={Plus} label="Neue Gruppe erstellen" link={{ to: '/treecluster/new' }} />
       </article>
 
       <section className="mt-10">
         <div className="flex justify-end mb-6 lg:mb-10">
-          <Dialog
-            headline="Bewässerungsgruppen filtern"
-            fullUrlPath={Route.fullPath}
-          >
+          <Dialog headline="Bewässerungsgruppen filtern" fullUrlPath={Route.fullPath}>
             <StatusFieldset />
             <RegionFieldset />
           </Dialog>
@@ -68,9 +62,7 @@ function Treecluster() {
           <p>Anzahl d. Bäume</p>
         </header>
 
-        <TreeClusterList
-          data={clustersRes.data}
-        />
+        <TreeClusterList data={clustersRes.data} />
         {clustersRes.pagination && clustersRes.pagination?.totalPages > 1 && (
           <Pagination pagination={clustersRes.pagination} />
         )}
@@ -102,20 +94,21 @@ export const Route = createFileRoute('/_protected/treecluster/')({
         ? search.wateringStatuses
         : undefined,
 
-    regions:
-      search.regions && search.regions.length > 0
-        ? search.regions
-        : undefined,
+    regions: search.regions && search.regions.length > 0 ? search.regions : undefined,
 
     page: search.page,
   }),
   loader: ({ context: { queryClient }, deps: { wateringStatuses, regions, page } }) => {
-    queryClient.prefetchQuery(treeClusterQuery({
-      page,
-      limit: 5,
-      wateringStatuses,
-      regions,
-    })).catch((error) => console.error('Prefetching "treeClusterQuery" failed:', error))
+    queryClient
+      .prefetchQuery(
+        treeClusterQuery({
+          page,
+          limit: 5,
+          wateringStatuses,
+          regions,
+        }),
+      )
+      .catch((error) => console.error('Prefetching "treeClusterQuery" failed:', error))
 
     return { wateringStatuses, regions, page }
   },

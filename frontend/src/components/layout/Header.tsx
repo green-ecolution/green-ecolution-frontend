@@ -1,18 +1,22 @@
-import { AlignJustifyIcon } from 'lucide-react';
-import { useState } from "react";
-import Navigation from './Navigation';
-import Breadcrumb from './Breadcrumb';
-import ProfileButton from './ProfileButton';
+import { AlignJustifyIcon } from 'lucide-react'
+import { useState } from 'react'
+import Navigation from './Navigation'
+import Breadcrumb from './Breadcrumb'
+import ProfileButton from './ProfileButton'
 
 function Header() {
-  const [open, setOpen] = useState(false);
-  const isStartPage = location.pathname === '/';
+  const [open, setOpen] = useState(false)
+  const isStartPage = location.pathname === '/'
 
   function toggleSidebar(state: boolean) {
-    setOpen(state);
+    setOpen(state)
 
-    if (window.matchMedia('(min-width: 1024px)')) return;
-    if (state) { document.body.classList.add('overflow-y-hidden') } else { document.body.classList.remove('overflow-y-hidden') }
+    if (window.matchMedia('(min-width: 1024px)')) return
+    if (state) {
+      document.body.classList.add('overflow-y-hidden')
+    } else {
+      document.body.classList.remove('overflow-y-hidden')
+    }
   }
 
   return (
@@ -20,7 +24,7 @@ function Header() {
       <div className="container text-sm border-b border-dark-50 py-4 flex justify-between items-center">
         <button
           id="main-navigation-toggle"
-          type='button'
+          type="button"
           aria-expanded={open}
           aria-controls="main-navigation"
           aria-haspopup="menu"
@@ -37,9 +41,10 @@ function Header() {
       <Navigation
         isOpen={open}
         openSidebar={() => toggleSidebar(true)}
-        closeSidebar={() => toggleSidebar(false)} />
+        closeSidebar={() => toggleSidebar(false)}
+      />
     </header>
-  );
+  )
 }
 
-export default Header;
+export default Header

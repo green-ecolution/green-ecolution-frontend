@@ -5,8 +5,8 @@ export const Route = createFileRoute('/_protected/treecluster')({
   loader: () => {
     return {
       crumb: {
-        title: 'Bewässerungsgruppen'
-      }
+        title: 'Bewässerungsgruppen',
+      },
     }
-  }
+  },
 })

@@ -7,9 +7,8 @@ export const Route = createFileRoute('/_protected/trees/_formular/$treeId')({
     const tree = await queryClient.fetchQuery(treeIdQuery(treeId))
     return {
       crumb: {
-        title: `Baum: ${tree.number}`
-      }
+        title: `Baum: ${tree.number}`,
+      },
     }
   },
 })
-

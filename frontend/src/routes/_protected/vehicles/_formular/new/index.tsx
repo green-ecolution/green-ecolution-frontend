@@ -1,8 +1,4 @@
-import {
-  VehicleType,
-  DrivingLicense,
-  VehicleStatus,
-} from '@green-ecolution/backend-client'
+import { VehicleType, DrivingLicense, VehicleStatus } from '@green-ecolution/backend-client'
 import FormForVehicle from '@/components/general/form/FormForVehicle'
 import BackLink from '@/components/general/links/BackLink'
 import { useFormSync } from '@/hooks/form/useFormSync'
@@ -38,7 +34,7 @@ function NewVehicle() {
 
   const { register, handleSubmit, formState } = useFormSync<VehicleForm>(
     initForm,
-    zodResolver(VehicleSchema)
+    zodResolver(VehicleSchema),
   )
 
   const onSubmit = (data: VehicleForm) => {
@@ -53,12 +49,11 @@ function NewVehicle() {
           Neues Fahrzeug erstellen
         </h1>
         <p className="mb-5">
-          In dieser Ansicht können Sie ein neues Fahrzeug anlegen. Bitte
-          beachten Sie, dass jedes Fahrzeug ein eindeutiges Kennzeichen besitzen
-          muss, da keine doppelten Kennzeichen erlaubt sind. Zusätzlich müssen
-          die Abmessungen des Fahrzeugs hinterlegt werden, damit das
-          Navigationssystem bei einer Bewässerungsfahrt ermitteln kann, welche
-          Strecken für das Fahrzeug befahrbar sind.
+          In dieser Ansicht können Sie ein neues Fahrzeug anlegen. Bitte beachten Sie, dass jedes
+          Fahrzeug ein eindeutiges Kennzeichen besitzen muss, da keine doppelten Kennzeichen erlaubt
+          sind. Zusätzlich müssen die Abmessungen des Fahrzeugs hinterlegt werden, damit das
+          Navigationssystem bei einer Bewässerungsfahrt ermitteln kann, welche Strecken für das
+          Fahrzeug befahrbar sind.
         </p>
       </article>
 

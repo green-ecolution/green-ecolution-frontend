@@ -22,18 +22,13 @@ const TreeClusterDashboard = ({ treecluster }: TreeClusterDashboardProps) => {
 
   return (
     <>
-      <BackLink
-        link={{ to: '/treecluster' }}
-        label="Zu allen Bewässerungsgruppen"
-      />
+      <BackLink link={{ to: '/treecluster' }} label="Zu allen Bewässerungsgruppen" />
       <article className="space-y-6 2xl:space-y-0 2xl:flex 2xl:items-center 2xl:space-x-10">
         <div className="2xl:w-4/5">
           <h1 className="font-lato font-bold text-3xl mb-4 lg:text-4xl xl:text-5xl">
             Bewässerungsgruppe: {treecluster.name}
           </h1>
-          {treecluster.description && (
-            <p className="mb-4">{treecluster.description}</p>
-          )}
+          {treecluster.description && <p className="mb-4">{treecluster.description}</p>}
           {treecluster.trees?.length === 0 ? (
             <Notice
               description="Diese Baumgruppe enthält keine Bäume und hat daher keinen
@@ -69,10 +64,7 @@ const TreeClusterDashboard = ({ treecluster }: TreeClusterDashboardProps) => {
       <section className="mt-10">
         <ul className="space-y-5 md:space-y-0 md:grid md:gap-5 md:grid-cols-2 lg:grid-cols-4">
           <li>
-            <EntitiesStatusCard
-              statusDetails={wateringStatus}
-              label="Bewässerungszustand (ø)"
-            />
+            <EntitiesStatusCard statusDetails={wateringStatus} label="Bewässerungszustand (ø)" />
           </li>
           <li>
             <GeneralStatusCard
@@ -102,9 +94,7 @@ const TreeClusterDashboard = ({ treecluster }: TreeClusterDashboardProps) => {
       </section>
 
       <section className="mt-16">
-        <h2 className="text-xl font-bold font-lato mb-10">
-          Alle zugehörigen Bäume
-        </h2>
+        <h2 className="text-xl font-bold font-lato mb-10">Alle zugehörigen Bäume</h2>
 
         <header className="hidden border-b pb-2 text-sm text-dark-800 px-6 border-b-dark-200 mb-5 lg:grid lg:grid-cols-[1.5fr,2fr,1fr] lg:gap-5">
           <p>Status</p>

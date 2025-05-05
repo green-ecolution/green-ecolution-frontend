@@ -17,7 +17,7 @@ const TreeCard: React.FC<TreeCardProps> = ({ tree, showTreeClusterInfo = true })
     enabled: clusterId !== null,
   })
   const statusDetails = getWateringStatusDetails(
-    tree.wateringStatus ?? WateringStatus.WateringStatusUnknown
+    tree.wateringStatus ?? WateringStatus.WateringStatusUnknown,
   )
   const wrapperClasses =
     'bg-white group border border-dark-50 p-6 rounded-xl shadow-cards flex flex-col gap-y-4 lg:grid lg:items-center lg:gap-5 lg:py-5 xl:px-10'
@@ -41,14 +41,16 @@ const TreeCard: React.FC<TreeCardProps> = ({ tree, showTreeClusterInfo = true })
         <span className="lg:sr-only">Baumnummer: </span>
         {tree.number ?? 'Unbekannt'}
       </p>
-      {showTreeClusterInfo && <p className="text-dark-700">
-        <span className="lg:sr-only">Bewässerungsgruppe: </span>
-        {tree.treeClusterId ? (
-          <span>{clusterRes?.name}</span>
-        ) : (
-          <span className="text-red">Nicht zugeordnet</span>
-        )}
-      </p>}
+      {showTreeClusterInfo && (
+        <p className="text-dark-700">
+          <span className="lg:sr-only">Bewässerungsgruppe: </span>
+          {tree.treeClusterId ? (
+            <span>{clusterRes?.name}</span>
+          ) : (
+            <span className="text-red">Nicht zugeordnet</span>
+          )}
+        </p>
+      )}
     </Link>
   )
 }

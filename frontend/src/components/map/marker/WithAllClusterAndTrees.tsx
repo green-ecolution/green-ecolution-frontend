@@ -1,13 +1,9 @@
-import {
-  Tree,
-  TreeClusterInList,
-  TreeCluster
-} from '@green-ecolution/backend-client'
+import { Tree, TreeClusterInList, TreeCluster } from '@green-ecolution/backend-client'
 import useStore from '@/store/store'
 import WithAllTrees from './WithAllTrees'
 import WithAllClusters from './WithAllClusters'
 
-const defaultSelectedTrees: number[] = [];
+const defaultSelectedTrees: number[] = []
 
 interface WithTreesAndClustersProps {
   onClickTree?: (tree: Tree) => void

@@ -5,9 +5,8 @@ export const Route = createFileRoute('/_protected/map/tree/edit')({
   loader: () => {
     return {
       crumb: {
-        title: "Baum Standort bearbeiten"
-      }
+        title: 'Baum Standort bearbeiten',
+      },
     }
-  }
+  },
 })
-

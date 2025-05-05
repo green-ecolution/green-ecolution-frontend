@@ -5,8 +5,8 @@ export const Route = createFileRoute('/_protected/watering-plans')({
   loader: () => {
     return {
       crumb: {
-        title: "Einsatzpläne"
-      }
+        title: 'Einsatzpläne',
+      },
     }
-  }
+  },
 })

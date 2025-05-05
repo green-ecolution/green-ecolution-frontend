@@ -96,18 +96,13 @@ const FormForTree = (props: FormForTreeProps) => {
 
       {!props.isReadonly && (
         <div>
-          <p className="block font-semibold text-dark-800 mb-2.5">
-            Standort des Baumes
-          </p>
+          <p className="block font-semibold text-dark-800 mb-2.5">Standort des Baumes</p>
           <div>
             <p className="block mb-2.5">
               <strong className="text-dark-800">Breitengrad:</strong> {lat}
             </p>
             <p className="block mb-2.5">
-              <strong className="text-dark-800 font-semibold">
-                Längengrad:
-              </strong>{' '}
-              {lng}
+              <strong className="text-dark-800 font-semibold">Längengrad:</strong> {lng}
             </p>
           </div>
 
@@ -122,10 +117,7 @@ const FormForTree = (props: FormForTreeProps) => {
         </div>
       )}
 
-      <FormError
-        show={props.displayError}
-        error={props.errorMessage}
-      />
+      <FormError show={props.displayError} error={props.errorMessage} />
 
       <PrimaryButton
         type="submit"

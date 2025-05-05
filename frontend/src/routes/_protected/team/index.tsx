@@ -7,11 +7,11 @@ import { userRoleQuery } from '@/api/queries'
 export const Route = createFileRoute('/_protected/team/')({
   component: Team,
   pendingComponent: () => <LoadingInfo label="Daten werden geladen" />,
-  loader: ({ context: { queryClient } }) => queryClient.prefetchQuery(userRoleQuery("tbz"))
+  loader: ({ context: { queryClient } }) => queryClient.prefetchQuery(userRoleQuery('tbz')),
 })
 
 function Team() {
-  const { data: userRes } = useSuspenseQuery(userRoleQuery("tbz"))
+  const { data: userRes } = useSuspenseQuery(userRoleQuery('tbz'))
 
   return (
     <div className="container mt-6">
@@ -20,8 +20,9 @@ function Team() {
           Alle Mitarbeitenden
         </h1>
         <p className="mb-5">
-          Hier finden Sie eine Übersicht aller Mitarbeitenden und weitere Informationen zu deren Rollen und welche
-          Führerscheinklasse sie besitzen. Diese Informationen sind wichtig, wenn Personen zu einem Einsatzplan eingeteilt werden sollen.
+          Hier finden Sie eine Übersicht aller Mitarbeitenden und weitere Informationen zu deren
+          Rollen und welche Führerscheinklasse sie besitzen. Diese Informationen sind wichtig, wenn
+          Personen zu einem Einsatzplan eingeteilt werden sollen.
         </p>
       </article>
 

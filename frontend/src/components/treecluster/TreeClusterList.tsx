@@ -2,7 +2,7 @@ import TreeclusterCard from '../general/cards/TreeclusterCard'
 import { TreeClusterInList, TreeCluster } from '@/api/backendApi'
 
 interface TreeClusterListProps {
-  data: TreeClusterInList[] | TreeCluster[];
+  data: TreeClusterInList[] | TreeCluster[]
 }
 
 const TreeClusterList = ({ data }: TreeClusterListProps) => {
@@ -10,9 +10,7 @@ const TreeClusterList = ({ data }: TreeClusterListProps) => {
     <ul>
       {data?.length === 0 ? (
         <li className="text-center text-dark-600 mt-10">
-          <p>
-            Es wurden leider keine Bewässerungsgruppen gefunden.
-          </p>
+          <p>Es wurden leider keine Bewässerungsgruppen gefunden.</p>
         </li>
       ) : (
         data?.map((cluster) => (

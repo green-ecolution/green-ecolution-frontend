@@ -6,15 +6,14 @@ import { createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/_protected/watering-plans/$wateringPlanId/')({
   component: SingleWateringPlan,
-  pendingComponent: () => <LoadingInfo label='Einsatzplan wird geladen...' />,
-  loader: async ({ context: { queryClient }, params }) => queryClient.prefetchQuery(wateringPlanIdQuery(params.wateringPlanId)),
+  pendingComponent: () => <LoadingInfo label="Einsatzplan wird geladen..." />,
+  loader: async ({ context: { queryClient }, params }) =>
+    queryClient.prefetchQuery(wateringPlanIdQuery(params.wateringPlanId)),
 })
 
 function SingleWateringPlan() {
   const wateringPlanId = Route.useParams().wateringPlanId
-  const { data: wateringPlan } = useSuspenseQuery(
-    wateringPlanIdQuery(wateringPlanId)
-  )
+  const { data: wateringPlan } = useSuspenseQuery(wateringPlanIdQuery(wateringPlanId))
 
   return (
     <div className="container mt-6">

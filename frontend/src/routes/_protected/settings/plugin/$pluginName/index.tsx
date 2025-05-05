@@ -2,18 +2,12 @@ import { createFileRoute } from '@tanstack/react-router'
 import { lazy, Suspense, useMemo } from 'react'
 import { PluginProvider } from '@green-ecolution/plugin-interface'
 import useStore from '@/store/store'
-import {
-  init,
-  loadRemote,
-  registerRemotes,
-} from '@module-federation/enhanced/runtime'
+import { init, loadRemote, registerRemotes } from '@module-federation/enhanced/runtime'
 import { basePath } from '@/api/backendApi'
 
-export const Route = createFileRoute('/_protected/settings/plugin/$pluginName/')(
-  {
-    component: PluginView,
-  }
-)
+export const Route = createFileRoute('/_protected/settings/plugin/$pluginName/')({
+  component: PluginView,
+})
 
 init({
   name: 'app',
@@ -42,7 +36,7 @@ function PluginView() {
               type: 'module',
             },
           ],
-          { force: true }
+          { force: true },
         )
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any -- this is a dynamic import
@@ -53,7 +47,7 @@ function PluginView() {
 
         return remote
       }),
-    [pluginName]
+    [pluginName],
   )
 
   return (

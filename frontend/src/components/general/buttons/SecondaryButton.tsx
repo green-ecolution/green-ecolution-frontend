@@ -1,12 +1,12 @@
-import { X } from 'lucide-react';
-import React from 'react';
+import { X } from 'lucide-react'
+import React from 'react'
 
 interface SecondaryButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  label: string;
-  type?: "submit" | "reset" | "button"
+  label: string
+  type?: 'submit' | 'reset' | 'button'
 }
 
-const SecondaryButton: React.FC<SecondaryButtonProps> = ({ label, type = "button", ...props }) => (
+const SecondaryButton: React.FC<SecondaryButtonProps> = ({ label, type = 'button', ...props }) => (
   <button
     type={type}
     {...props}
@@ -15,6 +15,6 @@ const SecondaryButton: React.FC<SecondaryButtonProps> = ({ label, type = "button
     <span className="font-medium text-base">{label}</span>
     <X />
   </button>
-);
+)
 
-export default SecondaryButton;
+export default SecondaryButton

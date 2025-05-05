@@ -1,7 +1,5 @@
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
-import {
-  SoilCondition,
-} from '@/api/backendApi'
+import { SoilCondition } from '@/api/backendApi'
 import { SubmitHandler } from 'react-hook-form'
 import { TreeclusterForm, TreeclusterSchema } from '@/schema/treeclusterSchema'
 import FormForTreecluster from '@/components/general/form/FormForTreecluster'
@@ -37,8 +35,10 @@ function NewTreecluster() {
     zoom: state.map.zoom,
   }))
 
-  const { register, setValue, handleSubmit, formState } =
-    useFormSync<TreeclusterForm>(initForm, zodResolver(TreeclusterSchema))
+  const { register, setValue, handleSubmit, formState } = useFormSync<TreeclusterForm>(
+    initForm,
+    zodResolver(TreeclusterSchema),
+  )
 
   const onSubmit: SubmitHandler<TreeclusterForm> = (data) => {
     mutate({
@@ -59,24 +59,19 @@ function NewTreecluster() {
   }
 
   const handleDeleteTree = (treeId: number) => {
-    setValue(
-      'treeIds',
-      formStore.form?.treeIds?.filter((id) => id !== treeId) ?? []
-    )
+    setValue('treeIds', formStore.form?.treeIds?.filter((id) => id !== treeId) ?? [])
   }
 
   return (
     <div className="container mt-6">
       <article className="2xl:w-4/5">
-        <BackLink
-          link={{ to: '/treecluster' }}
-          label="Zu allen Bewässerungsgruppen"
-        />
+        <BackLink link={{ to: '/treecluster' }} label="Zu allen Bewässerungsgruppen" />
         <h1 className="font-lato font-bold text-3xl mb-4 lg:text-4xl xl:text-5xl">
           Neue Bewässerungsgruppe erstellen
         </h1>
         <p className="mb-5">
-          In dieser Ansicht können Sie eine neue Bewässerungsgruppe erstellen sowie dieser Bäume zuweisen.
+          In dieser Ansicht können Sie eine neue Bewässerungsgruppe erstellen sowie dieser Bäume
+          zuweisen.
         </p>
       </article>
 

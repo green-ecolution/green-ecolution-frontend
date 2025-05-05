@@ -17,13 +17,10 @@ export interface Store {
 
 export type SubStore<T> = (
   set: (
-    nextStateOrUpdater:
-      | Store
-      | Partial<Store>
-      | ((state: WritableDraft<Store>) => void),
-    shouldReplace?: boolean
+    nextStateOrUpdater: Store | Partial<Store> | ((state: WritableDraft<Store>) => void),
+    shouldReplace?: boolean,
   ) => void,
-  get: () => Store
+  get: () => Store,
 ) => T
 
 const useStore = create<Store>()(
@@ -32,8 +29,8 @@ const useStore = create<Store>()(
       auth: authStore(set, get),
       user: userStore(set, get),
       map: mapStore(set, get),
-    }))
-  )
+    })),
+  ),
 )
 
 export const useAuthStore = () => useStore((state) => state.auth)

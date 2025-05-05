@@ -24,9 +24,7 @@ interface WateringPlanDashboardProps {
   wateringPlan: WateringPlan
 }
 
-const WateringPlanDashboard = ({
-  wateringPlan,
-}: WateringPlanDashboardProps) => {
+const WateringPlanDashboard = ({ wateringPlan }: WateringPlanDashboardProps) => {
   const statusDetails = getWateringPlanStatusDetails(wateringPlan.status)
   const { accessToken } = useStore((state) => ({
     accessToken: state.auth.token?.accessToken,
@@ -51,15 +49,15 @@ const WateringPlanDashboard = ({
       },
       ...(wateringPlan.distance > 0
         ? [
-          {
-            label: 'Route',
-            icon: <Route className="w-5 h-5" />,
-            view: <WateringPlanPreviewRoute wateringPlan={wateringPlan} />,
-          },
-        ]
+            {
+              label: 'Route',
+              icon: <Route className="w-5 h-5" />,
+              view: <WateringPlanPreviewRoute wateringPlan={wateringPlan} />,
+            },
+          ]
         : []),
     ],
-    [wateringPlan]
+    [wateringPlan],
   )
 
   const { mutate } = useMutation({
@@ -73,7 +71,7 @@ const WateringPlanDashboard = ({
 
       if (resp.status !== 200) {
         const json: unknown = await resp.json()
-        const errorMsg = isHTTPError(json) ? json.error : "Unbekannter Fehler"
+        const errorMsg = isHTTPError(json) ? json.error : 'Unbekannter Fehler'
         throw new Error(errorMsg)
       }
 
@@ -83,9 +81,7 @@ const WateringPlanDashboard = ({
 
       const a = document.createElement('a')
       a.href = objUrl
-      a.download =
-        resp.headers.get('Content-Disposition')?.split('filename=')[1] ??
-        'route.gpx'
+      a.download = resp.headers.get('Content-Disposition')?.split('filename=')[1] ?? 'route.gpx'
       a.click()
 
       window.URL.revokeObjectURL(objUrl)
@@ -107,9 +103,7 @@ const WateringPlanDashboard = ({
               theme={statusDetails?.color ?? 'dark-400'}
             />
           </h1>
-          {wateringPlan.description && (
-            <p className="mb-4">{wateringPlan.description}</p>
-          )}
+          {wateringPlan.description && <p className="mb-4">{wateringPlan.description}</p>}
           <div className="flex flex-wrap gap-4 items-center">
             {showWateringPlanStatusButton(wateringPlan) && (
               <ButtonLink
@@ -121,17 +115,15 @@ const WateringPlanDashboard = ({
                 icon={MoveRight}
               />
             )}
-            <LinkAsButton
-              label="Route herunterladen"
-              onClick={() => mutate()}
-            />
+            <LinkAsButton label="Route herunterladen" onClick={() => mutate()} />
           </div>
           {wateringPlan.distance == 0 && (
             <Notice
               classes="mt-6"
               description="Die Route für diesen Einsatzplan konnte nicht berechnet werden.
                 Bitte überprüfen Sie, ob das ausgewählte Fahrzeug über ausreichend Wasserkapazität
-                für die gewählten Bewässerungsgruppen verfügt." />
+                für die gewählten Bewässerungsgruppen verfügt."
+            />
           )}
         </div>
         <ButtonLink

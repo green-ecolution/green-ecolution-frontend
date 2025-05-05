@@ -5,10 +5,7 @@ import MapSelectEntitiesModal from '@/components/map/MapSelectEntitiesModal'
 import SensorMarker from '@/components/map/marker/SensorMarker'
 import WithAllTrees from '@/components/map/marker/WithAllTrees'
 import useToast from '@/hooks/useToast'
-import {
-  Tree,
-  TreeUpdate as TreeUpdateReq,
-} from '@green-ecolution/backend-client'
+import { Tree, TreeUpdate as TreeUpdateReq } from '@green-ecolution/backend-client'
 import { useMutation, useQueryClient, useSuspenseQuery } from '@tanstack/react-query'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { useCallback, useState } from 'react'
@@ -21,7 +18,8 @@ export const Route = createFileRoute('/_protected/map/sensor/select/tree/')({
     }
   },
   loaderDeps: ({ search: { sensorId } }) => ({ sensorId }),
-  loader: ({ context: { queryClient }, deps: { sensorId } }) => queryClient.prefetchQuery(sensorIdQuery(String(sensorId)))
+  loader: ({ context: { queryClient }, deps: { sensorId } }) =>
+    queryClient.prefetchQuery(sensorIdQuery(String(sensorId))),
 })
 
 function LinkTreeToSensor() {
@@ -43,9 +41,7 @@ function LinkTreeToSensor() {
     onSuccess: () => handleOnUpdateSuccess(),
     onError: (error: Error) => {
       console.error('Error updating tree data:', error)
-      setErrorMessage(
-        'Es ist leider etwas schief gelaufen. Bitte probieren Sie es später erneut.'
-      )
+      setErrorMessage('Es ist leider etwas schief gelaufen. Bitte probieren Sie es später erneut.')
     },
   })
 
@@ -80,7 +76,7 @@ function LinkTreeToSensor() {
     } catch (error) {
       console.error('Error fetching tree data:', error)
       setErrorMessage(
-        'Die Baumdaten konnten nicht geladen werden. Bitte probieren Sie es später erneut.'
+        'Die Baumdaten konnten nicht geladen werden. Bitte probieren Sie es später erneut.',
       )
     }
   }
@@ -99,17 +95,9 @@ function LinkTreeToSensor() {
                 Hier können Sie die zugehörige Vegetation verlinken.
               </p>
             ) : (
-              <SelectedCard
-                id={treeId}
-                type="tree"
-                onClick={() => setTreeId(undefined)}
-              />
+              <SelectedCard id={treeId} type="tree" onClick={() => setTreeId(undefined)} />
             )}
-            {errorMessage && (
-              <p className="text-red font-semibold text-sm mt-2">
-                {errorMessage}
-              </p>
-            )}
+            {errorMessage && <p className="text-red font-semibold text-sm mt-2">{errorMessage}</p>}
           </>
         }
       />

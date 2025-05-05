@@ -4,9 +4,7 @@ import useStore from '@/store/store'
 import { createFileRoute } from '@tanstack/react-router'
 import VehicleUpdate from '@/components/vehicle/VehicleUpdate'
 
-export const Route = createFileRoute(
-  '/_protected/vehicles/_formular/$vehicleId/edit/'
-)({
+export const Route = createFileRoute('/_protected/vehicles/_formular/$vehicleId/edit/')({
   component: EditVehicle,
   pendingComponent: () => <LoadingInfo label="Fahrzeug wird geladen …" />,
   beforeLoad: () => {

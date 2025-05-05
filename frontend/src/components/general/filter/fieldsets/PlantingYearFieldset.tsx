@@ -8,9 +8,7 @@ const PlantingYearFieldset = () => {
 
   return (
     <fieldset className="mt-4">
-      <legend className="font-lato font-semibold text-dark-600 mb-2">
-        Pflanzjahr:
-      </legend>
+      <legend className="font-lato font-semibold text-dark-600 mb-2">Pflanzjahr:</legend>
       {years.map((year) => (
         <Option
           key={year}

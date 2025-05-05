@@ -21,7 +21,11 @@ export const Route = createFileRoute('/_protected/trees/_formular')({
 
     if (!useStore.getState().auth.isAuthenticated) return
 
-    queryClient.prefetchQuery(treeClusterQuery()).catch((error) => console.error('Prefetching "treeClusterQuery" failed:', error))
-    queryClient.prefetchQuery(sensorQuery()).catch((error) => console.error('Prefetching "sensorQuery" failed:', error))
+    queryClient
+      .prefetchQuery(treeClusterQuery())
+      .catch((error) => console.error('Prefetching "treeClusterQuery" failed:', error))
+    queryClient
+      .prefetchQuery(sensorQuery())
+      .catch((error) => console.error('Prefetching "sensorQuery" failed:', error))
   },
 })

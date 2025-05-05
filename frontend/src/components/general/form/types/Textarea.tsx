@@ -1,19 +1,15 @@
-import { Ref } from "react";
+import { Ref } from 'react'
 
-interface TextareaProps
-  extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
-  label: string;
-  error?: string;
+interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
+  label: string
+  error?: string
   ref?: Ref<HTMLTextAreaElement>
 }
 
 const Textarea = ({ ref, ...props }: TextareaProps) => {
   return (
     <div>
-      <label
-        htmlFor={props.name}
-        className="block font-semibold text-dark-800 mb-2.5"
-      >
+      <label htmlFor={props.name} className="block font-semibold text-dark-800 mb-2.5">
         {props.label} {props.required ? <span className="text-red">*</span> : null}
       </label>
       <textarea
@@ -27,7 +23,7 @@ const Textarea = ({ ref, ...props }: TextareaProps) => {
         <span className="block text-red mt-2 font-semibold text-sm">{props.error}</span>
       )}
     </div>
-  );
+  )
 }
 
-export default Textarea;
+export default Textarea

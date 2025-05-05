@@ -18,9 +18,7 @@ interface FilterContextType {
 }
 
 /* eslint-disable-next-line react-refresh/only-export-components */
-export const FilterContext = createContext<FilterContextType | undefined>(
-  undefined
-)
+export const FilterContext = createContext<FilterContextType | undefined>(undefined)
 
 interface FilterProviderProps {
   initialStatus?: string[]
@@ -48,16 +46,12 @@ const FilterProvider: React.FC<FilterProviderProps> = ({
 
   const handleStatusChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { checked, value } = event.target
-    setStatusTags((prev) =>
-      checked ? [...prev, value] : prev.filter((tag) => tag !== value)
-    )
+    setStatusTags((prev) => (checked ? [...prev, value] : prev.filter((tag) => tag !== value)))
   }
 
   const handleRegionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { checked, value } = event.target
-    setRegionTags((prev) =>
-      checked ? [...prev, value] : prev.filter((tag) => tag !== value)
-    )
+    setRegionTags((prev) => (checked ? [...prev, value] : prev.filter((tag) => tag !== value)))
   }
 
   const handleClusterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -65,14 +59,10 @@ const FilterProvider: React.FC<FilterProviderProps> = ({
     setHasCluster(value === 'true')
   }
 
-  const handlePlantingYearChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handlePlantingYearChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { checked, value } = event.target
     setPlantingYears((prev) =>
-      checked
-        ? [...prev, Number(value)]
-        : prev.filter((year) => year !== Number(value))
+      checked ? [...prev, Number(value)] : prev.filter((year) => year !== Number(value)),
     )
   }
 

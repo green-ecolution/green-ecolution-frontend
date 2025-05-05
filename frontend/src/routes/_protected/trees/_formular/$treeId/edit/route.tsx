@@ -5,8 +5,8 @@ export const Route = createFileRoute('/_protected/trees/_formular/$treeId/edit')
   loader: () => {
     return {
       crumb: {
-        title: "Baum editieren"
-      }
+        title: 'Baum editieren',
+      },
     }
-  }
+  },
 })

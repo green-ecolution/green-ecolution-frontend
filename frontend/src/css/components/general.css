@@ -17,5 +17,5 @@ select[multiple] > option {
 }
 
 select[multiple] > option:checked {
-    @apply bg-green-dark-200;
+  @apply bg-green-dark-200;
 }

@@ -1,12 +1,12 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { Suspense } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { pluginApi } from "@/api/backendApi";
-import DashboardCard from "@/components/general/cards/DashboardCard";
+import { createFileRoute } from '@tanstack/react-router'
+import { Suspense } from 'react'
+import { useQuery } from '@tanstack/react-query'
+import { pluginApi } from '@/api/backendApi'
+import DashboardCard from '@/components/general/cards/DashboardCard'
 
-export const Route = createFileRoute("/_protected/settings/plugin/")({
+export const Route = createFileRoute('/_protected/settings/plugin/')({
   component: PluginView,
-});
+})
 
 function PluginView() {
   return (
@@ -16,9 +16,9 @@ function PluginView() {
           Übersicht der Plugins
         </h1>
         <p>
-          Hier finden Sie eine Übersicht aller installierten Plugins.
-          Diese Plugins erweitern die Funktionalität der Anwendung und können eine Vielzahl nützlicher Features bieten.
-          Klicken Sie auf eines der Plugins, um mehr darüber zu erfahren.
+          Hier finden Sie eine Übersicht aller installierten Plugins. Diese Plugins erweitern die
+          Funktionalität der Anwendung und können eine Vielzahl nützlicher Features bieten. Klicken
+          Sie auf eines der Plugins, um mehr darüber zu erfahren.
         </p>
       </article>
 
@@ -26,14 +26,14 @@ function PluginView() {
         <PluginList />
       </Suspense>
     </div>
-  );
+  )
 }
 
 const PluginList = () => {
   const { data: pluginList } = useQuery({
-    queryKey: ["pluginList"],
+    queryKey: ['pluginList'],
     queryFn: () => pluginApi.getPluginsList(),
-  });
+  })
 
   return (
     <>
@@ -45,17 +45,18 @@ const PluginList = () => {
               description={plugin.description}
               linkLabel={`${plugin.name} starten`}
               url={`/settings/plugin/${plugin.slug}`}
-              theme={key % 2 ? "dark" : "light"}
+              theme={key % 2 ? 'dark' : 'light'}
             />
           </li>
         ))}
       </ul>
 
-      {!pluginList || pluginList.plugins.length === 0 && (
-        <div className="text-center mt-6">
-          <p className="text-dark-500">Zur Zeit sind keine Plugins registriert.</p>
-        </div>
-      )}
+      {!pluginList ||
+        (pluginList.plugins.length === 0 && (
+          <div className="text-center mt-6">
+            <p className="text-dark-500">Zur Zeit sind keine Plugins registriert.</p>
+          </div>
+        ))}
     </>
-  );
-};
+  )
+}

@@ -3,7 +3,7 @@ import MarkerList from './MarkerList'
 import { TreeMarkerIcon } from '../MapMarker'
 import { getStatusColor } from '../utils'
 
-const defaultSelectedTrees: number[] = [];
+const defaultSelectedTrees: number[] = []
 
 interface WithFilterdTreesProps {
   onClick?: (tree: Tree) => void
@@ -18,21 +18,25 @@ const WithFilterdTrees = ({
   hasHighlightedTree,
   filterdTrees,
 }: WithFilterdTreesProps) => {
-  return <MarkerList
-    data={filterdTrees}
-    onClick={onClick}
-    icon={(t) => TreeMarkerIcon(
-      getStatusColor(t.wateringStatus),
-      selectedTrees?.includes(t.id) ?? false,
-      hasHighlightedTree === t.id
-    )}
-    tooltipContent={(t) => t.number}
-    tooltipOptions={{
-      direction: "top",
-      offset: [5, -40],
-      className: "font-nunito-sans font-semibold",
-    }}
-  />
+  return (
+    <MarkerList
+      data={filterdTrees}
+      onClick={onClick}
+      icon={(t) =>
+        TreeMarkerIcon(
+          getStatusColor(t.wateringStatus),
+          selectedTrees?.includes(t.id) ?? false,
+          hasHighlightedTree === t.id,
+        )
+      }
+      tooltipContent={(t) => t.number}
+      tooltipOptions={{
+        direction: 'top',
+        offset: [5, -40],
+        className: 'font-nunito-sans font-semibold',
+      }}
+    />
+  )
 }
 
 export default WithFilterdTrees

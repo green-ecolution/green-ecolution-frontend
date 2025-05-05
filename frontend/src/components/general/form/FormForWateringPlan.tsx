@@ -18,23 +18,21 @@ interface FormForWateringPlanProps extends FormForProps<WateringPlanForm> {
 }
 
 const FormForWateringPlan = (props: FormForWateringPlanProps) => {
-  const { form } = useFormStore(
-    (state: FormStore<WateringPlanForm>) => ({
-      form: state.form,
-    })
-  )
+  const { form } = useFormStore((state: FormStore<WateringPlanForm>) => ({
+    form: state.form,
+  }))
 
   const { errors, isValid } = props.formState
 
   const getDrivingLicensesString = (user: User) => {
     if (!user.drivingLicenses || user.drivingLicenses.length === 0) {
-      return 'Keinen Führerschein';
+      return 'Keinen Führerschein'
     }
 
     return user.drivingLicenses
-      .map(drivingLicense => getDrivingLicenseDetails(drivingLicense).label)
-      .join(', ');
-  };
+      .map((drivingLicense) => getDrivingLicenseDetails(drivingLicense).label)
+      .join(', ')
+  }
 
   return (
     <form
@@ -108,10 +106,7 @@ const FormForWateringPlan = (props: FormForWateringPlanProps) => {
         label="Bewässerungsgruppen"
       />
 
-      <FormError
-        show={props.displayError}
-        error={props.errorMessage}
-      />
+      <FormError show={props.displayError} error={props.errorMessage} />
 
       <PrimaryButton
         type="submit"

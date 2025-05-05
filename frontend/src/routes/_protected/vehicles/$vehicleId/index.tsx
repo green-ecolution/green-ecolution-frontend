@@ -7,7 +7,8 @@ import { createFileRoute } from '@tanstack/react-router'
 export const Route = createFileRoute('/_protected/vehicles/$vehicleId/')({
   pendingComponent: () => <LoadingInfo label="Fahrzeug wird geladen …" />,
   component: SingleVehicle,
-  loader: ({ context: { queryClient }, params: { vehicleId } }) => queryClient.prefetchQuery(vehicleIdQuery(vehicleId))
+  loader: ({ context: { queryClient }, params: { vehicleId } }) =>
+    queryClient.prefetchQuery(vehicleIdQuery(vehicleId)),
 })
 
 function SingleVehicle() {

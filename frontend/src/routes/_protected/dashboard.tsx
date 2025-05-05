@@ -1,13 +1,13 @@
-import DashboardCard from '@/components/general/cards/DashboardCard';
+import DashboardCard from '@/components/general/cards/DashboardCard'
 import { createFileRoute } from '@tanstack/react-router'
-import useStore from '@/store/store';
+import useStore from '@/store/store'
 
 export const Route = createFileRoute('/_protected/dashboard')({
   component: Dashboard,
 })
 
 function Dashboard() {
-  const user = useStore((state) => state.user);
+  const user = useStore((state) => state.user)
 
   const cards = [
     {
@@ -52,7 +52,7 @@ function Dashboard() {
       headline: 'Eigenes Profil',
       linkLabel: 'Zum Profil',
     },
-  ];
+  ]
 
   return (
     <div className="container mt-6">
@@ -61,13 +61,12 @@ function Dashboard() {
           Willkommen zurück, {`${user.firstName} ${user.lastName}`}!
         </h1>
         <p>
-          Sie befinden sich auf dem Dashboard. Dies ist eine Übersichtsseite, um direkten Zugriff auf wichtige Bereiche zu erhalten.
+          Sie befinden sich auf dem Dashboard. Dies ist eine Übersichtsseite, um direkten Zugriff
+          auf wichtige Bereiche zu erhalten.
         </p>
       </article>
 
-      <h2 className="text-sm font-semibold text-dark-800 mb-4">
-        Schnellverweise
-      </h2>
+      <h2 className="text-sm font-semibold text-dark-800 mb-4">Schnellverweise</h2>
 
       <ul className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
         {cards.map((card, key) => (
@@ -77,7 +76,8 @@ function Dashboard() {
               description={card.description}
               linkLabel={card.linkLabel}
               url={card.url}
-              theme={key % 2 ? "dark" : "light"} />
+              theme={key % 2 ? 'dark' : 'light'}
+            />
           </li>
         ))}
       </ul>

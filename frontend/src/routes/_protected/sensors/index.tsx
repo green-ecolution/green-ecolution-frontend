@@ -16,16 +16,16 @@ export const Route = createFileRoute('/_protected/sensors/')({
     page,
   }),
   loader: ({ context: { queryClient }, deps: { page } }) => {
-    queryClient.prefetchQuery(sensorQuery({ page, limit: 5 })).catch((error) => console.error('Prefetching "sensorQuery" failed:', error))
+    queryClient
+      .prefetchQuery(sensorQuery({ page, limit: 5 }))
+      .catch((error) => console.error('Prefetching "sensorQuery" failed:', error))
     return { page }
   },
 })
 
 function Sensors() {
   const { page } = useLoaderData({ from: '/_protected/sensors/' })
-  const { data: sensorsRes } = useSuspenseQuery(
-    sensorQuery({ page, limit: 5 })
-  )
+  const { data: sensorsRes } = useSuspenseQuery(sensorQuery({ page, limit: 5 }))
 
   return (
     <div className="container mt-6">
@@ -34,15 +34,17 @@ function Sensors() {
           Auflistung aller verfügbaren Sensoren
         </h1>
         <p className="mb-4">
-          In diesem Bereich werden alle im System registrierten Sensoren angezeigt.
-          Neue Sensoren werden automatisch erstellt, sobald über das TTN (The Things Network) neue Daten empfangen werden,
-          die keinem vorhandenen Sensor zugeordnet sind. TTN ist ein globales Funknetzwerk, das auf der LoRa-Funktechnik basiert.
-          Mit dieser Technologie können die Messdaten der vergrabenen Sensoren direkt in das System übertragen werden.
+          In diesem Bereich werden alle im System registrierten Sensoren angezeigt. Neue Sensoren
+          werden automatisch erstellt, sobald über das TTN (The Things Network) neue Daten empfangen
+          werden, die keinem vorhandenen Sensor zugeordnet sind. TTN ist ein globales Funknetzwerk,
+          das auf der LoRa-Funktechnik basiert. Mit dieser Technologie können die Messdaten der
+          vergrabenen Sensoren direkt in das System übertragen werden.
         </p>
         <p>
-          Wenn ein neuer Sensor angelegt wird, überprüft das System automatisch, ob die mitgesendeten GPS-Koordinaten
-          mit einem im System registrierten Baum übereinstimmen. Falls ein passender Baum gefunden wird,
-          wird der Sensor automatisch mit diesem Baum verknüpft. Diese Verknüpfung kann bei Bedarf auch manuell angepasst werden.
+          Wenn ein neuer Sensor angelegt wird, überprüft das System automatisch, ob die
+          mitgesendeten GPS-Koordinaten mit einem im System registrierten Baum übereinstimmen. Falls
+          ein passender Baum gefunden wird, wird der Sensor automatisch mit diesem Baum verknüpft.
+          Diese Verknüpfung kann bei Bedarf auch manuell angepasst werden.
         </p>
       </article>
 

@@ -4,9 +4,7 @@ import useFormStore from '@/store/form/useFormStore'
 import useStore from '@/store/store'
 import { createFileRoute } from '@tanstack/react-router'
 
-export const Route = createFileRoute(
-  '/_protected/treecluster/_formular/$treeclusterId/edit/'
-)({
+export const Route = createFileRoute('/_protected/treecluster/_formular/$treeclusterId/edit/')({
   component: EditTreeCluster,
   pendingComponent: () => <LoadingInfo label="Bewässerungsgruppe wird geladen …" />,
   beforeLoad: () => {

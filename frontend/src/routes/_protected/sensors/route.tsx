@@ -5,8 +5,8 @@ export const Route = createFileRoute('/_protected/sensors')({
   loader: () => {
     return {
       crumb: {
-        title: "Sensoren"
-      }
+        title: 'Sensoren',
+      },
     }
-  }
+  },
 })

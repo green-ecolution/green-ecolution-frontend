@@ -7,9 +7,8 @@ export const Route = createFileRoute(
   loader: () => {
     return {
       crumb: {
-        title: "Status des Einsatzplans ändern"
-      }
+        title: 'Status des Einsatzplans ändern',
+      },
     }
-  }
+  },
 })
-

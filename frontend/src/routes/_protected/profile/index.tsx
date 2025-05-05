@@ -19,8 +19,8 @@ function Profile() {
           Profil von {user.firstName} {user.lastName}
         </h1>
         <p>
-          Dies ist Ihre persönliche Profilseite. Auf dieser Seite finden Sie
-          Ihre persönlichen Daten.{' '}
+          Dies ist Ihre persönliche Profilseite. Auf dieser Seite finden Sie Ihre persönlichen
+          Daten.{' '}
         </p>
       </article>
 
@@ -52,36 +52,26 @@ function Profile() {
         <div>
           <div className="pb-4 border-b border-b-dark-200">
             <dt className="font-bold inline">Username:</dt>
-            <dd className="sm:inline sm:px-2">
-              {user.username ?? 'Keine Angabe'}
-            </dd>
+            <dd className="sm:inline sm:px-2">{user.username ?? 'Keine Angabe'}</dd>
           </div>
           <div className="py-4 border-b border-b-dark-200">
             <dt className="font-bold sm:inline">Vorname:</dt>
-            <dd className="sm:inline sm:px-2">
-              {user.firstName ?? 'Keine Angabe'}
-            </dd>
+            <dd className="sm:inline sm:px-2">{user.firstName ?? 'Keine Angabe'}</dd>
           </div>
           <div className="py-4 border-b border-b-dark-200">
             <dt className="font-bold sm:inline">Nachname:</dt>
-            <dd className="sm:inline sm:px-2">
-              {user.lastName ?? 'Keine Angabe'}
-            </dd>
+            <dd className="sm:inline sm:px-2">{user.lastName ?? 'Keine Angabe'}</dd>
           </div>
           <div className="py-4 border-b border-b-dark-200 md:border-b-transparent">
             <dt className="font-bold sm:inline">E-Mail:</dt>
-            <dd className="sm:inline sm:px-2">
-              {user.email ?? 'Keine Angabe'}
-            </dd>
+            <dd className="sm:inline sm:px-2">{user.email ?? 'Keine Angabe'}</dd>
           </div>
         </div>
 
         <div>
           <div className="py-4 border-b border-b-dark-200">
             <dt className="font-bold sm:inline">Verfügbarkeit:</dt>
-            <dd className="sm:inline sm:px-2">
-              {getUserStatusDetails(user.status).label}
-            </dd>
+            <dd className="sm:inline sm:px-2">{getUserStatusDetails(user.status).label}</dd>
           </div>
           <div className="py-4 border-b border-b-dark-200">
             <dt className="font-bold sm:inline">Führerscheinklasse:</dt>

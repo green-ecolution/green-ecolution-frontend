@@ -106,10 +106,7 @@ const FormForVehicle = (props: FormForProps<VehicleForm>) => {
         {...props.register('description')}
       />
 
-      <FormError
-        show={props.displayError}
-        error={props.errorMessage}
-      />
+      <FormError show={props.displayError} error={props.errorMessage} />
 
       <PrimaryButton
         type="submit"

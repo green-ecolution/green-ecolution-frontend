@@ -11,7 +11,7 @@ const ClusterFieldset = () => {
     {
       label: 'Keiner Gruppe zugehörig',
       value: false,
-    }
+    },
   ]
   return (
     <fieldset className="mt-4">
@@ -27,8 +27,7 @@ const ClusterFieldset = () => {
           checked={filters.hasCluster === type.value}
           onChange={handleClusterChange}
         />
-      )
-      )}
+      ))}
     </fieldset>
   )
 }

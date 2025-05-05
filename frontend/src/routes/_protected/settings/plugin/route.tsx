@@ -5,8 +5,8 @@ export const Route = createFileRoute('/_protected/settings/plugin')({
   loader: () => {
     return {
       crumb: {
-        title: "Plugins"
-      }
+        title: 'Plugins',
+      },
     }
-  }
+  },
 })

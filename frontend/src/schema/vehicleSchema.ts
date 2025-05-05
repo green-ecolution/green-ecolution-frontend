@@ -1,8 +1,4 @@
-import {
-  VehicleType,
-  DrivingLicense,
-  VehicleStatus,
-} from '@green-ecolution/backend-client'
+import { VehicleType, DrivingLicense, VehicleStatus } from '@green-ecolution/backend-client'
 import { z } from 'zod'
 
 export const VehicleSchema = z.object({
@@ -55,11 +51,8 @@ export const VehicleSchema = z.object({
     z
       .number()
       .int()
-      .min(
-        80,
-        'Wasserkapazität ist erforderlich und darf nicht unter 80 Litern liegen.'
-      )
-      .default(80)
+      .min(80, 'Wasserkapazität ist erforderlich und darf nicht unter 80 Litern liegen.')
+      .default(80),
   ),
   description: z.string().optional().default(''),
 })

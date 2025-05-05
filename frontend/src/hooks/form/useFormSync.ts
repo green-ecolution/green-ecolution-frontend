@@ -1,6 +1,6 @@
-import useFormStore, { FormStore } from "@/store/form/useFormStore";
-import { useEffect } from "react";
-import { Resolver, DefaultValues, useForm, FieldValues } from "react-hook-form";
+import useFormStore, { FormStore } from '@/store/form/useFormStore'
+import { useEffect } from 'react'
+import { Resolver, DefaultValues, useForm, FieldValues } from 'react-hook-form'
 
 export const useFormSync = <T extends FieldValues>(
   defaultValues?: DefaultValues<T>,
@@ -8,25 +8,25 @@ export const useFormSync = <T extends FieldValues>(
 ) => {
   const { commit } = useFormStore((state: FormStore<T>) => ({
     commit: state.commit,
-  }));
+  }))
 
   const form = useForm<T>({
     resolver,
     defaultValues,
-    mode: "all",
-  });
+    mode: 'all',
+  })
 
   useEffect(() => {
-    if (defaultValues) form.reset(defaultValues);
-  }, [defaultValues, form]);
+    if (defaultValues) form.reset(defaultValues)
+  }, [defaultValues, form])
 
   useEffect(() => {
     const { unsubscribe } = form.watch((value) => {
-      commit(value);
-    });
+      commit(value)
+    })
 
-    return () => unsubscribe();
-  }, [commit, form, form.watch]);
+    return () => unsubscribe()
+  }, [commit, form, form.watch])
 
-  return form;
-};
+  return form
+}

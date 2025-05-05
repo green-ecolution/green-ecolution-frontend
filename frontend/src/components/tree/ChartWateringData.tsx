@@ -19,26 +19,26 @@ interface ChartWateringDataProps {
 const ChartWateringData: React.FC<ChartWateringDataProps> = ({ sensorId }) => {
   const { data: sensorDataRes } = useSuspenseQuery(sensorDataQuery(sensorId))
   const transformedDataForTemperature = sensorDataRes.data
-  .map((entry) => ({
-    name: format(new Date(entry.updatedAt), 'dd.MM.yyyy'),
-    temperature: entry.temperature,
-    humidity: entry.humidity,
-  }))
-  .reverse()
+    .map((entry) => ({
+      name: format(new Date(entry.updatedAt), 'dd.MM.yyyy'),
+      temperature: entry.temperature,
+      humidity: entry.humidity,
+    }))
+    .reverse()
 
   const transformedDataForWatermarks = sensorDataRes.data
-  .map((entry) => {
-    const formattedEntry: Record<string, number | string> = {
-      name: format(new Date(entry.updatedAt), 'dd.MM.yyyy'),
-    }
+    .map((entry) => {
+      const formattedEntry: Record<string, number | string> = {
+        name: format(new Date(entry.updatedAt), 'dd.MM.yyyy'),
+      }
 
-    entry.watermarks.forEach((watermark) => {
-      formattedEntry[`depth_${watermark.depth}`] = watermark.resistance
+      entry.watermarks.forEach((watermark) => {
+        formattedEntry[`depth_${watermark.depth}`] = watermark.resistance
+      })
+
+      return formattedEntry
     })
-
-    return formattedEntry
-  })
-  .reverse()
+    .reverse()
 
   return (
     <>
@@ -77,8 +77,7 @@ const ChartWateringData: React.FC<ChartWateringDataProps> = ({ sensorId }) => {
             </LineChart>
           </ResponsiveContainer>
           <h3 className="font-bold mb-4 mt-10 text-dark-600 text-center">
-            Wasserspannung in den Tiefen 30cm, 60cm und 90cm im Verlaufe der
-            Zeit:
+            Wasserspannung in den Tiefen 30cm, 60cm und 90cm im Verlaufe der Zeit:
           </h3>
           <ResponsiveContainer height={400} width="100%">
             <LineChart
