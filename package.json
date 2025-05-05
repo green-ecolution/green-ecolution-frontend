@@ -26,6 +26,10 @@
     "test": "echo \"It works!\"",
     "preview": "yarn workspace @green-ecolution/frontend preview",
     "rebuild": "yarn build:backend-client && yarn build:plugin-interface && rm -rf frontend/node_modules && yarn install",
-    "fmt": "yarn workspace @green-ecolution/frontend fmt"
-  }
+    "fmt": "prettier --write ."
+  },
+  "devDependencies": {
+    "prettier": "^3.5.3"
+  },
+  "packageManager": "yarn@1.22.22"
 }

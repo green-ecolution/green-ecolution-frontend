@@ -9,8 +9,8 @@
     "build": "tsc && vite build",
     "build:stage": "tsc && NODE_ENV=development vite build --mode staging",
     "lint": "tsc --noEmit && eslint . --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview",
-    "fmt": "prettier --write src/**/*.ts src/**/*.tsx"
+    "lint:fix": "eslint . --fix",
+    "preview": "vite preview"
   },
   "dependencies": {
     "@green-ecolution/backend-client": "*",
