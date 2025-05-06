@@ -43,7 +43,7 @@
     "@tanstack/react-router-devtools": "^1.119.1",
     "@tanstack/router-plugin": "^1.39.11",
     "@types/leaflet": "^1.9.17",
-    "@types/node": "^20.14.10",
+    "@types/node": "^22.15.14",
     "@types/react": "^19.1.0",
     "@types/react-dom": "^19.1.0",
     "@typescript-eslint/eslint-plugin": "^7.13.1",
