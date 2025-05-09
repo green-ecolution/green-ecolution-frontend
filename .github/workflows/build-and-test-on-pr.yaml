@@ -2,12 +2,6 @@ name: 'Build and test project on PR'
 
 on:
   pull_request:
-    paths:
-      - 'frontend/**'
-      - 'plugin-interface/**'
-      - 'backend-client/**'
-      - 'packages.json'
-      - 'yarn.lock'
     branches:
       - develop
       - release/*
