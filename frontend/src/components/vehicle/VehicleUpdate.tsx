@@ -64,7 +64,7 @@ const VehicleUpdate = ({ vehicleId }: VehicleUpdateProps) => {
         <h1 className="font-lato font-bold text-3xl mb-4 lg:text-4xl xl:text-5xl">
           Fahrzeug {loadedData?.numberPlate} bearbeiten
         </h1>
-        <p className="mb-5">Hier können Sie das Fahrzeug bearbeiten.</p>
+        <p className="mb-5">Hier kannst du das Fahrzeug bearbeiten.</p>
       </article>
 
       <section className="mt-10">

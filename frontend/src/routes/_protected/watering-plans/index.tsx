@@ -38,7 +38,7 @@ function WateringPlans() {
           Alle Einsatzpläne
         </h1>
         <p className="mb-5">
-          Hier finden Sie eine Übersicht aller Einsatzpläne. Ein Einsatzplan beschreibt eine
+          Hier findest du eine Übersicht aller Einsatzpläne. Ein Einsatzplan beschreibt eine
           Bewässerungsfahrt mehrerer Bewässerungsgruppen. Die Bewässerungsfahrten können dadurch
           dynamisch und schnell geplant
         </p>

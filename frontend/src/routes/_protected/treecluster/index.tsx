@@ -37,7 +37,7 @@ function Treecluster() {
           Auflistung der Bewässerungsgruppen
         </h1>
         <p className="mb-5">
-          Hier finden Sie eine Übersicht aller Bewässerungsgruppen. Eine Bewässerungsgruppe besteht
+          Hier findest du eine Übersicht aller Bewässerungsgruppen. Eine Bewässerungsgruppe besteht
           aus mehreren Bäumen, welche aufgrund ihrer Nähe und Standortbedinungen in einer Gruppe
           zusammengefasst wurden. Die Ausstattung einzelner Bäume mit Sensoren erlaubt eine
           Gesamtaussage über den Bewässerungszustand der vollständigen Gruppe. Die Auswertung der

@@ -49,12 +49,12 @@ const WateringPlanDashboard = ({ wateringPlan }: WateringPlanDashboardProps) => 
       },
       ...(wateringPlan.distance > 0
         ? [
-            {
-              label: 'Route',
-              icon: <Route className="w-5 h-5" />,
-              view: <WateringPlanPreviewRoute wateringPlan={wateringPlan} />,
-            },
-          ]
+          {
+            label: 'Route',
+            icon: <Route className="w-5 h-5" />,
+            view: <WateringPlanPreviewRoute wateringPlan={wateringPlan} />,
+          },
+        ]
         : []),
     ],
     [wateringPlan],
@@ -121,7 +121,7 @@ const WateringPlanDashboard = ({ wateringPlan }: WateringPlanDashboardProps) => 
             <Notice
               classes="mt-6"
               description="Die Route für diesen Einsatzplan konnte nicht berechnet werden.
-                Bitte überprüfen Sie, ob das ausgewählte Fahrzeug über ausreichend Wasserkapazität
+                Bitte überprüfe, ob das ausgewählte Fahrzeug über ausreichend Wasserkapazität
                 für die gewählten Bewässerungsgruppen verfügt."
             />
           )}

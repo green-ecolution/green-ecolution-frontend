@@ -57,7 +57,7 @@ const FormForVehicle = (props: FormForProps<VehicleForm>) => {
       />
       <Select
         options={DrivingLicenseOptions}
-        placeholder="Wählen Sie eine Führerscheinklasse aus"
+        placeholder="Wähle eine Führerscheinklasse aus"
         label="Führerscheinklasse"
         required
         error={errors.drivingLicense?.message}
