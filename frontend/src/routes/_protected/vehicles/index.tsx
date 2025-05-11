@@ -33,7 +33,7 @@ function Vehicles() {
           Alle Fahrzeuge
         </h1>
         <p className="mb-5">
-          Hier finden Sie eine Übersicht aller Fahrzeuge, welche für Einsätze verwendet werden
+          Hier findest du eine Übersicht aller Fahrzeuge, welche für Einsätze verwendet werden
           können.
         </p>
         <ButtonLink icon={Plus} label="Neues Fahrzeug erstellen" link={{ to: '/vehicles/new' }} />

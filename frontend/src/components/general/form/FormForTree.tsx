@@ -67,7 +67,7 @@ const FormForTree = (props: FormForTreeProps) => {
                 value: cluster.id.toString(),
               })),
             ]}
-            placeholder="Wählen Sie eine Bewässerungsgruppe aus"
+            placeholder="Wähle eine Bewässerungsgruppe aus"
             label="Bewässerungsgruppe"
             error={errors.treeClusterId?.message}
             {...props.register('treeClusterId')}
@@ -81,7 +81,7 @@ const FormForTree = (props: FormForTreeProps) => {
               value: sensor.id.toString(),
             })),
           ]}
-          placeholder="Wählen Sie einen Sensor aus, sofern vorhanden"
+          placeholder="Wähle einen Sensor aus, sofern vorhanden"
           label="Verknüpfter Sensor"
           error={errors.sensorId?.message}
           {...props.register('sensorId')}

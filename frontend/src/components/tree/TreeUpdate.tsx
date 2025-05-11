@@ -78,7 +78,7 @@ const TreeUpdate = ({ treeId, clusters, sensors }: TreeUpdateProps) => {
         <h1 className="font-lato font-bold text-3xl mb-4 lg:text-4xl xl:text-5xl">
           Baum {loadedData.number} bearbeiten
         </h1>
-        <p className="mb-5">In dieser Ansicht können Sie einem Baum bearbeiten.</p>
+        <p className="mb-5">In dieser Ansicht kannst du einem Baum bearbeiten.</p>
       </article>
 
       <section className="mt-10">

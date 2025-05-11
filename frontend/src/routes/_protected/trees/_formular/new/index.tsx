@@ -94,7 +94,7 @@ function NewTree() {
           Neuen Baum erfassen
         </h1>
         <p className="mb-5">
-          Hier können Sie einen neuen Baum erstellen. Dieser wird im System als "manuell erstellt"
+          Hier kannst du einen neuen Baum erstellen. Dieser wird im System als "manuell erstellt"
           erfasst.
         </p>
       </article>

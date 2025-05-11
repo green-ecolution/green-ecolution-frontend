@@ -87,7 +87,7 @@ const TreeClusterUpdate = ({ clusterId }: TreeClusterUpdateProps) => {
           Bewässerungsgruppe {loadedData?.name} bearbeiten
         </h1>
         <p className="mb-5">
-          Hier können Sie Bäume der aktuell ausgewählten Bewässerungsgruppe zuweisen oder entfernen
+          Hier kannst du Bäume der aktuell ausgewählten Bewässerungsgruppe zuweisen oder entfernen
           sowie auch Name und Adresse angeben.
         </p>
       </article>

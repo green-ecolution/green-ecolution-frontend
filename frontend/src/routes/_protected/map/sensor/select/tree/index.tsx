@@ -41,7 +41,7 @@ function LinkTreeToSensor() {
     onSuccess: () => handleOnUpdateSuccess(),
     onError: (error: Error) => {
       console.error('Error updating tree data:', error)
-      setErrorMessage('Es ist leider etwas schief gelaufen. Bitte probieren Sie es später erneut.')
+      setErrorMessage('Es ist leider etwas schief gelaufen. Bitte probiere es später erneut.')
     },
   })
 
@@ -76,7 +76,7 @@ function LinkTreeToSensor() {
     } catch (error) {
       console.error('Error fetching tree data:', error)
       setErrorMessage(
-        'Die Baumdaten konnten nicht geladen werden. Bitte probieren Sie es später erneut.',
+        'Die Baumdaten konnten nicht geladen werden. Bitte probiere es später erneut.',
       )
     }
   }
@@ -92,7 +92,7 @@ function LinkTreeToSensor() {
           <>
             {!treeId || showDefault ? (
               <p className="text-dark-600 font-semibold text-sm">
-                Hier können Sie die zugehörige Vegetation verlinken.
+                Hier kannst du die zugehörige Vegetation verlinken.
               </p>
             ) : (
               <SelectedCard id={treeId} type="tree" onClick={() => setTreeId(undefined)} />

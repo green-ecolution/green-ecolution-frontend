@@ -81,7 +81,7 @@ function SelectTrees() {
           <ul>
             {(treeIds?.length || 0) === 0 || showError ? (
               <li className="text-dark-600 font-semibold text-sm">
-                <p>Hier können Sie zugehörige Bäume verlinken.</p>
+                <p>Hier kannst du zugehörige Bäume verlinken.</p>
               </li>
             ) : (
               treeIds.map((treeId) => (

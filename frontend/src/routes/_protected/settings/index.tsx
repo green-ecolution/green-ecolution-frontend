@@ -23,7 +23,7 @@ function Settings() {
           Ihre persönlichen Einstellungen
         </h1>
         <p>
-          In diesem Bereich können Sie die Systemeinstellungen einsehen. Dazu gehört unter anderem
+          In diesem Bereich kannst du die Systemeinstellungen einsehen. Dazu gehört unter anderem
           eine Übersicht darüber, welche Plugins bzw. Erweiterungen für das System freigeschaltet
           sind.
         </p>

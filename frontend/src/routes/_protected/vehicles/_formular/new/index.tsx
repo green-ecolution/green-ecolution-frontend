@@ -49,7 +49,7 @@ function NewVehicle() {
           Neues Fahrzeug erstellen
         </h1>
         <p className="mb-5">
-          In dieser Ansicht können Sie ein neues Fahrzeug anlegen. Bitte beachten Sie, dass jedes
+          In dieser Ansicht kannst du ein neues Fahrzeug anlegen. Bitte beachte, dass jedes
           Fahrzeug ein eindeutiges Kennzeichen besitzen muss, da keine doppelten Kennzeichen erlaubt
           sind. Zusätzlich müssen die Abmessungen des Fahrzeugs hinterlegt werden, damit das
           Navigationssystem bei einer Bewässerungsfahrt ermitteln kann, welche Strecken für das

@@ -123,7 +123,7 @@ const WateringPlanStatusUpdate = ({ wateringPlanId }: WateringPlanStatusUpdatePr
           <div className="space-y-6 md:w-1/2">
             <Select
               options={WateringPlanStatusOptions}
-              placeholder="Wählen Sie einen Status aus"
+              placeholder="Wähle einen Status aus"
               label="Status des Einsatzes"
               required
               error={formState.errors.status?.message}
