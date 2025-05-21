@@ -32,7 +32,7 @@
     "react-leaflet": "^5.0.0",
     "recharts": "^2.15.3",
     "utility-types": "^3.11.0",
-    "zod": "^3.23.8",
+    "zod": "^3.25.17",
     "zustand": "^4.5.4"
   },
   "devDependencies": {
