@@ -19,7 +19,7 @@ function Profile() {
           Profil von {user.firstName} {user.lastName}
         </h1>
         <p>
-          Dies ist Ihre persönliche Profilseite. Auf dieser Seite finden Sie Ihre persönlichen
+          Dies ist deine persönliche Profilseite. Auf dieser Seite findest du deine persönlichen
           Daten.{' '}
         </p>
       </article>

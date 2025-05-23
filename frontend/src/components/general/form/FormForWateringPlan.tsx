@@ -55,7 +55,7 @@ const FormForWateringPlan = (props: FormForWateringPlanProps) => {
               value: transporter.id.toString(),
             })),
           ]}
-          placeholder="Wählen Sie ein Fahrzeug aus"
+          placeholder="Wähle ein Fahrzeug aus"
           label="Verknüpftes Fahrzeug"
           required
           error={errors.transporterId?.message}
@@ -69,7 +69,7 @@ const FormForWateringPlan = (props: FormForWateringPlanProps) => {
               value: trailer.id.toString(),
             })),
           ]}
-          placeholder="Wählen Sie einen Anhänger aus, sofern vorhanden"
+          placeholder="Wähle einen Anhänger aus, sofern vorhanden"
           label="Verknüpfter Anhänger"
           error={errors.trailerId?.message}
           {...props.register('trailerId')}
@@ -82,9 +82,9 @@ const FormForWateringPlan = (props: FormForWateringPlanProps) => {
             })),
           ]}
           multiple
-          placeholder="Wählen Sie Mitarbeitende aus"
+          placeholder="Wähle Mitarbeitende aus"
           label="Verknüpfte Mitarbeitende"
-          description="Indem Sie die Taste »Shift« gedrückt halten, können Sie eine Mehrauswahl tätigen."
+          description="Indem du die Taste »Shift« gedrückt hältst, kannst du eine Mehrauswahl tätigen."
           required
           error={errors.userIds?.message}
           {...props.register('userIds')}

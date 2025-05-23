@@ -136,7 +136,7 @@ function SelectCluster() {
             {showNotice && <Notice classes="mb-4" description={notice.join(' ')} />}
             {(clusterIds?.length || 0) === 0 || showError ? (
               <li className="text-dark-600 font-semibold text-sm">
-                <p>Hier können Sie zugehörigen Gruppen verlinken.</p>
+                <p>Hier kannst du zugehörigen Gruppen verlinken.</p>
               </li>
             ) : (
               clusterIds.map((clusterId) => (

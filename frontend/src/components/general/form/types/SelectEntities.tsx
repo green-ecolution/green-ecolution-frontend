@@ -32,7 +32,7 @@ const SelectEntities: React.FC<SelectEntitiesProps> = ({
             {required ? (
               <p className="text-red">Es muss mindestens eine Auswahl getroffen werden.</p>
             ) : (
-              <p>Hier können Sie zugehörige {label} verlinken.</p>
+              <p>Hier kannst du zugehörige {label} verlinken.</p>
             )}
           </li>
         ) : (

@@ -25,7 +25,7 @@ function Evaluation() {
             Verwaltung von Bewässerungs- und Einsatzplänen sowie für die Wartung von Bäumen und
             Sensoren erforderlich sind. Es wird aufgezeigt, wie viele Einsatzfahrten im System
             hinterlegt worden sind, welche Fahrzeuge die meisten Einsatzfahrten durchführen und
-            welche Stadtteile am meisten bewässert werden. Außerdem können Sie sich darüber
+            welche Stadtteile am meisten bewässert werden. Außerdem kannst du dich darüber
             informieren, wie viele Bäume, Bewässerungsgruppen und Sensoren erstellt worden sind.
           </p>
         </article>

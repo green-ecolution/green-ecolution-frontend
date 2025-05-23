@@ -34,7 +34,7 @@ const QuickLinks = () => {
         </h2>
         <p className="mb-6 lg:mb-10">
           Unser System bietet verschiedene Ansichten, um den Bewässerungszustand der Bäume zu
-          überwachen. Sie können alle Bäume auf einer Karte anzeigen, die verbauten Sensoren mit
+          überwachen. Du kannst alle Bäume auf einer Karte anzeigen, die verbauten Sensoren mit
           Akkustand und Messwerten einsehen und eine Übersicht der Einsatzpläne bisheriger und
           zukünftiger Bewässerungsfahrten abrufen.
         </p>

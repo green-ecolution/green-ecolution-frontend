@@ -46,7 +46,7 @@ const FormForTreecluster = (props: FormForTreeClusterProps) => {
         />
         <Select
           options={SoilConditionOptions}
-          placeholder="Wählen Sie eine Bodenbeschaffenheit aus"
+          placeholder="Wähle eine Bodenbeschaffenheit aus"
           label="Bodenbeschaffenheit"
           required
           error={errors.soilCondition?.message}

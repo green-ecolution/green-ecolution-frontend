@@ -41,7 +41,7 @@ function Trees() {
           Auflistung aller Bäume
         </h1>
         <p className="mb-5">
-          Hier finden Sie eine Übersicht aller Bäume in einer Listenansicht. Die Bäume lassen sich
+          Hier findest du eine Übersicht aller Bäume in einer Listenansicht. Die Bäume lassen sich
           allerdings auch auf einer{' '}
           <a
             href="/map"

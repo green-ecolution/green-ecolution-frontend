@@ -20,7 +20,7 @@ function Team() {
           Alle Mitarbeitenden
         </h1>
         <p className="mb-5">
-          Hier finden Sie eine Übersicht aller Mitarbeitenden und weitere Informationen zu deren
+          Hier findest du eine Übersicht aller Mitarbeitenden und weitere Informationen zu deren
           Rollen und welche Führerscheinklasse sie besitzen. Diese Informationen sind wichtig, wenn
           Personen zu einem Einsatzplan eingeteilt werden sollen.
         </p>

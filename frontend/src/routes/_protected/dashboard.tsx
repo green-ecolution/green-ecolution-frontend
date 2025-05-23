@@ -41,7 +41,7 @@ function Dashboard() {
     {
       id: 5,
       url: '/settings',
-      description: 'Hier können Sie Einstellungen vornehmen, da Sie Administrator sind.',
+      description: 'Hier kannst du Einstellungen vornehmen, da du Administrator bist.',
       headline: 'Einstellungen',
       linkLabel: 'Zu den Einstellungen',
     },
@@ -61,7 +61,7 @@ function Dashboard() {
           Willkommen zurück, {`${user.firstName} ${user.lastName}`}!
         </h1>
         <p>
-          Sie befinden sich auf dem Dashboard. Dies ist eine Übersichtsseite, um direkten Zugriff
+          Du befindest dich auf dem Dashboard. Dies ist eine Übersichtsseite, um direkten Zugriff
           auf wichtige Bereiche zu erhalten.
         </p>
       </article>
